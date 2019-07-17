@@ -1,0 +1,4 @@
+[submodule "+adi/+common"]
+	path = +adi/+common
+	url = https://github.com/analogdevicesinc/ToolboxCommon.git
+	branch = dev
