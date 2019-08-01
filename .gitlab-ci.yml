@@ -4,6 +4,9 @@ stages:
   - test_hardware
   - deploy
 
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
 # Templates
 .hdl_tests:
     tags:
