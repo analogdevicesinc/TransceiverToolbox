@@ -1,11 +1,11 @@
 <deployment-project plugin="plugin.toolbox" plugin-version="1.0">
   <configuration file="__REPO-ROOT__/bsp.prj" location="__REPO-ROOT__" name="bsp" target="target.toolbox" target-name="Package Toolbox">
-    <param.appname>Analog Devices Board Support Packages</param.appname>
+    <param.appname>Analog Devices Transceiver Toolbox</param.appname>
     <param.authnamewatermark>Travis Collins</param.authnamewatermark>
     <param.email>travis.collins@analog.com</param.email>
     <param.company>Analog Devices, Inc</param.company>
-    <param.summary>Board support packages for HDL targeting and data streaming from Analog Devices hardware.</param.summary>
-    <param.description>Scripts and tools created by ADI to be used with MATLAB and Simulink with ADI products
+    <param.summary>Board support package for HDL targeting and data streaming from Analog Devices transceivers.</param.summary>
+    <param.description>Scripts and tools created by ADI to be used with MATLAB and Simulink with ADI transceivers
 Documentation: https://wiki.analog.com/resources/eval/user-guides/ad-fmcomms2-ebz/software/matlab_bsp
 Support: https://ez.analog.com/</param.description>
     <param.screenshot>__REPO-ROOT__/CI/doc/ADI_Logo_AWP_Large.png</param.screenshot>
@@ -42,14 +42,14 @@ Support: https://ez.analog.com/</param.description>
     <param.guid>40075943-d2d1-4d90-8e59-b3eff5f58180</param.guid>
     <param.exclude.filters>%
 CI/*
+deps/*
 hdl_prj/*
 slprj/*
 .git/*
 test/*
 itests/*
 mltbx/*
-targeting_models/*
-hil_models/*
+trx_examples/*
 *~
 .Xil/*</param.exclude.filters>
     <param.exclude.pcodedmfiles>true</param.exclude.pcodedmfiles>
@@ -103,7 +103,7 @@ hil_models/*
       <file>${PROJECT_ROOT}/LICENSE</file>
       <file>${PROJECT_ROOT}/README.md</file>
       <file>${PROJECT_ROOT}/doc</file>
-      <file>${PROJECT_ROOT}/hdl_wa_bsp</file>
+      <file>${PROJECT_ROOT}/hdl</file>
       <file>${PROJECT_ROOT}/info.xml</file>
     </fileset.rootfiles>
     <fileset.depfun.included />

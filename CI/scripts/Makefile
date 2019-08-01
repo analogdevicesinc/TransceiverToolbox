@@ -79,7 +79,7 @@ add_libad9361:
 test_installer:
 	cd ../.. ; \
 	cp *.mltbx test/ ; \
-	cp hdl_wa_bsp/vendor/AnalogDevices/hdlcoder_board_customization.m test/hdlcoder_board_customization_local.m ; \
+	cp hdl/vendor/AnalogDevices/hdlcoder_board_customization.m test/hdlcoder_board_customization_local.m ; \
 	sed -i "s/hdlcoder_board_customization/hdlcoder_board_customization_local/g" test/hdlcoder_board_customization_local.m ; \
 	${MLPATH}/$(MLRELEASE)/bin/matlab $(MLFLAGS) -r "cd('test');runInstallerTests;"
 
@@ -97,7 +97,7 @@ test_evm:
 
 test_modem:
 	cd ../.. ; \
-	${MLPATH}/$(MLRELEASE)/bin/matlab $(MLFLAGS) -r "addpath(genpath('hdl_wa_bsp'));cd('targeting_models');addpath(genpath('modem-qpsk'))"
+	${MLPATH}/$(MLRELEASE)/bin/matlab $(MLFLAGS) -r "addpath(genpath('hdl'));cd('targeting_models');addpath(genpath('modem-qpsk'))"
 
 test_synth:
 	bash synth_designs.sh
@@ -114,4 +114,4 @@ linter:
 zip:
 	cd ../.. ; \
 	mkdir zip ; \
-	zip -r zip/AnalogDevicesBSP_$(GITTAG).zip deps doc hdl_wa_bsp hil_models targeting_models info.xml LICENSE README.md test/*.log
+	zip -r zip/AnalogDevicesBSP_$(GITTAG).zip deps doc hdl hil_models targeting_models info.xml LICENSE README.md test/*.log

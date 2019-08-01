@@ -13,7 +13,7 @@ classdef BSPTests < BSPTestsBase
         end
         % Add the necessary files to path
         function addbspfiles(~)
-            addpath(genpath('../hdl_wa_bsp'));
+            addpath(genpath('../hdl'));
         end
     end
     

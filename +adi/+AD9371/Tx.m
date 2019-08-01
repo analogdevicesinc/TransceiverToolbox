@@ -64,45 +64,26 @@ classdef Tx < adi.AD9371.Base & adi.common.Tx
         end
         
     end
-    
-    methods (Access=protected)
-        function setupImpl(obj,data)
-            if strcmp(obj.DataSource,'DMA')
-                obj.SamplesPerFrame = size(data,1);
-            end
-            % Call the superclass method
-            setupImpl@matlabshared.libiio.base(obj);
-        end
-
-        % Hide unused parameters when in specific modes
-        function flag = isInactivePropertyImpl(obj, prop)
-            % Call the superclass method
-            flag = isInactivePropertyImpl@adi.common.RxTx(obj,prop);
-        end
         
-    end
-    
     %% API Functions
     methods (Hidden, Access = protected)
-        
-        function numIn = getNumInputsImpl(obj)
-            if strcmp(obj.DataSource,'DDS')
-                numIn = 0;
-            else
-                numIn = obj.channelCount/2;
-            end
-        end
-        
+                
         function setupInit(obj)
             % Write all attributes to device once connected through set
             % methods
             % Do writes directly to hardware without using set methods.
             % This is required sine Simulink support doesn't support
             % modification to nontunable variables at SetupImpl
+            
+            if obj.EnableCustomProfile
+                writeProfileFile(obj);
+            end
+            
             id = sprintf('altvoltage%d',strcmp(obj.Type,'Tx'));
             obj.setAttributeLongLong(id,'TX_LO_frequency',obj.CenterFrequency ,true);
             obj.setAttributeLongLong('voltage0','hardwaregain',obj.AttenuationChannel0,true);
             obj.setAttributeLongLong('voltage1','hardwaregain',obj.AttenuationChannel1,true);
+            
             obj.ToggleDDS(strcmp(obj.DataSource,'DDS'));
             if strcmp(obj.DataSource,'DDS')
                 obj.DDSUpdate();

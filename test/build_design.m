@@ -57,7 +57,7 @@ hWC.RunExternalBuild = false;
 %hWC.CustomBuildTclFile = '';
 
 hWC.TclFileForSynthesisBuild = hdlcoder.BuildOption.Custom;
-hWC.CustomBuildTclFile = '../hdl_wa_bsp/vendor/AnalogDevices/vivado/projects/scripts/adi_build.tcl';
+hWC.CustomBuildTclFile = '../hdl/vendor/AnalogDevices/vivado/projects/scripts/adi_build.tcl';
 
 % Set properties related to 'RunTaskProgramTargetDevice' Task
 %hWC.ProgrammingMethod = hdlcoder.ProgrammingMethod.Download;

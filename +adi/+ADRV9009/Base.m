@@ -9,10 +9,6 @@ classdef (Abstract, Hidden = true) Base < adi.common.Attribute & matlabshared.li
         %   integer from 2 to 16,777,216. Using values less than 3660 can
         %   yield poor performance.
         SamplesPerFrame = 2^15;
-        %channelCount channel Count
-        %   Number of enabled IQ channels. 2 enables one I and one Q
-        %   channel
-        channelCount = 2;
     end
     
     properties (Nontunable, Logical)
@@ -49,6 +45,10 @@ classdef (Abstract, Hidden = true) Base < adi.common.Attribute & matlabshared.li
         phyDevName = 'adrv9009-phy';
         iioDevPHY
     end
+    
+    properties (Hidden, Constant)
+        ComplexData = true;
+    end
 
     
     methods
@@ -57,22 +57,12 @@ classdef (Abstract, Hidden = true) Base < adi.common.Attribute & matlabshared.li
             coder.allowpcode('plain');
             obj = obj@matlabshared.libiio.base(varargin{:});
         end
-        % Destructor
-        function delete(~)
-        end
         % Check SamplesPerFrame
         function set.SamplesPerFrame(obj, value)
             validateattributes( value, { 'double','single' }, ...
                 { 'real', 'positive','scalar', 'finite', 'nonnan', 'nonempty','integer','>',0,'<=',2^20}, ...
                 '', 'SamplesPerFrame');
             obj.SamplesPerFrame = value;
-        end
-        % Check channelCount
-        function set.channelCount(obj, value)
-            validateattributes( value, { 'double','single' }, ...
-                { 'real', 'positive','scalar', 'finite', 'nonnan', 'nonempty','integer','even','>',1,'<=',4}, ...
-                '', 'channelCount');
-            obj.channelCount = value;
         end
         % Check CenterFrequency
         function set.CenterFrequency(obj, value)

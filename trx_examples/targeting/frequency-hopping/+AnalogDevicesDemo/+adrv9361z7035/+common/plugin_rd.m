@@ -29,7 +29,7 @@ rootDirExample = fileparts(strtok(mfilename('fullpath'), '+'));
 tmp = strsplit(rootDirExample,'/');
 
 rootDir = fullfile('/',tmp{1:end-2});
-rootDirBSP = fullfile('hdl_wa_bsp','vendor','AnalogDevices','vivado');
+rootDirBSP = fullfile('hdl','vendor','AnalogDevices','vivado');
 
 % Design files are shared
 hRD.SharedRD = true;

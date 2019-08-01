@@ -10,8 +10,10 @@ classdef DemoTests < matlab.unittest.TestCase
             here = strsplit(here,'/');
             here = fullfile('/',here{1:end-2});
             testCase.root = here;
-            addpath(genpath(fullfile(here,'targeting_models/frequency-hopping')));
-            addpath(genpath(fullfile(here,'hdl_wa_bsp')));
+            addpath(genpath(fullfile(here,'trx_examples/targeting/tuneAGC-ad9361/support')));
+            addpath(genpath(fullfile(here,'trx_examples/targeting/tuneAGC-ad9361/captures')));
+            addpath(genpath(fullfile(here,'trx_examples/targeting/frequency-hopping')));
+            addpath(genpath(fullfile(here,'hdl')));
         end
         function setupVivado(~)
             v=ver('matlab'); Release = v.Release;
@@ -38,7 +40,18 @@ classdef DemoTests < matlab.unittest.TestCase
     
     methods(Test)
         function buildHDLFrequencyHopper(testCase)
-            cd(fullfile(testCase.root,'targeting_models/frequency-hopping'));
+            cd(fullfile(testCase.root,'trx_examples/targeting/frequency-hopping'));
+            hdlworkflow;
+            if ~isempty(out)
+                disp(out.message);
+            end
+            % Check for BOOT.BIN
+            if exist('hdl_prj/vivado_ip_prj/boot/BOOT.BIN', 'file') ~= 2
+                error('BOOT.BIN Failed');
+            end
+        end
+        function buildHDLTuneAGC(testCase)
+            cd(fullfile(testCase.root,'trx_examples/targeting/tuneAGC-ad9361'));
             hdlworkflow;
             if ~isempty(out)
                 disp(out.message);
