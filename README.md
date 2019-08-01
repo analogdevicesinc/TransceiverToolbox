@@ -1,4 +1,4 @@
-### Analog Devices, Inc. Transceiver Toolbox
+# Analog Devices, Inc. Transceiver Toolbox
 
 Toolbox created by ADI to be used with MATLAB and Simulink with ADI transceivers.
 

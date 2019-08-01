@@ -10,7 +10,7 @@
     <!-- to parse the file -->
     <matlabrelease>R2019a</matlabrelease>
     <!-- (Required) Title of toolbox. Appears in the Contents pane -->
-    <name>Analog Devices Inc. Transceiver Toolbox</name>
+    <name>Analog Devices, Inc. Transceiver Toolbox</name>
     <!-- (Required) Label for the toolbox. pick one: -->
     <!-- matlab, toolbox, simulink, blockset, links_targets  -->
     <type>toolbox</type>

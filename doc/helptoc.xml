@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <toc>
-   <tocitem target="adi_bsp.html">Analog Devices Inc Transceiver Toolbox
+   <tocitem target="adi_bsp.html">Analog Devices, Inc Transceiver Toolbox
       <!--<tocitem target="Blocks.html">Blocks</tocitem>-->
       <tocitem target="SystemObjects.html">System Objects</tocitem>
       <tocitem target="SupportedHardware.html">Supported Hardware</tocitem>

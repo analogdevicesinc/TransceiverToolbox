@@ -1,4 +1,4 @@
-% Analog Devices Inc. Transceiver Toolbox
+% Analog Devices, Inc. Transceiver Toolbox
 % Version 19.1 (R2019a)
 %
 % ==== Table of Contents (TOC) ====
