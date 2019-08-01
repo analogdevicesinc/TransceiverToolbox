@@ -4,6 +4,7 @@ stages:
   - test_hardware
   - deploy
 
+# Templates
 .hdl_tests:
     tags:
      - vivado
