@@ -111,6 +111,9 @@ gen_tlbx:
 linter:
 	${MLPATH}/$(MLRELEASE)/bin/matlab $(MLFLAGS) -r "linter;exit();"
 
+doc:
+	${MLPATH}/$(MLRELEASE)/bin/matlab $(MLFLAGS) -r "cd('../doc');genhtml();exit();"
+
 zip:
 	cd ../.. ; \
 	mkdir zip ; \
