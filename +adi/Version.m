@@ -5,7 +5,7 @@ classdef Version
         HDL = 'hdl_2018_r2';
         Vivado = '2018.2';
         MATLAB = 'R2019a';
-        Release = '19.1';
+        Release = '19.1.1';
     end
     properties(Dependent)
         VivadoShort
