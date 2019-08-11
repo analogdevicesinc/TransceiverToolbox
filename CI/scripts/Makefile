@@ -17,15 +17,17 @@ endif
 
 ifeq ($(OS),Windows_NT)
 MLPATH := /cygdrive/c/Program\ Files/MATLAB
-MLFLAGS := $(MLFLAGS) -wait
+MLFLAGS := $(MLFLAGS) -batch
 else
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
 MLPATH := /usr/local/MATLAB
+MLFLAGS := $(MLFLAGS) -r
 endif
 ifeq ($(UNAME_S),Darwin)
 MLPATH := /Applications
 MLRELEASE := MATLAB_${MLRELEASE}.app
+MLFLAGS := $(MLFLAGS) -r
 endif
 endif
 
@@ -81,23 +83,23 @@ test_installer:
 	cp *.mltbx test/ ; \
 	cp hdl/vendor/AnalogDevices/hdlcoder_board_customization.m test/hdlcoder_board_customization_local.m ; \
 	sed -i "s/hdlcoder_board_customization/hdlcoder_board_customization_local/g" test/hdlcoder_board_customization_local.m ; \
-	${MLPATH}/$(MLRELEASE)/bin/matlab $(MLFLAGS) -r "cd('test');runInstallerTests;"
+	${MLPATH}/$(MLRELEASE)/bin/matlab $(MLFLAGS) "cd('test');runInstallerTests;"
 
 test:
 	cd ../.. ; \
-	${MLPATH}/$(MLRELEASE)/bin/matlab $(MLFLAGS) -r "cd('test');runTests('$(BOARD)');"
+	${MLPATH}/$(MLRELEASE)/bin/matlab $(MLFLAGS) "cd('test');runTests('$(BOARD)');"
 
 test_streaming:
 	cd ../.. ; \
-	${MLPATH}/$(MLRELEASE)/bin/matlab $(MLFLAGS) -r "addpath(genpath('test'));addpath(genpath('deps'));runHWTests;"
+	${MLPATH}/$(MLRELEASE)/bin/matlab $(MLFLAGS) "addpath(genpath('test'));addpath(genpath('deps'));runHWTests;"
 
 test_evm:
 	cd ../.. ; \
-	${MLPATH}/$(MLRELEASE)/bin/matlab $(MLFLAGS) -r "addpath(genpath('test'));addpath(genpath('deps'));hwTestRunner;"
+	${MLPATH}/$(MLRELEASE)/bin/matlab $(MLFLAGS) "addpath(genpath('test'));addpath(genpath('deps'));hwTestRunner;"
 
 test_modem:
 	cd ../.. ; \
-	${MLPATH}/$(MLRELEASE)/bin/matlab $(MLFLAGS) -r "addpath(genpath('hdl'));cd('targeting_models');addpath(genpath('modem-qpsk'))"
+	${MLPATH}/$(MLRELEASE)/bin/matlab $(MLFLAGS) "addpath(genpath('hdl'));cd('targeting_models');addpath(genpath('modem-qpsk'))"
 
 test_synth:
 	bash synth_designs.sh
@@ -106,13 +108,13 @@ test_targeting_demos:
 	bash targeting_designs.sh
 
 gen_tlbx:
-	${MLPATH}/$(MLRELEASE)/bin/matlab $(MLFLAGS) -r "genTlbx($(INCLUDE_EXAMPLES));exit();"
+	${MLPATH}/$(MLRELEASE)/bin/matlab $(MLFLAGS) "genTlbx($(INCLUDE_EXAMPLES));exit();"
 
 linter:
-	${MLPATH}/$(MLRELEASE)/bin/matlab $(MLFLAGS) -r "linter;exit();"
+	${MLPATH}/$(MLRELEASE)/bin/matlab $(MLFLAGS) "linter;exit();"
 
 doc:
-	${MLPATH}/$(MLRELEASE)/bin/matlab $(MLFLAGS) -r "cd('../doc');genhtml();exit();"
+	${MLPATH}/$(MLRELEASE)/bin/matlab $(MLFLAGS) "cd('../doc');genhtml();exit();"
 
 zip:
 	cd ../.. ; \

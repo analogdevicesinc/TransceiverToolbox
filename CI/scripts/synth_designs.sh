@@ -1,10 +1,10 @@
 #!/bin/bash
 
-MLFLAGS="-nodisplay -nodesktop -nosplash"
+MLFLAGS="-nodisplay -nodesktop -nosplash -r"
 
 if [ -z "$MLRELEASE" ]
 then
-	MLRELEASE=R2018b
+	MLRELEASE=R2019a
 fi
 
 MLPATH=/usr/local/MATLAB
@@ -17,5 +17,5 @@ Xvfb :77 &
 export DISPLAY=:77
 export SWT_GTK3=0
 source /opt/Xilinx/Vivado/2018.2/settings64.sh
-$MLPATH/$MLRELEASE/bin/matlab $MLFLAGS -r "cd('test');runSynthTests;"
+$MLPATH/$MLRELEASE/bin/matlab $MLFLAGS "cd('test');runSynthTests;"
 kill -9 `pidof Xvfb`
