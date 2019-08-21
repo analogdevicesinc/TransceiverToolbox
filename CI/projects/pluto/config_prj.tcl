@@ -15,8 +15,12 @@ connect_bd_net [get_bd_pins axi_cpu_interconnect/M04_ACLK] [get_bd_pins axi_ad93
 connect_bd_net [get_bd_pins axi_cpu_interconnect/M04_ARESETN] [get_bd_pins proc_sys_reset_0/peripheral_aresetn]
 
 # Remove filters
-delete_bd_objs [get_bd_cells fir_decimator]
-delete_bd_objs [get_bd_cells fir_interpolator]
+if {$ref_design eq "Rx" || $ref_design eq "Rx & Tx"} {
+    delete_bd_objs [get_bd_cells fir_decimator]
+}
+if {$ref_design eq "Tx" || $ref_design eq "Rx & Tx"} {
+    delete_bd_objs [get_bd_cells fir_interpolator]
+}
 
 # Configure DMA
 if {$dma eq "Packetized"} {
@@ -53,27 +57,28 @@ if {$dma eq "Packetized"} {
 }
 
 ###### UnPack
-startgroup
-create_bd_cell -type ip -vlnv analog.com:user:util_upack:1.0 util_upack_0
-endgroup
-set_property -dict [list CONFIG.CHANNEL_DATA_WIDTH {16} CONFIG.NUM_OF_CHANNELS {2}] [get_bd_cells util_upack_0]
-# Connect data
-connect_bd_net [get_bd_pins util_upack_0/dac_data_0] [get_bd_pins axi_ad9361/dac_data_i0]
-connect_bd_net [get_bd_pins util_upack_0/dac_data_1] [get_bd_pins axi_ad9361/dac_data_q0]
-connect_bd_net [get_bd_pins axi_ad9361_dac_dma/fifo_rd_dout] [get_bd_pins util_upack_0/dac_data]
-# Connect Clock
-connect_bd_net [get_bd_pins util_upack_0/dac_clk] [get_bd_pins axi_ad9361/l_clk]
-# Valid from pack to DMA
-connect_bd_net [get_bd_pins util_upack_0/dac_valid] [get_bd_pins axi_ad9361_dac_dma/fifo_rd_en]
+if {$ref_design eq "Tx" || $ref_design eq "Rx & Tx"} {
+    startgroup
+    create_bd_cell -type ip -vlnv analog.com:user:util_upack:1.0 util_upack_0
+    endgroup
+    set_property -dict [list CONFIG.CHANNEL_DATA_WIDTH {16} CONFIG.NUM_OF_CHANNELS {2}] [get_bd_cells util_upack_0]
+    # Connect data
+    connect_bd_net [get_bd_pins util_upack_0/dac_data_0] [get_bd_pins axi_ad9361/dac_data_i0]
+    connect_bd_net [get_bd_pins util_upack_0/dac_data_1] [get_bd_pins axi_ad9361/dac_data_q0]
+    connect_bd_net [get_bd_pins axi_ad9361_dac_dma/fifo_rd_dout] [get_bd_pins util_upack_0/dac_data]
+    # Connect Clock
+    connect_bd_net [get_bd_pins util_upack_0/dac_clk] [get_bd_pins axi_ad9361/l_clk]
+    # Valid from pack to DMA
+    connect_bd_net [get_bd_pins util_upack_0/dac_valid] [get_bd_pins axi_ad9361_dac_dma/fifo_rd_en]
 
-# 
-#connect_bd_net [get_bd_pins axi_ad9361_dac_dma/fifo_rd_valid] [get_bd_pins util_upack_0/dac_valid_0]
-#connect_bd_net [get_bd_pins util_upack_0/dac_valid_1] [get_bd_pins axi_ad9361_dac_dma/fifo_rd_valid]
+    # 
+    #connect_bd_net [get_bd_pins axi_ad9361_dac_dma/fifo_rd_valid] [get_bd_pins util_upack_0/dac_valid_0]
+    #connect_bd_net [get_bd_pins util_upack_0/dac_valid_1] [get_bd_pins axi_ad9361_dac_dma/fifo_rd_valid]
 
-# Input valids
-connect_bd_net [get_bd_pins axi_ad9361_dac_dma/fifo_rd_valid] [get_bd_pins util_upack_0/dac_enable_0]
-connect_bd_net [get_bd_pins util_upack_0/dac_valid_0] [get_bd_pins axi_ad9361_dac_dma/fifo_rd_valid]
-connect_bd_net [get_bd_pins util_upack_0/dac_valid_1] [get_bd_pins axi_ad9361_dac_dma/fifo_rd_valid]
-connect_bd_net [get_bd_pins util_upack_0/dac_enable_1] [get_bd_pins axi_ad9361_dac_dma/fifo_rd_valid]
-
+    # Input valids
+    connect_bd_net [get_bd_pins axi_ad9361_dac_dma/fifo_rd_valid] [get_bd_pins util_upack_0/dac_enable_0]
+    connect_bd_net [get_bd_pins util_upack_0/dac_valid_0] [get_bd_pins axi_ad9361_dac_dma/fifo_rd_valid]
+    connect_bd_net [get_bd_pins util_upack_0/dac_valid_1] [get_bd_pins axi_ad9361_dac_dma/fifo_rd_valid]
+    connect_bd_net [get_bd_pins util_upack_0/dac_enable_1] [get_bd_pins axi_ad9361_dac_dma/fifo_rd_valid]
+}
 
