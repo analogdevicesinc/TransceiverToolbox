@@ -111,6 +111,8 @@ classdef FrequencyHopper < adi.common.Attribute & ...
             % Pre-calculate values to be used faster in stepImpl()
             obj.pIsInSimulink = coder.const(obj.isInSimulink);
             obj.pNumBufferBytes = coder.const(obj.numBufferBytes);
+
+            obj.ConnectedToDevice = true;
             setupInit(obj);
         end
         function [data,valid] = stepImpl(~)
