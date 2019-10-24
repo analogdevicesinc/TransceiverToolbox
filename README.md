@@ -12,15 +12,15 @@ As with many open source packages, we use [GitHub](https://github.com/analogdevi
 
 | HDL Branch        | GitHub master status  | MATLAB Release |  Installer Package  |
 |:-----------------------:|:---------------------:|:-------:|:-------------------:|
-| 2018_R2                 | [![pipeline status](https://gitlab.com/tfcollins/TransceiverToolbox/badges/master/pipeline.svg)](https://gitlab.com/tfcollins/TransceiverToolbox/commits/master) | 2019a | <a href="https://gitlab.com/tfcollins/TransceiverToolbox/-/jobs/artifacts/master/download?job=deploy"><img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png" data-canonical-src="https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png" height="40" /></a>|
+| 2018_R2                 | [![pipeline status](https://gitlab.com/tfcollins/TransceiverToolbox/badges/master/pipeline.svg)](https://gitlab.com/tfcollins/TransceiverToolbox/commits/master) | 2019b | <a href="https://gitlab.com/tfcollins/TransceiverToolbox/-/jobs/artifacts/master/download?job=deploy"><img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png" data-canonical-src="https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png" height="40" /></a>|
 
 If you use it, and like it - please let us know. If you use it, and hate it - please let us know that too.
 
 ## Supported Tools and Releases
 
 We provide support across two releases of MATLAB. This does not mean older releases will not work but they are not maintained. Currently supported tools are:
-- Bug fixes only: MATLAB R2018b with Vivado 2017.4 from the [MathWorks_tools](https://github.com/analogdevicesinc/MathWorks_tools) repository
-- Bug fixes and new features: MATLAB R2019a with Vivado 2018.2
+- Bug fixes only: MATLAB R2019a with Vivado 2018.2
+- Bug fixes and new features: MATLAB R2019b with Vivado 2018.2
 
 ## Support and Documentation
 
