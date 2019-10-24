@@ -1,13 +1,18 @@
 stages:
   - build
   - test
+  - test_installer
   - test_hardware
   - deploy
+
+#####################################
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
 
+#####################################
 # Templates
+
 .hdl_tests:
     tags:
      - vivado
@@ -24,6 +29,26 @@ variables:
         reports:
             junit: test/BSPTestResults.xml
 
+.hdl_installer_tests:
+    tags:
+     - vivado
+     - matlab
+    stage: test_installer
+    dependencies:
+     - build:2018_R2
+    artifacts:
+        when: always
+        name: "$CI_COMMIT_REF_NAME"
+        paths:
+            - test/logs/
+            - mltbx/
+            - zip/
+            - Report.pdf
+            - test/logs/
+        reports:
+            junit: test/BSPTestResults.xml
+
+#####################################
 
 # Default build
 build:2018_R2:
@@ -65,6 +90,8 @@ build:master:
     artifacts:
         paths:
             - hdl/
+
+#####################################
 
 # Test HWA no install zed
 test:2018_R2_ZED:
@@ -114,24 +141,78 @@ test:2018_R2_ADRV9364:
      - export BOARD=adrv9364
      - ./CI/scripts/dockermake test
 
-# Test HWA with install
-test_installer:2018_R2_Installer:
-    extends: .hdl_tests
+#####################################
+
+# Test HWA install zed
+test_installer:2018_R2_ZED:
+    extends: .hdl_installer_tests
     script:
      - export MLRELEASE=R2019b
-     - cp mltbx/* .
-     - pwd
-     - ls
-     - ls *.mltbx
+     - export BOARD=zed
      - ./CI/scripts/dockermake test_installer
-    artifacts:
-        when: always
-        paths:
-            - mltbx/
-            - zip/
-            - test/logs/
-        reports:
-            junit: test/BSPTestResults.xml
+
+# Test HWA install zc702
+test_installer:2018_R2_ZC702:
+    extends: .hdl_installer_tests
+    script:
+     - export MLRELEASE=R2019b
+     - export BOARD=zc702
+     - ./CI/scripts/dockermake test_installer
+
+# Test HWA install zc706
+test_installer:2018_R2_ZC706:
+    extends: .hdl_installer_tests
+    script:
+     - export MLRELEASE=R2019b
+     - export BOARD=zc706
+     - ./CI/scripts/dockermake test_installer
+
+# Test HWA install zcu102
+test_installer:2018_R2_ZCU102:
+    extends: .hdl_installer_tests
+    script:
+     - export MLRELEASE=R2019b
+     - export BOARD=zcu102
+     - ./CI/scripts/dockermake test_installer
+
+# Test HWA install adrv9361
+test_installer:2018_R2_ADRV9361:
+    extends: .hdl_installer_tests
+    script:
+     - export MLRELEASE=R2019b
+     - export BOARD=adrv9361
+     - ./CI/scripts/dockermake test_installer
+
+# Test HWA install adrv9364
+test_installer:2018_R2_ADRV9364:
+    extends: .hdl_installer_tests
+    script:
+     - export MLRELEASE=R2019b
+     - export BOARD=adrv9364
+     - ./CI/scripts/dockermake test_installer
+
+#####################################
+
+## Test HWA with install
+#test_installer:2018_R2_Installer:
+#    extends: .hdl_tests
+#    script:
+#     - export MLRELEASE=R2019b
+#     - cp mltbx/* .
+#     - pwd
+#     - ls
+#     - ls *.mltbx
+#     - ./CI/scripts/dockermake test_installer
+#    artifacts:
+#        when: always
+#        paths:
+#            - mltbx/
+#            - zip/
+#            - test/logs/
+#        reports:
+#            junit: test/BSPTestResults.xml
+
+#####################################
 
 # Test weekly fully sythesized design
 test:Synthesize:
@@ -139,6 +220,8 @@ test:Synthesize:
     extends: .hdl_tests
     script:
      - ./CI/scripts/dockermake test_synth
+
+#####################################
 
 # Test targeting demos (no hardware)
 test:targeting_demos:
@@ -157,6 +240,8 @@ test:targeting_demos:
         paths:
             - test/
             - Report.pdf
+
+#####################################
 
 # Test streaming interfaces with hardware
 test_hardware:Streaming_Hardware:
@@ -200,7 +285,7 @@ deploy:
      - matlab
     stage: deploy
     dependencies:
-     - test_installer:2018_R2_Installer
+     - test_installer:2018_R2_ZED
     script:
      - echo "Complete"
     artifacts:
