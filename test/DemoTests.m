@@ -64,7 +64,7 @@ classdef DemoTests < matlab.unittest.TestCase
             end
         end
         function buildKernelFrequencyHopper(testCase)
-            cd(fullfile(testCase.root,'targeting_models/frequency-hopping'));
+            cd(fullfile(testCase.root,'trx_examples/targeting/frequency-hopping'));
             system('chmod +x build_kernel.sh');
             system('./build_kernel.sh');
             % Check for uImage

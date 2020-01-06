@@ -2,7 +2,7 @@
 % HDL Workflow Script
 % Generated with MATLAB 9.6 (R2019a) at 12:36:48 on 24/07/2019
 % This script was generated using the following parameter values:
-%     Filename  : 'C:\git\MathWorks_tools\targeting_models\tuneAGC-ad9361\hdlworkflow.m'
+%     Filename  : 'C:\git\MathWorks_tools\targeting\tuneAGC-ad9361\hdlworkflow.m'
 %     Overwrite : true
 %     Comments  : true
 %     Headers   : true

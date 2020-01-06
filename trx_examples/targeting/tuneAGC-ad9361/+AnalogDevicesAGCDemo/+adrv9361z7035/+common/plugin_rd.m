@@ -27,7 +27,7 @@ hRD.addParameter( ...
 % Get the root directory
 rootDir = fileparts(strtok(mfilename('fullpath'), '+'));
 tmp = strsplit(rootDir,'/');
-rootDir = fullfile('/',tmp{1:end-2});
+rootDir = fullfile('/',tmp{1:end-3});
 rootDirBSP = fullfile('hdl','vendor','AnalogDevices','vivado');
 
 % Design files are shared
@@ -38,8 +38,8 @@ board = 'ccfmc_lvds_agc';
 
 
 hRD.addCustomVivadoDesign( ...
-    'CustomBlockDesignTcl', fullfile('targeting_models', 'tuneAGC-ad9361',  'ccfmc_lvds_agc', 'system_project_rx.tcl'), ...
-    'CustomTopLevelHDL',    fullfile('targeting_models', 'tuneAGC-ad9361',  'ccfmc_lvds_agc', 'system_top.v'));
+    'CustomBlockDesignTcl', fullfile('trx_examples', 'targeting', 'tuneAGC-ad9361',  'ccfmc_lvds_agc', 'system_project_rx.tcl'), ...
+    'CustomTopLevelHDL',    fullfile('trx_examples', 'targeting', 'tuneAGC-ad9361',  'ccfmc_lvds_agc', 'system_top.v'));
 
 hRD.BlockDesignName = 'system';	
 	
@@ -59,7 +59,7 @@ hRD.CustomFiles = {...
 	fullfile(rootDirBSP, 'projects','scripts')...,
 	fullfile(rootDirBSP, 'projects','fmcomms2')...,
 	fullfile(rootDirBSP, 'projects','adrv9361z7035', 'common')...,
-    fullfile('targeting_models', 'tuneAGC-ad9361', 'ccfmc_lvds_agc')...,
+    fullfile('trx_examples', 'targeting', 'tuneAGC-ad9361', 'ccfmc_lvds_agc')...,
     };	
 
 %% Add interfaces
