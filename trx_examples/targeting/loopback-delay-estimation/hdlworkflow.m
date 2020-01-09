@@ -17,9 +17,6 @@ load_system('loopback_delay_estimation');
 %% Restore the Model to default HDL parameters
 %hdlrestoreparams('loopback_delay_estimation/HDL_DUT');
 
-%% Prepend Xilinx Vivado path to the system path
-hdlsetuptoolpath('ToolName','Xilinx Vivado','ToolPath','C:\Xilinx\Vivado\2018.2\bin\vivado.bat');
-
 %% Model HDL Parameters
 %% Set Model 'loopback_delay_estimation' HDL parameters
 hdlset_param('loopback_delay_estimation', 'HDLSubsystem', 'loopback_delay_estimation/HDL_DUT');
