@@ -13,6 +13,7 @@ classdef DemoTests < matlab.unittest.TestCase
             addpath(genpath(fullfile(here,'trx_examples/targeting/tuneAGC-ad9361/support')));
             addpath(genpath(fullfile(here,'trx_examples/targeting/tuneAGC-ad9361/captures')));
             addpath(genpath(fullfile(here,'trx_examples/targeting/frequency-hopping')));
+            addpath(genpath(fullfile(here,'trx_examples/targeting/loopback-delay-estimation')));
             addpath(genpath(fullfile(here,'hdl')));
         end
         function setupVivado(~)
@@ -41,6 +42,17 @@ classdef DemoTests < matlab.unittest.TestCase
     end
     
     methods(Test)
+        function buildHDLLoopbackDelayEstimation(testCase)
+            cd(fullfile(testCase.root,'trx_examples/targeting/loopback-delay-estimation'));
+            hdlworkflow;
+            if ~isempty(out)
+                disp(out.message);
+            end
+            % Check for system_top.bit
+            if exist('hdl_prj/vivado_ip_prj/vivado_prj.runs/impl_1/system_top.bit', 'file') ~= 2
+                error('system_top.bit not found');
+            end
+        end
         function buildHDLFrequencyHopper(testCase)
             cd(fullfile(testCase.root,'trx_examples/targeting/frequency-hopping'));
             hdlworkflow;
@@ -60,7 +72,7 @@ classdef DemoTests < matlab.unittest.TestCase
             end
             % Check for BOOT.BIN
             if exist('hdl_prj/vivado_ip_prj/boot/BOOT.BIN', 'file') ~= 2
-                error('BOOT.BIN Failed');
+                error('BOOT.BIN not found');
             end
         end
         function buildKernelFrequencyHopper(testCase)
