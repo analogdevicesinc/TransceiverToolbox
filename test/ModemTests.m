@@ -6,7 +6,7 @@ classdef ModemTests < matlab.unittest.TestCase
     
     methods(TestClassSetup)
         function Setup(testCase)
-            addpath(genpath('targeting_models'));
+            addpath(genpath('targeting'));
             setupHDL;
             cd ..
             testCase.demopath = pwd;
@@ -19,7 +19,7 @@ classdef ModemTests < matlab.unittest.TestCase
     methods (Test)
         
         function Build_External_Mode(testCase)
-            folder = [testCase.demopath,'/targeting_models/modem-qpsk/FixedPoint/demos'];
+            folder = [testCase.demopath,'/targeting/modem-qpsk/FixedPoint/demos'];
             cd(folder);
             folder = 'External_Mode';
             cd(folder);
@@ -27,7 +27,7 @@ classdef ModemTests < matlab.unittest.TestCase
         end
         
         function Build_Standard_IQ(testCase)
-            folder = [testCase.demopath,'/targeting_models/modem-qpsk/FixedPoint/demos'];
+            folder = [testCase.demopath,'/targeting/modem-qpsk/FixedPoint/demos'];
             cd(folder);
             folder = 'Standard_IQ';
             cd(folder);
@@ -35,7 +35,7 @@ classdef ModemTests < matlab.unittest.TestCase
         end
         
         function Build_FPGA_Capture(testCase)
-            folder = [testCase.demopath,'/targeting_models/modem-qpsk/FixedPoint/demos'];
+            folder = [testCase.demopath,'/targeting/modem-qpsk/FixedPoint/demos'];
             cd(folder);
             folder = 'FPGA_Capture';
             cd(folder);

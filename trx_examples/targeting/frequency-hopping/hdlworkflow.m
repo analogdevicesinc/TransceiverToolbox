@@ -2,7 +2,7 @@
 % HDL Workflow Script
 % Generated with MATLAB 9.5 (R2018b) at 16:05:58 on 14/05/2019
 % This script was generated using the following parameter values:
-%     Filename  : '/work/mwt-hopper/targeting_models/frequency-hopping/hdlworkflow2.m'
+%     Filename  : '/work/mwt-hopper/targeting/frequency-hopping/hdlworkflow2.m'
 %     Overwrite : true
 %     Comments  : true
 %     Headers   : true

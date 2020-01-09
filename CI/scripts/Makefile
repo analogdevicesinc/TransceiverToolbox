@@ -97,7 +97,7 @@ test_evm:
 
 test_modem:
 	cd ../.. ; \
-	${MLPATH}/$(MLRELEASE)/bin/matlab $(MLFLAGS) -r "addpath(genpath('hdl'));cd('targeting_models');addpath(genpath('modem-qpsk'))"
+	${MLPATH}/$(MLRELEASE)/bin/matlab $(MLFLAGS) -r "addpath(genpath('hdl'));cd('targeting');addpath(genpath('modem-qpsk'))"
 
 test_synth:
 	bash synth_designs.sh
@@ -117,4 +117,4 @@ doc:
 zip:
 	cd ../.. ; \
 	mkdir zip ; \
-	zip -r zip/AnalogDevicesBSP_$(GITTAG).zip deps doc hdl hil_models targeting_models info.xml LICENSE README.md test/*.log
+	zip -r zip/AnalogDevicesBSP_$(GITTAG).zip deps doc hdl hil_models targeting info.xml LICENSE README.md test/*.log

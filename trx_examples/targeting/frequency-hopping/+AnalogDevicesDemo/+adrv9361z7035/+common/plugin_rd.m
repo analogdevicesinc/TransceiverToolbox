@@ -28,7 +28,7 @@ hRD.addParameter( ...
 rootDirExample = fileparts(strtok(mfilename('fullpath'), '+'));
 tmp = strsplit(rootDirExample,'/');
 
-rootDir = fullfile('/',tmp{1:end-2});
+rootDir = fullfile('/',tmp{1:end-3});
 rootDirBSP = fullfile('hdl','vendor','AnalogDevices','vivado');
 
 % Design files are shared
@@ -38,8 +38,8 @@ hRD.SharedRDFolder = rootDir;
 %% Add custom design files
 % add custom Vivado design
 hRD.addCustomVivadoDesign( ...
-    'CustomBlockDesignTcl', fullfile('targeting_models', 'frequency-hopping', 'ccfmc_lvds_hop', 'system_project_rx_tx.tcl'), ...
-    'CustomTopLevelHDL',    fullfile('targeting_models', 'frequency-hopping', 'ccfmc_lvds_hop', 'system_top.v'));		
+    'CustomBlockDesignTcl', fullfile('trx_examples', 'targeting', 'frequency-hopping', 'ccfmc_lvds_hop', 'system_project_rx_tx.tcl'), ...
+    'CustomTopLevelHDL',    fullfile('trx_examples', 'targeting', 'frequency-hopping', 'ccfmc_lvds_hop', 'system_top.v'));		
 
 
 %% Standard reference design pieces
@@ -61,7 +61,7 @@ hRD.CustomFiles = {...
 	fullfile(rootDirBSP, 'projects','scripts')...,
 	fullfile(rootDirBSP, 'projects','fmcomms2')...,
 	fullfile(rootDirBSP, 'projects','adrv9361z7035', 'common')...,
-    fullfile('targeting_models', 'frequency-hopping', 'ccfmc_lvds_hop')...,
+    fullfile('trx_examples', 'targeting', 'frequency-hopping', 'ccfmc_lvds_hop')...,
     };	
 	
 %% Add interfaces

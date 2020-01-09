@@ -2,7 +2,7 @@
 % HDL Workflow Script
 % Generated with MATLAB 9.3 (R2017b) at 14:05:38 on 07/05/2018
 % This script was generated using the following parameter values:
-%     Filename  : '/tmp/MathWorks_tools/targeting_models/modem-qpsk/FixedPoint/demos/ADI_DMA_TT/hdlworkflow.m'
+%     Filename  : '/tmp/MathWorks_tools/targeting/modem-qpsk/FixedPoint/demos/ADI_DMA_TT/hdlworkflow.m'
 %     Overwrite : true
 %     Comments  : true
 %     Headers   : true
