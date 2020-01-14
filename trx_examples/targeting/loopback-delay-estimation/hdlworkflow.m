@@ -183,4 +183,15 @@ hWC.ProgrammingMethod = hdlcoder.ProgrammingMethod.Download;
 hWC.validate;
 
 %% Run the workflow
-hdlcoder.runWorkflow('loopback_delay_estimation/HDL_DUT', hWC);
+try
+    hdlcoder.runWorkflow('loopback_delay_estimation/HDL_DUT', hWC);
+    bdclose('all');
+    out = [];
+catch ME
+    if exist('hdl_prj/vivado_ip_prj/vivado_prj.runs/impl_1/system_top.bit','file')
+       ME = []; 
+    end
+    out = ME;%.identifier
+end
+
+%% Run the workflow
