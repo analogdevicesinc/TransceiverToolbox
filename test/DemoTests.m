@@ -44,7 +44,6 @@ classdef DemoTests < matlab.unittest.TestCase
     methods(Test)
         function buildHDLLoopbackDelayEstimation(testCase)
             cd(fullfile(testCase.root,'trx_examples/targeting/loopback-delay-estimation'));
-            setupzynqradiorepositories();
             hdlworkflow;
             if ~isempty(out)
                 disp(out.message);

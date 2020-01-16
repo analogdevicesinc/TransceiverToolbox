@@ -169,10 +169,10 @@ hWC.AdditionalProjectCreationTclFiles = '';
 hWC.EnableIPCaching = false;
 
 % Set properties related to 'RunTaskGenerateSoftwareInterfaceModel' Task
-hWC.OperatingSystem = 'Linux';
+hWC.OperatingSystem = '';
 
 % Set properties related to 'RunTaskBuildFPGABitstream' Task
-hWC.RunExternalBuild = true;
+hWC.RunExternalBuild = false;
 hWC.TclFileForSynthesisBuild = hdlcoder.BuildOption.Default;
 hWC.CustomBuildTclFile = '';
 
