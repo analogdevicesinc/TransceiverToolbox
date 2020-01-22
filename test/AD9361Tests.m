@@ -35,15 +35,67 @@ classdef AD9361Tests < HardwareTests
         end
         
         function testAD9361RxCustomFilter(testCase)
-            % Test Rx DMA data output
+            % Test Rx Custom filters
             rx = adi.AD9361.Rx('uri',testCase.uri);
             rx.EnabledChannels = 1;
             rx.EnableCustomFilter = true;
             rx.CustomFilterFileName = 'customAD9361filter.ftr';
             [out, valid] = rx();
+            % Check sample rate
+            sr = rx.getAttributeLongLong('voltage0','sampling_frequency',false);
             rx.release();
             testCase.verifyTrue(valid);
+            testCase.verifyEqual(double(sr),3000000,'Incorrect sample rate');
             testCase.verifyGreaterThan(sum(abs(double(out))),0);
+        end
+        
+        function testAD9361RxCustomFilterLTE(testCase)
+            % Test Rx Custom filters
+            rx = adi.AD9361.Rx('uri',testCase.uri);
+            rx.EnabledChannels = 1;
+            rx.EnableCustomFilter = true;
+            rx.CustomFilterFileName = 'LTE15_MHz.ftr';
+            [out, valid] = rx();
+            % Check sample rate
+            sr = rx.getAttributeLongLong('voltage0','sampling_frequency',false);
+            rx.release();
+            testCase.verifyTrue(valid);
+            testCase.verifyEqual(double(sr),23040000,'Incorrect sample rate');
+            testCase.verifyGreaterThan(sum(abs(double(out))),0);
+        end
+        
+        function testAD9361TxCustomFilter(testCase)
+            % Test Tx Custom filters
+            tx = adi.AD9361.Tx('uri',testCase.uri);
+            tx.EnabledChannels = 1;
+            tx.EnableCustomFilter = true;
+            tx.CustomFilterFileName = 'customAD9361filter.ftr';
+            data = complex(randn(1e4,1),randn(1e4,1));
+            [valid] = tx(data);
+            % Check sample rate
+            sr1 = tx.getAttributeLongLong('voltage0','sampling_frequency',false);
+            sr2 = tx.getAttributeLongLong('voltage0','sampling_frequency',true);
+            tx.release();
+            testCase.verifyTrue(valid);
+            testCase.verifyEqual(double(sr1),3000000,'Incorrect sample rate');
+            testCase.verifyEqual(double(sr2),3000000,'Incorrect sample rate');
+        end
+        
+        function testAD9361TxCustomFilterLTE(testCase)
+            % Test Tx Custom filters
+            tx = adi.AD9361.Tx('uri',testCase.uri);
+            tx.EnabledChannels = 1;
+            tx.EnableCustomFilter = true;
+            tx.CustomFilterFileName = 'LTE15_MHz.ftr';
+            data = complex(randn(1e4,1),randn(1e4,1));
+            [valid] = tx(data);
+            % Check sample rate
+            sr1 = tx.getAttributeLongLong('voltage0','sampling_frequency',false);
+            sr2 = tx.getAttributeLongLong('voltage0','sampling_frequency',true);
+            tx.release();
+            testCase.verifyTrue(valid);
+            testCase.verifyEqual(double(sr1),23040000,'Incorrect sample rate');
+            testCase.verifyEqual(double(sr2),23040000,'Incorrect sample rate');
         end
         
         function testAD9361RxClearing(testCase)
@@ -89,11 +141,13 @@ classdef AD9361Tests < HardwareTests
             toneFreq = 5e5;
             tx.DDSFrequencies = repmat(toneFreq,2,2);
             tx.AttenuationChannel0 = -10;
+            tx.SamplingRate = 3e6;
             tx();
             pause(1);
             rx = adi.AD9361.Rx('uri',testCase.uri);
             rx.EnabledChannels = 1;
             rx.kernelBuffersCount = 1;
+            rx.SamplingRate = 3e6;
             for k=1:10
                 valid = false;
                 while ~valid
