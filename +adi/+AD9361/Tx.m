@@ -111,7 +111,7 @@ classdef Tx < adi.AD9361.Base & adi.common.Tx
             obj.CenterFrequency = value;
             if obj.ConnectedToDevice
                 id = sprintf('altvoltage%d',strcmp(obj.Type,'Tx'));
-                obj.setAttributeLongLong(id,'frequency',value,true,4);
+                obj.setAttributeLongLong(id,'frequency',value,true,8);
             end
         end
         % Check RFBandwidth
@@ -167,17 +167,22 @@ classdef Tx < adi.AD9361.Base & adi.common.Tx
             % This is required sine Simulink support doesn't support
             % modification to nontunable variables at SetupImpl
             id = 'altvoltage1';
-            obj.setAttributeLongLong(id,'frequency',obj.CenterFrequency ,true,4);
-            if libisloaded('libad9361')
-                calllib('libad9361','ad9361_set_bb_rate',obj.iioDevPHY,int32(obj.SamplingRate));
+            obj.setAttributeLongLong(id,'frequency',obj.CenterFrequency ,true,8);
+            if  ~obj.EnableCustomFilter
+                if libisloaded('libad9361')
+                    calllib('libad9361','ad9361_set_bb_rate',obj.iioDevPHY,int32(obj.SamplingRate));
+                else
+                    obj.setAttributeLongLong('voltage0','sampling_frequency',obj.SamplingRate,true,4);
+                    obj.setAttributeLongLong('voltage0','rf_bandwidth',obj.RFBandwidth ,strcmp(obj.Type,'Tx'));
+                end
             else
-                obj.setAttributeLongLong('voltage0','sampling_frequency',obj.SamplingRate,true,4);
+                writeFilterFile(obj);
             end
+            
             obj.setAttributeLongLong('voltage0','hardwaregain',obj.AttenuationChannel0,true);
             if obj.channelCount>2
                 obj.setAttributeLongLong('voltage1','hardwaregain',obj.AttenuationChannel1,true);
             end
-            obj.setAttributeLongLong('voltage0','rf_bandwidth',obj.RFBandwidth ,strcmp(obj.Type,'Tx'));            
             obj.ToggleDDS(strcmp(obj.DataSource,'DDS'));
             if strcmp(obj.DataSource,'DDS')
                 obj.DDSUpdate();

@@ -1,11 +1,20 @@
+function runInstallerTests(board)
+
 import matlab.unittest.TestRunner;
 import matlab.unittest.TestSuite;
 import matlab.unittest.plugins.TestReportPlugin;
 import matlab.unittest.plugins.XMLPlugin
 import matlab.unittest.plugins.DiagnosticsValidationPlugin
 
-try
+if nargin == 0
     suite = testsuite({'BSPInstallerTests'});
+else
+    boards = ['*',lower(board),'*'];
+    suite = TestSuite.fromClass(?BSPInstallerTests,'ExternalParameters',param);
+    suite = suite.selectIf('ParameterProperty','configs', 'ParameterName',boards);
+end
+
+try
 
     runner = matlab.unittest.TestRunner.withTextOutput('OutputDetail',1);
     runner.addPlugin(DiagnosticsValidationPlugin)
