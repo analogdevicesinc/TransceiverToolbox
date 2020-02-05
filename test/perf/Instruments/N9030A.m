@@ -14,7 +14,9 @@ classdef N9030A < matlab.System
         MeasureTimeSeconds = 0.1;
         InputBufferSize = 10e6;
         SampleRate = 10e6;
-        EnableSpectrumViewAfterMeasurement = true;
+        % This should not be left on since it can heavily reduce
+        % life of instrument
+        EnableSpectrumViewAfterMeasurement = false;
         Timeout = 30; % Seconds
         PossibleAttenuations = [0 10 20 30 40];
         Attenuation = 0;
