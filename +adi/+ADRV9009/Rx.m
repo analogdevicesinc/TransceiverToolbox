@@ -59,6 +59,9 @@ classdef Rx < adi.ADRV9009.Base & adi.common.Rx
     end
     
     methods
+        function dev = getDevR(obj,name)
+           dev = getDev(obj,name); 
+        end
         %% Constructor
         function obj = Rx(varargin)
             coder.allowpcode('plain');
