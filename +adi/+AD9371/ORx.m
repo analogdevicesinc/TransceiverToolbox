@@ -191,12 +191,12 @@ classdef ORx < adi.AD9371.Base & adi.common.Rx
             % Loopback Mode
             obj.setDebugAttributeLongLong('loopback_tx_obs', obj.LoopbackMode);                    
             
+            obj.setAttributeRAW('voltage2','rf_port_select',obj.RFPortSelect,false);
+
             if strcmp(obj.GainControlMode,'manual')
                 obj.setAttributeLongLong('voltage2','hardwaregain',obj.Gain,false);
             end
-            
-            obj.setAttributeRAW('voltage2','rf_port_select',obj.RFPortSelect,false);
-            
+                        
         end
         
     end
