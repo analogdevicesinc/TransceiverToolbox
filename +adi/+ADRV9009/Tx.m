@@ -25,6 +25,9 @@ classdef Tx < adi.ADRV9009.Base & adi.common.Tx
     
     properties(Nontunable, Hidden, Constant)
         Type = 'Tx';
+    end
+    
+    properties(Nontunable, Hidden)
         channel_names = {'voltage0','voltage1','voltage2','voltage3'};
     end
     

@@ -51,6 +51,9 @@ classdef Rx < adi.ADRV9009.Base & adi.common.Rx
     
     properties(Nontunable, Hidden, Constant)
         Type = 'Rx';
+    end
+    
+    properties(Nontunable, Hidden)
         channel_names = {'voltage0_i','voltage0_q','voltage1_i','voltage1_q'};
     end
     
