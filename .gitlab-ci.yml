@@ -57,7 +57,7 @@ build:2018_R2:
      - matlab
     stage: build
     script:
-     - export MLRELEASE=R2019b
+     - export MLRELEASE=R2020a
      - ./CI/scripts/dockermake build
      - ./CI/scripts/dockermake doc
      - ./CI/scripts/dockermake add_libad9361
@@ -82,7 +82,7 @@ build:master:
     stage: build
     script:
      - export HDLBRANCH=hdl_2018_r2
-     - export MLRELEASE=R2019b
+     - export MLRELEASE=R2020a
      - ./CI/scripts/dockermake build
      - export HDLBRANCH=
      - export MLRELEASE=
@@ -97,7 +97,7 @@ build:master:
 test:2018_R2_ZED:
     extends: .hdl_tests
     script:
-     - export MLRELEASE=R2019b
+     - export MLRELEASE=R2020a
      - export BOARD=zed
      - ./CI/scripts/dockermake test
 
@@ -105,7 +105,7 @@ test:2018_R2_ZED:
 test:2018_R2_ZC702:
     extends: .hdl_tests
     script:
-     - export MLRELEASE=R2019b
+     - export MLRELEASE=R2020a
      - export BOARD=zc702
      - ./CI/scripts/dockermake test
 
@@ -113,7 +113,7 @@ test:2018_R2_ZC702:
 test:2018_R2_ZC706:
     extends: .hdl_tests
     script:
-     - export MLRELEASE=R2019b
+     - export MLRELEASE=R2020a
      - export BOARD=zc706
      - ./CI/scripts/dockermake test
 
@@ -121,7 +121,7 @@ test:2018_R2_ZC706:
 test:2018_R2_ZCU102:
     extends: .hdl_tests
     script:
-     - export MLRELEASE=R2019b
+     - export MLRELEASE=R2020a
      - export BOARD=zcu102
      - ./CI/scripts/dockermake test
 
@@ -129,7 +129,7 @@ test:2018_R2_ZCU102:
 test:2018_R2_ADRV9361:
     extends: .hdl_tests
     script:
-     - export MLRELEASE=R2019b
+     - export MLRELEASE=R2020a
      - export BOARD=adrv9361
      - ./CI/scripts/dockermake test
 
@@ -137,7 +137,7 @@ test:2018_R2_ADRV9361:
 test:2018_R2_ADRV9364:
     extends: .hdl_tests
     script:
-     - export MLRELEASE=R2019b
+     - export MLRELEASE=R2020a
      - export BOARD=adrv9364
      - ./CI/scripts/dockermake test
 
@@ -147,7 +147,7 @@ test:2018_R2_ADRV9364:
 test_installer:2018_R2_ZED:
     extends: .hdl_installer_tests
     script:
-     - export MLRELEASE=R2019b
+     - export MLRELEASE=R2020a
      - export BOARD=zed
      - ./CI/scripts/dockermake test_installer
 
@@ -155,7 +155,7 @@ test_installer:2018_R2_ZED:
 test_installer:2018_R2_ZC702:
     extends: .hdl_installer_tests
     script:
-     - export MLRELEASE=R2019b
+     - export MLRELEASE=R2020a
      - export BOARD=zc702
      - ./CI/scripts/dockermake test_installer
 
@@ -163,7 +163,7 @@ test_installer:2018_R2_ZC702:
 test_installer:2018_R2_ZC706:
     extends: .hdl_installer_tests
     script:
-     - export MLRELEASE=R2019b
+     - export MLRELEASE=R2020a
      - export BOARD=zc706
      - ./CI/scripts/dockermake test_installer
 
@@ -171,7 +171,7 @@ test_installer:2018_R2_ZC706:
 test_installer:2018_R2_ZCU102:
     extends: .hdl_installer_tests
     script:
-     - export MLRELEASE=R2019b
+     - export MLRELEASE=R2020a
      - export BOARD=zcu102
      - ./CI/scripts/dockermake test_installer
 
@@ -179,7 +179,7 @@ test_installer:2018_R2_ZCU102:
 test_installer:2018_R2_ADRV9361:
     extends: .hdl_installer_tests
     script:
-     - export MLRELEASE=R2019b
+     - export MLRELEASE=R2020a
      - export BOARD=adrv9361
      - ./CI/scripts/dockermake test_installer
 
@@ -187,7 +187,7 @@ test_installer:2018_R2_ADRV9361:
 test_installer:2018_R2_ADRV9364:
     extends: .hdl_installer_tests
     script:
-     - export MLRELEASE=R2019b
+     - export MLRELEASE=R2020a
      - export BOARD=adrv9364
      - ./CI/scripts/dockermake test_installer
 
@@ -197,7 +197,7 @@ test_installer:2018_R2_ADRV9364:
 #test_installer:2018_R2_Installer:
 #    extends: .hdl_tests
 #    script:
-#     - export MLRELEASE=R2019b
+#     - export MLRELEASE=R2020a
 #     - cp mltbx/* .
 #     - pwd
 #     - ls
@@ -232,7 +232,7 @@ test:targeting_demos:
     dependencies:
      - build:2018_R2
     script:
-     - export MLRELEASE=R2019b
+     - export MLRELEASE=R2020a
      - ./CI/scripts/dockermake test_targeting_demos
     artifacts:
         when: always
@@ -252,7 +252,7 @@ test_hardware:Streaming_Hardware:
     dependencies:
      - build:2018_R2
     script:
-     - export MLRELEASE=R2019b
+     - export MLRELEASE=R2020a
      - cd CI/scripts
      - make test_streaming
     artifacts:
@@ -271,7 +271,7 @@ test_hardware:EVM_Hardware:
     dependencies:
      - build:2018_R2
     script:
-     - export MLRELEASE=R2019b
+     - export MLRELEASE=R2020a
      - cd CI/scripts
      - make test_evm
     artifacts:

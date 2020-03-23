@@ -19,8 +19,8 @@ If you use it, and like it - please let us know. If you use it, and hate it - pl
 ## Supported Tools and Releases
 
 We provide support across two releases of MATLAB. This does not mean older releases will not work but they are not maintained. Currently supported tools are:
-- Bug fixes only: MATLAB R2019a with Vivado 2018.2
-- Bug fixes and new features: MATLAB R2019b with Vivado 2018.2
+- Bug fixes only: MATLAB R2019b with Vivado 2018.2
+- Bug fixes and new features: MATLAB R2020a with Vivado 2018.2
 
 ## Support and Documentation
 
