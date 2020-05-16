@@ -1,11 +1,15 @@
 function [finalEVM,plots] = PDSCHEVM(enb,cec,rxWaveform)
 
+EnableVisuals = false;
+
 % Control over receiver corrections to be performed:
+if EnableVisuals
 persistent hcd
 if isempty(hcd)
     hcd = comm.ConstellationDiagram('Title','Received Data Symbols');
     hcd.Position = [140 540 460 383];
     hcd.ShowReferenceConstellation = false;
+end
 end
 % Frequency offset correction with estimation in the time domain based
 % on cyclic prefix correlation; estimation/correction applies to each
@@ -216,9 +220,11 @@ for i=0:nSubframes-1-2
             % Compute and display EVM for this subframe.
             evmS = lteEVM(rxSymbols, refSymbols);
             
+	    if EnableVisuals
             step(hcd,rxSymbols);
             release(hcd);
             pause(0);
+	    end
             fprintf('%s edge EVM, subframe %d: %0.3f%%\n', ...
                 edge, enb.NSubframe, evmS.RMS*100);
             evm(e) = evmS;

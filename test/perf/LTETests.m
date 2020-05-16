@@ -27,8 +27,11 @@ classdef LTETests < matlab.unittest.TestCase
         
         function evmResults = ReceiverR4(config, rxWaveform, txWaveform)
             
+	    EnableVisuals = false;
+
+	    if EnableVisuals
             constellation = comm.ConstellationDiagram('Title','Equalized PDCCH Symbols') ;
-            
+	    end
             % Extract config
             rmc = config.rmc;
             
@@ -179,9 +182,11 @@ classdef LTETests < matlab.unittest.TestCase
                         pdcchIndices = ltePDCCHIndices(enb);
                         [pdcchRx,pdcchHest] = lteExtractResources(pdcchIndices,rxsf,hestsf);
                         [~,pdcchEq] = ltePDCCHDecode(enb,pdcchRx,pdcchHest,nestsf);
+	    		if EnableVisuals
                         release(constellation);
                         constellation(pdcchEq);
                         pause(0);
+			end
                         
                         % Append decoded symbol to stream
                         rxSymbols = [rxSymbols; rxEncodedSymb{:}]; %#ok<AGROW>

@@ -1,5 +1,7 @@
 function [evm,frequencyOffset]=LTEReceiver(Rx,samplingrate,configuration)
 
+EnableVisuals = false;
+
 rxWaveform = reshape(Rx,[length(Rx),1]);
 
 % Check for LST presence
@@ -15,6 +17,7 @@ samplesPerFrame = 10e-3*rxsim.RadioFrontEndSampleRate; % LTE frames period is 10
 
 %%
 % *Spectrum viewer setup*
+if EnableVisuals
 persistent hsa
 if isempty(hsa)
     hsa = dsp.SpectrumAnalyzer( ...
@@ -30,6 +33,7 @@ end
 step(hsa,rxWaveform);
 release(hsa);
 pause(0);
+end
 
 %%
 % *LTE Setup*
