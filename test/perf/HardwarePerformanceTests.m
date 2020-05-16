@@ -12,14 +12,14 @@ classdef HardwarePerformanceTests < HardwareTestGeneric
             Tx = struct;
             Tx.Device = @()adi.AD9361.Tx;
             Tx.Gain = -10;
-            Tx.Address = 'ip:192.168.86.36';
+            Tx.Address = 'ip:analog';
             Tx.SamplingRate = 1e6;
             
             Rx = struct;
             Rx.Device = @()adi.AD9361.Rx;
             Rx.GainMode = 'slow_attack';
             Rx.Gain = NaN;
-            Rx.Address = 'ip:192.168.86.36';
+            Rx.Address = 'ip:analog';
             Rx.SamplingRate = 1e6;
             
             ExtendedTxParams = [];
