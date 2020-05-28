@@ -5,7 +5,7 @@
 % "Optimum receiver design for OFDM-based broadband transmission .II. A 
 % case study," Communications, IEEE Transactions on , vol.49, no.4, 
 % pp.571,578, Apr 2001.
-function foffset = frequencyOffsetCellRS(app, enb,cec,rxgrid)
+function foffset = frequencyOffsetCellRS(enb,cec,rxgrid)
         
             % If the 'TestEVM' channel estimator is specified, use 1x1 pilot 
             % averaging instead. The 'TestEVM' channel estimator gives the same 
