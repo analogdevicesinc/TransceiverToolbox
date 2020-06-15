@@ -157,22 +157,21 @@ classdef PlutoLTEApp < matlab.apps.AppBase
         
         % Method to handle EVM vs Symbols plot
         function handleEVMSymbol(app, ~, ~)
-            count = app.PlutoLTEAppInternalsProp.count;
             evmSymbolRMS = app.PlutoLTEAppInternalsProp.evmSymbol.RMS;
             evmSymbolPeak = app.PlutoLTEAppInternalsProp.evmSymbol.Peak;
             
             if (app.PlutoLTEAppInternalsProp.SubFrameIndex == 0)
-                app.evmSymsAxes.YLim = [0 10];
-                app.EVMSymbolRMSPlotLine = plot(app.evmSymsAxes, count:count+length(evmSymbolRMS)-1, evmSymbolRMS, 'color',[1 0.6 0], 'Marker', '.');
+                app.EVMSymbolRMSPlotLine = plot(app.evmSymsAxes, 1:length(evmSymbolRMS), evmSymbolRMS, 'color',[1 0.6 0], 'Marker', '.');
                 hold(app.evmSymsAxes,'on');                
-                app.EVMSymbolPeakPlotLine = plot(app.evmSymsAxes, count:count+length(evmSymbolPeak)-1, evmSymbolPeak, 'c', 'Marker', '.');
+                app.EVMSymbolPeakPlotLine = plot(app.evmSymsAxes, 1:length(evmSymbolPeak), evmSymbolPeak, 'c', 'Marker', '.');
                 legend(app.evmSymsAxes,{'\color{white} RMS','\color{white} Peak'}); 
                 hold(app.evmSymsAxes,'off');
-            else
+            else                
+                count = length(app.EVMSymbolRMSPlotLine.XData);
                 app.EVMSymbolRMSPlotLine.YData = [app.EVMSymbolRMSPlotLine.YData evmSymbolRMS.'];
                 app.EVMSymbolPeakPlotLine.YData = [app.EVMSymbolPeakPlotLine.YData evmSymbolPeak.'];
-                app.EVMSymbolRMSPlotLine.XData = [app.EVMSymbolRMSPlotLine.XData (count:count+length(evmSymbolRMS)-1)];
-                app.EVMSymbolPeakPlotLine.XData = [app.EVMSymbolPeakPlotLine.XData (count:count+length(evmSymbolPeak)-1)];
+                app.EVMSymbolRMSPlotLine.XData = [app.EVMSymbolRMSPlotLine.XData count+(1:length(evmSymbolRMS))];
+                app.EVMSymbolPeakPlotLine.XData = [app.EVMSymbolPeakPlotLine.XData count+(1:length(evmSymbolPeak))];
             end   
             drawnow limitrate;
         end
@@ -313,8 +312,11 @@ classdef PlutoLTEApp < matlab.apps.AppBase
 
         % Button pushed function: PlayButton
         function PlayButtonPushed(app, ~)
-            app.PlayButton.Enable = 'off';            
-            notify(app, 'Play');
+            if ~app.PlutoNotFound                
+                app.PlayButton.Enable = 'off';            
+            end
+            notify(app, 'Play');            
+            app.PlayButton.Enable = 'on';                        
         end
 
         % Button pushed function: StopButton
@@ -514,7 +516,9 @@ classdef PlutoLTEApp < matlab.apps.AppBase
             app.evmSymsAxes.XGrid = 'on';
             app.evmSymsAxes.YGrid = 'on';
             app.evmSymsAxes.Position = [7 9 358 359];
-
+            app.evmSymsAxes.YLim = [0 10];
+            app.evmSymsAxes.XLim = [1 70];
+                
             % Create Panel_10
             app.Panel_10 = uipanel(app.Panel);
             app.Panel_10.Position = [776 1 375 375];

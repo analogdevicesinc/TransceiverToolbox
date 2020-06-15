@@ -110,8 +110,12 @@ classdef PlutoLTEAppInternals < LTETestModelWaveform
                %% transmit waveform using ADALM-PLUTO over a loopback cable and
                % receive waveform
                dataRx = obj.PlutoRadio(app, eNodeBOutput, countTx);
-               app.ListBox.Items = [app.ListBox.Items, ...
-                   sprintf('Trial #%d: \n', countTx)]; 
+               if (countTx == 1)
+                   app.ListBox.Items = {sprintf('Trial #%d: \n', countTx)};
+               else
+                   app.ListBox.Items = [app.ListBox.Items, ...
+                       sprintf('Trial #%d: \n', countTx)]; 
+               end
                scroll(app.ListBox,'bottom');                 
                countTx = countTx+1;
                
@@ -189,6 +193,8 @@ classdef PlutoLTEAppInternals < LTETestModelWaveform
                        PlutoLTEAppInternals.DemodSymbs(i, pdsch_ind, nFrames, ...
                        app.PlutoLTEAppInternalsProp.count, alg, etm, evm, ...
                        allocatedSymbols, frameEVM, nSubframes);
+                   SymbEVM.evmSymbolRMS(1) = SymbEVM.evmSymbolRMS(2);
+                   SymbEVM.evmSymbolPeak(1) = SymbEVM.evmSymbolPeak(2);
                    app.PlutoLTEAppInternalsProp.evmSymbol = ...
                        struct('RMS', SymbEVM.evmSymbolRMS, 'Peak', SymbEVM.evmSymbolPeak);
                    app.PlutoLTEAppInternalsProp.evmSC = ...
@@ -196,12 +202,10 @@ classdef PlutoLTEAppInternals < LTETestModelWaveform
                    app.PlutoLTEAppInternalsProp.evmRB = ...
                        struct('RMS', RbEVM.evmRBRMS, 'Peak', RbEVM.evmRBPeak);  
 
-                   if (mod(i, 10)==9 || (nFrames==0 && i==nSubframes-1))
-                       if (nFrames~=0)
-                           app.PlutoLTEAppInternalsProp.FrameEVM = ...
-                               struct('Low', frameLowEVM, ...
-                               'High', frameHighEVM, 'Overall', frameEVM);                
-                       end
+                   if (mod(i, 10)==9 || (nFrames==0 && i==nSubframes-1))                       
+                       app.PlutoLTEAppInternalsProp.FrameEVM = ...
+                           struct('Low', frameLowEVM, ...
+                           'High', frameHighEVM, 'Overall', frameEVM);                                       
                    end           
                end
                % Final Mean EVM across all frames
