@@ -76,8 +76,20 @@ classdef Tx < adi.ADRV9009ZU11EG.Base & adi.ADRV9009.Tx
         function flag = isInactivePropertyImpl(obj, prop)
             % Call the superclass method
             flag = isInactivePropertyImpl@adi.common.RxTx(obj,prop);
+
+            if ~any(obj.EnabledChannels == 1)
+                flag = flag || strcmpi(prop,'AttenuationChannel0');
+            end
+            if ~any(obj.EnabledChannels == 2)
+                flag = flag || strcmpi(prop,'AttenuationChannel1');
+            end
+            if ~any(obj.EnabledChannels == 3)
+                flag = flag || strcmpi(prop,'AttenuationChannel0ChipB');
+            end
+            if ~any(obj.EnabledChannels == 4)
+                flag = flag || strcmpi(prop,'AttenuationChannel1ChipB');
+            end
         end
-        
     end
     
     %% API Functions
