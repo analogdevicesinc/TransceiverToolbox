@@ -89,6 +89,9 @@ classdef Tx < adi.ADRV9009ZU11EG.Base & adi.ADRV9009.Tx
             if ~any(obj.EnabledChannels == 4)
                 flag = flag || strcmpi(prop,'AttenuationChannel1ChipB');
             end
+            if ~any(obj.EnabledChannels == 3) && ~any(obj.EnabledChannels == 4)
+                flag = flag || strcmpi(prop,'CenterFrequencyChipB');
+            end
         end
     end
     
