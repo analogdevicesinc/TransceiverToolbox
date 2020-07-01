@@ -5,6 +5,10 @@ import matlab.unittest.TestSuite;
 import matlab.unittest.plugins.TestReportPlugin;
 import matlab.unittest.plugins.XMLPlugin
 import matlab.unittest.plugins.DiagnosticsValidationPlugin
+import matlab.unittest.parameters.Parameter
+
+SynthesizeDesign = {false};
+param = Parameter.fromData('SynthesizeDesign',SynthesizeDesign);
 
 if nargin == 0
     suite = testsuite({'BSPInstallerTests'});
