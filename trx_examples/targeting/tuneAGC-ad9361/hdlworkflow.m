@@ -185,7 +185,7 @@ hWC.validate;
 
 %% Run the workflow
 try
-    hdlcoder.runWorkflow('ad9361_rx_wlan_testbench_targeting/HDL_DUT', hWC);
+    hdlcoder.runWorkflow('ad9361_rx_wlan_testbench_targeting/HDL_DUT', hWC, 'Verbosity', 'on');
     bdclose('all');
     out = [];
 catch ME

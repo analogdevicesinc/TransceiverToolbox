@@ -1,12 +1,21 @@
+function suite = runDemoTests(name)
+
 import matlab.unittest.TestRunner;
 import matlab.unittest.TestSuite;
 import matlab.unittest.plugins.TestReportPlugin;
 import matlab.unittest.plugins.XMLPlugin
 import matlab.unittest.plugins.DiagnosticsValidationPlugin
 
-try
-    suite = testsuite({'DemoTests'});
+suite = testsuite({'DemoTests'});
+xmlFile = 'BSPDemoTests.xml';
 
+if nargin > 0
+    xmlFile = [name,'_DemoTests.xml'];
+    suite = suite.selectIf('Name',['*',name,'*']);
+end
+
+
+try
     runner = matlab.unittest.TestRunner.withTextOutput('OutputDetail',1);
     runner.addPlugin(DiagnosticsValidationPlugin)
 

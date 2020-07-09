@@ -169,7 +169,7 @@ hWC.validate;
 
 %% Run the workflow
 try
-    hdlcoder.runWorkflow('frequency_hopping/HDL_DUT', hWC);
+    hdlcoder.runWorkflow('frequency_hopping/HDL_DUT', hWC, 'Verbosity', 'on');
     bdclose('all');
     out = [];
 catch ME
