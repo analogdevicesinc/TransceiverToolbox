@@ -11,6 +11,7 @@ classdef PlutoLTEAppInternals < LTETestModelWaveform
         PSD_x
         
         DemodSyms = struct
+        EqGridStruct = struct
         
         evm_pbch_RMS
         evm_pcfich_RMS
@@ -27,6 +28,7 @@ classdef PlutoLTEAppInternals < LTETestModelWaveform
         evmRB = struct        
         FrameEVM = struct
         FinalEVM
+        PDSCHevm
     end
     
     properties 
@@ -41,8 +43,7 @@ classdef PlutoLTEAppInternals < LTETestModelWaveform
             struct(...
             'DeviceIP', 'ip:192.168.2.1',...
             'TxGain', -10,...
-            'RxGainMode', 'slow_attack',...
-            'RxBufferSize', 2^18,...
+            'RxGainMode', 'slow_attack',... % 'RxBufferSize', 2^21,...
             'SamplingRate', 1e6)        
     end
     
@@ -80,15 +81,18 @@ classdef PlutoLTEAppInternals < LTETestModelWaveform
            if app.PlutoNotFound
                return;
            end
+           if strcmp(app.StepOrPlayButton, 'play')
+               app.PlayStopButton.Icon = which('stop.png');
+           end
            
            % extract settings from app
            BW = app.BWDropDown.Value;
            BW = BW(~isspace(BW));
-           TMN = app.TMNDropDown.Value;
+           TMN = app.TMNValue;
            
            % clear Listbox
-           app.ListBox.Items = {''};
-           drawnow;
+           % app.ListBox.Items = {''};
+           % drawnow;
            
            countTx = 1;
            while (true)
@@ -110,13 +114,15 @@ classdef PlutoLTEAppInternals < LTETestModelWaveform
                %% transmit waveform using ADALM-PLUTO over a loopback cable and
                % receive waveform
                dataRx = obj.PlutoRadio(app, eNodeBOutput, countTx);
+               %{
                if (countTx == 1)
-                   app.ListBox.Items = {sprintf('Trial #%d: \n', countTx)};
+                   app.ListBox.Items = {sprintf('Frame #%d:  ', countTx)};
                else
                    app.ListBox.Items = [app.ListBox.Items, ...
-                       sprintf('Trial #%d: \n', countTx)]; 
+                       sprintf('Frame #%d: ', countTx)]; 
                end
                scroll(app.ListBox,'bottom');                 
+               %}
                countTx = countTx+1;
                
                %% demodulate received waveform and compute metrics
@@ -152,17 +158,49 @@ classdef PlutoLTEAppInternals < LTETestModelWaveform
 
                app.PlutoLTEAppInternalsProp.count = 1;           
                for i=0:nSubframes-1
+                   app.SummaryTable1_Data{1} = app.PlutoLTEAppInternalsProp.CyclicPrefix;
+                   app.SummaryTable1_Data{2} = app.PlutoLTEAppInternalsProp.NCellID;
                    % stop test if needed
                    if obj.stopTest(app)
                        return;
                    end
-
+                   msg = sprintf('Processing Subframe #%d\n', i); 
+                   app.Label.Text = {msg};
+                   drawnow; 
+                    
                    app.PlutoLTEAppInternalsProp.SubFrameIndex = i;
 
-                   [EVMStruct, evm, allocatedSymbols, rxSymbols, refSymbols, ...
-                       pdsch_ind, etm] = ...
+                   [EqGridStruct, EVMStruct, evm, allocatedSymbols, rxSymbols, ...
+                       refSymbols, pdsch_ind, etm] = ...
                        PlutoLTEAppInternals.EVMSubframe(i, nSubframes, etm, allPRBSet, ...
                        refGrid, rxGridLow, rxGridHigh, HestLow, HestHigh);
+                   if (etm.CellRefP ~= 1) && (etm.CellRefP ~= 2) && (etm.CellRefP ~= 4)
+                       obj.StopTest = true;
+                       status = sprintf...
+                           ('Test stopped. RF loopback cable likely disconnected. For the demodulated parameter field CellRefP, the value (%d) is not one of the set (1, 2, 4).',...
+                           etm.CellRefP);
+                       app.Label.Text = {status};   
+                       app.PlayStopButtonState = ~app.PlayStopButtonState;
+                       app.PlayStopButton.Icon = which('play.png');
+                       app.StepButton.Enable = 'on'; 
+                       app.PBCHCheckBox.Enable = 'on';
+                       app.PCFICHCheckBox.Enable = 'on';
+                       app.PHICHCheckBox.Enable = 'on';
+                       app.PDCCHCheckBox.Enable = 'on';
+                       app.RSCheckBox.Enable = 'on';
+                       app.PSSCheckBox.Enable = 'on';
+                       app.SSSCheckBox.Enable = 'on';
+                       app.PDSCHCheckBox.Enable = 'on';
+                       app.EVMScCheckBox.Enable = 'on';
+                       app.EVMRbCheckBox.Enable = 'on';
+                       app.EVMSymsCheckBox.Enable = 'on';
+                       app.ConstCheckBox.Enable = 'on';
+                       app.PSDCheckBox.Enable = 'on';
+                   end
+                   if obj.stopTest(app)
+                       return;
+                   end
+                   app.PlutoLTEAppInternalsProp.EqGridStruct = EqGridStruct;
                    app.PlutoLTEAppInternalsProp.DemodSyms = ...
                        struct('Rec', rxSymbols, 'Ref', refSymbols);
 
@@ -176,7 +214,7 @@ classdef PlutoLTEAppInternals < LTETestModelWaveform
                        app.PlutoLTEAppInternalsProp.evm_phich_RMS = 100*EVMStruct.PHICH;
                    end
                    if isfield(EVMStruct, 'PDCCH')
-                       app.PlutoLTEAppInternalsProp.evm_pdcch_RMS = EVMStruct.PDCCH;
+                       app.PlutoLTEAppInternalsProp.evm_pdcch_RMS = 100*EVMStruct.PDCCH;
                    end
                    if isfield(EVMStruct, 'RS')
                        app.PlutoLTEAppInternalsProp.evm_rs_RMS = 100*EVMStruct.RS;
@@ -185,7 +223,7 @@ classdef PlutoLTEAppInternals < LTETestModelWaveform
                        app.PlutoLTEAppInternalsProp.evm_pss_RMS = 100*EVMStruct.PSS;
                    end
                    if isfield(EVMStruct, 'SSS')
-                       app.PlutoLTEAppInternalsProp.evm_sss_RMS = 100*EVMStruct.SSS; 
+                       app.PlutoLTEAppInternalsProp.evm_sss_RMS = 100*EVMStruct.SSS;
                    end
 
                    [SymbEVM, ScEVM, RbEVM, frameLowEVM, frameHighEVM, frameEVM, etm,...
@@ -195,21 +233,74 @@ classdef PlutoLTEAppInternals < LTETestModelWaveform
                        allocatedSymbols, frameEVM, nSubframes);
                    SymbEVM.evmSymbolRMS(1) = SymbEVM.evmSymbolRMS(2);
                    SymbEVM.evmSymbolPeak(1) = SymbEVM.evmSymbolPeak(2);
-                   app.PlutoLTEAppInternalsProp.evmSymbol = ...
-                       struct('RMS', SymbEVM.evmSymbolRMS, 'Peak', SymbEVM.evmSymbolPeak);
                    app.PlutoLTEAppInternalsProp.evmSC = ...
-                       struct('RMS', ScEVM.evmSubcarrierRMS, 'Peak', ScEVM.evmSubcarrierPeak);                
+                       struct('RMS', ScEVM.evmSubcarrierRMS, 'Peak', ScEVM.evmSubcarrierPeak, ...
+                       'EVMGrid', ScEVM.evmGrid); 
+                   PDSCHevm_temp = ScEVM.evmGrid(:);
+                   app.PlutoLTEAppInternalsProp.PDSCHevm = mean(PDSCHevm_temp(PDSCHevm_temp~=0));
                    app.PlutoLTEAppInternalsProp.evmRB = ...
                        struct('RMS', RbEVM.evmRBRMS, 'Peak', RbEVM.evmRBPeak);  
-
+                   app.PlutoLTEAppInternalsProp.evmSymbol = ...
+                       struct('RMS', SymbEVM.evmSymbolRMS, 'Peak', SymbEVM.evmSymbolPeak);
+                   
                    if (mod(i, 10)==9 || (nFrames==0 && i==nSubframes-1))                       
                        app.PlutoLTEAppInternalsProp.FrameEVM = ...
                            struct('Low', frameLowEVM, ...
                            'High', frameHighEVM, 'Overall', frameEVM);                                       
-                   end           
+                   end    
+                   
+                   if (i == 0)
+                       app.SummaryTable1.Data(:, 2) = app.SummaryTable1_Data;
+                   end                   
+                   
+                   app.SummaryTable2.Data(:, 3) = app.SummaryTable2_Data;
+                   if (i == nSubframes-1)
+                       temp_SummaryTable3 = cell(8, 1);
+                       for ii = 1:8
+                           app.SummaryTable3_Data(ii, 3) = ...
+                               app.SummaryTable3_Data(ii, 1)/app.SummaryTable3_Data(ii, 2);
+                           if strcmp(app.dBPercentDropDown.Value, 'dB')
+                               temp_SummaryTable3{ii} = ...
+                                   sprintf('%2.3f', 20*log10(0.01*app.SummaryTable3_Data(ii, 3)));
+                           else
+                               temp_SummaryTable3{ii} = sprintf('%2.3f', app.SummaryTable3_Data(ii, 3));
+                           end
+                       end
+                       app.SummaryTable3.Data(:, 2) = temp_SummaryTable3;
+                       app.SummaryTable1.Data{end, 2} = temp_SummaryTable3{end};
+                   end
+                   if (strcmp(app.StepOrPlayButton, 'step') && (i == nSubframes-1))
+                       app.Label.Text = {'Test stopped.'}; 
+                       app.PlayStopButton.Enable = 'on';                        
+                       app.StepButton.Enable = 'on'; 
+                       app.DocButton.Enable = 'on'; 
+                       app.GridButton.Enable = 'on';    
+                       app.dBPercentDropDown.Enable = 'on';
+                       app.TMNDropDown.Enable = 'on';
+                       app.BWDropDown.Enable = 'on';
+                       app.LOEditField.Enable = 'on';
+                       
+                       app.PBCHCheckBox.Enable = 'on';
+                       app.PCFICHCheckBox.Enable = 'on';
+                       app.PHICHCheckBox.Enable = 'on';
+                       app.PDCCHCheckBox.Enable = 'on';
+                       app.RSCheckBox.Enable = 'on';
+                       app.PSSCheckBox.Enable = 'on';
+                       app.SSSCheckBox.Enable = 'on';
+                       app.PDSCHCheckBox.Enable = 'on';
+                       app.EVMScCheckBox.Enable = 'on';
+                       app.EVMRbCheckBox.Enable = 'on';
+                       app.EVMSymsCheckBox.Enable = 'on';
+                       app.ConstCheckBox.Enable = 'on';
+                       app.PSDCheckBox.Enable = 'on';
+                       
+                       drawnow; 
+                       return;
+                   end                   
                end
                % Final Mean EVM across all frames
                app.PlutoLTEAppInternalsProp.FinalEVM = lteEVM(cat(1, frameEVM(:).EV));
+               % drawnow; 
            end
         end
         
@@ -217,15 +308,21 @@ classdef PlutoLTEAppInternals < LTETestModelWaveform
             obj.StopTest = true;
             obj.PlutoTx.release();
             obj.PlutoRx.release();
-            app.PlayButton.Enable = 'on'; 
-            drawnow limitrate;
+            app.PlayStopButton.Icon = which('play.png');
+            drawnow; 
         end          
         
         function killtest = stopTest(obj, app)
             killtest = obj.StopTest;
             if (killtest)
-                app.PlayButton.Enable = 'on';  
-                drawnow limitrate; 
+                app.PlayStopButton.Enable = 'on';  
+                app.DocButton.Enable = 'on'; 
+                app.GridButton.Enable = 'on';   
+                app.dBPercentDropDown.Enable = 'on';
+                app.TMNDropDown.Enable = 'on';
+                app.BWDropDown.Enable = 'on';
+                app.LOEditField.Enable = 'on';
+                drawnow;  
                 obj.StopTest = false;                
             end
         end

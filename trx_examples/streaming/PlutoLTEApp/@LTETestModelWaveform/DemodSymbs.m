@@ -50,11 +50,13 @@ function [SymbEVM, ScEVM, RbEVM, frameLowEVM, frameHighEVM, frameEVM, enb, count
             maxEVM = 1;
         end
         % plot EVM versus OFDM symbol
+        SymbEVM.evmSubframe = evmSubframe;
         SymbEVM.evmSymbolRMS = sqrt(sum(evmSubframe.^2,1)./sum(evmSubframe~=0,1)).';
         SymbEVM.evmSymbolPeak = (max(evmSubframe,[],1)./any(evmSubframe,1)).';
         count = count+length(SymbEVM.evmSymbolPeak);
 
         % plot EVM versus subcarrier
+        ScEVM.evmGrid = evmGrid;
         ScEVM.evmSubcarrierRMS = sqrt(sum(evmGrid.^2,2)./sum(evmGrid~=0,2));
         ScEVM.evmSubcarrierPeak = max(evmGrid,[],2)./any(evmGrid,2);
         

@@ -2,18 +2,46 @@ function dataRx = PlutoRadio(obj, app, dataTx, count)
     if (count == 1)
         % filter
         switch (app.BWDropDown.Value)
+            case '3 MHz'
+                TxFilt = load('lte3_filter_tx.mat');
+                obj.PlutoTx = sdrtx('Pluto', TxFilt.filtnv{:});
+
+                RxFilt = load('lte3_filter_rx.mat');
+                obj.PlutoRx = sdrrx('Pluto', RxFilt.filtnv{:});  
+                
+                obj.PlutoRx.SamplesPerFrame = 2^19;
             case '5 MHz'
                 TxFilt = load('lte5_filter_tx.mat');
                 obj.PlutoTx = sdrtx('Pluto', TxFilt.filtnv{:});
 
                 RxFilt = load('lte5_filter_rx.mat');
-                obj.PlutoRx = sdrrx('Pluto', RxFilt.filtnv{:});        
+                obj.PlutoRx = sdrrx('Pluto', RxFilt.filtnv{:});   
+                
+                obj.PlutoRx.SamplesPerFrame = 2^19;
             case '10 MHz'
                 TxFilt = load('lte10_filter_tx.mat');
                 obj.PlutoTx = sdrtx('Pluto', TxFilt.filtnv{:});
 
                 RxFilt = load('lte10_filter_rx.mat');
-                obj.PlutoRx = sdrrx('Pluto', RxFilt.filtnv{:});        
+                obj.PlutoRx = sdrrx('Pluto', RxFilt.filtnv{:}); 
+                
+                obj.PlutoRx.SamplesPerFrame = 2^19;
+            case '15 MHz'
+                TxFilt = load('lte15_filter_tx.mat');
+                obj.PlutoTx = sdrtx('Pluto', TxFilt.filtnv{:});
+
+                RxFilt = load('lte15_filter_rx.mat');
+                obj.PlutoRx = sdrrx('Pluto', RxFilt.filtnv{:});    
+                
+                obj.PlutoRx.SamplesPerFrame = 2^21;
+            case '20 MHz'
+                TxFilt = load('lte20_filter_tx.mat');
+                obj.PlutoTx = sdrtx('Pluto', TxFilt.filtnv{:});
+
+                RxFilt = load('lte20_filter_rx.mat');
+                obj.PlutoRx = sdrrx('Pluto', RxFilt.filtnv{:});     
+                
+                obj.PlutoRx.SamplesPerFrame = 2^21;
         end
 
         % tx setup
@@ -21,20 +49,27 @@ function dataRx = PlutoRadio(obj, app, dataTx, count)
         obj.PlutoTx.CenterFrequency = app.LOEditField.Value*1e6;
         obj.PlutoTx.RadioID = obj.test_settings.DeviceIP;
         obj.PlutoTx.Gain = obj.test_settings.TxGain;
+        % obj.PlutoTx.BISTLoopbackMode = 'Digital Tx -> Digital Rx';
 
         % rx setup
         obj.PlutoRx.UseCustomFilter = true;
         obj.PlutoRx.CenterFrequency = app.LOEditField.Value*1e6;
-        obj.PlutoRx.RadioID = obj.test_settings.DeviceIP;
-        obj.PlutoRx.SamplesPerFrame = obj.test_settings.RxBufferSize;
-        obj.PlutoRx.NumFramesInBurst = 1;        
+        obj.PlutoRx.RadioID = obj.test_settings.DeviceIP;        
+        obj.PlutoRx.NumFramesInBurst = 1;  
+        % obj.PlutoRx.BISTLoopbackMode = 'Digital Tx -> Digital Rx';
 
         % transmit
         transmitRepeat(obj.PlutoTx, dataTx);
     end
 
     % receive
-    app.Label.Text = {'Starting a new RF capture.'}; 
+    [~,cmdout] = system('iio_attr -u ip:192.168.2.1 -c ad9361-phy TX_LO frequency');
+    % cmdout = strrep(cmdout, '''', '');
+    % [~, endIndex] = regexp(cmdout,'frequency, value');
+    msg = sprintf('Fetching samples from PlutoSDR. LO set to %s Hz.', ...
+        cmdout(1:end-1));    
+    app.Label.Text = msg; 
+    drawnow limitrate;
 
     for k=1:20
         len = 0;
