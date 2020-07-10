@@ -1,0 +1,173 @@
+<deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
+  <configuration build-checksum="3944689077" file="C:\Users\spagadar\OneDrive - Analog Devices, Inc\MATLAB\PlutoLTEApp\LTEPA.prj" location="C:\Users\spagadar\OneDrive - Analog Devices, Inc\MATLAB\PlutoLTEApp" name="LTEPA" preferred-package-location="C:\Users\spagadar\OneDrive - Analog Devices, Inc\MATLAB\PlutoLTEApp\LTEPA\for_redistribution" preferred-package-type="package.type.exe" target="target.ezdeploy.standalone" target-name="Application Compiler">
+    <param.appname>LTEPA</param.appname>
+    <param.icon />
+    <param.icons />
+    <param.version>1.0</param.version>
+    <param.authnamewatermark />
+    <param.email />
+    <param.company />
+    <param.summary />
+    <param.description />
+    <param.screenshot>${PROJECT_ROOT}\img\lTEAPP_splash.jpg</param.screenshot>
+    <param.guid />
+    <param.installpath.string>Analog Devices\PlutoLTEApp\</param.installpath.string>
+    <param.installpath.combo>option.installpath.programfiles</param.installpath.combo>
+    <param.logo />
+    <param.install.notes />
+    <param.target.install.notes />
+    <param.intermediate>${PROJECT_ROOT}\LTEPA\for_testing</param.intermediate>
+    <param.files.only>${PROJECT_ROOT}\LTEPA\for_redistribution_files_only</param.files.only>
+    <param.output>${PROJECT_ROOT}\LTEPA\for_redistribution</param.output>
+    <param.logdir>${PROJECT_ROOT}\LTEPA</param.logdir>
+    <param.enable.clean.build>false</param.enable.clean.build>
+    <param.user.defined.mcr.options />
+    <param.target.type>subtarget.standalone</param.target.type>
+    <param.support.packages>
+      <item>&lt;package displayname="ADALM-Pluto Radio Support Package" enabled="true" name="Communications Toolbox Support Package for Analog Devices ADALM-Pluto Radio" product="Communications Toolbox"/&gt;</item>
+    </param.support.packages>
+    <param.web.mcr>true</param.web.mcr>
+    <param.package.mcr>false</param.package.mcr>
+    <param.no.mcr>false</param.no.mcr>
+    <param.web.mcr.name>LTEPAInstaller</param.web.mcr.name>
+    <param.package.mcr.name>MyAppInstaller_mcr</param.package.mcr.name>
+    <param.no.mcr.name>MyAppInstaller_app</param.no.mcr.name>
+    <param.windows.command.prompt>true</param.windows.command.prompt>
+    <param.create.log>false</param.create.log>
+    <param.log.file />
+    <param.native.matlab>false</param.native.matlab>
+    <param.checkbox>false</param.checkbox>
+    <param.example />
+    <param.help.text>Syntax 
+	 LTEApp -? 
+	 LTEApp app ~ ~ 
+ Input Arguments 
+	 -?  print help on how to use the application 
+	 app ~ ~  input arguments</param.help.text>
+    <unset>
+      <param.icon />
+      <param.icons />
+      <param.version />
+      <param.authnamewatermark />
+      <param.email />
+      <param.company />
+      <param.summary />
+      <param.description />
+      <param.guid />
+      <param.installpath.combo />
+      <param.logo />
+      <param.install.notes />
+      <param.target.install.notes />
+      <param.intermediate />
+      <param.files.only />
+      <param.output />
+      <param.logdir />
+      <param.enable.clean.build />
+      <param.user.defined.mcr.options />
+      <param.target.type />
+      <param.web.mcr />
+      <param.package.mcr />
+      <param.no.mcr />
+      <param.package.mcr.name />
+      <param.no.mcr.name />
+      <param.windows.command.prompt />
+      <param.create.log />
+      <param.log.file />
+      <param.native.matlab />
+      <param.checkbox />
+      <param.example />
+    </unset>
+    <fileset.main>
+      <file>${PROJECT_ROOT}\LTEApp.m</file>
+    </fileset.main>
+    <fileset.resources>
+      <file>${PROJECT_ROOT}\img\Analog_Devices_Logo.png</file>
+      <file>${PROJECT_ROOT}\img\doc.png</file>
+      <file>${PROJECT_ROOT}\img\grid.png</file>
+      <file>${PROJECT_ROOT}\img\play.png</file>
+      <file>${PROJECT_ROOT}\img\step.png</file>
+      <file>${PROJECT_ROOT}\img\stop.png</file>
+    </fileset.resources>
+    <fileset.package />
+    <fileset.depfun>
+      <file>C:\ProgramData\MATLAB\SupportPackages\R2020a\toolbox\shared\sdr\sdrplug\sdrpluginbase\host\funcs\sdrrx.m</file>
+      <file>C:\ProgramData\MATLAB\SupportPackages\R2020a\toolbox\shared\sdr\sdrplug\sdrpluginbase\host\funcs\sdrtx.m</file>
+      <file>C:\ProgramData\MATLAB\SupportPackages\R2020a\toolbox\shared\sdr\sdrplug\sdrplugins\fmcomms5\+comm\SDRRxFMCOMMS5.p</file>
+      <file>C:\ProgramData\MATLAB\SupportPackages\R2020a\toolbox\shared\sdr\sdrplug\sdrplugins\fmcomms5\+comm\SDRTxFMCOMMS5.p</file>
+      <file>C:\ProgramData\MATLAB\SupportPackages\R2020a\toolbox\shared\sdr\sdrplug\sdrplugins\plutoradio\+comm\SDRRxPluto.p</file>
+      <file>C:\ProgramData\MATLAB\SupportPackages\R2020a\toolbox\shared\sdr\sdrplug\sdrplugins\plutoradio\+comm\SDRTxPluto.p</file>
+      <file>C:\ProgramData\MATLAB\SupportPackages\R2020a\toolbox\shared\sdr\sdrplug\sdrplugins\plutoradio\findPlutoRadio.p</file>
+      <file>C:\ProgramData\MATLAB\SupportPackages\R2020a\toolbox\shared\sdr\sdrplug\sdrplugins\zynqradio\+comm\SDRRxAD936x.p</file>
+      <file>C:\ProgramData\MATLAB\SupportPackages\R2020a\toolbox\shared\sdr\sdrplug\sdrplugins\zynqradio\+comm\SDRTxAD936x.p</file>
+      <file>${PROJECT_ROOT}\@LTEAppInternals\lte10_filter_rx.mat</file>
+      <file>${PROJECT_ROOT}\@LTEAppInternals\lte10_filter_tx.mat</file>
+      <file>${PROJECT_ROOT}\@LTEAppInternals\lte15_filter_rx.mat</file>
+      <file>${PROJECT_ROOT}\@LTEAppInternals\lte15_filter_tx.mat</file>
+      <file>${PROJECT_ROOT}\@LTEAppInternals\lte20_filter_rx.mat</file>
+      <file>${PROJECT_ROOT}\@LTEAppInternals\lte20_filter_tx.mat</file>
+      <file>${PROJECT_ROOT}\@LTEAppInternals\lte3_filter_rx.mat</file>
+      <file>${PROJECT_ROOT}\@LTEAppInternals\lte3_filter_tx.mat</file>
+      <file>${PROJECT_ROOT}\@LTEAppInternals\lte5_filter_rx.mat</file>
+      <file>${PROJECT_ROOT}\@LTEAppInternals\lte5_filter_tx.mat</file>
+      <file>${PROJECT_ROOT}\@LTEAppInternals\LTEAppInternals.m</file>
+      <file>${PROJECT_ROOT}\@LTEAppInternals\PlutoRadio.m</file>
+      <file>${PROJECT_ROOT}\@LTETestModelWaveform\DemodSymbs.m</file>
+      <file>${PROJECT_ROOT}\@LTETestModelWaveform\EstimateChannel.m</file>
+      <file>${PROJECT_ROOT}\@LTETestModelWaveform\EVMSubframe.m</file>
+      <file>${PROJECT_ROOT}\@LTETestModelWaveform\frequencyOffsetCellRS.m</file>
+      <file>${PROJECT_ROOT}\@LTETestModelWaveform\getEVMWindow.m</file>
+      <file>${PROJECT_ROOT}\@LTETestModelWaveform\LTETestModelWaveform.m</file>
+      <file>${PROJECT_ROOT}\@LTETestModelWaveform\Sync.m</file>
+    </fileset.depfun>
+    <build-deliverables>
+      <file location="${PROJECT_ROOT}\LTEPA\for_testing" name="LTEPA.exe" optional="false">C:\Users\spagadar\OneDrive - Analog Devices, Inc\MATLAB\PlutoLTEApp\LTEPA\for_testing\LTEPA.exe</file>
+      <file location="${PROJECT_ROOT}\LTEPA\for_testing" name="splash.png" optional="false">C:\Users\spagadar\OneDrive - Analog Devices, Inc\MATLAB\PlutoLTEApp\LTEPA\for_testing\splash.png</file>
+      <file location="${PROJECT_ROOT}\LTEPA\for_testing" name="readme.txt" optional="true">C:\Users\spagadar\OneDrive - Analog Devices, Inc\MATLAB\PlutoLTEApp\LTEPA\for_testing\readme.txt</file>
+    </build-deliverables>
+    <workflow />
+    <matlab>
+      <root>C:\Program Files\MATLAB\R2020a</root>
+      <toolboxes>
+        <toolbox name="matlabcoder" />
+        <toolbox name="embeddedcoder" />
+        <toolbox name="fixedpoint" />
+        <toolbox name="matlabhdlcoder" />
+      </toolboxes>
+      <toolbox>
+        <matlabcoder>
+          <enabled>true</enabled>
+        </matlabcoder>
+      </toolbox>
+      <toolbox>
+        <embeddedcoder>
+          <enabled>true</enabled>
+        </embeddedcoder>
+      </toolbox>
+      <toolbox>
+        <fixedpoint>
+          <enabled>true</enabled>
+        </fixedpoint>
+      </toolbox>
+      <toolbox>
+        <matlabhdlcoder>
+          <enabled>true</enabled>
+        </matlabhdlcoder>
+      </toolbox>
+    </matlab>
+    <platform>
+      <unix>false</unix>
+      <mac>false</mac>
+      <windows>true</windows>
+      <win2k>false</win2k>
+      <winxp>false</winxp>
+      <vista>false</vista>
+      <linux>false</linux>
+      <solaris>false</solaris>
+      <osver>10.0</osver>
+      <os32>false</os32>
+      <os64>true</os64>
+      <arch>win64</arch>
+      <matlab>true</matlab>
+    </platform>
+  </configuration>
+</deployment-project>

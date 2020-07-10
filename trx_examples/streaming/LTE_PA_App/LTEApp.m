@@ -1,4 +1,4 @@
-classdef PlutoLTEApp < matlab.apps.AppBase
+classdef LTEApp < matlab.apps.AppBase
 
     % Properties that correspond to app components
     properties (Access = public)
@@ -114,7 +114,7 @@ classdef PlutoLTEApp < matlab.apps.AppBase
     end
     
     properties (SetAccess = private, SetObservable)
-        PlutoLTEAppInternalsProp
+        LTEAppInternalsProp
     end
     
     properties (Access = public)
@@ -144,42 +144,42 @@ classdef PlutoLTEApp < matlab.apps.AppBase
         % Method to handle change in CyclicPrefix
         function handleCyclicPrefix(app, ~, ~)
             app.SummaryTable1_Data(1, 1) = ...
-                {sprintf('%s', app.PlutoLTEAppInternalsProp.CyclicPrefix)};              
+                {sprintf('%s', app.LTEAppInternalsProp.CyclicPrefix)};              
         end
         
         % Method to handle change in NCellID
         function handleNCellID(app, ~, ~)
             app.SummaryTable1_Data(2, 1) = ...
-                {sprintf('%d', num2str(app.PlutoLTEAppInternalsProp.NCellID))};                        
+                {sprintf('%d', num2str(app.LTEAppInternalsProp.NCellID))};                        
         end
         
         % Method to handle change in FrameOffset
         function handleFrameOffset(app, ~, ~)
             app.SummaryTable1_Data(3, 1) = ...
-                {sprintf('%2.3f ms', 1e3*app.PlutoLTEAppInternalsProp.FrameOffset)};
+                {sprintf('%2.3f ms', 1e3*app.LTEAppInternalsProp.FrameOffset)};
         end
         
         % Method to handle change in FrameOffset
         function handleFreqOffset(app, ~, ~)
             app.SummaryTable1_Data(4, 1) = ...
-                {sprintf('%2.3f Hz (%2.3f ppb)', app.PlutoLTEAppInternalsProp.FreqOffset, ...
-                1e3*app.PlutoLTEAppInternalsProp.FreqOffset/app.LOEditField.Value)};
+                {sprintf('%2.3f Hz (%2.3f ppb)', app.LTEAppInternalsProp.FreqOffset, ...
+                1e3*app.LTEAppInternalsProp.FreqOffset/app.LOEditField.Value)};
         end
         
         % Method to handle change in IQOffset
         function handleIQOffset(app, ~, ~)
             app.SummaryTable1_Data(5, 1) = ...
                 {sprintf('%2.3f', ...
-                app.PlutoLTEAppInternalsProp.IQOffset)};                
+                app.LTEAppInternalsProp.IQOffset)};                
         end
     
         % Method to handle change in PSD_y
         function handlePSD(app, ~, ~)
             if (app.PSDCheckBox.Value)
             app.PSDAxes.XLim = ...
-                [-0.5 0.5]*app.PlutoLTEAppInternalsProp.SamplingRate*1e-6;
-            plot(app.PSDAxes, app.PlutoLTEAppInternalsProp.PSD_x*1e-6, ...
-                app.PlutoLTEAppInternalsProp.PSD_y, 'y'); 
+                [-0.5 0.5]*app.LTEAppInternalsProp.SamplingRate*1e-6;
+            plot(app.PSDAxes, app.LTEAppInternalsProp.PSD_x*1e-6, ...
+                app.LTEAppInternalsProp.PSD_y, 'y'); 
             end
         end
     
@@ -187,12 +187,12 @@ classdef PlutoLTEApp < matlab.apps.AppBase
         function handlePBCH_RMS_EVM(app, ~, ~)
             if strcmp(app.dBPercentDropDown.Value, 'dB')
                 app.SummaryTable2_Data(1, 1) = ...
-                    {sprintf('%2.3f', 20*log10(0.01*app.PlutoLTEAppInternalsProp.evm_pbch_RMS))}; 
+                    {sprintf('%2.3f', 20*log10(0.01*app.LTEAppInternalsProp.evm_pbch_RMS))}; 
             else
                 app.SummaryTable2_Data(1, 1) = ...
-                    {sprintf('%2.3f', app.PlutoLTEAppInternalsProp.evm_pbch_RMS)}; 
+                    {sprintf('%2.3f', app.LTEAppInternalsProp.evm_pbch_RMS)}; 
             end
-            app.SummaryTable3_Data(1, 1) = app.SummaryTable3_Data(1, 1)+app.PlutoLTEAppInternalsProp.evm_pbch_RMS;
+            app.SummaryTable3_Data(1, 1) = app.SummaryTable3_Data(1, 1)+app.LTEAppInternalsProp.evm_pbch_RMS;
             app.SummaryTable3_Data(1, 2) = app.SummaryTable3_Data(1, 2)+1;
         end
         
@@ -200,12 +200,12 @@ classdef PlutoLTEApp < matlab.apps.AppBase
         function handlePCFICH_RMS_EVM(app, ~, ~)
             if strcmp(app.dBPercentDropDown.Value, 'dB')
                 app.SummaryTable2_Data(2, 1) = ...
-                    {sprintf('%2.3f', 20*log10(0.01*app.PlutoLTEAppInternalsProp.evm_pcfich_RMS))}; 
+                    {sprintf('%2.3f', 20*log10(0.01*app.LTEAppInternalsProp.evm_pcfich_RMS))}; 
             else
                 app.SummaryTable2_Data(2, 1) = ...
-                    {sprintf('%2.3f', app.PlutoLTEAppInternalsProp.evm_pcfich_RMS)}; 
+                    {sprintf('%2.3f', app.LTEAppInternalsProp.evm_pcfich_RMS)}; 
             end
-            app.SummaryTable3_Data(2, 1) = app.SummaryTable3_Data(2, 1)+app.PlutoLTEAppInternalsProp.evm_pcfich_RMS;
+            app.SummaryTable3_Data(2, 1) = app.SummaryTable3_Data(2, 1)+app.LTEAppInternalsProp.evm_pcfich_RMS;
             app.SummaryTable3_Data(2, 2) = app.SummaryTable3_Data(2, 2)+1;
         end
         
@@ -213,12 +213,12 @@ classdef PlutoLTEApp < matlab.apps.AppBase
         function handlePHICH_RMS_EVM(app, ~, ~)
             if strcmp(app.dBPercentDropDown.Value, 'dB')
                 app.SummaryTable2_Data(3, 1) = ...
-                    {sprintf('%2.3f', 20*log10(0.01*app.PlutoLTEAppInternalsProp.evm_phich_RMS))};  
+                    {sprintf('%2.3f', 20*log10(0.01*app.LTEAppInternalsProp.evm_phich_RMS))};  
             else
                 app.SummaryTable2_Data(3, 1) = ...
-                    {sprintf('%2.3f', app.PlutoLTEAppInternalsProp.evm_phich_RMS)};  
+                    {sprintf('%2.3f', app.LTEAppInternalsProp.evm_phich_RMS)};  
             end
-            app.SummaryTable3_Data(3, 1) = app.SummaryTable3_Data(4, 1)+app.PlutoLTEAppInternalsProp.evm_phich_RMS;
+            app.SummaryTable3_Data(3, 1) = app.SummaryTable3_Data(4, 1)+app.LTEAppInternalsProp.evm_phich_RMS;
             app.SummaryTable3_Data(3, 2) = app.SummaryTable3_Data(4, 2)+1;
         end
         
@@ -226,12 +226,12 @@ classdef PlutoLTEApp < matlab.apps.AppBase
         function handlePDCCH_RMS_EVM(app, ~, ~)
             if strcmp(app.dBPercentDropDown.Value, 'dB')
                 app.SummaryTable2_Data(4, 1) = ...
-                    {sprintf('%2.3f', 20*log10(0.01*app.PlutoLTEAppInternalsProp.evm_pdcch_RMS))};  
+                    {sprintf('%2.3f', 20*log10(0.01*app.LTEAppInternalsProp.evm_pdcch_RMS))};  
             else
                 app.SummaryTable2_Data(4, 1) = ...
-                    {sprintf('%2.3f', app.PlutoLTEAppInternalsProp.evm_pdcch_RMS)};  
+                    {sprintf('%2.3f', app.LTEAppInternalsProp.evm_pdcch_RMS)};  
             end
-            app.SummaryTable3_Data(4, 1) = app.SummaryTable3_Data(3, 1)+app.PlutoLTEAppInternalsProp.evm_pdcch_RMS;
+            app.SummaryTable3_Data(4, 1) = app.SummaryTable3_Data(3, 1)+app.LTEAppInternalsProp.evm_pdcch_RMS;
             app.SummaryTable3_Data(4, 2) = app.SummaryTable3_Data(3, 2)+1;
         end
         
@@ -239,12 +239,12 @@ classdef PlutoLTEApp < matlab.apps.AppBase
         function handleRS_RMS_EVM(app, ~, ~)
             if strcmp(app.dBPercentDropDown.Value, 'dB')
                 app.SummaryTable2_Data(5, 1) = ...
-                    {sprintf('%2.3f', 20*log10(0.01*app.PlutoLTEAppInternalsProp.evm_rs_RMS))};  
+                    {sprintf('%2.3f', 20*log10(0.01*app.LTEAppInternalsProp.evm_rs_RMS))};  
             else
                 app.SummaryTable2_Data(5, 1) = ...
-                    {sprintf('%2.3f', app.PlutoLTEAppInternalsProp.evm_rs_RMS)};  
+                    {sprintf('%2.3f', app.LTEAppInternalsProp.evm_rs_RMS)};  
             end
-            app.SummaryTable3_Data(5, 1) = app.SummaryTable3_Data(5, 1)+app.PlutoLTEAppInternalsProp.evm_rs_RMS;
+            app.SummaryTable3_Data(5, 1) = app.SummaryTable3_Data(5, 1)+app.LTEAppInternalsProp.evm_rs_RMS;
             app.SummaryTable3_Data(5, 2) = app.SummaryTable3_Data(5, 2)+1;
         end
         
@@ -252,12 +252,12 @@ classdef PlutoLTEApp < matlab.apps.AppBase
         function handlePSS_RMS_EVM(app, ~, ~)
             if strcmp(app.dBPercentDropDown.Value, 'dB')
                 app.SummaryTable2_Data(6, 1) = ...
-                    {sprintf('%2.3f', 20*log10(0.01*app.PlutoLTEAppInternalsProp.evm_pss_RMS))};
+                    {sprintf('%2.3f', 20*log10(0.01*app.LTEAppInternalsProp.evm_pss_RMS))};
             else
                 app.SummaryTable2_Data(6, 1) = ...
-                    {sprintf('%2.3f', app.PlutoLTEAppInternalsProp.evm_pss_RMS)};
+                    {sprintf('%2.3f', app.LTEAppInternalsProp.evm_pss_RMS)};
             end
-            app.SummaryTable3_Data(6, 1) = app.SummaryTable3_Data(6, 1)+app.PlutoLTEAppInternalsProp.evm_pss_RMS;
+            app.SummaryTable3_Data(6, 1) = app.SummaryTable3_Data(6, 1)+app.LTEAppInternalsProp.evm_pss_RMS;
             app.SummaryTable3_Data(6, 2) = app.SummaryTable3_Data(6, 2)+1;
         end
         
@@ -265,21 +265,21 @@ classdef PlutoLTEApp < matlab.apps.AppBase
         function handleSSS_RMS_EVM(app, ~, ~)
             if strcmp(app.dBPercentDropDown.Value, 'dB')
                 app.SummaryTable2_Data(7, 1) = ...
-                    {sprintf('%2.3f', 20*log10(0.01*app.PlutoLTEAppInternalsProp.evm_sss_RMS))};
+                    {sprintf('%2.3f', 20*log10(0.01*app.LTEAppInternalsProp.evm_sss_RMS))};
             else
                 app.SummaryTable2_Data(7, 1) = ...
-                    {sprintf('%2.3f', app.PlutoLTEAppInternalsProp.evm_sss_RMS)};                
+                    {sprintf('%2.3f', app.LTEAppInternalsProp.evm_sss_RMS)};                
             end
-            app.SummaryTable3_Data(7, 1) = app.SummaryTable3_Data(7, 1)+app.PlutoLTEAppInternalsProp.evm_sss_RMS;
+            app.SummaryTable3_Data(7, 1) = app.SummaryTable3_Data(7, 1)+app.LTEAppInternalsProp.evm_sss_RMS;
             app.SummaryTable3_Data(7, 2) = app.SummaryTable3_Data(7, 2)+1;
         end
         
         % Method to handle EVM vs Symbols plot
         function handleEVMSymbol(app, ~, ~)  
             if (app.EVMSymsCheckBox.Value)
-            SubFrameIndex = app.PlutoLTEAppInternalsProp.SubFrameIndex;
-            evmGrid = app.PlutoLTEAppInternalsProp.evmSC.EVMGrid;   
-            evmSymbolRMS = app.PlutoLTEAppInternalsProp.evmSymbol.RMS;
+            SubFrameIndex = app.LTEAppInternalsProp.SubFrameIndex;
+            evmGrid = app.LTEAppInternalsProp.evmSC.EVMGrid;   
+            evmSymbolRMS = app.LTEAppInternalsProp.evmSymbol.RMS;
             if (SubFrameIndex == 0)
                 % cla(app.evmSymsAxes);
                 hold(app.evmSymsAxes,'off');
@@ -295,16 +295,16 @@ classdef PlutoLTEApp < matlab.apps.AppBase
                 app.evmSymbolRMSAvg(SubFrameIndex*14+(1:length(evmSymbolRMS)), end) = evmSymbolRMS;  
             end
             
-            if isfield(app.PlutoLTEAppInternalsProp.EqGridStruct, 'RS')
+            if isfield(app.LTEAppInternalsProp.EqGridStruct, 'RS')
                 if (app.RSCheckBox.Value)
                     if (SubFrameIndex == 0)
                         temp_xRS = -10*ones(1e4, 1);
                         newX = SubFrameIndex*14+...
-                            mod(app.PlutoLTEAppInternalsProp.EqGridStruct.RSInd, 14);
+                            mod(app.LTEAppInternalsProp.EqGridStruct.RSInd, 14);
                         temp_xRS(1:length(newX)) = newX;
                         
                         temp_yRS = -10*ones(1e4, 1);
-                        newY = app.PlutoLTEAppInternalsProp.EqGridStruct.RSEVMInd;
+                        newY = app.LTEAppInternalsProp.EqGridStruct.RSEVMInd;
                         temp_yRS(1:length(newX)) = newY;
                                         
                         %{
@@ -325,34 +325,34 @@ classdef PlutoLTEApp < matlab.apps.AppBase
                         temp_xRS = app.evmRSSymPlot.XData;
                         indm10 = find(temp_xRS == -10, 1);
                         newX = SubFrameIndex*14+...
-                            mod(app.PlutoLTEAppInternalsProp.EqGridStruct.RSInd, 14);
+                            mod(app.LTEAppInternalsProp.EqGridStruct.RSInd, 14);
                         %{
                         for ii = 1:8
                             app.evmRSSymPlot(ii).XData(indm10+(0:length(newX)-1)) = newX;
                             app.evmRSSymPlot(ii).YData(indm10+(0:length(newX)-1)) = ...
-                                app.PlutoLTEAppInternalsProp.EqGridStruct.RSEVMInd;                            
+                                app.LTEAppInternalsProp.EqGridStruct.RSEVMInd;                            
                         end
                         %}
                         
                         app.evmRSSymPlot.XData(indm10+(0:length(newX)-1)) = newX;
                         app.evmRSSymPlot.YData(indm10+(0:length(newX)-1)) = ...
-                            app.PlutoLTEAppInternalsProp.EqGridStruct.RSEVMInd;
+                            app.LTEAppInternalsProp.EqGridStruct.RSEVMInd;
                         
                         
                     end                    
                 end                
             end
 
-            if isfield(app.PlutoLTEAppInternalsProp.EqGridStruct, 'PSS')
+            if isfield(app.LTEAppInternalsProp.EqGridStruct, 'PSS')
                 if (app.PSSCheckBox.Value)
                     if (SubFrameIndex == 0)
                         temp_xPSS = -10*ones(1e4, 1);
                         newX = SubFrameIndex*14+...
-                            mod(app.PlutoLTEAppInternalsProp.EqGridStruct.PSSInd, 14);
+                            mod(app.LTEAppInternalsProp.EqGridStruct.PSSInd, 14);
                         temp_xPSS(1:length(newX)) = newX;
                         
                         temp_yPSS = -10*ones(1e4, 1);
-                        newY = app.PlutoLTEAppInternalsProp.EqGridStruct.PSSEVMInd;
+                        newY = app.LTEAppInternalsProp.EqGridStruct.PSSEVMInd;
                         temp_yPSS(1:length(newX)) = newY;
                                                
                         app.evmPSSSymPlot = plot(app.evmSymsAxes, temp_xPSS, temp_yPSS,...
@@ -362,26 +362,26 @@ classdef PlutoLTEApp < matlab.apps.AppBase
                         temp_xPSS = app.evmPSSSymPlot.XData;
                         indm10 = find(temp_xPSS == -10, 1);
                         newX = SubFrameIndex*14+...
-                            mod(app.PlutoLTEAppInternalsProp.EqGridStruct.PSSInd, 14);
+                            mod(app.LTEAppInternalsProp.EqGridStruct.PSSInd, 14);
                         
                         app.evmPSSSymPlot.XData(indm10+(0:length(newX)-1)) = newX;
                         app.evmPSSSymPlot.YData(indm10+(0:length(newX)-1)) = ...
-                            app.PlutoLTEAppInternalsProp.EqGridStruct.PSSEVMInd;
+                            app.LTEAppInternalsProp.EqGridStruct.PSSEVMInd;
                         
                     end                    
                 end
             end
             
-            if isfield(app.PlutoLTEAppInternalsProp.EqGridStruct, 'SSS')
+            if isfield(app.LTEAppInternalsProp.EqGridStruct, 'SSS')
                 if (app.SSSCheckBox.Value)
                     if (SubFrameIndex == 0)
                         temp_xSSS = -10*ones(1e4, 1);
                         newX = SubFrameIndex*14+...
-                            mod(app.PlutoLTEAppInternalsProp.EqGridStruct.SSSInd, 14);
+                            mod(app.LTEAppInternalsProp.EqGridStruct.SSSInd, 14);
                         temp_xSSS(1:length(newX)) = newX;
                         
                         temp_ySSS = -10*ones(1e4, 1);
-                        newY = app.PlutoLTEAppInternalsProp.EqGridStruct.SSSEVMInd;
+                        newY = app.LTEAppInternalsProp.EqGridStruct.SSSEVMInd;
                         temp_ySSS(1:length(newX)) = newY;
                                                
                         app.evmSSSSymPlot = plot(app.evmSymsAxes, temp_xSSS, temp_ySSS,...
@@ -391,26 +391,26 @@ classdef PlutoLTEApp < matlab.apps.AppBase
                         temp_xSSS = app.evmSSSSymPlot.XData;
                         indm10 = find(temp_xSSS == -10, 1);
                         newX = SubFrameIndex*14+...
-                            mod(app.PlutoLTEAppInternalsProp.EqGridStruct.SSSInd, 14);
+                            mod(app.LTEAppInternalsProp.EqGridStruct.SSSInd, 14);
                         
                         app.evmSSSSymPlot.XData(indm10+(0:length(newX)-1)) = newX;
                         app.evmSSSSymPlot.YData(indm10+(0:length(newX)-1)) = ...
-                            app.PlutoLTEAppInternalsProp.EqGridStruct.SSSEVMInd;
+                            app.LTEAppInternalsProp.EqGridStruct.SSSEVMInd;
                         
                     end
                 end
             end
              
-            if isfield(app.PlutoLTEAppInternalsProp.EqGridStruct, 'PHICH')
+            if isfield(app.LTEAppInternalsProp.EqGridStruct, 'PHICH')
                 if (app.PHICHCheckBox.Value)
                     if (SubFrameIndex == 0)
                         temp_xPHICH = -10*ones(1e4, 1);
                         newX = SubFrameIndex*14+...
-                            mod(app.PlutoLTEAppInternalsProp.EqGridStruct.PHICHInd, 14);
+                            mod(app.LTEAppInternalsProp.EqGridStruct.PHICHInd, 14);
                         temp_xPHICH(1:length(newX)) = newX;
                         
                         temp_yPHICH = -10*ones(1e4, 1);
-                        newY = app.PlutoLTEAppInternalsProp.EqGridStruct.PHICHEVMInd;
+                        newY = app.LTEAppInternalsProp.EqGridStruct.PHICHEVMInd;
                         temp_yPHICH(1:length(newX)) = newY;
                                                
                         app.evmPHICHSymPlot = plot(app.evmSymsAxes, temp_xPHICH, temp_yPHICH,...
@@ -420,26 +420,26 @@ classdef PlutoLTEApp < matlab.apps.AppBase
                         temp_xPHICH = app.evmPHICHSymPlot.XData;
                         indm10 = find(temp_xPHICH == -10, 1);
                         newX = SubFrameIndex*14+...
-                            mod(app.PlutoLTEAppInternalsProp.EqGridStruct.PHICHInd, 14);
+                            mod(app.LTEAppInternalsProp.EqGridStruct.PHICHInd, 14);
                         
                         app.evmPHICHSymPlot.XData(indm10+(0:length(newX)-1)) = newX;
                         app.evmPHICHSymPlot.YData(indm10+(0:length(newX)-1)) = ...
-                            app.PlutoLTEAppInternalsProp.EqGridStruct.PHICHEVMInd;
+                            app.LTEAppInternalsProp.EqGridStruct.PHICHEVMInd;
                         
                     end                    
                 end
             end
 
-            if isfield(app.PlutoLTEAppInternalsProp.EqGridStruct, 'PCFICH')
+            if isfield(app.LTEAppInternalsProp.EqGridStruct, 'PCFICH')
                 if (app.PCFICHCheckBox.Value)
                     if (SubFrameIndex == 0)
                         temp_xPCFICH = -10*ones(1e4, 1);
                         newX = SubFrameIndex*14+...
-                            mod(app.PlutoLTEAppInternalsProp.EqGridStruct.PCFICHInd, 14);
+                            mod(app.LTEAppInternalsProp.EqGridStruct.PCFICHInd, 14);
                         temp_xPCFICH(1:length(newX)) = newX;
                         
                         temp_yPCFICH = -10*ones(1e4, 1);
-                        newY = app.PlutoLTEAppInternalsProp.EqGridStruct.PCFICHEVMInd;
+                        newY = app.LTEAppInternalsProp.EqGridStruct.PCFICHEVMInd;
                         temp_yPCFICH(1:length(newX)) = newY;
                                                
                         app.evmPCFICHSymPlot = plot(app.evmSymsAxes, temp_xPCFICH, temp_yPCFICH,...
@@ -449,26 +449,26 @@ classdef PlutoLTEApp < matlab.apps.AppBase
                         temp_xPCFICH = app.evmPCFICHSymPlot.XData;
                         indm10 = find(temp_xPCFICH == -10, 1);
                         newX = SubFrameIndex*14+...
-                            mod(app.PlutoLTEAppInternalsProp.EqGridStruct.PCFICHInd, 14);
+                            mod(app.LTEAppInternalsProp.EqGridStruct.PCFICHInd, 14);
                         
                         app.evmPCFICHSymPlot.XData(indm10+(0:length(newX)-1)) = newX;
                         app.evmPCFICHSymPlot.YData(indm10+(0:length(newX)-1)) = ...
-                            app.PlutoLTEAppInternalsProp.EqGridStruct.PCFICHEVMInd;
+                            app.LTEAppInternalsProp.EqGridStruct.PCFICHEVMInd;
                         
                     end
                 end
             end
             
-            if isfield(app.PlutoLTEAppInternalsProp.EqGridStruct, 'PBCH')
+            if isfield(app.LTEAppInternalsProp.EqGridStruct, 'PBCH')
                 if (app.PBCHCheckBox.Value)
                     if (SubFrameIndex == 0)
                         temp_xPBCH = -10*ones(1e4, 1);
                         newX = SubFrameIndex*14+...
-                            mod(app.PlutoLTEAppInternalsProp.EqGridStruct.PBCHInd, 14);
+                            mod(app.LTEAppInternalsProp.EqGridStruct.PBCHInd, 14);
                         temp_xPBCH(1:length(newX)) = newX;
                         
                         temp_yPBCH = -10*ones(1e4, 1);
-                        newY = app.PlutoLTEAppInternalsProp.EqGridStruct.PBCHEVMInd;
+                        newY = app.LTEAppInternalsProp.EqGridStruct.PBCHEVMInd;
                         temp_yPBCH(1:length(newX)) = newY;
                                                
                         app.evmPBCHSymPlot = plot(app.evmSymsAxes, temp_xPBCH, temp_yPBCH,...
@@ -478,26 +478,26 @@ classdef PlutoLTEApp < matlab.apps.AppBase
                         temp_xPBCH = app.evmPBCHSymPlot.XData;
                         indm10 = find(temp_xPBCH == -10, 1);
                         newX = SubFrameIndex*14+...
-                            mod(app.PlutoLTEAppInternalsProp.EqGridStruct.PBCHInd, 14);
+                            mod(app.LTEAppInternalsProp.EqGridStruct.PBCHInd, 14);
                         
                         app.evmPBCHSymPlot.XData(indm10+(0:length(newX)-1)) = newX;
                         app.evmPBCHSymPlot.YData(indm10+(0:length(newX)-1)) = ...
-                            app.PlutoLTEAppInternalsProp.EqGridStruct.PBCHEVMInd;
+                            app.LTEAppInternalsProp.EqGridStruct.PBCHEVMInd;
                         
                     end                    
                 end
             end
             
-            if isfield(app.PlutoLTEAppInternalsProp.EqGridStruct, 'PDCCH')
+            if isfield(app.LTEAppInternalsProp.EqGridStruct, 'PDCCH')
                 if (app.PDCCHCheckBox.Value)
                     if (SubFrameIndex == 0)
                         temp_xPDCCH = -10*ones(1e4, 1);
                         newX = SubFrameIndex*14+...
-                            mod(app.PlutoLTEAppInternalsProp.EqGridStruct.PDCCHInd, 14);
+                            mod(app.LTEAppInternalsProp.EqGridStruct.PDCCHInd, 14);
                         temp_xPDCCH(1:length(newX)) = newX;
                         
                         temp_yPDCCH = -10*ones(1e4, 1);
-                        newY = app.PlutoLTEAppInternalsProp.EqGridStruct.PDCCHEVMInd;
+                        newY = app.LTEAppInternalsProp.EqGridStruct.PDCCHEVMInd;
                         temp_yPDCCH(1:length(newX)) = newY;
                                                
                         app.evmPDCCHSymPlot = plot(app.evmSymsAxes, temp_xPDCCH, temp_yPDCCH,...
@@ -507,11 +507,11 @@ classdef PlutoLTEApp < matlab.apps.AppBase
                         temp_xPDCCH = app.evmPDCCHSymPlot.XData;
                         indm10 = find(temp_xPDCCH == -10, 1);
                         newX = SubFrameIndex*14+...
-                            mod(app.PlutoLTEAppInternalsProp.EqGridStruct.PDCCHInd, 14);
+                            mod(app.LTEAppInternalsProp.EqGridStruct.PDCCHInd, 14);
                         
                         app.evmPDCCHSymPlot.XData(indm10+(0:length(newX)-1)) = newX;
                         app.evmPDCCHSymPlot.YData(indm10+(0:length(newX)-1)) = ...
-                            app.PlutoLTEAppInternalsProp.EqGridStruct.PDCCHEVMInd;
+                            app.LTEAppInternalsProp.EqGridStruct.PDCCHEVMInd;
                         
                     end
                 end
@@ -571,15 +571,15 @@ classdef PlutoLTEApp < matlab.apps.AppBase
         
         % Method to handle EVM vs Subcarriers plot
         function handleEVMSc(app, ~, ~)
-            SubFrameIndex = app.PlutoLTEAppInternalsProp.SubFrameIndex;
+            SubFrameIndex = app.LTEAppInternalsProp.SubFrameIndex;
             if (SubFrameIndex == 0)
                 hold(app.evmRBAxes,'off');
                 hold(app.evmSCAxes,'off');
             end
             
-            if isfield(app.PlutoLTEAppInternalsProp.EqGridStruct, 'RS')
+            if isfield(app.LTEAppInternalsProp.EqGridStruct, 'RS')
                 localRSInd = ...
-                    mod(app.PlutoLTEAppInternalsProp.EqGridStruct.RSInd, app.numSCs);
+                    mod(app.LTEAppInternalsProp.EqGridStruct.RSInd, app.numSCs);
                 if (app.RSCheckBox.Value)
                     if (SubFrameIndex == 0)
                         temp_xRS = -10*ones(1e4, 1);
@@ -587,7 +587,7 @@ classdef PlutoLTEApp < matlab.apps.AppBase
                         temp_xRS(1:length(newX)) = newX;
                         
                         temp_yRS = -10*ones(1e4, 1);
-                        newY = app.PlutoLTEAppInternalsProp.EqGridStruct.RSEVMInd;
+                        newY = app.LTEAppInternalsProp.EqGridStruct.RSEVMInd;
                         temp_yRS(1:length(newX)) = newY;
                                                
                         if (app.EVMScCheckBox.Value)
@@ -615,7 +615,7 @@ classdef PlutoLTEApp < matlab.apps.AppBase
                         
                         app.evmRSScPlot.XData(indm10+(0:length(newX)-1)) = newX;
                         app.evmRSScPlot.YData(indm10+(0:length(newX)-1)) = ...
-                            app.PlutoLTEAppInternalsProp.EqGridStruct.RSEVMInd;
+                            app.LTEAppInternalsProp.EqGridStruct.RSEVMInd;
                         hold(app.evmSCAxes,'on');   
                         end
                         
@@ -626,16 +626,16 @@ classdef PlutoLTEApp < matlab.apps.AppBase
                         
                         app.evmRSRbPlot.XData(indm10+(0:length(newX)-1)) = newX;
                         app.evmRSRbPlot.YData(indm10+(0:length(newX)-1)) = ...
-                            app.PlutoLTEAppInternalsProp.EqGridStruct.RSEVMInd;
+                            app.LTEAppInternalsProp.EqGridStruct.RSEVMInd;
                         hold(app.evmRBAxes,'on'); 
                         end
                     end                    
                 end
             end
                         
-            if isfield(app.PlutoLTEAppInternalsProp.EqGridStruct, 'PSS')
+            if isfield(app.LTEAppInternalsProp.EqGridStruct, 'PSS')
                 localPSSInd = ...
-                    mod(app.PlutoLTEAppInternalsProp.EqGridStruct.PSSInd, app.numSCs);
+                    mod(app.LTEAppInternalsProp.EqGridStruct.PSSInd, app.numSCs);
                 if (app.PSSCheckBox.Value)
                     if (SubFrameIndex == 0)
                         temp_xPSS = -10*ones(1e4, 1);
@@ -643,7 +643,7 @@ classdef PlutoLTEApp < matlab.apps.AppBase
                         temp_xPSS(1:length(newX)) = newX;
                         
                         temp_yPSS = -10*ones(1e4, 1);
-                        newY = app.PlutoLTEAppInternalsProp.EqGridStruct.PSSEVMInd;
+                        newY = app.LTEAppInternalsProp.EqGridStruct.PSSEVMInd;
                         temp_yPSS(1:length(newX)) = newY;
                                                
                         if (app.EVMScCheckBox.Value)
@@ -671,7 +671,7 @@ classdef PlutoLTEApp < matlab.apps.AppBase
                         
                         app.evmPSSScPlot.XData(indm10+(0:length(newX)-1)) = newX;
                         app.evmPSSScPlot.YData(indm10+(0:length(newX)-1)) = ...
-                            app.PlutoLTEAppInternalsProp.EqGridStruct.PSSEVMInd;
+                            app.LTEAppInternalsProp.EqGridStruct.PSSEVMInd;
                         hold(app.evmSCAxes,'on');   
                         end
                         
@@ -682,16 +682,16 @@ classdef PlutoLTEApp < matlab.apps.AppBase
                         
                         app.evmPSSRbPlot.XData(indm10+(0:length(newX)-1)) = newX;
                         app.evmPSSRbPlot.YData(indm10+(0:length(newX)-1)) = ...
-                            app.PlutoLTEAppInternalsProp.EqGridStruct.PSSEVMInd;
+                            app.LTEAppInternalsProp.EqGridStruct.PSSEVMInd;
                         hold(app.evmRBAxes,'on');   
                         end
                     end                    
                 end
             end
 
-            if isfield(app.PlutoLTEAppInternalsProp.EqGridStruct, 'SSS')
+            if isfield(app.LTEAppInternalsProp.EqGridStruct, 'SSS')
                 localSSSInd = ...
-                    mod(app.PlutoLTEAppInternalsProp.EqGridStruct.SSSInd, app.numSCs);
+                    mod(app.LTEAppInternalsProp.EqGridStruct.SSSInd, app.numSCs);
                 if (app.SSSCheckBox.Value)
                     if (SubFrameIndex == 0)
                         temp_xSSS = -10*ones(1e4, 1);
@@ -699,7 +699,7 @@ classdef PlutoLTEApp < matlab.apps.AppBase
                         temp_xSSS(1:length(newX)) = newX;
                         
                         temp_ySSS = -10*ones(1e4, 1);
-                        newY = app.PlutoLTEAppInternalsProp.EqGridStruct.SSSEVMInd;
+                        newY = app.LTEAppInternalsProp.EqGridStruct.SSSEVMInd;
                         temp_ySSS(1:length(newX)) = newY;
                                                
                         if (app.EVMScCheckBox.Value)
@@ -727,7 +727,7 @@ classdef PlutoLTEApp < matlab.apps.AppBase
                         
                         app.evmSSSScPlot.XData(indm10+(0:length(newX)-1)) = newX;
                         app.evmSSSScPlot.YData(indm10+(0:length(newX)-1)) = ...
-                            app.PlutoLTEAppInternalsProp.EqGridStruct.SSSEVMInd;
+                            app.LTEAppInternalsProp.EqGridStruct.SSSEVMInd;
                         hold(app.evmSCAxes,'on');   
                         end
                         
@@ -738,16 +738,16 @@ classdef PlutoLTEApp < matlab.apps.AppBase
                         
                         app.evmSSSRbPlot.XData(indm10+(0:length(newX)-1)) = newX;
                         app.evmSSSRbPlot.YData(indm10+(0:length(newX)-1)) = ...
-                            app.PlutoLTEAppInternalsProp.EqGridStruct.SSSEVMInd;
+                            app.LTEAppInternalsProp.EqGridStruct.SSSEVMInd;
                         hold(app.evmRBAxes,'on'); 
                         end
                     end                    
                 end
             end
             
-            if isfield(app.PlutoLTEAppInternalsProp.EqGridStruct, 'PDCCH')
+            if isfield(app.LTEAppInternalsProp.EqGridStruct, 'PDCCH')
                 localPDCCHInd = ...
-                    mod(app.PlutoLTEAppInternalsProp.EqGridStruct.PDCCHInd, app.numSCs);
+                    mod(app.LTEAppInternalsProp.EqGridStruct.PDCCHInd, app.numSCs);
                 if (app.PDCCHCheckBox.Value)
                     if (SubFrameIndex == 0)
                         temp_xPDCCH = -10*ones(1e4, 1);
@@ -755,7 +755,7 @@ classdef PlutoLTEApp < matlab.apps.AppBase
                         temp_xPDCCH(1:length(newX)) = newX;
                         
                         temp_yPDCCH = -10*ones(1e4, 1);
-                        newY = app.PlutoLTEAppInternalsProp.EqGridStruct.PDCCHEVMInd;
+                        newY = app.LTEAppInternalsProp.EqGridStruct.PDCCHEVMInd;
                         temp_yPDCCH(1:length(newX)) = newY;
                                                
                         if (app.EVMScCheckBox.Value)
@@ -783,7 +783,7 @@ classdef PlutoLTEApp < matlab.apps.AppBase
                         
                         app.evmPDCCHScPlot.XData(indm10+(0:length(newX)-1)) = newX;
                         app.evmPDCCHScPlot.YData(indm10+(0:length(newX)-1)) = ...
-                            app.PlutoLTEAppInternalsProp.EqGridStruct.PDCCHEVMInd;
+                            app.LTEAppInternalsProp.EqGridStruct.PDCCHEVMInd;
                         hold(app.evmSCAxes,'on');   
                         end
                         
@@ -794,16 +794,16 @@ classdef PlutoLTEApp < matlab.apps.AppBase
                         
                         app.evmPDCCHRbPlot.XData(indm10+(0:length(newX)-1)) = newX;
                         app.evmPDCCHRbPlot.YData(indm10+(0:length(newX)-1)) = ...
-                            app.PlutoLTEAppInternalsProp.EqGridStruct.PDCCHEVMInd;
+                            app.LTEAppInternalsProp.EqGridStruct.PDCCHEVMInd;
                         hold(app.evmRBAxes,'on');  
                         end
                     end                    
                 end
             end
             
-            if isfield(app.PlutoLTEAppInternalsProp.EqGridStruct, 'PHICH')
+            if isfield(app.LTEAppInternalsProp.EqGridStruct, 'PHICH')
                 localPHICHInd = ...
-                    mod(app.PlutoLTEAppInternalsProp.EqGridStruct.PHICHInd, app.numSCs);
+                    mod(app.LTEAppInternalsProp.EqGridStruct.PHICHInd, app.numSCs);
                 if (app.PHICHCheckBox.Value)
                     if (SubFrameIndex == 0)
                         temp_xPHICH = -10*ones(1e4, 1);
@@ -811,7 +811,7 @@ classdef PlutoLTEApp < matlab.apps.AppBase
                         temp_xPHICH(1:length(newX)) = newX;
                         
                         temp_yPHICH = -10*ones(1e4, 1);
-                        newY = app.PlutoLTEAppInternalsProp.EqGridStruct.PHICHEVMInd;
+                        newY = app.LTEAppInternalsProp.EqGridStruct.PHICHEVMInd;
                         temp_yPHICH(1:length(newX)) = newY;
                                                
                         if (app.EVMScCheckBox.Value)
@@ -839,7 +839,7 @@ classdef PlutoLTEApp < matlab.apps.AppBase
                         
                         app.evmPHICHScPlot.XData(indm10+(0:length(newX)-1)) = newX;
                         app.evmPHICHScPlot.YData(indm10+(0:length(newX)-1)) = ...
-                            app.PlutoLTEAppInternalsProp.EqGridStruct.PHICHEVMInd;
+                            app.LTEAppInternalsProp.EqGridStruct.PHICHEVMInd;
                         hold(app.evmSCAxes,'on');   
                         end
                         
@@ -850,16 +850,16 @@ classdef PlutoLTEApp < matlab.apps.AppBase
                         
                         app.evmPHICHRbPlot.XData(indm10+(0:length(newX)-1)) = newX;
                         app.evmPHICHRbPlot.YData(indm10+(0:length(newX)-1)) = ...
-                            app.PlutoLTEAppInternalsProp.EqGridStruct.PHICHEVMInd;
+                            app.LTEAppInternalsProp.EqGridStruct.PHICHEVMInd;
                         hold(app.evmRBAxes,'on');  
                         end
                     end                    
                 end                
             end
             
-            if isfield(app.PlutoLTEAppInternalsProp.EqGridStruct, 'PCFICH')
+            if isfield(app.LTEAppInternalsProp.EqGridStruct, 'PCFICH')
                 localPCFICHInd = ...
-                    mod(app.PlutoLTEAppInternalsProp.EqGridStruct.PCFICHInd, app.numSCs);
+                    mod(app.LTEAppInternalsProp.EqGridStruct.PCFICHInd, app.numSCs);
                 if (app.PCFICHCheckBox.Value)
                     if (SubFrameIndex == 0)
                         temp_xPCFICH = -10*ones(1e4, 1);
@@ -867,7 +867,7 @@ classdef PlutoLTEApp < matlab.apps.AppBase
                         temp_xPCFICH(1:length(newX)) = newX;
                         
                         temp_yPCFICH = -10*ones(1e4, 1);
-                        newY = app.PlutoLTEAppInternalsProp.EqGridStruct.PCFICHEVMInd;
+                        newY = app.LTEAppInternalsProp.EqGridStruct.PCFICHEVMInd;
                         temp_yPCFICH(1:length(newX)) = newY;
                                                
                         if (app.EVMScCheckBox.Value)
@@ -895,7 +895,7 @@ classdef PlutoLTEApp < matlab.apps.AppBase
                         
                         app.evmPCFICHScPlot.XData(indm10+(0:length(newX)-1)) = newX;
                         app.evmPCFICHScPlot.YData(indm10+(0:length(newX)-1)) = ...
-                            app.PlutoLTEAppInternalsProp.EqGridStruct.PCFICHEVMInd;
+                            app.LTEAppInternalsProp.EqGridStruct.PCFICHEVMInd;
                         hold(app.evmSCAxes,'on');   
                         end
                         
@@ -906,16 +906,16 @@ classdef PlutoLTEApp < matlab.apps.AppBase
                         
                         app.evmPCFICHRbPlot.XData(indm10+(0:length(newX)-1)) = newX;
                         app.evmPCFICHRbPlot.YData(indm10+(0:length(newX)-1)) = ...
-                            app.PlutoLTEAppInternalsProp.EqGridStruct.PCFICHEVMInd;
+                            app.LTEAppInternalsProp.EqGridStruct.PCFICHEVMInd;
                         hold(app.evmRBAxes,'on'); 
                         end
                     end                    
                 end
             end
             
-            if isfield(app.PlutoLTEAppInternalsProp.EqGridStruct, 'PBCH')
+            if isfield(app.LTEAppInternalsProp.EqGridStruct, 'PBCH')
                 localPBCHInd = ...
-                    mod(app.PlutoLTEAppInternalsProp.EqGridStruct.PBCHInd, app.numSCs);
+                    mod(app.LTEAppInternalsProp.EqGridStruct.PBCHInd, app.numSCs);
                 if (app.PBCHCheckBox.Value)
                     if (SubFrameIndex == 0)
                         temp_xPBCH = -10*ones(1e4, 1);
@@ -923,7 +923,7 @@ classdef PlutoLTEApp < matlab.apps.AppBase
                         temp_xPBCH(1:length(newX)) = newX;
                         
                         temp_yPBCH = -10*ones(1e4, 1);
-                        newY = app.PlutoLTEAppInternalsProp.EqGridStruct.PBCHEVMInd;
+                        newY = app.LTEAppInternalsProp.EqGridStruct.PBCHEVMInd;
                         temp_yPBCH(1:length(newX)) = newY;
                                                
                         if (app.EVMScCheckBox.Value)
@@ -951,7 +951,7 @@ classdef PlutoLTEApp < matlab.apps.AppBase
                         
                         app.evmPBCHScPlot.XData(indm10+(0:length(newX)-1)) = newX;
                         app.evmPBCHScPlot.YData(indm10+(0:length(newX)-1)) = ...
-                            app.PlutoLTEAppInternalsProp.EqGridStruct.PBCHEVMInd;
+                            app.LTEAppInternalsProp.EqGridStruct.PBCHEVMInd;
                         hold(app.evmSCAxes,'on');   
                         end
                         
@@ -962,7 +962,7 @@ classdef PlutoLTEApp < matlab.apps.AppBase
                         
                         app.evmPBCHRbPlot.XData(indm10+(0:length(newX)-1)) = newX;
                         app.evmPBCHRbPlot.YData(indm10+(0:length(newX)-1)) = ...
-                            app.PlutoLTEAppInternalsProp.EqGridStruct.PBCHEVMInd;
+                            app.LTEAppInternalsProp.EqGridStruct.PBCHEVMInd;
                         hold(app.evmRBAxes,'on');    
                         end
                     end                    
@@ -970,8 +970,8 @@ classdef PlutoLTEApp < matlab.apps.AppBase
             end
             
             if (app.EVMScCheckBox.Value)                        
-            evmGrid = app.PlutoLTEAppInternalsProp.evmSC.EVMGrid;
-            evmScRMS = app.PlutoLTEAppInternalsProp.evmSC.RMS;
+            evmGrid = app.LTEAppInternalsProp.evmSC.EVMGrid;
+            evmScRMS = app.LTEAppInternalsProp.evmSC.RMS;
             
             app.evmScRMSAvg = [app.evmScRMSAvg evmScRMS];
             app.evmScRMSAvg(isnan(app.evmScRMSAvg))=0;
@@ -985,7 +985,7 @@ classdef PlutoLTEApp < matlab.apps.AppBase
                     tmpScAvg(ii) = mean(tmp(tmpNZ));
                 end
             end
-            if (app.PlutoLTEAppInternalsProp.SubFrameIndex == 0)
+            if (app.LTEAppInternalsProp.SubFrameIndex == 0)
                 if (app.PDSCHCheckBox.Value)
                     temp_bigX = [];
                     temp_bigY = [];
@@ -1041,10 +1041,10 @@ classdef PlutoLTEApp < matlab.apps.AppBase
         % Method to handle EVM vs resource blocks plot
         function handleEVMRb(app, ~, ~)
             if (app.EVMRbCheckBox.Value) 
-            SubFrameIndex = app.PlutoLTEAppInternalsProp.SubFrameIndex; 
+            SubFrameIndex = app.LTEAppInternalsProp.SubFrameIndex; 
             delete(app.EVMRbRMSAvgPlotLine);
-            evmGrid = app.PlutoLTEAppInternalsProp.evmSC.EVMGrid;
-            evmRbRMS = app.PlutoLTEAppInternalsProp.evmRB.RMS;
+            evmGrid = app.LTEAppInternalsProp.evmSC.EVMGrid;
+            evmRbRMS = app.LTEAppInternalsProp.evmRB.RMS;
             
             app.evmRbRMSAvg = [app.evmRbRMSAvg evmRbRMS];
             app.evmRbRMSAvg(isnan(app.evmRbRMSAvg))=0;
@@ -1107,10 +1107,10 @@ classdef PlutoLTEApp < matlab.apps.AppBase
         % Method to handle received vs reference symbols constellation plot
         function handleDemodSyms(app, ~, ~)
             if (app.ConstCheckBox.Value)
-            rxSymbols = app.PlutoLTEAppInternalsProp.DemodSyms.Rec;
-            refSymbols = app.PlutoLTEAppInternalsProp.DemodSyms.Ref;
+            rxSymbols = app.LTEAppInternalsProp.DemodSyms.Rec;
+            refSymbols = app.LTEAppInternalsProp.DemodSyms.Ref;
             
-            if (app.PlutoLTEAppInternalsProp.SubFrameIndex == 0)
+            if (app.LTEAppInternalsProp.SubFrameIndex == 0)
                 hold(app.constAxes,'off'); 
             end
             
@@ -1128,95 +1128,95 @@ classdef PlutoLTEApp < matlab.apps.AppBase
 %                 app.ConstPlot.XData = real(refSymbols).';
 %             end            
             
-            if isfield(app.PlutoLTEAppInternalsProp.EqGridStruct, 'PBCH')
+            if isfield(app.LTEAppInternalsProp.EqGridStruct, 'PBCH')
                 if (app.PBCHCheckBox.Value)
                     app.ConstPlot = plot(app.constAxes, ...
-                       real(app.PlutoLTEAppInternalsProp.EqGridStruct.PBCH), ...
-                       imag(app.PlutoLTEAppInternalsProp.EqGridStruct.PBCH),...
+                       real(app.LTEAppInternalsProp.EqGridStruct.PBCH), ...
+                       imag(app.LTEAppInternalsProp.EqGridStruct.PBCH),...
                        'g', 'Marker','.', 'LineStyle', 'none');
                    hold(app.constAxes,'on');   
                    app.ConstPlot = plot(app.constAxes, ...
-                       real(app.PlutoLTEAppInternalsProp.EqGridStruct.ref_PBCH_Symbols), ...
-                       imag(app.PlutoLTEAppInternalsProp.EqGridStruct.ref_PBCH_Symbols),...
+                       real(app.LTEAppInternalsProp.EqGridStruct.ref_PBCH_Symbols), ...
+                       imag(app.LTEAppInternalsProp.EqGridStruct.ref_PBCH_Symbols),...
                        'w', 'Marker','+', 'LineStyle', 'none');
                    
                 end
             end               
-            if isfield(app.PlutoLTEAppInternalsProp.EqGridStruct, 'PCFICH')
+            if isfield(app.LTEAppInternalsProp.EqGridStruct, 'PCFICH')
                 if (app.PCFICHCheckBox.Value)
                 app.ConstPlot = plot(app.constAxes, ...
-                   real(app.PlutoLTEAppInternalsProp.EqGridStruct.PCFICH), ...
-                   imag(app.PlutoLTEAppInternalsProp.EqGridStruct.PCFICH),...
+                   real(app.LTEAppInternalsProp.EqGridStruct.PCFICH), ...
+                   imag(app.LTEAppInternalsProp.EqGridStruct.PCFICH),...
                    'color', [0.5 0 0.5], 'Marker','.', 'LineStyle', 'none');
                hold(app.constAxes,'on');    
                app.ConstPlot = plot(app.constAxes, ...
-                       real(app.PlutoLTEAppInternalsProp.EqGridStruct.ref_PCFICH_Symbols), ...
-                       imag(app.PlutoLTEAppInternalsProp.EqGridStruct.ref_PCFICH_Symbols),...
+                       real(app.LTEAppInternalsProp.EqGridStruct.ref_PCFICH_Symbols), ...
+                       imag(app.LTEAppInternalsProp.EqGridStruct.ref_PCFICH_Symbols),...
                        'w', 'Marker','+', 'LineStyle', 'none');
                 end
             end
-            if isfield(app.PlutoLTEAppInternalsProp.EqGridStruct, 'PHICH')
+            if isfield(app.LTEAppInternalsProp.EqGridStruct, 'PHICH')
                 if (app.PHICHCheckBox.Value)
                app.ConstPlot = plot(app.constAxes, ...
-                   real(app.PlutoLTEAppInternalsProp.EqGridStruct.PHICH), ...
-                   imag(app.PlutoLTEAppInternalsProp.EqGridStruct.PHICH),...
+                   real(app.LTEAppInternalsProp.EqGridStruct.PHICH), ...
+                   imag(app.LTEAppInternalsProp.EqGridStruct.PHICH),...
                    'color', [1 0.5 0], 'Marker','.', 'LineStyle', 'none');
                hold(app.constAxes,'on');     
                app.ConstPlot = plot(app.constAxes, ...
-                       real(app.PlutoLTEAppInternalsProp.EqGridStruct.ref_PHICH_Symbols), ...
-                       imag(app.PlutoLTEAppInternalsProp.EqGridStruct.ref_PHICH_Symbols),...
+                       real(app.LTEAppInternalsProp.EqGridStruct.ref_PHICH_Symbols), ...
+                       imag(app.LTEAppInternalsProp.EqGridStruct.ref_PHICH_Symbols),...
                        'w', 'Marker','+', 'LineStyle', 'none');
                 end
             end
-            if isfield(app.PlutoLTEAppInternalsProp.EqGridStruct, 'PDCCH')
+            if isfield(app.LTEAppInternalsProp.EqGridStruct, 'PDCCH')
                 if (app.PDCCHCheckBox.Value)
                app.ConstPlot = plot(app.constAxes, ...
-                   real(app.PlutoLTEAppInternalsProp.EqGridStruct.PDCCH), ...
-                   imag(app.PlutoLTEAppInternalsProp.EqGridStruct.PDCCH),...
+                   real(app.LTEAppInternalsProp.EqGridStruct.PDCCH), ...
+                   imag(app.LTEAppInternalsProp.EqGridStruct.PDCCH),...
                    'y', 'Marker','.', 'LineStyle', 'none');
                hold(app.constAxes,'on');     
                app.ConstPlot = plot(app.constAxes, ...
-                       real(app.PlutoLTEAppInternalsProp.EqGridStruct.ref_PDCCH_Symbols), ...
-                       imag(app.PlutoLTEAppInternalsProp.EqGridStruct.ref_PDCCH_Symbols),...
+                       real(app.LTEAppInternalsProp.EqGridStruct.ref_PDCCH_Symbols), ...
+                       imag(app.LTEAppInternalsProp.EqGridStruct.ref_PDCCH_Symbols),...
                        'w', 'Marker','+', 'LineStyle', 'none');
                 end
             end
-            if isfield(app.PlutoLTEAppInternalsProp.EqGridStruct, 'RS')
+            if isfield(app.LTEAppInternalsProp.EqGridStruct, 'RS')
                 if (app.RSCheckBox.Value)
                app.ConstPlot = plot(app.constAxes, ...
-                   real(app.PlutoLTEAppInternalsProp.EqGridStruct.RS), ...
-                   imag(app.PlutoLTEAppInternalsProp.EqGridStruct.RS),...
+                   real(app.LTEAppInternalsProp.EqGridStruct.RS), ...
+                   imag(app.LTEAppInternalsProp.EqGridStruct.RS),...
                    'c', 'Marker','.', 'LineStyle', 'none');
                hold(app.constAxes,'on');     
                app.ConstPlot = plot(app.constAxes, ...
-                       real(app.PlutoLTEAppInternalsProp.EqGridStruct.ref_RS_Symbols), ...
-                       imag(app.PlutoLTEAppInternalsProp.EqGridStruct.ref_RS_Symbols),...
+                       real(app.LTEAppInternalsProp.EqGridStruct.ref_RS_Symbols), ...
+                       imag(app.LTEAppInternalsProp.EqGridStruct.ref_RS_Symbols),...
                        'w', 'Marker','+', 'LineStyle', 'none');
                 end
             end
-            if isfield(app.PlutoLTEAppInternalsProp.EqGridStruct, 'PSS')
+            if isfield(app.LTEAppInternalsProp.EqGridStruct, 'PSS')
                 if (app.PSSCheckBox.Value)
                app.ConstPlot = plot(app.constAxes, ...
-                   real(app.PlutoLTEAppInternalsProp.EqGridStruct.PSS), ...
-                   imag(app.PlutoLTEAppInternalsProp.EqGridStruct.PSS),...
+                   real(app.LTEAppInternalsProp.EqGridStruct.PSS), ...
+                   imag(app.LTEAppInternalsProp.EqGridStruct.PSS),...
                    'm', 'Marker','.', 'LineStyle', 'none');
                hold(app.constAxes,'on');    
                app.ConstPlot = plot(app.constAxes, ...
-                       real(app.PlutoLTEAppInternalsProp.EqGridStruct.ref_PSS_Symbols), ...
-                       imag(app.PlutoLTEAppInternalsProp.EqGridStruct.ref_PSS_Symbols),...
+                       real(app.LTEAppInternalsProp.EqGridStruct.ref_PSS_Symbols), ...
+                       imag(app.LTEAppInternalsProp.EqGridStruct.ref_PSS_Symbols),...
                        'w', 'Marker','+', 'LineStyle', 'none');
                 end
             end
-            if isfield(app.PlutoLTEAppInternalsProp.EqGridStruct, 'SSS')
+            if isfield(app.LTEAppInternalsProp.EqGridStruct, 'SSS')
                 if (app.SSSCheckBox.Value)
                 app.ConstPlot = plot(app.constAxes, ...
-                   real(app.PlutoLTEAppInternalsProp.EqGridStruct.SSS), ...
-                   imag(app.PlutoLTEAppInternalsProp.EqGridStruct.SSS),...
+                   real(app.LTEAppInternalsProp.EqGridStruct.SSS), ...
+                   imag(app.LTEAppInternalsProp.EqGridStruct.SSS),...
                    'b', 'Marker','.', 'LineStyle', 'none'); 
                hold(app.constAxes,'on');     
                app.ConstPlot = plot(app.constAxes, ...
-                       real(app.PlutoLTEAppInternalsProp.EqGridStruct.ref_SSS_Symbols), ...
-                       imag(app.PlutoLTEAppInternalsProp.EqGridStruct.ref_SSS_Symbols),...
+                       real(app.LTEAppInternalsProp.EqGridStruct.ref_SSS_Symbols), ...
+                       imag(app.LTEAppInternalsProp.EqGridStruct.ref_SSS_Symbols),...
                        'w', 'Marker','+', 'LineStyle', 'none');
                 end
             end
@@ -1228,33 +1228,33 @@ classdef PlutoLTEApp < matlab.apps.AppBase
         % Method to handle changes in FrameEVM
         function handleFrameEVM(app, ~, ~)
             msg = sprintf('Mean low edge EVM, frame %d: %0.3f%%\n', ...
-               app.PlutoLTEAppInternalsProp.nFrame-1, app.PlutoLTEAppInternalsProp.FrameEVM.Low.RMS*100); 
+               app.LTEAppInternalsProp.nFrame-1, app.LTEAppInternalsProp.FrameEVM.Low.RMS*100); 
             app.Label.Text = {msg};
-            % app.SummaryTable2.Data(8,2) = {sprintf('%0.3f', 100*app.PlutoLTEAppInternalsProp.FrameEVM.Low.RMS)};
+            % app.SummaryTable2.Data(8,2) = {sprintf('%0.3f', 100*app.LTEAppInternalsProp.FrameEVM.Low.RMS)};
 
             msg = sprintf('Mean high edge EVM, frame %d: %0.3f%%\n', ...
-               app.PlutoLTEAppInternalsProp.nFrame-1, app.PlutoLTEAppInternalsProp.FrameEVM.High.RMS*100); 
+               app.LTEAppInternalsProp.nFrame-1, app.LTEAppInternalsProp.FrameEVM.High.RMS*100); 
             app.Label.Text = {msg};
             pad='     ';
-            % app.SummaryTable2.Data(9,2) = {sprintf('%0.3f %s', 100*app.PlutoLTEAppInternalsProp.FrameEVM.High.RMS, pad)};
+            % app.SummaryTable2.Data(9,2) = {sprintf('%0.3f %s', 100*app.LTEAppInternalsProp.FrameEVM.High.RMS, pad)};
             
 %             app.ListBox.Items = [app.ListBox.Items, sprintf('Mean overall EVM for frame %d: %0.3f%%\n', ...
-%                 app.PlutoLTEAppInternalsProp.nFrame-1, ...
-%                 app.PlutoLTEAppInternalsProp.FrameEVM.Overall(app.PlutoLTEAppInternalsProp.nFrame).RMS*100)]; 
+%                 app.LTEAppInternalsProp.nFrame-1, ...
+%                 app.LTEAppInternalsProp.FrameEVM.Overall(app.LTEAppInternalsProp.nFrame).RMS*100)]; 
 %             app.SummaryTable2.Data(8,2) = {sprintf('%0.3f', ...
-%                 app.PlutoLTEAppInternalsProp.FrameEVM.Overall(app.PlutoLTEAppInternalsProp.nFrame).RMS*100)};
+%                 app.LTEAppInternalsProp.FrameEVM.Overall(app.LTEAppInternalsProp.nFrame).RMS*100)};
             scroll(app.ListBox,'bottom'); 
         end
         
         function handlePDSCHevm(app, ~, ~)
             if strcmp(app.dBPercentDropDown.Value, 'dB')
                 app.SummaryTable2_Data(8,1) = ...
-                    {sprintf('%2.3f', 20*log10(0.01*app.PlutoLTEAppInternalsProp.PDSCHevm))};
+                    {sprintf('%2.3f', 20*log10(0.01*app.LTEAppInternalsProp.PDSCHevm))};
             else
                 app.SummaryTable2_Data(8,1) = ...
-                    {sprintf('%2.3f', app.PlutoLTEAppInternalsProp.PDSCHevm)};
+                    {sprintf('%2.3f', app.LTEAppInternalsProp.PDSCHevm)};
             end
-            app.SummaryTable3_Data(8, 1) = app.SummaryTable3_Data(8, 1)+app.PlutoLTEAppInternalsProp.PDSCHevm;
+            app.SummaryTable3_Data(8, 1) = app.SummaryTable3_Data(8, 1)+app.LTEAppInternalsProp.PDSCHevm;
             app.SummaryTable3_Data(8, 2) = app.SummaryTable3_Data(8, 2)+1;
         end
         
@@ -1262,10 +1262,10 @@ classdef PlutoLTEApp < matlab.apps.AppBase
         function handleFinalEVM(app, ~, ~)
             app.ListBox.Items = [app.ListBox.Items, ...
                 sprintf('Mean overall EVM - %0.3f%%\n', ...
-                app.PlutoLTEAppInternalsProp.FinalEVM.RMS*100)]; 
+                app.LTEAppInternalsProp.FinalEVM.RMS*100)]; 
             scroll(app.ListBox,'bottom');
 %             app.SummaryTable2.Data(8,2) = {sprintf('%0.3f', ...
-%                 app.PlutoLTEAppInternalsProp.FinalEVM.RMS*100)};
+%                 app.LTEAppInternalsProp.FinalEVM.RMS*100)};
             % % drawnow;  
         end
         
@@ -1273,32 +1273,32 @@ classdef PlutoLTEApp < matlab.apps.AppBase
         function startupFcn(app)
             app.GridFigTitle = ' ';
             app.PlayStopButtonState = false;
-            app.PlutoLTEAppInternalsProp = PlutoLTEAppInternals(app);
+            app.LTEAppInternalsProp = LTEAppInternals(app);
             
-            addlistener(app.PlutoLTEAppInternalsProp, 'CyclicPrefix', 'PostSet', @app.handleCyclicPrefix);
-            addlistener(app.PlutoLTEAppInternalsProp, 'FrameOffset', 'PostSet', @app.handleFrameOffset);
-            addlistener(app.PlutoLTEAppInternalsProp, 'NCellID', 'PostSet', @app.handleNCellID);
-            addlistener(app.PlutoLTEAppInternalsProp, 'FreqOffset', 'PostSet', @app.handleFreqOffset);
-            addlistener(app.PlutoLTEAppInternalsProp, 'IQOffset', 'PostSet', @app.handleIQOffset);
-            addlistener(app.PlutoLTEAppInternalsProp, 'PSD_y', 'PostSet', @app.handlePSD);
+            addlistener(app.LTEAppInternalsProp, 'CyclicPrefix', 'PostSet', @app.handleCyclicPrefix);
+            addlistener(app.LTEAppInternalsProp, 'FrameOffset', 'PostSet', @app.handleFrameOffset);
+            addlistener(app.LTEAppInternalsProp, 'NCellID', 'PostSet', @app.handleNCellID);
+            addlistener(app.LTEAppInternalsProp, 'FreqOffset', 'PostSet', @app.handleFreqOffset);
+            addlistener(app.LTEAppInternalsProp, 'IQOffset', 'PostSet', @app.handleIQOffset);
+            addlistener(app.LTEAppInternalsProp, 'PSD_y', 'PostSet', @app.handlePSD);
                       
-            addlistener(app.PlutoLTEAppInternalsProp, 'evm_pbch_RMS', 'PostSet', @app.handlePBCH_RMS_EVM);
-            addlistener(app.PlutoLTEAppInternalsProp, 'evm_pcfich_RMS', 'PostSet', @app.handlePCFICH_RMS_EVM);
-            addlistener(app.PlutoLTEAppInternalsProp, 'evm_pdcch_RMS', 'PostSet', @app.handlePDCCH_RMS_EVM);
-            addlistener(app.PlutoLTEAppInternalsProp, 'evm_phich_RMS', 'PostSet', @app.handlePHICH_RMS_EVM);
-            addlistener(app.PlutoLTEAppInternalsProp, 'evm_rs_RMS', 'PostSet', @app.handleRS_RMS_EVM);
-            addlistener(app.PlutoLTEAppInternalsProp, 'evm_pss_RMS', 'PostSet', @app.handlePSS_RMS_EVM);
-            addlistener(app.PlutoLTEAppInternalsProp, 'evm_sss_RMS', 'PostSet', @app.handleSSS_RMS_EVM);            
+            addlistener(app.LTEAppInternalsProp, 'evm_pbch_RMS', 'PostSet', @app.handlePBCH_RMS_EVM);
+            addlistener(app.LTEAppInternalsProp, 'evm_pcfich_RMS', 'PostSet', @app.handlePCFICH_RMS_EVM);
+            addlistener(app.LTEAppInternalsProp, 'evm_pdcch_RMS', 'PostSet', @app.handlePDCCH_RMS_EVM);
+            addlistener(app.LTEAppInternalsProp, 'evm_phich_RMS', 'PostSet', @app.handlePHICH_RMS_EVM);
+            addlistener(app.LTEAppInternalsProp, 'evm_rs_RMS', 'PostSet', @app.handleRS_RMS_EVM);
+            addlistener(app.LTEAppInternalsProp, 'evm_pss_RMS', 'PostSet', @app.handlePSS_RMS_EVM);
+            addlistener(app.LTEAppInternalsProp, 'evm_sss_RMS', 'PostSet', @app.handleSSS_RMS_EVM);            
             
-            addlistener(app.PlutoLTEAppInternalsProp, 'evmSymbol', 'PostSet', @app.handleEVMSymbol);            
-            addlistener(app.PlutoLTEAppInternalsProp, 'evmSC', 'PostSet', @app.handleEVMSc);            
-            addlistener(app.PlutoLTEAppInternalsProp, 'evmRB', 'PostSet', @app.handleEVMRb);            
-%             addlistener(app.PlutoLTEAppInternalsProp, 'FrameEVM', 'PostSet', @app.handleFrameEVM);            
-%             addlistener(app.PlutoLTEAppInternalsProp, 'FinalEVM', 'PostSet', @app.handleFinalEVM);            
-            addlistener(app.PlutoLTEAppInternalsProp, 'PDSCHevm', 'PostSet', @app.handlePDSCHevm);                        
-            addlistener(app.PlutoLTEAppInternalsProp, 'DemodSyms', 'PostSet', @app.handleDemodSyms);            
+            addlistener(app.LTEAppInternalsProp, 'evmSymbol', 'PostSet', @app.handleEVMSymbol);            
+            addlistener(app.LTEAppInternalsProp, 'evmSC', 'PostSet', @app.handleEVMSc);            
+            addlistener(app.LTEAppInternalsProp, 'evmRB', 'PostSet', @app.handleEVMRb);            
+%             addlistener(app.LTEAppInternalsProp, 'FrameEVM', 'PostSet', @app.handleFrameEVM);            
+%             addlistener(app.LTEAppInternalsProp, 'FinalEVM', 'PostSet', @app.handleFinalEVM);            
+            addlistener(app.LTEAppInternalsProp, 'PDSCHevm', 'PostSet', @app.handlePDSCHevm);                        
+            addlistener(app.LTEAppInternalsProp, 'DemodSyms', 'PostSet', @app.handleDemodSyms);            
             
-            app.PlutoLTEAppInternalsProp.PlutoConnectionFcn(app);
+            app.LTEAppInternalsProp.PlutoConnectionFcn(app);
             if app.PlutoNotFound                
                 return;
             end
@@ -1611,7 +1611,7 @@ classdef PlutoLTEApp < matlab.apps.AppBase
             % Create LTEeNBTxConformanceTestsUsingPlutoSDRUIFigure and hide until all components are created
             app.LTEeNBTxConformanceTestsUsingPlutoSDRUIFigure = uifigure('Visible', 'off');
             app.LTEeNBTxConformanceTestsUsingPlutoSDRUIFigure.Position = [0 40 1540 799];
-            app.LTEeNBTxConformanceTestsUsingPlutoSDRUIFigure.Name = 'LTE eNB Transmitter Conformance Tests Using PlutoSDR';
+            app.LTEeNBTxConformanceTestsUsingPlutoSDRUIFigure.Name = 'LTE eNB Transceiver Performance Analyzer';
             app.LTEeNBTxConformanceTestsUsingPlutoSDRUIFigure.CloseRequestFcn = createCallbackFcn(app, @LTEeNBTxConformanceTestsUsingPlutoSDRUIFigureCloseRequest, true);
             
             % Create Panel
@@ -1626,19 +1626,21 @@ classdef PlutoLTEApp < matlab.apps.AppBase
             app.TestConfigurationButtonGroup.FontWeight = 'bold';
 
             % Create ETMButton
+            %{
             app.ETMLabel = uilabel(app.TestConfigurationButtonGroup);
             app.ETMLabel.Text = '     E-TM';
             app.ETMLabel.FontColor = [1 0 0];
             app.ETMLabel.Position = [121 120 68 22];
             app.ETMLabel.FontWeight = 'bold';
             app.ETMLabel.FontSize = 13;
+            %}
 
             % Create TMNDropDown
             app.TMNDropDown = uidropdown(app.TestConfigurationButtonGroup);
             % app.TMNDropDown.Items = {'3.1', '3.1b', '3.2', '3.3'};
             app.TMNDropDown.Items = {'1024QAM', '256QAM', '64QAM', '16QAM', 'QPSK'};
             app.TMNDropDown.FontColor = [1 0 0];
-            app.TMNDropDown.Position = [139 94 95 22];
+            app.TMNDropDown.Position = [139 108 95 22];
             % app.TMNDropDown.Value = '3.1';
             app.TMNDropDown.Value = '64QAM';
             app.TMNValue = '3.1';
@@ -1648,7 +1650,7 @@ classdef PlutoLTEApp < matlab.apps.AppBase
             app.TMNDropDownLabel = uilabel(app.TestConfigurationButtonGroup);
             app.TMNDropDownLabel.HorizontalAlignment = 'right';
             app.TMNDropDownLabel.FontColor = [1 0 0];
-            app.TMNDropDownLabel.Position = [3 94 125 22];
+            app.TMNDropDownLabel.Position = [3 110 125 22];
             % app.TMNDropDownLabel.Text = 'TMN';
             app.TMNDropDownLabel.Text = 'PDSCH Constellation';
 
@@ -1659,39 +1661,39 @@ classdef PlutoLTEApp < matlab.apps.AppBase
             app.BWDropDown.Items = {'5 MHz', '10 MHz', '15 MHz', '20 MHz'};
             app.BWDropDown.Value = '5 MHz';
             app.BWDropDown.FontColor = [1 0 0];
-            app.BWDropDown.Position = [139 65 95 22];                
+            app.BWDropDown.Position = [139 72.5 95 22];                
                         
             % Create LOEditFieldLabel
             app.LOEditFieldLabel = uilabel(app.TestConfigurationButtonGroup);
             app.LOEditFieldLabel.HorizontalAlignment = 'right';
-            app.LOEditFieldLabel.Position = [48 5 75 22];
+            app.LOEditFieldLabel.Position = [48 10 75 22];
             app.LOEditFieldLabel.Text = 'LO (MHz)';
             
             % Create LOEditField
             app.LOEditField = uieditfield(app.TestConfigurationButtonGroup, 'numeric');
-            app.LOEditField.Position = [135 5 100 22];
+            app.LOEditField.Position = [135 10 100 22];
             app.LOEditField.Value = 2400;
-            app.LOEditField.Limits = [70 6000];
+            app.LOEditField.Limits = [325 3800];
 
             % Create BWDropDownLabel
             app.BWDropDownLabel = uilabel(app.TestConfigurationButtonGroup);
             app.BWDropDownLabel.HorizontalAlignment = 'right';
             app.BWDropDownLabel.FontColor = [1 0 0];
-            app.BWDropDownLabel.Position = [99 65 25 22];
-            app.BWDropDownLabel.Text = 'BW';
+            app.BWDropDownLabel.Position = [63 75 65 22];
+            app.BWDropDownLabel.Text = 'Bandwidth';
 
             % Create PDSCHConstellationLabel
             app.PDSCHConstellationLabel = uilabel(app.TestConfigurationButtonGroup);
             app.PDSCHConstellationLabel.HorizontalAlignment = 'right';
-            app.PDSCHConstellationLabel.Position = [3 35 125 22];
+            app.PDSCHConstellationLabel.Position = [3 40 125 22];
             % app.PDSCHConstellationLabel.Text = 'PDSCH Constellation';
-            app.PDSCHConstellationLabel.Text = 'TMN';
+            app.PDSCHConstellationLabel.Text = 'TM Number';
             app.PDSCHConstellationLabel.FontColor = 'red';
             % app.PDSCHConstellationLabel.FontWeight = 'bold';
             
             % Create PDSCHConstellationValLabel
             app.PDSCHConstellationValLabel = uilabel(app.TestConfigurationButtonGroup);
-            app.PDSCHConstellationValLabel.Position = [140 35 75 22];   
+            app.PDSCHConstellationValLabel.Position = [140 40 75 22];   
             % app.PDSCHConstellationValLabel.Text = '64-QAM';
             app.PDSCHConstellationValLabel.Text = '3.1';
             app.PDSCHConstellationValLabel.FontColor = 'red';
@@ -2140,7 +2142,7 @@ classdef PlutoLTEApp < matlab.apps.AppBase
     methods (Access = public)
 
         % Construct app
-        function app = PlutoLTEApp
+        function app = LTEApp
 
             % Create UIFigure and components
             createComponents(app)

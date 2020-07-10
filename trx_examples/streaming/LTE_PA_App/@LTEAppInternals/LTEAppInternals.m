@@ -1,4 +1,4 @@
-classdef PlutoLTEAppInternals < LTETestModelWaveform
+classdef LTEAppInternals < LTETestModelWaveform
     properties (SetObservable = true, AbortSet = true)
         CyclicPrefix
         FrameOffset
@@ -41,7 +41,7 @@ classdef PlutoLTEAppInternals < LTETestModelWaveform
         StopTest = false  
         test_settings = ...
             struct(...
-            'DeviceIP', 'ip:192.168.2.1',...
+            'DeviceURI', 'usb:0',...
             'TxGain', -10,...
             'RxGainMode', 'slow_attack',... % 'RxBufferSize', 2^21,...
             'SamplingRate', 1e6)        
@@ -53,7 +53,7 @@ classdef PlutoLTEAppInternals < LTETestModelWaveform
     end
     
     methods
-        function obj = PlutoLTEAppInternals(app_obj)
+        function obj = LTEAppInternals(app_obj)
             addlistener(app_obj,'Play',@obj.handlePlayEvnt);
             addlistener(app_obj,'Stop',@obj.handleStopEvnt);
         end
@@ -77,7 +77,7 @@ classdef PlutoLTEAppInternals < LTETestModelWaveform
     methods (Access = private)
         function handlePlayEvnt(obj, app, ~)
            % check if ADALM-PLUTO is connected 
-           PlutoLTEAppInternals.PlutoConnectionFcn(app);
+           LTEAppInternals.PlutoConnectionFcn(app);
            if app.PlutoNotFound
                return;
            end
@@ -101,10 +101,10 @@ classdef PlutoLTEAppInternals < LTETestModelWaveform
                end
                                 
                %% generate test waveform
-               [eNodeBOutput, etm] = PlutoLTEAppInternals.Tx(TMN, BW);
-               app.PlutoLTEAppInternalsProp.CyclicPrefix = etm.CyclicPrefix;           
-               app.PlutoLTEAppInternalsProp.NCellID = etm.NCellID;
-               app.PlutoLTEAppInternalsProp.SamplingRate = etm.SamplingRate;
+               [eNodeBOutput, etm] = LTEAppInternals.Tx(TMN, BW);
+               app.LTEAppInternalsProp.CyclicPrefix = etm.CyclicPrefix;           
+               app.LTEAppInternalsProp.NCellID = etm.NCellID;
+               app.LTEAppInternalsProp.SamplingRate = etm.SamplingRate;
 
                % scale the signal and cast to int16
                ScaleFactor = 0.7;
@@ -127,16 +127,16 @@ classdef PlutoLTEAppInternals < LTETestModelWaveform
                
                %% demodulate received waveform and compute metrics
                [dataRx, frameOffset] = ...
-                   PlutoLTEAppInternals.CorrectFreqFrameOffset(dataRx, etm);
-               app.PlutoLTEAppInternalsProp.FrameOffset = frameOffset/etm.SamplingRate;
+                   LTEAppInternals.CorrectFreqFrameOffset(dataRx, etm);
+               app.LTEAppInternalsProp.FrameOffset = frameOffset/etm.SamplingRate;
 
                % compute freq offset and IQ offset
                cec.PilotAverage = 'TestEVM';            
                [FreqOffset_temp, IQOffset_temp, refGrid, rxGridLow, rxGridHigh, ...
                    rxWaveform, nSubframes, nFrames, alg, frameEVM] = ...
-                   PlutoLTEAppInternals.Sync(etm, cec, dataRx);
-               app.PlutoLTEAppInternalsProp.FreqOffset = FreqOffset_temp;
-               app.PlutoLTEAppInternalsProp.IQOffset = IQOffset_temp;
+                   LTEAppInternals.Sync(etm, cec, dataRx);
+               app.LTEAppInternalsProp.FreqOffset = FreqOffset_temp;
+               app.LTEAppInternalsProp.IQOffset = IQOffset_temp;
 
                % stop test if needed
                if obj.stopTest(app)
@@ -145,10 +145,10 @@ classdef PlutoLTEAppInternals < LTETestModelWaveform
                
                % estimate channel
                [psd_frame, f, HestLow, HestHigh, allPRBSet] = ...
-                   PlutoLTEAppInternals.EstimateChannel(etm, ...
+                   LTEAppInternals.EstimateChannel(etm, ...
                    rxWaveform, nSubframes, cec, rxGridLow, rxGridHigh);
-               app.PlutoLTEAppInternalsProp.PSD_x = f;
-               app.PlutoLTEAppInternalsProp.PSD_y = psd_frame;
+               app.LTEAppInternalsProp.PSD_x = f;
+               app.LTEAppInternalsProp.PSD_y = psd_frame;
 
                % compute EVM measurements           
                gridDims = lteResourceGridSize(etm);
@@ -156,10 +156,10 @@ classdef PlutoLTEAppInternals < LTETestModelWaveform
                evmSymbolPlot = app.evmSymsAxes;
                evmSymbolPlot.XLim = [0 (L*nSubframes)-1];
 
-               app.PlutoLTEAppInternalsProp.count = 1;           
+               app.LTEAppInternalsProp.count = 1;           
                for i=0:nSubframes-1
-                   app.SummaryTable1_Data{1} = app.PlutoLTEAppInternalsProp.CyclicPrefix;
-                   app.SummaryTable1_Data{2} = app.PlutoLTEAppInternalsProp.NCellID;
+                   app.SummaryTable1_Data{1} = app.LTEAppInternalsProp.CyclicPrefix;
+                   app.SummaryTable1_Data{2} = app.LTEAppInternalsProp.NCellID;
                    % stop test if needed
                    if obj.stopTest(app)
                        return;
@@ -168,11 +168,11 @@ classdef PlutoLTEAppInternals < LTETestModelWaveform
                    app.Label.Text = {msg};
                    drawnow; 
                     
-                   app.PlutoLTEAppInternalsProp.SubFrameIndex = i;
+                   app.LTEAppInternalsProp.SubFrameIndex = i;
 
                    [EqGridStruct, EVMStruct, evm, allocatedSymbols, rxSymbols, ...
                        refSymbols, pdsch_ind, etm] = ...
-                       PlutoLTEAppInternals.EVMSubframe(i, nSubframes, etm, allPRBSet, ...
+                       LTEAppInternals.EVMSubframe(i, nSubframes, etm, allPRBSet, ...
                        refGrid, rxGridLow, rxGridHigh, HestLow, HestHigh);
                    if (etm.CellRefP ~= 1) && (etm.CellRefP ~= 2) && (etm.CellRefP ~= 4)
                        obj.StopTest = true;
@@ -200,51 +200,51 @@ classdef PlutoLTEAppInternals < LTETestModelWaveform
                    if obj.stopTest(app)
                        return;
                    end
-                   app.PlutoLTEAppInternalsProp.EqGridStruct = EqGridStruct;
-                   app.PlutoLTEAppInternalsProp.DemodSyms = ...
+                   app.LTEAppInternalsProp.EqGridStruct = EqGridStruct;
+                   app.LTEAppInternalsProp.DemodSyms = ...
                        struct('Rec', rxSymbols, 'Ref', refSymbols);
 
                    if isfield(EVMStruct, 'PBCH')
-                       app.PlutoLTEAppInternalsProp.evm_pbch_RMS = 100*EVMStruct.PBCH;
+                       app.LTEAppInternalsProp.evm_pbch_RMS = 100*EVMStruct.PBCH;
                    end               
                    if isfield(EVMStruct, 'PCFICH')
-                       app.PlutoLTEAppInternalsProp.evm_pcfich_RMS = 100*EVMStruct.PCFICH;
+                       app.LTEAppInternalsProp.evm_pcfich_RMS = 100*EVMStruct.PCFICH;
                    end
                    if isfield(EVMStruct, 'PHICH')
-                       app.PlutoLTEAppInternalsProp.evm_phich_RMS = 100*EVMStruct.PHICH;
+                       app.LTEAppInternalsProp.evm_phich_RMS = 100*EVMStruct.PHICH;
                    end
                    if isfield(EVMStruct, 'PDCCH')
-                       app.PlutoLTEAppInternalsProp.evm_pdcch_RMS = 100*EVMStruct.PDCCH;
+                       app.LTEAppInternalsProp.evm_pdcch_RMS = 100*EVMStruct.PDCCH;
                    end
                    if isfield(EVMStruct, 'RS')
-                       app.PlutoLTEAppInternalsProp.evm_rs_RMS = 100*EVMStruct.RS;
+                       app.LTEAppInternalsProp.evm_rs_RMS = 100*EVMStruct.RS;
                    end
                    if isfield(EVMStruct, 'PSS')
-                       app.PlutoLTEAppInternalsProp.evm_pss_RMS = 100*EVMStruct.PSS;
+                       app.LTEAppInternalsProp.evm_pss_RMS = 100*EVMStruct.PSS;
                    end
                    if isfield(EVMStruct, 'SSS')
-                       app.PlutoLTEAppInternalsProp.evm_sss_RMS = 100*EVMStruct.SSS;
+                       app.LTEAppInternalsProp.evm_sss_RMS = 100*EVMStruct.SSS;
                    end
 
                    [SymbEVM, ScEVM, RbEVM, frameLowEVM, frameHighEVM, frameEVM, etm,...
-                       app.PlutoLTEAppInternalsProp.count, app.PlutoLTEAppInternalsProp.nFrame] = ...
-                       PlutoLTEAppInternals.DemodSymbs(i, pdsch_ind, nFrames, ...
-                       app.PlutoLTEAppInternalsProp.count, alg, etm, evm, ...
+                       app.LTEAppInternalsProp.count, app.LTEAppInternalsProp.nFrame] = ...
+                       LTEAppInternals.DemodSymbs(i, pdsch_ind, nFrames, ...
+                       app.LTEAppInternalsProp.count, alg, etm, evm, ...
                        allocatedSymbols, frameEVM, nSubframes);
                    SymbEVM.evmSymbolRMS(1) = SymbEVM.evmSymbolRMS(2);
                    SymbEVM.evmSymbolPeak(1) = SymbEVM.evmSymbolPeak(2);
-                   app.PlutoLTEAppInternalsProp.evmSC = ...
+                   app.LTEAppInternalsProp.evmSC = ...
                        struct('RMS', ScEVM.evmSubcarrierRMS, 'Peak', ScEVM.evmSubcarrierPeak, ...
                        'EVMGrid', ScEVM.evmGrid); 
                    PDSCHevm_temp = ScEVM.evmGrid(:);
-                   app.PlutoLTEAppInternalsProp.PDSCHevm = mean(PDSCHevm_temp(PDSCHevm_temp~=0));
-                   app.PlutoLTEAppInternalsProp.evmRB = ...
+                   app.LTEAppInternalsProp.PDSCHevm = mean(PDSCHevm_temp(PDSCHevm_temp~=0));
+                   app.LTEAppInternalsProp.evmRB = ...
                        struct('RMS', RbEVM.evmRBRMS, 'Peak', RbEVM.evmRBPeak);  
-                   app.PlutoLTEAppInternalsProp.evmSymbol = ...
+                   app.LTEAppInternalsProp.evmSymbol = ...
                        struct('RMS', SymbEVM.evmSymbolRMS, 'Peak', SymbEVM.evmSymbolPeak);
                    
                    if (mod(i, 10)==9 || (nFrames==0 && i==nSubframes-1))                       
-                       app.PlutoLTEAppInternalsProp.FrameEVM = ...
+                       app.LTEAppInternalsProp.FrameEVM = ...
                            struct('Low', frameLowEVM, ...
                            'High', frameHighEVM, 'Overall', frameEVM);                                       
                    end    
@@ -299,7 +299,7 @@ classdef PlutoLTEAppInternals < LTETestModelWaveform
                    end                   
                end
                % Final Mean EVM across all frames
-               app.PlutoLTEAppInternalsProp.FinalEVM = lteEVM(cat(1, frameEVM(:).EV));
+               app.LTEAppInternalsProp.FinalEVM = lteEVM(cat(1, frameEVM(:).EV));
                % drawnow; 
            end
         end

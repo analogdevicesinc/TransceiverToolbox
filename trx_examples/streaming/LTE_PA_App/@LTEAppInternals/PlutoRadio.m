@@ -47,14 +47,14 @@ function dataRx = PlutoRadio(obj, app, dataTx, count)
         % tx setup
         obj.PlutoTx.UseCustomFilter = true;
         obj.PlutoTx.CenterFrequency = app.LOEditField.Value*1e6;
-        obj.PlutoTx.RadioID = obj.test_settings.DeviceIP;
+        obj.PlutoTx.RadioID = obj.test_settings.DeviceURI;
         obj.PlutoTx.Gain = obj.test_settings.TxGain;
         % obj.PlutoTx.BISTLoopbackMode = 'Digital Tx -> Digital Rx';
 
         % rx setup
         obj.PlutoRx.UseCustomFilter = true;
         obj.PlutoRx.CenterFrequency = app.LOEditField.Value*1e6;
-        obj.PlutoRx.RadioID = obj.test_settings.DeviceIP;        
+        obj.PlutoRx.RadioID = obj.test_settings.DeviceURI;        
         obj.PlutoRx.NumFramesInBurst = 1;  
         % obj.PlutoRx.BISTLoopbackMode = 'Digital Tx -> Digital Rx';
 
@@ -63,11 +63,11 @@ function dataRx = PlutoRadio(obj, app, dataTx, count)
     end
 
     % receive
-    [~,cmdout] = system('iio_attr -u ip:192.168.2.1 -c ad9361-phy TX_LO frequency');
+    % [~,cmdout] = system('iio_attr -u ip:192.168.2.1 -c ad9361-phy TX_LO frequency');
     % cmdout = strrep(cmdout, '''', '');
     % [~, endIndex] = regexp(cmdout,'frequency, value');
-    msg = sprintf('Fetching samples from PlutoSDR. LO set to %s Hz.', ...
-        cmdout(1:end-1));    
+    % msg = sprintf('Fetching samples from PlutoSDR. LO set to %s Hz.', cmdout(1:end-1));    
+    msg = sprintf('Fetching samples from the radio.');    
     app.Label.Text = msg; 
     drawnow limitrate;
 
