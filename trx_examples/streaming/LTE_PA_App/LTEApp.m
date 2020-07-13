@@ -1298,10 +1298,28 @@ classdef LTEApp < matlab.apps.AppBase
             addlistener(app.LTEAppInternalsProp, 'PDSCHevm', 'PostSet', @app.handlePDSCHevm);                        
             addlistener(app.LTEAppInternalsProp, 'DemodSyms', 'PostSet', @app.handleDemodSyms);            
             
+            if ~isdeployed
+                % check MATLAB version
+                ver = version;
+                if isempty(strfind(ver, 'R2020a'))
+                    app.Label.Text = 'LTE Performance Analyzer App requires MATLAB R2020a or later.';
+                    return;
+                end
+                
+                % check that Pluto HSP is installed
+                addons = matlab.addons.installedAddons;
+                num_addons = 1:size(addons, 1);
+                inds = ismember(addons.Name,'Communications Toolbox Support Package for Analog Devices ADALM-Pluto Radio');
+                if isequal(inds, ones(size(addons, 1), 1))
+                    app.Label.Text = 'LTE Performance Analyzer App requires Communications Toolbox Support Package for Analog Devices ADALM-Pluto Radio, Version 20.1.0 or later.';
+                    return;
+                end
+            end
+            
             app.LTEAppInternalsProp.PlutoConnectionFcn(app);
             if app.PlutoNotFound                
                 return;
-            end
+            end            
         end
 
         % Button pushed function: FindPlutoButton
