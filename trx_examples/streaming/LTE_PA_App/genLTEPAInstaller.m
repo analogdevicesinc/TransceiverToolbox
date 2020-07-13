@@ -23,5 +23,6 @@ for ii=1:size(f,2)
 end
 fclose(fid);
 
+fprintf('Starting deploytool to create installer for LTE PA app...\n');
 deploytool('-package', projectfile);
 delete(projectfile);

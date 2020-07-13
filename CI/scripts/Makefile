@@ -106,7 +106,8 @@ test_targeting_demos:
 	bash targeting_designs.sh
 
 lte_pa_app:
-	./trx_examples/streaming/LTE_PA_App/genInstaller.sh $MLPATH $MLRELEASE $MLFLAGS
+	cd ../../trx_examples/streaming/LTE_PA_App/ ; \
+	.genInstaller.sh $(MLPATH) $(MLRELEASE) $(MLFLAGS)
 
 gen_tlbx:
 	${MLPATH}/$(MLRELEASE)/bin/matlab $(MLFLAGS) -r "genTlbx($(INCLUDE_EXAMPLES));exit();"
