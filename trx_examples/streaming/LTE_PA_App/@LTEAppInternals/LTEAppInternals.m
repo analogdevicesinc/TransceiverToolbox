@@ -107,9 +107,11 @@ classdef LTEAppInternals < LTETestModelWaveform
                app.LTEAppInternalsProp.SamplingRate = etm.SamplingRate;
 
                % scale the signal and cast to int16
-               ScaleFactor = 0.7;
-               eNodeBOutput = eNodeBOutput.*(1/max(abs(eNodeBOutput))*ScaleFactor);
+               backoff = -3; % dB
+               Output_max = max([max(abs(real(eNodeBOutput))) max(abs(imag(eNodeBOutput)))]);
+               eNodeBOutput = eNodeBOutput.*(10^(backoff/20))/Output_max;
                eNodeBOutput = int16(eNodeBOutput*2^15);
+
 
                %% transmit waveform using ADALM-PLUTO over a loopback cable and
                % receive waveform
