@@ -1,14 +1,20 @@
 #!/bin/bash
-$1/$2/bin/matlab $3 -r 'genLTEPAInstaller' &
-PID=$!
+screen -S Installer -dm bash -c "$1/$2/bin/matlab $3 -r 'genLTEPAInstaller'"
+echo "MATLAB launched"
 
 for ii in {1..500}
 do
-	if [ -f LTEPA/for_redistribution/LTEPAInstaller.install ]; then
-		echo "Killing "$PID
-		kill -9 $PID
-		break
-	fi
-	sleep 1
+        echo $ii
+        echo "Active MATLAB session IDs: $(pidof MATLAB)"
+        screen -list | grep Installer
+        if [ -f LTEPA/for_redistribution/LTEPAInstaller.install ]; then
+                echo "Generated installer found"
+                echo "Stopping MATLAB"
+                sleep 4
+                screen -X -S Installer quit
+                screen -list
+                exit 0
+        fi
+        sleep 1
 done
-
+exit 1
