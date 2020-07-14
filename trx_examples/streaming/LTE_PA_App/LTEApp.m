@@ -514,7 +514,8 @@ classdef LTEApp < matlab.apps.AppBase
                             temp_yPDSCH, 'r', 'Marker', 'sq', 'MarkerSize', 2, ...
                             'LineStyle', 'none');                    
                 end
-                hold(app.evmSymsAxes,'on');                    
+                hold(app.evmSymsAxes,'on');
+                app.EVMPlot = plot(app.evmSymsAxes, 1:14, mean(app.evmSymbolRMSAvg(1:length(evmSymbolRMS), end), 2), 'w', 'Linewidth', 1.5);
             else                
                 if (app.PDSCHCheckBox.Value)
                     temp_bigX = [];
@@ -533,9 +534,7 @@ classdef LTEApp < matlab.apps.AppBase
                     app.evmPDSCHSymPlot.XData(indm10+(0:length(temp_bigX)-1)) = temp_bigX;
                     app.evmPDSCHSymPlot.YData(indm10+(0:length(temp_bigX)-1)) = temp_bigY;
                     
-                end 
-                if (SubFrameIndex == 9)
-                    app.EVMPlot = plot(app.evmSymsAxes, 1:140, mean(app.evmSymbolRMSAvg, 2), 'w', 'Linewidth', 1.5);
+                    app.EVMPlot = plot(app.evmSymsAxes, 1:SubFrameIndex*14+length(evmSymbolRMS), mean(app.evmSymbolRMSAvg(1:SubFrameIndex*14+length(evmSymbolRMS), end), 2), 'w', 'Linewidth', 1.5);
                 end
             end 
             
