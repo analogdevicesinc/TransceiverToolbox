@@ -1293,16 +1293,38 @@ classdef LTEApp < matlab.apps.AppBase
             addlistener(app.LTEAppInternalsProp, 'evmSymbol', 'PostSet', @app.handleEVMSymbol);            
             addlistener(app.LTEAppInternalsProp, 'evmSC', 'PostSet', @app.handleEVMSc);            
             addlistener(app.LTEAppInternalsProp, 'evmRB', 'PostSet', @app.handleEVMRb);            
-%             addlistener(app.LTEAppInternalsProp, 'FrameEVM', 'PostSet', @app.handleFrameEVM);            
-%             addlistener(app.LTEAppInternalsProp, 'FinalEVM', 'PostSet', @app.handleFinalEVM);            
             addlistener(app.LTEAppInternalsProp, 'PDSCHevm', 'PostSet', @app.handlePDSCHevm);                        
             addlistener(app.LTEAppInternalsProp, 'DemodSyms', 'PostSet', @app.handleDemodSyms);            
             
             if ~isdeployed
                 % check MATLAB version
-                ver = version;
-                if isempty(strfind(ver, 'R2020a'))
-                    app.Label.Text = 'LTE Performance Analyzer App requires MATLAB R2020a or later.';
+                if ~contains(version, 'R2020a')
+                    app.Label.Text = 'LTE Performance Analyzer App requires MATLAB R2020a.';
+                    return;
+                end
+                
+                % check for other toolbox dependencies
+                has_tbs = cell(4, 1);
+                toolboxes = ver;
+                tbs_needed = {'Communications Toolbox', 'DSP System Toolbox', ...
+                    'LTE Toolbox', 'Signal Processing Toolbox'};
+                count = 0;
+                for ii = 1:length(toolboxes)
+                   if contains(toolboxes(ii).Name, tbs_needed)                       
+                       count = count+1;
+                       has_tbs{count} = toolboxes(ii).Name;
+                   end
+                end
+                if (count < 4)
+                    has_tbs(count:end) = [];
+                    missing_tbs = setdiff(tbs_needed, has_tbs);
+                    msg = 'The following toolboxes are required:';
+                    for ii = 1:numel(missing_tbs)
+                        msg = strcat(msg, " ", missing_tbs{ii}, ",");
+                    end
+                    msg = char(msg);
+                    msg(end) = '.';
+                    app.Label.Text = msg;
                     return;
                 end
                 
@@ -1310,7 +1332,15 @@ classdef LTEApp < matlab.apps.AppBase
                 addons = matlab.addons.installedAddons;
                 num_addons = 1:size(addons, 1);
                 inds = ismember(addons.Name,'Communications Toolbox Support Package for Analog Devices ADALM-Pluto Radio');
-                if isequal(inds, ones(size(addons, 1), 1))
+                if isequal(inds, ones(size(addons, 1), 1))                    
+                    app.Label.Text = 'LTE Performance Analyzer App requires Communications Toolbox Support Package for Analog Devices ADALM-Pluto Radio, Version 20.1.0 or later.';
+                    return;
+                end
+                pluto_addon = num_addons(inds);
+                pluto_addon_ver = table2cell(addons(pluto_addon,2));
+                ver_split = strsplit(pluto_addon_ver{1},'.');
+                maj_num = str2double(ver_split{1});
+                if (maj_num < 20)
                     app.Label.Text = 'LTE Performance Analyzer App requires Communications Toolbox Support Package for Analog Devices ADALM-Pluto Radio, Version 20.1.0 or later.';
                     return;
                 end
