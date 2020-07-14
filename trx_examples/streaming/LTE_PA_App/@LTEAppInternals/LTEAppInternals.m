@@ -43,7 +43,7 @@ classdef LTEAppInternals < LTETestModelWaveform
             struct(...
             'DeviceURI', 'usb:0',...
             'TxGain', -10,...
-            'RxGainMode', 'slow_attack',... % 'RxBufferSize', 2^21,...
+            'RxGainMode', 'slow_attack',...
             'SamplingRate', 1e6)        
     end
     
@@ -90,10 +90,6 @@ classdef LTEAppInternals < LTETestModelWaveform
            BW = BW(~isspace(BW));
            TMN = app.TMNValue;
            
-           % clear Listbox
-           % app.ListBox.Items = {''};
-           % drawnow;
-           
            countTx = 1;
            while (true)
                if obj.stopTest(app)
@@ -112,19 +108,9 @@ classdef LTEAppInternals < LTETestModelWaveform
                eNodeBOutput = eNodeBOutput.*(10^(backoff/20))/Output_max;
                eNodeBOutput = int16(eNodeBOutput*2^15);
 
-
                %% transmit waveform using ADALM-PLUTO over a loopback cable and
                % receive waveform
                dataRx = obj.PlutoRadio(app, eNodeBOutput, countTx);
-               %{
-               if (countTx == 1)
-                   app.ListBox.Items = {sprintf('Frame #%d:  ', countTx)};
-               else
-                   app.ListBox.Items = [app.ListBox.Items, ...
-                       sprintf('Frame #%d: ', countTx)]; 
-               end
-               scroll(app.ListBox,'bottom');                 
-               %}
                countTx = countTx+1;
                
                %% demodulate received waveform and compute metrics
@@ -301,8 +287,7 @@ classdef LTEAppInternals < LTETestModelWaveform
                    end                   
                end
                % Final Mean EVM across all frames
-               app.LTEAppInternalsProp.FinalEVM = lteEVM(cat(1, frameEVM(:).EV));
-               % drawnow; 
+               app.LTEAppInternalsProp.FinalEVM = lteEVM(cat(1, frameEVM(:).EV));               
            end
         end
         

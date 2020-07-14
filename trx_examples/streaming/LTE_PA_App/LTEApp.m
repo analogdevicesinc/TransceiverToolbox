@@ -281,17 +281,11 @@ classdef LTEApp < matlab.apps.AppBase
             evmGrid = app.LTEAppInternalsProp.evmSC.EVMGrid;   
             evmSymbolRMS = app.LTEAppInternalsProp.evmSymbol.RMS;
             if (SubFrameIndex == 0)
-                % cla(app.evmSymsAxes);
                 hold(app.evmSymsAxes,'off');
-                % delete(app.EVMSymbolRMSAvgPlotLine);
-                % app.evmGridFrame = [];
-                % app.evmGridFrame = [app.evmGridFrame; zeros(140, app.numSCs)];
-                % app.evmGridFrame(1:length(evmSymbolRMS), end-app.numSCs+1:end) = evmGrid.';
                 
                 app.evmSymbolRMSAvg = [app.evmSymbolRMSAvg zeros(140, 1)];
                 app.evmSymbolRMSAvg(1:length(evmSymbolRMS), end) = evmSymbolRMS;
             else
-                % app.evmGridFrame(SubFrameIndex*14+(1:length(evmSymbolRMS)), end-app.numSCs+1:end) = evmGrid.';
                 app.evmSymbolRMSAvg(SubFrameIndex*14+(1:length(evmSymbolRMS)), end) = evmSymbolRMS;  
             end
             
@@ -307,17 +301,6 @@ classdef LTEApp < matlab.apps.AppBase
                         newY = app.LTEAppInternalsProp.EqGridStruct.RSEVMInd;
                         temp_yRS(1:length(newX)) = newY;
                                         
-                        %{
-                        app.evmRSSymPlot = plot(app.evmSymsAxes, temp_xRS, temp_yRS,...
-                            'csq', temp_xRS, temp_yRS,...
-                            'csq', temp_xRS, temp_yRS,...
-                            'csq', temp_xRS, temp_yRS,...
-                            'csq', temp_xRS, temp_yRS,...
-                            'csq', temp_xRS, temp_yRS,...
-                            'csq', temp_xRS, temp_yRS,...
-                            'csq', temp_xRS, temp_yRS,...
-                            'csq', 'MarkerSize', 2, 'LineStyle', 'none');
-                        %}
                         app.evmRSSymPlot = plot(app.evmSymsAxes, temp_xRS, temp_yRS,...
                             'csq', 'MarkerSize', 2, 'LineStyle', 'none');
                         hold(app.evmSymsAxes,'on');                    
@@ -326,13 +309,6 @@ classdef LTEApp < matlab.apps.AppBase
                         indm10 = find(temp_xRS == -10, 1);
                         newX = SubFrameIndex*14+...
                             mod(app.LTEAppInternalsProp.EqGridStruct.RSInd, 14);
-                        %{
-                        for ii = 1:8
-                            app.evmRSSymPlot(ii).XData(indm10+(0:length(newX)-1)) = newX;
-                            app.evmRSSymPlot(ii).YData(indm10+(0:length(newX)-1)) = ...
-                                app.LTEAppInternalsProp.EqGridStruct.RSEVMInd;                            
-                        end
-                        %}
                         
                         app.evmRSSymPlot.XData(indm10+(0:length(newX)-1)) = newX;
                         app.evmRSSymPlot.YData(indm10+(0:length(newX)-1)) = ...
@@ -538,11 +514,9 @@ classdef LTEApp < matlab.apps.AppBase
                             temp_yPDSCH, 'r', 'Marker', 'sq', 'MarkerSize', 2, ...
                             'LineStyle', 'none');                    
                 end
-                % app.EVMPlot = plot(app.evmSymsAxes, 1:140, mean(app.evmSymbolRMSAvg(:, 1:end-1), 2), 'w', 'Linewidth', 1.5);
                 hold(app.evmSymsAxes,'on');                    
             else                
                 if (app.PDSCHCheckBox.Value)
-                    % app.EVMSymbolRMSPlotLine = plot(app.evmSymsAxes, SubFrameIndex*14+(0:length(evmSymbolRMS)-1), app.evmGridFrame(SubFrameIndex*14+(1:length(evmSymbolRMS)), end-app.numSCs+1:end), 'r', 'Marker','sq', 'MarkerSize', 2,'LineStyle', 'none');                    
                     temp_bigX = [];
                     temp_bigY = [];
                     for ii = 1:size(evmGrid, 1)
@@ -1007,7 +981,6 @@ classdef LTEApp < matlab.apps.AppBase
                             'LineStyle', 'none');   
                 end
                 hold(app.evmSCAxes,'on');
-                % app.EVMScRMSAvgPlotLine = plot(app.evmSCAxes, 1:length(evmScRMS), mean(app.evmScRMSAvg, 2), 'w', 'Linewidth', 1.5);            
                 app.EVMScRMSAvgPlotLine = plot(app.evmSCAxes, 1:length(evmScRMS), tmpScAvg, 'w', 'Linewidth', 1.5);            
                 hold(app.evmRBAxes,'on');                    
             else
@@ -1030,7 +1003,6 @@ classdef LTEApp < matlab.apps.AppBase
                 end
                 hold(app.evmSCAxes,'on');
                 delete(app.EVMScRMSAvgPlotLine);
-                % app.EVMScRMSAvgPlotLine = plot(app.evmSCAxes, 1:length(evmScRMS), mean(app.evmScRMSAvg, 2), 'w', 'Linewidth', 1.5);
                 app.EVMScRMSAvgPlotLine = plot(app.evmSCAxes, 1:length(evmScRMS), tmpScAvg, 'w', 'Linewidth', 1.5);            
                 hold(app.evmRBAxes,'on');                    
             end 
@@ -1092,11 +1064,6 @@ classdef LTEApp < matlab.apps.AppBase
                 end                
             end
             hold(app.evmRBAxes,'on');                
-            %{
-            app.EVMRbRMSAvgPlotLine = plot(app.evmRBAxes, 1:length(evmRbRMS), ...
-                mean(app.evmRbRMSAvg, 2), 'wsq', 'MarkerFaceColor', 'w', ...
-                'MarkerSize', 3, 'Linewidth', 1.5);            
-            %}
             app.EVMRbRMSAvgPlotLine = plot(app.evmRBAxes, 1:length(evmRbRMS), ...
                 tmpRbAvg, 'wsq', 'MarkerFaceColor', 'w', ...
                 'MarkerSize', 3, 'Linewidth', 1.5);            
@@ -1121,12 +1088,6 @@ classdef LTEApp < matlab.apps.AppBase
                 app.ConstPlot = plot(app.constAxes, real(refSymbols), imag(refSymbols),...
                     'w', 'Marker','+', 'LineStyle', 'none');  
             end
-%             else
-%                 app.ConstPlot.YData = imag(rxSymbols).';
-%                 app.ConstPlot.YData = imag(refSymbols).';
-%                 app.ConstPlot.XData = real(rxSymbols).';
-%                 app.ConstPlot.XData = real(refSymbols).';
-%             end            
             
             if isfield(app.LTEAppInternalsProp.EqGridStruct, 'PBCH')
                 if (app.PBCHCheckBox.Value)
@@ -1230,19 +1191,11 @@ classdef LTEApp < matlab.apps.AppBase
             msg = sprintf('Mean low edge EVM, frame %d: %0.3f%%\n', ...
                app.LTEAppInternalsProp.nFrame-1, app.LTEAppInternalsProp.FrameEVM.Low.RMS*100); 
             app.Label.Text = {msg};
-            % app.SummaryTable2.Data(8,2) = {sprintf('%0.3f', 100*app.LTEAppInternalsProp.FrameEVM.Low.RMS)};
-
+            
             msg = sprintf('Mean high edge EVM, frame %d: %0.3f%%\n', ...
                app.LTEAppInternalsProp.nFrame-1, app.LTEAppInternalsProp.FrameEVM.High.RMS*100); 
             app.Label.Text = {msg};
             pad='     ';
-            % app.SummaryTable2.Data(9,2) = {sprintf('%0.3f %s', 100*app.LTEAppInternalsProp.FrameEVM.High.RMS, pad)};
-            
-%             app.ListBox.Items = [app.ListBox.Items, sprintf('Mean overall EVM for frame %d: %0.3f%%\n', ...
-%                 app.LTEAppInternalsProp.nFrame-1, ...
-%                 app.LTEAppInternalsProp.FrameEVM.Overall(app.LTEAppInternalsProp.nFrame).RMS*100)]; 
-%             app.SummaryTable2.Data(8,2) = {sprintf('%0.3f', ...
-%                 app.LTEAppInternalsProp.FrameEVM.Overall(app.LTEAppInternalsProp.nFrame).RMS*100)};
             scroll(app.ListBox,'bottom'); 
         end
         
@@ -1264,9 +1217,6 @@ classdef LTEApp < matlab.apps.AppBase
                 sprintf('Mean overall EVM - %0.3f%%\n', ...
                 app.LTEAppInternalsProp.FinalEVM.RMS*100)]; 
             scroll(app.ListBox,'bottom');
-%             app.SummaryTable2.Data(8,2) = {sprintf('%0.3f', ...
-%                 app.LTEAppInternalsProp.FinalEVM.RMS*100)};
-            % % drawnow;  
         end
         
         % Code that executes after component creation
@@ -1383,8 +1333,7 @@ classdef LTEApp < matlab.apps.AppBase
                 cla(app.evmSCAxes); drawnow; 
                 cla(app.evmSymsAxes); drawnow; 
                 cla(app.constAxes); drawnow;                
-                
-                
+                                
                 if strcmp(app.BWDropDown.Value, '3 MHz')
                     app.evmSCAxes.XLim = [1 15*12];
                     app.evmRBAxes.XLim = [1 15];
@@ -1480,7 +1429,6 @@ classdef LTEApp < matlab.apps.AppBase
             cla(app.evmSCAxes); drawnow; 
             cla(app.evmSymsAxes); drawnow; 
             cla(app.constAxes); drawnow;                
-
             
             if strcmp(app.BWDropDown.Value, '3 MHz')
                 app.evmSCAxes.XLim = [1 15*12];
@@ -1554,53 +1502,6 @@ classdef LTEApp < matlab.apps.AppBase
             app.GridAxes.Toolbar.Visible = 'off';
         end            
                 
-        % Value changed function: TMNDropDown
-        %{
-        function TMNDropDownValueChanged(app, ~)            
-            value = app.TMNDropDown.Value;
-            switch (value)
-                case '3.1'
-                    app.PDSCHConstellationValLabel.Text = '64-QAM';
-                    app.constAxes.cla;
-                    M = 64;
-                    x = (0:M-1)';
-                    y = qammod(x,M);
-                    plot(app.constAxes, real(y)/6, imag(y)/6,...
-                    'c', 'Marker','+', 'LineStyle', 'none');
-                    drawnow;
-                case '3.1a'
-                    app.PDSCHConstellationValLabel.Text = '256-QAM';
-                case '3.1b'
-                    app.PDSCHConstellationValLabel.Text = '1024-QAM';
-                    app.constAxes.cla;
-                    M = 1024;
-                    x = (0:M-1)';
-                    y = qammod(x,M);
-                    plot(app.constAxes, real(y)/6, imag(y)/6,...
-                    'c', 'Marker','+', 'LineStyle', 'none');
-                    drawnow;
-                case '3.2'
-                    app.PDSCHConstellationValLabel.Text = '16-QAM';
-                    app.constAxes.cla;
-                    M = 16;
-                    x = (0:M-1)';
-                    y = qammod(x,M);
-                    plot(app.constAxes, real(y)/(3*sqrt(2)), imag(y)/(3*sqrt(2)),...
-                    'c', 'Marker','+', 'LineStyle', 'none');
-                    drawnow;
-                case '3.3'
-                    app.PDSCHConstellationValLabel.Text = 'QPSK'; 
-                    app.constAxes.cla;
-                    M = 4;
-                    x = (0:M-1)';
-                    y = qammod(x,M);
-                    plot(app.constAxes, 0.25*sqrt(2)*real(y), 0.25*sqrt(2)*imag(y),...
-                    'c', 'Marker','+', 'LineStyle', 'none');
-                    drawnow;
-            end
-        end
-        %}
-        
         function TMNDropDownValueChanged(app, ~)            
             app.SummaryTable1.Data{1,2} = [];
             app.SummaryTable1.Data{2,2} = [];
@@ -1673,23 +1574,11 @@ classdef LTEApp < matlab.apps.AppBase
             app.TestConfigurationButtonGroup.Position = [8 627 375 161];
             app.TestConfigurationButtonGroup.FontWeight = 'bold';
 
-            % Create ETMButton
-            %{
-            app.ETMLabel = uilabel(app.TestConfigurationButtonGroup);
-            app.ETMLabel.Text = '     E-TM';
-            app.ETMLabel.FontColor = [1 0 0];
-            app.ETMLabel.Position = [121 120 68 22];
-            app.ETMLabel.FontWeight = 'bold';
-            app.ETMLabel.FontSize = 13;
-            %}
-
             % Create TMNDropDown
             app.TMNDropDown = uidropdown(app.TestConfigurationButtonGroup);
-            % app.TMNDropDown.Items = {'3.1', '3.1b', '3.2', '3.3'};
             app.TMNDropDown.Items = {'1024QAM', '256QAM', '64QAM', '16QAM', 'QPSK'};
             app.TMNDropDown.FontColor = [1 0 0];
             app.TMNDropDown.Position = [139 108 95 22];
-            % app.TMNDropDown.Value = '3.1';
             app.TMNDropDown.Value = '64QAM';
             app.TMNValue = '3.1';
             app.TMNDropDown.ValueChangedFcn = createCallbackFcn(app, @TMNDropDownValueChanged, true);
@@ -1699,13 +1588,10 @@ classdef LTEApp < matlab.apps.AppBase
             app.TMNDropDownLabel.HorizontalAlignment = 'right';
             app.TMNDropDownLabel.FontColor = [1 0 0];
             app.TMNDropDownLabel.Position = [3 110 125 22];
-            % app.TMNDropDownLabel.Text = 'TMN';
             app.TMNDropDownLabel.Text = 'PDSCH Constellation';
 
             % Create BWDropDown
             app.BWDropDown = uidropdown(app.TestConfigurationButtonGroup);
-            % app.BWDropDown.Items = {'3 MHz', '5 MHz', '10 MHz', '15 MHz', '20 MHz'};
-            % app.BWDropDown.Items = {'5 MHz', '10 MHz'};
             app.BWDropDown.Items = {'5 MHz', '10 MHz', '15 MHz', '20 MHz'};
             app.BWDropDown.Value = '5 MHz';
             app.BWDropDown.FontColor = [1 0 0];
@@ -1734,15 +1620,12 @@ classdef LTEApp < matlab.apps.AppBase
             app.PDSCHConstellationLabel = uilabel(app.TestConfigurationButtonGroup);
             app.PDSCHConstellationLabel.HorizontalAlignment = 'right';
             app.PDSCHConstellationLabel.Position = [3 40 125 22];
-            % app.PDSCHConstellationLabel.Text = 'PDSCH Constellation';
             app.PDSCHConstellationLabel.Text = 'TM Number';
             app.PDSCHConstellationLabel.FontColor = 'red';
-            % app.PDSCHConstellationLabel.FontWeight = 'bold';
             
             % Create PDSCHConstellationValLabel
             app.PDSCHConstellationValLabel = uilabel(app.TestConfigurationButtonGroup);
             app.PDSCHConstellationValLabel.Position = [140 40 75 22];   
-            % app.PDSCHConstellationValLabel.Text = '64-QAM';
             app.PDSCHConstellationValLabel.Text = '3.1';
             app.PDSCHConstellationValLabel.FontColor = 'red';
             
@@ -1851,7 +1734,6 @@ classdef LTEApp < matlab.apps.AppBase
             app.evmSymsAxes.XGrid = 'on';
             app.evmSymsAxes.YGrid = 'on';
             app.evmSymsAxes.Position = [7 9 358 359];
-            % app.evmSymsAxes.XLim = [1 70];
             app.evmSymsAxes.YLim = [0 10];
             app.evmSymsAxes.XLim = [1 140];  
             app.evmSymsAxes.Toolbar.Visible = 'off';
@@ -1945,14 +1827,6 @@ classdef LTEApp < matlab.apps.AppBase
             app.constAxes.Toolbar.Visible = 'off';
             disableDefaultInteractivity(app.constAxes);
             app.constAxes.cla;
-            %{
-            M = 64;
-            x = (0:M-1)';
-            y = qammod(x,M);
-            plot(app.constAxes, real(y)/6, imag(y)/6,...
-            'c', 'Marker','+', 'LineStyle', 'none');
-            drawnow;
-            %}
             
             % Create ConstCheckBox
             app.ConstCheckBox = uicheckbox(app.Panel_12);
@@ -2007,7 +1881,6 @@ classdef LTEApp < matlab.apps.AppBase
             s2.HorizontalAlignment = 'left';
             app.SummaryTable2.ColumnName = {' ';'Channel'; 'EVM'};
             app.SummaryTable2.RowName = [];
-            % app.SummaryTable2.Position = [6 6 363 253];            
             app.SummaryTable2.Position = [6 6 363 209];            
             app.SummaryTable2.Data = cell(8,3);
             set(app.SummaryTable2,'ColumnWidth', {30, 165, 165})
@@ -2178,7 +2051,7 @@ classdef LTEApp < matlab.apps.AppBase
 
             % Create Image
             app.Image = uiimage(app.Panel);
-            app.Image.Position = [1448 760 85 30]; % [15 700 90 90];
+            app.Image.Position = [1448 760 85 30];
             app.Image.ImageSource = which('Analog_Devices_Logo.png');
 
             % Show the figure after all components are created
@@ -2252,16 +2125,16 @@ function PlotResourceGrid(GridAxes,grid,colors)
     % Create and apply color map
     map=[0.50 0.50 0.50; ...
          0.75 0.75 0.75; ...
-         0.00 1.00 1.00; ...% 1.00 1.00 1.00; ...
-         1.00 0.20 0.60; ...% 0.25 0.25 1.00; ...
-         0.00 0.00 1.00; ...% 0.50 0.50 1.00; ...
-         0.00 1.00 0.00; ...% 0.75 0.75 1.00; ...
-         0.50 0.00 0.50; ...% 1.00 0.00 0.00; ...
-         1.00 0.50 0.00; ...% 1.00 0.75 0.00; ...
-         1.00 1.00 0.00; ...% 1.00 1.00 0.25; ...
-         1.00 0.00 0.00; ...% 0.25 1.00 0.25; ...
-         1.00 1.00 1.00; ...% 0.50 1.00 0.50; ...
-         1.00 0.00 0.00; ...% 0.75 1.00 0.75 ...
+         0.00 1.00 1.00; ...
+         1.00 0.20 0.60; ...
+         0.00 0.00 1.00; ...
+         0.00 1.00 0.00; ...
+         0.50 0.00 0.50; ...
+         1.00 0.50 0.00; ...
+         1.00 1.00 0.00; ...
+         1.00 0.00 0.00; ...
+         1.00 1.00 1.00; ...
+         1.00 0.00 0.00; ...
          ];     
     caxis(GridAxes, [0 12])
     colormap(GridAxes, map);
@@ -2285,9 +2158,7 @@ function PlotTransmitResourceGrid(GridAxes,enb,grid)
     % Create patches (outside of final view) to facilitate the creation 
     % of the legend
     hold(GridAxes, 'on');
-    % colors = {[0.66 0.66 0.66], 'c', 'm', 'b', 'g', [0.5 0 0.5], [1 0.5 0], 'y', 'r'};
     for i=1:9
-        % patch(GridAxes, [-2 -3 -3 -2],[-2 -2 -3 -3],colors{i});
         patch(GridAxes, [-2 -3 -3 -2],[-2 -2 -3 -3],i);
     end            
     
@@ -2344,7 +2215,5 @@ function colors = IdentifyDLChannels(enb,grid)
         
         % Set current subframe into output
         colors(:,i*L+(1:L)) = colors(:,i*L+(1:L)) + sfcolors;
-
     end
-    
 end
