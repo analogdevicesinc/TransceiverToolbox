@@ -68,7 +68,7 @@ hWC.validate;
 
 %% Run the workflow
 try
-    hdlcoder.runWorkflow([mdl,'/HDL_DUT'], hWC);
+    hdlcoder.runWorkflow([mdl,'/HDL_DUT'], hWC, 'Verbosity', 'on');
     close_system(mdl, false);
     bdclose('all');
     out = [];

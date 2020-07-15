@@ -184,7 +184,7 @@ hWC.validate;
 
 %% Run the workflow
 try
-    hdlcoder.runWorkflow('loopback_delay_estimation/HDL_DUT', hWC);
+    hdlcoder.runWorkflow('loopback_delay_estimation/HDL_DUT', hWC, 'Verbosity', 'on');
     bdclose('all');
     out = [];
 catch ME

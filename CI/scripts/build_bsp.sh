@@ -1,4 +1,6 @@
 #!/bin/bash
+set -x
+
 if [ -z "${HDLBRANCH}" ]; then
 HDLBRANCH='hdl_2018_r2'
 fi
@@ -17,9 +19,18 @@ if ! git clone --single-branch -b $HDLBRANCH https://github.com/analogdevicesinc
 then
    exit 1
 fi
+if [ ! -d "hdl" ]; then
+   echo "HDL clone failed"
+   exit 1
+fi
 
 # Get required vivado version needed for HDL
-VER=$(awk '/set REQUIRED_VIVADO_VERSION/ {print $3}' hdl/library/scripts/adi_ip.tcl | sed 's/"//g')
+if [ -f "hdl/library/scripts/adi_ip.tcl" ]; then
+	TARGET="hdl/library/scripts/adi_ip.tcl"
+else
+	TARGET="hdl/library/scripts/adi_ip_xilinx.tcl"
+fi
+VER=$(awk '/set REQUIRED_VIVADO_VERSION/ {print $3}' $TARGET | sed 's/"//g')
 echo "Required Vivado version ${VER}"
 VIVADOFULL=${VER}
 if [ ${#VER} = 8 ]
@@ -65,7 +76,7 @@ done
 
 # Pack IP cores
 echo "Starting IP core packaging"
-vivado -mode batch -source scripts/pack_all_ips.tcl > /dev/null 2>&1
+vivado -verbose -mode batch -source scripts/pack_all_ips.tcl > /dev/null 2>&1
 
 # Repack i2s and i2c cores to include xml files
 cd hdl/library/axi_i2s_adi/
@@ -90,7 +101,7 @@ cd ../../../..
 
 # Move all cores
 echo "Moving all cores"
-vivado -mode batch -source scripts/copy_all_packed_ips.tcl > /dev/null 2>&1
+vivado -mode batch -source scripts/copy_all_packed_ips.tcl || true
 
 cp -r hdl/library/jesd204/*.zip hdl/library/
 cp -r hdl/library/xilinx/*.zip hdl/library/
