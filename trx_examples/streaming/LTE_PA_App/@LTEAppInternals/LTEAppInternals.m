@@ -35,6 +35,7 @@ classdef LTEAppInternals < LTETestModelWaveform
         SubFrameIndex
         PlutoTx
         PlutoRx
+        FrequencyCorrection
     end
     
     properties (Access = private)
@@ -115,14 +116,14 @@ classdef LTEAppInternals < LTETestModelWaveform
                
                %% demodulate received waveform and compute metrics
                [dataRx, frameOffset] = ...
-                   LTEAppInternals.CorrectFreqFrameOffset(dataRx, etm);
+                   LTEAppInternals.CorrectFreqFrameOffset(obj, dataRx, etm);
                app.LTEAppInternalsProp.FrameOffset = frameOffset/etm.SamplingRate;
 
                % compute freq offset and IQ offset
                cec.PilotAverage = 'TestEVM';            
                [FreqOffset_temp, IQOffset_temp, refGrid, rxGridLow, rxGridHigh, ...
                    rxWaveform, nSubframes, nFrames, alg, frameEVM] = ...
-                   LTEAppInternals.Sync(etm, cec, dataRx);
+                   LTEAppInternals.Sync(obj, etm, cec, dataRx);
                app.LTEAppInternalsProp.FreqOffset = FreqOffset_temp;
                app.LTEAppInternalsProp.IQOffset = IQOffset_temp;
 
@@ -282,6 +283,9 @@ classdef LTEAppInternals < LTETestModelWaveform
                        app.ConstCheckBox.Enable = 'on';
                        app.PSDCheckBox.Enable = 'on';
                        
+                       obj.PlutoRx.FrequencyCorrection = 0;
+                       obj.PlutoRx();
+                       obj.PlutoRx.release();
                        drawnow; 
                        return;
                    end                   
@@ -294,6 +298,8 @@ classdef LTEAppInternals < LTETestModelWaveform
         function handleStopEvnt(obj, app, ~)
             obj.StopTest = true;
             obj.PlutoTx.release();
+            obj.PlutoRx.FrequencyCorrection = 0;
+            obj.PlutoRx();
             obj.PlutoRx.release();
             app.PlayStopButton.Icon = which('play.png');
             drawnow; 
