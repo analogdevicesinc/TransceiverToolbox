@@ -1,7 +1,7 @@
 @Library('tfc-lib') _
 
 dockerConfig = getDockerConfig(['MATLAB','Vivado'])
-dockerConfig.add("-e MLRELEASE=R2019b")
+dockerConfig.add("-e MLRELEASE=R2020a")
 dockerHost = 'docker'
 
 ////////////////////////////
