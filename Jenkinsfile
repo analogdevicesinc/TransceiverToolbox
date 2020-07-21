@@ -92,10 +92,15 @@ stage("Hardware Streaming Tests") {
 //////////////////////////////////////////////////////
 
 node('master') {
-    stage('Deploy') {
+    stage('Deploy Development') {
         unstash "builtSources"
-        sh 'ls *'
         uploadArtifactory('TransceiverToolbox','*.mltbx')
+    }
+    if (env.BRANCH_NAME == 'master') {
+        stage('Deploy Production') {
+            unstash "builtSources"
+            uploadFTP('TransceiverToolbox','*.mltbx')
+        }
     }
 }
 
