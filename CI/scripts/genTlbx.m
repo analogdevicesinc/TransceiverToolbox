@@ -4,7 +4,7 @@ if nargin==0
     examples = 0;
 end
 
-version = '19.2.1';
+version = '20.1.1';
 ml = ver('MATLAB');
 ml = ml.Release(2:end-1);
 

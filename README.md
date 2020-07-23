@@ -6,21 +6,21 @@ License : [![License](https://img.shields.io/badge/license-LGPL2-blue.svg)](http
 Latest Release : [![GitHub release](https://img.shields.io/github/release/analogdevicesinc/TransceiverToolbox.svg)](https://github.com/analogdevicesinc/TransceiverToolbox/releases/latest)
 Downloads :  [![Github All Releases](https://img.shields.io/github/downloads/analogdevicesinc/TransceiverToolbox/total.svg)](https://github.com/analogdevicesinc/TransceiverToolbox/releases/latest)
 
-As with many open source packages, we use [GitHub](https://github.com/analogdevicesinc/TransceiverToolbox) to do develop and maintain the source, and [GitLab](https://GitLab.com/) for continuous integration.
+As with many open source packages, we use [GitHub](https://github.com/analogdevicesinc/TransceiverToolbox) to do develop and maintain the source, and [Jenkins](https://jenkins.com/) for continuous integration.
   - If you want to just use TransceiverToolbox, we suggest using the [latest release](https://github.com/analogdevicesinc/TransceiverToolbox/releases/latest).
   - If you think you have found a bug in the release, or need a feature which isn't in the release, try the latest **untested** builds from the master branch.
 
-| HDL Branch        | GitHub master status  | MATLAB Release |  Installer Package  |
-|:-----------------------:|:---------------------:|:-------:|:-------------------:|
-| 2018_R2                 | [![pipeline status](https://gitlab.com/tfcollins/TransceiverToolbox/badges/master/pipeline.svg)](https://gitlab.com/tfcollins/TransceiverToolbox/commits/master) | 2019b | <a href="https://gitlab.com/tfcollins/TransceiverToolbox/-/jobs/artifacts/master/download?job=deploy"><img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png" data-canonical-src="https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png" height="40" /></a>|
+| HDL Branch        | MATLAB Release |  Installer Package  |
+|:-----------------:|:--------------:|:-------------------:|
+| 2018_R2           | R2020a         | <a href="http://swdownloads.analog.com/cse/toolboxes/trx/master/AnalogDevicesTransceiverToolbox_v20.1.1.mltbx"><img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png" data-canonical-src="https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png" height="40" /></a>|
 
 If you use it, and like it - please let us know. If you use it, and hate it - please let us know that too.
 
 ## Supported Tools and Releases
 
 We provide support across two releases of MATLAB. This does not mean older releases will not work but they are not maintained. Currently supported tools are:
-- Bug fixes only: MATLAB R2019a with Vivado 2018.2
-- Bug fixes and new features: MATLAB R2019b with Vivado 2018.2
+- Bug fixes only: MATLAB R2019b with Vivado 2018.2
+- Bug fixes and new features: MATLAB R2020a with Vivado 2018.2
 
 ## Support and Documentation
 

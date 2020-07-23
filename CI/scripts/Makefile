@@ -8,7 +8,7 @@ SHELL := /bin/bash
 MLFLAGS := -nodisplay -nodesktop -nosplash
 
 ifeq ($(MLRELEASE),)
-MLRELEASE := R2019b
+MLRELEASE := R2020a
 endif
 
 ifeq ($(HDLBRANCH),)
