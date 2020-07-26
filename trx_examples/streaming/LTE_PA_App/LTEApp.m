@@ -1331,34 +1331,27 @@ classdef LTEApp < matlab.apps.AppBase
                 cla(app.evmRBAxes); drawnow; 
                 cla(app.evmSCAxes); drawnow; 
                 cla(app.evmSymsAxes); drawnow; 
-                cla(app.constAxes); drawnow;                
-                                
-                if strcmp(app.BWDropDown.Value, '3 MHz')
-                    app.evmSCAxes.XLim = [1 15*12];
-                    app.evmRBAxes.XLim = [1 15];
-                    app.numSCs = 15*12;
-                    app.RBs = 15;
-                elseif strcmp(app.BWDropDown.Value, '5 MHz')
-                    app.evmSCAxes.XLim = [1 25*12];
-                    app.evmRBAxes.XLim = [1 25];
-                    app.numSCs = 25*12;
-                    app.RBs = 25;
-                elseif strcmp(app.BWDropDown.Value, '10 MHz')
-                    app.evmSCAxes.XLim = [1 50*12];
-                    app.evmRBAxes.XLim = [1 50];
-                    app.numSCs = 50*12;
-                    app.RBs = 50;
-                elseif strcmp(app.BWDropDown.Value, '15 MHz')
-                    app.evmSCAxes.XLim = [1 75*12];
-                    app.evmRBAxes.XLim = [1 75];
-                    app.numSCs = 75*12;
-                    app.RBs = 75;                    
-                elseif strcmp(app.BWDropDown.Value, '20 MHz')
-                    app.evmSCAxes.XLim = [1 100*12];
-                    app.evmRBAxes.XLim = [1 100];
-                    app.numSCs = 100*12;
-                    app.RBs = 100;                    
+                cla(app.constAxes); drawnow;
+ 
+                switch (app.BWDropDown.Value)             
+                    case '3 MHz'
+                        app.RBs = 15;
+                    case '5 MHz'
+                        app.RBs = 25;
+                    case '10 MHz'
+                        app.RBs = 50;
+                    case '15 MHz'
+                        app.RBs = 75;                    
+                    case '20 MHz'
+                        app.RBs = 100;
+                    otherwise
+                        st = dbstack;
+                        error("unknown option %s in %s", app.BWDropDown.Value, st.name);
                 end
+                app.numSCs = app.RBs*12;
+                app.evmSCAxes.XLim = [1 app.numSCs];
+                app.evmRBAxes.XLim = [1 app.RBs];
+                
                 
                 app.PBCHCheckBox.Enable = 'off';
                 app.PCFICHCheckBox.Enable = 'off';
@@ -1429,33 +1422,25 @@ classdef LTEApp < matlab.apps.AppBase
             cla(app.evmSymsAxes); drawnow; 
             cla(app.constAxes); drawnow;                
             
-            if strcmp(app.BWDropDown.Value, '3 MHz')
-                app.evmSCAxes.XLim = [1 15*12];
-                app.evmRBAxes.XLim = [1 15];
-                app.numSCs = 15*12;
-                app.RBs = 15;
-            elseif strcmp(app.BWDropDown.Value, '5 MHz')
-                app.evmSCAxes.XLim = [1 25*12];
-                app.evmRBAxes.XLim = [1 25];
-                app.numSCs = 25*12;
-                app.RBs = 25;
-            elseif strcmp(app.BWDropDown.Value, '10 MHz')
-                app.evmSCAxes.XLim = [1 50*12];
-                app.evmRBAxes.XLim = [1 50];
-                app.numSCs = 50*12;
-                app.RBs = 50;
-            elseif strcmp(app.BWDropDown.Value, '15 MHz')
-                app.evmSCAxes.XLim = [1 75*12];
-                app.evmRBAxes.XLim = [1 75];
-                app.numSCs = 75*12;
-                app.RBs = 75;
-            elseif strcmp(app.BWDropDown.Value, '20 MHz')
-                app.evmSCAxes.XLim = [1 100*12];
-                app.evmRBAxes.XLim = [1 100];
-                app.numSCs = 100*12;
-                app.RBs = 100;
-            end
-
+            switch (app.BWDropDown.Value)             
+                case '3 MHz'
+                    app.RBs = 15;
+                case '5 MHz'
+                    app.RBs = 25;
+                case '10 MHz'
+                    app.RBs = 50;
+                case '15 MHz'
+                    app.RBs = 75;                    
+                case '20 MHz'
+                    app.RBs = 100;
+                otherwise
+                    st = dbstack;
+                    error("unknown option %s in %s", app.BWDropDown.Value, st.name);
+             end
+            app.numSCs = app.RBs*12;
+            app.evmSCAxes.XLim = [1 app.numSCs];
+            app.evmRBAxes.XLim = [1 app.RBs];
+                
             app.PBCHCheckBox.Enable = 'off';
             app.PCFICHCheckBox.Enable = 'off';
             app.PHICHCheckBox.Enable = 'off';
