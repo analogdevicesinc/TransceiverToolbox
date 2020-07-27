@@ -4,20 +4,19 @@ function dataRx = PlutoRadio(obj, app, dataTx, frame_ind)
         switch (app.BWDropDown.Value)
             case '3 MHz'
                 TxFilt = load('lte3_filter_tx.mat');
-                obj.PlutoTx = sdrtx('Pluto', TxFilt.filtnv{:});
             case '5 MHz'
                 TxFilt = load('lte5_filter_tx.mat');
-                obj.PlutoTx = sdrtx('Pluto', TxFilt.filtnv{:});
             case '10 MHz'
                 TxFilt = load('lte10_filter_tx.mat');
-                obj.PlutoTx = sdrtx('Pluto', TxFilt.filtnv{:});
             case '15 MHz'
                 TxFilt = load('lte15_filter_tx.mat');
-                obj.PlutoTx = sdrtx('Pluto', TxFilt.filtnv{:});
             case '20 MHz'
                 TxFilt = load('lte20_filter_tx.mat');
-                obj.PlutoTx = sdrtx('Pluto', TxFilt.filtnv{:});
+            otherwise
+                st = dbstack;
+                error("unknown option %s in %s", app.BWDropDown.Value, st.name);
         end
+        obj.PlutoTx = sdrtx('Pluto', TxFilt.filtnv{:});
 
         % tx setup
         obj.PlutoTx.UseCustomFilter = true;
@@ -33,20 +32,20 @@ function dataRx = PlutoRadio(obj, app, dataTx, frame_ind)
     switch (app.BWDropDown.Value)
         case '3 MHz'
             RxFilt = load('lte3_filter_rx.mat');
-            obj.PlutoRx = sdrrx('Pluto', RxFilt.filtnv{:}); 
         case '5 MHz'
-            RxFilt = load('lte5_filter_rx.mat');
-            obj.PlutoRx = sdrrx('Pluto', RxFilt.filtnv{:}); 
+            RxFilt = load('lte5_filter_rx.mat'); 
         case '10 MHz'
             RxFilt = load('lte10_filter_rx.mat');
-            obj.PlutoRx = sdrrx('Pluto', RxFilt.filtnv{:}); 
         case '15 MHz'
             RxFilt = load('lte15_filter_rx.mat');
-            obj.PlutoRx = sdrrx('Pluto', RxFilt.filtnv{:}); 
         case '20 MHz'
             RxFilt = load('lte20_filter_rx.mat');
-            obj.PlutoRx = sdrrx('Pluto', RxFilt.filtnv{:}); 
+        otherwise
+            st = dbstack;
+            error("unknown option %s in %s", app.BWDropDown.Value, st.name);
     end
+    obj.PlutoRx = sdrrx('Pluto', RxFilt.filtnv{:});
+    
     % rx setup
     obj.PlutoRx.UseCustomFilter = true;
     obj.PlutoRx.CenterFrequency = app.LOEditField.Value*1e6;
@@ -76,6 +75,9 @@ function dataRx = PlutoRadio(obj, app, dataTx, frame_ind)
                 obj.PlutoRx.SamplesPerFrame = 2^21;
             case '20 MHz'
                 obj.PlutoRx.SamplesPerFrame = 2^21;
+            otherwise
+                st = dbstack;
+                error("unknown option %s in %s", app.BWDropDown.Value, st.name);
         end
     end
     
