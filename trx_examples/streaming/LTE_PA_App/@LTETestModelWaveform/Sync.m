@@ -1,6 +1,6 @@
 function [FreqOffset, IQOffset, refGrid, rxGridLow, rxGridHigh, ...
     rxWaveform, nSubframes, nFrames, alg, frameEVM] = ...
-    Sync(obj, enb, cec, rxWaveform, varargin)
+    Sync(enb, cec, rxWaveform, varargin)
    
     persistent delta_f_tilde_prev;
     if isempty(delta_f_tilde_prev)
@@ -150,7 +150,5 @@ function [FreqOffset, IQOffset, refGrid, rxGridLow, rxGridHigh, ...
         end
     end
     FreqOffset = mean(delta_f_tilde_prev);
-    obj.FrequencyCorrection = obj.FrequencyCorrection + ...
-                FreqOffset/obj.PlutoTx.CenterFrequency*1e6;            
     IQOffset = mean(iqoffset_prev);
 end

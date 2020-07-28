@@ -8,7 +8,7 @@ classdef LTETestModelWaveform < handle
     methods (Static)
         [FreqOffset, IQOffset, refGrid, rxGridLow, rxGridHigh, ...
             rxWaveform, nSubframes, nFrames, alg, frameEVM] = ...
-            Sync(obj, enb, cec, rxWaveform)
+            Sync(enb, cec, rxWaveform)
         [psd_frame, f, HestLow, HestHigh, allPRBSet] = ...
             EstimateChannel(etm, rxWaveform, nSubframes, cec, rxGridLow, rxGridHigh)
         [EqGridStruct, EVMStruct, evm, allocatedSymbols, rxSymbols, ...
@@ -25,13 +25,11 @@ classdef LTETestModelWaveform < handle
             [eNodeBOutput,~,etm] = lteTestModelTool(etm);            
         end
         
-        function [dataRx, frameOffset] = CorrectFreqFrameOffset(obj, dataRx, configuration)            
+        function [dataRx, freqOffset, frameOffset] = CorrectFreqFrameOffset(dataRx, configuration)
             % Apply frequency estimation and correction for the purposes of performing
             % timing synchronization
-            foffset_est = lteFrequencyOffset(configuration, dataRx);
-            obj.FrequencyCorrection = obj.FrequencyCorrection + ...
-                foffset_est/obj.PlutoTx.CenterFrequency*1e6;
-            dataRxFreqCorrected = lteFrequencyCorrect(configuration, dataRx, foffset_est);
+            freqOffset = lteFrequencyOffset(configuration, dataRx);
+            dataRxFreqCorrected = lteFrequencyCorrect(configuration, dataRx, freqOffset);
 
             % Synchronize the captured waveform
             frameOffset = lteDLFrameOffset(configuration, dataRxFreqCorrected, 'TestEVM');
