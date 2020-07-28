@@ -42,7 +42,6 @@ classdef LTEAppInternals < LTETestModelWaveform
         StopTest = false  
         test_settings = ...
             struct(...
-            'DeviceURI', 'usb:0',...
             'TxGain', -10,...
             'RxGainMode', 'slow_attack',...
             'SamplingRate', 1e6)        
@@ -63,13 +62,30 @@ classdef LTEAppInternals < LTETestModelWaveform
     methods (Static)
         function PlutoConnectionFcn(app)
             connectedRadios = findPlutoRadio;
-            if ~isempty(connectedRadios)                
-                status = ['Found Pluto. Radio Id: ''' connectedRadios.RadioID ''', SerialNum: ''' connectedRadios.SerialNum '''.'];
+            app.NumRadios = numel(connectedRadios);
+            if numel(connectedRadios) > 1
+                status = sprintf('Found %d Plutos.', numel(connectedRadios));
                 app.Label.Text = {status};
                 app.PlutoNotFound = false;
-            else                
+                app.TxDropDown.Items={};
+                app.RxDropDown.Items={};
+                for ii = 1:numel(connectedRadios)
+                    app.TxDropDown.Items = [app.TxDropDown.Items connectedRadios(ii).RadioID];
+                    app.RxDropDown.Items = [app.RxDropDown.Items connectedRadios(ii).RadioID];
+                end
+            elseif numel(connectedRadios) == 1
+                status = 'Found 1 Pluto.';
+                app.Label.Text = {status};
+                app.PlutoNotFound = false;
+                app.TxDropDown.Items={};
+                app.RxDropDown.Items={};
+                app.TxDropDown.Items = {connectedRadios.RadioID};
+                app.RxDropDown.Items = {connectedRadios.RadioID};
+            elseif numel(connectedRadios) == 0
                 status = 'Pluto not found.';
                 app.Label.Text = {status};
+                app.TxDropDown.Items={};
+                app.RxDropDown.Items={};
                 return;
             end            
         end
@@ -77,11 +93,6 @@ classdef LTEAppInternals < LTETestModelWaveform
        
     methods (Access = private)
         function handlePlayEvnt(obj, app, ~)
-           % check if ADALM-PLUTO is connected 
-           LTEAppInternals.PlutoConnectionFcn(app);
-           if app.PlutoNotFound
-               return;
-           end
            if strcmp(app.StepOrPlayButton, 'play')
                app.PlayStopButton.Icon = which('stop.png');
            end
@@ -115,16 +126,20 @@ classdef LTEAppInternals < LTETestModelWaveform
                countTx = countTx+1;
                
                %% demodulate received waveform and compute metrics
-               [dataRx, frameOffset] = ...
-                   LTEAppInternals.CorrectFreqFrameOffset(obj, dataRx, etm);
+               [dataRx, FreqOffset, frameOffset] = ...
+                   LTEAppInternals.CorrectFreqFrameOffset(dataRx, etm);
+               obj.FrequencyCorrection = obj.FrequencyCorrection + ...
+                   FreqOffset/obj.PlutoTx.CenterFrequency*1e6;
+               app.LTEAppInternalsProp.FreqOffset = FreqOffset;
                app.LTEAppInternalsProp.FrameOffset = frameOffset/etm.SamplingRate;
 
                % compute freq offset and IQ offset
                cec.PilotAverage = 'TestEVM';            
-               [FreqOffset_temp, IQOffset_temp, refGrid, rxGridLow, rxGridHigh, ...
+               [FreqOffset2, IQOffset_temp, refGrid, rxGridLow, rxGridHigh, ...
                    rxWaveform, nSubframes, nFrames, alg, frameEVM] = ...
-                   LTEAppInternals.Sync(obj, etm, cec, dataRx);
-               app.LTEAppInternalsProp.FreqOffset = FreqOffset_temp;
+                   LTEAppInternals.Sync(etm, cec, dataRx);
+               obj.FrequencyCorrection = obj.FrequencyCorrection + ...
+                   FreqOffset2/obj.PlutoTx.CenterFrequency*1e6;
                app.LTEAppInternalsProp.IQOffset = IQOffset_temp;
 
                % stop test if needed
@@ -261,9 +276,14 @@ classdef LTEAppInternals < LTETestModelWaveform
                    if (strcmp(app.StepOrPlayButton, 'step') && (i == nSubframes-1))
                        app.Label.Text = {'Test stopped.'}; 
                        app.PlayStopButton.Enable = 'on';                        
-                       app.StepButton.Enable = 'on'; 
+                       app.StepButton.Enable = 'on';
                        app.DocButton.Enable = 'on'; 
-                       app.GridButton.Enable = 'on';    
+                       app.GridButton.Enable = 'on';
+                       app.RefreshButton.Enable = 'on';
+                       app.TxDropDown.Enable = 'on';
+                       app.TxDropDown.Value = obj.PlutoTx.RadioID;
+                       app.RxDropDown.Enable = 'on';
+                       app.RxDropDown.Value = obj.PlutoRx.RadioID;
                        app.dBPercentDropDown.Enable = 'on';
                        app.TMNDropDown.Enable = 'on';
                        app.BWDropDown.Enable = 'on';
@@ -310,7 +330,12 @@ classdef LTEAppInternals < LTETestModelWaveform
             if (killtest)
                 app.PlayStopButton.Enable = 'on';  
                 app.DocButton.Enable = 'on'; 
-                app.GridButton.Enable = 'on';   
+                app.GridButton.Enable = 'on';
+                app.RefreshButton.Enable = 'on';
+                app.TxDropDown.Enable = 'on';
+                app.TxDropDown.Value = obj.PlutoTx.RadioID;
+                app.RxDropDown.Enable = 'on';
+                app.RxDropDown.Value = obj.PlutoRx.RadioID;
                 app.dBPercentDropDown.Enable = 'on';
                 app.TMNDropDown.Enable = 'on';
                 app.BWDropDown.Enable = 'on';

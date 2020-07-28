@@ -21,11 +21,8 @@ function dataRx = PlutoRadio(obj, app, dataTx, frame_ind)
         % tx setup
         obj.PlutoTx.UseCustomFilter = true;
         obj.PlutoTx.CenterFrequency = app.LOEditField.Value*1e6;
-        obj.PlutoTx.RadioID = 'ip:192.168.2.1';% obj.test_settings.DeviceURI;
+        obj.PlutoTx.RadioID = app.TxDropDown.Value;
         obj.PlutoTx.Gain = obj.test_settings.TxGain;
-        % obj.PlutoTx.BISTLoopbackMode = 'Digital Tx -> Digital Rx';
-
-        
     end
     
     % filter
@@ -49,21 +46,38 @@ function dataRx = PlutoRadio(obj, app, dataTx, frame_ind)
     % rx setup
     obj.PlutoRx.UseCustomFilter = true;
     obj.PlutoRx.CenterFrequency = app.LOEditField.Value*1e6;
-    obj.PlutoRx.RadioID = 'ip:192.168.3.1';% obj.test_settings.DeviceURI;        
-    obj.PlutoRx.NumFramesInBurst = 1;  
-    % obj.PlutoRx.BISTLoopbackMode = 'Digital Tx -> Digital Rx';
+    obj.PlutoRx.RadioID = app.RxDropDown.Value;
+    obj.PlutoRx.NumFramesInBurst = 1;
+    if (frame_ind == 1)
+        app.TxDropDown.Enable = 'off';
+        app.RxDropDown.Enable = 'off';
+    end
 
-    if strcmp(app.StepOrPlayButton, 'step') || (frame_ind == 1)
-        obj.PlutoRx = FrequencyCorrectionRadios(obj.PlutoTx, obj.PlutoRx);
-        obj.FrequencyCorrection = obj.PlutoRx.FrequencyCorrection;
-        fprintf('Frame #%d, frequency correction applied - %f\n', ...
-            frame_ind, obj.FrequencyCorrection);
-        obj.PlutoRx.SamplesPerFrame = 2^23;
+    if (app.NumRadios > 1)
+        if strcmp(app.StepOrPlayButton, 'step') || (frame_ind == 1)
+            obj.PlutoRx = FrequencyCorrectionRadios(obj.PlutoTx, obj.PlutoRx);
+            obj.FrequencyCorrection = obj.PlutoRx.FrequencyCorrection;
+            obj.PlutoRx.SamplesPerFrame = 2^23;
+        else
+            obj.PlutoRx.FrequencyCorrection = obj.FrequencyCorrection;
+
+            switch (app.BWDropDown.Value)
+                case '3 MHz'
+                    obj.PlutoRx.SamplesPerFrame = 2^19;
+                case '5 MHz'
+                    obj.PlutoRx.SamplesPerFrame = 2^19;
+                case '10 MHz'
+                    obj.PlutoRx.SamplesPerFrame = 2^19;
+                case '15 MHz'
+                    obj.PlutoRx.SamplesPerFrame = 2^21;
+                case '20 MHz'
+                    obj.PlutoRx.SamplesPerFrame = 2^21;
+                otherwise
+                    st = dbstack;
+                    error("unknown option %s in %s", app.BWDropDown.Value, st.name);
+            end
+        end
     else
-        obj.PlutoRx.FrequencyCorrection = obj.FrequencyCorrection;
-        fprintf('Frame #%d, frequency correction applied - %f\n', ...
-            frame_ind, obj.FrequencyCorrection);
-        
         switch (app.BWDropDown.Value)
             case '3 MHz'
                 obj.PlutoRx.SamplesPerFrame = 2^19;

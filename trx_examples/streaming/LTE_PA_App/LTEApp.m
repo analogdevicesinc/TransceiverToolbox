@@ -10,13 +10,22 @@ classdef LTEApp < matlab.apps.AppBase
         dBPercentDropDown             matlab.ui.control.DropDown
         TMNDropDown                   matlab.ui.control.DropDown
         TMNDropDownLabel              matlab.ui.control.Label
+        TxDropDownLabel               matlab.ui.control.Label
+        RxDropDownLabel               matlab.ui.control.Label
         BWDropDown                    matlab.ui.control.DropDown
+        TxDropDown                    matlab.ui.control.DropDown
+        RxDropDown                    matlab.ui.control.DropDown
         BWDropDownLabel               matlab.ui.control.Label
         RCDropDown                    matlab.ui.control.DropDown
         RCDropDownLabel               matlab.ui.control.Label
         Panel_14                      matlab.ui.container.Panel
+        Panel_15                      matlab.ui.container.Panel
+        Panel_16                      matlab.ui.container.Panel
         GridLayout                    matlab.ui.container.GridLayout
+        GridLayout1                   matlab.ui.container.GridLayout
+        GridLayout2                   matlab.ui.container.GridLayout
         PlayStopButton                matlab.ui.control.Button
+        RefreshButton                 matlab.ui.control.Button
         StepButton                    matlab.ui.control.Button
         DocButton                     matlab.ui.control.Button
         GridButton                    matlab.ui.control.Button
@@ -128,6 +137,7 @@ classdef LTEApp < matlab.apps.AppBase
         GridAxes
         GridFig
         GridFigTitle
+        NumRadios
     end
     
     events
@@ -159,7 +169,7 @@ classdef LTEApp < matlab.apps.AppBase
                 {sprintf('%2.3f ms', 1e3*app.LTEAppInternalsProp.FrameOffset)};
         end
         
-        % Method to handle change in FrameOffset
+        % Method to handle change in FreqOffset
         function handleFreqOffset(app, ~, ~)
             app.SummaryTable1_Data(4, 1) = ...
                 {sprintf('%2.3f Hz (%2.3f ppb)', app.LTEAppInternalsProp.FreqOffset, ...
@@ -1316,6 +1326,7 @@ classdef LTEApp < matlab.apps.AppBase
         function PlayStopButtonPushed(app, ~)
             app.DocButton.Enable = 'off'; 
             app.GridButton.Enable = 'off'; 
+            app.RefreshButton.Enable = 'off';
             app.PlayStopButtonState = ~app.PlayStopButtonState;
             app.StepOrPlayButton = 'play';
             
@@ -1408,6 +1419,7 @@ classdef LTEApp < matlab.apps.AppBase
             app.TMNDropDown.Enable = 'off';
             app.BWDropDown.Enable = 'off';
             app.LOEditField.Enable = 'off';
+            app.RefreshButton.Enable = 'off';
             
             app.SummaryTable1_Data = cell(6, 1);
             app.SummaryTable2_Data = cell(8, 1);
@@ -1456,6 +1468,11 @@ classdef LTEApp < matlab.apps.AppBase
             app.PSDCheckBox.Enable = 'off';
             
             notify(app, 'Play');            
+        end
+        
+        % Button pushed function: RefreshButton
+        function RefreshButtonPushed(app, ~)
+           app.LTEAppInternalsProp.PlutoConnectionFcn(app);
         end
         
         % Button pushed function: DocButton
@@ -1516,20 +1533,17 @@ classdef LTEApp < matlab.apps.AppBase
             switch (value)
                 case '1024QAM'                    
                     app.TMNValue = '3.1b';
-                    app.PDSCHConstellationValLabel.Text = '3.1b';                     
                 case '256QAM'                    
                     app.TMNValue = '3.1a';
-                    app.PDSCHConstellationValLabel.Text = '3.1a'; 
                 case '64QAM'                    
                     app.TMNValue = '3.1';
-                    app.PDSCHConstellationValLabel.Text = '3.1'; 
                 case '16QAM'                    
                     app.TMNValue = '3.2';
-                    app.PDSCHConstellationValLabel.Text = '3.2'; 
                 case 'QPSK'                    
                     app.TMNValue = '3.3';
-                    app.PDSCHConstellationValLabel.Text = '3.3'; 
             end
+            msg = sprintf('TMN: %s selected.', app.TMNValue);    
+            app.Label.Text = msg; 
             drawnow; 
         end
           
@@ -1558,61 +1572,139 @@ classdef LTEApp < matlab.apps.AppBase
             app.TestConfigurationButtonGroup.Position = [8 627 375 161];
             app.TestConfigurationButtonGroup.FontWeight = 'bold';
 
+            % Create Panel_16
+            app.Panel_16 = uipanel(app.TestConfigurationButtonGroup);
+            app.Panel_16.Position = [10 50 220 85];
+            
+            % Create GridLayout
+            app.GridLayout2 = uigridlayout(app.Panel_16);
+            app.GridLayout2.RowHeight = {'1.25x', '1.25x', '1.25x'};
+            app.GridLayout2.ColumnWidth = {'1.35x', '1.15x'};
+            app.GridLayout2.Padding = [5 5 5 5];                       
+            
+            % Create TMNDropDownLabel
+            app.TMNDropDownLabel = uilabel(app.GridLayout2);
+            app.TMNDropDownLabel.HorizontalAlignment = 'right';
+            app.TMNDropDownLabel.FontColor = [1 0 0];
+            app.TMNDropDownLabel.Text = 'PDSCH Constellation';
+            app.TMNDropDownLabel.FontSize = 11;
+            app.TMNDropDownLabel.Layout.Row = 1;
+            app.TMNDropDownLabel.Layout.Column = 1;
+
             % Create TMNDropDown
-            app.TMNDropDown = uidropdown(app.TestConfigurationButtonGroup);
+            app.TMNDropDown = uidropdown(app.GridLayout2);
             app.TMNDropDown.Items = {'1024QAM', '256QAM', '64QAM', '16QAM', 'QPSK'};
-            app.TMNDropDown.FontColor = [1 0 0];
-            app.TMNDropDown.Position = [139 108 95 22];
+            app.TMNDropDown.FontSize = 11;
+            app.TMNDropDown.FontWeight = 'bold';
             app.TMNDropDown.Value = '64QAM';
             app.TMNValue = '3.1';
             app.TMNDropDown.ValueChangedFcn = createCallbackFcn(app, @TMNDropDownValueChanged, true);
-
-            % Create TMNDropDownLabel
-            app.TMNDropDownLabel = uilabel(app.TestConfigurationButtonGroup);
-            app.TMNDropDownLabel.HorizontalAlignment = 'right';
-            app.TMNDropDownLabel.FontColor = [1 0 0];
-            app.TMNDropDownLabel.Position = [3 110 125 22];
-            app.TMNDropDownLabel.Text = 'PDSCH Constellation';
-
-            % Create BWDropDown
-            app.BWDropDown = uidropdown(app.TestConfigurationButtonGroup);
-            app.BWDropDown.Items = {'5 MHz', '10 MHz', '15 MHz', '20 MHz'};
-            app.BWDropDown.Value = '5 MHz';
-            app.BWDropDown.FontColor = [1 0 0];
-            app.BWDropDown.Position = [139 72.5 95 22];                
-                        
-            % Create LOEditFieldLabel
-            app.LOEditFieldLabel = uilabel(app.TestConfigurationButtonGroup);
-            app.LOEditFieldLabel.HorizontalAlignment = 'right';
-            app.LOEditFieldLabel.Position = [48 10 75 22];
-            app.LOEditFieldLabel.Text = 'LO (MHz)';
-            
-            % Create LOEditField
-            app.LOEditField = uieditfield(app.TestConfigurationButtonGroup, 'numeric');
-            app.LOEditField.Position = [135 10 100 22];
-            app.LOEditField.Value = 2400;
-            app.LOEditField.Limits = [325 3800];
+            app.TMNDropDown.Layout.Row = 1;
+            app.TMNDropDown.Layout.Column = 2;
 
             % Create BWDropDownLabel
-            app.BWDropDownLabel = uilabel(app.TestConfigurationButtonGroup);
+            app.BWDropDownLabel = uilabel(app.GridLayout2);
             app.BWDropDownLabel.HorizontalAlignment = 'right';
             app.BWDropDownLabel.FontColor = [1 0 0];
-            app.BWDropDownLabel.Position = [63 75 65 22];
             app.BWDropDownLabel.Text = 'Bandwidth';
+            app.BWDropDownLabel.FontSize = 11;
+            app.BWDropDownLabel.Layout.Row = 2;
+            app.BWDropDownLabel.Layout.Column = 1;
 
+            % Create BWDropDown
+            app.BWDropDown = uidropdown(app.GridLayout2);
+            app.BWDropDown.Items = {'5 MHz', '10 MHz', '15 MHz', '20 MHz'};
+            app.BWDropDown.Value = '5 MHz';
+            app.BWDropDown.FontWeight = 'bold';
+            app.BWDropDown.FontSize = 11;
+            app.BWDropDown.Layout.Row = 2;
+            app.BWDropDown.Layout.Column = 2;
+                        
+            % Create LOEditFieldLabel
+            app.LOEditFieldLabel = uilabel(app.GridLayout2);
+            app.LOEditFieldLabel.HorizontalAlignment = 'right';
+            app.LOEditFieldLabel.Text = 'LO (MHz)';
+            app.LOEditFieldLabel.FontSize = 11;
+            app.LOEditFieldLabel.FontColor = [1 0 0];
+            app.LOEditFieldLabel.Layout.Row = 3;
+            app.LOEditFieldLabel.Layout.Column = 1;
+            
+            % Create LOEditField
+            app.LOEditField = uieditfield(app.GridLayout2, 'numeric');
+            app.LOEditField.Value = 2400;
+            app.LOEditField.FontWeight = 'bold';
+            app.LOEditField.FontSize = 11;
+            app.LOEditField.Limits = [325 3800];
+            app.LOEditField.Layout.Row = 3;
+            app.LOEditField.Layout.Column = 2;
+            
+            %{
             % Create PDSCHConstellationLabel
-            app.PDSCHConstellationLabel = uilabel(app.TestConfigurationButtonGroup);
+            app.PDSCHConstellationLabel = uilabel(app.GridLayout2);
             app.PDSCHConstellationLabel.HorizontalAlignment = 'right';
-            app.PDSCHConstellationLabel.Position = [3 40 125 22];
             app.PDSCHConstellationLabel.Text = 'TM Number';
             app.PDSCHConstellationLabel.FontColor = 'red';
+            app.PDSCHConstellationLabel.Layout.Row = 4;
+            app.PDSCHConstellationLabel.Layout.Column = 1;
             
             % Create PDSCHConstellationValLabel
-            app.PDSCHConstellationValLabel = uilabel(app.TestConfigurationButtonGroup);
-            app.PDSCHConstellationValLabel.Position = [140 40 75 22];   
+            app.PDSCHConstellationValLabel = uilabel(app.GridLayout2);
             app.PDSCHConstellationValLabel.Text = '3.1';
             app.PDSCHConstellationValLabel.FontColor = 'red';
+            app.PDSCHConstellationValLabel.Layout.Row = 4;
+            app.PDSCHConstellationValLabel.Layout.Column = 2;
+            %}
             
+            % Create Panel_15
+            app.Panel_15 = uipanel(app.TestConfigurationButtonGroup);
+            app.Panel_15.Position = [10 5 220 35];
+            
+            % Create GridLayout
+            app.GridLayout1 = uigridlayout(app.Panel_15);
+            app.GridLayout1.RowHeight = {'0.5x'};
+            app.GridLayout1.ColumnWidth = {'1x', '5x', '1.2x', '5x', '1.75x'};
+            app.GridLayout1.Padding = [2.5 5 2.5 5];
+                        
+            % Create TxDropDownLabel
+            app.TxDropDownLabel = uilabel(app.GridLayout1);
+            app.TxDropDownLabel.FontColor = [0 0 1];
+            app.TxDropDownLabel.Text = 'Tx';
+            app.TxDropDownLabel.FontSize = 11;
+            app.TxDropDownLabel.Layout.Row = 1;
+            app.TxDropDownLabel.Layout.Column = 1;
+                        
+            % Create TxDropDown
+            app.TxDropDown = uidropdown(app.GridLayout1);
+            app.TxDropDown.Items = {};
+            app.TxDropDown.FontSize = 11;
+            app.TxDropDown.Layout.Row = 1;
+            app.TxDropDown.Layout.Column = 2;
+                        
+            % Create RxDropDownLabel
+            app.RxDropDownLabel = uilabel(app.GridLayout1);
+            app.RxDropDownLabel.HorizontalAlignment = 'right';
+            app.RxDropDownLabel.FontColor = [0 0 1];
+            app.RxDropDownLabel.Text = 'Rx';
+            app.RxDropDownLabel.FontSize = 11;
+            app.RxDropDownLabel.Layout.Row = 1;
+            app.RxDropDownLabel.Layout.Column = 3;
+            
+            % Create RxDropDown
+            app.RxDropDown = uidropdown(app.GridLayout1);
+            app.RxDropDown.Items = {};
+            app.RxDropDown.FontSize = 11;
+            app.RxDropDown.Layout.Row = 1;
+            app.RxDropDown.Layout.Column = 4;
+            
+            % Create RefreshButton 
+            app.RefreshButton = uibutton(app.GridLayout1, 'push');
+            app.RefreshButton.ButtonPushedFcn = createCallbackFcn(app, @RefreshButtonPushed, true);
+            app.RefreshButton.Icon = which('refresh.png');
+            app.RefreshButton.Layout.Row = 1;
+            app.RefreshButton.Layout.Column = 5;
+            app.RefreshButton.Text = '';
+            app.RefreshButton.Tooltip = {'Find radio(s)'};
+                        
             % Create Panel_14
             app.Panel_14 = uipanel(app.TestConfigurationButtonGroup);
             app.Panel_14.Position = [240 5 130 130];
