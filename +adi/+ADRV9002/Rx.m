@@ -8,13 +8,13 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
     %
     %   <a href="http://www.analog.com/media/en/technical-documentation/data-sheets/ADRV9002.pdf">ADRV9002 Datasheet</a>    
     properties
-        %ENSMModeChannel0 Enable State Machine Mode Channel 0
+        %ENSMModeChannel0  State Machine Mode Channel 0
         %   specified as one of the following:
         %   'calibrated'
         %   'primed'
         %   'rf_enabled'
         ENSMModeChannel0 = 'rf_enabled';
-        %ENSMModeModeChannel1 Enable State Machine Mode Channel 1
+        %ENSMModeModeChannel1  State Machine Mode Channel 1
         %   specified as one of the following:
         %   'calibrated'
         %   'primed'
@@ -41,35 +41,19 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
         InterfaceGainChannel1 = '0dB';
 
         %GainControlModeChannel0 Gain Control Mode Channel 0
-        %   The digital gain control has two major purposes, one for gain
-        %   correction which is to correct the small step size inaccuracy
-        %   in analog front-end attenuation and the other for gain
-        %   compensation which is to compensate for the entire analog
-        %   front-end attenuation. The digital gain block is controlled by
-        %   the Rx gain table. Different digital gain will be applied when
-        %   configured in gain correction or gain compensation mode. The Rx
-        %   gain table has a unique front-end attenuator setting, with a
-        %   corresponding amount of digital gain, programmed at each index
-        %   of the table. In the end of the Rx data path, the interface
-        %   gain could be further applied by using a “Slicer” block for 2
-        %   major purposes. One is to avoid digital saturation in gain
-        %   compensation mode. The other one is to ensure the overall SNR
-        %   is limited only by analog noise and unaffected by quantization
-        %   noise.
-        %
-        %   Gain correction should be used when external components (LNA or
-        %   DSA) does not need to be controlled. Compensation should be
-        %   used for external LNA or DSA control.
-        %
-        %   Gain control is specified as one of the following:    
-        %   'AutomaticGainCorrection' - Automatically adjust interface gain
-        %   'ManualGainCorrection' - Manually adjust interface gain
-        %   'AutomaticGainCompensation' - Automatically adjust interface
-        %   gain and external gain element
-        %   'ManualGainCompensation' - Manually adjust interface
-        %   gain and external gain element
-        GainControlModeChannel0 = 'AutomaticGainCorrection';
+        %   Mode of receive path AGC. Options are:
+        %   - manual_spi
+        %   - manual_pin
+        %   - automatic
+        GainControlModeChannel0 = 'automatic';
         %GainControlModeChannel1 Gain Control Mode Channel 1
+        %   Mode of receive path AGC. Options are:
+        %   - manual_spi
+        %   - manual_pin
+        %   - automatic
+        GainControlModeChannel1 = 'automatic';
+        
+        %DigitalGainControlModeChannel0 Digital Gain Control Mode Channel 0
         %   The digital gain control has two major purposes, one for gain
         %   correction which is to correct the small step size inaccuracy
         %   in analog front-end attenuation and the other for gain
@@ -97,7 +81,36 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
         %   gain and external gain element
         %   'ManualGainCompensation' - Manually adjust interface
         %   gain and external gain element
-        GainControlModeChannel1 = 'AutomaticGainCorrection';
+        DigitalGainControlModeChannel0 = 'AutomaticGainCorrection';
+        %DigitalGainControlModeChannel1 Digital Gain Control Mode Channel 1
+        %   The digital gain control has two major purposes, one for gain
+        %   correction which is to correct the small step size inaccuracy
+        %   in analog front-end attenuation and the other for gain
+        %   compensation which is to compensate for the entire analog
+        %   front-end attenuation. The digital gain block is controlled by
+        %   the Rx gain table. Different digital gain will be applied when
+        %   configured in gain correction or gain compensation mode. The Rx
+        %   gain table has a unique front-end attenuator setting, with a
+        %   corresponding amount of digital gain, programmed at each index
+        %   of the table. In the end of the Rx data path, the interface
+        %   gain could be further applied by using a “Slicer” block for 2
+        %   major purposes. One is to avoid digital saturation in gain
+        %   compensation mode. The other one is to ensure the overall SNR
+        %   is limited only by analog noise and unaffected by quantization
+        %   noise.
+        %
+        %   Gain correction should be used when external components (LNA or
+        %   DSA) does not need to be controlled. Compensation should be
+        %   used for external LNA or DSA control.
+        %
+        %   Gain control is specified as one of the following:    
+        %   'AutomaticGainCorrection' - Automatically adjust interface gain
+        %   'ManualGainCorrection' - Manually adjust interface gain
+        %   'AutomaticGainCompensation' - Automatically adjust interface
+        %   gain and external gain element
+        %   'ManualGainCompensation' - Manually adjust interface
+        %   gain and external gain element
+        DigitalGainControlModeChannel1 = 'AutomaticGainCorrection';
         
         %AttenuationChannel0 Attenuation Channel 0
         %   Must be greater than 0
@@ -108,28 +121,28 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
     end
     
     properties % ADVANCED
-        %ENSMPortEnableModeChannel0 Enable State Machine Port Enable Mode Channel 0
+        %ENSMPortModeChannel0 Enable State Machine Port  Mode Channel 0
         %   specified as one of the following:
         %   'spi'
         %   'pin'
-        ENSMPortEnableModeChannel0 = 'spi';
-        %ENSMPortEnableModeChannel1 Enable State Machine Port Enable Mode Channel 0
+        ENSMPortModeChannel0 = 'spi';
+        %ENSMPortModeChannel1 Enable State Machine Port  Mode Channel 0
         %   specified as one of the following:
         %   'spi'
         %   'pin'
-        ENSMPortEnableModeChannel1 = 'spi';
+        ENSMPortModeChannel1 = 'spi';
         %GainControllerSourceChannel0 Gain Controller Source Channel 0
         %   specified as one of the following:
-        %   'spi'
-        %   'pin'
+        %   'manual_spi'
+        %   'manual_pin'
         %   'automatic'
-        GainControllerSourceChannel0 = 'spi';
+        GainControllerSourceChannel0 = 'automatic';
         %GainControllerSourceChannel1 Gain Controller Source Channel 1
         %   specified as one of the following:
-        %   'spi'
-        %   'pin'
+        %   'manual_spi'
+        %   'manual_pin'
         %   'automatic'
-        GainControllerSourceChannel1 = 'spi';
+        GainControllerSourceChannel1 = 'automatic';
     end
     
     properties (Logical) % ADVANCED
@@ -138,62 +151,62 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
         %PowerdownChannel0 Powerdown Channel 1
         PowerdownChannel1 = false;
         
-        %AGCTrackingEnableChannel0 AGC Tracking Enable Channel 0
-        %   Enable AGC on the fly tracking calibration for Channel 0
-        AGCTrackingEnableChannel0 = true;
-        %AGCTrackingEnableChannel1 AGC Tracking Enable Channel 1
-        %   Enable AGC on the fly tracking calibration for Channel 1
-        AGCTrackingEnableChannel1 = true;
+        %AGCTrackingChannel0 AGC Tracking  Channel 0
+        %    AGC on the fly tracking calibration for Channel 0
+        AGCTrackingChannel0 = true;
+        %AGCTrackingChannel1 AGC Tracking  Channel 1
+        %    AGC on the fly tracking calibration for Channel 1
+        AGCTrackingChannel1 = true;
         
-        %BBDCRejectionTrackingEnableChannel0 BBDC Rejection Tracking Enable Channel 0
+        %BBDCRejectionTrackingChannel0 BBDC Rejection Tracking  Channel 0
         %   Baseband DC rejection on the fly tracking calibration for
         %   Channel 0
-        BBDCRejectionTrackingEnableChannel0 = true;
-        %BBDCRejectionTrackingEnableChannel1 BBDC Rejection Tracking Enable Channel 1
+        BBDCRejectionTrackingChannel0 = true;
+        %BBDCRejectionTrackingChannel1 BBDC Rejection Tracking  Channel 1
         %   Baseband DC rejection on the fly tracking calibration for
         %   Channel 1
-        BBDCRejectionTrackingEnableChannel1 = true;
+        BBDCRejectionTrackingChannel1 = true;
         
-        %HDTrackingEnableChannel0 HD Tracking Enable Channel 0
+        %HDTrackingChannel0 HD Tracking  Channel 0
         %   Harmonic Distortion on the fly tracking calibration for Channel
         %   0
-        HDTrackingEnableChannel0 = true;
-        %HDTrackingEnableChannel1 HD Tracking Enable Channel 1
+        HDTrackingChannel0 = true;
+        %HDTrackingChannel1 HD Tracking  Channel 1
         %   Harmonic Distortion on the fly tracking calibration for Channel
         %   1
-        HDTrackingEnableChannel1 = true;
+        HDTrackingChannel1 = true;
         
-        %QuadratureFICTrackingEnableChannel0 Quadrature FIC Tracking Enable Channel 0
+        %QuadratureFICTrackingChannel0 Quadrature FIC Tracking  Channel 0
         %   Quadrature Error Correction Narrowband FIC on the fly tracking
         %   calibration for channel 0
-        QuadratureFICTrackingEnableChannel0 = true;
-        %QuadratureFICTrackingEnableChannel1 Quadrature FIC Tracking Enable Channel 1
+        QuadratureFICTrackingChannel0 = true;
+        %QuadratureFICTrackingChannel1 Quadrature FIC Tracking  Channel 1
         %   Quadrature Error Correction Narrowband FIC on the fly tracking
         %   calibration for channel 1
-        QuadratureFICTrackingEnableChannel1 = true;
+        QuadratureFICTrackingChannel1 = true;
         
-        %QuadratureWidebandPolyTrackingEnableChannel0 Quadrature Wideband Poly Tracking Enable Channel 0
+        %QuadratureWidebandPolyTrackingChannel0 Quadrature Wideband Poly Tracking  Channel 0
         %   Quadrature Error Correction Wideband Poly on the fly tracking
         %   calibration for channel 0
-        QuadratureWidebandPolyTrackingEnableChannel0 = true;
-        %QuadratureWidebandPolyTrackingEnableChannel1 Quadrature Wideband Poly Tracking Enable Channel 1
+        QuadratureWidebandPolyTrackingChannel0 = true;
+        %QuadratureWidebandPolyTrackingChannel1 Quadrature Wideband Poly Tracking  Channel 1
         %   Quadrature Error Correction Wideband Poly on the fly tracking
         %   calibration for channel 1
-        QuadratureWidebandPolyTrackingEnableChannel1 = true;
+        QuadratureWidebandPolyTrackingChannel1 = true;
         
-        %RFDCTrackingEnableChannel0 RF DC Tracking Enable Channel 0
+        %RFDCTrackingChannel0 RF DC Tracking  Channel 0
         %  RF DC on the fly tracking calibration for channel 0
-        RFDCTrackingEnableChannel0 = true;
-        %RFDCTrackingEnableChannel1 RF DC Tracking Enable Channel 1
+        RFDCTrackingChannel0 = true;
+        %RFDCTrackingChannel1 RF DC Tracking  Channel 1
         %  RF DC on the fly tracking calibration for channel 1
-        RFDCTrackingEnableChannel1 = true;
+        RFDCTrackingChannel1 = true;
         
-        %RSSITrackingEnableChannel0 RSSI Tracking Enable Channel 0
+        %RSSITrackingChannel0 RSSI Tracking  Channel 0
         %  RSSI on the fly tracking calibration for channel 0
-        RSSITrackingEnableChannel0 = true;
-        %RSSITrackingEnableChannel1 RSSI Tracking Enable Channel 1
+        RSSITrackingChannel0 = true;
+        %RSSITrackingChannel1 RSSI Tracking  Channel 1
         %  RSSI on the fly tracking calibration for channel 1
-        RSSITrackingEnableChannel1 = true;
+        RSSITrackingChannel1 = true;
     end
         
     properties (Dependent)
@@ -215,20 +228,20 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
         ENSMModeChannel1Set = matlab.system.StringSet({ ...
             'calibrated','primed','rf_enabled'});
         
-        ENSMPortEnableModeChannel0Set = matlab.system.StringSet({ ...
+        ENSMPortModeChannel0Set = matlab.system.StringSet({ ...
             'spi','pin'});
-        ENSMPortEnableModeChannel1Set = matlab.system.StringSet({ ...
+        ENSMPortModeChannel1Set = matlab.system.StringSet({ ...
             'spi','pin'});
         
         GainControllerSourceChannel0Set = matlab.system.StringSet({ ...
-            'spi','pin','automatic'});
+            'manual_spi','manual_pin','automatic'});
         GainControllerSourceChannel1Set = matlab.system.StringSet({ ...
-            'spi','pin','automatic'});
+            'manual_spi','manual_pin','automatic'});
         
-        GainControlModeChannel0Set = matlab.system.StringSet({ ...
+        DigitalGainControlModeChannel0Set = matlab.system.StringSet({ ...
             'AutomaticGainCorrection','ManualGainCorrection',...
             'AutomaticGainCompensation','ManualGainCompensation'});
-        GainControlModeChannel1Set = matlab.system.StringSet({ ...
+        DigitalGainControlModeChannel1Set = matlab.system.StringSet({ ...
             'AutomaticGainCorrection','ManualGainCorrection',...
             'AutomaticGainCompensation','ManualGainCompensation'});
         
@@ -292,17 +305,17 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
             end
         end
         
-        % Check ENSMPortEnableModeChannel0
-        function set.ENSMPortEnableModeChannel0(obj, value)
-            obj.ENSMPortEnableModeChannel0 = value;
+        % Check ENSMPortModeChannel0
+        function set.ENSMPortModeChannel0(obj, value)
+            obj.ENSMPortModeChannel0 = value;
             if obj.ConnectedToDevice
                 id = 'voltage0';
                 obj.setAttributeRAW(id,'port_en_mode',value,false);
             end
         end
-        % Check ENSMPortEnableModeChannel1
-        function set.ENSMPortEnableModeChannel1(obj, value)
-            obj.ENSMPortEnableModeChannel1 = value;
+        % Check ENSMPortModeChannel1
+        function set.ENSMPortModeChannel1(obj, value)
+            obj.ENSMPortModeChannel1 = value;
             if obj.ConnectedToDevice
                 id = 'voltage1';
                 obj.setAttributeRAW(id,'port_en_mode',value,false);
@@ -326,18 +339,18 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
             end
         end
         
-        % Check GainControlModeChannel0
-        function set.GainControlModeChannel0(obj, value)
-            obj.GainControlModeChannel0 = value;
+        % Check DigitalGainControlModeChannel0
+        function set.DigitalGainControlModeChannel0(obj, value)
+            obj.DigitalGainControlModeChannel0 = value;
             if obj.ConnectedToDevice
                 id = 'voltage0';
                 value = obj.AGCModeLookup(value);
                 obj.setAttributeRAW(id,'digital_gain_control_mode',value,false);
             end
         end
-        % Check GainControlModeChannel1
-        function set.GainControlModeChannel1(obj, value)
-            obj.GainControlModeChannel1 = value;
+        % Check DigitalGainControlModeChannel1
+        function set.DigitalGainControlModeChannel1(obj, value)
+            obj.DigitalGainControlModeChannel1 = value;
             if obj.ConnectedToDevice
                 id = 'voltage1';
                 value = obj.AGCModeLookup(value);
@@ -367,7 +380,7 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
             obj.InterfaceGainChannel0 = value;
             if obj.ConnectedToDevice
                 id = 'voltage0';
-                if strcmpi(obj.GainControlModeChannel0,'ManualGainCorrection') &&...
+                if strcmpi(obj.DigitalGainControlModeChannel0,'ManualGainCorrection') &&...
                         strcmpi(obj.ENSMModeChannel0,'rf_enabled')
                     obj.setAttributeRAW(id,'interface_gain',value,false);
                 end
@@ -378,126 +391,126 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
             obj.InterfaceGainChannel1 = value;
             if obj.ConnectedToDevice
                 id = 'voltage1';
-                if strcmpi(obj.GainControlModeChannel1,'ManualGainCorrection') &&...
+                if strcmpi(obj.DigitalGainControlModeChannel1,'ManualGainCorrection') &&...
                         strcmpi(obj.ENSMModeChannel1,'rf_enabled')
                     obj.setAttributeRAW(id,'interface_gain',value,false);
                 end
             end
         end
         
-        % Check AGCTrackingEnableChannel0
-        function set.AGCTrackingEnableChannel0(obj, value)
-            obj.AGCTrackingEnableChannel0 = value;
+        % Check AGCTrackingChannel0
+        function set.AGCTrackingChannel0(obj, value)
+            obj.AGCTrackingChannel0 = value;
             if obj.ConnectedToDevice
                 id = 'voltage0';
                 obj.setAttributeBool(id,'agc_tracking_en',value,false);
             end
         end
-        % Check AGCTrackingEnableChannel1
-        function set.AGCTrackingEnableChannel1(obj, value)
-            obj.AGCTrackingEnableChannel1 = value;
+        % Check AGCTrackingChannel1
+        function set.AGCTrackingChannel1(obj, value)
+            obj.AGCTrackingChannel1 = value;
             if obj.ConnectedToDevice
                 id = 'voltage1';
                 obj.setAttributeBool(id,'agc_tracking_en',value,false);
             end
         end
 
-        % Check BBDCRejectionTrackingEnableChannel0
-        function set.BBDCRejectionTrackingEnableChannel0(obj, value)
-            obj.BBDCRejectionTrackingEnableChannel0 = value;
+        % Check BBDCRejectionTrackingChannel0
+        function set.BBDCRejectionTrackingChannel0(obj, value)
+            obj.BBDCRejectionTrackingChannel0 = value;
             if obj.ConnectedToDevice
                 id = 'voltage0';
                 obj.setAttributeBool(id,'bbdc_rejection_tracking_en',value,false);
             end
         end
-        % Check BBDCRejectionTrackingEnableChannel1
-        function set.BBDCRejectionTrackingEnableChannel1(obj, value)
-            obj.BBDCRejectionTrackingEnableChannel1 = value;
+        % Check BBDCRejectionTrackingChannel1
+        function set.BBDCRejectionTrackingChannel1(obj, value)
+            obj.BBDCRejectionTrackingChannel1 = value;
             if obj.ConnectedToDevice
                 id = 'voltage1';
                 obj.setAttributeBool(id,'bbdc_rejection_tracking_en',value,false);
             end
         end
         
-        % Check HDTrackingEnableChannel0
-        function set.HDTrackingEnableChannel0(obj, value)
-            obj.HDTrackingEnableChannel0 = value;
+        % Check HDTrackingChannel0
+        function set.HDTrackingChannel0(obj, value)
+            obj.HDTrackingChannel0 = value;
             if obj.ConnectedToDevice
                 id = 'voltage0';
                 obj.setAttributeBool(id,'hd_tracking_en',value,false);
             end
         end
-        % Check HDTrackingEnableChannel1
-        function set.HDTrackingEnableChannel1(obj, value)
-            obj.HDTrackingEnableChannel1 = value;
+        % Check HDTrackingChannel1
+        function set.HDTrackingChannel1(obj, value)
+            obj.HDTrackingChannel1 = value;
             if obj.ConnectedToDevice
                 id = 'voltage1';
                 obj.setAttributeBool(id,'hd_tracking_en',value,false);
             end
         end
         
-        % Check QuadratureFICTrackingEnableChannel0
-        function set.QuadratureFICTrackingEnableChannel0(obj, value)
-            obj.QuadratureFICTrackingEnableChannel0 = value;
+        % Check QuadratureFICTrackingChannel0
+        function set.QuadratureFICTrackingChannel0(obj, value)
+            obj.QuadratureFICTrackingChannel0 = value;
             if obj.ConnectedToDevice
                 id = 'voltage0';
                 obj.setAttributeBool(id,'quadrature_fic_tracking_en',value,false);
             end
         end
-        % Check QuadratureFICTrackingEnableChannel1
-        function set.QuadratureFICTrackingEnableChannel1(obj, value)
-            obj.QuadratureFICTrackingEnableChannel1 = value;
+        % Check QuadratureFICTrackingChannel1
+        function set.QuadratureFICTrackingChannel1(obj, value)
+            obj.QuadratureFICTrackingChannel1 = value;
             if obj.ConnectedToDevice
                 id = 'voltage1';
                 obj.setAttributeBool(id,'quadrature_fic_tracking_en',value,false);
             end
         end
         
-        % Check QuadratureWidebandPolyTrackingEnableChannel0
-        function set.QuadratureWidebandPolyTrackingEnableChannel0(obj, value)
-            obj.QuadratureWidebandPolyTrackingEnableChannel0 = value;
+        % Check QuadratureWidebandPolyTrackingChannel0
+        function set.QuadratureWidebandPolyTrackingChannel0(obj, value)
+            obj.QuadratureWidebandPolyTrackingChannel0 = value;
             if obj.ConnectedToDevice
                 id = 'voltage0';
                 obj.setAttributeBool(id,'quadrature_w_poly_tracking_en',value,false);
             end
         end
-        % Check QuadratureWidebandPolyTrackingEnableChannel1
-        function set.QuadratureWidebandPolyTrackingEnableChannel1(obj, value)
-            obj.QuadratureWidebandPolyTrackingEnableChannel1 = value;
+        % Check QuadratureWidebandPolyTrackingChannel1
+        function set.QuadratureWidebandPolyTrackingChannel1(obj, value)
+            obj.QuadratureWidebandPolyTrackingChannel1 = value;
             if obj.ConnectedToDevice
                 id = 'voltage1';
                 obj.setAttributeBool(id,'quadrature_w_poly_tracking_en',value,false);
             end
         end
         
-        % Check RFDCTrackingEnableChannel0
-        function set.RFDCTrackingEnableChannel0(obj, value)
-            obj.RFDCTrackingEnableChannel0 = value;
+        % Check RFDCTrackingChannel0
+        function set.RFDCTrackingChannel0(obj, value)
+            obj.RFDCTrackingChannel0 = value;
             if obj.ConnectedToDevice
                 id = 'voltage0';
                 obj.setAttributeBool(id,'rfdc_tracking_en',value,false);
             end
         end
-        % Check RFDCTrackingEnableChannel1
-        function set.RFDCTrackingEnableChannel1(obj, value)
-            obj.RFDCTrackingEnableChannel1 = value;
+        % Check RFDCTrackingChannel1
+        function set.RFDCTrackingChannel1(obj, value)
+            obj.RFDCTrackingChannel1 = value;
             if obj.ConnectedToDevice
                 id = 'voltage1';
                 obj.setAttributeBool(id,'rfdc_tracking_en',value,false);
             end
         end
         
-        % Check RSSITrackingEnableChannel0
-        function set.RSSITrackingEnableChannel0(obj, value)
-            obj.RSSITrackingEnableChannel0 = value;
+        % Check RSSITrackingChannel0
+        function set.RSSITrackingChannel0(obj, value)
+            obj.RSSITrackingChannel0 = value;
             if obj.ConnectedToDevice
                 id = 'voltage0';
                 obj.setAttributeBool(id,'rssi_tracking_en',value,false);
             end
         end
-        % Check RSSITrackingEnableChannel1
-        function set.RSSITrackingEnableChannel1(obj, value)
-            obj.RSSITrackingEnableChannel1 = value;
+        % Check RSSITrackingChannel1
+        function set.RSSITrackingChannel1(obj, value)
+            obj.RSSITrackingChannel1 = value;
             if obj.ConnectedToDevice
                 id = 'voltage1';
                 obj.setAttributeBool(id,'rssi_tracking_en',value,false);
@@ -515,35 +528,35 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
             % Do writes directly to hardware without using set methods.
             % This is required sine Simulink support doesn't support
             % modification to nontunable variables at SetupImpl
-            if obj.EnableCustomProfile
-                writeProfileFile(obj);
-            end
+%             if obj.EnableCustomProfile
+%                 writeProfileFile(obj);
+%             end
             
             obj.setAttributeRAW('voltage0','ensm_mode',obj.ENSMModeChannel0,false);
             obj.setAttributeRAW('voltage1','ensm_mode',obj.ENSMModeChannel1,false);
             
             obj.setAttributeRAW('voltage0','gain_control_mode',obj.GainControllerSourceChannel0,false);
             obj.setAttributeRAW('voltage1','gain_control_mode',obj.GainControllerSourceChannel1,false);
+            
+            obj.setAttributeRAW('voltage0','digital_gain_control_mode',obj.AGCModeLookup(obj.DigitalGainControlModeChannel0),false);
+            obj.setAttributeRAW('voltage1','digital_gain_control_mode',obj.AGCModeLookup(obj.DigitalGainControlModeChannel1),false);
 
-            obj.setAttributeRAW('voltage0','digital_gain_control_mode',obj.AGCModeLookup(obj.GainControlModeChannel0),false);
-            obj.setAttributeRAW('voltage1','digital_gain_control_mode',obj.AGCModeLookup(obj.GainControlModeChannel1),false);
-
-            if strcmpi(obj.GainControlModeChannel0,'ManualGainCorrection') && strcmpi(obj.ENSMModeChannel0,'rf_enabled')
+            if strcmpi(obj.DigitalGainControlModeChannel0,'ManualGainCorrection') && strcmpi(obj.ENSMModeChannel0,'rf_enabled')
                 obj.setAttributeRAW('voltage0','interface_gain',obj.InterfaceGainChannel0,false);
             end
             
-            if strcmpi(obj.GainControlModeChannel1,'ManualGainCorrection') && strcmpi(obj.ENSMModeChannel1,'rf_enabled')
+            if strcmpi(obj.DigitalGainControlModeChannel1,'ManualGainCorrection') && strcmpi(obj.ENSMModeChannel1,'rf_enabled')
                 obj.setAttributeRAW('voltage1','interface_gain',obj.InterfaceGainChannel1,false);
             end            
             
             
-            obj.setAttributeRAW('voltage0','port_en_mode',obj.ENSMPortEnableModeChannel0,false);
-            obj.setAttributeRAW('voltage1','port_en_mode',obj.ENSMPortEnableModeChannel0,false);
+            obj.setAttributeRAW('voltage0','port_en_mode',obj.ENSMPortModeChannel0,false);
+            obj.setAttributeRAW('voltage1','port_en_mode',obj.ENSMPortModeChannel0,false);
             
-            if contains(obj.GainControlModeChannel0,'Manual')
+            if contains(obj.DigitalGainControlModeChannel0,'Manual')
                 obj.setAttributeLongLong('voltage0','hardwaregain',obj.AttenuationChannel0,false);
             end
-            if contains(obj.GainControlModeChannel1,'Manual')
+            if contains(obj.DigitalGainControlModeChannel1,'Manual')
                 obj.setAttributeLongLong('voltage1','hardwaregain',obj.AttenuationChannel1,false);
             end
 
@@ -551,26 +564,26 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
             obj.setAttributeLongLong('altvoltage1','RX2_LO_frequency',obj.CenterFrequencyChannel1 ,true);
             
             % Calibrations
-            obj.setAttributeBool('voltage0','agc_tracking_en',obj.AGCTrackingEnableChannel0,false);
-            obj.setAttributeBool('voltage1','agc_tracking_en',obj.AGCTrackingEnableChannel1,false);
+            obj.setAttributeBool('voltage0','agc_tracking_en',obj.AGCTrackingChannel0,false);
+            obj.setAttributeBool('voltage1','agc_tracking_en',obj.AGCTrackingChannel1,false);
 
-            obj.setAttributeBool('voltage0','bbdc_rejection_tracking_en',obj.BBDCRejectionTrackingEnableChannel0,false);
-            obj.setAttributeBool('voltage1','bbdc_rejection_tracking_en',obj.BBDCRejectionTrackingEnableChannel1,false);
+            obj.setAttributeBool('voltage0','bbdc_rejection_tracking_en',obj.BBDCRejectionTrackingChannel0,false);
+            obj.setAttributeBool('voltage1','bbdc_rejection_tracking_en',obj.BBDCRejectionTrackingChannel1,false);
 
-            obj.setAttributeBool('voltage0','hd_tracking_en',obj.HDTrackingEnableChannel0,false);
-            obj.setAttributeBool('voltage1','hd_tracking_en',obj.HDTrackingEnableChannel1,false);
+            obj.setAttributeBool('voltage0','hd_tracking_en',obj.HDTrackingChannel0,false);
+            obj.setAttributeBool('voltage1','hd_tracking_en',obj.HDTrackingChannel1,false);
 
-            obj.setAttributeBool('voltage0','quadrature_fic_tracking_en',obj.QuadratureFICTrackingEnableChannel0,false);
-            obj.setAttributeBool('voltage1','quadrature_fic_tracking_en',obj.QuadratureFICTrackingEnableChannel1,false);
+            obj.setAttributeBool('voltage0','quadrature_fic_tracking_en',obj.QuadratureFICTrackingChannel0,false);
+            obj.setAttributeBool('voltage1','quadrature_fic_tracking_en',obj.QuadratureFICTrackingChannel1,false);
 
-            obj.setAttributeBool('voltage0','quadrature_w_poly_tracking_en',obj.QuadratureWidebandPolyTrackingEnableChannel0,false);
-            obj.setAttributeBool('voltage1','quadrature_w_poly_tracking_en',obj.QuadratureWidebandPolyTrackingEnableChannel1,false);
+            obj.setAttributeBool('voltage0','quadrature_w_poly_tracking_en',obj.QuadratureWidebandPolyTrackingChannel0,false);
+            obj.setAttributeBool('voltage1','quadrature_w_poly_tracking_en',obj.QuadratureWidebandPolyTrackingChannel1,false);
 
-            obj.setAttributeBool('voltage0','rfdc_tracking_en',obj.RFDCTrackingEnableChannel0,false);
-            obj.setAttributeBool('voltage1','rfdc_tracking_en',obj.RFDCTrackingEnableChannel1,false);
+            obj.setAttributeBool('voltage0','rfdc_tracking_en',obj.RFDCTrackingChannel0,false);
+            obj.setAttributeBool('voltage1','rfdc_tracking_en',obj.RFDCTrackingChannel1,false);
             
-            obj.setAttributeBool('voltage0','rssi_tracking_en',obj.RSSITrackingEnableChannel0,false);
-            obj.setAttributeBool('voltage1','rssi_tracking_en',obj.RSSITrackingEnableChannel1,false);
+            obj.setAttributeBool('voltage0','rssi_tracking_en',obj.RSSITrackingChannel0,false);
+            obj.setAttributeBool('voltage1','rssi_tracking_en',obj.RSSITrackingChannel1,false);
             
         end
         

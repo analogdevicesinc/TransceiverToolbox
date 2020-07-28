@@ -41,6 +41,15 @@ classdef (Abstract, Hidden = true) Base < adi.common.Attribute & ...
         %   RF center frequency, specified in Hz as a scalar. The
         %   default is 2.4e9.  This property is tunable.
         CenterFrequencyChannel1 = 2.4e9;
+        
+        %NCOCorrectionFrequencyChannel0 NCO Correction Frequency Channel 0
+        %   NCO correction frequency, specified in Hz as a scalar. The
+        %   default is 0.  This property is tunable.
+        NCOCorrectionFrequencyChannel0 = 0;
+        %NCOCorrectionFrequencyChannel1 NCO Correction Frequency Channel 1
+        %   NCO correction frequency, specified in Hz as a scalar. The
+        %   default is 0.  This property is tunable.
+        NCOCorrectionFrequencyChannel1 = 0;
     end
     
     properties(Nontunable, Hidden)
@@ -96,6 +105,26 @@ classdef (Abstract, Hidden = true) Base < adi.common.Attribute & ...
                 obj.setAttributeLongLong(id,prop,value,true);
             end
         end
+        
+        % Check NCOCorrectionFrequencyChannel0
+        function set.NCOCorrectionFrequencyChannel0(obj, value)
+            obj.NCOCorrectionFrequencyChannel0 = value;
+            id = 'voltage0';
+            prop = 'nco_frequency';
+            if obj.ConnectedToDevice
+                obj.setAttributeLongLong(id,prop,value,strcmpi(obj.Type,'Tx'));
+            end
+        end
+        % Check NCOCorrectionFrequencyChannel1
+        function set.NCOCorrectionFrequencyChannel1(obj, value)
+            obj.NCOCorrectionFrequencyChannel1 = value;
+            id = 'voltage1';
+            prop = 'nco_frequency';
+            if obj.ConnectedToDevice
+                obj.setAttributeLongLong(id,prop,value,strcmpi(obj.Type,'Tx'));
+            end
+        end
+        
         % Check EnableCustomProfile
         function set.EnableCustomProfile(obj, value)
             validateattributes( value, { 'logical' }, ...
@@ -178,9 +207,9 @@ classdef (Abstract, Hidden = true) Base < adi.common.Attribute & ...
             profle_data_str = fileread(obj.CustomProfileFileName);
             % Wrap update in read writes since once profiles are loaded
             % some attributes get lost
-            state = savePartState(obj);
+%             state = savePartState(obj);
             obj.setDeviceAttributeRAW('profile_config',profle_data_str);
-            returnPartState(obj,state)
+%             returnPartState(obj,state)
         end
                    
     end
