@@ -15,14 +15,21 @@ cd ..
 if [ -d "hdl" ]; then
     rm -rf "hdl"
 fi
-if ! git clone --single-branch -b $HDLBRANCH https://github.com/analogdevicesinc/hdl.git
-then
-   exit 1
-fi
+for i in {1..5}
+do
+	if git clone --single-branch -b $HDLBRANCH https://github.com/analogdevicesinc/hdl.git
+	then
+	   break
+	fi
+	if [ -d "hdl" ]; then
+	   break
+	fi
+done
 if [ ! -d "hdl" ]; then
    echo "HDL clone failed"
    exit 1
 fi
+
 
 # Get required vivado version needed for HDL
 if [ -f "hdl/library/scripts/adi_ip.tcl" ]; then
