@@ -1,9 +1,9 @@
 % Test Tx DMA data output
-amplitude = 2^10; frequency = 3e6;
+amplitude = 2^10; frequency = 2e6;
 swv1 = dsp.SineWave(amplitude, frequency);
 swv1.ComplexOutput = true;
 swv1.SamplesPerFrame = 2^20;
-swv1.SampleRate = 100e6;
+swv1.SampleRate = 15.36e6;
 y = swv1();
 
 uri = 'ip:analog';
