@@ -48,7 +48,6 @@ classdef LTEAppInternals < LTETestModelWaveform
     end
     
     methods (Access = private)
-        % static methods in separate files
         dataRx = PlutoRadio(obj, app, eNodeBOutput, countTx)
     end
     
@@ -274,35 +273,10 @@ classdef LTEAppInternals < LTETestModelWaveform
                        app.SummaryTable1.Data{end, 2} = temp_SummaryTable3{end};
                    end
                    if (strcmp(app.StepOrPlayButton, 'step') && (i == nSubframes-1))
-                       app.Label.Text = {'Test stopped.'}; 
-                       app.PlayStopButton.Enable = 'on';                        
-                       app.StepButton.Enable = 'on';
-                       app.DocButton.Enable = 'on'; 
-                       app.GridButton.Enable = 'on';
-                       app.RefreshButton.Enable = 'on';
-                       app.TxDropDown.Enable = 'on';
+                       app.Label.Text = {'Test stopped.'};
+                       app.EnableDisableGUIComponents('on');
                        app.TxDropDown.Value = obj.PlutoTx.RadioID;
-                       app.RxDropDown.Enable = 'on';
                        app.RxDropDown.Value = obj.PlutoRx.RadioID;
-                       app.dBPercentDropDown.Enable = 'on';
-                       app.TMNDropDown.Enable = 'on';
-                       app.BWDropDown.Enable = 'on';
-                       app.LOEditField.Enable = 'on';
-                       
-                       app.PBCHCheckBox.Enable = 'on';
-                       app.PCFICHCheckBox.Enable = 'on';
-                       app.PHICHCheckBox.Enable = 'on';
-                       app.PDCCHCheckBox.Enable = 'on';
-                       app.RSCheckBox.Enable = 'on';
-                       app.PSSCheckBox.Enable = 'on';
-                       app.SSSCheckBox.Enable = 'on';
-                       app.PDSCHCheckBox.Enable = 'on';
-                       app.EVMScCheckBox.Enable = 'on';
-                       app.EVMRbCheckBox.Enable = 'on';
-                       app.EVMSymsCheckBox.Enable = 'on';
-                       app.ConstCheckBox.Enable = 'on';
-                       app.PSDCheckBox.Enable = 'on';
-                       
                        obj.PlutoRx.FrequencyCorrection = 0;
                        obj.PlutoRx();
                        obj.PlutoRx.release();
@@ -328,18 +302,9 @@ classdef LTEAppInternals < LTETestModelWaveform
         function killtest = stopTest(obj, app)
             killtest = obj.StopTest;
             if (killtest)
-                app.PlayStopButton.Enable = 'on';  
-                app.DocButton.Enable = 'on'; 
-                app.GridButton.Enable = 'on';
-                app.RefreshButton.Enable = 'on';
-                app.TxDropDown.Enable = 'on';
+                app.EnableDisableGUIComponents('on');
                 app.TxDropDown.Value = obj.PlutoTx.RadioID;
-                app.RxDropDown.Enable = 'on';
                 app.RxDropDown.Value = obj.PlutoRx.RadioID;
-                app.dBPercentDropDown.Enable = 'on';
-                app.TMNDropDown.Enable = 'on';
-                app.BWDropDown.Enable = 'on';
-                app.LOEditField.Enable = 'on';
                 drawnow;  
                 obj.StopTest = false;                
             end

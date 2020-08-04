@@ -113,8 +113,6 @@ classdef LTEApp < matlab.apps.AppBase
         evmScRMSAvg = []
         evmRbRMSAvg = []
         evmSymbolRMSAvg = []        
-        numSCs
-        RBs
         evmGridFrame = []
     end
     
@@ -125,6 +123,8 @@ classdef LTEApp < matlab.apps.AppBase
     properties (Access = public)
         PlutoNotFound = true   
         TMNValue
+        numSCs
+        RBs
         SummaryTable1_Data
         SummaryTable2_Data
         SummaryTable3_Data
@@ -142,6 +142,30 @@ classdef LTEApp < matlab.apps.AppBase
     end
     
     methods (Access = public)
+        % enable/disable GUI components
+        function EnableDisableGUIComponents(app, state)
+            if strcmp(state, 'on') || strcmp(app.StepOrPlayButton, 'step')
+                app.PlayStopButton.Enable = state;
+            end
+
+            buttons = {'Step', 'Doc', 'Grid', 'Refresh'};
+            for ii = 1:numel(buttons)
+                app.(strcat(buttons{ii}, 'Button')).Enable = state;
+            end
+
+            dropdowns = {'Tx', 'Rx', 'dBPercent', 'TMN', 'BW'};
+            for ii = 1:numel(dropdowns)
+                app.(strcat(dropdowns{ii}, 'DropDown')).Enable = state;
+            end
+
+            checkboxes = {'PBCH', 'PCFICH', 'PHICH', 'PDCCH', 'RS',...
+                'PSS', 'SSS', 'PDSCH', 'EVMSc', 'EVMRb', 'EVMSyms', ...
+                'Const', 'PSD'};
+            for ii = 1:numel(checkboxes)
+                app.(strcat(checkboxes{ii}, 'CheckBox')).Enable = state;
+            end
+            app.LOEditField.Enable = state;
+        end
     end    
 
     % Callbacks that handle component events
@@ -1318,9 +1342,6 @@ classdef LTEApp < matlab.apps.AppBase
 
         % Button pushed function: PlayStopButton
         function PlayStopButtonPushed(app, ~)
-            app.DocButton.Enable = 'off'; 
-            app.GridButton.Enable = 'off'; 
-            app.RefreshButton.Enable = 'off';
             app.PlayStopButtonState = ~app.PlayStopButtonState;
             app.StepOrPlayButton = 'play';
             
@@ -1337,66 +1358,11 @@ classdef LTEApp < matlab.apps.AppBase
                 cla(app.evmSCAxes); drawnow; 
                 cla(app.evmSymsAxes); drawnow; 
                 cla(app.constAxes); drawnow;
- 
-                switch (app.BWDropDown.Value)             
-                    case '3 MHz'
-                        app.RBs = 15;
-                    case '5 MHz'
-                        app.RBs = 25;
-                    case '10 MHz'
-                        app.RBs = 50;
-                    case '15 MHz'
-                        app.RBs = 75;                    
-                    case '20 MHz'
-                        app.RBs = 100;
-                    otherwise
-                        st = dbstack;
-                        error("unknown option %s in %s", app.BWDropDown.Value, st.name);
-                end
-                app.numSCs = app.RBs*12;
-                app.evmSCAxes.XLim = [1 app.numSCs];
-                app.evmRBAxes.XLim = [1 app.RBs];
-                
-                
-                app.PBCHCheckBox.Enable = 'off';
-                app.PCFICHCheckBox.Enable = 'off';
-                app.PHICHCheckBox.Enable = 'off';
-                app.PDCCHCheckBox.Enable = 'off';
-                app.RSCheckBox.Enable = 'off';
-                app.PSSCheckBox.Enable = 'off';
-                app.SSSCheckBox.Enable = 'off';
-                app.PDSCHCheckBox.Enable = 'off';
-                app.EVMScCheckBox.Enable = 'off';
-                app.EVMRbCheckBox.Enable = 'off';
-                app.EVMSymsCheckBox.Enable = 'off';
-                app.ConstCheckBox.Enable = 'off';
-                app.PSDCheckBox.Enable = 'off';
-                
-                app.StepButton.Enable = 'off'; 
-                app.dBPercentDropDown.Enable = 'off';
-                app.TMNDropDown.Enable = 'off';
-                app.BWDropDown.Enable = 'off';
-                app.LOEditField.Enable = 'off';
+                app.EnableDisableGUIComponents('off');
                 notify(app, 'Play');            
             else
                 app.Label.Text = {'Test stopped.'}; 
                 notify(app, 'Stop');
-                app.StepButton.Enable = 'on'; 
-                
-                app.PBCHCheckBox.Enable = 'on';
-                app.PCFICHCheckBox.Enable = 'on';
-                app.PHICHCheckBox.Enable = 'on';
-                app.PDCCHCheckBox.Enable = 'on';
-                app.RSCheckBox.Enable = 'on';
-                app.PSSCheckBox.Enable = 'on';
-                app.SSSCheckBox.Enable = 'on';
-                app.PDSCHCheckBox.Enable = 'on';
-                app.EVMScCheckBox.Enable = 'on';
-                app.EVMRbCheckBox.Enable = 'on';
-                app.EVMSymsCheckBox.Enable = 'on';
-                app.ConstCheckBox.Enable = 'on';
-                app.PSDCheckBox.Enable = 'on';
-                
                 drawnow; 
             end
             drawnow; 
@@ -1405,15 +1371,6 @@ classdef LTEApp < matlab.apps.AppBase
         % Button pushed function: StepButton
         function StepButtonPushed(app, ~)
             app.StepOrPlayButton = 'step';
-            app.StepButton.Enable = 'off'; 
-            app.PlayStopButton.Enable = 'off'; 
-            app.DocButton.Enable = 'off'; 
-            app.GridButton.Enable = 'off';    
-            app.dBPercentDropDown.Enable = 'off';
-            app.TMNDropDown.Enable = 'off';
-            app.BWDropDown.Enable = 'off';
-            app.LOEditField.Enable = 'off';
-            app.RefreshButton.Enable = 'off';
             
             app.SummaryTable1_Data = cell(6, 1);
             app.SummaryTable2_Data = cell(8, 1);
@@ -1428,39 +1385,7 @@ classdef LTEApp < matlab.apps.AppBase
             cla(app.evmSymsAxes); drawnow; 
             cla(app.constAxes); drawnow;                
             
-            switch (app.BWDropDown.Value)             
-                case '3 MHz'
-                    app.RBs = 15;
-                case '5 MHz'
-                    app.RBs = 25;
-                case '10 MHz'
-                    app.RBs = 50;
-                case '15 MHz'
-                    app.RBs = 75;                    
-                case '20 MHz'
-                    app.RBs = 100;
-                otherwise
-                    st = dbstack;
-                    error("unknown option %s in %s", app.BWDropDown.Value, st.name);
-             end
-            app.numSCs = app.RBs*12;
-            app.evmSCAxes.XLim = [1 app.numSCs];
-            app.evmRBAxes.XLim = [1 app.RBs];
-                
-            app.PBCHCheckBox.Enable = 'off';
-            app.PCFICHCheckBox.Enable = 'off';
-            app.PHICHCheckBox.Enable = 'off';
-            app.PDCCHCheckBox.Enable = 'off';
-            app.RSCheckBox.Enable = 'off';
-            app.PSSCheckBox.Enable = 'off';
-            app.SSSCheckBox.Enable = 'off';
-            app.PDSCHCheckBox.Enable = 'off';
-            app.EVMScCheckBox.Enable = 'off';
-            app.EVMRbCheckBox.Enable = 'off';
-            app.EVMSymsCheckBox.Enable = 'off';
-            app.ConstCheckBox.Enable = 'off';
-            app.PSDCheckBox.Enable = 'off';
-            
+            app.EnableDisableGUIComponents('off');
             notify(app, 'Play');            
         end
         
@@ -1496,8 +1421,29 @@ classdef LTEApp < matlab.apps.AppBase
             disableDefaultInteractivity(app.GridAxes);
             app.GridAxes.Toolbar.Visible = 'off';
         end            
-                
-        function TMNDropDownValueChanged(app, ~)            
+        
+        function BWDropDownValueChanged(app, ~)
+            switch (app.BWDropDown.Value)
+                case '3 MHz'
+                    app.RBs = 15;
+                case '5 MHz'
+                    app.RBs = 25;
+                case '10 MHz'
+                    app.RBs = 50;
+                case '15 MHz'
+                    app.RBs = 75;
+                case '20 MHz'
+                    app.RBs = 100;
+                otherwise
+                    st = dbstack;
+                    error("unknown option %s in %s", app.BWDropDown.Value, st.name);
+             end
+            app.numSCs = app.RBs*12;
+            app.evmSCAxes.XLim = [1 app.numSCs];
+            app.evmRBAxes.XLim = [1 app.RBs];
+        end
+
+        function TMNDropDownValueChanged(app, ~)
             app.SummaryTable1.Data{1,2} = [];
             app.SummaryTable1.Data{2,2} = [];
             app.SummaryTable1.Data{3,2} = [];
@@ -1613,7 +1559,9 @@ classdef LTEApp < matlab.apps.AppBase
             app.BWDropDown.FontSize = 11;
             app.BWDropDown.Layout.Row = 2;
             app.BWDropDown.Layout.Column = 2;
-                        
+            app.BWDropDown.ValueChangedFcn = createCallbackFcn(app, @BWDropDownValueChanged, true);
+            app.RBs = 25;
+            
             % Create LOEditFieldLabel
             app.LOEditFieldLabel = uilabel(app.GridLayout2);
             app.LOEditFieldLabel.HorizontalAlignment = 'right';
