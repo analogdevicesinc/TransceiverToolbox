@@ -5,6 +5,22 @@ classdef ADRV9002Tests < HardwareTests
         author = 'ADI';
     end
     
+    properties (TestParameter)
+        GainControlMode = {'spi','pin','automatic'};
+        DigitalGainControlMode = {...
+            'AutomaticGainCorrection','ManualGainCorrection',...
+            'AutomaticGainCompensation', 'ManualGainCompensation'};
+        ENSMPortControl = {'pin','spi'};
+        InterfaceGain = {'18dB', '12dB', '6dB', '0dB', '-6dB', '-12dB', '-18dB',...
+            '-24dB', '-30dB','-36dB'};
+        Tracking = {'AGCTracking','BBDCRejectionTracking','HDTracking',...
+            'QuadratureFICTracking','QuadratureWidebandPolyTracking',...
+            'RFDCTracking','RSSITracking'};
+        TxTracking = {'ClosedLoopTracking','LOLeakageTracking',...
+            'LoopbackDelayTracking','PACorrectionTracking',...
+            'QuadratureTracking'};
+    end
+    
     methods(TestClassSetup)
         % Check hardware connected
         function CheckForHardware(testCase)
@@ -32,6 +48,84 @@ classdef ADRV9002Tests < HardwareTests
             rx.release();
             testCase.verifyTrue(valid);
             testCase.verifyGreaterThan(sum(abs(double(out))),0);
+        end
+        
+        function testADRV9002RxENSM(testCase)
+            rx = adi.ADRV9002.Rx('uri',testCase.uri);
+            rx.EnabledChannels = 1;
+            rx.ENSMModeChannel0 = 'calibrated';
+            [out, valid] = rx();
+            rx.release();
+            testCase.verifyTrue(valid);
+            testCase.verifyEqual(sum(abs(double(out))),0);
+        end
+        
+        function testADRV9002RxAGC(testCase,GainControlMode)
+            rx = adi.ADRV9002.Rx('uri',testCase.uri);
+            rx.EnabledChannels = 1;
+            rx.GainControllerSourceChannel0 = GainControlMode;
+            rx.GainControllerSourceChannel1 = GainControlMode;
+            [out, valid] = rx();
+            rx.release();
+            testCase.verifyTrue(valid);
+            testCase.verifyGreaterThan(sum(abs(double(out))),0);
+        end
+        
+        function testADRV9002RxDAGC(testCase,DigitalGainControlMode)
+            rx = adi.ADRV9002.Rx('uri',testCase.uri);
+            rx.EnabledChannels = 1;
+            rx.GainControllerSourceChannel0 = 'spi';
+            rx.GainControllerSourceChannel1 = 'spi';
+            rx.DigitalGainControlModeChannel0 = DigitalGainControlMode;
+            rx.DigitalGainControlModeChannel1 = DigitalGainControlMode;
+            [out, valid] = rx();
+            rx.release();
+            testCase.verifyTrue(valid);
+            testCase.verifyGreaterThan(sum(abs(double(out))),0);
+        end
+        
+%         function testADRV9002RxENSMPorts(testCase,ENSMPortControl)
+%             rx = adi.ADRV9002.Rx('uri',testCase.uri);
+%             rx.EnabledChannels = 1;
+%             rx.ENSMPortModeChannel0 = ENSMPortControl;
+%             rx.ENSMPortModeChannel1 = ENSMPortControl;
+%             [out, valid] = rx();
+%             rx.release();
+%             testCase.verifyTrue(valid);
+%             testCase.verifyGreaterThan(sum(abs(double(out))),0);
+%         end
+
+        function testADRV9002RxInterfaceGain(testCase,InterfaceGain)
+            rx = adi.ADRV9002.Rx('uri',testCase.uri);
+            rx.EnabledChannels = 1;
+            rx.InterfaceGainChannel0 = InterfaceGain;
+            rx.InterfaceGainChannel0 = InterfaceGain;
+            [out, valid] = rx();
+            rx.release();
+            testCase.verifyTrue(valid);
+            testCase.verifyGreaterThan(sum(abs(double(out))),0);
+        end
+        
+        function testADRV9002RxTracking(testCase,Tracking)
+            rx = adi.ADRV9002.Rx('uri',testCase.uri);
+            rx.EnabledChannels = 1;
+            rx.([Tracking,'Channel0']) = true;
+            rx.([Tracking,'Channel1']) = true;
+            [out, valid] = rx();
+            rx.release();
+            testCase.verifyTrue(valid);
+            testCase.verifyGreaterThan(sum(abs(double(out))),0);
+        end
+
+        function testADRV9002TxTracking(testCase,TxTracking)
+            tx = adi.ADRV9002.Tx('uri',testCase.uri);
+            tx.EnabledChannels = 1;
+            tx.([TxTracking,'Channel0']) = true;
+            tx.([TxTracking,'Channel1']) = true;
+            c = complex(randn(1024,1));
+            [valid] = tx(c);
+            tx.release();
+            testCase.verifyTrue(valid);
         end
         
 %         function testADRV9002RxCustomFilter(testCase)
