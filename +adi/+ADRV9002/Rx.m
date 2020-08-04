@@ -39,19 +39,6 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
         %   dominate. For wideband applications this gain should be reduced
         %   or disabled since quantization noise is minimal.
         InterfaceGainChannel1 = '0dB';
-
-        %GainControlModeChannel0 Gain Control Mode Channel 0
-        %   Mode of receive path AGC. Options are:
-        %   - manual_spi
-        %   - manual_pin
-        %   - automatic
-        GainControlModeChannel0 = 'automatic';
-        %GainControlModeChannel1 Gain Control Mode Channel 1
-        %   Mode of receive path AGC. Options are:
-        %   - manual_spi
-        %   - manual_pin
-        %   - automatic
-        GainControlModeChannel1 = 'automatic';
         
         %DigitalGainControlModeChannel0 Digital Gain Control Mode Channel 0
         %   The digital gain control has two major purposes, one for gain
@@ -133,14 +120,14 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
         ENSMPortModeChannel1 = 'spi';
         %GainControllerSourceChannel0 Gain Controller Source Channel 0
         %   specified as one of the following:
-        %   'manual_spi'
-        %   'manual_pin'
+        %   'spi'
+        %   'pin'
         %   'automatic'
         GainControllerSourceChannel0 = 'automatic';
         %GainControllerSourceChannel1 Gain Controller Source Channel 1
         %   specified as one of the following:
-        %   'manual_spi'
-        %   'manual_pin'
+        %   'spi'
+        %   'pin'
         %   'automatic'
         GainControllerSourceChannel1 = 'automatic';
     end
@@ -234,9 +221,9 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
             'spi','pin'});
         
         GainControllerSourceChannel0Set = matlab.system.StringSet({ ...
-            'manual_spi','manual_pin','automatic'});
+            'spi','pin','automatic'});
         GainControllerSourceChannel1Set = matlab.system.StringSet({ ...
-            'manual_spi','manual_pin','automatic'});
+            'spi','pin','automatic'});
         
         DigitalGainControlModeChannel0Set = matlab.system.StringSet({ ...
             'AutomaticGainCorrection','ManualGainCorrection',...

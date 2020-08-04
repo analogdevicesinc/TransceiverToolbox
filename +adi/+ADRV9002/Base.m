@@ -12,18 +12,18 @@ classdef (Abstract, Hidden = true) Base < adi.common.Attribute & ...
         SamplesPerFrame = 2^15;
     end
     
-    properties (Nontunable, Logical)
-        %EnableCustomProfile Enable Custom Profile
-        %   Enable use of custom Profile file to set SamplingRate, 
-        %   RFBandwidth, and other features of transceiver
-        EnableCustomProfile = false;
-    end
-    
-    properties (Nontunable)
-        %CustomProfileFileName Custom Profile File Name
-        %   Path to custom Profile file created from profile wizard
-        CustomProfileFileName = '';
-    end
+%     properties (Nontunable, Logical)
+%         %EnableCustomProfile Enable Custom Profile
+%         %   Enable use of custom Profile file to set SamplingRate, 
+%         %   RFBandwidth, and other features of transceiver
+%         EnableCustomProfile = false;
+%     end
+%     
+%     properties (Nontunable)
+%         %CustomProfileFileName Custom Profile File Name
+%         %   Path to custom Profile file created from profile wizard
+%         CustomProfileFileName = '';
+%     end
     
     properties (Hidden, Constant)
         %SamplingRate Sampling Rate
@@ -125,23 +125,23 @@ classdef (Abstract, Hidden = true) Base < adi.common.Attribute & ...
             end
         end
         
-        % Check EnableCustomProfile
-        function set.EnableCustomProfile(obj, value)
-            validateattributes( value, { 'logical' }, ...
-                { }, ...
-                '', 'EnableCustomProfile');
-            obj.EnableCustomProfile = value;
-        end
-        % Check CustomFilterFileName
-        function set.CustomProfileFileName(obj, value)
-            validateattributes( value, { 'char' }, ...
-                { }, ...
-                '', 'CustomProfileFileName');
-            obj.CustomProfileFileName = value;
-            if obj.EnableCustomProfile && obj.ConnectedToDevice %#ok<MCSUP>
-                writeProfileFile(obj);
-            end
-        end
+%         % Check EnableCustomProfile
+%         function set.EnableCustomProfile(obj, value)
+%             validateattributes( value, { 'logical' }, ...
+%                 { }, ...
+%                 '', 'EnableCustomProfile');
+%             obj.EnableCustomProfile = value;
+%         end
+%         % Check CustomFilterFileName
+%         function set.CustomProfileFileName(obj, value)
+%             validateattributes( value, { 'char' }, ...
+%                 { }, ...
+%                 '', 'CustomProfileFileName');
+%             obj.CustomProfileFileName = value;
+%             if obj.EnableCustomProfile && obj.ConnectedToDevice %#ok<MCSUP>
+%                 writeProfileFile(obj);
+%             end
+%         end
     end
     
     %% API Functions
