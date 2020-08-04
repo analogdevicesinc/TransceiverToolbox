@@ -108,8 +108,7 @@ classdef testAppGUI < matlab.uitest.TestCase
             testCase.addTeardown(@delete,app);
             
             testCase.assertFalse(app.PlutoNotFound, 'Test Halted. Pluto Not Found.');
-            testCase.press(app.StepButton);
-            disp('Here');
+            testCase.press(app.StepButton);          
             
             isEmptyErrorVectorTime = isempty(get(app.evmSymsAxes, 'Children'));
             testCase.verifyFalse(isEmptyErrorVectorTime);

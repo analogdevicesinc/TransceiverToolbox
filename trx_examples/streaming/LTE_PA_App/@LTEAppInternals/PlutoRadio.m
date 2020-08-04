@@ -60,39 +60,10 @@ function dataRx = PlutoRadio(obj, app, dataTx, frame_ind)
             obj.PlutoRx.SamplesPerFrame = 2^23;
         else
             obj.PlutoRx.FrequencyCorrection = obj.FrequencyCorrection;
-
-            switch (app.BWDropDown.Value)
-                case '3 MHz'
-                    obj.PlutoRx.SamplesPerFrame = 2^19;
-                case '5 MHz'
-                    obj.PlutoRx.SamplesPerFrame = 2^19;
-                case '10 MHz'
-                    obj.PlutoRx.SamplesPerFrame = 2^19;
-                case '15 MHz'
-                    obj.PlutoRx.SamplesPerFrame = 2^21;
-                case '20 MHz'
-                    obj.PlutoRx.SamplesPerFrame = 2^21;
-                otherwise
-                    st = dbstack;
-                    error("unknown option %s in %s", app.BWDropDown.Value, st.name);
-            end
+            obj.PlutoRx.SamplesPerFrame = setRxSamplesPerFrame(app.BWDropDown.Value);            
         end
     else
-        switch (app.BWDropDown.Value)
-            case '3 MHz'
-                obj.PlutoRx.SamplesPerFrame = 2^19;
-            case '5 MHz'
-                obj.PlutoRx.SamplesPerFrame = 2^19;
-            case '10 MHz'
-                obj.PlutoRx.SamplesPerFrame = 2^19;
-            case '15 MHz'
-                obj.PlutoRx.SamplesPerFrame = 2^21;
-            case '20 MHz'
-                obj.PlutoRx.SamplesPerFrame = 2^21;
-            otherwise
-                st = dbstack;
-                error("unknown option %s in %s", app.BWDropDown.Value, st.name);
-        end
+        obj.PlutoRx.SamplesPerFrame = setRxSamplesPerFrame(app.BWDropDown.Value);
     end
     
     if (frame_ind == 1)
@@ -112,6 +83,18 @@ function dataRx = PlutoRadio(obj, app, dataTx, frame_ind)
         end
     end
     dataRx = double(dataRx);   
+end
+
+function SamplesPerFrame = setRxSamplesPerFrame(BW)
+    switch (BW)
+        case {'3 MHz', '5 MHz', '10 MHz'}
+            SamplesPerFrame = 2^19;        
+        case {'15 MHz', '20 MHz'}
+            SamplesPerFrame = 2^21;        
+        otherwise
+            st = dbstack;
+            error("unknown option %s in %s", BW, st.name);
+    end
 end
 
 function SDRRx = FrequencyCorrectionRadios(SDRTx, SDRRx)
@@ -152,16 +135,6 @@ function SDRRx = FrequencyCorrectionRadios(SDRTx, SDRRx)
     [~,idx] = findpeaks(y,'MinPeakProminence',max(0.5*y));
     fReceived2 = (max(idx)-numSamples/2-1)/numSamples*sampleRate;
 
-    %{
-    % Plot the spectrum
-    sa = dsp.SpectrumAnalyzer('SampleRate', sampleRate, 'SpectralAverages', 4);
-    sa.Title = sprintf('Tone Expected at 250 kHz, Actually Received at %.3f kHz', ...
-                       fReceived/1000);
-    receivedSig = reshape(receivedSig, [], 16); % Reshape into 16 columns
-    for i = 1:size(receivedSig, 2)
-        sa(receivedSig(:,i));
-    end
-    %}
     msg = sprintf('Tone detected at %.3f kHz\n', fReceived2/1000);
     disp(msg);
     
