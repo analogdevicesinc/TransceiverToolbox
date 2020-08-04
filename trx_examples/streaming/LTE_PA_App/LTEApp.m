@@ -2,78 +2,74 @@ classdef LTEApp < matlab.apps.AppBase
 
     % Properties that correspond to app components
     properties (Access = public)
-        LTEeNBTxConformanceTestsUsingPlutoSDRUIFigure  matlab.ui.Figure
-        Panel                         matlab.ui.container.Panel
-        TestConfigurationButtonGroup  matlab.ui.container.ButtonGroup
-        RMCButton                     matlab.ui.control.RadioButton
-        ETMLabel                      matlab.ui.control.Label
-        dBPercentDropDown             matlab.ui.control.DropDown
-        TMNDropDown                   matlab.ui.control.DropDown
-        TMNDropDownLabel              matlab.ui.control.Label
-        TxDropDownLabel               matlab.ui.control.Label
-        RxDropDownLabel               matlab.ui.control.Label
-        BWDropDown                    matlab.ui.control.DropDown
-        TxDropDown                    matlab.ui.control.DropDown
-        RxDropDown                    matlab.ui.control.DropDown
-        BWDropDownLabel               matlab.ui.control.Label
-        RCDropDown                    matlab.ui.control.DropDown
-        RCDropDownLabel               matlab.ui.control.Label
-        Panel_14                      matlab.ui.container.Panel
-        Panel_15                      matlab.ui.container.Panel
-        Panel_16                      matlab.ui.container.Panel
-        GridLayout                    matlab.ui.container.GridLayout
-        GridLayout1                   matlab.ui.container.GridLayout
-        GridLayout2                   matlab.ui.container.GridLayout
-        PlayStopButton                matlab.ui.control.Button
-        RefreshButton                 matlab.ui.control.Button
-        StepButton                    matlab.ui.control.Button
-        DocButton                     matlab.ui.control.Button
-        GridButton                    matlab.ui.control.Button
-        StatusLight                   matlab.ui.control.Lamp
-        LOEditFieldLabel              matlab.ui.control.Label
-        LOEditField                   matlab.ui.control.NumericEditField
-        MHzLabel                      matlab.ui.control.Label
-        VerLabel                      matlab.ui.control.Label
-        FindPlutoButton               matlab.ui.control.Button
-        ListBox                       matlab.ui.control.ListBox
-        Panel_8                       matlab.ui.container.Panel
-        PSDAxes                       matlab.ui.control.UIAxes
-        Panel_9                       matlab.ui.container.Panel
-        evmSymsAxes                   matlab.ui.control.UIAxes
-        Panel_10                      matlab.ui.container.Panel
-        evmSCAxes                     matlab.ui.control.UIAxes
-        Panel_11                      matlab.ui.container.Panel
-        evmRBAxes                     matlab.ui.control.UIAxes
-        Panel_12                      matlab.ui.container.Panel
-        constAxes                     matlab.ui.control.UIAxes
-        Panel_13                      matlab.ui.container.Panel
-        Label                         matlab.ui.control.Label
-        Image                         matlab.ui.control.Image
-        Panel_4                       matlab.ui.container.Panel
-        SummaryTable1                  matlab.ui.control.Table
-        SummaryTable2                  matlab.ui.control.Table
-        SummaryTable3                  matlab.ui.control.Table
-        PDSCHConstellationLabel
-        PDSCHConstellationValLabel
-        PowerBalacingConstellationLabel
-        PowerBalacingConstellationValLabel
-        PBCHCheckBox
-        PCFICHCheckBox
-        PHICHCheckBox
-        PDCCHCheckBox
-        RSCheckBox
-        PSSCheckBox
-        SSSCheckBox
-        PDSCHCheckBox
-        EVMScCheckBox
-        EVMRbCheckBox
-        EVMSymsCheckBox
-        ConstCheckBox
-        PSDCheckBox
-        TabGroup
-        Tab1
-        Tab2
-        Tab3
+        LTEeNBTxConformanceTestsUIFigure matlab.ui.Figure
+        Panel matlab.ui.container.Panel
+        TestConfigurationButtonGroup matlab.ui.container.ButtonGroup
+        RMCButton matlab.ui.control.RadioButton
+        ETMLabel matlab.ui.control.Label
+        dBPercentDropDown matlab.ui.control.DropDown
+        TMNDropDown matlab.ui.control.DropDown
+        TMNDropDownLabel matlab.ui.control.Label
+        TxDropDownLabel matlab.ui.control.Label
+        RxDropDownLabel matlab.ui.control.Label
+        BWDropDown matlab.ui.control.DropDown
+        TxDropDown matlab.ui.control.DropDown
+        RxDropDown matlab.ui.control.DropDown
+        BWDropDownLabel matlab.ui.control.Label
+        RCDropDown matlab.ui.control.DropDown
+        RCDropDownLabel matlab.ui.control.Label
+        Panel_14 matlab.ui.container.Panel
+        Panel_15 matlab.ui.container.Panel
+        Panel_16 matlab.ui.container.Panel
+        GridLayout matlab.ui.container.GridLayout
+        GridLayout1 matlab.ui.container.GridLayout
+        GridLayout2 matlab.ui.container.GridLayout
+        PlayStopButton matlab.ui.control.Button
+        RefreshButton matlab.ui.control.Button
+        StepButton matlab.ui.control.Button
+        DocButton matlab.ui.control.Button
+        GridButton matlab.ui.control.Button
+        StatusLight matlab.ui.control.Lamp
+        LOEditFieldLabel matlab.ui.control.Label
+        LOEditField matlab.ui.control.NumericEditField
+        MHzLabel matlab.ui.control.Label
+        VerLabel matlab.ui.control.Label
+        FindPlutoButton matlab.ui.control.Button
+        ListBox matlab.ui.control.ListBox
+        Panel_8 matlab.ui.container.Panel
+        PSDAxes matlab.ui.control.UIAxes
+        Panel_9 matlab.ui.container.Panel
+        evmSymsAxes matlab.ui.control.UIAxes
+        Panel_10 matlab.ui.container.Panel
+        evmSCAxes matlab.ui.control.UIAxes
+        Panel_11 matlab.ui.container.Panel
+        evmRBAxes matlab.ui.control.UIAxes
+        Panel_12 matlab.ui.container.Panel
+        constAxes matlab.ui.control.UIAxes
+        Panel_13 matlab.ui.container.Panel
+        Label matlab.ui.control.Label
+        Image matlab.ui.control.Image
+        Panel_4 matlab.ui.container.Panel
+        SummaryTable1 matlab.ui.control.Table
+        SummaryTable2 matlab.ui.control.Table
+        SummaryTable3 matlab.ui.control.Table
+        PBCHCheckBox matlab.ui.control.CheckBox
+        PCFICHCheckBox matlab.ui.control.CheckBox
+        PHICHCheckBox matlab.ui.control.CheckBox
+        PDCCHCheckBox matlab.ui.control.CheckBox
+        RSCheckBox matlab.ui.control.CheckBox
+        PSSCheckBox matlab.ui.control.CheckBox
+        SSSCheckBox matlab.ui.control.CheckBox
+        PDSCHCheckBox matlab.ui.control.CheckBox
+        EVMScCheckBox matlab.ui.control.CheckBox
+        EVMRbCheckBox matlab.ui.control.CheckBox
+        EVMSymsCheckBox matlab.ui.control.CheckBox
+        ConstCheckBox matlab.ui.control.CheckBox
+        PSDCheckBox matlab.ui.control.CheckBox
+        TabGroup matlab.ui.container.TabGroup
+        Tab1 matlab.ui.container.Tab
+        Tab2 matlab.ui.container.Tab
+        Tab3 matlab.ui.container.Tab
     end
     
     properties (Access = private) 
@@ -132,7 +128,7 @@ classdef LTEApp < matlab.apps.AppBase
         SummaryTable1_Data
         SummaryTable2_Data
         SummaryTable3_Data
-        PlayStopButtonState % true - Play; false - Stop
+        PlayStopButtonState 
         StepOrPlayButton
         GridAxes
         GridFig
@@ -1108,8 +1104,7 @@ classdef LTEApp < matlab.apps.AppBase
                    app.ConstPlot = plot(app.constAxes, ...
                        real(app.LTEAppInternalsProp.EqGridStruct.ref_PBCH_Symbols), ...
                        imag(app.LTEAppInternalsProp.EqGridStruct.ref_PBCH_Symbols),...
-                       'w', 'Marker','+', 'LineStyle', 'none');
-                   
+                       'w', 'Marker','+', 'LineStyle', 'none');                   
                 end
             end               
             if isfield(app.LTEAppInternalsProp.EqGridStruct, 'PCFICH')
@@ -1204,7 +1199,6 @@ classdef LTEApp < matlab.apps.AppBase
             msg = sprintf('Mean high edge EVM, frame %d: %0.3f%%\n', ...
                app.LTEAppInternalsProp.nFrame-1, app.LTEAppInternalsProp.FrameEVM.High.RMS*100); 
             app.Label.Text = {msg};
-            pad='     ';
             scroll(app.ListBox,'bottom'); 
         end
         
@@ -1231,7 +1225,7 @@ classdef LTEApp < matlab.apps.AppBase
         % Code that executes after component creation
         function startupFcn(app)
             app.GridFigTitle = ' ';
-            app.PlayStopButtonState = false;
+            app.PlayStopButtonState = false; % true - Play; false - Stop
             app.LTEAppInternalsProp = LTEAppInternals(app);
             
             addlistener(app.LTEAppInternalsProp, 'CyclicPrefix', 'PostSet', @app.handleCyclicPrefix);
@@ -1317,8 +1311,8 @@ classdef LTEApp < matlab.apps.AppBase
         end
 
         % Close request function: 
-        % LTEeNBTxConformanceTestsUsingPlutoSDRUIFigure
-        function LTEeNBTxConformanceTestsUsingPlutoSDRUIFigureCloseRequest(app, ~)
+        % LTEeNBTxConformanceTestsUIFigure
+        function LTEeNBTxConformanceTestsUIFigureCloseRequest(app, ~)
             delete(app);
         end
 
@@ -1476,7 +1470,7 @@ classdef LTEApp < matlab.apps.AppBase
         end
         
         % Button pushed function: DocButton
-        function DocButtonPushed(app, ~)
+        function DocButtonPushed(~, ~)
             web('https://wiki.analog.com/resources/tools-software/transceiver-toolbox/examples/pluto_lte_app', '-browser')            
         end            
         
@@ -1493,7 +1487,7 @@ classdef LTEApp < matlab.apps.AppBase
             app.GridAxes = uiaxes(app.GridFig,'Position',[10 10 1530 789],'Visible', 'off');
             
             app.GridAxes.cla;
-            BW = app.BWDropDown.Value(find(~isspace(app.BWDropDown.Value)));
+            BW = app.BWDropDown.Value(~isspace(app.BWDropDown.Value));
             tmCfg = lteTestModel(app.TMNValue,BW);
             [~, txGrid, ~] = lteTestModelTool(tmCfg);
             PlotTransmitResourceGrid(app.GridAxes, tmCfg, txGrid);
@@ -1555,14 +1549,14 @@ classdef LTEApp < matlab.apps.AppBase
         % Create UIFigure and components
         function createComponents(app)
 
-            % Create LTEeNBTxConformanceTestsUsingPlutoSDRUIFigure and hide until all components are created
-            app.LTEeNBTxConformanceTestsUsingPlutoSDRUIFigure = uifigure('Visible', 'off');
-            app.LTEeNBTxConformanceTestsUsingPlutoSDRUIFigure.Position = [0 40 1540 799];
-            app.LTEeNBTxConformanceTestsUsingPlutoSDRUIFigure.Name = 'LTE eNB Transceiver Performance Analyzer';
-            app.LTEeNBTxConformanceTestsUsingPlutoSDRUIFigure.CloseRequestFcn = createCallbackFcn(app, @LTEeNBTxConformanceTestsUsingPlutoSDRUIFigureCloseRequest, true);
+            % Create LTEeNBTxConformanceTestsUIFigure and hide until all components are created
+            app.LTEeNBTxConformanceTestsUIFigure = uifigure('Visible', 'off');
+            app.LTEeNBTxConformanceTestsUIFigure.Position = [0 40 1540 799];
+            app.LTEeNBTxConformanceTestsUIFigure.Name = 'LTE eNB Transceiver Performance Analyzer';
+            app.LTEeNBTxConformanceTestsUIFigure.CloseRequestFcn = createCallbackFcn(app, @LTEeNBTxConformanceTestsUIFigureCloseRequest, true);
             
             % Create Panel
-            app.Panel = uipanel(app.LTEeNBTxConformanceTestsUsingPlutoSDRUIFigure);
+            app.Panel = uipanel(app.LTEeNBTxConformanceTestsUIFigure);
             app.Panel.Position = [1 1 1545 795];
 
             % Create TestConfigurationButtonGroup
@@ -1637,23 +1631,6 @@ classdef LTEApp < matlab.apps.AppBase
             app.LOEditField.Limits = [325 3800];
             app.LOEditField.Layout.Row = 3;
             app.LOEditField.Layout.Column = 2;
-            
-            %{
-            % Create PDSCHConstellationLabel
-            app.PDSCHConstellationLabel = uilabel(app.GridLayout2);
-            app.PDSCHConstellationLabel.HorizontalAlignment = 'right';
-            app.PDSCHConstellationLabel.Text = 'TM Number';
-            app.PDSCHConstellationLabel.FontColor = 'red';
-            app.PDSCHConstellationLabel.Layout.Row = 4;
-            app.PDSCHConstellationLabel.Layout.Column = 1;
-            
-            % Create PDSCHConstellationValLabel
-            app.PDSCHConstellationValLabel = uilabel(app.GridLayout2);
-            app.PDSCHConstellationValLabel.Text = '3.1';
-            app.PDSCHConstellationValLabel.FontColor = 'red';
-            app.PDSCHConstellationValLabel.Layout.Row = 4;
-            app.PDSCHConstellationValLabel.Layout.Column = 2;
-            %}
             
             % Create Panel_15
             app.Panel_15 = uipanel(app.TestConfigurationButtonGroup);
@@ -2064,7 +2041,6 @@ classdef LTEApp < matlab.apps.AppBase
             app.dBPercentDropDown.Position = [245 190 60 20];
             app.dBPercentDropDown.Value = 'dB';
             
-            
             % Create SummaryTable3
             app.SummaryTable3 = uitable(app.Tab2);
             app.SummaryTable3.ColumnWidth = {190,170};
@@ -2131,7 +2107,7 @@ classdef LTEApp < matlab.apps.AppBase
             app.Image.ImageSource = which('Analog_Devices_Logo.png');
 
             % Show the figure after all components are created
-            app.LTEeNBTxConformanceTestsUsingPlutoSDRUIFigure.Visible = 'on';
+            app.LTEeNBTxConformanceTestsUIFigure.Visible = 'on';
         end
     end
 
@@ -2145,7 +2121,7 @@ classdef LTEApp < matlab.apps.AppBase
             createComponents(app)
 
             % Register the app with App Designer
-            registerApp(app, app.LTEeNBTxConformanceTestsUsingPlutoSDRUIFigure)
+            registerApp(app, app.LTEeNBTxConformanceTestsUIFigure)
 
             % Execute the startup function
             runStartupFcn(app, @startupFcn)
@@ -2159,7 +2135,7 @@ classdef LTEApp < matlab.apps.AppBase
         function delete(app)
 
             % Delete UIFigure when app is deleted
-            delete(app.LTEeNBTxConformanceTestsUsingPlutoSDRUIFigure)
+            delete(app.LTEeNBTxConformanceTestsUIFigure)
             delete(app.GridFig);
         end
     end
