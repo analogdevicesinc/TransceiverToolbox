@@ -1,4 +1,4 @@
-classdef DemoTests < matlab.unittest.TestCase
+classdef DemoTests < TestAppGUI
     
     properties
         root = '';
