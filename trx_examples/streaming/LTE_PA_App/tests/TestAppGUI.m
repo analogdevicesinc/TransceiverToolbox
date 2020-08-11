@@ -1,4 +1,4 @@
-classdef testAppGUI < matlab.uitest.TestCase    
+classdef TestAppGUI < matlab.uitest.TestCase    
     properties (TestParameter)
         PDSCHConstellation = {'1024QAM' , '256QAM', '64QAM', '16QAM', 'QPSK'};
         TMN = {'3.1b', '3.1a', '3.1', '3.2', '3.3'};
