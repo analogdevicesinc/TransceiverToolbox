@@ -185,20 +185,6 @@ classdef LTEAppInternals < LTETestModelWaveform
                        app.Label.Text = {status};   
                        app.PlayStopButtonState = ~app.PlayStopButtonState;
                        app.PlayStopButton.Icon = which('play.png');
-                       app.StepButton.Enable = 'on'; 
-                       app.PBCHCheckBox.Enable = 'on';
-                       app.PCFICHCheckBox.Enable = 'on';
-                       app.PHICHCheckBox.Enable = 'on';
-                       app.PDCCHCheckBox.Enable = 'on';
-                       app.RSCheckBox.Enable = 'on';
-                       app.PSSCheckBox.Enable = 'on';
-                       app.SSSCheckBox.Enable = 'on';
-                       app.PDSCHCheckBox.Enable = 'on';
-                       app.EVMScCheckBox.Enable = 'on';
-                       app.EVMRbCheckBox.Enable = 'on';
-                       app.EVMSymsCheckBox.Enable = 'on';
-                       app.ConstCheckBox.Enable = 'on';
-                       app.PSDCheckBox.Enable = 'on';
                    end
                    if obj.stopTest(app)
                        return;
