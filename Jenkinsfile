@@ -76,6 +76,20 @@ stage("Demo Tests") {
 
 /////////////////////////////////////////////////////
 
+appNames = ['lte_pa_app']
+
+stage("Build Deployable Apps") {
+    dockerParallelBuild(appNames, dockerHost, dockerConfig) { 
+        branchName ->
+        withEnv(['APP='+branchName]) {
+            unstash "builtSources"
+            sh 'make -C ./CI/scripts ${APP}'
+        }
+    }
+}
+
+/////////////////////////////////////////////////////
+
 classNames = ['AD9361','AD9363','AD9364','AD9371','ADRV9009']
 
 stage("Hardware Streaming Tests") {
