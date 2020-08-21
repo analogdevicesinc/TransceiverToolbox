@@ -84,6 +84,8 @@ stage("Build Deployable Apps") {
         withEnv(['APP='+branchName]) {
             unstash "builtSources"
             sh 'make -C ./CI/scripts ${APP}'
+            archiveArtifacts artifacts: 'trx_examples/streaming/LTE_PA_App/LTEPA/for_redistribution/*.exe', followSymlinks: false, allowEmptyArchive: true
+            archiveArtifacts artifacts: 'trx_examples/streaming/LTE_PA_App/LTEPA/for_redistribution/*.install', followSymlinks: false, allowEmptyArchive: true
         }
     }
 }
