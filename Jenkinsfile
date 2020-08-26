@@ -76,6 +76,22 @@ stage("Demo Tests") {
 
 /////////////////////////////////////////////////////
 
+appNames = ['lte_pa_app']
+
+stage("Build Deployable Apps") {
+    dockerParallelBuild(appNames, dockerHost, dockerConfig) { 
+        branchName ->
+        withEnv(['APP='+branchName]) {
+            unstash "builtSources"
+            sh 'make -C ./CI/scripts ${APP}'
+            archiveArtifacts artifacts: 'trx_examples/streaming/LTE_PA_App/LTEPA/for_redistribution/*.exe', followSymlinks: false, allowEmptyArchive: true
+            archiveArtifacts artifacts: 'trx_examples/streaming/LTE_PA_App/LTEPA/for_redistribution/*.install', followSymlinks: false, allowEmptyArchive: true
+        }
+    }
+}
+
+/////////////////////////////////////////////////////
+
 classNames = ['AD9361','AD9363','AD9364','AD9371','ADRV9009']
 
 stage("Hardware Streaming Tests") {

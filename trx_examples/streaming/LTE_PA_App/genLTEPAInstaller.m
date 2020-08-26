@@ -13,6 +13,7 @@ fclose(fid);
 f = strrep(f,'__REPO-ROOT__',p);
 f = strrep(f,'__VERSION__',version);
 f = strrep(f,'__ML-RELEASE__',ml);
+f = strrep(f,'__SP-ROOT__',matlabshared.supportpkg.getSupportPackageRoot());
 
 tmpl_name_parts = strsplit(tmpl_name, '.');
 app_name = tmpl_name_parts{1};
