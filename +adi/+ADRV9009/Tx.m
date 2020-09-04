@@ -1,6 +1,6 @@
 classdef Tx < adi.ADRV9009.Base & adi.common.Tx
     % adi.ADRV9009.Tx Transmit data from the ADRV9009 transceiver
-    %   The adi.AD9371.Tx System object is a signal sink that can tranmsit
+    %   The adi.ADRV9009.Tx System object is a signal sink that can tranmsit
     %   complex data from the ADRV9009.
     %
     %   tx = adi.ADRV9009.Tx;
@@ -17,6 +17,15 @@ classdef Tx < adi.ADRV9009.Base & adi.common.Tx
         %   Attentuation specified as a scalar from -89.75 to 0 dB with a
         %   resolution of 0.25 dB.
         AttenuationChannel1 = -30;
+    end
+    
+    properties(Logical)
+        %PowerdownChannel0 Powerdown Channel 0
+        %   Logical which will power down TX channel 0 when set
+        PowerdownChannel0 = false;
+        %PowerdownChannel0 Powerdown Channel 1
+        %   Logical which will power down TX channel 1 when set
+        PowerdownChannel1 = false;
     end
         
     properties (Hidden, Nontunable, Access = protected)
@@ -66,7 +75,22 @@ classdef Tx < adi.ADRV9009.Base & adi.common.Tx
                 obj.setAttributeLongLong(id,'hardwaregain',value,true);
             end
         end
-        
+        % Check PowerdownChannel0
+        function set.PowerdownChannel0(obj, value)
+            obj.PowerdownChannel0 = value;
+            if obj.ConnectedToDevice
+                id = 'voltage0';
+                obj.setAttributeBool(id,'powerdown',value,true);
+            end
+        end
+        % Check PowerdownChannel1
+        function set.PowerdownChannel1(obj, value)
+            obj.PowerdownChannel1 = value;
+            if obj.ConnectedToDevice
+                id = 'voltage1';
+                obj.setAttributeBool(id,'powerdown',value,true);
+            end
+        end
     end
     
     %% API Functions
@@ -87,6 +111,10 @@ classdef Tx < adi.ADRV9009.Base & adi.common.Tx
             obj.setAttributeLongLong('voltage0','hardwaregain',obj.AttenuationChannel0,true);
             obj.setAttributeLongLong('voltage1','hardwaregain',obj.AttenuationChannel1,true);
 
+            obj.setAttributeBool('voltage0','powerdown',obj.PowerdownChannel0,true);
+            obj.setAttributeBool('voltage1','powerdown',obj.PowerdownChannel1,true);
+
+            
             obj.ToggleDDS(strcmp(obj.DataSource,'DDS'));
             if strcmp(obj.DataSource,'DDS')
                 obj.DDSUpdate();
