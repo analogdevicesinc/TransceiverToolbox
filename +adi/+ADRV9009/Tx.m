@@ -106,6 +106,9 @@ classdef Tx < adi.ADRV9009.Base & adi.common.Tx
             if obj.EnableCustomProfile
                 writeProfileFile(obj);
             end
+            % Channels need to be powered up first so we can changed things
+            obj.setAttributeBool('voltage0','powerdown',false,true);
+            obj.setAttributeBool('voltage1','powerdown',false,true);
             
             obj.setAttributeLongLong('altvoltage0','frequency',obj.CenterFrequency ,true);
             obj.setAttributeLongLong('voltage0','hardwaregain',obj.AttenuationChannel0,true);
