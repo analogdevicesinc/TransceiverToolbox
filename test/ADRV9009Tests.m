@@ -220,6 +220,25 @@ classdef ADRV9009Tests < HardwareTests
             testCase.verifyEqual(freqEst,frequency,'RelTol',0.01,...
                 'Frequency of ML tone unexpected')
         end
+        
+        function testADRV9009TxPowerdown(testCase)
+            % Test Powerdown and up of TX
+            tx = adi.ADRV9009.Tx('uri',testCase.uri);
+            tx.DataSource = 'DDS';
+            tx.PowerdownChannel0 = true;
+            tx.PowerdownChannel1 = true;
+            tx();
+            tx.release();
+            tx = adi.ADRV9009.Tx('uri',testCase.uri);
+            tx.DataSource = 'DDS';
+            tx.PowerdownChannel0 = false;
+            tx.PowerdownChannel1 = false;
+            tx();
+            tx.release();
+        end
+            
+        
+        
     end
     
 end
