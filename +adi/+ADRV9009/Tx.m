@@ -23,7 +23,7 @@ classdef Tx < adi.ADRV9009.Base & adi.common.Tx
         %PowerdownChannel0 Powerdown Channel 0
         %   Logical which will power down TX channel 0 when set
         PowerdownChannel0 = false;
-        %PowerdownChannel0 Powerdown Channel 1
+        %PowerdownChannel1 Powerdown Channel 1
         %   Logical which will power down TX channel 1 when set
         PowerdownChannel1 = false;
     end
@@ -114,6 +114,7 @@ classdef Tx < adi.ADRV9009.Base & adi.common.Tx
             obj.setAttributeLongLong('voltage0','hardwaregain',obj.AttenuationChannel0,true);
             obj.setAttributeLongLong('voltage1','hardwaregain',obj.AttenuationChannel1,true);
 
+            % Bring stuff back up as desired
             obj.setAttributeBool('voltage0','powerdown',obj.PowerdownChannel0,true);
             obj.setAttributeBool('voltage1','powerdown',obj.PowerdownChannel1,true);
 

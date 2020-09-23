@@ -40,6 +40,15 @@ classdef Rx < adi.ADRV9009.Base & adi.common.Rx
         EnableQuadratureTrackingChannel1 = true;
     end
     
+    properties(Logical)
+        %PowerdownChannel0 Powerdown Channel 0
+        %   Logical which will power down RX channel 0 when set
+        PowerdownChannel0 = false;
+        %PowerdownChannel1 Powerdown Channel 1
+        %   Logical which will power down RX channel 1 when set
+        PowerdownChannel1 = false;
+    end
+    
     properties(Constant, Hidden)
         GainControlModeSet = matlab.system.StringSet({ ...
             'manual','fast_attack','slow_attack','hybrid'});
@@ -51,6 +60,9 @@ classdef Rx < adi.ADRV9009.Base & adi.common.Rx
     
     properties(Nontunable, Hidden, Constant)
         Type = 'Rx';
+    end
+    
+    properties(Nontunable, Hidden)
         channel_names = {'voltage0_i','voltage0_q','voltage1_i','voltage1_q'};
     end
     
@@ -112,7 +124,22 @@ classdef Rx < adi.ADRV9009.Base & adi.common.Rx
                 obj.setAttributeBool(id,'quadrature_tracking_en',value,false);
             end
         end
-        
+        % Check PowerdownChannel0
+        function set.PowerdownChannel0(obj, value)
+            obj.PowerdownChannel0 = value;
+            if obj.ConnectedToDevice
+                id = 'voltage0';
+                obj.setAttributeBool(id,'powerdown',value,false);
+            end
+        end
+        % Check PowerdownChannel1
+        function set.PowerdownChannel1(obj, value)
+            obj.PowerdownChannel1 = value;
+            if obj.ConnectedToDevice
+                id = 'voltage1';
+                obj.setAttributeBool(id,'powerdown',value,false);
+            end
+        end
     end
        
     %% API Functions
@@ -129,6 +156,10 @@ classdef Rx < adi.ADRV9009.Base & adi.common.Rx
                 writeProfileFile(obj);
             end
             
+            % Channels need to be powered up first so we can changed things
+            obj.setAttributeBool('voltage0','powerdown',false,true);
+            obj.setAttributeBool('voltage1','powerdown',false,true);
+
             obj.setAttributeRAW('voltage0','gain_control_mode',obj.GainControlMode,false);
             obj.setAttributeBool('voltage0','quadrature_tracking_en',obj.EnableQuadratureTrackingChannel0,false);
             obj.setAttributeBool('voltage1','quadrature_tracking_en',obj.EnableQuadratureTrackingChannel1,false);
@@ -139,6 +170,11 @@ classdef Rx < adi.ADRV9009.Base & adi.common.Rx
                 obj.setAttributeLongLong('voltage0','hardwaregain',obj.GainChannel0,false);
                 obj.setAttributeLongLong('voltage1','hardwaregain',obj.GainChannel1,false);
             end
+            
+            % Bring stuff back up as desired
+            obj.setAttributeBool('voltage0','powerdown',obj.PowerdownChannel0,true);
+            obj.setAttributeBool('voltage1','powerdown',obj.PowerdownChannel1,true);
+
         end
         
     end

@@ -101,9 +101,13 @@ classdef (Abstract, Hidden = true) Base < adi.common.Attribute & matlabshared.li
             icon = sprintf(['ADRV9009 ',obj.Type]);
         end
            
-        function writeProfileFile(obj)
+        function writeProfileFile(obj,phy)
             profle_data_str = fileread(obj.CustomProfileFileName);
-            obj.setDeviceAttributeRAW('profile_config',profle_data_str);
+            if nargin < 2
+                obj.setDeviceAttributeRAW('profile_config',profle_data_str);
+            else
+                obj.setDeviceAttributeRAW('profile_config',profle_data_str,phy);                
+            end
         end
         
     end
