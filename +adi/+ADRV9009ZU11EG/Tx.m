@@ -10,15 +10,57 @@ classdef Tx < adi.ADRV9009ZU11EG.Base & adi.ADRV9009.Tx
     
     properties
         %AttenuationChannel0ChipB Attenuation Channel 0 ChipB
-        %   Attentuation specified as a scalar from -89.75 to 0 dB with a
-        %   resolution of 0.25 dB.
+        %   Attentuation specified as a scalar from -41.95 to 0 dB with a
+        %   resolution of 0.05 dB.
         AttenuationChannel0ChipB = -30;
         %AttenuationChannel1ChipB Attenuation Channel 1 ChipB
-        %   Attentuation specified as a scalar from -89.75 to 0 dB with a
-        %   resolution of 0.25 dB.
+        %   Attentuation specified as a scalar from -41.95 to 0 dB with a
+        %   resolution of 0.05 dB.
         AttenuationChannel1ChipB = -30;
     end
 
+    properties (Logical)
+        %EnableQuadratureTrackingChannel0ChipB Enable Quadrature Tracking Channel 0 Chip B
+        %   Option to enable quadrature tracking, specified as true or
+        %   false. When this property is true, IQ imbalance compensation is
+        %   applied to the transmitted signal.
+        EnableQuadratureTrackingChannel0ChipB = true;
+        %EnableQuadratureTrackingChannel1ChipB Enable Quadrature Tracking Channel 1 Chip B
+        %   Option to enable quadrature tracking, specified as true or
+        %   false. When this property is true, IQ imbalance compensation is
+        %   applied to the transmitted signal.
+        EnableQuadratureTrackingChannel1ChipB = true;
+        %EnableLOLeakageTrackingChannel0ChipB Enable LO Leakage Tracking Channel 0 Chip B
+        %   Option to enable quadrature tracking, specified as true or
+        %   false. When this property is true, LO leakage compensation is
+        %   applied to the transmitted signal.
+        EnableLOLeakageTrackingChannel0ChipB = true;
+        %EnableLOLeakageTrackingChannel1ChipB Enable LO Leakage Tracking Channel 1 Chip B
+        %   Option to enable quadrature tracking, specified as true or
+        %   false. When this property is true, LO leakage compensation is
+        %   applied to the transmitted signal.
+        EnableLOLeakageTrackingChannel1ChipB = true;
+    end
+    
+    properties(Logical, Nontunable)
+        %EnableQuadratureCalibrationChipB Enable Quadrature Calibration Chip B
+        %   Option to enable quadrature calibration on initialization, 
+        %   specified as true or false. When this property is true, IQ 
+        %   imbalance compensation is applied to the input signal.
+        EnableQuadratureCalibrationChipB = true;
+        %EnableLOLeakageCorrectionChipB Enable LO Leakage Correction Chip B
+        %   Option to enable phase tracking, specified as true or
+        %   false. When this property is true, at initialization LO leakage
+        %   correction will be applied
+        EnableLOLeakageCorrectionChipB = true;
+        %EnableLOLeakageCorrectionExternalChipB Enable LO Leakage Correction External Chip B
+        %   Option to enable phase tracking, specified as true or
+        %   false. When this property is true, at initialization LO leakage
+        %   correction will be applied within an external loopback path.
+        %   Note this requires external cabling.
+        EnableLOLeakageCorrectionExternalChipB = false;
+    end
+    
     properties(Logical)
         %PowerdownChannel0ChipB Powerdown Channel 0 Chip B
         %   Logical which will power down TX channel 0 when set
@@ -46,30 +88,83 @@ classdef Tx < adi.ADRV9009ZU11EG.Base & adi.ADRV9009.Tx
             obj = obj@adi.ADRV9009ZU11EG.Base(varargin{:});
             obj.channel_names = obj.channel_names_runtime;
         end
-        % Check Attentuation
+        % Check AttenuationChannel0ChipB
         function set.AttenuationChannel0ChipB(obj, value)
             validateattributes( value, { 'double','single' }, ...
-                { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', -89.75,'<=', 0}, ...
-                '', 'AttenuationChannel2');
-            assert(mod(value,1/4)==0, 'Attentuation must be a multiple of 0.25');
+                { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', -41.95,'<=', 0}, ...
+                '', 'AttenuationChannel0ChipB');
+            assert(mod(value,1/20)==0, 'Attentuation must be a multiple of 0.05');
             obj.AttenuationChannel0ChipB = value;
             if obj.ConnectedToDevice
                 id = 'voltage0';
-                obj.ADRV9009_B_Tx.setAttributeLongLong(id,'hardwaregain',value,true); %#ok<MCSUP>
+                obj.setAttributeLongLong(id,'hardwaregain',value,true,0,obj.iioDevChipB); %#ok<MCSUP>
             end
         end
-        % Check Attentuation
+        % Check AttenuationChannel1ChipB
         function set.AttenuationChannel1ChipB(obj, value)
             validateattributes( value, { 'double','single' }, ...
-                { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', -89.75,'<=', 0}, ...
-                '', 'AttenuationChannel3');
-            assert(mod(value,1/4)==0, 'Attentuation must be a multiple of 0.25');
+                { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', -41.95,'<=', 0}, ...
+                '', 'AttenuationChannel1ChipB');
+            assert(mod(value,1/20)==0, 'Attentuation must be a multiple of 0.05');
             obj.AttenuationChannel1ChipB = value;
             if obj.ConnectedToDevice
                 id = 'voltage1';
-                obj.ADRV9009_B_Tx.setAttributeLongLong(id,'hardwaregain',value,true); %#ok<MCSUP>
+                obj.setAttributeLongLong(id,'hardwaregain',value,true,0,obj.iioDevChipB); %#ok<MCSUP>
             end
         end
+        
+        % Check PowerdownChannel0ChipB
+        function set.PowerdownChannel0ChipB(obj, value)
+            obj.PowerdownChannel0ChipB = value;
+            if obj.ConnectedToDevice
+                id = 'voltage0';
+                obj.setAttributeBool(id,'powerdown',value,true,obj.iioDevChipB);
+            end
+        end
+        % Check PowerdownChannel1ChipB
+        function set.PowerdownChannel1ChipB(obj, value)
+            obj.PowerdownChannel1ChipB = value;
+            if obj.ConnectedToDevice
+                id = 'voltage1';
+                obj.setAttributeBool(id,'powerdown',value,true,obj.iioDevChipB);
+            end
+        end
+        
+        % Check EnableQuadratureTrackingChannel0ChipB
+        function set.EnableQuadratureTrackingChannel0ChipB(obj, value)
+            obj.EnableQuadratureTrackingChannel0ChipB = value;
+            if obj.ConnectedToDevice
+                id = 'voltage0';
+                obj.setAttributeBool(id,'quadrature_tracking_en',value,true,obj.iioDevChipB);
+            end
+        end
+        % Check EnableQuadratureTrackingChannel1ChipB
+        function set.EnableQuadratureTrackingChannel1ChipB(obj, value)
+            obj.EnableQuadratureTrackingChannel1ChipB = value;
+            if obj.ConnectedToDevice
+                id = 'voltage1';
+                obj.setAttributeBool(id,'quadrature_tracking_en',value,true,obj.iioDevChipB);
+            end
+        end
+        % Check EnableLOLeakageTrackingChannel0ChipB
+        function set.EnableLOLeakageTrackingChannel0ChipB(obj, value)
+            obj.EnableLOLeakageTrackingChannel0ChipB = value;
+            if obj.ConnectedToDevice
+                id = 'voltage0';
+                obj.setAttributeBool(id,'lo_leakage_tracking_en',value,true,obj.iioDevChipB);
+            end
+        end
+        % Check EnableLOLeakageTrackingChannel1ChipB
+        function set.EnableLOLeakageTrackingChannel1ChipB(obj, value)
+            obj.EnableLOLeakageTrackingChannel1ChipB = value;
+            if obj.ConnectedToDevice
+                id = 'voltage1';
+                obj.setAttributeBool(id,'lo_leakage_tracking_en',value,true,obj.iioDevChipB);
+            end
+        end
+
+        
+        
     end
     
     methods (Access=protected)
@@ -134,16 +229,38 @@ classdef Tx < adi.ADRV9009ZU11EG.Base & adi.ADRV9009.Tx
             obj.setAttributeBool('voltage1','powerdown',false,true);
             obj.setAttributeBool('voltage0','powerdown',false,true,obj.iioDevChipB);
             obj.setAttributeBool('voltage1','powerdown',false,true,obj.iioDevChipB);
-            
-            id0 = 'altvoltage0';
+              
             % LO
-            obj.setAttributeLongLong(id0,'frequency',obj.CenterFrequency ,true);
-            obj.setAttributeLongLong(id0,'frequency',obj.CenterFrequencyChipB ,true, 10, obj.iioDevChipB);
+            obj.setAttributeLongLong('altvoltage0','frequency',obj.CenterFrequency ,true);
+            obj.setAttributeLongLong('altvoltage0','frequency',obj.CenterFrequencyChipB ,true, 10, obj.iioDevChipB);
             % Gain
             obj.setAttributeLongLong('voltage0','hardwaregain',obj.AttenuationChannel0,true);
             obj.setAttributeLongLong('voltage1','hardwaregain',obj.AttenuationChannel1,true);
             obj.setAttributeLongLong('voltage0','hardwaregain',obj.AttenuationChannel0ChipB,true,10,obj.iioDevChipB);
             obj.setAttributeLongLong('voltage1','hardwaregain',obj.AttenuationChannel1ChipB,true,10,obj.iioDevChipB);
+            
+            obj.setAttributeBool('voltage0','quadrature_tracking_en',obj.EnableQuadratureTrackingChannel0,true);
+            obj.setAttributeBool('voltage1','quadrature_tracking_en',obj.EnableQuadratureTrackingChannel1,true);
+            obj.setAttributeBool('voltage0','lo_leakage_tracking_en',obj.EnableLOLeakageTrackingChannel0,true);
+            obj.setAttributeBool('voltage1','lo_leakage_tracking_en',obj.EnableLOLeakageTrackingChannel1,true);
+            
+            obj.setAttributeBool('voltage0','quadrature_tracking_en',obj.EnableQuadratureTrackingChannel0ChipB,true,obj.iioDevChipB);
+            obj.setAttributeBool('voltage1','quadrature_tracking_en',obj.EnableQuadratureTrackingChannel1ChipB,true,obj.iioDevChipB);
+            obj.setAttributeBool('voltage0','lo_leakage_tracking_en',obj.EnableLOLeakageTrackingChannel0ChipB,true,obj.iioDevChipB);
+            obj.setAttributeBool('voltage1','lo_leakage_tracking_en',obj.EnableLOLeakageTrackingChannel1ChipB,true,obj.iioDevChipB);
+            
+            % Do one shot cals
+            obj.setDeviceAttributeRAW('calibrate_tx_qec_en',num2str(obj.EnableQuadratureCalibration));
+            obj.setDeviceAttributeRAW('calibrate_tx_lol_en',num2str(obj.EnableLOLeakageCorrection));
+            obj.setDeviceAttributeRAW('calibrate_tx_lol_ext_en',num2str(obj.EnableLOLeakageCorrectionExternal));
+            obj.setDeviceAttributeRAW('calibrate_frm_en',num2str(obj.EnableFrequencyHoppingModeCalibration));
+            obj.setDeviceAttributeRAW('calibrate',num2str(true));
+            
+            obj.setDeviceAttributeRAW('calibrate_tx_qec_en',num2str(obj.EnableQuadratureCalibrationChipB),obj.iioDevChipB);
+            obj.setDeviceAttributeRAW('calibrate_tx_lol_en',num2str(obj.EnableLOLeakageCorrectionChipB),obj.iioDevChipB);
+            obj.setDeviceAttributeRAW('calibrate_tx_lol_ext_en',num2str(obj.EnableLOLeakageCorrectionExternalChipB),obj.iioDevChipB);
+            obj.setDeviceAttributeRAW('calibrate_frm_en',num2str(obj.EnableFrequencyHoppingModeCalibrationChipB),obj.iioDevChipB);
+            obj.setDeviceAttributeRAW('calibrate',num2str(true),obj.iioDevChipB);
             
             % Bring stuff back up as desired
             obj.setAttributeBool('voltage0','powerdown',obj.PowerdownChannel0,true);

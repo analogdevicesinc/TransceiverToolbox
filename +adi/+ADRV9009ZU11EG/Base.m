@@ -5,10 +5,18 @@ classdef (Abstract, Hidden = true) Base < adi.ADRV9009.Base
     %   classes
     
     properties
-        %CenterFrequency Center Frequency Chip B
+        %CenterFrequencyChipB Center Frequency Chip B
         %   RF center frequency, specified in Hz as a scalar. The
         %   default is 2.4e9.  This property is tunable.
         CenterFrequencyChipB = 2.4e9;
+    end
+    
+    properties (Nontunable, Logical)
+        %EnableFrequencyHoppingModeCalibrationChipB Enable Frequency Hopping Mode Calibration Chip B
+        %   Option to enable frequency hopping mode VCO calibration, 
+        %   specified as true or false. When this property is true, at
+        %   initialization VCO calibration lookup table is populated
+        EnableFrequencyHoppingModeCalibrationChipB = false;
     end
     
     methods

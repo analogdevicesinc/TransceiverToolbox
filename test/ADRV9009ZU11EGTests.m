@@ -1,7 +1,7 @@
 classdef ADRV9009ZU11EGTests < HardwareTests
     
     properties
-        uri = 'ip:192.168.86.21';
+        uri = 'ip:analog';
         SamplingRateRX = 245.76e6;
         author = 'ADI';
     end
@@ -34,6 +34,18 @@ classdef ADRV9009ZU11EGTests < HardwareTests
                 rx.release();
                 testCase.verifyTrue(valid);
                 testCase.verifyGreaterThan(sum(abs(double(out))),0);
+            end
+        end
+        
+        function testADRV9009ZU11EGTx(testCase)
+            % Test Rx DMA data output
+            data = complex(randn(2^14,1));
+            for k=1:4
+                tx = adi.ADRV9009ZU11EG.Tx('uri',testCase.uri);
+                tx.EnabledChannels = 1;
+                valid = tx(data);
+                tx.release();
+                testCase.verifyTrue(valid);
             end
         end
         
@@ -198,6 +210,7 @@ classdef ADRV9009ZU11EGTests < HardwareTests
             tx.CustomProfileFileName = ...
                 'Tx_BW200_IR245p76_Rx_BW200_OR245p76_ORx_BW200_OR245p76_DC245p76.txt';
             tx(y);
+            pause(3);
             rx = adi.ADRV9009ZU11EG.Rx('uri',testCase.uri);
             rx.EnabledChannels = 1;
             rx.kernelBuffersCount = 1;
@@ -212,9 +225,10 @@ classdef ADRV9009ZU11EGTests < HardwareTests
                 'sampling_frequency',false);
             
             rx.release();
+            tx.release();
 
 %             plot(real(out));
-%             testCase.estFrequency(out,testCase.SamplingRateRX);
+%             testCase.estFrequency(out,rxSampleRate);
             freqEst = meanfreq(double(real(out)),rxSampleRate);
             
             testCase.verifyTrue(valid);
@@ -229,16 +243,55 @@ classdef ADRV9009ZU11EGTests < HardwareTests
             tx.DataSource = 'DDS';
             tx.PowerdownChannel0 = true;
             tx.PowerdownChannel1 = true;
+            tx.PowerdownChannel0ChipB = true;
+            tx.PowerdownChannel1ChipB = true;
             tx();
             tx.release();
             tx = adi.ADRV9009ZU11EG.Tx('uri',testCase.uri);
             tx.DataSource = 'DDS';
             tx.PowerdownChannel0 = false;
             tx.PowerdownChannel1 = false;
+            tx.PowerdownChannel0ChipB = false;
+            tx.PowerdownChannel1ChipB = false;
             tx();
             tx.release();
         end
-            
+        
+        function testADRV9009ZU11EGTxRuntimeChanges(testCase)
+            % Change attributes at runtime
+            tx = adi.ADRV9009ZU11EG.Tx('uri',testCase.uri);
+            tx.DataSource = 'DDS';
+            tx();
+            for k=-20:1:-10
+                tx.AttenuationChannel0 = k;
+                tx.AttenuationChannel1 = k;
+                tx.AttenuationChannel0ChipB = k;
+                tx.AttenuationChannel1ChipB = k;
+            end
+            tx.release();
+        end
+
+        function testADRV9009ZU11EGRxRuntimeChanges(testCase)
+            % Change attributes at runtime
+            rx = adi.ADRV9009ZU11EG.Rx('uri',testCase.uri);
+            rx();
+            rx.GainControlMode = 'manual';
+            rx.GainControlModeChipB = 'manual';
+            for k=0:1
+                rx.EnableQuadratureTrackingChannel0ChipB = k;
+                rx.EnableQuadratureTrackingChannel1ChipB = k;
+                rx.EnableQuadratureTrackingChannel0 = k;
+                rx.EnableQuadratureTrackingChannel1 = k;
+                rx.GainChannel0ChipB = k;
+                rx.GainChannel1ChipB = k;
+                rx.GainChannel0 = k;
+                rx.GainChannel1 = k;
+            end
+            rx.GainControlMode = 'slow_attack';
+            rx.GainControlModeChipB = 'slow_attack';
+            rx.release();
+        end
+
         
         
     end
