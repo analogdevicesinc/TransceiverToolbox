@@ -16,6 +16,11 @@ classdef (Abstract, Hidden = true) Base < adi.common.Attribute & matlabshared.li
         %   Enable use of custom Profile file to set SamplingRate, 
         %   RFBandwidth, and FIR in datapaths
         EnableCustomProfile = false;
+        %EnableFrequencyHoppingModeCalibration Enable Frequency Hopping Mode Calibration
+        %   Option to enable frequency hopping mode VCO calibration, 
+        %   specified as true or false. When this property is true, at
+        %   initialization VCO calibration lookup table is populated
+        EnableFrequencyHoppingModeCalibration = false;
     end
     
     properties (Nontunable)
