@@ -16,6 +16,11 @@ classdef (Abstract, Hidden = true) Base < adi.common.Attribute & matlabshared.li
         %   Enable use of custom Profile file to set SamplingRate, 
         %   RFBandwidth, and FIR in datapaths
         EnableCustomProfile = false;
+        %EnableFrequencyHoppingModeCalibration Enable Frequency Hopping Mode Calibration
+        %   Option to enable frequency hopping mode VCO calibration, 
+        %   specified as true or false. When this property is true, at
+        %   initialization VCO calibration lookup table is populated
+        EnableFrequencyHoppingModeCalibration = false;
     end
     
     properties (Nontunable)
@@ -101,9 +106,13 @@ classdef (Abstract, Hidden = true) Base < adi.common.Attribute & matlabshared.li
             icon = sprintf(['ADRV9009 ',obj.Type]);
         end
            
-        function writeProfileFile(obj)
+        function writeProfileFile(obj,phy)
             profle_data_str = fileread(obj.CustomProfileFileName);
-            obj.setDeviceAttributeRAW('profile_config',profle_data_str);
+            if nargin < 2
+                obj.setDeviceAttributeRAW('profile_config',profle_data_str);
+            else
+                obj.setDeviceAttributeRAW('profile_config',profle_data_str,phy);                
+            end
         end
         
     end
