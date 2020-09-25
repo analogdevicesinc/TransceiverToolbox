@@ -2,7 +2,7 @@
 set -x
 
 if [ -z "${HDLBRANCH}" ]; then
-HDLBRANCH='hdl_2018_r2'
+HDLBRANCH='hdl_2019_r1'
 fi
 
 
@@ -79,14 +79,28 @@ do
   mv "$f" "$DEST"
 done
 
+# Remove intel
+rm -rf hdl/projects/common/intel
+rm -rf hdl/library/intel
 
+# Remove references to GHDL crap
+wget https://raw.githubusercontent.com/analogdevicesinc/hdl/hdl_2018_r2/library/scripts/adi_env.tcl
+mv adi_env.tcl hdl/library/scripts/
+cp scripts/adi_env.tcl hdl/projects/scripts/
+
+cp scripts/adi_project_xilinx.tcl hdl/projects/scripts/
+cp scripts/adi_ip_xilinx.tcl hdl/library/scripts/
 
 # Pack IP cores
+pwd
 echo "Starting IP core packaging"
-vivado -verbose -mode batch -source scripts/pack_all_ips.tcl > /dev/null 2>&1
+#vivado -verbose -mode batch -source scripts/pack_all_ips.tcl > /dev/null 2>&1
+vivado -verbose -mode batch -source scripts/pack_all_ips.tcl
 
 # Repack i2s and i2c cores to include xml files
 cd hdl/library/axi_i2s_adi/
+pwd
+ls
 unzip analog.com_user_axi_i2s_adi_1.0.zip -d tmp
 rm analog.com_user_axi_i2s_adi_1.0.zip
 ls
@@ -95,6 +109,8 @@ cd tmp
 zip -r analog.com_user_axi_i2s_adi_1.0.zip *
 cp analog.com_user_axi_i2s_adi_1.0.zip ../
 cd ../../../..
+
+pwd
 
 cd hdl/library/util_i2c_mixer/
 unzip analog.com_user_util_i2c_mixer_1.0.zip -d tmp/
@@ -105,6 +121,7 @@ zip -r analog.com_user_util_i2c_mixer_1.0.zip *
 cp analog.com_user_util_i2c_mixer_1.0.zip ../
 cd ../../../..
 
+pwd
 
 # Move all cores
 echo "Moving all cores"

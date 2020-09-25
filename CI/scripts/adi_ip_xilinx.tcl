@@ -1,5 +1,6 @@
 
-source hdl/library/scripts/adi_xilinx_device_info_enc.tcl
+#source hdl/library/scripts/adi_xilinx_device_info_enc.tcl
+source $ad_hdl_dir/library/scripts/adi_xilinx_device_info_enc.tcl
 
 # check tool version
 
@@ -265,7 +266,6 @@ set ip_constr_files ""
 proc adi_ip_create {ip_name} {
 
   global ad_hdl_dir
-  global ad_ghdl_dir
   global ip_constr_files
   global REQUIRED_VIVADO_VERSION
   global IGNORE_VERSION_CHECK
@@ -284,9 +284,6 @@ proc adi_ip_create {ip_name} {
 
   set ip_constr_files ""
   set lib_dirs $ad_hdl_dir/library
-  if {$ad_hdl_dir ne $ad_ghdl_dir} {
-    lappend lib_dirs $ad_ghdl_dir/library
-  }
 
   set_property ip_repo_paths $lib_dirs [current_fileset]
   update_ip_catalog

@@ -30,7 +30,7 @@ classdef DemoTests < TestAppGUI
                 case '(R2019b)'
                     vivado = '2018.2';
                 case '(R2020a)'
-                    vivado = '2018.2';
+                    vivado = '2018.3';
             end
             if ispc
                 hdlsetuptoolpath('ToolName', 'Xilinx Vivado', ...
