@@ -50,4 +50,9 @@ cd spi_engine
 pack_ip_core
 cd ..
 
+# Pack pack cores
+cd util_pack
+pack_ip_core
+cd ..
+
 cd ../../
