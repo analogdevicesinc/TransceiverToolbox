@@ -70,7 +70,7 @@ classdef TuneAGC < adi.common.DebugAttribute & adi.common.RegisterReadWrite
                 '', 'AttackDelay');    
             obj.AttackDelay = value;
             if obj.ConnectedToDevice
-                obj.setRegister(value, obj.AttackDelay_Reg, obj.AttackDelay_Mask);                
+                obj.setRegisterExtended(value, obj.AttackDelay_Reg, obj.AttackDelay_Mask);                
             end
         end
         function set.PeakOverloadWaitTime(obj, value)
@@ -79,7 +79,7 @@ classdef TuneAGC < adi.common.DebugAttribute & adi.common.RegisterReadWrite
                 '', 'PeakOverloadWaitTime');    
             obj.PeakOverloadWaitTime = value;
             if obj.ConnectedToDevice
-                obj.setRegister(value, obj.PeakOverloadWaitTime_Reg, obj.PeakOverloadWaitTime_Mask);                
+                obj.setRegisterExtended(value, obj.PeakOverloadWaitTime_Reg, obj.PeakOverloadWaitTime_Mask);                
             end
         end
         function set.AGCLockLevel(obj, value)
@@ -88,7 +88,7 @@ classdef TuneAGC < adi.common.DebugAttribute & adi.common.RegisterReadWrite
                 '', 'AGCLockLevel');    
             obj.AGCLockLevel = value;
             if obj.ConnectedToDevice
-                obj.setRegister(value, obj.AGCLockLevel_Reg, obj.AGCLockLevel_Mask);                
+                obj.setRegisterExtended(value, obj.AGCLockLevel_Reg, obj.AGCLockLevel_Mask);                
             end
         end 
         function set.DecStepSizeFullTableCase3(obj, value)
@@ -97,7 +97,7 @@ classdef TuneAGC < adi.common.DebugAttribute & adi.common.RegisterReadWrite
                 '', 'DecStepSizeFullTableCase3');    
             obj.DecStepSizeFullTableCase3 = value;
             if obj.ConnectedToDevice
-                obj.setRegister(value, obj.DecStepSizeFullTableCase3_Reg, obj.DecStepSizeFullTableCase3_Mask, obj.DecStepSizeFullTableCase3_BitShift);                
+                obj.setRegisterExtended(value, obj.DecStepSizeFullTableCase3_Reg, obj.DecStepSizeFullTableCase3_Mask, obj.DecStepSizeFullTableCase3_BitShift);                
             end
         end
         function set.ADCLargeOverloadThresh(obj, value)
@@ -124,7 +124,7 @@ classdef TuneAGC < adi.common.DebugAttribute & adi.common.RegisterReadWrite
                 '', 'DecStepSizeFullTableCase2');    
             obj.DecStepSizeFullTableCase2 = value;
             if obj.ConnectedToDevice
-                obj.setRegister(value, obj.DecStepSizeFullTableCase2_Reg, obj.DecStepSizeFullTableCase2_Mask, obj.DecStepSizeFullTableCase2_BitShift);                
+                obj.setRegisterExtended(value, obj.DecStepSizeFullTableCase2_Reg, obj.DecStepSizeFullTableCase2_Mask, obj.DecStepSizeFullTableCase2_BitShift);                
             end
         end        
         function set.DecStepSizeFullTableCase1(obj, value)
@@ -133,7 +133,7 @@ classdef TuneAGC < adi.common.DebugAttribute & adi.common.RegisterReadWrite
                 '', 'DecStepSizeFullTableCase1');    
             obj.DecStepSizeFullTableCase1 = value;
             if obj.ConnectedToDevice
-                obj.setRegister(value, obj.DecStepSizeFullTableCase1_Reg, obj.DecStepSizeFullTableCase1_Mask);                
+                obj.setRegisterExtended(value, obj.DecStepSizeFullTableCase1_Reg, obj.DecStepSizeFullTableCase1_Mask);                
             end
         end        
         function set.LargeLMTOverloadThresh(obj, value)
@@ -142,7 +142,7 @@ classdef TuneAGC < adi.common.DebugAttribute & adi.common.RegisterReadWrite
                 '', 'LargeLMTOverloadThresh');    
             obj.LargeLMTOverloadThresh = value;
             if obj.ConnectedToDevice
-                obj.setRegister(value, obj.LargeLMTOverloadThresh_Reg, obj.LargeLMTOverloadThresh_Mask);                   
+                obj.setRegisterExtended(value, obj.LargeLMTOverloadThresh_Reg, obj.LargeLMTOverloadThresh_Mask);                   
             end
         end 
         function set.SmallLMTOverloadThresh(obj, value)
@@ -151,7 +151,7 @@ classdef TuneAGC < adi.common.DebugAttribute & adi.common.RegisterReadWrite
                 '', 'SmallLMTOverloadThresh');    
             obj.SmallLMTOverloadThresh = value;
             if obj.ConnectedToDevice
-                obj.setRegister(value, obj.SmallLMTOverloadThresh_Reg, obj.SmallLMTOverloadThresh_Mask);                   
+                obj.setRegisterExtended(value, obj.SmallLMTOverloadThresh_Reg, obj.SmallLMTOverloadThresh_Mask);                   
             end
         end        
         function set.SettlingDelay(obj, value)
@@ -160,7 +160,7 @@ classdef TuneAGC < adi.common.DebugAttribute & adi.common.RegisterReadWrite
                 '', 'SettlingDelay');    
             obj.SettlingDelay = value;
             if obj.ConnectedToDevice
-                obj.setRegister(value, obj.SettlingDelay_Reg, obj.SettlingDelay_Mask);                   
+                obj.setRegisterExtended(value, obj.SettlingDelay_Reg, obj.SettlingDelay_Mask);                   
             end
         end 
         function set.EnergyLostThresh(obj, value)
@@ -169,7 +169,7 @@ classdef TuneAGC < adi.common.DebugAttribute & adi.common.RegisterReadWrite
                 '', 'SettlingDelay');    
             obj.EnergyLostThresh = value;
             if obj.ConnectedToDevice
-                obj.setRegister(value, obj.EnergyLostThresh_Reg, obj.EnergyLostThresh_Mask);                   
+                obj.setRegisterExtended(value, obj.EnergyLostThresh_Reg, obj.EnergyLostThresh_Mask);                   
             end
         end 
         function set.LowPowerThresh(obj, value)
@@ -187,7 +187,7 @@ classdef TuneAGC < adi.common.DebugAttribute & adi.common.RegisterReadWrite
                 '', 'IncrementGainStep');    
             obj.IncrementGainStep = value;
             if obj.ConnectedToDevice
-                obj.setRegister(value, obj.IncrementGainStep_Reg, obj.IncrementGainStep_Mask, obj.IncrementGainStep_BitShift);                
+                obj.setRegisterExtended(value, obj.IncrementGainStep_Reg, obj.IncrementGainStep_Mask, obj.IncrementGainStep_BitShift);                
             end
         end        
         function set.FAGCLockLevelGainIncreaseUpperLimit(obj, value)
@@ -214,7 +214,7 @@ classdef TuneAGC < adi.common.DebugAttribute & adi.common.RegisterReadWrite
                 '', 'DecPowMeasurementDuration');    
             obj.DecPowMeasurementDuration = value;
             if obj.ConnectedToDevice
-                obj.setRegister(value, obj.DecPowMeasurementDuration_Reg, obj.DecPowMeasurementDuration_Mask);                
+                obj.setRegisterExtended(value, obj.DecPowMeasurementDuration_Reg, obj.DecPowMeasurementDuration_Mask);                
             end
         end     
         function WriteDebugAttributes(obj)
@@ -228,57 +228,57 @@ classdef TuneAGC < adi.common.DebugAttribute & adi.common.RegisterReadWrite
         end
         function WriteToRegisters(obj)
             if obj.ConnectedToDevice
-                obj.setRegister(obj.AttackDelay, obj.AttackDelay_Reg, obj.AttackDelay_Mask);  
-                obj.setRegister(obj.PeakOverloadWaitTime, obj.PeakOverloadWaitTime_Reg, obj.PeakOverloadWaitTime_Mask);                
-                obj.setRegister(obj.AGCLockLevel, obj.AGCLockLevel_Reg, obj.AGCLockLevel_Mask);                
-                obj.setRegister(obj.DecStepSizeFullTableCase3, obj.DecStepSizeFullTableCase3_Reg, obj.DecStepSizeFullTableCase3_Mask, obj.DecStepSizeFullTableCase3_BitShift);                
-                obj.setRegister(obj.DecStepSizeFullTableCase2, obj.DecStepSizeFullTableCase2_Reg, obj.DecStepSizeFullTableCase2_Mask, obj.DecStepSizeFullTableCase2_BitShift);                
-                obj.setRegister(obj.DecStepSizeFullTableCase1, obj.DecStepSizeFullTableCase1_Reg, obj.DecStepSizeFullTableCase1_Mask);                
-                obj.setRegister(obj.LargeLMTOverloadThresh, obj.LargeLMTOverloadThresh_Reg, obj.LargeLMTOverloadThresh_Mask);                   
-                obj.setRegister(obj.SmallLMTOverloadThresh, obj.SmallLMTOverloadThresh_Reg, obj.SmallLMTOverloadThresh_Mask);                   
-                obj.setRegister(obj.SettlingDelay, obj.SettlingDelay_Reg, obj.SettlingDelay_Mask);                   
-                obj.setRegister(obj.EnergyLostThresh, obj.EnergyLostThresh_Reg, obj.EnergyLostThresh_Mask);    
-                obj.setRegister(obj.IncrementGainStep, obj.IncrementGainStep_Reg, obj.IncrementGainStep_Mask, obj.IncrementGainStep_BitShift);     
-                obj.setRegister(obj.DecPowMeasurementDuration, obj.DecPowMeasurementDuration_Reg, obj.DecPowMeasurementDuration_Mask);                
+                obj.setRegisterExtended(obj.AttackDelay, obj.AttackDelay_Reg, obj.AttackDelay_Mask);  
+                obj.setRegisterExtended(obj.PeakOverloadWaitTime, obj.PeakOverloadWaitTime_Reg, obj.PeakOverloadWaitTime_Mask);                
+                obj.setRegisterExtended(obj.AGCLockLevel, obj.AGCLockLevel_Reg, obj.AGCLockLevel_Mask);                
+                obj.setRegisterExtended(obj.DecStepSizeFullTableCase3, obj.DecStepSizeFullTableCase3_Reg, obj.DecStepSizeFullTableCase3_Mask, obj.DecStepSizeFullTableCase3_BitShift);                
+                obj.setRegisterExtended(obj.DecStepSizeFullTableCase2, obj.DecStepSizeFullTableCase2_Reg, obj.DecStepSizeFullTableCase2_Mask, obj.DecStepSizeFullTableCase2_BitShift);                
+                obj.setRegisterExtended(obj.DecStepSizeFullTableCase1, obj.DecStepSizeFullTableCase1_Reg, obj.DecStepSizeFullTableCase1_Mask);                
+                obj.setRegisterExtended(obj.LargeLMTOverloadThresh, obj.LargeLMTOverloadThresh_Reg, obj.LargeLMTOverloadThresh_Mask);                   
+                obj.setRegisterExtended(obj.SmallLMTOverloadThresh, obj.SmallLMTOverloadThresh_Reg, obj.SmallLMTOverloadThresh_Mask);                   
+                obj.setRegisterExtended(obj.SettlingDelay, obj.SettlingDelay_Reg, obj.SettlingDelay_Mask);                   
+                obj.setRegisterExtended(obj.EnergyLostThresh, obj.EnergyLostThresh_Reg, obj.EnergyLostThresh_Mask);    
+                obj.setRegisterExtended(obj.IncrementGainStep, obj.IncrementGainStep_Reg, obj.IncrementGainStep_Mask, obj.IncrementGainStep_BitShift);     
+                obj.setRegisterExtended(obj.DecPowMeasurementDuration, obj.DecPowMeasurementDuration_Reg, obj.DecPowMeasurementDuration_Mask);                
             end
         end
         function value = ReadFromRegister(obj, prop_name)
             if obj.ConnectedToDevice
                 switch prop_name
                     case 'AttackDelay'
-                        value = obj.getRegister(obj.AttackDelay_Reg, obj.AttackDelay_Mask);  
+                        value = obj.getRegisterExtended(obj.AttackDelay_Reg, obj.AttackDelay_Mask);  
                     case 'PeakOverloadWaitTime'
-                        value = obj.getRegister(obj.PeakOverloadWaitTime_Reg, obj.PeakOverloadWaitTime_Mask);                
+                        value = obj.getRegisterExtended(obj.PeakOverloadWaitTime_Reg, obj.PeakOverloadWaitTime_Mask);                
                     case 'AGCLockLevel'
-                        value = obj.getRegister(obj.AGCLockLevel_Reg, obj.AGCLockLevel_Mask);                
+                        value = obj.getRegisterExtended(obj.AGCLockLevel_Reg, obj.AGCLockLevel_Mask);                
                     case 'DecStepSizeFullTableCase3'
-                        value = obj.getRegister(obj.DecStepSizeFullTableCase3_Reg, obj.DecStepSizeFullTableCase3_Mask, obj.DecStepSizeFullTableCase3_BitShift);                
+                        value = obj.getRegisterExtended(obj.DecStepSizeFullTableCase3_Reg, obj.DecStepSizeFullTableCase3_Mask, obj.DecStepSizeFullTableCase3_BitShift);                
                     case 'ADCSmallOverloadThresh'
-                        value = obj.getRegister(obj.ADCSmallOverloadThresh_Reg);                
+                        value = obj.getRegisterExtended(obj.ADCSmallOverloadThresh_Reg);                
                     case 'ADCLargeOverloadThresh'
-                        value = obj.getRegister(obj.ADCLargeOverloadThresh_Reg);                
+                        value = obj.getRegisterExtended(obj.ADCLargeOverloadThresh_Reg);                
                     case 'DecStepSizeFullTableCase2'
-                        value = obj.getRegister(obj.DecStepSizeFullTableCase2_Reg, obj.DecStepSizeFullTableCase2_Mask, obj.DecStepSizeFullTableCase2_BitShift);                
+                        value = obj.getRegisterExtended(obj.DecStepSizeFullTableCase2_Reg, obj.DecStepSizeFullTableCase2_Mask, obj.DecStepSizeFullTableCase2_BitShift);                
                     case 'DecStepSizeFullTableCase1'
-                        value = obj.getRegister(obj.DecStepSizeFullTableCase1_Reg, obj.DecStepSizeFullTableCase1_Mask);                
+                        value = obj.getRegisterExtended(obj.DecStepSizeFullTableCase1_Reg, obj.DecStepSizeFullTableCase1_Mask);                
                     case 'LargeLMTOverloadThresh'
-                        value = obj.getRegister(obj.LargeLMTOverloadThresh_Reg, obj.LargeLMTOverloadThresh_Mask);                   
+                        value = obj.getRegisterExtended(obj.LargeLMTOverloadThresh_Reg, obj.LargeLMTOverloadThresh_Mask);                   
                     case 'SmallLMTOverloadThresh'
-                        value = obj.getRegister(obj.SmallLMTOverloadThresh_Reg, obj.SmallLMTOverloadThresh_Mask);                   
+                        value = obj.getRegisterExtended(obj.SmallLMTOverloadThresh_Reg, obj.SmallLMTOverloadThresh_Mask);                   
                     case 'SettlingDelay'
-                        value = obj.getRegister(obj.SettlingDelay_Reg, obj.SettlingDelay_Mask);                   
+                        value = obj.getRegisterExtended(obj.SettlingDelay_Reg, obj.SettlingDelay_Mask);                   
                     case 'EnergyLostThresh'
-                        value = obj.getRegister(obj.EnergyLostThresh_Reg, obj.EnergyLostThresh_Mask);    
+                        value = obj.getRegisterExtended(obj.EnergyLostThresh_Reg, obj.EnergyLostThresh_Mask);    
                     case 'LowPowerThresh'
-                        value = obj.getRegister(obj.LowPowerThresh_Reg, obj.LowPowerThresh_Mask);    
+                        value = obj.getRegisterExtended(obj.LowPowerThresh_Reg, obj.LowPowerThresh_Mask);    
                     case 'IncrementGainStep'
-                        value = obj.getRegister(obj.IncrementGainStep_Reg, obj.IncrementGainStep_Mask, obj.IncrementGainStep_BitShift);     
+                        value = obj.getRegisterExtended(obj.IncrementGainStep_Reg, obj.IncrementGainStep_Mask, obj.IncrementGainStep_BitShift);     
                     case 'FAGCLockLevelGainIncreaseUpperLimit'
-                        value = obj.getRegister(obj.FAGCLockLevelGainIncreaseUpperLimit_Reg, obj.FAGCLockLevelGainIncreaseUpperLimit_Mask);     
+                        value = obj.getRegisterExtended(obj.FAGCLockLevelGainIncreaseUpperLimit_Reg, obj.FAGCLockLevelGainIncreaseUpperLimit_Mask);     
                     case 'FAGCLPThreshIncrementTime'
-                        value = obj.getRegister(obj.FAGCLPThreshIncrementTime_Reg);  
+                        value = obj.getRegisterExtended(obj.FAGCLPThreshIncrementTime_Reg);  
                     case 'DecPowMeasurementDuration'
-                        value = obj.getRegister(obj.DecPowMeasurementDuration_Reg, obj.DecPowMeasurementDuration_Mask);     
+                        value = obj.getRegisterExtended(obj.DecPowMeasurementDuration_Reg, obj.DecPowMeasurementDuration_Mask);     
                     otherwise
                         error('Attempted to read unknown property %s\n', prop_name);
                 end
