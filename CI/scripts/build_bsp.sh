@@ -91,42 +91,117 @@ cp scripts/adi_env.tcl hdl/projects/scripts/
 cp scripts/adi_project_xilinx.tcl hdl/projects/scripts/
 cp scripts/adi_ip_xilinx.tcl hdl/library/scripts/
 
+# Update cores to move relative paths locally
+sed -i 's/add_files/add_files\ -copy_to\ \[pwd\]\ -force/g'  hdl/library/jesd204/axi_jesd204_common/axi_jesd204_common_ip.tcl
+
+# Update new folder names
+sed -i 's/util_cdc/analog_lib.com_user_util_cdc_1.0/g' hdl/projects/common/xilinx/adi_fir_filter_bd.tcl
+sed -i 's/util_fir_int/analog_lib.com_user_util_fir_int_1.0/g' hdl/projects/adrv9009/common/adrv9009_bd.tcl
+sed -i 's/util_fir_int/analog_lib.com_user_util_fir_int_1.0/g' hdl/projects/adrv9371x/common/adrv9371x_bd.tcl
+
 # Pack IP cores
 pwd
 echo "Starting IP core packaging"
 #vivado -verbose -mode batch -source scripts/pack_all_ips.tcl > /dev/null 2>&1
-vivado -verbose -mode batch -source scripts/pack_all_ips.tcl
+vivado -verbose -mode batch -source scripts/pack_all_ips.tcl > log.txt
 
 # Repack i2s and i2c cores to include xml files
 cd hdl/library/axi_i2s_adi/
 pwd
 ls
-unzip analog.com_user_axi_i2s_adi_1.0.zip -d tmp
-rm analog.com_user_axi_i2s_adi_1.0.zip
+#unzip analog.com_user_axi_i2s_adi_1.0.zip -d tmp
+unzip analog_lib.com_user_axi_i2s_adi_1.0.zip -d tmp
+#rm analog.com_user_axi_i2s_adi_1.0.zip
+rm analog_lib.com_user_axi_i2s_adi_1.0.zip
 ls
 cp *.xml tmp/
 cd tmp
-zip -r analog.com_user_axi_i2s_adi_1.0.zip *
-cp analog.com_user_axi_i2s_adi_1.0.zip ../
+#zip -r analog.com_user_axi_i2s_adi_1.0.zip *
+zip -r analog_lib.com_user_axi_i2s_adi_1.0.zip *
+#cp analog.com_user_axi_i2s_adi_1.0.zip ../
+cp analog_lib.com_user_axi_i2s_adi_1.0.zip ../
 cd ../../../..
 
 pwd
 
 cd hdl/library/util_i2c_mixer/
-unzip analog.com_user_util_i2c_mixer_1.0.zip -d tmp/
-rm analog.com_user_util_i2c_mixer_1.0.zip
+#unzip analog.com_user_util_i2c_mixer_1.0.zip -d tmp/
+unzip analog_lib.com_user_util_i2c_mixer_1.0.zip -d tmp/
+#rm analog.com_user_util_i2c_mixer_1.0.zip
+rm analog_lib.com_user_util_i2c_mixer_1.0.zip
 cp *.xml tmp/
 cd tmp
-zip -r analog.com_user_util_i2c_mixer_1.0.zip *
-cp analog.com_user_util_i2c_mixer_1.0.zip ../
+#zip -r analog.com_user_util_i2c_mixer_1.0.zip *
+zip -r analog_lib.com_user_util_i2c_mixer_1.0.zip *
+#cp analog.com_user_util_i2c_mixer_1.0.zip ../
+cp analog_lib.com_user_util_i2c_mixer_1.0.zip ../
 cd ../../../..
 
 pwd
+
+# Rename zips so they do not overwrite one another
+cd hdl/library/jesd204
+FILES=$(find . -name "*.zip")
+for f in $FILES
+do
+    M=${f:2}
+    mv -- "$M" .
+done
+cd ../../..
+
+#cd hdl/library/jesd204
+#FILES=$(find . -name "*.zip")
+#for f in $FILES
+#do
+#    echo "Renaming $f"
+#    M=${f:2}
+#    echo "Repacking $M"
+#    FN=${M::-4}
+#    unzip $M -d $FN
+#    mv -- "$FN" "jesd204_${FN}"
+#    cd "jesd204_${FN}"
+#    zip -r "jesd204_${FN}.zip" *
+#    cd ..
+#    mv "jesd204_${FN}/jesd204_${FN}.zip" .
+#    rm -rf "jesd204_${FN}"
+#    rm $M
+#done
+#cd ../../..
+
+cd hdl/library/xilinx
+FILES=$(find . -name "*.zip")
+for f in $FILES
+do
+    M=${f:2}
+    mv -- "$M" .
+done
+cd ../../..
+
+#cd hdl/library/xilinx
+#FILES=$(find . -name "*.zip")
+#for f in $FILES
+#do
+#    echo "Renaming $f"
+#    M=${f:2}
+#    echo "Repacking $M"
+#    FN=${M::-4}
+#    unzip $M -d $FN
+#    mv -- "$FN" "xilinx_${FN}"
+#    cd "xilinx_${FN}"
+#    zip -r "xilinx_${FN}.zip" *
+#    cd ..
+#    mv "xilinx_${FN}/xilinx_${FN}.zip" .
+#    rm -rf "xilinx_${FN}"
+#    rm $M
+#done
+#cd ../../..
+
 
 # Move all cores
 echo "Moving all cores"
 vivado -mode batch -source scripts/copy_all_packed_ips.tcl || true
 
+cp -r hdl/library/util_pack/*.zip hdl/library/
 cp -r hdl/library/jesd204/*.zip hdl/library/
 cp -r hdl/library/xilinx/*.zip hdl/library/
 cp -r hdl/projects/common common
