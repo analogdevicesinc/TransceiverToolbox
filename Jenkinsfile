@@ -101,7 +101,7 @@ stage("Hardware Streaming Tests") {
         withEnv(['HW='+branchName]) {
             unstash "builtSources"
             sh 'echo ${HW}'
-            // sh 'make -C ./CI/scripts test_streaming'
+            sh 'make -C ./CI/scripts test_streaming'
         }
     }
 }
