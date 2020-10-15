@@ -14,6 +14,7 @@ stage("Build Toolbox") {
 	try {
 		withEnv(['HDLBRANCH='+branchName]) {
 		    checkout scm
+		    sh 'git submodule update --init' 
 		    sh 'make -C ./CI/scripts build'
 		    sh 'make -C ./CI/scripts doc'
 		    sh 'make -C ./CI/scripts add_libad9361'
