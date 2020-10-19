@@ -17,6 +17,7 @@ for ii = 1:numel(parts)
     end
 end
 publish('SysObjsProps.m','outputDir','..\..\doc');
+publish('ForDevs.m','outputDir','..\..\doc');
 publish('ADITTBHome.m','outputDir','..\..\doc');
 
 [filepath,name,ext] = fileparts(mfilename('fullpath'));
