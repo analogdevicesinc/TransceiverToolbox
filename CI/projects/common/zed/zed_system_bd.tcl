@@ -92,6 +92,8 @@ ad_ip_parameter sys_concat_intc CONFIG.NUM_PORTS 16
 
 ad_ip_instance proc_sys_reset sys_rstgen
 ad_ip_parameter sys_rstgen CONFIG.C_EXT_RST_WIDTH 1
+ad_ip_instance proc_sys_reset sys_200m_rstgen
+ad_ip_parameter sys_200m_rstgen CONFIG.C_EXT_RST_WIDTH 1
 
 ad_ip_instance util_vector_logic sys_logic_inv
 ad_ip_parameter sys_logic_inv CONFIG.C_SIZE 1
@@ -107,7 +109,6 @@ ad_ip_instance axi_dmac axi_hdmi_dma
 ad_ip_parameter axi_hdmi_dma CONFIG.DMA_TYPE_SRC 0
 ad_ip_parameter axi_hdmi_dma CONFIG.DMA_TYPE_DEST 1
 ad_ip_parameter axi_hdmi_dma CONFIG.CYCLIC true
-ad_ip_parameter axi_hdmi_dma CONFIG.SYNC_TRANSFER_START 0
 ad_ip_parameter axi_hdmi_dma CONFIG.AXI_SLICE_SRC 0
 ad_ip_parameter axi_hdmi_dma CONFIG.AXI_SLICE_DEST 0
 ad_ip_parameter axi_hdmi_dma CONFIG.DMA_2D_TRANSFER true
@@ -143,6 +144,23 @@ ad_connect  sys_cpu_reset sys_rstgen/peripheral_reset
 ad_connect  sys_cpu_resetn sys_rstgen/peripheral_aresetn
 ad_connect  sys_cpu_clk sys_rstgen/slowest_sync_clk
 ad_connect  sys_rstgen/ext_reset_in sys_ps7/FCLK_RESET0_N
+ad_connect  sys_200m_reset sys_200m_rstgen/peripheral_reset
+ad_connect  sys_200m_resetn sys_200m_rstgen/peripheral_aresetn
+ad_connect  sys_200m_clk sys_200m_rstgen/slowest_sync_clk
+ad_connect  sys_200m_rstgen/ext_reset_in sys_ps7/FCLK_RESET1_N
+
+# generic system clocks pointers
+
+set sys_cpu_clk           [get_bd_nets sys_cpu_clk]
+set sys_dma_clk           [get_bd_nets sys_200m_clk]
+set sys_iodelay_clk       [get_bd_nets sys_200m_clk]
+
+set sys_cpu_reset         [get_bd_nets sys_cpu_reset]
+set sys_cpu_resetn        [get_bd_nets sys_cpu_resetn]
+set sys_dma_reset         [get_bd_nets sys_200m_reset]
+set sys_dma_resetn        [get_bd_nets sys_200m_resetn]
+set sys_iodelay_reset     [get_bd_nets sys_200m_reset]
+set sys_iodelay_resetn    [get_bd_nets sys_200m_resetn]
 
 # interface connections
 
@@ -239,6 +257,15 @@ ad_connect  sys_ps7/DMA2_REQ   axi_i2s_adi/DMA_REQ_RX
 ad_connect  sys_ps7/DMA2_ACK   axi_i2s_adi/DMA_ACK_RX
 ad_connect  sys_cpu_resetn     axi_i2s_adi/DMA_REQ_RX_RSTN
 
+# system id
+
+ad_ip_instance axi_sysid axi_sysid_0
+ad_ip_instance sysid_rom rom_sys_0
+
+ad_connect  axi_sysid_0/rom_addr   	rom_sys_0/rom_addr
+ad_connect  axi_sysid_0/sys_rom_data   	rom_sys_0/rom_data
+ad_connect  sys_cpu_clk                 rom_sys_0/clk
+
 # interrupts
 
 ad_connect  sys_concat_intc/dout  sys_ps7/IRQ_F2P
@@ -262,12 +289,13 @@ ad_connect  sys_concat_intc/In0   GND
 # interconnects and address mapping
 
 ad_cpu_interconnect 0x41600000 axi_iic_main
+ad_cpu_interconnect 0x45000000 axi_sysid_0
 ad_cpu_interconnect 0x79000000 axi_hdmi_clkgen
 ad_cpu_interconnect 0x43000000 axi_hdmi_dma
 ad_cpu_interconnect 0x70e00000 axi_hdmi_core
 ad_cpu_interconnect 0x75c00000 axi_spdif_tx_core
 ad_cpu_interconnect 0x77600000 axi_i2s_adi
 ad_cpu_interconnect 0x41620000 axi_iic_fmc
+
 ad_mem_hp0_interconnect sys_cpu_clk sys_ps7/S_AXI_HP0
 ad_mem_hp0_interconnect sys_cpu_clk axi_hdmi_dma/m_src_axi
-

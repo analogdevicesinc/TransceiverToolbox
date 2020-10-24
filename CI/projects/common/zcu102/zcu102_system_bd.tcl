@@ -30,8 +30,11 @@ ad_ip_parameter sys_ps8 CONFIG.PSU__FPGA_PL0_ENABLE 1
 ad_ip_parameter sys_ps8 CONFIG.PSU__CRL_APB__PL0_REF_CTRL__SRCSEL {IOPLL}
 ad_ip_parameter sys_ps8 CONFIG.PSU__CRL_APB__PL0_REF_CTRL__FREQMHZ 100
 ad_ip_parameter sys_ps8 CONFIG.PSU__FPGA_PL1_ENABLE 1
+ad_ip_parameter sys_ps8 CONFIG.PSU__FPGA_PL2_ENABLE 1
 ad_ip_parameter sys_ps8 CONFIG.PSU__CRL_APB__PL1_REF_CTRL__SRCSEL {IOPLL}
-ad_ip_parameter sys_ps8 CONFIG.PSU__CRL_APB__PL1_REF_CTRL__FREQMHZ 200
+ad_ip_parameter sys_ps8 CONFIG.PSU__CRL_APB__PL1_REF_CTRL__FREQMHZ 250
+ad_ip_parameter sys_ps8 CONFIG.PSU__CRL_APB__PL2_REF_CTRL__SRCSEL {IOPLL}
+ad_ip_parameter sys_ps8 CONFIG.PSU__CRL_APB__PL2_REF_CTRL__FREQMHZ 500
 ad_ip_parameter sys_ps8 CONFIG.PSU__USE__IRQ0 1
 ad_ip_parameter sys_ps8 CONFIG.PSU__USE__IRQ1 1
 ad_ip_parameter sys_ps8 CONFIG.PSU__GPIO_EMIO__PERIPHERAL__ENABLE 1
@@ -49,17 +52,47 @@ set_property -dict [list \
   CONFIG.PSU__CRL_APB__SPI1_REF_CTRL__FREQMHZ 100 \
 ] [get_bd_cells sys_ps8]
 
+# processor system reset instances for all the three system clocks
+
 ad_ip_instance proc_sys_reset sys_rstgen
 ad_ip_parameter sys_rstgen CONFIG.C_EXT_RST_WIDTH 1
+ad_ip_instance proc_sys_reset sys_250m_rstgen
+ad_ip_parameter sys_250m_rstgen CONFIG.C_EXT_RST_WIDTH 1
+ad_ip_instance proc_sys_reset sys_500m_rstgen
+ad_ip_parameter sys_500m_rstgen CONFIG.C_EXT_RST_WIDTH 1
 
 # system reset/clock definitions
 
 ad_connect  sys_cpu_clk sys_ps8/pl_clk0
-ad_connect  sys_200m_clk sys_ps8/pl_clk1
+ad_connect  sys_250m_clk sys_ps8/pl_clk1
+ad_connect  sys_500m_clk sys_ps8/pl_clk2
+
+ad_connect  sys_ps8/pl_resetn0 sys_rstgen/ext_reset_in
+ad_connect  sys_cpu_clk sys_rstgen/slowest_sync_clk
+ad_connect  sys_ps8/pl_resetn0 sys_250m_rstgen/ext_reset_in
+ad_connect  sys_250m_clk sys_250m_rstgen/slowest_sync_clk
+ad_connect  sys_ps8/pl_resetn0 sys_500m_rstgen/ext_reset_in
+ad_connect  sys_500m_clk sys_500m_rstgen/slowest_sync_clk
+
 ad_connect  sys_cpu_reset sys_rstgen/peripheral_reset
 ad_connect  sys_cpu_resetn sys_rstgen/peripheral_aresetn
-ad_connect  sys_cpu_clk sys_rstgen/slowest_sync_clk
-ad_connect  sys_ps8/pl_resetn0 sys_rstgen/ext_reset_in
+ad_connect  sys_250m_reset sys_250m_rstgen/peripheral_reset
+ad_connect  sys_250m_resetn sys_250m_rstgen/peripheral_aresetn
+ad_connect  sys_500m_reset sys_500m_rstgen/peripheral_reset
+ad_connect  sys_500m_resetn sys_500m_rstgen/peripheral_aresetn
+
+# generic system clocks&resets pointers
+
+set sys_cpu_clk            [get_bd_nets sys_cpu_clk]
+set sys_dma_clk            [get_bd_nets sys_250m_clk]
+set sys_iodelay_clk        [get_bd_nets sys_500m_clk]
+
+set  sys_cpu_reset         [get_bd_nets sys_cpu_reset]
+set  sys_cpu_resetn        [get_bd_nets sys_cpu_resetn]
+set  sys_dma_reset         [get_bd_nets sys_250m_reset]
+set  sys_dma_resetn        [get_bd_nets sys_250m_resetn]
+set  sys_iodelay_reset     [get_bd_nets sys_500m_reset]
+set  sys_iodelay_resetn    [get_bd_nets sys_500m_resetn]
 
 # gpio
 
@@ -95,7 +128,17 @@ ad_connect  sys_ps8/emio_spi1_ss_i_n VCC
 ad_connect  sys_ps8/emio_spi1_sclk_i GND
 ad_connect  sys_ps8/emio_spi1_s_i GND
 
-# interrupts
+# system id
+
+ad_ip_instance axi_sysid axi_sysid_0
+ad_ip_instance sysid_rom rom_sys_0
+
+ad_connect  axi_sysid_0/rom_addr   	rom_sys_0/rom_addr
+ad_connect  axi_sysid_0/sys_rom_data   	rom_sys_0/rom_data
+ad_connect  sys_cpu_clk                 rom_sys_0/clk
+
+ad_cpu_interconnect 0x45000000 axi_sysid_0
+# interrupts	
 
 ad_ip_instance xlconcat sys_concat_intc_0
 ad_ip_parameter sys_concat_intc_0 CONFIG.NUM_PORTS 8

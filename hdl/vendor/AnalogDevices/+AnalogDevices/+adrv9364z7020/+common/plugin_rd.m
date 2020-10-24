@@ -24,13 +24,14 @@ hRD.SharedRD = true;
 hRD.SharedRDFolder = fullfile(rootDir, 'vivado');
 
 switch(upper(board))
-	case 'BOX LVDS'
+	case 'CCBOX_LVDS'
 		board = 'ccbox_lvds';
-	case 'BOB LVDS'
+	case 'CCBOB_LVDS'
 		board = 'ccbob_lvds';
-	case 'BOB CMOS'
+	case 'CCBOB_CMOS'
 		board = 'ccbob_cmos';		
-	otherwise
+    otherwise
+        error('Not found');
 		board = 'ccbob_lvds';	
 end
 

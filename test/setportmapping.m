@@ -11,13 +11,13 @@ end
 
 if contains(lower(ReferenceDesignName),'936')
     dev = 'AD9361';
-elseif contains(lower(ReferenceDesignName),'pluto') 
+elseif contains(lower(ReferenceDesignName),'pluto')
     dev = 'AD9361';
     numChannels = 2;
 elseif contains(lower(ReferenceDesignName),'fmcomms')
     dev = 'AD9361';
     if contains(lower(ReferenceDesignName),'fmcomms5')
-%         numChannels = 8;
+        %         numChannels = 8;
     end
 elseif contains(lower(ReferenceDesignName),'937')
     dev = 'AD9371';
@@ -54,9 +54,18 @@ for k=1:8
     hdlset_param([mdl,'/HDL_DUT/out',num2str(k)], 'IOInterfaceMapping', '');
 end
 
-        
+
+
 switch mode
     case 'tx'
+        % Connect enables
+        hdlset_param([mdl,'/HDL_DUT/validOut1'], 'IOInterface', 'IP Load Tx Data OUT');
+        hdlset_param([mdl,'/HDL_DUT/validOut1'], 'IOInterfaceMapping', '[0]');
+%         if portWidthTX < 32
+           hdlset_param([mdl,'/HDL_DUT/validIn1'], 'IOInterface', 'IP Valid Tx Data IN');
+           hdlset_param([mdl,'/HDL_DUT/validIn1'], 'IOInterfaceMapping', '[0]');
+%         end
+        
         hdlset_param([mdl,'/HDL_DUT/in1'], 'IOInterface', ['IP Data 0 IN [0:',num2str(portWidthTX-1),']']);
         hdlset_param([mdl,'/HDL_DUT/in1'], 'IOInterfaceMapping', ['[0:',num2str(portWidthTX-1),']']);
         hdlset_param([mdl,'/HDL_DUT/in2'], 'IOInterface', ['IP Data 1 IN [0:',num2str(portWidthTX-1),']']);
@@ -76,6 +85,14 @@ switch mode
             hdlset_param([mdl,'/HDL_DUT/out4'], 'IOInterfaceMapping', ['[0:',num2str(portWidthTX-1),']']);
         end
     case 'rx'
+        % Connect enables
+        hdlset_param([mdl,'/HDL_DUT/validOut1'], 'IOInterface', 'IP Data Valid OUT');
+        hdlset_param([mdl,'/HDL_DUT/validOut1'], 'IOInterfaceMapping', '[0]');
+%         if portWidthTX < 32
+           hdlset_param([mdl,'/HDL_DUT/validIn1'], 'IOInterface', 'IP Valid Rx Data IN');
+           hdlset_param([mdl,'/HDL_DUT/validIn1'], 'IOInterfaceMapping', '[0]');
+%         end
+        
         hdlset_param([mdl,'/HDL_DUT/in1'], 'IOInterface', [dev,' ADC Data I0 [0:',num2str(portWidthRX-1),']']);
         hdlset_param([mdl,'/HDL_DUT/in1'], 'IOInterfaceMapping', ['[0:',num2str(portWidthRX-1),']']);
         hdlset_param([mdl,'/HDL_DUT/in2'], 'IOInterface', [dev,' ADC Data Q0 [0:',num2str(portWidthRX-1),']']);
@@ -95,6 +112,20 @@ switch mode
             hdlset_param([mdl,'/HDL_DUT/out4'], 'IOInterfaceMapping', ['[0:',num2str(portWidthRX-1),']']);
         end
     case 'rxtx'
+        % Connect enables
+        hdlset_param([mdl,'/HDL_DUT/validOut1'], 'IOInterface', 'IP Load Tx Data OUT');
+        hdlset_param([mdl,'/HDL_DUT/validOut1'], 'IOInterfaceMapping', '[0]');
+%         if portWidthTX < 32
+           hdlset_param([mdl,'/HDL_DUT/validIn1'], 'IOInterface', 'IP Valid Tx Data IN');
+           hdlset_param([mdl,'/HDL_DUT/validIn1'], 'IOInterfaceMapping', '[0]');
+%         end
+        hdlset_param([mdl,'/HDL_DUT/validOut2'], 'IOInterface', 'IP Data Valid OUT');
+        hdlset_param([mdl,'/HDL_DUT/validOut2'], 'IOInterfaceMapping', '[0]');
+%         if portWidthTX < 32
+           hdlset_param([mdl,'/HDL_DUT/validIn1'], 'IOInterface', 'IP Valid Rx Data IN');
+           hdlset_param([mdl,'/HDL_DUT/validIn1'], 'IOInterfaceMapping', '[0]');
+%         end
+        
         % RX
         hdlset_param([mdl,'/HDL_DUT/in1'], 'IOInterface', [dev,' ADC Data I0 [0:',num2str(portWidthRX-1),']']);
         hdlset_param([mdl,'/HDL_DUT/in1'], 'IOInterfaceMapping', ['[0:',num2str(portWidthRX-1),']']);
@@ -124,7 +155,7 @@ switch mode
             hdlset_param([mdl,'/HDL_DUT/out5'], 'IOInterfaceMapping', ['[0:',num2str(portWidthRX-1),']']);
             hdlset_param([mdl,'/HDL_DUT/out6'], 'IOInterface', ['IP Data 3 OUT [0:',num2str(portWidthRX-1),']']);
             hdlset_param([mdl,'/HDL_DUT/out6'], 'IOInterfaceMapping', ['[0:',num2str(portWidthRX-1),']']);
-
+            
             hdlset_param([mdl,'/HDL_DUT/in7'], 'IOInterface', ['IP Data 2 IN [0:',num2str(portWidthTX-1),']']);
             hdlset_param([mdl,'/HDL_DUT/in7'], 'IOInterfaceMapping', ['[0:',num2str(portWidthTX-1),']']);
             hdlset_param([mdl,'/HDL_DUT/in8'], 'IOInterface', ['IP Data 3 IN [0:',num2str(portWidthTX-1),']']);
