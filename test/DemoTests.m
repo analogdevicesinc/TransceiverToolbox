@@ -16,35 +16,11 @@ classdef DemoTests < TestAppGUI
             addpath(genpath(fullfile(here,'trx_examples/targeting/loopback-delay-estimation')));
             addpath(genpath(fullfile(here,'hdl')));
         end
-        function setupVivado(~)
-            v=ver('matlab'); Release = v.Release;
-            switch Release
-                case '(R2017a)'
-                    vivado = '2016.2';
-                case '(R2017b)'
-                    vivado = '2017.4';
-                case '(R2018b)'
-                    vivado = '2017.4';
-                case '(R2019a)'
-                    vivado = '2018.2';
-                case '(R2019b)'
-                    vivado = '2018.2';
-                case '(R2020a)'
-                    vivado = '2018.3';
-            end
-            if ispc
-                hdlsetuptoolpath('ToolName', 'Xilinx Vivado', ...
-                    'ToolPath', ['C:\Xilinx\Vivado\',vivado,'\bin\vivado.bat']);
-            elseif isunix
-                hdlsetuptoolpath('ToolName', 'Xilinx Vivado', ...
-                    'ToolPath', ['/opt/Xilinx/Vivado/',vivado,'/bin/vivado']);
-            end
-            
-        end
     end
     
     methods(Test)
         function buildHDLLoopbackDelayEstimation(testCase)
+            testCase.setupVivado('2018.2');
             cd(fullfile(testCase.root,'trx_examples/targeting/loopback-delay-estimation'));
             hdlworkflow;
             if ~isempty(out)
@@ -56,6 +32,7 @@ classdef DemoTests < TestAppGUI
             end
         end
         function buildHDLFrequencyHopper(testCase)
+            testCase.setupVivado('2018.3');
             cd(fullfile(testCase.root,'trx_examples/targeting/frequency-hopping'));
             hdlworkflow;
             if ~isempty(out)
@@ -67,6 +44,7 @@ classdef DemoTests < TestAppGUI
             end
         end
         function buildHDLTuneAGC(testCase)
+            testCase.setupVivado('2018.2');
             cd(fullfile(testCase.root,'trx_examples/targeting/tuneAGC-ad9361'));
             hdlworkflow;
             if ~isempty(out)
@@ -78,6 +56,7 @@ classdef DemoTests < TestAppGUI
             end
         end
         function buildKernelFrequencyHopper(testCase)
+            testCase.setupVivado('2018.3');
             cd(fullfile(testCase.root,'trx_examples/targeting/frequency-hopping'));
             system('chmod +x build_kernel.sh');
             system('./build_kernel.sh');
@@ -86,6 +65,36 @@ classdef DemoTests < TestAppGUI
                 error('Kernel Build Failed');
             end
         end
+    end
+    
+    methods (Static)
+        function setupVivado(vivado)
+            if nargin < 1
+                v=ver('matlab'); Release = v.Release;
+                switch Release
+                    case '(R2017a)'
+                        vivado = '2016.2';
+                    case '(R2017b)'
+                        vivado = '2017.4';
+                    case '(R2018b)'
+                        vivado = '2017.4';
+                    case '(R2019a)'
+                        vivado = '2018.2';
+                    case '(R2019b)'
+                        vivado = '2018.2';
+                    case '(R2020a)'
+                        vivado = '2018.3';
+                end
+            end
+            if ispc
+                hdlsetuptoolpath('ToolName', 'Xilinx Vivado', ...
+                    'ToolPath', ['C:\Xilinx\Vivado\',vivado,'\bin\vivado.bat']);
+            elseif isunix
+                hdlsetuptoolpath('ToolName', 'Xilinx Vivado', ...
+                    'ToolPath', ['/opt/Xilinx/Vivado/',vivado,'/bin/vivado']);
+            end
+            
+        end 
     end
     
 end
