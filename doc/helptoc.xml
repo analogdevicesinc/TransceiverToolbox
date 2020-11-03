@@ -8,5 +8,8 @@
       <tocitem target="Examples.html">Examples</tocitem>
       <tocitem target="Support.html">Support</tocitem>
       <tocitem target="SysObjsProps.html">System Object Properties</tocitem>
+      <tocitem target="CodeExamples.html">Code Examples</tocitem>
+      <tocitem target="StateMgmt.html">State Management</tocitem>
+      <tocitem target="ForDevs.html">For Developers</tocitem>
    </tocitem>
 </toc>
