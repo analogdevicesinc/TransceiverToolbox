@@ -54,7 +54,14 @@ for k=1:8
     hdlset_param([mdl,'/HDL_DUT/out',num2str(k)], 'IOInterfaceMapping', '');
 end
 
-
+hdlset_param([mdl,'/HDL_DUT/validOut1'], 'IOInterface', 'No Interface Specified');
+hdlset_param([mdl,'/HDL_DUT/validOut1'], 'IOInterfaceMapping', '');
+hdlset_param([mdl,'/HDL_DUT/validIn1'], 'IOInterface', 'No Interface Specified');
+hdlset_param([mdl,'/HDL_DUT/validIn1'], 'IOInterfaceMapping', '');
+hdlset_param([mdl,'/HDL_DUT/validOut2'], 'IOInterface', 'No Interface Specified');
+hdlset_param([mdl,'/HDL_DUT/validOut2'], 'IOInterfaceMapping', '');
+hdlset_param([mdl,'/HDL_DUT/validIn2'], 'IOInterface', 'No Interface Specified');
+hdlset_param([mdl,'/HDL_DUT/validIn2'], 'IOInterfaceMapping', '');
 
 switch mode
     case 'tx'
@@ -137,8 +144,8 @@ switch mode
         hdlset_param([mdl,'/HDL_DUT/validIn1'], 'IOInterfaceMapping', '[0]');
         hdlset_param([mdl,'/HDL_DUT/validOut2'], 'IOInterface', 'IP Data Valid OUT');
         hdlset_param([mdl,'/HDL_DUT/validOut2'], 'IOInterfaceMapping', '[0]');
-        hdlset_param([mdl,'/HDL_DUT/validIn1'], 'IOInterface', 'IP Valid Rx Data IN');
-        hdlset_param([mdl,'/HDL_DUT/validIn1'], 'IOInterfaceMapping', '[0]');
+        hdlset_param([mdl,'/HDL_DUT/validIn2'], 'IOInterface', 'IP Valid Rx Data IN');
+        hdlset_param([mdl,'/HDL_DUT/validIn2'], 'IOInterfaceMapping', '[0]');
         
         % RX
         hdlset_param([mdl,'/HDL_DUT/in1'], 'IOInterface', [dev,' ADC Data I0 [0:',num2str(portWidthRX-1),']']);
