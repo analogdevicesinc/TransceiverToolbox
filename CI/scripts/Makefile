@@ -100,8 +100,7 @@ test_modem:
 	${MLPATH}/$(MLRELEASE)/bin/matlab $(MLFLAGS) -r "addpath(genpath('hdl'));cd('targeting');addpath(genpath('modem-qpsk'))"
 
 test_synth:
-	cd ../.. ; \
-	${MLPATH}/$(MLRELEASE)/bin/matlab $(MLFLAGS) -r "cd('test');runSynthTests('$(BOARD)');"
+	bash synth_designs.sh $(BOARD)
 
 test_targeting_demos:
 	bash targeting_designs.sh
