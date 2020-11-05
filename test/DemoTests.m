@@ -44,7 +44,7 @@ classdef DemoTests < TestAppGUI
             end
         end
         function buildHDLTuneAGC(testCase)
-            testCase.setupVivado('2018.2');
+            testCase.setupVivado('2018.3');
             cd(fullfile(testCase.root,'trx_examples/targeting/tuneAGC-ad9361'));
             hdlworkflow;
             if ~isempty(out)
