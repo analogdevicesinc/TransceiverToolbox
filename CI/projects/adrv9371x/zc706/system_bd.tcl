@@ -1,16 +1,17 @@
 
-set dac_fifo_name axi_ad9371_dacfifo
 set dac_fifo_address_width 10
-set dac_data_width 128
-set dac_dma_data_width 128
 
 source $ad_hdl_dir/projects/common/zc706/zc706_system_bd.tcl
 source $ad_hdl_dir/projects/common/zc706/zc706_plddr3_dacfifo_bd.tcl
 
+#system ID
+ad_ip_parameter axi_sysid_0 CONFIG.ROM_ADDR_BITS 9
+ad_ip_parameter rom_sys_0 CONFIG.PATH_TO_FILE "[pwd]/mem_init_sys.txt"
+ad_ip_parameter rom_sys_0 CONFIG.ROM_ADDR_BITS 9
+set sys_cstring "sys rom custom string placeholder"
+sysid_gen_sys_init_file $sys_cstring
+
 ad_ip_parameter sys_ps7 CONFIG.PCW_FPGA2_PERIPHERAL_FREQMHZ 200
 
 source $ad_hdl_dir/projects/adrv9371x/common/adrv9371x_bd.tcl
-#source ../common/adrv9371x_bd.tcl
 
-ad_connect  sys_dma_clk sys_ps7/FCLK_CLK2
-ad_connect  sys_ps7/FCLK_RESET2_N sys_dma_rstgen/ext_reset_in

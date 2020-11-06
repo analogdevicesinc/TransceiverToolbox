@@ -33,6 +33,7 @@ proc copy_all_packed_ips { DEST_FOLDER } {
 		if {$dir=="xilinx"} {continue}
 		if {$dir=="jesd204"} {continue}
 		if {$dir=="spi_engine"} {continue}
+		if {$dir=="util_pack"} {continue}
 		file delete -force -- $dir
 
 
@@ -65,5 +66,9 @@ cd spi_engine
 set DEST [pwd]
 copy_all_packed_ips $DEST
 
+# Move util_pack core zips
+cd util_pack
+set DEST [pwd]
+copy_all_packed_ips $DEST
 
 cd ../../..

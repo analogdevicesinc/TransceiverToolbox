@@ -14,7 +14,7 @@ hRD.ReferenceDesignName = sprintf('FMCOMMS2/3 %s (%s)', upper(board), upper(desi
 hRD.BoardName = sprintf('AnalogDevices FMCOMMS2/3 %s', upper(board));
 
 % Tool information
-hRD.SupportedToolVersion = {'2018.2'};
+hRD.SupportedToolVersion = {'2018.3'};
 
 % Get the root directory
 rootDir = fileparts(strtok(mfilename('fullpath'), '+'));

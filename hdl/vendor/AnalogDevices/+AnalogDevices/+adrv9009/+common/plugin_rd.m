@@ -11,7 +11,7 @@ hRD.ReferenceDesignName = sprintf('ADRV9009 %s (%s)', upper(board), upper(design
 hRD.BoardName = sprintf('AnalogDevices ADRV9009 %s', upper(board));
 
 % Tool information
-hRD.SupportedToolVersion = {'2018.2'};
+hRD.SupportedToolVersion = {'2018.3'};
 
 % Get the root directory
 rootDir = fileparts(strtok(mfilename('fullpath'), '+'));
@@ -57,15 +57,15 @@ switch(upper(design))
     case 'RX'
         hRD.addClockInterface( ...
             'ClockConnection',   'axi_adrv9009_rx_clkgen/clk_0', ...
-            'ResetConnection',   'sys_rstgen/peripheral_aresetn');
+            'ResetConnection',   'adrv9009_rx_device_clk_rstgen/peripheral_aresetn');
     case 'TX'
         hRD.addClockInterface( ...
             'ClockConnection',   'axi_adrv9009_tx_clkgen/clk_0', ...
-            'ResetConnection',   'sys_rstgen/peripheral_aresetn');
+            'ResetConnection',   'adrv9009_tx_device_clk_rstgen/peripheral_aresetn');
     case 'RX & TX'
         hRD.addClockInterface( ...
             'ClockConnection',   'axi_adrv9009_rx_clkgen/clk_0', ...
-            'ResetConnection',   'sys_rstgen/peripheral_aresetn');
+            'ResetConnection',   'adrv9009_rx_device_clk_rstgen/peripheral_aresetn');
 %     case 'OBS'
 %         hRD.addClockInterface( ...
 %             'ClockConnection',   'axi_adrv9009_rx_os_clkgen/clk_0', ...

@@ -12,7 +12,7 @@ MLRELEASE := R2020a
 endif
 
 ifeq ($(HDLBRANCH),)
-HDLBRANCH := hdl_2018_r2
+HDLBRANCH := hdl_2019_r1
 endif
 
 ifeq ($(OS),Windows_NT)
@@ -100,7 +100,7 @@ test_modem:
 	${MLPATH}/$(MLRELEASE)/bin/matlab $(MLFLAGS) -r "addpath(genpath('hdl'));cd('targeting');addpath(genpath('modem-qpsk'))"
 
 test_synth:
-	bash synth_designs.sh
+	bash synth_designs.sh $(BOARD)
 
 test_targeting_demos:
 	bash targeting_designs.sh

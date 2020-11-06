@@ -14,7 +14,7 @@ hRD.ReferenceDesignName = sprintf('ADRV9364 %s (%s)', upper(board), design);
 hRD.BoardName = sprintf('AnalogDevices ADRV9364-Z7020');
 
 % Tool information
-hRD.SupportedToolVersion = {'2018.2'};
+hRD.SupportedToolVersion = {'2018.3'};
 
 % Get the root directory
 rootDir = fileparts(strtok(mfilename('fullpath'), '+'));
@@ -24,13 +24,14 @@ hRD.SharedRD = true;
 hRD.SharedRDFolder = fullfile(rootDir, 'vivado');
 
 switch(upper(board))
-	case 'BOX LVDS'
+	case 'CCBOX_LVDS'
 		board = 'ccbox_lvds';
-	case 'BOB LVDS'
+	case 'CCBOB_LVDS'
 		board = 'ccbob_lvds';
-	case 'BOB CMOS'
+	case 'CCBOB_CMOS'
 		board = 'ccbob_cmos';		
-	otherwise
+    otherwise
+        error('Not found');
 		board = 'ccbob_lvds';	
 end
 

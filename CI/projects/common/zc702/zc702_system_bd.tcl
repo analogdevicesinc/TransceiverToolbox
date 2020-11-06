@@ -71,6 +71,8 @@ ad_ip_parameter sys_concat_intc CONFIG.NUM_PORTS 16
 
 ad_ip_instance proc_sys_reset sys_rstgen
 ad_ip_parameter sys_rstgen CONFIG.C_EXT_RST_WIDTH 1
+ad_ip_instance proc_sys_reset sys_200m_rstgen
+ad_ip_parameter sys_200m_rstgen CONFIG.C_EXT_RST_WIDTH 1
 
 # hdmi peripherals
 
@@ -82,7 +84,6 @@ ad_ip_instance axi_dmac axi_hdmi_dma
 ad_ip_parameter axi_hdmi_dma CONFIG.DMA_TYPE_SRC 0
 ad_ip_parameter axi_hdmi_dma CONFIG.DMA_TYPE_DEST 1
 ad_ip_parameter axi_hdmi_dma CONFIG.CYCLIC true
-ad_ip_parameter axi_hdmi_dma CONFIG.SYNC_TRANSFER_START 0
 ad_ip_parameter axi_hdmi_dma CONFIG.AXI_SLICE_SRC 0
 ad_ip_parameter axi_hdmi_dma CONFIG.AXI_SLICE_DEST 0
 ad_ip_parameter axi_hdmi_dma CONFIG.DMA_2D_TRANSFER true
@@ -110,6 +111,23 @@ ad_connect  sys_cpu_reset sys_rstgen/peripheral_reset
 ad_connect  sys_cpu_resetn sys_rstgen/peripheral_aresetn
 ad_connect  sys_cpu_clk sys_rstgen/slowest_sync_clk
 ad_connect  sys_rstgen/ext_reset_in sys_ps7/FCLK_RESET0_N
+ad_connect  sys_200m_reset sys_200m_rstgen/peripheral_reset
+ad_connect  sys_200m_resetn sys_200m_rstgen/peripheral_aresetn
+ad_connect  sys_200m_clk sys_200m_rstgen/slowest_sync_clk
+ad_connect  sys_200m_rstgen/ext_reset_in sys_ps7/FCLK_RESET1_N
+
+# generic system clocks pointers
+
+set sys_cpu_clk      [get_bd_nets sys_cpu_clk]
+set sys_dma_clk      [get_bd_nets sys_200m_clk]
+set sys_iodelay_clk  [get_bd_nets sys_200m_clk]
+
+set sys_cpu_reset         [get_bd_nets sys_cpu_reset]
+set sys_cpu_resetn        [get_bd_nets sys_cpu_resetn]
+set sys_dma_reset         [get_bd_nets sys_200m_reset]
+set sys_dma_resetn        [get_bd_nets sys_200m_resetn]
+set sys_iodelay_reset     [get_bd_nets sys_200m_reset]
+set sys_iodelay_resetn    [get_bd_nets sys_200m_resetn]
 
 # interface connections
 
@@ -172,6 +190,15 @@ ad_connect  sys_cpu_resetn sys_audio_clkgen/resetn
 ad_connect  sys_audio_clkgen/clk_out1 axi_spdif_tx_core/spdif_data_clk
 ad_connect  spdif axi_spdif_tx_core/spdif_tx_o
 
+# system id
+
+ad_ip_instance axi_sysid axi_sysid_0
+ad_ip_instance sysid_rom rom_sys_0
+
+ad_connect  axi_sysid_0/rom_addr   	rom_sys_0/rom_addr
+ad_connect  axi_sysid_0/sys_rom_data   	rom_sys_0/rom_data
+ad_connect  sys_cpu_clk                 rom_sys_0/clk
+
 # match up interconnects
 
 ad_connect  sys_concat_intc/dout sys_ps7/IRQ_F2P
@@ -195,6 +222,7 @@ ad_connect  sys_concat_intc/In0 GND
 # address map
 
 ad_cpu_interconnect 0x41600000 axi_iic_main
+ad_cpu_interconnect 0x45000000 axi_sysid_0
 ad_cpu_interconnect 0x79000000 axi_hdmi_clkgen
 ad_cpu_interconnect 0x43000000 axi_hdmi_dma
 ad_cpu_interconnect 0x70e00000 axi_hdmi_core

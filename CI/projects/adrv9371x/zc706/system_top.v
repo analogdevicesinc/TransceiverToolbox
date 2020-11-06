@@ -233,8 +233,13 @@ module system_top (
     .dio_o (gpio_i[14:0]),
     .dio_p (gpio_bd));
 
+  assign gpio_i[31:15] = gpio_o[31:15];
+  assign gpio_i[63:60] = gpio_o[63:60];
+
   system_wrapper i_system_wrapper (
     .dac_fifo_bypass (gpio_o[60]),
+    .adc_fir_filter_active (gpio_o[61]),
+    .dac_fir_filter_active (gpio_o[62]),
     .ddr3_addr (ddr3_addr),
     .ddr3_ba (ddr3_ba),
     .ddr3_cas_n (ddr3_cas_n),
@@ -281,14 +286,6 @@ module system_top (
     .hdmi_vsync (hdmi_vsync),
     .iic_main_scl_io (iic_scl),
     .iic_main_sda_io (iic_sda),
-    .ps_intr_00 (1'b0),
-    .ps_intr_01 (1'b0),
-    .ps_intr_02 (1'b0),
-    .ps_intr_03 (1'b0),
-    .ps_intr_04 (1'b0),
-    .ps_intr_05 (1'b0),
-    .ps_intr_06 (1'b0),
-    .ps_intr_07 (1'b0),
     .rx_data_0_n (rx_data_n[0]),
     .rx_data_0_p (rx_data_p[0]),
     .rx_data_1_n (rx_data_n[1]),

@@ -1,9 +1,10 @@
-## ###############################################################################################
-## ###############################################################################################
-## check tool version
+
+source hdl/library/scripts/adi_xilinx_device_info_enc.tcl
+
+# check tool version
 
 if {![info exists REQUIRED_VIVADO_VERSION]} {
-  set REQUIRED_VIVADO_VERSION "2018.2"
+  set REQUIRED_VIVADO_VERSION "2018.3"
 }
 
 if {[info exists ::env(ADI_IGNORE_VERSION_CHECK)]} {
@@ -12,10 +13,13 @@ if {[info exists ::env(ADI_IGNORE_VERSION_CHECK)]} {
   set IGNORE_VERSION_CHECK 0
 }
 
-## ###############################################################################################
-## ###############################################################################################
-## ip related stuff
-
+## Add a ttcl file to the project. XDC does not support if statements
+#  in constraint definitions, this file can be used to add parameter dependent
+#  constraints to the IP.
+#
+# \param[ip_name] - IP name
+# \param[ip_constr_files] - .ttcl file name (full path)
+#
 proc adi_ip_ttcl {ip_name ip_constr_files} {
 
   set cdir [pwd]
@@ -36,7 +40,11 @@ proc adi_ip_ttcl {ip_name ip_constr_files} {
   ipx::reorder_files -front $ip_constr_files $proj_filegroup
 }
 
-# add ttcl file to the simulation file set
+## Add ttcl file to generate simulation files for System Verilog environments.
+#
+# \param[ip_name] - IP name
+# \param[ip_constr_files] - .ttcl file name (full path)
+#
 proc adi_ip_sim_ttcl {ip_name ip_files} {
 
   set proj_filegroup [ipx::get_file_groups -of_objects [ipx::current_core] -filter {NAME =~ *simulation*}]
@@ -47,29 +55,54 @@ proc adi_ip_sim_ttcl {ip_name ip_files} {
   ipx::reorder_files -front $ip_files $proj_filegroup
 }
 
+## Add a block design, defined by a tcl source, to the IP.
+#
+# \param[ip_name] - IP name
+# \param[ip_bd_files] - Tcl source file
+#
 proc adi_ip_bd {ip_name ip_bd_files} {
   set proj_filegroup [ipx::get_file_groups xilinx_blockdiagram -of_objects [ipx::current_core]]
   if {$proj_filegroup == {}} {
     set proj_filegroup [ipx::add_file_group -type xilinx_blockdiagram "" [ipx::current_core]]
   }
-  set f [ipx::add_file $ip_bd_files $proj_filegroup]
-  set_property -dict [list \
-    type tclSource \
-  ] $f
+
+  foreach file $ip_bd_files {
+    set f [ipx::add_file $file $proj_filegroup]
+    set_property -dict [list \
+      type tclSource \
+    ] $f
+  }
 }
 
+## Infers an AXI Streaming interface. Note that the interface has to exist.
+#
+# \param[ip_name] - IP name
+#
 proc adi_ip_infer_streaming_interfaces {ip_name} {
 
   ipx::infer_bus_interfaces xilinx.com:interface:axis_rtl:1.0 [ipx::current_core]
 
 }
 
+## Infers an AXI Memory Mapped interface. Note that the interface has to exist.
+#
+# \param[ip_name] - IP name
+#
 proc adi_ip_infer_mm_interfaces {ip_name} {
 
   ipx::infer_bus_interfaces xilinx.com:interface:aximm_rtl:1.0 [ipx::current_core]
 
 }
 
+## Defines a dependency for a port.
+#
+# \param[port_prefix] - Port prefix, which defines an interface. All ports of an
+# interface must have the same prefix. If it's a single port, the whole name
+# shall be defined.
+# \param[dependency] - Dependency (e.g "PARAMETER_NAME == 1") ??? {spirit:decode(id('MODELPARAM_VALUE.PARAM_NAME')) == CONST}
+# \param[driver_value] - Driver value is optional. It defines the default driver
+# value of the port.
+#
 proc adi_set_ports_dependency {port_prefix dependency {driver_value {}}} {
   foreach port [ipx::get_ports [format "%s%s" $port_prefix "*"]] {
     set_property ENABLEMENT_DEPENDENCY $dependency $port
@@ -79,16 +112,42 @@ proc adi_set_ports_dependency {port_prefix dependency {driver_value {}}} {
   }
 }
 
+## Defines a dependency for a bus.
+#
+# \param[bus] - Name of the bus
+# \param[prefix] - Port prefix, in general same as the name of the bus
+# \param[dependency] - Dependency (e.g "PARAMETER_NAME == 1") ??? {spirit:decode(id('MODELPARAM_VALUE.PARAM_NAME')) == CONST}
+#
 proc adi_set_bus_dependency {bus prefix dependency} {
   set_property ENABLEMENT_DEPENDENCY $dependency [ipx::get_bus_interfaces $bus -of_objects [ipx::current_core]]
   adi_set_ports_dependency $prefix $dependency 0
 }
 
+## Add a new port map definition to a bus interface.
+#
+# \param[bus] - Name of the bus interface
+# \param[phys] - Physical name of the port
+# \param[logic] - Logic name of the port (defined by the interface)
+#
 proc adi_add_port_map {bus phys logic} {
   set map [ipx::add_port_map $phys $bus]
   set_property "PHYSICAL_NAME" $phys $map
   set_property "LOGICAL_NAME" $logic $map
 }
+
+## Infers a new bus interface to an IP.
+#
+# \param[bus_name] - Bus name
+# \param[mode] - Interface mode (master/slave)
+# \param[abs_type] - Abstraction type, example: "xilinx.com:interface:axis_rtl:1.0"
+# \param[bus_type] - Bus type, example: "xilinx.com:interface:axis:1.0"
+# \param[port_maps] - Port map
+#
+# <b>Port map example:\n
+#    [list \n
+#        {"m_axis_ready" "TREADY"}\n
+#        {"m_axis_valid" "TVALID"}\n
+#        {"m_axis_data" "TDATA"} ]\n
 
 proc adi_add_bus {bus_name mode abs_type bus_type port_maps} {
   set bus [ipx::add_bus_interface $bus_name [ipx::current_core]]
@@ -102,8 +161,21 @@ proc adi_add_bus {bus_name mode abs_type bus_type port_maps} {
   }
 }
 
+## Add multiple bus interfaces of the same type to an IP.
+#
+# \param[num] - Number of interfaces
+# \param[bus_name_prefix] - Prefix of the name of the interface
+# \param[mode] - Interface mode (master/slave)
+# \param[abs_type] - Abstraction type, example: "xilinx.com:interface:axis_rtl:1.0"
+# \param[bus_type] - Bus type, example: "xilinx.com:interface:axis:1.0"
+# \param[port_maps] - Port map, example: [list \n
+#                                           {"m_axis_ready" "TREADY"}\n
+#                                           {"m_axis_valid" "TVALID"}\n:
+#                                           {"m_axis_data" "TDATA"} ]\n
+# \param[dependency] - Dependency (e.g "PARAMETER_NAME == 1") ??? {spirit:decode(id('MODELPARAM_VALUE.PARAM_NAME')) == CONST}
+#
 proc adi_add_multi_bus {num bus_name_prefix mode abs_type bus_type port_maps dependency} {
-  for {set i 0} {$i < 8} {incr i} {
+  for {set i 0} {$i < $num} {incr i} {
     set bus_name [format "%s%d" $bus_name_prefix $i]
     set bus [ipx::add_bus_interface $bus_name [ipx::current_core]]
 
@@ -127,6 +199,14 @@ proc adi_add_multi_bus {num bus_name_prefix mode abs_type bus_type port_maps dep
   }
 }
 
+## Assign clock and reset to an interface bus.
+#
+# \param[clock_signal_name] - Clock name
+# \param[bus_inf_name] - Interface bus name. Note: If multiple interfaces uses
+# the same clock, all shall be defined here. (e.g. "s_axis:m_axis")
+# \param[reset_signal_name] - Reset signal name
+# \param[reset_signal_mode] - Reset mode (master/slave)
+#
 proc adi_add_bus_clock {clock_signal_name bus_inf_name {reset_signal_name ""} {reset_signal_mode "slave"}} {
   set bus_inf_name_clean [string map {":" "_"} $bus_inf_name]
   set clock_inf_name [format "%s%s" $bus_inf_name_clean "_signal_clock"]
@@ -162,6 +242,10 @@ proc adi_add_bus_clock {clock_signal_name bus_inf_name {reset_signal_name ""} {r
   }
 }
 
+## Defines an IP as the current IP's dependency.
+#
+# \param[vlnvs] - VLNVs of the instantiated IPs (e.g. "analog.com:user:util_cdc:1.0")
+#
 proc adi_ip_add_core_dependencies {vlnvs} {
   foreach file_group [ipx::get_file_groups * -of_objects [ipx::current_core]] {
     foreach vlnv $vlnvs {
@@ -170,16 +254,18 @@ proc adi_ip_add_core_dependencies {vlnvs} {
   }
 }
 
-## ###############################################################################################
-## ###############################################################################################
-## ip related stuff
+## List of all constraint files
+#
+set ip_constr_files ""
 
-variable ip_constr_files
-
+## Create a project which will be packed as an IP.
+#
+# \param[ip_name] - IP name
+#
 proc adi_ip_create {ip_name} {
 
   global ad_hdl_dir
-  global ad_phdl_dir
+  global ad_ghdl_dir
   global ip_constr_files
   global REQUIRED_VIVADO_VERSION
   global IGNORE_VERSION_CHECK
@@ -198,14 +284,19 @@ proc adi_ip_create {ip_name} {
 
   set ip_constr_files ""
   set lib_dirs $ad_hdl_dir/library
-  if {$ad_hdl_dir ne $ad_phdl_dir} {
-    lappend lib_dirs $ad_phdl_dir/library
+  if {$ad_hdl_dir ne $ad_ghdl_dir} {
+    lappend lib_dirs $ad_ghdl_dir/library
   }
 
   set_property ip_repo_paths $lib_dirs [current_fileset]
   update_ip_catalog
 }
 
+## Add all source files to the IP's project.
+#
+# \param[ip_name] - The ip name
+# \param[ip_files] - IP files (*.v *.vhd *.xdc)
+#
 proc adi_ip_files {ip_name ip_files} {
 
   global ip_constr_files
@@ -231,6 +322,10 @@ proc adi_ip_files {ip_name ip_files} {
   set_property "top" "$ip_name" $proj_fileset
 }
 
+## Pack the IP and set its proprieties.
+#
+# \param[ip_name] - The ip name
+#
 proc adi_ip_properties_lite {ip_name} {
 
   global ip_constr_files
@@ -271,6 +366,10 @@ proc adi_ip_properties_lite {ip_name} {
   ipx::save_core
 }
 
+## Set AXI interface IP proprieties.
+#
+# \param[ip_name] - The ip name
+#
 proc adi_ip_properties {ip_name} {
 
   adi_ip_properties_lite $ip_name
@@ -286,6 +385,7 @@ proc adi_ip_properties {ip_name} {
     s_axi_wready \
     s_axi_bvalid \
     s_axi_bresp \
+
     s_axi_bready \
     s_axi_arvalid \
     s_axi_araddr \
@@ -323,10 +423,171 @@ proc adi_ip_properties {ip_name} {
   ipx::save_core
 }
 
-## ###############################################################################################
-## ###############################################################################################
-## interface related stuff
+## Create/overwrite temporary files containing particular build case dependencies.
+#
+#  DO NOT USE FOR: axi_dmac/jesd204/axi_clkgen
+#
+proc adi_init_bd_tcl {} {
 
+  global auto_set_param_list
+  global auto_set_param_list_overwritable
+  set cc [ipx::current_core]
+
+  if { [file exists bd] } {
+    file delete -force bd
+  }
+  file mkdir bd
+
+  set bd_tcl [open "bd/bd.tcl" w]
+
+  puts $bd_tcl "# SCRIPT AUTO-GENERATED AT BUILD, DO NOT MODIFY!"
+  puts $bd_tcl "proc init {cellpath otherInfo} {"
+  puts $bd_tcl "  set ip \[get_bd_cells \$cellpath\]"
+  puts $bd_tcl ""
+  set auto_set_param ""
+  foreach i $auto_set_param_list {
+    if { [ipx::get_user_parameters $i -of_objects $cc -quiet] ne "" } {
+      append auto_set_param "    $i \\\n"
+    }
+  }
+  if { $auto_set_param ne "" } {
+    puts $bd_tcl "  bd::mark_propagate_only \$ip \" \\"
+    regsub "${i} \\\\" $auto_set_param "$i\"" auto_set_param
+    puts $bd_tcl $auto_set_param
+  }
+
+  set auto_set_overwritable_param ""
+  foreach i $auto_set_param_list_overwritable {
+    if { [ipx::get_user_parameters $i -of_objects $cc -quiet] ne "" } {
+      append auto_set_overwritable_param "    $i \\\n"
+    }
+  }
+  if { $auto_set_overwritable_param ne "" } {
+    puts $bd_tcl "  bd::mark_propagate_override \$ip \" \\"
+    regsub "${i} \\\\" $auto_set_overwritable_param "$i\"" auto_set_overwritable_param
+    puts $bd_tcl $auto_set_overwritable_param
+  }
+  puts $bd_tcl "  adi_auto_assign_device_spec \$cellpath"
+  puts $bd_tcl "}"
+  puts $bd_tcl ""
+  puts $bd_tcl "# auto set parameters defined in auto_set_param_list (adi_xilinx_device_info_enc.tcl)"
+  puts $bd_tcl "proc adi_auto_assign_device_spec {cellpath} {"
+  puts $bd_tcl ""
+  puts $bd_tcl "  set ip \[get_bd_cells \$cellpath\]"
+  puts $bd_tcl "  set ip_param_list \[list_property \$ip\]"
+  puts $bd_tcl "  set ip_path \[bd::get_vlnv_dir \[get_property VLNV \$ip\]\]"
+  puts $bd_tcl ""
+  puts $bd_tcl "  set parent_dir \"../\""
+  puts $bd_tcl "  for {set x 1} {\$x<=4} {incr x} {"
+  puts $bd_tcl "    set linkname \${ip_path}\${parent_dir}scripts/adi_xilinx_device_info_enc.tcl"
+  puts $bd_tcl "    if { \[file exists \$linkname\] } {"
+  puts $bd_tcl "      source \${ip_path}\${parent_dir}/scripts/adi_xilinx_device_info_enc.tcl"
+  puts $bd_tcl "      break"
+  puts $bd_tcl "    }"
+  puts $bd_tcl "    append parent_dir \"../\""
+  puts $bd_tcl "  }"
+  puts $bd_tcl ""
+  puts $bd_tcl "  # Find predefindes auto assignable parameters"
+  puts $bd_tcl "  foreach i \$auto_set_param_list {"
+  puts $bd_tcl "    if { \[lsearch \$ip_param_list \"CONFIG.\$i\"\] > 0 } {"
+  puts $bd_tcl "      set val \[adi_device_spec \$cellpath \$i\]"
+  puts $bd_tcl "      set_property CONFIG.\$i \$val \$ip"
+  puts $bd_tcl "    }"
+  puts $bd_tcl "  }"
+  puts $bd_tcl ""
+  puts $bd_tcl "  # Find predefindes auto assignable/overwritable parameters"
+  puts $bd_tcl "  foreach i \$auto_set_param_list_overwritable {"
+  puts $bd_tcl "    if { \[lsearch \$ip_param_list \"CONFIG.\$i\"\] > 0 } {"
+  puts $bd_tcl "      set val \[adi_device_spec \$cellpath \$i\]"
+  puts $bd_tcl "      set_property CONFIG.\$i \$val \$ip"
+  puts $bd_tcl "    }"
+  puts $bd_tcl "  }"
+  puts $bd_tcl "}"
+  puts $bd_tcl ""
+  close $bd_tcl
+
+  set proj_fileset [get_filesets sources_1]
+  add_files -norecurse -scan_for_includes -fileset $proj_fileset "bd/bd.tcl"
+
+  set local_mk [open "temporary_case_dependencies.mk" w]
+  seek $local_mk 0 start
+  puts $local_mk "CLEAN_TARGET += bd"
+  puts $local_mk "CLEAN_TARGET += temporary_case_dependencies.mk"
+  close $local_mk
+}
+
+## Search after device specific parameters and call the adi_add_device_spec_param
+#  process with the result. The list of these parameters are defined in
+#  library/scripts/adi_xilinx_device_info_enc.tcl
+#
+proc adi_add_auto_fpga_spec_params {} {
+
+  global auto_set_param_list
+  global auto_set_param_list_overwritable
+  set cc [ipx::current_core]
+
+  foreach i $auto_set_param_list {
+    if { [ipx::get_user_parameters $i -of_objects $cc -quiet] ne ""} {
+      adi_add_device_spec_param $i
+    }
+  }
+  foreach i $auto_set_param_list_overwritable {
+    if { [ipx::get_user_parameters $i -of_objects $cc -quiet] ne ""} {
+      adi_add_device_spec_param $i
+    }
+  }
+}
+
+## Generate validation properties for a parameter, using predefined ranges or
+#  set of values (the definition of the ranges can be found in
+#  library/scripts/adi_xilinx_device_info_enc.tcl).
+#
+# \param[ip_parameter] - name of the HDL parameter
+#
+proc adi_add_device_spec_param {ip_param} {
+
+  set cc [ipx::current_core]
+
+  set list_pointer [string tolower $ip_param]
+  set list_pointer [append list_pointer "_list"]
+
+  global $list_pointer
+
+  # set j 1D list from the original list
+  foreach i [subst $$list_pointer] {lappend j [lindex $i 0] [lindex $i 1]}
+
+  # set ranges or validation pairs (show x in GUI assign the corresponding y to HDL)
+  if { [llength [subst $$list_pointer]] == 2 && [llength $j] == 4} {
+    set_property -dict [list \
+      "value_validation_type" "range" \
+      "value_validation_range_minimum" [lindex [subst $$list_pointer] 0] \
+      "value_validation_range_maximum" [lindex [subst $$list_pointer] 1] ] \
+    [ipx::get_user_parameters $ip_param -of_objects $cc]
+  } else {
+    set_property -dict [list \
+      "value_validation_type" "pairs" \
+      "value_validation_pairs" $j ] \
+    [ipx::get_user_parameters $ip_param -of_objects $cc]
+  }
+
+  # FPGA info grup
+  set info_group_name "FPGA info"
+  set info_group [ipgui::get_groupspec -name $info_group_name -component $cc -quiet]
+  if { [string trim $info_group] eq "" } {
+    set page0 [ipgui::get_pagespec -name "Page 0" -component $cc]
+    set info_group [ipgui::add_group -name $info_group_name -component $cc \
+        -parent $page0 -display_name $info_group_name]
+  }
+
+  set p [ipgui::get_guiparamspec -name $ip_param -component $cc]
+  set_property -dict [list "widget" "comboBox" ] $p
+  ipgui::move_param -component $cc -order 0 $p -parent $info_group
+}
+
+## Define a custom interface bus.
+#
+# \param[name] - Interface name
+#
 proc adi_if_define {name} {
 
   ipx::create_abstraction_definition analog.com interface ${name}_rtl 1.0
@@ -340,6 +601,13 @@ proc adi_if_define {name} {
   ipx::save_bus_definition [ipx::current_busdef]
 }
 
+## Add ports to a custom interface bus.
+#
+# \param[dir] - Port direction
+# \param[width] - Port width
+# \param[name] - Port logical name
+# \param[type] - Type of the port (default "none")
+#
 proc adi_if_ports {dir width name {type none}} {
 
   ipx::add_bus_abstraction_port $name [ipx::current_busabs]
@@ -367,6 +635,13 @@ proc adi_if_ports {dir width name {type none}} {
   ipx::save_abstraction_definition [ipx::current_busabs]
 }
 
+## Infers a new bus interface to an IP.
+#
+# \param[if_name] -  Interface bus name
+# \param[mode] - Type of the interface bus (master/slave)
+# \param[name] - Interface bus instance name
+# \param[maps] - Mapping of the physical ports
+#
 proc adi_if_infer_bus {if_name mode name maps} {
 
   ipx::add_bus_interface $name [ipx::current_core]
@@ -383,5 +658,3 @@ proc adi_if_infer_bus {if_name mode name maps} {
   }
 }
 
-## ###############################################################################################
-## ###############################################################################################

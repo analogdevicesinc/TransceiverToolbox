@@ -185,7 +185,7 @@ module system_top (
   assign ad9517_csn = spi_csn_s[1];
   assign ad9517_clk = spi_clk_s;
   assign ad9517_mosi = spi_mosi_s;
-  assign spi_miso_s = (~spi_csn_s[0] & spi_miso) | (~spi_csn_s[1] & ad9517_miso); 
+  assign spi_miso_s = (~spi_csn_s[0] & spi_miso) | (~spi_csn_s[1] & ad9517_miso);
 
   // loopback signals
 
@@ -371,17 +371,6 @@ module system_top (
     .iic_main_scl_io (iic_scl),
     .iic_main_sda_io (iic_sda),
     .otg_vbusoc (1'b0),
-    .ps_intr_00 (1'b0),
-    .ps_intr_01 (1'b0),
-    .ps_intr_02 (1'b0),
-    .ps_intr_03 (1'b0),
-    .ps_intr_04 (1'b0),
-    .ps_intr_05 (1'b0),
-    .ps_intr_06 (1'b0),
-    .ps_intr_07 (1'b0),
-    .ps_intr_08 (1'b0),
-    .ps_intr_09 (1'b0),
-    .ps_intr_10 (1'b0),
     .rx_clk_in_n (rx_clk_in_n),
     .rx_clk_in_p (rx_clk_in_p),
     .rx_data_in_n (rx_data_in_n),
