@@ -1,5 +1,5 @@
 % Analog Devices, Inc. Transceiver Toolbox
-% Version 20.1.1 (R2020a)
+% Version 20.1.2 (R2020a)
 %
 % ==== Table of Contents (TOC) ====
 %

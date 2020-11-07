@@ -1,7 +1,7 @@
 cd(fileparts((mfilename('fullpath'))));
 p = pwd;
 
-version = '20.1.1';
+version = '20.1.2';
 ml = ver('MATLAB');
 ml = ml.Release(2:end-1);
 
