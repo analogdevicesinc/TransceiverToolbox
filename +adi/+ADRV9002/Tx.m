@@ -314,9 +314,9 @@ classdef Tx < adi.ADRV9002.Base & adi.common.Tx
             % This is required sine Simulink support doesn't support
             % modification to nontunable variables at SetupImpl
             
-%             if obj.EnableCustomProfile
-%                 writeProfileFile(obj);
-%             end
+            if obj.EnableCustomProfile
+                writeProfileFile(obj);
+            end
             
             obj.setAttributeLongLong('altvoltage2','TX1_LO_frequency',obj.CenterFrequencyChannel0 ,true);
             obj.setAttributeLongLong('altvoltage3','TX2_LO_frequency',obj.CenterFrequencyChannel1 ,true);

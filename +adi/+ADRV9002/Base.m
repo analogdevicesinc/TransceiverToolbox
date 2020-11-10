@@ -12,24 +12,27 @@ classdef (Abstract, Hidden = true) Base < adi.common.Attribute & ...
         SamplesPerFrame = 2^15;
     end
     
-%     properties (Nontunable, Logical)
-%         %EnableCustomProfile Enable Custom Profile
-%         %   Enable use of custom Profile file to set SamplingRate, 
-%         %   RFBandwidth, and other features of transceiver
-%         EnableCustomProfile = false;
-%     end
-%     
-%     properties (Nontunable)
-%         %CustomProfileFileName Custom Profile File Name
-%         %   Path to custom Profile file created from profile wizard
-%         CustomProfileFileName = '';
-%     end
+    properties (Nontunable, Logical)
+        %EnableCustomProfile Enable Custom Profile
+        %   Enable use of custom Profile file to set SamplingRate, 
+        %   RFBandwidth, and other features of transceiver
+        EnableCustomProfile = false;
+    end
     
-    properties (Hidden, Constant)
+    properties (Nontunable)
+        %CustomProfileFileName Custom Profile File Name
+        %   Path to custom Profile file created from profile wizard
+        CustomProfileFileName = '';
+        %CustomStreamFileName Custom Stream File Name
+        %   Path to custom stream file created from profile wizard
+        CustomStreamFileName = '';
+    end
+    
+    properties (Dependent)
         %SamplingRate Sampling Rate
         %   Baseband sampling rate in Hz, specified as a scalar 
-        %   in samples per second.
-        SamplingRate = 15.36e6;%%%%% MAKE DEPENDENT
+        %   in samples per second. This is a read-only property
+        SamplingRate
     end
     
     properties
@@ -70,6 +73,14 @@ classdef (Abstract, Hidden = true) Base < adi.common.Attribute & ...
             coder.allowpcode('plain');
             obj = obj@matlabshared.libiio.base(varargin{:});
         end
+        function value = get.SamplingRate(obj)
+            if obj.ConnectedToDevice
+                value = obj.getAttributeLongLong('voltage0','sampling_frequency',strcmpi(obj.Type,'Tx'));
+            else
+                value = NaN;
+            end
+        end
+        
         % Check SamplesPerFrame
         function set.SamplesPerFrame(obj, value)
             validateattributes( value, { 'double','single' }, ...
@@ -125,23 +136,33 @@ classdef (Abstract, Hidden = true) Base < adi.common.Attribute & ...
             end
         end
         
-%         % Check EnableCustomProfile
-%         function set.EnableCustomProfile(obj, value)
-%             validateattributes( value, { 'logical' }, ...
-%                 { }, ...
-%                 '', 'EnableCustomProfile');
-%             obj.EnableCustomProfile = value;
-%         end
-%         % Check CustomFilterFileName
-%         function set.CustomProfileFileName(obj, value)
-%             validateattributes( value, { 'char' }, ...
-%                 { }, ...
-%                 '', 'CustomProfileFileName');
-%             obj.CustomProfileFileName = value;
-%             if obj.EnableCustomProfile && obj.ConnectedToDevice %#ok<MCSUP>
-%                 writeProfileFile(obj);
-%             end
-%         end
+        % Check EnableCustomProfile
+        function set.EnableCustomProfile(obj, value)
+            validateattributes( value, { 'logical' }, ...
+                { }, ...
+                '', 'EnableCustomProfile');
+            obj.EnableCustomProfile = value;
+        end
+        % Check CustomFilterFileName
+        function set.CustomProfileFileName(obj, value)
+            validateattributes( value, { 'char' }, ...
+                { }, ...
+                '', 'CustomProfileFileName');
+            obj.CustomProfileFileName = value;
+            if obj.EnableCustomProfile && obj.ConnectedToDevice %#ok<MCSUP>
+                writeProfileFile(obj);
+            end
+        end
+        % Check CustomStreamFileName
+        function set.CustomStreamFileName(obj, value)
+            validateattributes( value, { 'char' }, ...
+                { }, ...
+                '', 'CustomStreamFileName');
+            obj.CustomStreamFileName = value;
+            if obj.EnableCustomProfile && obj.ConnectedToDevice %#ok<MCSUP>
+                writeProfileFile(obj);
+            end
+        end
     end
     
     %% API Functions
@@ -203,11 +224,17 @@ classdef (Abstract, Hidden = true) Base < adi.common.Attribute & ...
                        'Doing so again can have undesirable side affects.\n',...
                        'First stepped object should only set profile.']); 
                 end
-            end            
-            profle_data_str = fileread(obj.CustomProfileFileName);
+            end
+            
+            assert(~isempty(obj.CustomStreamFileName),'A custom stream file must be defined for custom profiles');
+            assert(~isempty(obj.CustomProfileFileName),'A custom profile file must be defined for custom profiles');
+            
             % Wrap update in read writes since once profiles are loaded
             % some attributes get lost
 %             state = savePartState(obj);
+            stream_data_str = fileread(obj.CustomStreamFileName);
+            obj.setDeviceAttributeRAW('stream_config',stream_data_str);
+            profle_data_str = fileread(obj.CustomProfileFileName);
             obj.setDeviceAttributeRAW('profile_config',profle_data_str);
 %             returnPartState(obj,state)
         end
