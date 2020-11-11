@@ -1743,12 +1743,12 @@ classdef LTEApp < matlab.apps.AppBase
             % Create VerLabel
             app.VerLabel = uilabel(app.Panel_9);
             app.VerLabel.HorizontalAlignment = 'left';
-            app.VerLabel.Position = [7 2 50 22];
+            app.VerLabel.Position = [7 2 200 22];
             app.VerLabel.FontColor = 'blue';
             app.VerLabel.FontSize = 20;
             app.VerLabel.FontWeight = 'bold';
             app.VerLabel.FontAngle = 'italic';
-            app.VerLabel.Text = 'v0.8';                
+            app.VerLabel.Text = 'v20.1.2';                
             
             % Create EVMSymsCheckBox
             app.EVMSymsCheckBox = uicheckbox(app.Panel_9);
