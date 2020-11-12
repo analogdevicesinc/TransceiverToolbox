@@ -191,6 +191,40 @@ classdef ADRV9002Tests < HardwareTests
 %             testCase.verifyEqual(double(sr1),23040000,'Incorrect sample rate');
 %             testCase.verifyEqual(double(sr2),23040000,'Incorrect sample rate');
 %         end
+
+        function testADRV9002RxLTE1_4(testCase)
+            % Test Rx Custom filters
+            rx = adi.ADRV9002.Rx('uri',testCase.uri);
+            rx.EnabledChannels = 1;
+            rx.EnableCustomProfile = true;
+            rx.CustomProfileFileName = fullfile('adrv9002_profiles','lte_1_4_cmos_fdd_api_29_2_9.json');
+            rx.CustomStreamFileName = fullfile('adrv9002_profiles','lte_1_4_cmos_fdd_api_29_2_9.stream');
+            [out, valid] = rx();
+            % Check sample rate
+            sr = rx.SamplingRate;
+            rx.release();
+            testCase.verifyTrue(valid);
+            testCase.verifyEqual(double(sr),1920000,'Incorrect sample rate');
+            testCase.verifyGreaterThan(sum(abs(double(out))),0);
+        end
+
+        function testADRV9002TxLTE1_4(testCase)
+            % Test Tx Custom filters
+            tx = adi.ADRV9002.Tx('uri',testCase.uri);
+            tx.EnabledChannels = 1;
+            tx.EnableCustomProfile = true;
+            tx.CustomProfileFileName = fullfile('adrv9002_profiles','lte_1_4_cmos_fdd_api_29_2_9.json');
+            tx.CustomStreamFileName = fullfile('adrv9002_profiles','lte_1_4_cmos_fdd_api_29_2_9.stream');
+            data = complex(randn(1e4,1),randn(1e4,1));
+            [valid] = tx(data);
+            % Check sample rate
+            sr1 = tx.getAttributeLongLong('voltage0','sampling_frequency',false);
+            sr2 = tx.getAttributeLongLong('voltage0','sampling_frequency',true);
+            tx.release();
+            testCase.verifyTrue(valid);
+            testCase.verifyEqual(double(sr1),1920000,'Incorrect sample rate');
+            testCase.verifyEqual(double(sr2),1920000,'Incorrect sample rate');
+        end
         
         function testADRV9002RxClearing(testCase)
             % Verify clearing of system objects is working in all cases
@@ -262,40 +296,43 @@ classdef ADRV9002Tests < HardwareTests
             
         end
         
-%         function testADRV9002RxWithTxData(testCase)
-%             % Test Tx DMA data output
-%             amplitude = 2^15; frequency = 0.12e6;
-%             swv1 = dsp.SineWave(amplitude, frequency);
-%             swv1.ComplexOutput = true;
-%             swv1.SamplesPerFrame = 1e4*10;
-%             swv1.SampleRate = 3e6;
-%             y = swv1();
-%             
-%             tx = adi.ADRV9002.Tx('uri',testCase.uri);
-%             tx.DataSource = 'DMA';
-%             tx.EnableCyclicBuffers = true;
-%             tx.AttenuationChannel0 = -10;
-%             tx(y);
-%             rx = adi.ADRV9002.Rx('uri',testCase.uri);
-%             rx.EnabledChannels = 1;
-%             rx.kernelBuffersCount = 1;
-%             for k=1:10
-%                 valid = false;
-%                 while ~valid
-%                     [out, valid] = rx();
-%                 end
-%             end
-%             rx.release();
-% 
-% %             plot(real(out));
-% %             testCase.estFrequency(out,rx.SamplingRate);
-%             freqEst = meanfreq(double(real(out)),rx.SamplingRate);
-%             
-%             testCase.verifyTrue(valid);
-%             testCase.verifyGreaterThan(sum(abs(double(out))),0);
-%             testCase.verifyEqual(freqEst,frequency,'RelTol',0.01,...
-%                 'Frequency of ML tone unexpected')
-%         end
+        function testADRV9002RxWithTxData(testCase)
+            % Test Tx DMA data output
+            amplitude = 2^15; frequency = 0.12e6;
+            swv1 = dsp.SineWave(amplitude, frequency);
+            swv1.ComplexOutput = true;
+            swv1.SamplesPerFrame = 1e4*10;
+            swv1.SampleRate = 1.92e6;
+            y = swv1();
+            
+            tx = adi.ADRV9002.Tx('uri',testCase.uri);
+            tx.DataSource = 'DMA';
+            tx.EnableCyclicBuffers = true;
+            tx.AttenuationChannel0 = -10;
+            tx.EnableCustomProfile = true;
+            tx.CustomProfileFileName = fullfile('adrv9002_profiles','lte_1_4_cmos_fdd_api_29_2_9.json');
+            tx.CustomStreamFileName = fullfile('adrv9002_profiles','lte_1_4_cmos_fdd_api_29_2_9.stream');
+            tx(y);
+            rx = adi.ADRV9002.Rx('uri',testCase.uri);
+            rx.EnabledChannels = 1;
+            rx.kernelBuffersCount = 1;
+            for k=1:10
+                valid = false;
+                while ~valid
+                    [out, valid] = rx();
+                end
+            end
+
+%             plot(real(out));
+%             testCase.estFrequency(out,rx.SamplingRate);
+            freqEst = meanfreq(double(real(out)),rx.SamplingRate);
+            rx.release();
+            
+            testCase.verifyTrue(valid);
+            testCase.verifyGreaterThan(sum(abs(double(out))),0);
+            testCase.verifyEqual(freqEst,frequency,'RelTol',0.01,...
+                'Frequency of ML tone unexpected')
+        end
     end
     
 end

@@ -515,9 +515,9 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
             % Do writes directly to hardware without using set methods.
             % This is required sine Simulink support doesn't support
             % modification to nontunable variables at SetupImpl
-%             if obj.EnableCustomProfile
-%                 writeProfileFile(obj);
-%             end
+            if obj.EnableCustomProfile
+                writeProfileFile(obj);
+            end
             
             obj.setAttributeRAW('voltage0','ensm_mode',obj.ENSMModeChannel0,false);
             obj.setAttributeRAW('voltage1','ensm_mode',obj.ENSMModeChannel1,false);
