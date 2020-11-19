@@ -118,6 +118,9 @@ classdef Rx < adi.AD9361.Base & adi.AD9361.TuneAGC & ...
     
     properties(Nontunable, Hidden, Constant)
         Type = 'Rx';
+    end
+
+    properties(Nontunable, Hidden)
         channel_names = {'voltage0','voltage1','voltage2','voltage3'};
     end
     
