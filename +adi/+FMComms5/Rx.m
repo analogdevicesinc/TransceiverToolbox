@@ -111,10 +111,6 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
         devNameChipB = 'cf-ad9361-B';        
     end
     
-    properties(Hidden)
-        iioDevChipB;
-    end
-    
     properties(Nontunable, Hidden, Constant)
         channel_names_runtime = {'voltage0','voltage1','voltage2','voltage3',...
             'voltage4','voltage5','voltage6','voltage7'};
@@ -127,14 +123,13 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
             coder.allowpcode('plain');
             obj = obj@adi.FMComms5.Base(varargin{:});
             obj.channel_names = obj.channel_names_runtime;
-            obj.devName = 'cf-ad9361-A';        
-            obj.devNameChipB = 'cf-ad9361-B';    
+            obj.devName = 'cf-ad9361-A';
         end
         % Check RFPortSelect
         function set.RFPortSelectChipB(obj, value)
             obj.RFPortSelectChipB = value;
             if obj.ConnectedToDevice
-                obj.setAttributeRAW('voltage0','rf_port_select',value,false,obj.iioDevChipB); %#ok<MCSUP>
+                obj.setAttributeRAW('voltage0','rf_port_select',value,false,obj.iioDevPHYChipB); %#ok<MCSUP>
             end
         end
         % Check GainControlModeChannel0
@@ -142,7 +137,7 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
             obj.GainControlModeChannel0ChipB = value;
             if obj.ConnectedToDevice
                 id = 'voltage0';
-                obj.setAttributeRAW(id,'gain_control_mode',value,false,obj.iioDevChipB); %#ok<MCSUP>
+                obj.setAttributeRAW(id,'gain_control_mode',value,false,obj.iioDevPHYChipB); %#ok<MCSUP>
             end
         end
         % Check GainControlModeChannel1
@@ -150,7 +145,7 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
             obj.GainControlModeChannel1ChipB = value;
             if obj.ConnectedToDevice
                 id = 'voltage1';
-                obj.setAttributeRAW(id,'gain_control_mode',value,false,obj.iioDevChipB); %#ok<MCSUP>
+                obj.setAttributeRAW(id,'gain_control_mode',value,false,obj.iioDevPHYChipB); %#ok<MCSUP>
             end
         end
         % Check GainChannel0
@@ -162,7 +157,7 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
             obj.GainChannel0ChipB = value;
             if obj.ConnectedToDevice && strcmp(obj.GainControlModeChannel0ChipB,'manual') %#ok<MCSUP>
                 id = 'voltage0';
-                obj.setAttributeLongLong(id,'hardwaregain',value,false,0,obj.iioDevChipB); %#ok<MCSUP>
+                obj.setAttributeLongLong(id,'hardwaregain',value,false,0,obj.iioDevPHYChipB); %#ok<MCSUP>
             end
         end
         % Check GainChannel1
@@ -174,7 +169,7 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
             obj.GainChannel1ChipB = value;
             if obj.ConnectedToDevice && strcmp(obj.GainControlModeChannel1ChipB,'manual') %#ok<MCSUP>
                 id = 'voltage1';
-                obj.setAttributeLongLong(id,'hardwaregain',value,false,0,obj.iioDevChipB); %#ok<MCSUP>
+                obj.setAttributeLongLong(id,'hardwaregain',value,false,0,obj.iioDevPHYChipB); %#ok<MCSUP>
             end
         end
         % Check EnableQuadratureTracking
@@ -182,7 +177,7 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
             obj.EnableQuadratureTrackingChipB = value;
             if obj.ConnectedToDevice
                 id = 'voltage0';
-                obj.setAttributeBool(id,'quadrature_tracking_en',value,false,obj.iioDevChipB); %#ok<MCSUP>
+                obj.setAttributeBool(id,'quadrature_tracking_en',value,false,obj.iioDevPHYChipB); %#ok<MCSUP>
             end
         end
         % Check EnableRFDCTracking
@@ -190,7 +185,7 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
             obj.EnableRFDCTrackingChipB = value;
             if obj.ConnectedToDevice
                 id = 'voltage0';
-                obj.setAttributeBool(id,'rf_dc_offset_tracking_en',value,false,obj.iioDevChipB); %#ok<MCSUP>
+                obj.setAttributeBool(id,'rf_dc_offset_tracking_en',value,false,obj.iioDevPHYChipB); %#ok<MCSUP>
             end
         end
         % Check EnableRFDCTracking
@@ -198,7 +193,7 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
             obj.EnableBasebandDCTrackingChipB = value;
             if obj.ConnectedToDevice
                 id = 'voltage0';
-                obj.setAttributeBool(id,'bb_dc_offset_tracking_en',value,false,obj.iioDevChipB); %#ok<MCSUP>
+                obj.setAttributeBool(id,'bb_dc_offset_tracking_en',value,false,obj.iioDevPHYChipB); %#ok<MCSUP>
             end
         end
         % Check CenterFrequency
@@ -210,7 +205,7 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
             obj.CenterFrequencyChipB = value;
             if obj.ConnectedToDevice
                 id = sprintf('altvoltage%d',strcmp(obj.Type,'Tx'));
-                obj.setAttributeLongLong(id,'frequency',value,true,4,obj.iioDevChipB); %#ok<MCSUP>
+                obj.setAttributeLongLong(id,'frequency',value,true,4,obj.iioDevPHYChipB); %#ok<MCSUP>
             end
         end
         % Check RFBandwidth
@@ -222,7 +217,7 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
             obj.RFBandwidthChipB = value;
             if obj.ConnectedToDevice && ~obj.EnableCustomFilter
                 id = 'voltage0';
-                obj.setAttributeLongLong(id,'rf_bandwidth',value,strcmp(obj.Type,'Tx'),30,obj.iioDevChipB); %#ok<MCSUP>
+                obj.setAttributeLongLong(id,'rf_bandwidth',value,strcmp(obj.Type,'Tx'),30,obj.iioDevPHYChipB); %#ok<MCSUP>
             end
         end
         % Check SampleRate
@@ -237,7 +232,7 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
                     calllib('libad9361','ad9361_set_bb_rate',obj.iioDevPHY,int32(value));
                 else
                     id = 'voltage0';
-                    obj.setAttributeLongLong(id,'sampling_frequency',value,true,4,obj.iioDevChipB); %#ok<MCSUP>
+                    obj.setAttributeLongLong(id,'sampling_frequency',value,true,4,obj.iioDevPHYChipB); %#ok<MCSUP>
                 end
             end
         end  
@@ -247,7 +242,7 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
                 '', 'LoopbackMode');    
             obj.LoopbackModeChipB = value;
             if obj.ConnectedToDevice
-                obj.setDebugAttributeLongLong('loopback',value,1,obj.iioDevChipB); %#ok<MCSUP>                    
+                obj.setDebugAttributeLongLong('loopback',value,1,obj.iioDevPHYChipB); %#ok<MCSUP>                    
             end
         end
     end
@@ -255,43 +250,50 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
     %% API Functions
     methods (Hidden, Access = protected)
         function setupInit(obj)
-            obj.iioDevChipB = getDev(obj, obj.phyDevNameChipB);
-            
             % Write all attributes to device once connected through set
             % methods
             setupLibad9361(obj);
+            obj.iioDevPHYChipB = calllib('libiio', 'iio_context_find_device',obj.iioCtx,'ad9361-phy-B');
             % Do writes directly to hardware without using set methods.
             % This is required sine Simulink support doesn't support
             % modification to nontunable variables at SetupImpl
             
             % Gains
             obj.setAttributeRAW('voltage0','gain_control_mode',obj.GainControlModeChannel0,false);
-            obj.setAttributeRAW('voltage0','gain_control_mode',obj.GainControlModeChannel0,false,obj.iioDevChipB); 
             if obj.channelCount>2
                 obj.setAttributeRAW('voltage1','gain_control_mode',obj.GainControlModeChannel1,false);
-                obj.setAttributeRAW('voltage1','gain_control_mode',obj.GainControlModeChannel1,false,obj.iioDevChipB); 
+                if obj.channelCount>4
+                    obj.setAttributeRAW('voltage0','gain_control_mode',obj.GainControlModeChannel0,false,obj.iioDevPHYChipB); 
+                    if obj.channelCount>6
+                        obj.setAttributeRAW('voltage1','gain_control_mode',obj.GainControlModeChannel1,false,obj.iioDevPHYChipB); 
+                    end
+                end                        
             end
             if strcmp(obj.GainControlModeChannel0,'manual')
-                obj.setAttributeLongLong('voltage0','hardwaregain',obj.GainChannel0,false);
-                obj.setAttributeLongLong('voltage0','hardwaregain',obj.GainChannel0,false,0,obj.iioDevChipB); 
+                obj.setAttributeLongLong('voltage0','hardwaregain',obj.GainChannel0,false);                
             end
             if strcmp(obj.GainControlModeChannel1,'manual') && (obj.channelCount>2)
-                obj.setAttributeLongLong('voltage1','hardwaregain',obj.GainChannel1,false);
-                obj.setAttributeLongLong('voltage1','hardwaregain',obj.GainChannel1,false,0,obj.iioDevChipB); 
+                obj.setAttributeLongLong('voltage1','hardwaregain',obj.GainChannel1,false);                
+            end
+            if strcmp(obj.GainControlModeChannel0ChipB,'manual') && (obj.channelCount>4)
+                obj.setAttributeLongLong('voltage0','hardwaregain',obj.GainChannel0ChipB,false,0,obj.iioDevPHYChipB);
+            end
+            if strcmp(obj.GainControlModeChannel1ChipB,'manual') && (obj.channelCount>6)
+                obj.setAttributeLongLong('voltage1','hardwaregain',obj.GainChannel1ChipB,false,0,obj.iioDevPHYChipB);
             end
             % Trackings
             obj.setAttributeBool('voltage0','quadrature_tracking_en',obj.EnableQuadratureTracking,false);
             obj.setAttributeBool('voltage0','rf_dc_offset_tracking_en',obj.EnableRFDCTracking,false);
             obj.setAttributeBool('voltage0','bb_dc_offset_tracking_en',obj.EnableBasebandDCTracking,false);
-            obj.setAttributeBool('voltage0','quadrature_tracking_en',obj.EnableQuadratureTracking,false,obj.iioDevChipB); 
-            obj.setAttributeBool('voltage0','rf_dc_offset_tracking_en',obj.EnableRFDCTracking,false,obj.iioDevChipB); 
-            obj.setAttributeBool('voltage0','bb_dc_offset_tracking_en',obj.EnableBasebandDCTracking,false,obj.iioDevChipB); 
+            obj.setAttributeBool('voltage0','quadrature_tracking_en',obj.EnableQuadratureTracking,false,obj.iioDevPHYChipB); 
+            obj.setAttributeBool('voltage0','rf_dc_offset_tracking_en',obj.EnableRFDCTracking,false,obj.iioDevPHYChipB); 
+            obj.setAttributeBool('voltage0','bb_dc_offset_tracking_en',obj.EnableBasebandDCTracking,false,obj.iioDevPHYChipB); 
             id = sprintf('altvoltage%d',strcmp(obj.Type,'Tx'));
             obj.setAttributeLongLong(id,'frequency',obj.CenterFrequency ,true,4);
-            obj.setAttributeLongLong(id,'frequency',obj.CenterFrequency ,true,4,obj.iioDevChipB); 
+            obj.setAttributeLongLong(id,'frequency',obj.CenterFrequency ,true,4,obj.iioDevPHYChipB); 
             % Loopback Mode
             obj.setDebugAttributeLongLong('loopback', obj.LoopbackMode);
-            obj.setDebugAttributeLongLong('loopback', obj.LoopbackMode,1,obj.iioDevChipB); 
+            obj.setDebugAttributeLongLong('loopback', obj.LoopbackMode,1,obj.iioDevPHYChipB); 
             
             % Sample rates and RF bandwidth
             if  ~obj.EnableCustomFilter
@@ -299,28 +301,35 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
                     calllib('libad9361','ad9361_set_bb_rate',obj.iioDevPHY,int32(obj.SamplingRate));
                 else
                     obj.setAttributeLongLong('voltage0','sampling_frequency',obj.SamplingRate,true,4);
-                    obj.setAttributeLongLong('voltage0','rf_bandwidth',obj.RFBandwidth ,strcmp(obj.Type,'Tx'));
-                    obj.setAttributeLongLong('voltage0','sampling_frequency',obj.SamplingRate,true,4,obj.iioDevChipB); 
-                    obj.setAttributeLongLong('voltage0','rf_bandwidth',obj.RFBandwidth,strcmp(obj.Type,'Tx'),[],obj.iioDevChipB); 
+                    obj.setAttributeLongLong('voltage0','rf_bandwidth',obj.RFBandwidth ,strcmp(obj.Type,'Tx'));                    
                 end
             else
-                writeFilterFileFMComms5(obj);
+                writeFilterFile(obj);
             end
             obj.setAttributeRAW('voltage0','rf_port_select',obj.RFPortSelect,false);
-            obj.setAttributeRAW('voltage0','rf_port_select',obj.RFPortSelect,false,obj.iioDevChipB); 
+            % Sample rates and RF bandwidth
+            if  ~obj.EnableCustomFilterChipB
+                if libisloaded('libad9361')
+                    calllib('libad9361','ad9361_set_bb_rate',obj.iioDevPHYChipB,int32(obj.SamplingRateChipB));
+                else
+                    obj.setAttributeLongLong('voltage0','sampling_frequency',obj.SamplingRateChipB,true,4,obj.iioDevPHYChipB); 
+                    obj.setAttributeLongLong('voltage0','rf_bandwidth',obj.RFBandwidthChipB,strcmp(obj.Type,'Tx'),0,obj.iioDevPHYChipB); 
+                end
+            else
+                writeFilterFileFMComms5ChipB(obj);
+            end
+            obj.setAttributeRAW('voltage0','rf_port_select',obj.RFPortSelect,false,obj.iioDevPHYChipB); 
 
             if (obj.CustomAGC)
                 % Initialize hardware to reflect debug attribute changes
                 obj.WriteDebugAttributes();
-                obj.setDebugAttributeLongLong();
-                obj.setDebugAttributeBool();
+                obj.setDebugAttributeLongLong('initialize',1);
                 obj.WriteToRegisters();
             end
             if (obj.CustomAGCChipB)
                 % Initialize hardware to reflect debug attribute changes
                 obj.WriteDebugAttributesFMComms5ChipB();
-                obj.setDebugAttributeLongLong([],[],[],obj.iioDevChipB);
-                obj.setDebugAttributeBool([],[],[],obj.iioDevChipB);
+                obj.setDebugAttributeLongLong('initialize',1,0,obj.iioDevPHYChipB);
                 obj.WriteToRegistersFMComms5ChipB();
             end
         end

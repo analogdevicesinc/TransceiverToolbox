@@ -319,8 +319,7 @@ classdef Rx < adi.AD9361.Base & adi.AD9361.TuneAGC & ...
             if (obj.CustomAGC)
                 % Initialize hardware to reflect debug attribute changes
                 obj.WriteDebugAttributes();
-                obj.setDebugAttributeLongLong();
-                obj.setDebugAttributeBool();                
+                obj.setDebugAttributeLongLong('initialize',1);           
                 obj.WriteToRegisters();
             end
             

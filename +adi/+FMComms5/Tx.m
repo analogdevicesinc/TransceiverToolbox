@@ -72,13 +72,14 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
         function obj = Tx(varargin)
             coder.allowpcode('plain');
             obj = obj@adi.FMComms5.Base(varargin{:});
-            obj.channel_names = obj.channel_names_runtime;
+            obj.EnableChipB = true;
+           obj.channel_names = obj.channel_names_runtime;
         end
         % Check RFPortSelect
         function set.RFPortSelectChipB(obj, value)
             obj.RFPortSelect = value;
             if obj.ConnectedToDevice
-                obj.setAttributeRAW('voltage0','rf_port_select',value,false,obj.iioDevChipB); %#ok<MCSUP>
+                obj.setAttributeRAW('voltage0','rf_port_select',value,false,obj.iioDevPHYChipB); %#ok<MCSUP>
             end
         end
         % Check Attentuation
@@ -90,7 +91,7 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
             obj.AttenuationChannel0ChipB = value;
             if obj.ConnectedToDevice
                 id = 'voltage0';
-                obj.setAttributeLongLong(id,'hardwaregain',value,true,0,obj.iioDevChipB); %#ok<MCSUP>
+                obj.setAttributeLongLong(id,'hardwaregain',value,true,0,obj.iioDevPHYChipB); %#ok<MCSUP>
             end
         end
         % Check Attentuation
@@ -102,7 +103,7 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
             obj.AttenuationChannel1ChipB = value;
             if obj.ConnectedToDevice
                 id = 'voltage1';
-                obj.setAttributeLongLong(id,'hardwaregain',value,true,0,obj.iioDevChipB); %#ok<MCSUP>
+                obj.setAttributeLongLong(id,'hardwaregain',value,true,0,obj.iioDevPHYChipB); %#ok<MCSUP>
             end
         end
         % Check CenterFrequency
@@ -113,7 +114,7 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
             obj.CenterFrequencyChipB = value;
             if obj.ConnectedToDevice
                 id = sprintf('altvoltage%d',strcmp(obj.Type,'Tx'));
-                obj.setAttributeLongLong(id,'frequency',value,true,8,obj.iioDevChipB); %#ok<MCSUP>
+                obj.setAttributeLongLong(id,'frequency',value,true,8,obj.iioDevPHYChipB); %#ok<MCSUP>
             end
         end
         % Check RFBandwidth
@@ -124,7 +125,7 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
             obj.RFBandwidthChipB = value;
             if obj.ConnectedToDevice && ~obj.EnableCustomFilter
                 id = 'voltage0';
-                obj.setAttributeLongLong(id,'rf_bandwidth',value,strcmp(obj.Type,'Tx'),30,obj.iioDevChipB); %#ok<MCSUP>
+                obj.setAttributeLongLong(id,'rf_bandwidth',value,strcmp(obj.Type,'Tx'),30,obj.iioDevPHYChipB); %#ok<MCSUP>
             end
         end
         % Check SampleRate
@@ -138,7 +139,7 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
                     calllib('libad9361','ad9361_set_bb_rate',obj.iioDevPHY,int32(value));
                 else
                     id = 'voltage0';
-                    obj.setAttributeLongLong(id,'sampling_frequency',value,true,4,obj.iioDevChipB); %#ok<MCSUP>
+                    obj.setAttributeLongLong(id,'sampling_frequency',value,true,4,obj.iioDevPHYChipB); %#ok<MCSUP>
                 end
             end
         end
@@ -171,47 +172,58 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
     %% API Functions
     methods (Hidden, Access = protected)
         function setupInit(obj)
-            obj.iioDevChipB = getDev(obj, obj.phyDevNameChipB);
+            obj.iioDevChipB = getDev(obj, obj.devNameChipB);
             
             % Write all attributes to device once connected through set
             % methods
-            setupLibad9361FMComms5(obj);
+            setupLibad9361(obj);
+            obj.iioDevPHYChipB = calllib('libiio','iio_context_find_device',obj.iioCtx,obj.phyDevNameChipB);
             % Do writes directly to hardware without using set methods.
             % This is required sine Simulink support doesn't support
             % modification to nontunable variables at SetupImpl
             id = 'altvoltage1';
             obj.setAttributeLongLong(id,'frequency',obj.CenterFrequency,true,8);
-            obj.setAttributeLongLong(id,'frequency',obj.CenterFrequencyChipB,true,8,obj.iioDevChipB);
+            obj.setAttributeLongLong(id,'frequency',obj.CenterFrequencyChipB,true,8,obj.iioDevPHYChipB);
             if  ~obj.EnableCustomFilter
                 if libisloaded('libad9361')
                     calllib('libad9361','ad9361_set_bb_rate',obj.iioDevPHY,int32(obj.SamplingRate));
-                    calllib('libad9361','ad9361_set_bb_rate',obj.iioDevPHYChipB,int32(obj.SamplingRateChipB));
                 else
                     obj.setAttributeLongLong('voltage0','sampling_frequency',obj.SamplingRate,true,4);
-                    obj.setAttributeLongLong('voltage0','sampling_frequency',obj.SamplingRateChipB,true,4,obj.iioDevChipB);
                     obj.setAttributeLongLong('voltage0','rf_bandwidth',obj.RFBandwidth,strcmp(obj.Type,'Tx'));
-                    obj.setAttributeLongLong('voltage0','rf_bandwidth',obj.RFBandwidthChipB,strcmp(obj.Type,'Tx'),[],obj.iioDevChipB);
                 end
             else
-                writeFilterFileFMComms5(obj);
+                writeFilterFile(obj);
+            end
+            
+            if  ~obj.EnableCustomFilterChipB
+                if libisloaded('libad9361')
+                    calllib('libad9361','ad9361_set_bb_rate',obj.iioDevPHYChipB,int32(obj.SamplingRateChipB));
+                else
+                    obj.setAttributeLongLong('voltage0','sampling_frequency',obj.SamplingRateChipB,true,4,obj.iioDevPHYChipB);
+                    obj.setAttributeLongLong('voltage0','rf_bandwidth',obj.RFBandwidthChipB,strcmp(obj.Type,'Tx'),[],obj.iioDevPHYChipB);
+                end
+            else
+                writeFilterFileFMComms5ChipB(obj);
             end
             
             obj.setAttributeLongLong('voltage0','hardwaregain',obj.AttenuationChannel0,true);
             if (obj.channelCount>2)
                 obj.setAttributeLongLong('voltage1','hardwaregain',obj.AttenuationChannel1,true);
                 if (obj.channelCount>4)
-                    obj.setAttributeLongLong('voltage0','hardwaregain',obj.AttenuationChannel0ChipB,true,0,obj.iioDevChipB);
+                    obj.setAttributeLongLong('voltage0','hardwaregain',obj.AttenuationChannel0ChipB,true,0,obj.iioDevPHYChipB);
                     if (obj.channelCount>6)
-                        obj.setAttributeLongLong('voltage1','hardwaregain',obj.AttenuationChannel1ChipB,true,0,obj.iioDevChipB);
+                        obj.setAttributeLongLong('voltage1','hardwaregain',obj.AttenuationChannel1ChipB,true,0,obj.iioDevPHYChipB);
                     end
                 end
             end
             obj.ToggleDDS(strcmp(obj.DataSource,'DDS'));
+            obj.ToggleDDSChipB(strcmp(obj.DataSource,'DDS'));
             if strcmp(obj.DataSource,'DDS')
-                obj.DDSUpdate();
+                obj.DDSUpdate();          
+                obj.DDSUpdateChipB();
             end
             obj.setAttributeRAW('voltage0','rf_port_select',obj.RFPortSelect,true);
-            obj.setAttributeRAW('voltage0','rf_port_select',obj.RFPortSelectChipB,true,obj.iioDevChipB);
+            obj.setAttributeRAW('voltage0','rf_port_select',obj.RFPortSelectChipB,true,obj.iioDevPHYChipB);
         end
     end
 end
