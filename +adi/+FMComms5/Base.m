@@ -62,38 +62,14 @@ classdef (Abstract, Hidden = true) Base < adi.AD9361.Base
             icon = sprintf(['FMComms5 ',obj.Type]);
         end
         
-        function setupLibad9361FMComms5(obj)
-            libName = 'libad9361';
-            ad9361wrapperh = 'ad9361-wrapper.h';
-            ad9361h = 'ad9361.h';
-            fp = fileparts(which(ad9361h));
-            loadlibraryArgs = {ad9361wrapperh,'includepath',fp,'addheader',ad9361h};
-            if ~libisloaded(libName)
-                msgID = 'MATLAB:loadlibrary:StructTypeExists';
-                warnStruct = warning('off',msgID);
-                [~, ~] = loadlibrary(libName, loadlibraryArgs{:});
-                warning(warnStruct);
-            end
-            obj.iioDevPHY = calllib('libiio', 'iio_context_find_device',obj.iioCtx,'ad9361-phy');
-            obj.iioDevPHYChipB = calllib('libiio', 'iio_context_find_device',obj.iioCtx,'ad9361-phy-B');
-        end
-        
-        function writeFilterFileFMComms5(obj)
-            fir_data_file = obj.CustomFilterFileName;
-            fir_data_str = fileread(fir_data_file);
-            obj.setAttributeRAW('voltage0','filter_fir_en','0',false);
-            obj.setAttributeRAW('voltage0','filter_fir_en','0',true);
-            obj.setDeviceAttributeRAW('filter_fir_config',fir_data_str);
-            obj.setAttributeRAW('voltage0','filter_fir_en','1',true);
-            obj.setAttributeRAW('voltage0','filter_fir_en','1',false);
-            
+        function writeFilterFileFMComms5ChipB(obj)
             fir_data_file = obj.CustomFilterFileNameChipB;
             fir_data_str = fileread(fir_data_file);
-            obj.setAttributeRAW('voltage0','filter_fir_en','0',false,obj.iioDevChipB);
-            obj.setAttributeRAW('voltage0','filter_fir_en','0',true,obj.iioDevChipB);
-            obj.setDeviceAttributeRAW('filter_fir_config',fir_data_str,obj.iioDevChipB);
-            obj.setAttributeRAW('voltage0','filter_fir_en','1',true,obj.iioDevChipB);
-            obj.setAttributeRAW('voltage0','filter_fir_en','1',false,obj.iioDevChipB);
+            obj.setAttributeRAW('voltage0','filter_fir_en','0',false,obj.iioDevPHYChipB);
+            obj.setAttributeRAW('voltage0','filter_fir_en','0',true,obj.iioDevPHYChipB);
+            obj.setDeviceAttributeRAW('filter_fir_config',fir_data_str,obj.iioDevPHYChipB);
+            obj.setAttributeRAW('voltage0','filter_fir_en','1',true,obj.iioDevPHYChipB);
+            obj.setAttributeRAW('voltage0','filter_fir_en','1',false,obj.iioDevPHYChipB);
         end
         
     end
