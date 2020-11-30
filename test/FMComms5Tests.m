@@ -328,7 +328,7 @@ classdef FMComms5Tests < HardwareTests
                 'Frequency of DDS tone unexpected')
             
         end
-        
+        %{
         function testFMComms5RxWithTxDDSChipA2Rx(testCase)
             % Test DDS output
             tx = adi.FMComms5.Tx('uri',testCase.uri);
@@ -336,6 +336,7 @@ classdef FMComms5Tests < HardwareTests
             tx.DataSource = 'DDS';
             toneFreq = 5e5;
             tx.DDSFrequencies = repmat(toneFreq,2,2);
+            tx.DDSScales = [1,1;1,1];
             tx.AttenuationChannel0 = -10;
             tx.SamplingRate = 3e6;
             tx();
@@ -394,6 +395,7 @@ classdef FMComms5Tests < HardwareTests
             testCase.verifyEqual(freqEst,frequency,'RelTol',0.01,...
                 'Frequency of ML tone unexpected')
         end
+        %}
     end
     
 end
