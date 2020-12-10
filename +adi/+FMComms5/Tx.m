@@ -9,15 +9,11 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
     %   <a href="https://www.analog.com/en/design-center/evaluation-hardware-and-software/evaluation-boards-kits/eval-ad-fmcomms5-ebz.html">Product Page</a>
     
     properties
-        %CenterFrequency Center Frequency
+        %CenterFrequencyChipB Center Frequency
         %   RF center frequency, specified in Hz as a scalar. The
         %   default is 2.4e9.  This property is tunable.
         CenterFrequencyChipB = 2.4e9;
-        %SamplingRate Sampling Rate
-        %   Baseband sampling rate in Hz, specified as a scalar 
-        %   from 65105 to 61.44e6 samples per second.
-        SamplingRateChipB = 3e6;
-        %RFBandwidth RF Bandwidth
+        %RFBandwidthChipB RF Bandwidth
         %   RF Bandwidth of front-end analog filter in Hz, specified as a
         %   scalar from 200 kHz to 56 MHz.
         RFBandwidthChipB = 3e6;
@@ -73,7 +69,7 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
             coder.allowpcode('plain');
             obj = obj@adi.FMComms5.Base(varargin{:});
             obj.EnableChipB = true;
-           obj.channel_names = obj.channel_names_runtime;
+            obj.channel_names = obj.channel_names_runtime;
         end
         % Check RFPortSelect
         function set.RFPortSelectChipB(obj, value)
@@ -127,22 +123,7 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
                 id = 'voltage0';
                 obj.setAttributeLongLong(id,'rf_bandwidth',value,strcmp(obj.Type,'Tx'),30,obj.iioDevPHYChipB); %#ok<MCSUP>
             end
-        end
-        % Check SampleRate
-        function set.SamplingRateChipB(obj, value)            
-            validateattributes( value, { 'double','single' }, ...
-                { 'real', 'positive','scalar', 'finite', 'nonnan', 'nonempty','integer','>=',520833,'<=',61.44e6}, ...
-                '', 'SamplingRate');                
-            obj.SamplingRateChipB = value;
-            if obj.ConnectedToDevice && ~obj.EnableCustomFilter
-                if libisloaded('libad9361')
-                    calllib('libad9361','ad9361_set_bb_rate',obj.iioDevPHY,int32(value));
-                else
-                    id = 'voltage0';
-                    obj.setAttributeLongLong(id,'sampling_frequency',value,true,4,obj.iioDevPHYChipB); %#ok<MCSUP>
-                end
-            end
-        end
+        end        
     end
     
     methods (Access=protected)
@@ -177,7 +158,7 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
             % Write all attributes to device once connected through set
             % methods
             setupLibad9361(obj);
-            obj.iioDevPHYChipB = calllib('libiio','iio_context_find_device',obj.iioCtx,obj.phyDevNameChipB);
+            obj.iioDevPHYChipB = getDev(obj,obj.phyDevNameChipB);
             % Do writes directly to hardware without using set methods.
             % This is required sine Simulink support doesn't support
             % modification to nontunable variables at SetupImpl
@@ -197,9 +178,9 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
             
             if  ~obj.EnableCustomFilterChipB
                 if libisloaded('libad9361')
-                    calllib('libad9361','ad9361_set_bb_rate',obj.iioDevPHYChipB,int32(obj.SamplingRateChipB));
+                    calllib('libad9361','ad9361_set_bb_rate',obj.iioDevPHYChipB,int32(obj.SamplingRate));
                 else
-                    obj.setAttributeLongLong('voltage0','sampling_frequency',obj.SamplingRateChipB,true,4,obj.iioDevPHYChipB);
+                    obj.setAttributeLongLong('voltage0','sampling_frequency',obj.SamplingRate,true,4,obj.iioDevPHYChipB);
                     obj.setAttributeLongLong('voltage0','rf_bandwidth',obj.RFBandwidthChipB,strcmp(obj.Type,'Tx'),[],obj.iioDevPHYChipB);
                 end
             else
