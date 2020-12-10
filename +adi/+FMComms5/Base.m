@@ -1,31 +1,27 @@
 classdef (Abstract, Hidden = true) Base < adi.AD9361.Base    
     
-    %adi.AD9361.Base Class
+    %adi.FMComms5.Base Class
     %   This class contains shared parameters and methods between TX and RX
     %   classes
     properties (Nontunable, Logical)
-        %EnableCustomFilter Enable Custom Filter
+        %EnableCustomFilterChipB Enable Custom Filter
         %   Enable use of custom filter file to set SamplingRate, 
         %   RFBandwidth, and FIR in datapaths
         EnableCustomFilterChipB = false;
     end
     
     properties (Nontunable)
-        %CustomFilterFileName Custom Filter File Name
+        %CustomFilterFileNameChipB Custom Filter File Name
         %   Path to custom filter file created from filter wizard
         CustomFilterFileNameChipB = '';
     end
     
     properties (Abstract)
-        %CenterFrequency Center Frequency
+        %CenterFrequencyChipB Center Frequency
         %   RF center frequency, specified in Hz as a scalar. The
         %   default is 2.4e9.  This property is tunable.
         CenterFrequencyChipB
-        %SamplingRate Sampling Rate
-        %   Baseband sampling rate in Hz, specified as a scalar
-        %   from 65105 to 61.44e6 samples per second.
-        SamplingRateChipB
-        %RFBandwidth RF Bandwidth
+        %RFBandwidthChipB RF Bandwidth
         %   RF Bandwidth of front-end analog filter in Hz, specified as a
         %   scalar from 200 kHz to 56 MHz.
         RFBandwidthChipB

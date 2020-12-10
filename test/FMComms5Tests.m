@@ -48,7 +48,7 @@ classdef FMComms5Tests < HardwareTests
         function testFMComms5Rx_ChipA2Rx_ChipB1Rx(testCase)
             % Test Rx DMA data output
             rx = adi.FMComms5.Rx('uri',testCase.uri);
-            rx.EnabledChannels = [2 3];
+            rx.EnabledChannels = [1 4];
             [out, valid] = rx();
             rx.release();
             testCase.verifyTrue(valid);
@@ -302,7 +302,7 @@ classdef FMComms5Tests < HardwareTests
             % Test DDS output
             tx = adi.FMComms5.Tx('uri',testCase.uri);
             tx.DataSource = 'DDS';
-            toneFreq = 5e5;
+            toneFreq = 4e5;
             tx.DDSFrequencies = repmat(toneFreq,2,2);
             tx.AttenuationChannel0 = -10;
             tx.SamplingRate = 3e6;
@@ -328,7 +328,7 @@ classdef FMComms5Tests < HardwareTests
                 'Frequency of DDS tone unexpected')
             
         end
-        %{
+        
         function testFMComms5RxWithTxDDSChipA2Rx(testCase)
             % Test DDS output
             tx = adi.FMComms5.Tx('uri',testCase.uri);
@@ -363,6 +363,35 @@ classdef FMComms5Tests < HardwareTests
             
         end
         
+        function testFMComms5RxWithTxDDSChipB1Rx(testCase)
+            % Test DDS output
+            tx = adi.FMComms5.Tx('uri',testCase.uri);
+            tx.DataSource = 'DDS';
+            toneFreq = 6e5;
+            tx.DDSFrequenciesChipB = repmat(toneFreq,2,2);
+            tx.AttenuationChannel0ChipB = -10;
+            tx();
+            pause(1);
+            rx = adi.FMComms5.Rx('uri',testCase.uri);
+            rx.EnabledChannels = 4;
+            rx.kernelBuffersCount = 1;
+            for k=1:20
+                valid = false;
+                while ~valid
+                    [out, valid] = rx();
+                end
+            end
+            rx.release();
+
+            freqEst = meanfreq(double(real(out)),rx.SamplingRate);
+
+            testCase.verifyTrue(valid);
+            testCase.verifyGreaterThan(sum(abs(double(out))),0);
+            testCase.verifyEqual(freqEst,toneFreq,'RelTol',0.01,...
+                'Frequency of DDS tone unexpected')
+            
+        end        
+        %{
         function testFMComms5RxWithTxData(testCase)
             % Test Tx DMA data output
             amplitude = 2^15; frequency = 0.12e6;

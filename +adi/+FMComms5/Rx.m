@@ -16,10 +16,6 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
         %   RF center frequency, specified in Hz as a scalar. The
         %   default is 2.4e9.  This property is tunable.
         CenterFrequencyChipB = 2.4e9;
-        %SamplingRate Sampling Rate
-        %   Baseband sampling rate in Hz, specified as a scalar 
-        %   from 65105 to 61.44e6 samples per second.
-        SamplingRateChipB = 3e6;
         %RFBandwidth RF Bandwidth
         %   RF Bandwidth of front-end analog filter in Hz, specified as a
         %   scalar from 200 kHz to 56 MHz.
@@ -220,22 +216,6 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
                 obj.setAttributeLongLong(id,'rf_bandwidth',value,strcmp(obj.Type,'Tx'),30,obj.iioDevPHYChipB); %#ok<MCSUP>
             end
         end
-        % Check SampleRate
-        function set.SamplingRateChipB(obj, value)
-            validateattributes( value, { 'double','single' }, ...
-                { 'real', 'positive','scalar', 'finite', 'nonnan', 'nonempty','integer','>=',520833,'<=',61.44e6}, ...
-                '', 'SamplesPerFrame');
-
-            obj.SamplingRateChipB = value;
-            if obj.ConnectedToDevice && ~obj.EnableCustomFilter
-                if libisloaded('libad9361')
-                    calllib('libad9361','ad9361_set_bb_rate',obj.iioDevPHY,int32(value));
-                else
-                    id = 'voltage0';
-                    obj.setAttributeLongLong(id,'sampling_frequency',value,true,4,obj.iioDevPHYChipB); %#ok<MCSUP>
-                end
-            end
-        end  
         function set.LoopbackModeChipB(obj, value)
             validateattributes( value, { 'double','single', 'uint32' }, ...
                 { 'real', 'nonnegative','scalar', 'finite', 'nonnan', 'nonempty','integer','>=',0,'<=',2}, ...
@@ -253,7 +233,7 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
             % Write all attributes to device once connected through set
             % methods
             setupLibad9361(obj);
-            obj.iioDevPHYChipB = calllib('libiio', 'iio_context_find_device',obj.iioCtx,'ad9361-phy-B');
+            obj.iioDevPHYChipB = getDev(obj,obj.phyDevNameChipB);
             % Do writes directly to hardware without using set methods.
             % This is required sine Simulink support doesn't support
             % modification to nontunable variables at SetupImpl
@@ -285,15 +265,15 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
             obj.setAttributeBool('voltage0','quadrature_tracking_en',obj.EnableQuadratureTracking,false);
             obj.setAttributeBool('voltage0','rf_dc_offset_tracking_en',obj.EnableRFDCTracking,false);
             obj.setAttributeBool('voltage0','bb_dc_offset_tracking_en',obj.EnableBasebandDCTracking,false);
-            obj.setAttributeBool('voltage0','quadrature_tracking_en',obj.EnableQuadratureTracking,false,obj.iioDevPHYChipB); 
-            obj.setAttributeBool('voltage0','rf_dc_offset_tracking_en',obj.EnableRFDCTracking,false,obj.iioDevPHYChipB); 
-            obj.setAttributeBool('voltage0','bb_dc_offset_tracking_en',obj.EnableBasebandDCTracking,false,obj.iioDevPHYChipB); 
+            obj.setAttributeBool('voltage0','quadrature_tracking_en',obj.EnableQuadratureTrackingChipB,false,obj.iioDevPHYChipB); 
+            obj.setAttributeBool('voltage0','rf_dc_offset_tracking_en',obj.EnableRFDCTrackingChipB,false,obj.iioDevPHYChipB); 
+            obj.setAttributeBool('voltage0','bb_dc_offset_tracking_en',obj.EnableBasebandDCTrackingChipB,false,obj.iioDevPHYChipB); 
             id = sprintf('altvoltage%d',strcmp(obj.Type,'Tx'));
             obj.setAttributeLongLong(id,'frequency',obj.CenterFrequency ,true,4);
-            obj.setAttributeLongLong(id,'frequency',obj.CenterFrequency ,true,4,obj.iioDevPHYChipB); 
+            obj.setAttributeLongLong(id,'frequency',obj.CenterFrequencyChipB ,true,4,obj.iioDevPHYChipB); 
             % Loopback Mode
             obj.setDebugAttributeLongLong('loopback', obj.LoopbackMode);
-            obj.setDebugAttributeLongLong('loopback', obj.LoopbackMode,1,obj.iioDevPHYChipB); 
+            obj.setDebugAttributeLongLong('loopback', obj.LoopbackModeChipB,1,obj.iioDevPHYChipB); 
             
             % Sample rates and RF bandwidth
             if  ~obj.EnableCustomFilter
@@ -310,15 +290,15 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
             % Sample rates and RF bandwidth
             if  ~obj.EnableCustomFilterChipB
                 if libisloaded('libad9361')
-                    calllib('libad9361','ad9361_set_bb_rate',obj.iioDevPHYChipB,int32(obj.SamplingRateChipB));
+                    calllib('libad9361','ad9361_set_bb_rate',obj.iioDevPHYChipB,int32(obj.SamplingRate));
                 else
-                    obj.setAttributeLongLong('voltage0','sampling_frequency',obj.SamplingRateChipB,true,4,obj.iioDevPHYChipB); 
+                    obj.setAttributeLongLong('voltage0','sampling_frequency',obj.SamplingRate,true,4,obj.iioDevPHYChipB); 
                     obj.setAttributeLongLong('voltage0','rf_bandwidth',obj.RFBandwidthChipB,strcmp(obj.Type,'Tx'),0,obj.iioDevPHYChipB); 
                 end
             else
                 writeFilterFileFMComms5ChipB(obj);
             end
-            obj.setAttributeRAW('voltage0','rf_port_select',obj.RFPortSelect,false,obj.iioDevPHYChipB); 
+            obj.setAttributeRAW('voltage0','rf_port_select',obj.RFPortSelectChipB,false,obj.iioDevPHYChipB); 
 
             if (obj.CustomAGC)
                 % Initialize hardware to reflect debug attribute changes
