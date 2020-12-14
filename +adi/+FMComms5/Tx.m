@@ -8,6 +8,15 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
     %
     %   <a href="https://www.analog.com/en/design-center/evaluation-hardware-and-software/evaluation-boards-kits/eval-ad-fmcomms5-ebz.html">Product Page</a>
     
+    properties (Nontunable)
+        %DataSource Data Source
+        %   Data source, specified as one of the following:
+        %   'DMA' — Specify the host as the source of the data.
+        %   'DDS' — Specify the DDS on the radio hardware as the source
+        %   of the data. In this case, each channel has two additive tones.
+        DataSourceChipB = 'DMA';
+    end
+    
     properties
         %CenterFrequencyChipB Center Frequency
         %   RF center frequency, specified in Hz as a scalar. The
@@ -28,6 +37,36 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
         %   Attentuation specified as a scalar from -89.75 to 0 dB with a
         %   resolution of 0.25 dB.
         AttenuationChannel1ChipB = -30;
+    end
+    
+    properties
+        %DDSFrequenciesChipB DDS Frequencies
+        %   Frequencies values in Hz of the DDS tone generators.
+        %   For complex data devices the input is a [2xN] matrix where 
+        %   N is the available channels on the board. For complex data 
+        %   devices this is at most max(EnabledChannels)*2. 
+        %   For non-complex data devices this is at most 
+        %   max(EnabledChannels). If N < this upper limit, other DDSs 
+        %   are not set.
+        DDSFrequenciesChipB = [5e5,5e5; 5e5,5e5];
+        %DDSScalesChipB DDS Scales
+        %   Scale of DDS tones in range [0,1].
+        %   For complex data devices the input is a [2xN] matrix where 
+        %   N is the available channels on the board. For complex data 
+        %   devices this is at most max(EnabledChannels)*2. 
+        %   For non-complex data devices this is at most 
+        %   max(EnabledChannels). If N < this upper limit, other DDSs 
+        %   are not set.
+        DDSScalesChipB = [1,0;0,0];
+        %DDSPhasesChipB DDS Phases
+        %   Phases of DDS tones in range [0,360000].
+        %   For complex data devices the input is a [2xN] matrix where 
+        %   N is the available channels on the board. For complex data 
+        %   devices this is at most max(EnabledChannels)*2. 
+        %   For non-complex data devices this is at most 
+        %   max(EnabledChannels). If N < this upper limit, other DDSs 
+        %   are not set.
+        DDSPhasesChipB = [0,0;0,0];
     end
     
     properties (Hidden, Nontunable, Access = protected)
@@ -68,8 +107,14 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
         function obj = Tx(varargin)
             coder.allowpcode('plain');
             obj = obj@adi.FMComms5.Base(varargin{:});
-            obj.EnableChipB = true;
             obj.channel_names = obj.channel_names_runtime;
+        end
+        % Check DataSourceChipB
+        function set.DataSourceChipB(obj, value)
+            obj.DataSourceChipB = value;
+            if obj.ConnectedToDevice
+                obj.ToggleDDSChipB(strcmp(value,'DDS'));                
+            end
         end
         % Check RFPortSelect
         function set.RFPortSelectChipB(obj, value)
@@ -123,7 +168,74 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
                 id = 'voltage0';
                 obj.setAttributeLongLong(id,'rf_bandwidth',value,strcmp(obj.Type,'Tx'),30,obj.iioDevPHYChipB); %#ok<MCSUP>
             end
-        end        
+        end
+        % Check DDSFrequenciesChipB
+        function set.DDSFrequenciesChipB(obj, value)
+            s = size(value);
+            c1 = s(1) == 2;
+            c2 = s(2) > 0;
+            if isempty(obj.dds_channel_names)
+                 chans = length(obj.channel_names);
+            else               
+                 chans = length(obj.dds_channel_names);
+            end
+            c3 = s(2) <= chans;
+            assert(c1 && c2 && c3,...
+                sprintf(['DDSFrequenciesChipB expected to be size [2xN]',...
+                ' where 1<=N<=%d'],...
+                chans));
+            
+            obj.DDSFrequenciesChipB = value;
+            if obj.ConnectedToDevice
+                obj.DDSUpdateChipB();
+            end
+        end
+        % Check DDSScalesChipB
+        function set.DDSScalesChipB(obj, value)
+            s = size(value);
+            c1 = s(1) == 2;
+            c2 = s(2) > 0;
+            if isempty(obj.dds_channel_names)
+                 chans = length(obj.channel_names);
+            else               
+                 chans = length(obj.dds_channel_names);
+            end
+            c3 = s(2) <= chans;
+            assert(c1 && c2 && c3,...
+                sprintf(['DDSScalesChipB expected to be size [2xN]',...
+                ' where 1<=N<=%d'],...
+                chans));
+            assert(~any(value>1,'all'),'DDSScalesChipB cannot > 1');
+            assert(~any(value<0,'all'),'DDSScalesChipB cannot < 0');
+            
+            obj.DDSScalesChipB = value;
+            if obj.ConnectedToDevice
+                obj.DDSUpdateChipB();
+            end
+        end
+        % Check DDSPhasesChipB
+        function set.DDSPhasesChipB(obj, value)
+            s = size(value);
+            c1 = s(1) == 2;
+            c2 = s(2) > 0;
+            if isempty(obj.dds_channel_names)
+                 chans = length(obj.channel_names);
+            else               
+                 chans = length(obj.dds_channel_names);
+            end
+            c3 = s(2) <= chans;
+            assert(c1 && c2 && c3,...
+                sprintf(['DDSPhasesChipB expected to be size [2xN]',...
+                ' where 1<=N<=%d'],...
+                chans));
+            assert(~any(value>360000,'all'),'DDSPhasesChipB cannot > 360000');
+            assert(~any(value<0,'all'),'DDSPhasesChipB cannot < 0');
+            
+            obj.DDSPhasesChipB = value;
+            if obj.ConnectedToDevice
+                obj.DDSUpdateChipB();
+            end
+        end
     end
     
     methods (Access=protected)
@@ -152,6 +264,49 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
     
     %% API Functions
     methods (Hidden, Access = protected)
+        function ToggleDDSChipB(obj,value)
+            chanPtr = getChan(obj,obj.iioDevChipB,'altvoltage0',true);
+            iio_channel_attr_write_bool(obj,chanPtr,'raw',value);
+        end
+        
+        function DDSUpdateChipB(obj)
+            obj.ToggleDDSChipB(true);
+
+            %% Set frequencies
+            s = size(obj.DDSFrequenciesChipB);
+            indx = 0;
+            for channel=1:s(2)
+                for toneIdx = 1:2
+                    id = sprintf('altvoltage%d',indx);
+                    indx = indx + 1;
+                    chanPtr = getChan(obj,obj.iioDevChipB,id,true);
+                    iio_channel_attr_write_double(obj,chanPtr,'frequency',obj.DDSFrequenciesChipB(toneIdx,channel));
+                end
+            end
+            %% Set scales
+            s = size(obj.DDSScalesChipB);
+            indx = 0;
+            for channel=1:s(2)
+                for toneIdx = 1:2
+                    id = sprintf('altvoltage%d',indx);
+                    indx = indx + 1;
+                    chanPtr = getChan(obj,obj.iioDevChipB,id,true);
+                    iio_channel_attr_write_double(obj,chanPtr,'scale',obj.DDSScalesChipB(toneIdx,channel));
+                end
+            end
+            %% Set phases
+            s = size(obj.DDSPhasesChipB);
+            indx = 0;
+            for channel=1:s(2)
+                for toneIdx = 1:2
+                    id = sprintf('altvoltage%d',indx);
+                    indx = indx + 1;
+                    chanPtr = getChan(obj,obj.iioDevChipB,id,true);
+                    iio_channel_attr_write_double(obj,chanPtr,'phase',obj.DDSPhasesChipB(toneIdx,channel));
+                end
+            end
+        end
+        
         function setupInit(obj)
             obj.iioDevChipB = getDev(obj, obj.devNameChipB);
             

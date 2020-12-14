@@ -367,6 +367,7 @@ classdef FMComms5Tests < HardwareTests
             % Test DDS output
             tx = adi.FMComms5.Tx('uri',testCase.uri);
             tx.DataSource = 'DDS';
+            tx.DataSourceChipB = 'DDS';
             toneFreq = 6e5;
             tx.DDSFrequenciesChipB = repmat(toneFreq,2,2);
             tx.AttenuationChannel0ChipB = -10;
@@ -375,7 +376,7 @@ classdef FMComms5Tests < HardwareTests
             rx = adi.FMComms5.Rx('uri',testCase.uri);
             rx.EnabledChannels = 4;
             rx.kernelBuffersCount = 1;
-            for k=1:20
+            for k=1:10
                 valid = false;
                 while ~valid
                     [out, valid] = rx();
@@ -391,8 +392,8 @@ classdef FMComms5Tests < HardwareTests
                 'Frequency of DDS tone unexpected')
             
         end        
-        %{
-        function testFMComms5RxWithTxData(testCase)
+        
+        function testFMComms5RxWithTxDataChipA1Rx(testCase)
             % Test Tx DMA data output
             amplitude = 2^15; frequency = 0.12e6;
             swv1 = dsp.SineWave(amplitude, frequency);
@@ -424,7 +425,41 @@ classdef FMComms5Tests < HardwareTests
             testCase.verifyEqual(freqEst,frequency,'RelTol',0.01,...
                 'Frequency of ML tone unexpected')
         end
-        %}
+        
+        function testFMComms5RxWithTxDataChipB1Rx(testCase)
+            % Test Tx DMA data output
+            amplitude = 2^15; frequency = 0.12e6;
+            swv1 = dsp.SineWave(amplitude, frequency);
+            swv1.ComplexOutput = true;
+            swv1.SamplesPerFrame = 1e4*10;
+            swv1.SampleRate = 3e6;
+            y = swv1();
+            
+            tx = adi.FMComms5.Tx('uri',testCase.uri);
+            tx.DataSource = 'DMA';
+            tx.DataSourceChipB = 'DMA';
+            tx.EnableCyclicBuffers = true;
+            tx.AttenuationChannel0 = -10;
+            tx(y);
+            rx = adi.FMComms5.Rx('uri',testCase.uri);
+            rx.EnabledChannels = 4;
+            rx.kernelBuffersCount = 1;
+            for k=1:20
+                valid = false;
+                while ~valid
+                    [out, valid] = rx();
+                end
+            end
+            rx.release();
+
+            freqEst = meanfreq(double(real(out)),rx.SamplingRate);
+            
+            testCase.verifyTrue(valid);
+            testCase.verifyGreaterThan(sum(abs(double(out))),0);
+            testCase.verifyEqual(freqEst,frequency,'RelTol',0.01,...
+                'Frequency of ML tone unexpected')
+        end
+        
     end
     
 end
