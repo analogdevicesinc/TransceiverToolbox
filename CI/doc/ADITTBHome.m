@@ -46,6 +46,8 @@ published examples,
 State Management 
 - When you change an attribute, when does it take effect?
 - What happens when you run the system object operator?
+- CenterFrequency gets written to hardware immediately in ADITB, not so in
+MWTB. Illustrate by sine wave, FFT plot or iio_attr commands. 
 Attributes
 Debug Attributes
 Fast lock/frequency hopping
