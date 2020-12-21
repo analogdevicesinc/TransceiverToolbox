@@ -1275,8 +1275,8 @@ classdef LTEApp < matlab.apps.AppBase
             
             if ~isdeployed
                 % check MATLAB version
-                if ~contains(version, 'R2020a')
-                    app.Label.Text = 'LTE Performance Analyzer App requires MATLAB R2020a.';
+                if ~contains(version, 'R2020b')
+                    app.Label.Text = 'LTE Performance Analyzer App requires MATLAB R2020b.';
                     return;
                 end
                 
