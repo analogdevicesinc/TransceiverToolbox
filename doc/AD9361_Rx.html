@@ -2,13 +2,14 @@
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
    
-      <link rel="stylesheet" href="https://localhost:31516/static/help/includes/product/css/helpwin.css"><script type="text/javascript" src="https://localhost:31516/static/help/includes/product/scripts/jquery/jquery-latest.js"></script><script type="text/javascript" src="https://localhost:31516/static/help/includes/shared/scripts/helpservices.js"></script><title>adi.AD9361.Rx - MATLAB File Help</title>
+      <link rel="stylesheet" href="https://localhost:31515/static/help/includes/product/css/helpwin.css"><script type="text/javascript" src="https://localhost:31515/static/help/includes/product/scripts/jquery/jquery-latest.js"></script><script type="text/javascript" src="https://localhost:31515/static/help/includes/shared/scripts/helpservices.js"></script><title>adi.AD9361.Rx - MATLAB File Help</title>
    </head>
    <body>
       <!--Single-page help-->
       <table border="0" cellspacing="0" width="100%">
          <tr class="subheader">
             <td class="headertitle">adi.AD9361.Rx - MATLAB File Help</td>
+            <td class="subheader-right"><a href="matlab:edit adi.AD9361.Rx">View code for adi.AD9361.Rx</a></td>
          </tr>
       </table>
       <div class="title">adi.AD9361.Rx</div>
@@ -21,5 +22,865 @@
  
     <a href="http://www.analog.com/media/en/technical-documentation/data-sheets/AD9361.pdf">AD9361 Datasheet</a></pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="matlab:doc adi.FMComms2.Rx">adi.FMComms2.Rx</a>, <a href="matlab:doc adi.FMComms3.Rx">adi.FMComms3.Rx</a>, adi.FMComms5.Rx
 </div>
+      <!--Class-->
+      <div class="sectiontitle">Class Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Superclasses</td>
+            <td><a href="matlab:doc('adi.AD9361.Base')">adi.AD9361.Base</a>, <a href="matlab:doc('adi.AD9361.TuneAGC')">adi.AD9361.TuneAGC</a>, <a href="matlab:doc('adi.common.Rx')">adi.common.Rx</a></td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Construct on load</td>
+            <td>false</td>
+         </tr>
+      </table>
+      <!--Constructors-->
+      <div class="sectiontitle"><a name="constructors"></a>Constructor Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.Rx')">Rx</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+      </table>
+      <!--Properties-->
+      <div class="sectiontitle"><a name="properties"></a>Property Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.CenterFrequency')">CenterFrequency</a></td>
+            <td class="m-help">Center Frequency&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.CustomFilterFileName')">CustomFilterFileName</a></td>
+            <td class="m-help">Custom Filter File Name&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.EnableBasebandDCTracking')">EnableBasebandDCTracking</a></td>
+            <td class="m-help">Enable Baseband DC Tracking&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.EnableCustomFilter')">EnableCustomFilter</a></td>
+            <td class="m-help">Enable Custom Filter&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.EnableQuadratureTracking')">EnableQuadratureTracking</a></td>
+            <td class="m-help">Enable Quadrature Tracking&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.EnableRFDCTracking')">EnableRFDCTracking</a></td>
+            <td class="m-help">Enable RFDC Tracking&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.EnabledChannels')">EnabledChannels</a></td>
+            <td class="m-help">Enabled Channels&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.GainChannel0')">GainChannel0</a></td>
+            <td class="m-help">Gain Channel 0&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.GainChannel1')">GainChannel1</a></td>
+            <td class="m-help">Gain Channel 1&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.GainControlModeChannel0')">GainControlModeChannel0</a></td>
+            <td class="m-help">Gain Control Mode Channel 0&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.GainControlModeChannel1')">GainControlModeChannel1</a></td>
+            <td class="m-help">Gain Control Mode Channel 1&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.LoopbackMode')">LoopbackMode</a></td>
+            <td class="m-help">DigitalLoopbackMode Digital Loopback Mode&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.RFBandwidth')">RFBandwidth</a></td>
+            <td class="m-help">RF Bandwidth&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.RFPortSelect')">RFPortSelect</a></td>
+            <td class="m-help">RF Port Select&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.SamplesPerFrame')">SamplesPerFrame</a></td>
+            <td class="m-help">Samples Per Frame&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.SamplingRate')">SamplingRate</a></td>
+            <td class="m-help">Sampling Rate&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.SysObjIsLocked')">SysObjIsLocked</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.buffersAvailable')">buffersAvailable</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.enIO')">enIO</a></td>
+            <td class="m-help">Enable simulation I/O
+               Help for adi.AD9361.Rx/enIO is inherited from superclass MATLABSHARED.LIBIIO.BASE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.uri')">uri</a></td>
+            <td class="m-help">remote host URI
+               Help for adi.AD9361.Rx/uri is inherited from superclass MATLABSHARED.LIBIIO.BASE
+               &nbsp;
+            </td>
+         </tr>
+      </table>
+      <!--Methods-->
+      <div class="sectiontitle"><a name="methods"></a>Method Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.ReadFromRegister')">ReadFromRegister</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.WriteDebugAttributes')">WriteDebugAttributes</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.WriteToRegisters')">WriteToRegisters</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.addlistener')">addlistener</a></td>
+            <td class="m-help">Add listener for event.
+               Help for adi.AD9361.Rx/addlistener is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.allowModelReferenceDiscreteSampleTimeInheritanceImpl')">allowModelReferenceDiscreteSampleTimeInheritanceImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.clone')">clone</a></td>
+            <td class="m-help">Create System object with same property values&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.cloneImpl')">cloneImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.convertToTrueFalseStructPropertyGroups')">convertToTrueFalseStructPropertyGroups</a></td>
+            <td class="m-help">Convert PropertyGroups to True/False struct groups&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.createSampleTime')">createSampleTime</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.delete')">delete</a></td>
+            <td class="m-help">Delete a handle object.
+               Help for adi.AD9361.Rx/delete is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.displayEmptyObject')">displayEmptyObject</a></td>
+            <td class="m-help">Display for empty object arrays
+               Help for adi.AD9361.Rx/displayEmptyObject is inherited from superclass MATLAB.MIXIN.CUSTOMDISPLAY
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.displayNonScalarObject')">displayNonScalarObject</a></td>
+            <td class="m-help">Display format for non-scalar objects
+               Help for adi.AD9361.Rx/displayNonScalarObject is inherited from superclass MATLAB.MIXIN.CUSTOMDISPLAY
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.displayScalarHandleToDeletedObject')">displayScalarHandleToDeletedObject</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.displayScalarObject')">displayScalarObject</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.eq')">eq</a></td>
+            <td class="m-help">== (EQ)   Test handle equality.
+               Help for adi.AD9361.Rx/eq is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.findobj')">findobj</a></td>
+            <td class="m-help">Find objects matching specified conditions.
+               Help for adi.AD9361.Rx/findobj is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.findprop')">findprop</a></td>
+            <td class="m-help">Find property of MATLAB handle object.
+               Help for adi.AD9361.Rx/findprop is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.ge')">ge</a></td>
+            <td class="m-help">&gt;= (GE)   Greater than or equal relation for handles.
+               Help for adi.AD9361.Rx/ge is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.getContinuousStateSizeImpl')">getContinuousStateSizeImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.getDefaultCustomDisplayPropertyGroups')">getDefaultCustomDisplayPropertyGroups</a></td>
+            <td class="m-help">Collect and convert System object property groups&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.getDiscreteStateSpecificationImpl')">getDiscreteStateSpecificationImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.getExecutionSemanticsImpl')">getExecutionSemanticsImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.getFooter')">getFooter</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.getGlobalNamesImpl')">getGlobalNamesImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.getHeader')">getHeader</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.getInputDataTypeImpl')">getInputDataTypeImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.getInputMessagePortImpl')">getInputMessagePortImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.getInputNamesImpl')">getInputNamesImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.getMaskDisplayImpl')">getMaskDisplayImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.getNumInputsImpl')">getNumInputsImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.getNumOutputsImpl')">getNumOutputsImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.getOutputDataTypeImpl')">getOutputDataTypeImpl</a></td>
+            <td class="m-help">Return data type for each output port
+               Help for adi.AD9361.Rx/getOutputDataTypeImpl is inherited from superclass ADI.COMMON.RX
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.getOutputMessagePortImpl')">getOutputMessagePortImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.getOutputNamesImpl')">getOutputNamesImpl</a></td>
+            <td class="m-help">Return output port names for System block
+               Help for adi.AD9361.Rx/getOutputNamesImpl is inherited from superclass ADI.COMMON.RX
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.getOutputSizeImpl')">getOutputSizeImpl</a></td>
+            <td class="m-help">Return size for each output port
+               Help for adi.AD9361.Rx/getOutputSizeImpl is inherited from superclass ADI.COMMON.RX
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.getPropertyGroups')">getPropertyGroups</a></td>
+            <td class="m-help">Construct an array of property groups
+               Help for adi.AD9361.Rx/getPropertyGroups is inherited from superclass MATLAB.MIXIN.CUSTOMDISPLAY
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.getPropertyGroupsLongImpl')">getPropertyGroupsLongImpl</a></td>
+            <td class="m-help">Get CustomDisplay property groups for long display&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.getSimulinkFunctionNamesImpl')">getSimulinkFunctionNamesImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.getTunablePropertiesSpecificationImpl')">getTunablePropertiesSpecificationImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.gt')">gt</a></td>
+            <td class="m-help">&gt; (GT)   Greater than relation for handles.
+               Help for adi.AD9361.Rx/gt is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.info')">info</a></td>
+            <td class="m-help">Characteristic information about System object&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.inputDimensionConstraint')">inputDimensionConstraint</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.isDiscreteStateSpecificationMutableImpl')">isDiscreteStateSpecificationMutableImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.isInputComplexityLockedImpl')">isInputComplexityLockedImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.isInputComplexityMutableImpl')">isInputComplexityMutableImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.isInputDataTypeMutableImpl')">isInputDataTypeMutableImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.isInputDirectFeedthroughImpl')">isInputDirectFeedthroughImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.isLocked')">isLocked</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.isOutputComplexImpl')">isOutputComplexImpl</a></td>
+            <td class="m-help">Return true for each output port with complex data
+               Help for adi.AD9361.Rx/isOutputComplexImpl is inherited from superclass ADI.COMMON.RX
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.isOutputFixedSizeImpl')">isOutputFixedSizeImpl</a></td>
+            <td class="m-help">Return true for each output port with fixed size
+               Help for adi.AD9361.Rx/isOutputFixedSizeImpl is inherited from superclass ADI.COMMON.RX
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.isTunablePropertyDataTypeMutableImpl')">isTunablePropertyDataTypeMutableImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.isvalid')">isvalid</a></td>
+            <td class="m-help">Test handle validity.
+               Help for adi.AD9361.Rx/isvalid is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.le')">le</a></td>
+            <td class="m-help">&lt;= (LE)   Less than or equal relation for handles.
+               Help for adi.AD9361.Rx/le is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.listener')">listener</a></td>
+            <td class="m-help">Add listener for event without binding the listener to the source object.
+               Help for adi.AD9361.Rx/listener is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.loadObjectImpl')">loadObjectImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.lt')">lt</a></td>
+            <td class="m-help">&lt; (LT)   Less than relation for handles.
+               Help for adi.AD9361.Rx/lt is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.ne')">ne</a></td>
+            <td class="m-help">~= (NE)   Not equal relation for handles.
+               Help for adi.AD9361.Rx/ne is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.notify')">notify</a></td>
+            <td class="m-help">Notify listeners of event.
+               Help for adi.AD9361.Rx/notify is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.outputDimensionConstraint')">outputDimensionConstraint</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.outputImpl')">outputImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.outputSizeNeedsInputSizeOnlyImpl')">outputSizeNeedsInputSizeOnlyImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.processInputSizeChangeImpl')">processInputSizeChangeImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.processInputSpecificationChangeImpl')">processInputSpecificationChangeImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.processTunedPropertiesImpl')">processTunedPropertiesImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.propagatedInputBusStructure')">propagatedInputBusStructure</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.propagatedInputComplexity')">propagatedInputComplexity</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.propagatedInputDataType')">propagatedInputDataType</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.propagatedInputFixedSize')">propagatedInputFixedSize</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.propagatedInputSize')">propagatedInputSize</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.propagatedOutputComplexity')">propagatedOutputComplexity</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.propagatedOutputDataType')">propagatedOutputDataType</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.propagatedOutputFixedSize')">propagatedOutputFixedSize</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.propagatedOutputSize')">propagatedOutputSize</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.release')">release</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.removeInactivePropertiesFromPropertyGroups')">removeInactivePropertiesFromPropertyGroups</a></td>
+            <td class="m-help">Filter property groups through isInactiveProperty&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.resetImpl')">resetImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.saveObjectImpl')">saveObjectImpl</a></td>
+            <td class="m-help">Default definition of the saveObjectImpl method&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.step')">step</a></td>
+            <td class="m-help">Process inputs using the object algorithm&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.strictDefaultConstraintsImpl')">strictDefaultConstraintsImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.supportsMultipleInstanceImpl')">supportsMultipleInstanceImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.updateImpl')">updateImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.validateInputsImpl')">validateInputsImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.validatePropertiesImpl')">validatePropertiesImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+      </table>
+      <!--Events-->
+      <div class="sectiontitle"><a name="events"></a>Event Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9361.Rx.ObjectBeingDestroyed')">ObjectBeingDestroyed</a></td>
+            <td class="m-help">Notifies listeners that a particular object has been destroyed.
+               Help for adi.AD9361.Rx/ObjectBeingDestroyed is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+      </table>
    </body>
 </html>

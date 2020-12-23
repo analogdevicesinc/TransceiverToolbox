@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,IE=9,chrome=1"><meta name="generator" content="MATLAB R2020a"><title>For Developers</title><style type="text/css">.rtcContent { padding: 30px; } .S0 { margin: 3px 10px 5px 4px; padding: 0px; line-height: 28.8px; min-height: 0px; white-space: pre-wrap; color: rgb(213, 80, 0); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 24px; font-weight: 400; text-align: left;  }
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,IE=9,chrome=1"><meta name="generator" content="MATLAB 2020b"><title>For Developers</title><style type="text/css">.rtcContent { padding: 30px; } .S0 { margin: 3px 10px 5px 4px; padding: 0px; line-height: 28.8px; min-height: 0px; white-space: pre-wrap; color: rgb(213, 80, 0); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 24px; font-weight: 400; text-align: left;  }
 .S1 { margin: 2px 10px 9px 4px; padding: 0px; line-height: 21px; min-height: 0px; white-space: pre-wrap; color: rgb(0, 0, 0); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 14px; font-weight: 400; text-align: left;  }
 .S2 { margin: 20px 10px 5px 4px; padding: 0px; line-height: 20px; min-height: 0px; white-space: pre-wrap; color: rgb(60, 60, 60); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 20px; font-weight: 700; text-align: left;  }
 .CodeBlock { background-color: #F7F7F7; margin: 10px 0 10px 0;}
@@ -24,7 +24,8 @@
 .inlineElement .textElement {}
 .embeddedOutputsTextElement.rightPaneElement,.embeddedOutputsVariableStringElement.rightPaneElement {min-height: 16px;}
 .rightPaneElement .textElement {padding-top: 2px; padding-left: 9px;}
-.S5 { margin: 10px 10px 9px 4px; padding: 0px; line-height: 21px; min-height: 0px; white-space: pre-wrap; color: rgb(0, 0, 0); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 14px; font-weight: 400; text-align: left;  }</style></head><body><div class = rtcContent><h1  class = 'S0'><span>For Developers</span></h1><div  class = 'S1'><span>In order to better understand the internals of how ADI's transceiver and high-speed Converter Toolbox system objects are implemented, it is also useful to understand the overall structure of MATLAB's libiio package and how ADI's </span><span style=' font-style: italic;'>common</span><span> interface layer serves as the shim layer on which both Transceiver Toolbox and High-Speed Converter Toolbox rely. </span></div><h2  class = 'S2'><span>matlabshared.libiio</span></h2><div  class = 'S1'><span>First, let us take a look at the list of superclasses that the base class in MATLAB's libiio package inherits from. </span></div><div class="CodeBlock"><div class="inlineWrapper outputs"><div  class = 'S3'><span style="white-space: pre;"><span>superclasses(</span><span style="color: rgb(160, 32, 240);">'matlabshared.libiio.base'</span><span>)</span></span></div><div  class = 'S4'><div class="inlineElement eoOutputWrapper embeddedOutputsTextElement" uid="B1AAFF40" data-scroll-top="null" data-scroll-left="null" contenteditable="false" data-testid="output_0" style="width: 717px; max-height: 261px;" data-width="687" data-height="161" data-hashorizontaloverflow="false"><div class="textElement">Superclasses for class matlabshared.libiio.base:
+.S5 { margin: 10px 10px 9px 4px; padding: 0px; line-height: 21px; min-height: 0px; white-space: pre-wrap; color: rgb(0, 0, 0); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 14px; font-weight: 400; text-align: left;  }
+.S6 { border-left: 1px solid rgb(233, 233, 233); border-right: 1px solid rgb(233, 233, 233); border-top: 1px solid rgb(233, 233, 233); border-bottom: 1px solid rgb(233, 233, 233); border-radius: 4px; padding: 6px 45px 4px 13px; line-height: 17.234px; min-height: 18px; white-space: nowrap; color: rgb(0, 0, 0); font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }</style></head><body><div class = rtcContent><h1  class = 'S0'><span>For Developers</span></h1><div  class = 'S1'><span>In order to better understand the internals of how ADI's transceiver and High-Speed Converter Toolbox system objects are implemented, it is also useful to understand the overall structure of MATLAB's libiio package and how </span><span style=' font-weight: bold;'>adi.common</span><span> serves as the interface layer on which both of these toolboxes rely. </span></div><h2  class = 'S2'><span>matlabshared.libiio</span></h2><div  class = 'S1'><span>First, let us take a look at the list of superclasses that the base class in MATLAB's libiio package inherits from. </span></div><div class="CodeBlock"><div class="inlineWrapper outputs"><div  class = 'S3'><span style="white-space: pre;"><span>superclasses(</span><span style="color: rgb(170, 4, 249);">'matlabshared.libiio.base'</span><span>)</span></span></div><div  class = 'S4'><div class="inlineElement eoOutputWrapper embeddedOutputsTextElement" uid="B186257E" data-testid="output_0" data-width="1128" data-height="161" data-hashorizontaloverflow="false" style="width: 1158px; max-height: 261px;"><div class="textElement">Superclasses for class matlabshared.libiio.base:
 
     matlab.System
     handle
@@ -34,7 +35,7 @@
     matlabshared.libiio.channel
     matlabshared.libiio.device
     matlabshared.libiio.buffer
-    matlabshared.libiio.top</div></div></div></div></div><div  class = 'S5'><span>As shown by the output displayed, the </span><span style=' font-weight: bold;'>matlabshared.libiio.base</span><span> is a child class of the remaining classes that get installed when MATLAB's Communications Support Toolbox for Xilinx Zynq Based Radios. Additionally, since this class is the parent class for the classes in the </span><span style=' font-style: italic;'>common</span><span> interface layer, we can also look at the abstract properties and methods that the child classes of </span><span style=' font-weight: bold;'>matlabshared.libiio.base</span><span> are expected to implement. </span></div><div class="CodeBlock"><div class="inlineWrapper outputs"><div  class = 'S3'><span style="white-space: pre;"><span>meta.abstractDetails(</span><span style="color: rgb(160, 32, 240);">'matlabshared.libiio.base'</span><span>)</span></span></div><div  class = 'S4'><div class="inlineElement eoOutputWrapper embeddedOutputsTextElement" uid="E89AB8CC" data-scroll-top="null" data-scroll-left="null" contenteditable="false" data-testid="output_1" style="width: 717px; max-height: 261px;" data-width="687" data-height="176" data-hashorizontaloverflow="false"><div class="textElement">Abstract methods for class matlabshared.libiio.base:
+    matlabshared.libiio.top</div></div></div></div></div><div  class = 'S5'><span>As shown by the output displayed, the </span><span style=' font-weight: bold;'>matlabshared.libiio.base</span><span> is a child class of the remaining classes that get installed when MATLAB's Communications Toolbox Support Package for Xilinx Zynq Based Radio. Additionally, since this class is the parent for the classes in the </span><span style=' font-weight: bold;'>adi.common</span><span> interface layer, we can also look at the abstract properties and methods that the child classes of </span><span style=' font-weight: bold;'>matlabshared.libiio.base</span><span> are expected to implement. </span></div><div class="CodeBlock"><div class="inlineWrapper outputs"><div  class = 'S3'><span style="white-space: pre;"><span>meta.abstractDetails(</span><span style="color: rgb(170, 4, 249);">'matlabshared.libiio.base'</span><span>)</span></span></div><div  class = 'S4'><div class="inlineElement eoOutputWrapper embeddedOutputsTextElement" uid="44CC3AF1" data-testid="output_1" data-width="1128" data-height="176" data-hashorizontaloverflow="false" style="width: 1158px; max-height: 261px;"><div class="textElement">Abstract methods for class matlabshared.libiio.base:
     releaseChanBuffers  	% defined in matlabshared.libiio.base
     configureChanBuffers	% defined in matlabshared.libiio.base
 
@@ -45,7 +46,7 @@ Abstract properties for class matlabshared.libiio.base:
     dataTypeStr       	% defined in matlabshared.libiio.base
     channelCount      	% defined in matlabshared.libiio.base
     DataTimeout       	% defined in matlabshared.libiio.base
-    isOutput          	% defined in matlabshared.libiio.base</div></div></div></div></div><div  class = 'S5'><span>When we look at the properties list for adi.common.RxTx class, </span></div><div class="CodeBlock"><div class="inlineWrapper outputs"><div  class = 'S3'><span style="white-space: pre;"><span>properties(</span><span style="color: rgb(160, 32, 240);">'adi.common.RxTx'</span><span>)</span></span></div><div  class = 'S4'><div class="inlineElement eoOutputWrapper embeddedOutputsTextElement" uid="8E22C216" data-scroll-top="null" data-scroll-left="null" contenteditable="false" data-testid="output_2" style="width: 717px; max-height: 261px;" data-width="687" data-height="161" data-hashorizontaloverflow="false"><div class="textElement">Properties for class adi.common.RxTx:
+    isOutput          	% defined in matlabshared.libiio.base</div></div></div></div></div><div  class = 'S5'><span>When we look at the properties list for adi.common.RxTx class, </span></div><div class="CodeBlock"><div class="inlineWrapper outputs"><div  class = 'S3'><span style="white-space: pre;"><span>properties(</span><span style="color: rgb(170, 4, 249);">'adi.common.RxTx'</span><span>)</span></span></div><div  class = 'S4'><div class="inlineElement eoOutputWrapper embeddedOutputsTextElement" uid="569E885D" data-testid="output_2" data-width="1128" data-height="133" data-hashorizontaloverflow="false" style="width: 1158px; max-height: 261px;"><div class="textElement">Properties for class adi.common.RxTx:
 
     EnabledChannels
     uri
@@ -53,18 +54,25 @@ Abstract properties for class matlabshared.libiio.base:
     SamplesPerFrame
     devName
     kernelBuffersCount
-    dataTypeStr
-    channelCount
-    DataTimeout</div></div></div></div></div><div  class = 'S5'><span>we can notice that all the properties have been implemented by this class. Note however, that this class is still an abstract class which defines certain other properties which its child classes must implement. So, it cannot be instantiated. </span></div><div class="CodeBlock"><div class="inlineWrapper outputs"><div  class = 'S3'><span style="white-space: pre;"><span>c = adi.common.RxTx</span></span></div><div  class = 'S4'><div class="inlineElement eoOutputWrapper embeddedOutputsErrorElement" uid="D15F0730" contenteditable="false" data-testid="output_3" data-width="687" data-height="45" data-hashorizontaloverflow="false" style="width: 717px; max-height: 261px;"><div class="diagnosticMessage-wrapper diagnosticMessage-errorType"><div class="diagnosticMessage-messagePart">Error using adi.common.RxTx<br>Abstract classes cannot be instantiated.  Class 'adi.common.RxTx' defines abstract methods and/or properties.</div><div class="diagnosticMessage-stackPart"></div></div></div></div></div></div></div>
+    dataTypeStr</div></div></div></div></div><div  class = 'S5'><span>we can notice that all the properties have been inherited by this class. Note however that this class is still an abstract class which defines other abstract properties and methods which its child classes must implement. So, it cannot be instantiated as shown below. </span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S6'><span style="white-space: pre;"><span style="color: rgb(2, 128, 9);">% c = adi.common.RxTx % produces an error</span></span></div></div></div><div  class = 'S5'><span>These abstract properties and methods can be listed as follows:</span></div><div class="CodeBlock"><div class="inlineWrapper outputs"><div  class = 'S3'><span style="white-space: pre;"><span>meta.abstractDetails(</span><span style="color: rgb(170, 4, 249);">'adi.common.RxTx'</span><span>)</span></span></div><div  class = 'S4'><div class="inlineElement eoOutputWrapper embeddedOutputsTextElement" uid="490C4A50" data-testid="output_3" data-width="1128" data-height="161" data-hashorizontaloverflow="false" style="width: 1158px; max-height: 261px;"><div class="textElement">Abstract methods for class adi.common.RxTx:
+    setupInit	% defined in adi.common.RxTx
+
+Abstract properties for class adi.common.RxTx:
+    Type              	% defined in adi.common.RxTx
+    ComplexData       	% defined in adi.common.RxTx
+    SamplesPerFrame   	% defined in matlabshared.libiio.base
+    devName           	% defined in matlabshared.libiio.base
+    kernelBuffersCount	% defined in matlabshared.libiio.base
+    dataTypeStr       	% defined in matlabshared.libiio.base
+    isOutput          	% defined in matlabshared.libiio.base</div></div></div></div></div><div  class = 'S5'><span>Before, we look at how these abstract properties and methods are implemented by the Transceiver Toolbox and High-Speed Converter Toolbox system objects, we look at the </span><span style=' font-weight: bold;'>adi.common</span><span> interface layer in some more detail. As an exercise, running the </span><span style=' font-weight: bold;'>superclasses()</span><span> function with each of the classes available in adi.common package as the argument will reveal the superclasses of that class.</span></div></div>
 <br>
 <!-- 
 ##### SOURCE BEGIN #####
 %% For Developers
-% In order to better understand the internals of how ADI's transceiver and high-speed 
+% In order to better understand the internals of how ADI's transceiver and High-Speed 
 % Converter Toolbox system objects are implemented, it is also useful to understand 
-% the overall structure of MATLAB's libiio package and how ADI's _common_ interface 
-% layer serves as the shim layer on which both Transceiver Toolbox and High-Speed 
-% Converter Toolbox rely. 
+% the overall structure of MATLAB's libiio package and how *adi.common* serves 
+% as the interface layer on which both of these toolboxes rely. 
 %% matlabshared.libiio
 % First, let us take a look at the list of superclasses that the base class 
 % in MATLAB's libiio package inherits from. 
@@ -73,10 +81,10 @@ superclasses('matlabshared.libiio.base')
 %% 
 % As shown by the output displayed, the *matlabshared.libiio.base* is a child 
 % class of the remaining classes that get installed when MATLAB's Communications 
-% Support Toolbox for Xilinx Zynq Based Radios. Additionally, since this class 
-% is the parent class for the classes in the _common_ interface layer, we can 
-% also look at the abstract properties and methods that the child classes of *matlabshared.libiio.base* 
-% are expected to implement. 
+% Toolbox Support Package for Xilinx Zynq Based Radio. Additionally, since this 
+% class is the parent for the classes in the *adi.common* interface layer, we 
+% can also look at the abstract properties and methods that the child classes 
+% of *matlabshared.libiio.base* are expected to implement. 
 
 meta.abstractDetails('matlabshared.libiio.base')
 %% 
@@ -84,10 +92,21 @@ meta.abstractDetails('matlabshared.libiio.base')
 
 properties('adi.common.RxTx')
 %% 
-% we can notice that all the properties have been implemented by this class. 
-% Note however, that this class is still an abstract class which defines certain 
-% other properties which its child classes must implement. So, it cannot be instantiated. 
+% we can notice that all the properties have been inherited by this class. Note 
+% however that this class is still an abstract class which defines other abstract 
+% properties and methods which its child classes must implement. So, it cannot 
+% be instantiated as shown below. 
 
-c = adi.common.RxTx
+% c = adi.common.RxTx % produces an error
+%% 
+% These abstract properties and methods can be listed as follows:
+
+meta.abstractDetails('adi.common.RxTx')
+%% 
+% Before, we look at how these abstract properties and methods are implemented 
+% by the Transceiver Toolbox and High-Speed Converter Toolbox system objects, 
+% we look at the *adi.common* interface layer in some more detail. As an exercise, 
+% running the *superclasses()* function with each of the classes available in 
+% adi.common package as the argument will reveal the superclasses of that class.
 ##### SOURCE END #####
 --></body></html>
