@@ -15,9 +15,9 @@ stage("Build Toolbox") {
 		withEnv(['HDLBRANCH='+branchName]) {
 		    checkout scm
 		    sh 'git submodule update --init' 
-		    sh 'make -C ./CI/scripts build'
-		    sh 'make -C ./CI/scripts doc'
-		    sh 'make -C ./CI/scripts add_libad9361'
+		    //sh 'make -C ./CI/scripts build'
+		    //sh 'make -C ./CI/scripts doc'
+		    //sh 'make -C ./CI/scripts add_libad9361'
 		    sh 'make -C ./CI/scripts gen_tlbx'
 		}
         } catch(Exception ex) {
@@ -43,13 +43,13 @@ stage("HDL Tests") {
     dockerParallelBuild(boardNames, dockerHost, dockerConfig) { 
         branchName ->
         withEnv(['BOARD='+branchName]) {
-            stage("Source") {
+/*            stage("Source") {
                 unstash "builtSources"
                 sh 'make -C ./CI/scripts test'
                 junit testResults: 'test/*.xml', allowEmptyResults: true
                 archiveArtifacts artifacts: 'test/logs/*', followSymlinks: false, allowEmptyArchive: true
             }
-/*
+
             stage("Synth") {
                 unstash "builtSources"
                 sh 'make -C ./CI/scripts test_synth'

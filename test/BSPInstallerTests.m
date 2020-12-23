@@ -34,7 +34,16 @@ classdef BSPInstallerTests < BSPTestsBase
             end
             disp('BSP Installer tests setup called');
             disp(['Found: ',tbname]);
+	    disp('Call installToolbox')
+	    try
             obj.installed = matlab.addons.toolbox.installToolbox(tbname);
+            catch ME
+		    disp(ME)
+		    disp(ME.identifier)
+		    disp(ME.msg)
+		    rethrow(ME)
+            end
+	    disp('print installed variable');
             obj.installed
             disp("Installed");
         end
