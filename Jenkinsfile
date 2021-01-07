@@ -116,7 +116,7 @@ stage("Hardware Streaming Tests") {
 
 //////////////////////////////////////////////////////
 
-node('master') {
+node {
     stage('Deploy Development') {
         unstash "builtSources"
         uploadArtifactory('TransceiverToolbox','*.mltbx')
