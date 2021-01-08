@@ -19,6 +19,7 @@ end
 publish('SysObjsProps.m','outputDir','..\..\doc');
 publish('ADITTBHome.m','outputDir','..\..\doc');
 
+%{
 [filepath,name,ext] = fileparts(mfilename('fullpath'));
 cd(filepath);
 files = dir(filepath);
@@ -39,3 +40,4 @@ for f = {files.name}
         movefile(htmlFilename,target);
     end
 end
+%}

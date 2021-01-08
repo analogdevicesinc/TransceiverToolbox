@@ -1,3 +1,5 @@
+clear all;
+
 % Test Tx DMA data output
 amplitude = 2^15; frequency = 20e6;
 swv1 = dsp.SineWave(amplitude, frequency);

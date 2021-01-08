@@ -1,24 +1,30 @@
 clear all;
 
-amplitude = 2^15; frequency = 0.12e6;
+amplitude = 2^15; frequency = 20e6;
 swv1 = dsp.SineWave(amplitude, frequency);
 swv1.ComplexOutput = true;
-swv1.SamplesPerFrame = 1e4*10;
-swv1.SampleRate = 3e6;
-y = swv1();
+swv1.SamplesPerFrame = 2^20;
+swv1.SampleRate = 245.76e6;
+x = swv1();
 
-tx = adi.AD9361.Tx('uri','ip:analog');
+%% Tx set up
+tx = adi.ADRV9009.Tx('uri','ip:analog');
 tx.DataSource = 'DMA';
 tx.EnableCyclicBuffers = true;
 tx.AttenuationChannel0 = -10;
-tx(y);
-rx = adi.AD9361.Rx('uri','ip:analog');
+tx.EnableCustomProfile = true;
+tx.CustomProfileFileName = ...
+    'Tx_BW200_IR245p76_Rx_BW200_OR245p76_ORx_BW200_OR245p76_DC245p76.txt';
+tx(x);
+
+%% Rx set up
+rx = adi.ADRV9009.Rx('uri','ip:analog');
 rx.EnabledChannels = 1;
 rx.kernelBuffersCount = 1;
-for k=1:10
+for k=1:20
     valid = false;
     while ~valid
-        [out, valid] = rx();
+        [y, valid] = rx();
     end
 end
 

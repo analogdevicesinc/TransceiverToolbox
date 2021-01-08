@@ -7,7 +7,9 @@ swv1.SamplesPerFrame = 1e4*10;
 swv1.SampleRate = 1.92e6;
 x = swv1();
 
+%% Tx set up
 tx = adi.ADRV9002.Tx('uri','ip:analog');
+tx.CenterFrequencyChannel0 = 1e9;
 tx.DataSource = 'DMA';
 tx.EnableCyclicBuffers = true;
 tx.AttenuationChannel0 = -10;
@@ -16,9 +18,13 @@ tx.CustomProfileFileName = fullfile('../../test/adrv9002_profiles','lte_1_4_cmos
 tx.CustomStreamFileName = fullfile('../../test/adrv9002_profiles','lte_1_4_cmos_fdd_api_29_2_9.stream');
 tx(x);
 
+%% Rx set up
 rx = adi.ADRV9002.Rx('uri','ip:analog');
+rx.CenterFrequencyChannel0 = tx.CenterFrequencyChannel0;
 rx.EnabledChannels = 1;
 rx.kernelBuffersCount = 1;
+
+%% Run
 for k=1:10
     valid = false;
     while ~valid

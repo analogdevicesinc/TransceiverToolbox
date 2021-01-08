@@ -1,15 +1,19 @@
 clear all;
 
-tx = adi.Pluto.Tx;
-tx.uri = 'ip:pluto'; 
+%% Tx set up
+tx = adi.AD9361.Tx;
+tx.uri = 'ip:analog'; 
 tx.DataSource = 'DDS';
 tx.DDSFrequencies = [1e5 1e5; 0 0];
 tx.DDSPhases = [90e3 0; 0 0]; % expressed in millidegrees
 tx.DDSScales = [1 1; 0 0];
+tx.CenterFrequency = 1e9;
 tx();
 pause(1);
 
-rx = adi.Pluto.Rx('uri','ip:pluto');
+%% Rx set up
+rx = adi.AD9361.Rx('uri','ip:analog');
+rx.CenterFrequency = tx.CenterFrequency;
 y = rx();
 
 tx.release();

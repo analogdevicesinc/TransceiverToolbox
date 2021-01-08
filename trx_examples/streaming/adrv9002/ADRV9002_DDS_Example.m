@@ -1,5 +1,6 @@
 clear all;
 
+%% Tx set up
 tx = adi.ADRV9002.Tx('uri','ip:analog');
 tx.DataSource = 'DDS';
 toneFreq = 5e5;
@@ -8,9 +9,12 @@ tx.AttenuationChannel0 = -30;
 tx();
 pause(1);
 
+%% Rx set up
 rx = adi.ADRV9002.Rx('uri','ip:analog');
 rx.EnabledChannels = 1;
 rx.kernelBuffersCount = 1;
+
+%% Run
 for k=1:10
     valid = false;
     while ~valid
