@@ -1,7 +1,7 @@
 @Library('tfc-lib') _
 
-dockerConfig = getDockerConfig(['MATLAB','Vivado'])
-dockerConfig.add("-e MLRELEASE=R2020a")
+dockerConfig = getDockerConfig(['MATLAB','Vivado'], matlabHSPro=false)
+dockerConfig.add("-e MLRELEASE=R2020b")
 dockerHost = 'docker'
 
 ////////////////////////////
@@ -116,7 +116,7 @@ stage("Hardware Streaming Tests") {
 
 //////////////////////////////////////////////////////
 
-node('master') {
+node {
     stage('Deploy Development') {
         unstash "builtSources"
         uploadArtifactory('TransceiverToolbox','*.mltbx')

@@ -1,0 +1,842 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <link rel="stylesheet" href="https://localhost:31515/static/help/includes/product/css/helpwin.css"><script type="text/javascript" src="https://localhost:31515/static/help/includes/product/scripts/jquery/jquery-latest.js"></script><script type="text/javascript" src="https://localhost:31515/static/help/includes/shared/scripts/helpservices.js"></script><title>adi.AD9371.Tx - MATLAB File Help</title>
+   </head>
+   <body>
+      <!--Single-page help-->
+      <table border="0" cellspacing="0" width="100%">
+         <tr class="subheader">
+            <td class="headertitle">adi.AD9371.Tx - MATLAB File Help</td>
+            <td class="subheader-right"><a href="matlab:edit adi.AD9371.Tx">View code for adi.AD9371.Tx</a></td>
+         </tr>
+      </table>
+      <div class="title">adi.AD9371.Tx</div>
+      <div class="helptext"><pre><!--helptext -->  <span class="helptopic">adi.AD9371.Tx</span> Transmit data from the AD9371 transceiver
+    The <span class="helptopic">adi.AD9371.Tx</span> System object is a signal sink that can tranmsit
+    complex data from the AD9371.
+ 
+    tx = <span class="helptopic">adi.AD9371.Tx</span>;
+    tx = <span class="helptopic">adi.AD9371.Tx</span>('uri','192.168.2.1');
+ 
+    <a href="http://www.analog.com/media/en/technical-documentation/data-sheets/AD9371.pdf">AD9371 Datasheet</a></pre></div><!--after help -->
+      <!--Class-->
+      <div class="sectiontitle">Class Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Superclasses</td>
+            <td><a href="matlab:doc('adi.AD9371.Base')">adi.AD9371.Base</a>, <a href="matlab:doc('adi.common.Tx')">adi.common.Tx</a></td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Construct on load</td>
+            <td>false</td>
+         </tr>
+      </table>
+      <!--Constructors-->
+      <div class="sectiontitle"><a name="constructors"></a>Constructor Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.Tx')">Tx</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+      </table>
+      <!--Properties-->
+      <div class="sectiontitle"><a name="properties"></a>Property Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.AttenuationChannel0')">AttenuationChannel0</a></td>
+            <td class="m-help">Attenuation Channel 0&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.AttenuationChannel1')">AttenuationChannel1</a></td>
+            <td class="m-help">Attenuation Channel 1&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.CenterFrequency')">CenterFrequency</a></td>
+            <td class="m-help">Center Frequency&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.CustomProfileFileName')">CustomProfileFileName</a></td>
+            <td class="m-help">Custom Profile File Name&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.DDSFrequencies')">DDSFrequencies</a></td>
+            <td class="m-help">DDS Frequencies
+               Help for adi.AD9371.Tx/DDSFrequencies is inherited from superclass ADI.COMMON.DDS
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.DDSPhases')">DDSPhases</a></td>
+            <td class="m-help">DDS Phases
+               Help for adi.AD9371.Tx/DDSPhases is inherited from superclass ADI.COMMON.DDS
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.DDSScales')">DDSScales</a></td>
+            <td class="m-help">DDS Scales
+               Help for adi.AD9371.Tx/DDSScales is inherited from superclass ADI.COMMON.DDS
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.DataSource')">DataSource</a></td>
+            <td class="m-help">Data Source
+               Help for adi.AD9371.Tx/DataSource is inherited from superclass ADI.COMMON.DDS
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.EnableCustomProfile')">EnableCustomProfile</a></td>
+            <td class="m-help">Enable Custom Profile&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.EnableCyclicBuffers')">EnableCyclicBuffers</a></td>
+            <td class="m-help">Enable Cyclic Buffers
+               Help for adi.AD9371.Tx/EnableCyclicBuffers is inherited from superclass ADI.COMMON.DDS
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.EnabledChannels')">EnabledChannels</a></td>
+            <td class="m-help">Enabled Channels&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.SamplesPerFrame')">SamplesPerFrame</a></td>
+            <td class="m-help">Samples Per Frame&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.SysObjIsLocked')">SysObjIsLocked</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.buffersAvailable')">buffersAvailable</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.enIO')">enIO</a></td>
+            <td class="m-help">Enable simulation I/O
+               Help for adi.AD9371.Tx/enIO is inherited from superclass MATLABSHARED.LIBIIO.BASE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.uri')">uri</a></td>
+            <td class="m-help">remote host URI
+               Help for adi.AD9371.Tx/uri is inherited from superclass MATLABSHARED.LIBIIO.BASE
+               &nbsp;
+            </td>
+         </tr>
+      </table>
+      <!--Methods-->
+      <div class="sectiontitle"><a name="methods"></a>Method Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.addlistener')">addlistener</a></td>
+            <td class="m-help">Add listener for event.
+               Help for adi.AD9371.Tx/addlistener is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.allowModelReferenceDiscreteSampleTimeInheritanceImpl')">allowModelReferenceDiscreteSampleTimeInheritanceImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.clone')">clone</a></td>
+            <td class="m-help">Create System object with same property values&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.cloneImpl')">cloneImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.convertToTrueFalseStructPropertyGroups')">convertToTrueFalseStructPropertyGroups</a></td>
+            <td class="m-help">Convert PropertyGroups to True/False struct groups&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.createSampleTime')">createSampleTime</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.delete')">delete</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.displayEmptyObject')">displayEmptyObject</a></td>
+            <td class="m-help">Display for empty object arrays
+               Help for adi.AD9371.Tx/displayEmptyObject is inherited from superclass MATLAB.MIXIN.CUSTOMDISPLAY
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.displayNonScalarObject')">displayNonScalarObject</a></td>
+            <td class="m-help">Display format for non-scalar objects
+               Help for adi.AD9371.Tx/displayNonScalarObject is inherited from superclass MATLAB.MIXIN.CUSTOMDISPLAY
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.displayScalarHandleToDeletedObject')">displayScalarHandleToDeletedObject</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.displayScalarObject')">displayScalarObject</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.eq')">eq</a></td>
+            <td class="m-help">== (EQ)   Test handle equality.
+               Help for adi.AD9371.Tx/eq is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.findobj')">findobj</a></td>
+            <td class="m-help">Find objects matching specified conditions.
+               Help for adi.AD9371.Tx/findobj is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.findprop')">findprop</a></td>
+            <td class="m-help">Find property of MATLAB handle object.
+               Help for adi.AD9371.Tx/findprop is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.ge')">ge</a></td>
+            <td class="m-help">&gt;= (GE)   Greater than or equal relation for handles.
+               Help for adi.AD9371.Tx/ge is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.getContinuousStateSizeImpl')">getContinuousStateSizeImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.getDefaultCustomDisplayPropertyGroups')">getDefaultCustomDisplayPropertyGroups</a></td>
+            <td class="m-help">Collect and convert System object property groups&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.getDiscreteStateSpecificationImpl')">getDiscreteStateSpecificationImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.getExecutionSemanticsImpl')">getExecutionSemanticsImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.getFooter')">getFooter</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.getGlobalNamesImpl')">getGlobalNamesImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.getHeader')">getHeader</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.getInputDataTypeImpl')">getInputDataTypeImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.getInputMessagePortImpl')">getInputMessagePortImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.getInputNamesImpl')">getInputNamesImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.getMaskDisplayImpl')">getMaskDisplayImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.getNumOutputsImpl')">getNumOutputsImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.getOutputDataTypeImpl')">getOutputDataTypeImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.getOutputMessagePortImpl')">getOutputMessagePortImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.getOutputNamesImpl')">getOutputNamesImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.getOutputSizeImpl')">getOutputSizeImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.getPropertyGroups')">getPropertyGroups</a></td>
+            <td class="m-help">Construct an array of property groups
+               Help for adi.AD9371.Tx/getPropertyGroups is inherited from superclass MATLAB.MIXIN.CUSTOMDISPLAY
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.getPropertyGroupsLongImpl')">getPropertyGroupsLongImpl</a></td>
+            <td class="m-help">Get CustomDisplay property groups for long display&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.getSampleTimeImpl')">getSampleTimeImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.getSimulinkFunctionNamesImpl')">getSimulinkFunctionNamesImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.getTunablePropertiesSpecificationImpl')">getTunablePropertiesSpecificationImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.gt')">gt</a></td>
+            <td class="m-help">&gt; (GT)   Greater than relation for handles.
+               Help for adi.AD9371.Tx/gt is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.info')">info</a></td>
+            <td class="m-help">Characteristic information about System object&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.inputDimensionConstraint')">inputDimensionConstraint</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.isDiscreteStateSpecificationMutableImpl')">isDiscreteStateSpecificationMutableImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.isInputComplexityLockedImpl')">isInputComplexityLockedImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.isInputComplexityMutableImpl')">isInputComplexityMutableImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.isInputDataTypeMutableImpl')">isInputDataTypeMutableImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.isInputDirectFeedthroughImpl')">isInputDirectFeedthroughImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.isLocked')">isLocked</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.isOutputComplexImpl')">isOutputComplexImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.isOutputFixedSizeImpl')">isOutputFixedSizeImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.isTunablePropertyDataTypeMutableImpl')">isTunablePropertyDataTypeMutableImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.isvalid')">isvalid</a></td>
+            <td class="m-help">Test handle validity.
+               Help for adi.AD9371.Tx/isvalid is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.le')">le</a></td>
+            <td class="m-help">&lt;= (LE)   Less than or equal relation for handles.
+               Help for adi.AD9371.Tx/le is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.listener')">listener</a></td>
+            <td class="m-help">Add listener for event without binding the listener to the source object.
+               Help for adi.AD9371.Tx/listener is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.loadObjectImpl')">loadObjectImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.lt')">lt</a></td>
+            <td class="m-help">&lt; (LT)   Less than relation for handles.
+               Help for adi.AD9371.Tx/lt is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.ne')">ne</a></td>
+            <td class="m-help">~= (NE)   Not equal relation for handles.
+               Help for adi.AD9371.Tx/ne is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.notify')">notify</a></td>
+            <td class="m-help">Notify listeners of event.
+               Help for adi.AD9371.Tx/notify is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.outputDimensionConstraint')">outputDimensionConstraint</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.outputImpl')">outputImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.outputSizeNeedsInputSizeOnlyImpl')">outputSizeNeedsInputSizeOnlyImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.processInputSizeChangeImpl')">processInputSizeChangeImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.processInputSpecificationChangeImpl')">processInputSpecificationChangeImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.processTunedPropertiesImpl')">processTunedPropertiesImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.propagatedInputBusStructure')">propagatedInputBusStructure</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.propagatedInputComplexity')">propagatedInputComplexity</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.propagatedInputDataType')">propagatedInputDataType</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.propagatedInputFixedSize')">propagatedInputFixedSize</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.propagatedInputSize')">propagatedInputSize</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.propagatedOutputComplexity')">propagatedOutputComplexity</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.propagatedOutputDataType')">propagatedOutputDataType</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.propagatedOutputFixedSize')">propagatedOutputFixedSize</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.propagatedOutputSize')">propagatedOutputSize</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.release')">release</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.removeInactivePropertiesFromPropertyGroups')">removeInactivePropertiesFromPropertyGroups</a></td>
+            <td class="m-help">Filter property groups through isInactiveProperty&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.resetImpl')">resetImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.saveObjectImpl')">saveObjectImpl</a></td>
+            <td class="m-help">Default definition of the saveObjectImpl method&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.step')">step</a></td>
+            <td class="m-help">Process inputs using the object algorithm&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.strictDefaultConstraintsImpl')">strictDefaultConstraintsImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.supportsMultipleInstanceImpl')">supportsMultipleInstanceImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.updateImpl')">updateImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.validateInputsImpl')">validateInputsImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.validatePropertiesImpl')">validatePropertiesImpl</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+      </table>
+      <!--Events-->
+      <div class="sectiontitle"><a name="events"></a>Event Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:doc('adi.AD9371.Tx.ObjectBeingDestroyed')">ObjectBeingDestroyed</a></td>
+            <td class="m-help">Notifies listeners that a particular object has been destroyed.
+               Help for adi.AD9371.Tx/ObjectBeingDestroyed is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+      </table>
+   </body>
+</html>

@@ -2,10 +2,14 @@
 <toc>
    <tocitem target="adi_bsp.html">Analog Devices, Inc Transceiver Toolbox
       <!--<tocitem target="Blocks.html">Blocks</tocitem>-->
-      <tocitem target="SystemObjects.html">System Objects</tocitem>
-      <tocitem target="Buffers.html">Data Buffers</tocitem>
+      <!--<tocitem target="SystemObjects.html">System Objects</tocitem>-->
+      <!--<tocitem target="Buffers.html">Data Buffers</tocitem>-->
       <tocitem target="SupportedHardware.html">Supported Hardware</tocitem>
+      <tocitem target="SysObjsProps.html">System Object Properties</tocitem>
+      <tocitem target="CodeExamples.html">Code Examples</tocitem>
+      <tocitem target="StateMgmt.html">State Management</tocitem>
       <tocitem target="Examples.html">Examples</tocitem>
       <tocitem target="Support.html">Support</tocitem>
+      <tocitem target="ForDevs.html">For Developers</tocitem>
    </tocitem>
 </toc>
