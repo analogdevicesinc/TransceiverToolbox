@@ -169,7 +169,13 @@ classdef (Abstract, Hidden = true) Base < ...
     
     %% API Functions
     methods (Hidden, Access = protected)
-                      
+        
+        function r = checkIfDevExists(obj,name)
+            devPtr = iio_context_find_device(obj, obj.iioCtx, name);
+            status = cPtrCheck(obj,devPtr);
+            r = status==0;
+        end
+        
         function icon = getIconImpl(obj)
             icon = sprintf(['ADRV9002 ',obj.Type]);
         end
