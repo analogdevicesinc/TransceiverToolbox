@@ -246,11 +246,11 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
     
     properties(Nontunable, Hidden, Constant)
         Type = 'Rx';
-        channel_names = {'voltage0_i','voltage0_q','voltage1_i','voltage1_q'};
     end
     
     properties (Nontunable, Hidden)
         devName = 'axi-adrv9002-rx-lpc';
+        channel_names = {'voltage0_i','voltage0_q','voltage1_i','voltage1_q'};
     end
     
     methods
@@ -515,6 +515,29 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
             % Do writes directly to hardware without using set methods.
             % This is required sine Simulink support doesn't support
             % modification to nontunable variables at SetupImpl
+            
+            % Handle split vs MIMO buffer case
+            if obj.checkIfDevExists('axi-adrv9002-rx2-lpc')
+                % This naming is a bit strange due to the internal indexing
+                % but duplicated channel names make it work
+                obj.channel_names = ...
+                    {'voltage0_i','voltage0_q',...
+                    'voltage0_i','voltage0_q'};
+                % Update
+                if numel(obj.EnabledChannels)>1
+                    error(['Driver is in split DMA mode (two separate DMAs axi-adrv9002-rx-lpc and axi-adrv9002-rx2-lpc)',newline,...
+                        'Only available options for EnabledChannels are:',newline,...
+                        '    [1],[2]']);
+                end
+                if any(obj.EnabledChannels==2)
+                    obj.devName = 'axi-adrv9002-rx2-lpc';
+                end
+            else
+                obj.channel_names = ...
+                    {'voltage0_i','voltage0_q','voltage1_i','voltage1_q'};
+            end
+            
+            
             if obj.EnableCustomProfile
                 writeProfileFile(obj);
             end

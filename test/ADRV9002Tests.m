@@ -22,6 +22,12 @@ classdef ADRV9002Tests < HardwareTests
     end
     
     methods(TestClassSetup)
+        function UpdateURIFromEnv(testCase)
+            urienv = getenv('IIO_URI');
+            if ~isempty(urienv)
+                testCase.uri = urienv;
+            end
+        end
         % Check hardware connected
         function CheckForHardware(testCase)
             Device = @()adi.ADRV9002.Rx;
