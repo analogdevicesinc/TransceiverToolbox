@@ -12,6 +12,7 @@ for ii = 1:numel(parts)
             htmlfilename = strcat(docdir, parts{ii}, '_', trx_files{jj}, '.html');
             html = customDoc(dotmfilename);
             dlmwrite(htmlfilename, html, 'delimiter', '');
+            use_local_css(htmlfilename)
             disp(htmlfilename);
         end
     end
@@ -19,6 +20,7 @@ end
 publish('SysObjsProps.m','outputDir','..\..\doc');
 publish('ADITTBHome.m','outputDir','..\..\doc');
 
+%{
 [filepath,name,ext] = fileparts(mfilename('fullpath'));
 cd(filepath);
 files = dir(filepath);
@@ -39,3 +41,4 @@ for f = {files.name}
         movefile(htmlFilename,target);
     end
 end
+%}

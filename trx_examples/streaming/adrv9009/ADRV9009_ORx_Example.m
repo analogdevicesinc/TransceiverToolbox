@@ -1,26 +1,28 @@
+clear all;
+
 % Test Tx DMA data output
 amplitude = 2^15; frequency = 20e6;
 swv1 = dsp.SineWave(amplitude, frequency);
 swv1.ComplexOutput = true;
 swv1.SamplesPerFrame = 2^20;
-swv1.SampleRate = 100e6;
+swv1.SampleRate = 200e6;
 y = swv1();
 
 uri = 'ip:analog';
 fc = 1e9;
 
 %% Tx set up
-tx = adi.AD9371.Tx('uri',uri);
+tx = adi.ADRV9009.Tx('uri',uri);
 tx.CenterFrequency = fc;
 tx.EnableCustomProfile = true;
-tx.CustomProfileFileName = 'profile_TxBW100_ORxBW100_RxBW100.txt';
+tx.CustomProfileFileName = 'Tx_BW200_IR245p76_Rx_BW100_OR122p88_ORx_BW200_OR245p76_DC245p76.txt';
 tx.DataSource = 'DMA';
 tx.EnableCyclicBuffers = true;
 tx.AttenuationChannel0 = -10;
 tx(y);
 
 %% Rx set up
-rx = adi.AD9371.Rx('uri',uri);
+rx = adi.ADRV9009.ORx('uri',uri);
 rx.CenterFrequency = fc;
 
 %% Run

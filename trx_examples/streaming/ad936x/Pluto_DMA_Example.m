@@ -1,28 +1,31 @@
 clear all;
 
-amplitude = 2^15; frequency = 20e6;
+amplitude = 2^15; frequency = 0.12e6;
 swv1 = dsp.SineWave(amplitude, frequency);
 swv1.ComplexOutput = true;
-swv1.SamplesPerFrame = 2^20;
-swv1.SampleRate = 245.76e6;
-x = swv1();
+swv1.SamplesPerFrame = 1e4*10;
+swv1.SampleRate = 3e6;
+y = swv1();
 
-tx = adi.ADRV9009.Tx('uri','ip:analog');
+%% Tx set up
+tx = adi.Pluto.Tx('uri','ip:Pluto');
+tx.CenterFrequency = 1e9;
 tx.DataSource = 'DMA';
 tx.EnableCyclicBuffers = true;
 tx.AttenuationChannel0 = -10;
-tx.EnableCustomProfile = true;
-tx.CustomProfileFileName = ...
-    '../../test/Tx_BW200_IR245p76_Rx_BW200_OR245p76_ORx_BW200_OR245p76_DC245p76.txt';
-tx(x);
+tx(y);
 
-rx = adi.ADRV9009.Rx('uri','ip:analog');
+%% Rx set up
+rx = adi.Pluto.Rx('uri','ip:Pluto');
+rx.CenterFrequency = tx.CenterFrequency;
 rx.EnabledChannels = 1;
 rx.kernelBuffersCount = 1;
-for k=1:20
+
+%% Run
+for k=1:10
     valid = false;
     while ~valid
-        [y, valid] = rx();
+        [out, valid] = rx();
     end
 end
 

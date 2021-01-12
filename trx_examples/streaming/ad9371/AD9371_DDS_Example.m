@@ -1,5 +1,6 @@
 clear all;
 
+%% Tx set up
 tx = adi.AD9371.Tx('uri','ip:analog');
 tx.DataSource = 'DDS';
 toneFreq = 30e6;
@@ -15,6 +16,7 @@ tx.CustomProfileFileName = ...
 tx();
 pause(1);
 
+%% Rx set up
 rx = adi.AD9371.Rx('uri','ip:analog');
 rx.EnabledChannels = 1;
 rx.kernelBuffersCount = 1;

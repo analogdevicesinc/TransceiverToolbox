@@ -7,21 +7,27 @@ swv1.SamplesPerFrame = 1e4*10;
 swv1.SampleRate = 3e6;
 y = swv1();
 
-tx = adi.Pluto.Tx('uri','ip:Pluto');
+%% Tx set up
+tx = adi.AD9361.Tx('uri','ip:analog');
+tx.CenterFrequency = 1e9;
 tx.DataSource = 'DMA';
 tx.EnableCyclicBuffers = true;
 tx.AttenuationChannel0 = -10;
 tx(y);
-rx = adi.Pluto.Rx('uri','ip:Pluto');
+
+%% Rx set up
+rx = adi.AD9361.Rx('uri','ip:analog');
+rx.CenterFrequency = tx.CenterFrequency;
 rx.EnabledChannels = 1;
 rx.kernelBuffersCount = 1;
+
+%% Run
 for k=1:10
     valid = false;
     while ~valid
         [out, valid] = rx();
     end
 end
-
 tx.release();
 rx.release();
 
