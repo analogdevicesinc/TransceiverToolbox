@@ -115,6 +115,9 @@ gen_tlbx:
 linter:
 	${MLPATH}/$(MLRELEASE)/bin/matlab $(MLFLAGS) -r "linter;exit();"
 
+formatter:
+	bash formatter.sh MLPATH=${MLPATH} MLRELEASE=$(MLRELEASE)
+
 doc:
 	${MLPATH}/$(MLRELEASE)/bin/matlab $(MLFLAGS) -r "cd('../doc');genhtml();exit();"
 

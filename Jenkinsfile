@@ -36,6 +36,20 @@ stage("Build Toolbox") {
 
 /////////////////////////////////////////////////////
 
+formatters = ['formatter']
+
+stage("Code Lint Check") {
+    dockerParallelBuild(formatters, dockerHost, dockerConfig) { 
+        branchName ->
+        withEnv(['TOOL='+branchName]) {
+            unstash "builtSources"
+            sh 'make -C ./CI/scripts ${TOOL}'
+        }
+    }
+}
+
+//////////////////////////////////////////////////////
+
 boardNames = ['zed','zc702','zc706','zcu102','adrv9361','adrv9364']
 dockerConfig.add("-e HDLBRANCH=hdl_2018_r2")
 
