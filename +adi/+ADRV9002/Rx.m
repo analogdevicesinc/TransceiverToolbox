@@ -563,10 +563,10 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
             obj.setAttributeRAW('voltage0','port_en_mode',obj.ENSMPortModeChannel0,false);
             obj.setAttributeRAW('voltage1','port_en_mode',obj.ENSMPortModeChannel0,false);
             
-            if contains(obj.DigitalGainControlModeChannel0,'Manual')
+            if ~contains(obj.GainControllerSourceChannel0,'automatic')
                 obj.setAttributeLongLong('voltage0','hardwaregain',obj.AttenuationChannel0,false);
             end
-            if contains(obj.DigitalGainControlModeChannel1,'Manual')
+            if ~contains(obj.GainControllerSourceChannel1,'automatic')
                 obj.setAttributeLongLong('voltage1','hardwaregain',obj.AttenuationChannel1,false);
             end
 
