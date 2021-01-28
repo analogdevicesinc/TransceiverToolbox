@@ -26,9 +26,13 @@ hRD.addParameter( ...
 
 % Get the root directories
 rootDirExample = fileparts(strtok(mfilename('fullpath'), '+'));
-tmp = strsplit(rootDirExample,'/');
+tmp = strsplit(rootDirExample,filesep);
 
-rootDir = fullfile('/',tmp{1:end-3});
+if isunix
+    rootDir = fullfile(filesep,tmp{1:end-3});
+else
+    rootDir = fullfile(tmp{1:end-3});
+end
 rootDirBSP = fullfile('hdl','vendor','AnalogDevices','vivado');
 
 % Design files are shared
