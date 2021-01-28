@@ -170,6 +170,34 @@ classdef (Abstract, Hidden = true) Base < ...
     %% API Functions
     methods (Hidden, Access = protected)
         
+        function lowerDDSs(obj,singleDDS)
+            % Since calibrations are sensitive, DDSs need to be powered
+            % down anytime a profile is loaded
+            
+            dev = getDev(obj,'axi-adrv9002-tx-lpc');
+            if singleDDS
+                numChannels = 8;
+            else
+                numChannels = 4;
+            end
+            
+            for channel=0:numChannels-1
+                id = sprintf('altvoltage%d',channel);
+                chanPtr = getChan(obj, dev,id,true);
+                iio_channel_attr_write_double(obj,chanPtr,'scale',0);
+            end
+            
+            if ~singleDDS
+                dev = getDev(obj, 'axi-adrv9002-tx2-lpc');
+                for channel=0:numChannels-1
+                    id = sprintf('altvoltage%d',channel);
+                    chanPtr = getChan(obj, dev,id,true);
+                    iio_channel_attr_write_double(obj,chanPtr,'scale',0);
+                end
+            end
+            
+        end
+        
         function r = checkIfDevExists(obj,name)
             devPtr = iio_context_find_device(obj, obj.iioCtx, name);
             status = cPtrCheck(obj,devPtr);
@@ -236,6 +264,9 @@ classdef (Abstract, Hidden = true) Base < ...
             
             assert(~isempty(obj.CustomStreamFileName),'A custom stream file must be defined for custom profiles');
             assert(~isempty(obj.CustomProfileFileName),'A custom profile file must be defined for custom profiles');
+            
+            
+            obj.lowerDDSs(strcmpi(obj.channel_names(3),'voltage1_i'));
             
             % Wrap update in read writes since once profiles are loaded
             % some attributes get lost

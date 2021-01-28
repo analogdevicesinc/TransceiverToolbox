@@ -563,10 +563,10 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
             obj.setAttributeRAW('voltage0','port_en_mode',obj.ENSMPortModeChannel0,false);
             obj.setAttributeRAW('voltage1','port_en_mode',obj.ENSMPortModeChannel0,false);
             
-            if contains(obj.DigitalGainControlModeChannel0,'Manual')
+            if ~contains(obj.GainControllerSourceChannel0,'automatic')
                 obj.setAttributeLongLong('voltage0','hardwaregain',obj.AttenuationChannel0,false);
             end
-            if contains(obj.DigitalGainControlModeChannel1,'Manual')
+            if ~contains(obj.GainControllerSourceChannel1,'automatic')
                 obj.setAttributeLongLong('voltage1','hardwaregain',obj.AttenuationChannel1,false);
             end
 
@@ -574,26 +574,68 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
             obj.setAttributeLongLong('altvoltage1','RX2_LO_frequency',obj.CenterFrequencyChannel1 ,true);
             
             % Calibrations
-            obj.setAttributeBool('voltage0','agc_tracking_en',obj.AGCTrackingChannel0,false);
-            obj.setAttributeBool('voltage1','agc_tracking_en',obj.AGCTrackingChannel1,false);
+            agc_tracking_en_voltage0_state = obj.getAttributeBool('voltage0','agc_tracking_en',false);
+            if (agc_tracking_en_voltage0_state ~= obj.AGCTrackingChannel0)
+                obj.setAttributeBool('voltage0','agc_tracking_en',obj.AGCTrackingChannel0,false);
+            end
+            agc_tracking_en_voltage1_state = obj.getAttributeBool('voltage1','agc_tracking_en',false);
+            if (agc_tracking_en_voltage1_state ~= obj.AGCTrackingChannel1)
+                obj.setAttributeBool('voltage1','agc_tracking_en',obj.AGCTrackingChannel1,false);
+            end
 
-            obj.setAttributeBool('voltage0','bbdc_rejection_tracking_en',obj.BBDCRejectionTrackingChannel0,false);
-            obj.setAttributeBool('voltage1','bbdc_rejection_tracking_en',obj.BBDCRejectionTrackingChannel1,false);
+            bbdc_rejection_tracking_en_voltage0_state = obj.getAttributeBool('voltage0','bbdc_rejection_tracking_en',false);
+            if (bbdc_rejection_tracking_en_voltage0_state ~= obj.BBDCRejectionTrackingChannel0)
+                obj.setAttributeBool('voltage0','bbdc_rejection_tracking_en',obj.BBDCRejectionTrackingChannel0,false);
+            end
+            bbdc_rejection_tracking_en_voltage1_state = obj.getAttributeBool('voltage1','bbdc_rejection_tracking_en',false);
+            if (bbdc_rejection_tracking_en_voltage1_state ~= obj.BBDCRejectionTrackingChannel1)
+                obj.setAttributeBool('voltage1','bbdc_rejection_tracking_en',obj.BBDCRejectionTrackingChannel1,false);
+            end
 
-            obj.setAttributeBool('voltage0','hd_tracking_en',obj.HDTrackingChannel0,false);
-            obj.setAttributeBool('voltage1','hd_tracking_en',obj.HDTrackingChannel1,false);
+            hd_tracking_en_voltage0_state = obj.getAttributeBool('voltage0','hd_tracking_en',false);
+            if (hd_tracking_en_voltage0_state ~= obj.HDTrackingChannel0)
+                obj.setAttributeBool('voltage0','hd_tracking_en',obj.HDTrackingChannel0,false);
+            end
+            hd_tracking_en_voltage1_state = obj.getAttributeBool('voltage1','hd_tracking_en',false);
+            if (hd_tracking_en_voltage1_state ~= obj.HDTrackingChannel1)
+                obj.setAttributeBool('voltage1','hd_tracking_en',obj.HDTrackingChannel1,false);
+            end
 
-            obj.setAttributeBool('voltage0','quadrature_fic_tracking_en',obj.QuadratureFICTrackingChannel0,false);
-            obj.setAttributeBool('voltage1','quadrature_fic_tracking_en',obj.QuadratureFICTrackingChannel1,false);
+            quadrature_fic_tracking_en_voltage0_state = obj.getAttributeBool('voltage0','quadrature_fic_tracking_en',false);
+            if (quadrature_fic_tracking_en_voltage0_state ~= obj.QuadratureFICTrackingChannel0)
+                obj.setAttributeBool('voltage0','quadrature_fic_tracking_en',obj.QuadratureFICTrackingChannel0,false);
+            end
+            quadrature_fic_tracking_en_voltage1_state = obj.getAttributeBool('voltage1','quadrature_fic_tracking_en',false);
+            if (quadrature_fic_tracking_en_voltage1_state ~= obj.QuadratureFICTrackingChannel1)
+                obj.setAttributeBool('voltage1','quadrature_fic_tracking_en',obj.QuadratureFICTrackingChannel1,false);
+            end
 
-            obj.setAttributeBool('voltage0','quadrature_w_poly_tracking_en',obj.QuadratureWidebandPolyTrackingChannel0,false);
-            obj.setAttributeBool('voltage1','quadrature_w_poly_tracking_en',obj.QuadratureWidebandPolyTrackingChannel1,false);
+            quadrature_w_poly_tracking_en_voltage0_state = obj.getAttributeBool('voltage0','quadrature_w_poly_tracking_en',false);
+            if (quadrature_w_poly_tracking_en_voltage0_state ~= obj.QuadratureWidebandPolyTrackingChannel0)
+                obj.setAttributeBool('voltage0','quadrature_w_poly_tracking_en',obj.QuadratureWidebandPolyTrackingChannel0,false);
+            end
+            quadrature_w_poly_tracking_en_voltage1_state = obj.getAttributeBool('voltage1','quadrature_w_poly_tracking_en',false);
+            if (quadrature_w_poly_tracking_en_voltage1_state ~= obj.QuadratureWidebandPolyTrackingChannel1)
+                obj.setAttributeBool('voltage1','quadrature_w_poly_tracking_en',obj.QuadratureWidebandPolyTrackingChannel1,false);
+            end
 
-            obj.setAttributeBool('voltage0','rfdc_tracking_en',obj.RFDCTrackingChannel0,false);
-            obj.setAttributeBool('voltage1','rfdc_tracking_en',obj.RFDCTrackingChannel1,false);
+            rfdc_tracking_en_voltage0_state = obj.getAttributeBool('voltage0','rfdc_tracking_en',false);
+            if (rfdc_tracking_en_voltage0_state ~= obj.RFDCTrackingChannel0)
+                obj.setAttributeBool('voltage0','rfdc_tracking_en',obj.RFDCTrackingChannel0,false);
+            end
+            rfdc_tracking_en_voltage1_state = obj.getAttributeBool('voltage1','rfdc_tracking_en',false);
+            if (rfdc_tracking_en_voltage1_state ~= obj.RFDCTrackingChannel1)
+                obj.setAttributeBool('voltage1','rfdc_tracking_en',obj.RFDCTrackingChannel1,false);
+            end
             
-            obj.setAttributeBool('voltage0','rssi_tracking_en',obj.RSSITrackingChannel0,false);
-            obj.setAttributeBool('voltage1','rssi_tracking_en',obj.RSSITrackingChannel1,false);
+            rssi_tracking_en_voltage0_state = obj.getAttributeBool('voltage0','rssi_tracking_en',false);
+            if (rssi_tracking_en_voltage0_state ~= obj.RSSITrackingChannel0)
+                obj.setAttributeBool('voltage0','rssi_tracking_en',obj.RSSITrackingChannel0,false);
+            end
+            rssi_tracking_en_voltage1_state = obj.getAttributeBool('voltage1','rssi_tracking_en',false);
+            if (rssi_tracking_en_voltage1_state ~= obj.RSSITrackingChannel1)
+                obj.setAttributeBool('voltage1','rssi_tracking_en',obj.RSSITrackingChannel1,false);
+            end
             
         end
         
