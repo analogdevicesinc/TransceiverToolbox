@@ -4,7 +4,7 @@ if nargin==0
     examples = 0;
 end
 
-version = '20.1.2';
+version = '20.2.1';
 ml = ver('MATLAB');
 ml = ml.Release(2:end-1);
 uuid = matlab.lang.internal.uuid;
