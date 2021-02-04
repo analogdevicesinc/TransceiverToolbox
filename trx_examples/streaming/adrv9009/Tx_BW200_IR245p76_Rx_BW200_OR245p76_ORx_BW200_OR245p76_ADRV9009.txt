@@ -1,12 +1,11 @@
-<profile Talise version=1 name=Tx_BW200_IR245p76_Rx_BW200_OR245p76_ORx_BW200_OR245p76_ADRV9009>
+<profile Talise version=1 name=Tx_BW200_IR245p76_Rx_BW200_OR245p76_ORx_BW200_OR245p76_DC245p76>
  <clocks>
-  <deviceClock_kHz=65536>
+  <deviceClock_kHz=245760>
   <clkPllVcoFreq_kHz=9830400>
   <clkPllHsDiv=2.5>
  </clocks>
 
  <rx name=Rx 200.00MHz, OutputRate 245.76MHz, TotalDecimation 8>
-  <rxChannels=TAL_RX1RX2>
   <rxFirDecimation=2>
   <rxDec5Decimation=4>
   <rhb1Decimation=1>
@@ -124,7 +123,6 @@
  </rx>
 
  <obsRx name=Rx 200.00MHz, OutputRate 245.76MHz, TotalDecimation 8>
-  <obsRxChannelsEnable=TAL_ORX1ORX2>
   <enAdcStitching=0>
   <rxFirDecimation=2>
   <rxDec5Decimation=4>
@@ -382,7 +380,6 @@
  </lpbk>
 
  <tx name=Tx 200.00MHz, InputRate 245.76MHz, TotalInterpolation 8>
-  <txChannels=TAL_TX1TX2>
   <dacDiv=1>
   <txFirInterpolation=1>
   <thb1Interpolation=2>
