@@ -168,13 +168,6 @@ classdef Tx < adi.ADRV9009ZU11EG.Base & adi.ADRV9009.Tx
     end
     
     methods (Access=protected)
-        function setupImpl(obj,data)
-            if strcmp(obj.DataSource,'DMA')
-                obj.SamplesPerFrame = size(data,1);
-            end
-            % Call the superclass method
-            setupImpl@matlabshared.libiio.base(obj);
-        end
 
         % Hide unused parameters when in specific modes
         function flag = isInactivePropertyImpl(obj, prop)
