@@ -9,6 +9,7 @@ classdef HardwareTests < matlab.unittest.TestCase
         function UpdateURIFromEnv(testCase)
             urienv = getenv('IIO_URI');
             if ~isempty(urienv)
+                fprintf('Overriding default URI with: %s\n',urienv);
                 testCase.uri = urienv;
             end
         end
