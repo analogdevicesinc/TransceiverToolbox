@@ -41,7 +41,6 @@ classdef (Abstract) LTETests < matlab.unittest.TestCase & ...
                 here = fullfile(filesep,here{1:end-1});
             end
             testCase.root = here;
-            addpath(genpath(fullfile(here,'hdl')));
         end
     end
     
