@@ -1,10 +1,13 @@
 import matlab.unittest.TestSuite
 import matlab.unittest.TestRunner
-suite = TestSuite.fromClass(?PlutoLTETests);
+import matlab.unittest.plugins.XMLPlugin
+
+at = {'Pluto_LTETests', 'ADIRFSOM_LTETests'};
+suite = testsuite(at);
+xmlFile = 'LTETestResults.xml';
 runner = TestRunner.withTextOutput('LoggingLevel',4);
 runner.addPlugin(details_recording_plugin);
+plugin = XMLPlugin.producingJUnitFormat(xmlFile);    
+runner.addPlugin(plugin);
 results = runner.run(suite);
-
-% for i = 1:numel(results)
-%     results(1).Details
-% end
+exit(any([results.Failed]));

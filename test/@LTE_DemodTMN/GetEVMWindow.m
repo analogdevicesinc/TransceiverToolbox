@@ -1,4 +1,4 @@
-function W = getEVMWindow(enb)
+function W = GetEVMWindow(enb)
             
     % Numbers of downlink resource blocks
     nrbs = [6 15 25 50 75 100];

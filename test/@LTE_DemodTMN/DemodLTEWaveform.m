@@ -1,4 +1,4 @@
-function logEVM = demodLTEWaveform(eNodeBInput, etm)
+function logEVM = DemodLTEWaveform(eNodeBInput, etm)
     [dataRx, FreqOffset, frameOffset] = ...
            LTE_DemodTMN.CorrectFreqFrameOffset(eNodeBInput, etm);
        %{

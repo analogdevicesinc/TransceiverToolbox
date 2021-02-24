@@ -56,7 +56,7 @@ function [FreqOffset, IQOffset, refGrid, rxGridLow, rxGridHigh, ...
     samplesPerSubframe = dims.SamplingRate/1000;
     nSubframes = floor(size(rxWaveform, 1)/samplesPerSubframe);
     nFrames = floor(nSubframes/10);
-    W = LTE_DemodTMN.getEVMWindow(enb);
+    W = LTE_DemodTMN.GetEVMWindow(enb);
     if (mod(W,2)==0)
         alpha = 0;
     else
@@ -116,7 +116,7 @@ function [FreqOffset, IQOffset, refGrid, rxGridLow, rxGridHigh, ...
         % Additional CRS-based frequency offset estimation and correction        
         if (alg.CorrectFreqOffsetCellRS)
             rxGrid = lteOFDMDemodulate(enb, rxSubframeFreqCorrected);                       
-            delta_f_tilde_crs = LTE_DemodTMN.frequencyOffsetCellRS(...
+            delta_f_tilde_crs = LTE_DemodTMN.FrequencyOffsetCellRS(...
                 setfield(enb,'NSubframe',mod(i+startSubframe,10)), cec, rxGrid); %#ok<*SFLD>
             rxSubframeFreqCorrected = lteFrequencyCorrect( ...
                 enb, rxSubframeFreqCorrected, delta_f_tilde_crs);        

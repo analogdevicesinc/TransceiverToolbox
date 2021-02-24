@@ -1,4 +1,5 @@
-classdef (Abstract) LTETests < matlab.unittest.TestCase & LTE_DemodTMN
+classdef (Abstract) LTETests < matlab.unittest.TestCase & ...
+        LTE_DemodTMN & HardwareTests
     properties (TestParameter)
         TMNs = {'3.1','3.1a','3.1b','3.2','3.3'};
         BWs = {'5MHz','10MHz','15MHz','20MHz'};        
@@ -22,13 +23,25 @@ classdef (Abstract) LTETests < matlab.unittest.TestCase & LTE_DemodTMN
     end
     
     properties (Access = protected)
+        root
+    end
+    
+    properties (Access = protected)
         ETM
         EVMData
     end
     
-    methods (TestClassSetup)
-        function set_path(testCase)
-            addpath('../../test');
+    methods(TestClassSetup)
+        function addpaths(testCase)
+            here = mfilename('fullpath');
+            here = strsplit(here,filesep);
+            if ispc
+                here = fullfile(here{1:end-1});
+            else
+                here = fullfile(filesep,here{1:end-1});
+            end
+            testCase.root = here;
+            addpath(genpath(fullfile(here,'hdl')));
         end
     end
     
@@ -55,15 +68,15 @@ classdef (Abstract) LTETests < matlab.unittest.TestCase & LTE_DemodTMN
     end
     
     methods (Access = protected)
-        function GenLTEWfAndTransmit(testCase)
+        function Gen_LTE_TMN_Wf_And_Transmit(testCase)
             % generate LTE waveform
-            [dataOutput, testCase.ETM] = LTE_DemodTMN.genLTEWaveform(testCase.TMN, testCase.BW);
+            [dataOutput, testCase.ETM] = LTE_DemodTMN.GenLTEWaveform(testCase.TMN, testCase.BW);
             
             % transmit data
             testCase.Tx(dataOutput);
         end
         
-        function ReceiveLTEWfAndDemod(testCase)
+        function Receive_LTE_TMN_Wf_And_Demod(testCase)
             % receive data
             for k=1:20
                 len = 0;
@@ -74,7 +87,7 @@ classdef (Abstract) LTETests < matlab.unittest.TestCase & LTE_DemodTMN
             dataInput = double(dataInput);   
             
             % demodulate received LTE waveform
-            testCase.EVMData = LTE_DemodTMN.demodLTEWaveform(dataInput, testCase.ETM);
+            testCase.EVMData = LTE_DemodTMN.DemodLTEWaveform(dataInput, testCase.ETM);
         end
         
         function ValidateEVM(testCase)
@@ -95,10 +108,10 @@ classdef (Abstract) LTETests < matlab.unittest.TestCase & LTE_DemodTMN
             testCase.ConfigHW();
             
             % transmit waveform
-            testCase.GenLTEWfAndTransmit();
+            testCase.Gen_LTE_TMN_Wf_And_Transmit();
             
             % receive waveform and demodulate
-            testCase.ReceiveLTEWfAndDemod();            
+            testCase.Receive_LTE_TMN_Wf_And_Demod();            
             
             % validate and record log data
             testCase.ValidateEVM();
