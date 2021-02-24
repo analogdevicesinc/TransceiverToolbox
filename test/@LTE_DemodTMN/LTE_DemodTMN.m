@@ -1,13 +1,13 @@
 classdef LTE_DemodTMN < handle
     methods (Static, Access = private)
         % static, private methods in separate files
-        foffset = frequencyOffsetCellRS(enb, cec, rxgrid)
-        W = getEVMWindow(enb)
+        foffset = FrequencyOffsetCellRS(enb, cec, rxgrid)
+        W = GetEVMWindow(enb)
     end
     
     methods (Static)
-        [eNodeBOutput, etm] = genLTEWaveform(TMN, BW)
-        logEVM = demodLTEWaveform(eNodeBInput, etm)
+        [eNodeBOutput, etm] = GenLTEWaveform(TMN, BW)
+        logEVM = DemodLTEWaveform(eNodeBInput, etm)
         [FreqOffset, IQOffset, refGrid, rxGridLow, rxGridHigh, ...
             rxWaveform, nSubframes, nFrames, alg, frameEVM] = ...
             Sync(enb, cec, rxWaveform)

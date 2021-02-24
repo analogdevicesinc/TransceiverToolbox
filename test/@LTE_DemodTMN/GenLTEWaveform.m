@@ -1,4 +1,4 @@
-function [eNodeBOutput, etm] = genLTEWaveform(TMN, BW)
+function [eNodeBOutput, etm] = GenLTEWaveform(TMN, BW)
     [eNodeBOutput, etm] = LTE_DemodTMN.Tx(TMN, BW);
     
     % scale the signal and cast to int16

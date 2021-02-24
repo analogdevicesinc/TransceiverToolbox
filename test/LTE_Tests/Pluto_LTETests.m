@@ -1,6 +1,11 @@
-classdef PlutoLTETests < LTETests
+classdef Pluto_LTETests < LTETests
     properties (TestParameter)
         LOFreqs = num2cell(325e6:100e6:3800e6);           
+    end
+    
+    properties
+        uri = 'ip:pluto';
+        author = 'ADI';
     end
     
     properties (Access = protected)
@@ -27,7 +32,7 @@ classdef PlutoLTETests < LTETests
         function ConfigHW(testCase)
             % tx setup
             testCase.Tx = adi.Pluto.Tx;
-            testCase.Tx.uri = 'ip:pluto.local';
+            testCase.Tx.uri = testCase.uri;
             testCase.Tx.CenterFrequency = testCase.LOFreq;
             testCase.Tx.AttenuationChannel0 = testCase.TestSettings.TxGain;
             testCase.Tx.EnableCyclicBuffers = true;
@@ -35,7 +40,7 @@ classdef PlutoLTETests < LTETests
             
             % rx setup
             testCase.Rx = adi.Pluto.Rx;
-            testCase.Rx.uri = 'ip:pluto.local';
+            testCase.Rx.uri = testCase.uri;
             testCase.Rx.CenterFrequency = testCase.LOFreq;
             testCase.Rx.EnableCustomFilter = true;
             testCase.Rx.GainControlModeChannel0 = ...
@@ -47,21 +52,22 @@ classdef PlutoLTETests < LTETests
             % configure custom filter settings
             switch (testCase.BW)
                 case '5MHz'
-                    testCase.Tx.CustomFilterFileName = './ad936x_filters/LTE5_MHz.ftr';
-                    testCase.Rx.CustomFilterFileName = './ad936x_filters/LTE5_MHz.ftr';
+                    testCase.Tx.CustomFilterFileName = ...
+                        fullfile(testCase.root, '\ad936x_filters\LTE5_MHz.ftr');
                 case '10MHz'
-                    testCase.Tx.CustomFilterFileName = './ad936x_filters/LTE10_MHz.ftr';
-                    testCase.Rx.CustomFilterFileName = './ad936x_filters/LTE10_MHz.ftr';
+                    testCase.Tx.CustomFilterFileName = ...
+                        fullfile(testCase.root, '\ad936x_filters\LTE10_MHz.ftr');
                 case '15MHz'
-                    testCase.Tx.CustomFilterFileName = './ad936x_filters/LTE15_MHz.ftr';
-                    testCase.Rx.CustomFilterFileName = './ad936x_filters/LTE15_MHz.ftr';
+                    testCase.Tx.CustomFilterFileName = ...
+                        fullfile(testCase.root, '\ad936x_filters\LTE15_MHz.ftr');
                 case '20MHz'
-                    testCase.Tx.CustomFilterFileName = './ad936x_filters/LTE20_MHz.ftr';
-                    testCase.Rx.CustomFilterFileName = './ad936x_filters/LTE20_MHz.ftr';
+                    testCase.Tx.CustomFilterFileName = ...
+                        fullfile(testCase.root, '\ad936x_filters\LTE20_MHz.ftr');
                 otherwise
                     st = dbstack;
                     error('unsupported BW option in LTE test harness - %s\n', testCase.BW);
             end
+            testCase.Rx.CustomFilterFileName = testCase.Tx.CustomFilterFileName;
         end
     end
     
