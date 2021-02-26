@@ -1,6 +1,6 @@
 classdef Pluto_LTETests < LTETests
     properties (TestParameter)
-        LOFreqs = {2400e6};%num2cell(325e6:100e6:3800e6);           
+        LOFreqs = num2cell(325e6:100e6:3800e6);           
     end
     
     properties
@@ -57,20 +57,16 @@ classdef Pluto_LTETests < LTETests
             switch (testCase.BW)
                 case '5MHz'
                     testCase.Tx.CustomFilterFileName = ...
-                        fullfile(testCase.root, filesep, ...
-                        testCase.filters_dir, filesep, 'LTE5_MHz.ftr');
+                        fullfile(testCase.root, testCase.filters_dir, 'LTE5_MHz.ftr');
                 case '10MHz'
                     testCase.Tx.CustomFilterFileName = ...
-                        fullfile(testCase.root, filesep, ...
-                        testCase.filters_dir, filesep, 'LTE10_MHz.ftr');
+                        fullfile(testCase.root, testCase.filters_dir, 'LTE10_MHz.ftr');
                 case '15MHz'
                     testCase.Tx.CustomFilterFileName = ...
-                        fullfile(testCase.root, filesep, ...
-                        testCase.filters_dir, filesep, 'LTE15_MHz.ftr');
+                        fullfile(testCase.root, testCase.filters_dir, 'LTE15_MHz.ftr');
                 case '20MHz'
                     testCase.Tx.CustomFilterFileName = ...
-                        fullfile(testCase.root, filesep, ...
-                        testCase.filters_dir, filesep, 'LTE20_MHz.ftr');
+                        fullfile(testCase.root, testCase.filters_dir, 'LTE20_MHz.ftr');
                 otherwise
                     st = dbstack;
                     error('unsupported BW option in LTE test harness - %s\n', testCase.BW);
