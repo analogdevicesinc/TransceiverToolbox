@@ -5,6 +5,16 @@ classdef HardwareTests < matlab.unittest.TestCase
         uri
     end
     
+    methods(TestClassSetup)
+        function UpdateURIFromEnv(testCase)
+            urienv = getenv('IIO_URI');
+            if ~isempty(urienv)
+                fprintf('Overriding default URI with: %s\n',urienv);
+                testCase.uri = urienv;
+            end
+        end
+    end
+    
     methods
         % Check hardware connected
         function CheckDevice(testCase,type,Dev,ip,istx)
