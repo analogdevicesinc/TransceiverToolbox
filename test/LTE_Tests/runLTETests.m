@@ -68,7 +68,7 @@ function results = runLTETests(BoardName, LOStepSize)
     try
         log_lte_evm_test(results);
     catch
-        error('cannot find telemetry');
+        warning('telemetry not found');
     end
     
     if ~usejava('desktop')
