@@ -116,9 +116,7 @@ function [EqGridStruct, EVMStruct, evm, allocatedSymbols, rxSymbols, refSymbols,
 
             % Compute and display EVM for this subframe.
             evm(e, i+1) = lteEVM(rxSymbols, refSymbols);
-            app.Label.Text = sprintf('%s edge EVM, subframe %d: %0.3f%%\n', ...
-                edge, enb.NSubframe, evm(e, i+1).RMS*100);
-
+            
             [bchBits, pbchSymbols, nfmod4, mib, enb.CellRefP] = ltePBCHDecode(enb, pbchRx);
             if ~isempty(pbchSymbols)
                 evm_pbch = lteEVM(pbchSymbols, ref_PBCH_Symbols);
