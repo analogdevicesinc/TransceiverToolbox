@@ -31,7 +31,7 @@ classdef (Abstract) LTETests < matlab.unittest.TestCase & ...
         EVMData
     end
     
-    methods(TestClassSetup)
+    methods (TestClassSetup)
         function addpaths(testCase)
             here = mfilename('fullpath');
             here = strsplit(here,filesep);
@@ -102,9 +102,9 @@ classdef (Abstract) LTETests < matlab.unittest.TestCase & ...
             testCase.assertThat(testCase.EVMData.evmRMSCh.PDSCH, IsLessThan(5), 'evmPDSCH');
         end
         
-        function RunTest(testCase)
+        function RunTest(testCase, TxClass, RxClass)
             % configure hardware
-            testCase.ConfigHW();
+            testCase.ConfigHW(TxClass, RxClass);
             
             % transmit waveform
             testCase.Gen_LTE_TMN_Wf_And_Transmit();
@@ -114,6 +114,10 @@ classdef (Abstract) LTETests < matlab.unittest.TestCase & ...
             
             % validate and record log data
             testCase.ValidateEVM();
+            
+            % release Tx and Rx system objects            
+            release(testCase.Tx);
+            release(testCase.Rx);
         end
     end
 end
