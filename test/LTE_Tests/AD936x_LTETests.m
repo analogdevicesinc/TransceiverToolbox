@@ -1,6 +1,8 @@
-classdef ADIRFSOM_LTETests < LTETests
+classdef AD936x_LTETests < LTETests
     properties (TestParameter)
-        LOFreqs = num2cell(70e6:100e6:6000e6);
+        AD936xClassTx = {adi.AD9361.Tx};
+        AD936xClassRx = {adi.AD9361.Rx};
+        LOFreqs = {2400e6};
     end
     
     properties
@@ -31,20 +33,18 @@ classdef ADIRFSOM_LTETests < LTETests
             'Backoff', -3, ...
             'RxGainMode', 'slow_attack')
     end
-        
+    
     methods(Access = protected)
-        function ConfigHW(testCase)
+        function ConfigHW(testCase, TxClass, RxClass)
             % tx setup
-            testCase.Tx = adi.AD9361.Tx;
-            testCase.Tx.uri = testCase.uri;
+            testCase.Tx = TxClass;
             testCase.Tx.CenterFrequency = testCase.LOFreq;
             testCase.Tx.AttenuationChannel0 = testCase.TestSettings.TxGain;
             testCase.Tx.EnableCyclicBuffers = true;
             testCase.Tx.EnableCustomFilter = true;
             
             % rx setup
-            testCase.Rx = adi.AD9361.Rx;
-            testCase.Rx.uri = testCase.uri;
+            testCase.Rx = RxClass;
             testCase.Rx.CenterFrequency = testCase.LOFreq;
             testCase.Rx.EnableCustomFilter = true;
             testCase.Rx.GainControlModeChannel0 = ...
@@ -76,13 +76,14 @@ classdef ADIRFSOM_LTETests < LTETests
     end
     
     methods(Test)
-        function TestAcrossLOFreqsTMNsBWs(testCase, LOFreqs, TMNs, BWs)            
+        function TestAcrossLOFreqsTMNsBWs(testCase, AD936xClassTx, ...
+                AD936xClassRx, LOFreqs, TMNs, BWs)            
             % run test
             testCase.ClassName = class(testCase);
             testCase.LOFreq = LOFreqs;
             testCase.TMN = TMNs;
             testCase.BW = BWs;
-            testCase.RunTest();
+            testCase.RunTest(AD936xClassTx, AD936xClassRx);
         end
     end
 end

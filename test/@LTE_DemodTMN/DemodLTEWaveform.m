@@ -28,9 +28,7 @@ function logEVM = DemodLTEWaveform(eNodeBInput, etm)
     gridDims = lteResourceGridSize(etm);
     L = gridDims(2);
     count = 1;
-    fprintf('\n');
     for i=0:nSubframes-1
-        fprintf('*');
         % fprintf('Processing Subframe #%d\n', i);        
 
         [EqGridStruct, EVMStruct, evm, allocatedSymbols, rxSymbols, ...
