@@ -44,6 +44,14 @@ classdef (Abstract) LTETests < matlab.unittest.TestCase & ...
         end
     end
     
+    methods (TestMethodTeardown)
+        function releaseHW(testCase)
+            % release Tx and Rx system objects
+            release(testCase.Tx);
+            release(testCase.Rx);
+        end
+    end
+
     methods (Static, Access = protected)
         function SamplesPerFrame = setRxSamplesPerFrame(BW)
             switch (BW)
@@ -114,10 +122,6 @@ classdef (Abstract) LTETests < matlab.unittest.TestCase & ...
             
             % validate and record log data
             testCase.ValidateEVM();
-            
-            % release Tx and Rx system objects            
-            release(testCase.Tx);
-            release(testCase.Rx);
         end
     end
 end
