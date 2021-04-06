@@ -76,6 +76,16 @@ classdef AD936x_LTETests < LTETests
     end
     
     methods(Test)
+        function CheckForHardware(testCase, AD936xClassTx, ...
+                AD936xClassRx)
+            % tx and rx setup
+            testCase.Tx = AD936xClassTx;
+            testCase.Rx = AD936xClassRx;
+            
+            dev = @()testCase.Rx;
+            testCase.CheckDevice('ip', dev, testCase.Rx.uri(4:end), false);
+        end
+        
         function TestAcrossLOFreqsTMNsBWs(testCase, AD936xClassTx, ...
                 AD936xClassRx, LOFreqs, TMNs, BWs)            
             % run test
