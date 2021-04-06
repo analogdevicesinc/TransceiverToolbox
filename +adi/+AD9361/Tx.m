@@ -85,7 +85,7 @@ classdef Tx < adi.AD9361.Base & adi.common.Tx
             obj.AttenuationChannel0 = value;
             if obj.ConnectedToDevice
                 id = 'voltage0';
-                obj.setAttributeLongLong(id,'hardwaregain',value,true);
+                obj.setAttributeDouble(id,'hardwaregain',value,true);
             end
         end
         % Check Attentuation
@@ -97,7 +97,7 @@ classdef Tx < adi.AD9361.Base & adi.common.Tx
             obj.AttenuationChannel1 = value;
             if obj.ConnectedToDevice
                 id = 'voltage1';
-                obj.setAttributeLongLong(id,'hardwaregain',value,true);
+                obj.setAttributeDouble(id,'hardwaregain',value,true);
             end
         end
         % Check CenterFrequency
@@ -182,9 +182,9 @@ classdef Tx < adi.AD9361.Base & adi.common.Tx
                 writeFilterFile(obj);
             end
             
-            obj.setAttributeLongLong('voltage0','hardwaregain',obj.AttenuationChannel0,true);
+            obj.setAttributeDouble('voltage0','hardwaregain',obj.AttenuationChannel0,true);
             if obj.channelCount>2
-                obj.setAttributeLongLong('voltage1','hardwaregain',obj.AttenuationChannel1,true);
+                obj.setAttributeDouble('voltage1','hardwaregain',obj.AttenuationChannel1,true);
             end
             obj.ToggleDDS(strcmp(obj.DataSource,'DDS'));
             if strcmp(obj.DataSource,'DDS')
