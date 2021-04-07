@@ -1,7 +1,5 @@
 classdef AD936x_LTETests < LTETests
     properties (TestParameter)
-        AD936xClassTx = {adi.AD9361.Tx};
-        AD936xClassRx = {adi.AD9361.Rx};
         LOFreqs = {2400e6};
     end
     
@@ -16,7 +14,7 @@ classdef AD936x_LTETests < LTETests
     end
     
     properties
-        ClassName
+        DeviceName
         LOFreq
         TMN
         BW
@@ -34,17 +32,38 @@ classdef AD936x_LTETests < LTETests
             'RxGainMode', 'slow_attack')
     end
     
+    properties (ClassSetupParameter)
+        AD936xDevice = {'AD9361'};
+    end
+    
+    methods (TestClassSetup)
+        function CheckForHardware(testCase, AD936xDevice)
+            if isempty(getenv('IIO_URI')) && strcmp(AD936xDevice, 'Pluto')
+                testCase.uri = 'ip:pluto';
+            end
+            % check tx
+            dev = @()adi.(genvarname(AD936xDevice)).Tx;
+            testCase.CheckDevice('ip', dev, testCase.uri(4:end), true);
+            % check rx
+            dev = @()adi.(genvarname(AD936xDevice)).Rx;
+            testCase.CheckDevice('ip', dev, testCase.uri(4:end), false);
+            
+            testCase.DeviceName = AD936xDevice;
+        end
+    end
+    
     methods(Access = protected)
-        function ConfigHW(testCase, TxClass, RxClass)
+        function ConfigHW(testCase)
             % tx setup
-            testCase.Tx = TxClass;
+            testCase.Tx = adi.(genvarname(testCase.DeviceName)).Tx;
             testCase.Tx.CenterFrequency = testCase.LOFreq;
             testCase.Tx.AttenuationChannel0 = testCase.TestSettings.TxGain;
             testCase.Tx.EnableCyclicBuffers = true;
             testCase.Tx.EnableCustomFilter = true;
+            testCase.Tx.uri = testCase.uri;
             
             % rx setup
-            testCase.Rx = RxClass;
+            testCase.Rx = adi.(genvarname(testCase.DeviceName)).Rx;
             testCase.Rx.CenterFrequency = testCase.LOFreq;
             testCase.Rx.EnableCustomFilter = true;
             testCase.Rx.GainControlModeChannel0 = ...
@@ -72,28 +91,17 @@ classdef AD936x_LTETests < LTETests
                     error('unsupported BW option in LTE test harness - %s\n', testCase.BW);
             end
             testCase.Rx.CustomFilterFileName = testCase.Tx.CustomFilterFileName;
+            testCase.Rx.uri = testCase.Tx.uri;
         end
     end
     
     methods(Test)
-        function CheckForHardware(testCase, AD936xClassTx, ...
-                AD936xClassRx)
-            % tx and rx setup
-            testCase.Tx = AD936xClassTx;
-            testCase.Rx = AD936xClassRx;
-            
-            dev = @()testCase.Rx;
-            testCase.CheckDevice('ip', dev, testCase.Rx.uri(4:end), false);
-        end
-        
-        function TestAcrossLOFreqsTMNsBWs(testCase, AD936xClassTx, ...
-                AD936xClassRx, LOFreqs, TMNs, BWs)            
+        function TestAcrossLOFreqsTMNsBWs(testCase, LOFreqs, TMNs, BWs)
             % run test
-            testCase.ClassName = class(testCase);
             testCase.LOFreq = LOFreqs;
             testCase.TMN = TMNs;
             testCase.BW = BWs;
-            testCase.RunTest(AD936xClassTx, AD936xClassRx);
+            testCase.RunTest();
         end
     end
 end

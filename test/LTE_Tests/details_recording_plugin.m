@@ -2,7 +2,7 @@ classdef details_recording_plugin < matlab.unittest.plugins.TestRunnerPlugin
     properties (Constant,Access = private)
         TxAttnField = 'TxAttn';
         RxGainControlModeField = 'RxGainControlMode';
-        ClassNameField = 'ClassName';
+        DeviceNameField = 'DeviceName';
         LOFreqField = 'LOFreq';
         TMNField = 'TMN';
         BWField = 'BW';
@@ -19,7 +19,7 @@ classdef details_recording_plugin < matlab.unittest.plugins.TestRunnerPlugin
     methods (Access = protected)
         function runSession(plugin,pluginData)
             resultDetails = pluginData.ResultDetails;
-            resultDetails.append(plugin.ClassNameField,{})
+            resultDetails.append(plugin.DeviceNameField,{})
             resultDetails.append(plugin.LOFreqField,{})
             resultDetails.append(plugin.evmPBCHField,{})
             resultDetails.append(plugin.evmPCFICHField,{})
@@ -68,7 +68,7 @@ classdef details_recording_plugin < matlab.unittest.plugins.TestRunnerPlugin
     methods (Access = private)
         function reactToAssertion(plugin,evd,resultDetails)
             if strcmp(evd.TestDiagnostic, 'evmPBCH')
-                resultDetails.append(plugin.ClassNameField,{evd.Source.ClassName})
+                resultDetails.append(plugin.DeviceNameField,{evd.Source.DeviceName})
                 resultDetails.append(plugin.TxAttnField,{evd.Source.TestSettings.TxGain})
                 resultDetails.append(plugin.RxGainControlModeField,{evd.Source.TestSettings.RxGainMode})
                 resultDetails.append(plugin.LOFreqField,{evd.Source.LOFreq})
