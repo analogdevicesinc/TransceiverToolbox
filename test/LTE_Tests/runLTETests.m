@@ -14,12 +14,7 @@ function results = runLTETests(BoardName, LOStepSize)
     
     switch BoardName
         case "pluto"
-            Tx = adi.Pluto.Tx;
-            Tx.uri = 'ip:pluto';
-            Rx = adi.Pluto.Rx;
-            Rx.uri = 'ip:pluto';
-            AD936xClassTx = {Tx};
-            AD936xClassRx = {Rx};
+            device = {'Pluto'};
             LOFreqs = num2cell(325e6:LOStepSize:3800e6);
         case {"zynq-adrv9361-z7035-bob-cmos", ...
                 "socfpga_cyclone5_sockit_arradio", ...
@@ -30,12 +25,7 @@ function results = runLTETests(BoardName, LOStepSize)
                 "zynq-adrv9361-z7035-fmc", ...
                 "zynq-adrv9361-z7035-box", ...
                 "zynq-adrv9361-z7035-bob"}
-            Tx = adi.AD9361.Tx;
-            Tx.uri = 'ip:analog';
-            Rx = adi.AD9361.Rx;
-            Rx.uri = 'ip:analog';
-            AD936xClassTx = {Tx};
-            AD936xClassRx = {Rx};
+            device = {'AD9361'};
             LOFreqs = num2cell(70e6:LOStepSize:6000e6);
         case {"zynq-zc702-adv7511-ad9364-fmcomms4", ...
                 "zynq-zc706-adv7511-ad9364-fmcomms4", ...
@@ -44,21 +34,16 @@ function results = runLTETests(BoardName, LOStepSize)
                 "zynq-adrv9364-z7020-bob", ...
                 "zynq-adrv9364-z7020-bob-cmos", ...
                 "zynq-zed-adv7511-ad9364-fmcomms4"}
-            Tx = adi.AD9364.Tx;
-            Tx.uri = 'ip:analog';
-            Rx = adi.AD9364.Rx;
-            Rx.uri = 'ip:analog';
-            AD936xClassTx = {Tx};
-            AD936xClassRx = {Rx};
+            device = {'AD9364'};
             LOFreqs = num2cell(70e6:LOStepSize:6000e6);
         otherwise
             error('%s unsupported for LTE test harness', BoardName);
     end
-    params = Parameter.fromData('AD936xClassTx',AD936xClassTx, ...
-        'AD936xClassRx',AD936xClassRx, ...
-        'LOFreqs', LOFreqs);
-    suite = TestSuite.fromClass(?AD936x_LTETests, ...
-        'ExternalParameters', params);
+    
+    % run parameterized LTE tests
+    params = Parameter.fromData('AD936xDevice', device, 'LOFreqs', LOFreqs);
+    suite = TestSuite.fromClass(?AD936x_LTETests, 'ExternalParameters', params);
+
     xmlFile = 'LTETestResults.xml';
     runner = TestRunner.withTextOutput('LoggingLevel',4);
     runner.addPlugin(details_recording_plugin);

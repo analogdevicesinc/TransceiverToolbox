@@ -15,7 +15,7 @@ classdef (Abstract) LTETests < matlab.unittest.TestCase & ...
     end
     
     properties (Abstract) % demodulation-related
-        ClassName
+        DeviceName
         LOFreq
         TMN
         BW
@@ -110,9 +110,9 @@ classdef (Abstract) LTETests < matlab.unittest.TestCase & ...
             testCase.assertThat(testCase.EVMData.evmRMSCh.PDSCH, IsLessThan(5), 'evmPDSCH');
         end
         
-        function RunTest(testCase, TxClass, RxClass)
+        function RunTest(testCase)
             % configure hardware
-            testCase.ConfigHW(TxClass, RxClass);
+            testCase.ConfigHW();
             
             % transmit waveform
             testCase.Gen_LTE_TMN_Wf_And_Transmit();
