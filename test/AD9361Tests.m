@@ -7,7 +7,7 @@ classdef AD9361Tests < HardwareTests
 
     properties (TestParameter)
         attribute_single_value = {
-                % object, property, valtype, id, isOutput, attribute, start, stop, step, tol, repeats: 20 100 20 100 20 20 20
+                % object, property, valtype, id, isOutput, attribute, start, stop, step, tol, repeats
                 {'rx', 'SamplingRate', 'LongLong', 'voltage1', false, 'sampling_frequency', 2.084e6, 61.44e6, 10e3, 4, 20};
                 {'rx', 'CenterFrequency', 'LongLong', 'altvoltage0', true, 'frequency', 70e6, 6e9, 1e6, 4, 100};
                 {'rx', 'RFBandwidth', 'LongLong', 'voltage0', false, 'rf_bandwidth', 200e3, 56e6, 10e3, 30, 20};
@@ -47,7 +47,6 @@ classdef AD9361Tests < HardwareTests
         end
     end
 
-    % methods (Test, ParameterCombination='sequential')
     methods (Test)
     
         function testAD9361AttributeSingleValue(testCase,attribute_single_value)
@@ -125,7 +124,7 @@ classdef AD9361Tests < HardwareTests
                     ret_val = obj.getAttributeRAW(id,attr,isOutput);
                 end
                 if ~strcmp(property(1:end-1),'GainControlModeChannel')
-                    obj.release(); %Releasing here will not work for GainControlMode
+                    obj.release(); %FIXME: Releasing here will not work for GainControlMode
                 end
                 testCase.verifyTrue(strcmp(string(ret_val),string(option(ii))),...
                     sprintf('%s.%s: Cannot set channel attribute to %s.', (object), (property), string(option(ii))))
