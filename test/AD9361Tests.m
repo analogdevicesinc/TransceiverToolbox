@@ -1,7 +1,7 @@
 classdef AD9361Tests < HardwareTests
     
     properties
-        uri = 'ip:localhost';
+        uri = 'ip:analog';
         author = 'ADI';
     end
 
