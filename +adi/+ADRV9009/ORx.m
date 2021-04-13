@@ -29,6 +29,15 @@ classdef ORx < adi.ADRV9009.Base & adi.common.Rx
         EnableQuadratureTracking = true;
     end
     
+    properties(Logical)
+        %PowerdownChannel0 Powerdown Channel 0
+        %   Logical which will power down RX channel 0 when set
+        PowerdownChannel0 = false;
+        %PowerdownChannel1 Powerdown Channel 1
+        %   Logical which will power down RX channel 1 when set
+        PowerdownChannel1 = false;
+    end
+    
     properties
         %LOSourceSelect LO Source Select
         %    'OBS_TX_LO' – ORx operates in observation mode on ORx1 with
@@ -87,6 +96,24 @@ classdef ORx < adi.ADRV9009.Base & adi.common.Rx
                 obj.setAttributeBool('voltage2','quadrature_tracking_en',value,false);
             end
         end
+        
+        % Check PowerdownChannel0
+        function set.PowerdownChannel0(obj, value)
+            obj.PowerdownChannel0 = value;
+            if obj.ConnectedToDevice
+                id = 'voltage2';
+                obj.setAttributeBool(id,'powerdown',value,false);
+            end
+        end
+        % Check PowerdownChannel1
+        function set.PowerdownChannel1(obj, value)
+            obj.PowerdownChannel1 = value;
+            if obj.ConnectedToDevice
+                id = 'voltage3';
+                obj.setAttributeBool(id,'powerdown',value,false);
+            end
+        end
+        
     end
     
     methods (Access=protected)
@@ -134,6 +161,10 @@ classdef ORx < adi.ADRV9009.Base & adi.common.Rx
             obj.setAttributeLongLong('altvoltage0','frequency',obj.CenterFrequency,true);            
             obj.setAttributeRAW('voltage2','rf_port_select',obj.LOSourceSelect,false);
             obj.setAttributeLongLong('voltage2','hardwaregain',obj.Gain,false);
+            
+            % Bring stuff back up as desired
+            obj.setAttributeBool('voltage2','powerdown',obj.PowerdownChannel0,false);
+            obj.setAttributeBool('voltage3','powerdown',obj.PowerdownChannel1,false);
                         
         end
         

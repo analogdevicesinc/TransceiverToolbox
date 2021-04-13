@@ -163,8 +163,6 @@ classdef Rx < adi.ADRV9009.Base & adi.common.Rx
                 obj.setAttributeBool(id,'hd2_tracking_en',value,false);
             end
         end
-        
-        
         % Check PowerdownChannel0
         function set.PowerdownChannel0(obj, value)
             obj.PowerdownChannel0 = value;
