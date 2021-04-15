@@ -41,11 +41,11 @@ classdef (Abstract, Hidden = true) Base < ...
         %CenterFrequencyChannel0 Center Frequency Channel0
         %   RF center frequency, specified in Hz as a scalar. The
         %   default is 2.4e9.  This property is tunable.
-        CenterFrequencyChannel0 = 2.4e9;
+        CenterFrequencyChannel0 = 2.6e9;
         %CenterFrequencyChannel1 Center Frequency Channel 1
         %   RF center frequency, specified in Hz as a scalar. The
         %   default is 2.4e9.  This property is tunable.
-        CenterFrequencyChannel1 = 2.4e9;
+        CenterFrequencyChannel1 = 2.6e9;
         
         %NCOCorrectionFrequencyChannel0 NCO Correction Frequency Channel 0
         %   NCO correction frequency, specified in Hz as a scalar. The
