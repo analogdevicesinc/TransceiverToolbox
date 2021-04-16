@@ -32,7 +32,6 @@ classdef ADRV9002_LTETests < LTETests
         function CheckForHardware(testCase, ADRV9002Device)
             % check tx
             dev = @()adi.(genvarname(ADRV9002Device)).Tx;
-            testCase.uri = 'ip:192.168.100.2';
             testCase.CheckDevice('ip', dev, testCase.uri(4:end), true);
             % check rx
             dev = @()adi.(genvarname(ADRV9002Device)).Rx;
