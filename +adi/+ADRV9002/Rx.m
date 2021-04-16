@@ -537,6 +537,8 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
                     {'voltage0_i','voltage0_q','voltage1_i','voltage1_q'};
             end
             
+            obj.setAttributeRAW('voltage0','ensm_mode','calibrated',false);
+            obj.setAttributeRAW('voltage0','ensm_mode','rf_enabled',false);
             
 %             if obj.EnableCustomProfile
 %                 writeProfileFile(obj);
