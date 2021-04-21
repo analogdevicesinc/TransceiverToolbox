@@ -286,10 +286,10 @@ classdef Rx < adi.AD9361.Base & adi.AD9361.TuneAGC & ...
                 obj.setAttributeRAW('voltage1','gain_control_mode',obj.GainControlModeChannel1,false);
             end
             if strcmp(obj.GainControlModeChannel0,'manual')
-                obj.setAttributeLongLong('voltage0','hardwaregain',obj.GainChannel0,false);
+                obj.setAttributeDouble('voltage0','hardwaregain',obj.GainChannel0,false);
             end
             if strcmp(obj.GainControlModeChannel1,'manual') && (obj.channelCount>2)
-                obj.setAttributeLongLong('voltage1','hardwaregain',obj.GainChannel1,false);
+                obj.setAttributeDouble('voltage1','hardwaregain',obj.GainChannel1,false);
             end
             % Trackings
             obj.setAttributeBool('voltage0','quadrature_tracking_en',obj.EnableQuadratureTracking,false);

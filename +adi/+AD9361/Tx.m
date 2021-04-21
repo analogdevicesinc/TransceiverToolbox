@@ -182,9 +182,9 @@ classdef Tx < adi.AD9361.Base & adi.common.Tx
                 writeFilterFile(obj);
             end
             
-            obj.setAttributeLongLong('voltage0','hardwaregain',obj.AttenuationChannel0,true);
+            obj.setAttributeDouble('voltage0','hardwaregain',obj.AttenuationChannel0,true);
             if obj.channelCount>2
-                obj.setAttributeLongLong('voltage1','hardwaregain',obj.AttenuationChannel1,true);
+                obj.setAttributeDouble('voltage1','hardwaregain',obj.AttenuationChannel1,true);
             end
             obj.ToggleDDS(strcmp(obj.DataSource,'DDS'));
             if strcmp(obj.DataSource,'DDS')
