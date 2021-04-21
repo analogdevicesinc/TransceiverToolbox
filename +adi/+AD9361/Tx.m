@@ -85,7 +85,7 @@ classdef Tx < adi.AD9361.Base & adi.common.Tx
             obj.AttenuationChannel0 = value;
             if obj.ConnectedToDevice
                 id = 'voltage0';
-                obj.setAttributeLongLong(id,'hardwaregain',value,true);
+                obj.setAttributeDouble(id,'hardwaregain',value,true);
             end
         end
         % Check Attentuation
@@ -97,7 +97,7 @@ classdef Tx < adi.AD9361.Base & adi.common.Tx
             obj.AttenuationChannel1 = value;
             if obj.ConnectedToDevice
                 id = 'voltage1';
-                obj.setAttributeLongLong(id,'hardwaregain',value,true);
+                obj.setAttributeDouble(id,'hardwaregain',value,true);
             end
         end
         % Check CenterFrequency
@@ -108,7 +108,7 @@ classdef Tx < adi.AD9361.Base & adi.common.Tx
                     '', 'CenterFrequency');
             else
                 validateattributes( value, { 'double','single' }, ...
-                    { 'real', 'positive','scalar', 'finite', 'nonnan', 'nonempty','integer','>=',70e6,'<=',6e9}, ...
+                    { 'real', 'positive','scalar', 'finite', 'nonnan', 'nonempty','integer','>=',47e6,'<=',6e9}, ...
                     '', 'CenterFrequency');
             end
             obj.CenterFrequency = value;
@@ -125,7 +125,7 @@ classdef Tx < adi.AD9361.Base & adi.common.Tx
                     '', 'RFBandwidth');
             else
                 validateattributes( value, { 'double','single' }, ...
-                    { 'real', 'positive','scalar', 'finite', 'nonnan', 'nonempty','integer','>=',200e3,'<=',40e6}, ...
+                    { 'real', 'positive','scalar', 'finite', 'nonnan', 'nonempty','integer','>=',200e3,'<=',56e6}, ...
                     '', 'RFBandwidth');
                 
             end
