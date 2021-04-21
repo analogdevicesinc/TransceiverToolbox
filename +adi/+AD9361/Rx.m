@@ -163,7 +163,7 @@ classdef Rx < adi.AD9361.Base & adi.AD9361.TuneAGC & ...
             obj.GainChannel0 = value;
             if obj.ConnectedToDevice && strcmp(obj.GainControlModeChannel0,'manual') %#ok<MCSUP>
                 id = 'voltage0';
-                obj.setAttributeLongLong(id,'hardwaregain',value,false);
+                obj.setAttributeDouble(id,'hardwaregain',value,false);
             end
         end
         % Check GainChannel1
@@ -175,7 +175,7 @@ classdef Rx < adi.AD9361.Base & adi.AD9361.TuneAGC & ...
             obj.GainChannel1 = value;
             if obj.ConnectedToDevice && strcmp(obj.GainControlModeChannel1,'manual') %#ok<MCSUP>
                 id = 'voltage1';
-                obj.setAttributeLongLong(id,'hardwaregain',value,false);
+                obj.setAttributeDouble(id,'hardwaregain',value,false);
             end
         end
         % Check EnableQuadratureTracking
