@@ -11,6 +11,8 @@ classdef AD9361Tests < HardwareTests
                 {'rx', 'SamplingRate', 'LongLong', 'voltage1', false, 'sampling_frequency', 2.084e6, 61.44e6, 10e3, 4, 20};
                 {'rx', 'CenterFrequency', 'LongLong', 'altvoltage0', true, 'frequency', 70e6, 6e9, 1e6, 4, 100};
                 {'rx', 'RFBandwidth', 'LongLong', 'voltage0', false, 'rf_bandwidth', 200e3, 56e6, 10e3, 30, 20};
+                {'rx', 'GainChannel0', 'Double', 'voltage0', false, 'hardwaregain', -3, 71, 1, 0, 20};
+                {'rx', 'GainChannel1', 'Double', 'voltage1', false, 'hardwaregain', -3, 71, 1, 0, 20};
                 {'tx', 'CenterFrequency', 'LongLong', 'altvoltage1', true, 'frequency', 47e6, 6e9, 1e6, 4, 100};
                 {'tx', 'RFBandwidth', 'LongLong', 'voltage1', true, 'rf_bandwidth',  200e3, 56e6, 10e3, 30, 20};
                 {'tx', 'AttenuationChannel0', 'Double', 'voltage0', true, 'hardwaregain', -89.75, 0.0, 0.25, 0, 20};
@@ -66,6 +68,10 @@ classdef AD9361Tests < HardwareTests
             switch object
             case 'rx'
                 obj = adi.AD9361.Rx('uri',testCase.uri);
+                if strcmp(property(1:end-1),'GainChannel')
+                    obj.EnabledChannels = 2;
+                    obj.(strcat('GainControlModeChannel',property(end))) = 'manual';
+                end
             case 'tx'
                 obj = adi.AD9361.Tx('uri',testCase.uri);
                 obj.DataSource = 'DDS';
