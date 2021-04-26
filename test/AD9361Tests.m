@@ -69,7 +69,7 @@ classdef AD9361Tests < HardwareTests
             case 'rx'
                 obj = adi.AD9361.Rx('uri',testCase.uri);
                 if strcmp(property(1:end-1),'GainChannel')
-                    obj.EnabledChannels = 2;
+                    obj.EnabledChannels = [1 2];
                     obj.(strcat('GainControlModeChannel',property(end))) = 'manual';
                 end
             case 'tx'
@@ -109,6 +109,7 @@ classdef AD9361Tests < HardwareTests
             switch object
             case 'rx'
                 obj = adi.AD9361.Rx('uri',testCase.uri);
+                obj.EnabledChannels = [1 2];
             case 'tx'
                 obj = adi.AD9361.Tx('uri',testCase.uri);
                 obj.DataSource = 'DDS';
