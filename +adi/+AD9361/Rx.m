@@ -35,7 +35,7 @@ classdef Rx < adi.AD9361.Base & adi.AD9361.TuneAGC & ...
         %   'hybrid' — For configuring hybrid AGC mode
         GainControlModeChannel0 = 'slow_attack';
         %GainChannel0 Gain Channel 0
-        %   Channel 0 gain, specified as a scalar from -4 dB to 71 dB. The acceptable
+        %   Channel 0 gain, specified as a scalar from -3 dB to 71 dB. The acceptable
         %   minimum and maximum gain setting depends on the center
         %   frequency.
         GainChannel0 = 10;
@@ -47,7 +47,7 @@ classdef Rx < adi.AD9361.Base & adi.AD9361.TuneAGC & ...
         %   'hybrid' — For configuring hybrid AGC mode
         GainControlModeChannel1 = 'slow_attack';
         %GainChannel1 Gain Channel 1
-        %   Channel 1 gain, specified as a scalar from -4 dB to 71 dB. The acceptable
+        %   Channel 1 gain, specified as a scalar from -3 dB to 71 dB. The acceptable
         %   minimum and maximum gain setting depends on the center
         %   frequency.
         GainChannel1 = 10;
@@ -157,25 +157,25 @@ classdef Rx < adi.AD9361.Base & adi.AD9361.TuneAGC & ...
         % Check GainChannel0
         function set.GainChannel0(obj, value)
             validateattributes( value, { 'double','single' }, ...
-                { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', -4,'<=', 71}, ...
+                { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', -3,'<=', 71}, ...
                 '', 'Gain');
-            assert(mod(value,1/4)==0, 'Gain must be a multiple of 0.25');
+            assert(mod(value,1)==0, 'Gain must be an integer');
             obj.GainChannel0 = value;
             if obj.ConnectedToDevice && strcmp(obj.GainControlModeChannel0,'manual') %#ok<MCSUP>
                 id = 'voltage0';
-                obj.setAttributeLongLong(id,'hardwaregain',value,false);
+                obj.setAttributeDouble(id,'hardwaregain',value,false);
             end
         end
         % Check GainChannel1
         function set.GainChannel1(obj, value)
             validateattributes( value, { 'double','single' }, ...
-                { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', -4,'<=', 71}, ...
+                { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', -3,'<=', 71}, ...
                 '', 'Gain');
-            assert(mod(value,1/4)==0, 'Gain must be a multiple of 0.25');
+            assert(mod(value,1)==0, 'Gain must be an integer');
             obj.GainChannel1 = value;
             if obj.ConnectedToDevice && strcmp(obj.GainControlModeChannel1,'manual') %#ok<MCSUP>
                 id = 'voltage1';
-                obj.setAttributeLongLong(id,'hardwaregain',value,false);
+                obj.setAttributeDouble(id,'hardwaregain',value,false);
             end
         end
         % Check EnableQuadratureTracking
@@ -286,10 +286,10 @@ classdef Rx < adi.AD9361.Base & adi.AD9361.TuneAGC & ...
                 obj.setAttributeRAW('voltage1','gain_control_mode',obj.GainControlModeChannel1,false);
             end
             if strcmp(obj.GainControlModeChannel0,'manual')
-                obj.setAttributeLongLong('voltage0','hardwaregain',obj.GainChannel0,false);
+                obj.setAttributeDouble('voltage0','hardwaregain',obj.GainChannel0,false);
             end
             if strcmp(obj.GainControlModeChannel1,'manual') && (obj.channelCount>2)
-                obj.setAttributeLongLong('voltage1','hardwaregain',obj.GainChannel1,false);
+                obj.setAttributeDouble('voltage1','hardwaregain',obj.GainChannel1,false);
             end
             % Trackings
             obj.setAttributeBool('voltage0','quadrature_tracking_en',obj.EnableQuadratureTracking,false);
