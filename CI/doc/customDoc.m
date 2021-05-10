@@ -10,7 +10,7 @@ function html = customDoc(str)
         varName = inputname(isVariable);
     elseif ~isempty(topic) && nargin == 1
         wsVariables = evalin('caller', 'whos');
-        [topic, isVariable, varName] = helpUtils.getClassNameFromWS(topic, wsVariables, true);
+        [topic, isVariable, varName] = matlab.internal.help.getClassNameFromWS(topic, wsVariables, true);
     end
     if search
         docsearch(topic);
@@ -23,7 +23,7 @@ function html = customDoc(str)
     end
 
     % Make sure docroot is valid.
-    if ~helpUtils.isDocInstalled
+    if ~matlab.internal.help.isDocInstalled
         % If m-file help is available for this topic, call helpwin.
         if ~isempty(topic)
             if showHelpwin(topic)
@@ -65,10 +65,10 @@ function html = customDoc(str)
             return;
         end
         
-        [possibleTopics, isPrimitive] = helpUtils.resolveDocTopic(topic, isVariable);
+        [possibleTopics, isPrimitive] = matlab.internal.help.resolveDocTopic(topic, isVariable);
         
         if isPrimitive
-            disp(helpUtils.getInstanceIsa(varName, topic));
+            disp(matlab.internal.help.getInstanceIsa(varName, topic));
             return;
         end
     else
@@ -130,7 +130,7 @@ function success = displayDocPage(possibleTopics)
     end
 
     for topic = possibleTopics
-        if helpUtils.isLiveCodeAndHasDocumentation(topic.topic)
+        if matlab.internal.doc.isLiveCodeAndHasDocumentation(topic.topic)
             internal.help.livecodedoc.mlxdoc(topic.topic);
             success = true;
             return;
@@ -149,7 +149,7 @@ function [foundTopic, html] = showHelpwin(topic)
 end
 
 function showNoReferencePageFound(topic)
-    noFuncPage = helpUtils.underDocroot('nofunc.html');
+    noFuncPage = matlab.internal.help.underDocroot('nofunc.html');
     if ~isempty(noFuncPage)
         displayFile(noFuncPage);
     else
