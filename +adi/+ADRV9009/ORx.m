@@ -49,7 +49,7 @@ classdef ORx < adi.ADRV9009.Base & adi.common.Rx
     
     properties(Constant, Hidden)
         LOSourceSelectSet = matlab.system.StringSet({ ...
-            'OBS_TX_LO','OBS_SN_LO'});
+            'OBS_TX_LO','OBS_AUX_LO'});
     end
     
     properties (Hidden, Nontunable, Access = protected)
@@ -81,12 +81,12 @@ classdef ORx < adi.ADRV9009.Base & adi.common.Rx
         % Check Gain
         function set.Gain(obj, value)
             validateattributes( value, { 'double','single' }, ...
-                { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', -4,'<=', 71}, ...
+                { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', -4,'<=', 30}, ...
                 '', 'Gain');
-            assert(mod(value,1/4)==0, 'Gain must be a multiple of 0.25');
+            assert(mod(value,1/2)==0, 'Gain must be a multiple of 0.5');
             obj.Gain = value;
             if obj.ConnectedToDevice
-                obj.setAttributeLongLong('voltage2','hardwaregain',value,false);
+                obj.setAttributeDouble('voltage2','hardwaregain',value,false);
             end
         end
         % Check EnableQuadratureTracking
@@ -111,6 +111,18 @@ classdef ORx < adi.ADRV9009.Base & adi.common.Rx
             if obj.ConnectedToDevice
                 id = 'voltage3';
                 obj.setAttributeBool(id,'powerdown',value,false);
+            end
+        end
+
+        % Check AUXFrequency
+        function set.AUXFrequency(obj, value)
+            validateattributes( value, { 'double','single' }, ...
+                { 'real', 'positive','scalar', 'finite', 'nonnan', 'nonempty','integer','>=',113e6,'<=',6e9}, ...
+                '', 'AUXFrequency');
+            obj.AUXFrequency = value;
+            if strcmp(obj.LOSourceSelect,'OBS_AUX_LO') && obj.ConnectedToDevice
+                id = 'altvoltage1';
+                obj.setAttributeLongLong(id,'AUX_OBS_RX_LO_frequency',value,true);
             end
         end
         
@@ -160,7 +172,8 @@ classdef ORx < adi.ADRV9009.Base & adi.common.Rx
             obj.setAttributeLongLong('altvoltage1','AUX_OBS_RX_LO_frequency',obj.AUXFrequency,true);
             obj.setAttributeLongLong('altvoltage0','frequency',obj.CenterFrequency,true);            
             obj.setAttributeRAW('voltage2','rf_port_select',obj.LOSourceSelect,false);
-            obj.setAttributeLongLong('voltage2','hardwaregain',obj.Gain,false);
+            obj.setAttributeDouble('voltage2','hardwaregain',obj.Gain,false);
+            obj.setDeviceAttributeRAW('calibrate_frm_en',num2str(obj.EnableFrequencyHoppingModeCalibration));
             
             % Bring stuff back up as desired
             obj.setAttributeBool('voltage2','powerdown',obj.PowerdownChannel0,false);
