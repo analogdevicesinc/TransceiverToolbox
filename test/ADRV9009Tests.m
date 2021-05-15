@@ -10,12 +10,12 @@ classdef ADRV9009Tests < HardwareTests
         attribute_single_value = {
             % object, property, valtype, id, isOutput, attribute, start, stop, step, tol, repeats
             {'orx', 'AUXFrequency', 'LongLong', 'altvoltage1', true, 'AUX_OBS_RX_LO_frequency', 113e6, 6e9, 1e6, 4, 100};
-            {'orx', 'CenterFrequency', 'LongLong', 'altvoltage0', true, 'frequency', 75e6, 6e9, 1e6, 4, 100}; % same channel accessed by rx and tx
+            {'orx', 'CenterFrequency', 'LongLong', 'altvoltage0', true, 'frequency', 113e6, 6e9, 1e6, 4, 100}; % same channel accessed by rx and tx
             {'orx', 'Gain', 'Double', 'voltage2', false, 'hardwaregain', 1, 30, 0.5, 0, 20};
-            {'rx', 'CenterFrequency', 'LongLong', 'altvoltage0', true, 'frequency', 75e6, 6e9, 1e6, 4, 100};
+            {'rx', 'CenterFrequency', 'LongLong', 'altvoltage0', true, 'frequency', 113e6, 6e9, 1e6, 4, 100};
             {'rx', 'GainChannel0', 'Double', 'voltage0', false, 'hardwaregain', 1, 30, 0.5, 0, 20}; % setting large negative gain is accepted but writes positive value
             {'rx', 'GainChannel1', 'Double', 'voltage1', false, 'hardwaregain', 1, 30, 0.5, 0, 20};
-            {'tx', 'CenterFrequency', 'LongLong', 'altvoltage0', true, 'frequency', 75e6, 6e9, 1e6, 4, 100}; % same channel accessed by rx
+            {'tx', 'CenterFrequency', 'LongLong', 'altvoltage0', true, 'frequency', 113e6, 6e9, 1e6, 4, 100}; % same channel accessed by rx
             {'tx', 'AttenuationChannel0', 'Double', 'voltage0', true, 'hardwaregain', -41.95, 0.0, 0.05, 0, 20};
             {'tx', 'AttenuationChannel1', 'Double', 'voltage1', true, 'hardwaregain', -41.95, 0.0, 0.05, 0, 20};
         }
