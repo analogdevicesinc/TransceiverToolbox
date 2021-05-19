@@ -78,7 +78,7 @@ classdef ADRV9009Tests < HardwareTests
     methods (Test)
     
         function testADRV9009AttributeSingleValue(testCase,attribute_single_value)
-            warning('off') % Mute: "The AttenuationChannel1 property is not relevant in this configuration of the System object."
+            warning('off') % Mute: "... property is not relevant in this configuration of the System object."
             object = (attribute_single_value{1});
             property = (attribute_single_value{2});
             valueType = (attribute_single_value{3});
