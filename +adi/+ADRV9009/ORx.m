@@ -117,13 +117,16 @@ classdef ORx < adi.ADRV9009.Base & adi.common.Rx
         % Check AUXFrequency
         function set.AUXFrequency(obj, value)
             validateattributes( value, { 'double','single' }, ...
-                { 'real', 'positive','scalar', 'finite', 'nonnan', 'nonempty','integer','>=',75e6,'<=',6e9}, ...
+                { 'real', 'positive','scalar', 'finite', 'nonnan', 'nonempty','integer','>=',113e6,'<=',6e9}, ...
                 '', 'AUXFrequency');
             obj.AUXFrequency = value;
-            if strcmp(obj.LOSourceSelect,'OBS_AUX_LO') && obj.ConnectedToDevice
+            if obj.ConnectedToDevice
                 id = 'altvoltage1';
                 obj.setAttributeLongLong(id,'AUX_OBS_RX_LO_frequency',value,true);
             end
+            if ~strcmp(obj.LOSourceSelect,'OBS_AUX_LO')
+                warning('The AUXFrequency property is not relevant in this configuration of the System object.');
+            end 
         end
         
     end
