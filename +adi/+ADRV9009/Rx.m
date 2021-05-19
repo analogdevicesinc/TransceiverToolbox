@@ -14,12 +14,12 @@ classdef Rx < adi.ADRV9009.Base & adi.common.Rx
         %   'manual' — For setting the gain manually with the Gain property
         GainControlMode = 'slow_attack';
         %GainChannel0 Gain Channel 0
-        %   Channel 0 gain, specified as a scalar from -4 dB to 30 dB. The acceptable
+        %   Channel 0 gain, specified as a scalar from 1 dB to 30 dB. The acceptable
         %   minimum and maximum gain setting depends on the center
         %   frequency.
         GainChannel0 = 10;
         %GainChannel1 Gain Channel 1
-        %   Channel 1 gain, specified as a scalar from -4 dB to 30 dB. The acceptable
+        %   Channel 1 gain, specified as a scalar from 1 dB to 30 dB. The acceptable
         %   minimum and maximum gain setting depends on the center
         %   frequency.
         GainChannel1 = 10;
@@ -109,7 +109,7 @@ classdef Rx < adi.ADRV9009.Base & adi.common.Rx
         % Check GainChannel0
         function set.GainChannel0(obj, value)
             validateattributes( value, { 'double','single' }, ...
-                { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', -4,'<=', 30}, ...
+                { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', 1,'<=', 30}, ...
                 '', 'Gain');
             assert(mod(value,1/2)==0, 'Gain must be a multiple of 0.5');
             obj.GainChannel0 = value;
@@ -121,7 +121,7 @@ classdef Rx < adi.ADRV9009.Base & adi.common.Rx
         % Check GainChannel1
         function set.GainChannel1(obj, value)
             validateattributes( value, { 'double','single' }, ...
-                { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', -4,'<=', 30}, ...
+                { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', 1,'<=', 30}, ...
                 '', 'Gain');
             assert(mod(value,1/2)==0, 'Gain must be a multiple of 0.5');
             obj.GainChannel1 = value;
