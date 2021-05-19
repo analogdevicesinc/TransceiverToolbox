@@ -11,7 +11,7 @@ classdef ORx < adi.ADRV9009.Base & adi.common.Rx
     %   <a href="http://www.analog.com/media/en/technical-documentation/data-sheets/ADRV9009.pdf">ADRV9009 Datasheet</a>    
     properties
         %Gain Gain
-        %   Rx gain, specified as a scalar from 0 dB to 52 dB. The acceptable
+        %   Rx gain, specified as a scalar from 1 dB to 30 dB. The acceptable
         %   minimum and maximum gain setting depends on the center
         %   frequency.
         Gain = 10;
@@ -81,7 +81,7 @@ classdef ORx < adi.ADRV9009.Base & adi.common.Rx
         % Check Gain
         function set.Gain(obj, value)
             validateattributes( value, { 'double','single' }, ...
-                { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', -4,'<=', 30}, ...
+                { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', 1,'<=', 30}, ...
                 '', 'Gain');
             assert(mod(value,1/2)==0, 'Gain must be a multiple of 0.5');
             obj.Gain = value;
