@@ -14,12 +14,12 @@ classdef Rx < adi.ADRV9009.Base & adi.common.Rx
         %   'manual' — For setting the gain manually with the Gain property
         GainControlMode = 'slow_attack';
         %GainChannel0 Gain Channel 0
-        %   Channel 0 gain, specified as a scalar from -4 dB to 71 dB. The acceptable
+        %   Channel 0 gain, specified as a scalar from 1 dB to 30 dB. The acceptable
         %   minimum and maximum gain setting depends on the center
         %   frequency.
         GainChannel0 = 10;
         %GainChannel1 Gain Channel 1
-        %   Channel 1 gain, specified as a scalar from -4 dB to 71 dB. The acceptable
+        %   Channel 1 gain, specified as a scalar from 1 dB to 30 dB. The acceptable
         %   minimum and maximum gain setting depends on the center
         %   frequency.
         GainChannel1 = 10;
@@ -73,7 +73,7 @@ classdef Rx < adi.ADRV9009.Base & adi.common.Rx
     
     properties(Constant, Hidden)
         GainControlModeSet = matlab.system.StringSet({ ...
-            'manual','fast_attack','slow_attack','hybrid'});
+            'manual','slow_attack'});
     end
     
     properties (Hidden, Nontunable, Access = protected)
@@ -109,25 +109,25 @@ classdef Rx < adi.ADRV9009.Base & adi.common.Rx
         % Check GainChannel0
         function set.GainChannel0(obj, value)
             validateattributes( value, { 'double','single' }, ...
-                { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', -4,'<=', 71}, ...
+                { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', 1,'<=', 30}, ...
                 '', 'Gain');
-            assert(mod(value,1/4)==0, 'Gain must be a multiple of 0.25');
+            assert(mod(value,1/2)==0, 'Gain must be a multiple of 0.5');
             obj.GainChannel0 = value;
             if obj.ConnectedToDevice && strcmp(obj.GainControlMode,'manual')
                 id = 'voltage0';
-                obj.setAttributeLongLong(id,'hardwaregain',value,false);
+                obj.setAttributeDouble(id,'hardwaregain',value,false);
             end
         end
         % Check GainChannel1
         function set.GainChannel1(obj, value)
             validateattributes( value, { 'double','single' }, ...
-                { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', -4,'<=', 71}, ...
+                { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', 1,'<=', 30}, ...
                 '', 'Gain');
-            assert(mod(value,1/4)==0, 'Gain must be a multiple of 0.25');
+            assert(mod(value,1/2)==0, 'Gain must be a multiple of 0.5');
             obj.GainChannel1 = value;
             if obj.ConnectedToDevice && strcmp(obj.GainControlMode,'manual')
                 id = 'voltage1';
-                obj.setAttributeLongLong(id,'hardwaregain',value,false);
+                obj.setAttributeDouble(id,'hardwaregain',value,false);
             end
         end
         % Check EnableQuadratureTrackingChannel0

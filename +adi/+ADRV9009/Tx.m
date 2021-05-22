@@ -102,7 +102,7 @@ classdef Tx < adi.ADRV9009.Base & adi.common.Tx
             obj.AttenuationChannel0 = value;
             if obj.ConnectedToDevice
                 id = 'voltage0';
-                obj.setAttributeLongLong(id,'hardwaregain',value,true);
+                obj.setAttributeDouble(id,'hardwaregain',value,true);
             end
         end
         % Check Attentuation
@@ -114,7 +114,7 @@ classdef Tx < adi.ADRV9009.Base & adi.common.Tx
             obj.AttenuationChannel1 = value;
             if obj.ConnectedToDevice
                 id = 'voltage1';
-                obj.setAttributeLongLong(id,'hardwaregain',value,true);
+                obj.setAttributeDouble(id,'hardwaregain',value,true);
             end
         end
         % Check PowerdownChannel0
