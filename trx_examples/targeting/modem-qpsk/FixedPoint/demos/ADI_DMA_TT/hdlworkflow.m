@@ -20,7 +20,7 @@ load_system('combinedTxRx_ADIDMA');
 %% Model HDL Parameters
 %% Set Model 'combinedTxRx_ADIDMA' HDL parameters
 hdlset_param('combinedTxRx_ADIDMA', 'HDLSubsystem', 'combinedTxRx_ADIDMA/Combined TX and RX');
-hdlset_param('combinedTxRx_ADIDMA', 'ReferenceDesign', 'adrv9361z7035 box lvds Base System (Vivado 2017.4)');
+hdlset_param('combinedTxRx_ADIDMA', 'ReferenceDesign', 'ADRV9361 PACKRF-LVDS (modem)');
 hdlset_param('combinedTxRx_ADIDMA', 'SynthesisTool', 'Xilinx Vivado');
 hdlset_param('combinedTxRx_ADIDMA', 'SynthesisToolChipFamily', 'Zynq');
 hdlset_param('combinedTxRx_ADIDMA', 'SynthesisToolDeviceName', 'xc7z035i');
@@ -28,7 +28,7 @@ hdlset_param('combinedTxRx_ADIDMA', 'SynthesisToolPackageName', 'fbg676');
 hdlset_param('combinedTxRx_ADIDMA', 'SynthesisToolSpeedValue', '-2L');
 hdlset_param('combinedTxRx_ADIDMA', 'TargetDirectory', 'hdl_prj/hdlsrc');
 hdlset_param('combinedTxRx_ADIDMA', 'TargetLanguage', 'Verilog');
-hdlset_param('combinedTxRx_ADIDMA', 'TargetPlatform', 'AnalogDevices adrv9361z7035 box lvds (modem)');
+hdlset_param('combinedTxRx_ADIDMA', 'TargetPlatform', 'AnalogDevices ADRV9361-Z7035');
 hdlset_param('combinedTxRx_ADIDMA', 'Workflow', 'IP Core Generation');
 
 % Set SubSystem HDL parameters
