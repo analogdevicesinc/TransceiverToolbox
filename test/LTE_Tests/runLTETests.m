@@ -54,7 +54,7 @@ function results = runLTETests(BoardName, LOStepSize, server)
         if nargin == 3
             telemetry.ingest.log_lte_test(results,datestr(now,'yyyy-mm-ddTHH:MM:SS.FFF'),server,0);
         else
-            telemetry.ingest.log_lte_test(results,datestr(now,'yyyy-mm-ddTHH:MM:SS.FFF'));
+            telemetry.ingest.log_lte_test(results);
         end
     catch
         warning('telemetry not found');
