@@ -1,4 +1,4 @@
-function results = runLTETests(BoardName, LOStepSize)
+function results = runLTETests(BoardName, LOStepSize, server)
     import matlab.unittest.parameters.Parameter
     import matlab.unittest.TestSuite
     import matlab.unittest.TestRunner
@@ -51,7 +51,11 @@ function results = runLTETests(BoardName, LOStepSize)
     runner.addPlugin(plugin);
     results = runner.run(suite);
     try
-        telemetry.ingest.log_lte_test(results,datestr(now,'yyyy-mm-ddTHH:MM:SS.FFF'),getenv('server'));
+        if nargin == 3
+            telemetry.ingest.log_lte_test(results,datestr(now,'yyyy-mm-ddTHH:MM:SS.FFF'),server,0);
+        else
+            telemetry.ingest.log_lte_test(results,datestr(now,'yyyy-mm-ddTHH:MM:SS.FFF'));
+        end
     catch
         warning('telemetry not found');
     end
