@@ -12,15 +12,15 @@ As with many open source packages, we use [GitHub](https://github.com/analogdevi
 
 | HDL Branch        | MATLAB Release |  Installer Package  |
 |:-----------------:|:--------------:|:-------------------:|
-| 2019_R1           | R2020b         | <a href="http://swdownloads.analog.com/cse/toolboxes/trx/master/AnalogDevicesTransceiverToolbox_v20.2.1.mltbx"><img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png" data-canonical-src="https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png" height="40" /></a>|
+| 2019_R1           | R2021a         | <a href="http://swdownloads.analog.com/cse/toolboxes/trx/master/AnalogDevicesTransceiverToolbox_v20.2.1.mltbx"><img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png" data-canonical-src="https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png" height="40" /></a>|
 
 If you use it, and like it - please let us know. If you use it, and hate it - please let us know that too.
 
 ## Supported Tools and Releases
 
 We provide support across two releases of MATLAB. This does not mean older releases will not work but they are not maintained. Currently supported tools are:
-- Bug fixes only: MATLAB R2020a with Vivado 2018.3
-- Bug fixes and new features: MATLAB R2020b with Vivado 2018.3
+- Bug fixes only: MATLAB R2020b with Vivado 2018.3
+- Bug fixes and new features: MATLAB R2021a with Vivado 2018.3
 
 ## Support and Documentation
 

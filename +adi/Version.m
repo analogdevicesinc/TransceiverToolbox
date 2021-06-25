@@ -4,8 +4,8 @@ classdef Version
     properties(Constant)
         HDL = 'hdl_2018_r2';
         Vivado = '2018.3';
-        MATLAB = 'R2020b';
-        Release = '20.2.1';
+        MATLAB = 'R2021a';
+        Release = '21.1.1';
     end
     properties(Dependent)
         VivadoShort
