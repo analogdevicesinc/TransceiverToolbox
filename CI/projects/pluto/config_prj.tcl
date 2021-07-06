@@ -10,9 +10,9 @@ connect_bd_net [get_bd_pins proc_sys_reset_0/ext_reset_in] [get_bd_pins sys_rstg
 connect_bd_net [get_bd_pins proc_sys_reset_0/slowest_sync_clk] [get_bd_pins axi_ad9361/l_clk]
 
 ## Add 1 extra AXI master ports to the interconnect
-set_property -dict [list CONFIG.NUM_MI {5}] [get_bd_cells axi_cpu_interconnect]
-connect_bd_net [get_bd_pins axi_cpu_interconnect/M04_ACLK] [get_bd_pins axi_ad9361/l_clk]
-connect_bd_net [get_bd_pins axi_cpu_interconnect/M04_ARESETN] [get_bd_pins proc_sys_reset_0/peripheral_aresetn]
+set_property -dict [list CONFIG.NUM_MI {6}] [get_bd_cells axi_cpu_interconnect]
+connect_bd_net [get_bd_pins axi_cpu_interconnect/M05_ACLK] [get_bd_pins axi_ad9361/l_clk]
+connect_bd_net [get_bd_pins axi_cpu_interconnect/M05_ARESETN] [get_bd_pins proc_sys_reset_0/peripheral_aresetn]
 
 # Remove filters
 #delete_bd_objs [get_bd_cells fir_decimator]

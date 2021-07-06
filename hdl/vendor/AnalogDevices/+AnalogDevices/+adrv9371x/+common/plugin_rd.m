@@ -12,7 +12,7 @@ hRD.ReferenceDesignName = sprintf('ADRV9371 %s (%s)', upper(board), upper(design
 hRD.BoardName = sprintf('AnalogDevices ADRV9371 %s', upper(board));
 
 % Tool information
-hRD.SupportedToolVersion = {'2018.3'};
+hRD.SupportedToolVersion = {'2019.1'};
 
 % Get the root directory
 rootDir = fileparts(strtok(mfilename('fullpath'), '+'));

@@ -1,11 +1,10 @@
 
-#source hdl/library/scripts/adi_xilinx_device_info_enc.tcl
 source $ad_hdl_dir/library/scripts/adi_xilinx_device_info_enc.tcl
 
 # check tool version
 
 if {![info exists REQUIRED_VIVADO_VERSION]} {
-  set REQUIRED_VIVADO_VERSION "2018.3"
+  set REQUIRED_VIVADO_VERSION "2019.1"
 }
 
 if {[info exists ::env(ADI_IGNORE_VERSION_CHECK)]} {
@@ -190,12 +189,20 @@ proc adi_add_multi_bus {num bus_name_prefix mode abs_type bus_type port_maps dep
     }
 
     foreach port_map $port_maps {
-      lassign $port_map phys logic width
+      lassign $port_map phys logic width width_dep
       set map [ipx::add_port_map $phys $bus]
       set_property "PHYSICAL_NAME" $phys $map
       set_property "LOGICAL_NAME" $logic $map
       set_property "PHYSICAL_RIGHT" [expr $i*$width] $map
       set_property "PHYSICAL_LEFT" [expr ($i+1)*$width-1] $map
+      if {$width_dep ne ""} {
+        set_property "PHYSICAL_RIGHT_RESOLVE_TYPE" "dependent" $map
+        set_property "PHYSICAL_LEFT_RESOLVE_TYPE" "dependent" $map
+        set width_dep_r "(($width_dep) * $i)"
+        set width_dep_l "(($width_dep) * ($i + 1)-1)"
+        set_property "PHYSICAL_RIGHT_DEPENDENCY" $width_dep_r $map
+        set_property "PHYSICAL_LEFT_DEPENDENCY" $width_dep_l $map
+      }
     }
   }
 }
@@ -343,24 +350,17 @@ proc adi_ip_properties_lite {ip_name} {
     set s_families "$s_families $i_family Beta"
   }
   set_property supported_families $s_families [ipx::current_core]
-  ipx::save_core
+
+  ipx::save_core [ipx::current_core]
 
   ipx::remove_all_bus_interface [ipx::current_core]
   set memory_maps [ipx::get_memory_maps * -of_objects [ipx::current_core]]
   foreach map $memory_maps {
-    ipx::remove_memory_map [lindex $map 2] [ipx::current_core ]
+    ipx::remove_memory_map [lindex $map 2] [ipx::current_core]
   }
-  ipx::save_core
 
-  set i_filegroup [ipx::get_file_groups -of_objects [ipx::current_core] -filter {NAME =~ *synthesis*}]
-  foreach i_file $ip_constr_files {
-    set i_module [file tail $i_file]
-    regsub {_constr\.xdc} $i_module {} i_module
-    ipx::add_file $i_file $i_filegroup
-    ipx::reorder_files -front $i_file $i_filegroup
-    set_property SCOPED_TO_REF $i_module [ipx::get_files $i_file -of_objects $i_filegroup]
-  }
-  ipx::save_core
+  ipx::update_checksums [ipx::current_core]
+  ipx::save_core [ipx::current_core]
 }
 
 ## Set AXI interface IP proprieties.
@@ -556,7 +556,7 @@ proc adi_add_device_spec_param {ip_param} {
   # set ranges or validation pairs (show x in GUI assign the corresponding y to HDL)
   if { [llength [subst $$list_pointer]] == 2 && [llength $j] == 4} {
     set_property -dict [list \
-      "value_validation_type" "range" \
+      "value_validation_type" "range_long" \
       "value_validation_range_minimum" [lindex [subst $$list_pointer] 0] \
       "value_validation_range_maximum" [lindex [subst $$list_pointer] 1] ] \
     [ipx::get_user_parameters $ip_param -of_objects $cc]
