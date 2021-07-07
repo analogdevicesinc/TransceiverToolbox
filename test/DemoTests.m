@@ -20,7 +20,7 @@ classdef DemoTests < TestAppGUI
     
     methods(Test)
         function buildHDLLoopbackDelayEstimation(testCase)
-            testCase.setupVivado('2018.2');
+            testCase.setupVivado('2020.1');
             cd(fullfile(testCase.root,'trx_examples/targeting/loopback-delay-estimation'));
             hdlworkflow;
             if ~isempty(out)
