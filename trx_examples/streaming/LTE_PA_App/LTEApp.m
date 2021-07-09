@@ -1827,7 +1827,7 @@ classdef LTEApp < matlab.apps.AppBase
             app.constAxes.Position = [9 8 358 359];
             app.constAxes.Toolbar.Visible = 'off';
             disableDefaultInteractivity(app.constAxes);
-            app.constAxes.cla;
+            cla(app.constAxes);
             
             % Create ConstCheckBox
             app.ConstCheckBox = uicheckbox(app.Panel_12);
