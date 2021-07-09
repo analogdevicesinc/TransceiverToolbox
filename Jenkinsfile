@@ -30,6 +30,7 @@ stage("Build Toolbox") {
         }
         if (branchName == 'hdl_2019_r2') {
             stash includes: '**', name: 'builtSources', useDefaultExcludes: false
+            archiveArtifacts artifacts: 'hdl/*', followSymlinks: false, allowEmptyArchive: true
         }
     }
 }
