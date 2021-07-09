@@ -203,7 +203,7 @@ ad_ip_parameter axi_ad9361_dac_dma CONFIG.DMA_2D_TRANSFER 0
 ad_ip_parameter axi_ad9361_dac_dma CONFIG.DMA_DATA_WIDTH_DEST 64
 
 ad_add_interpolation_filter "tx_fir_interpolator" 8 2 1 {61.44} {7.68} \
-                             "$ad_hdl_dir/library/analog_lib.com_user_util_fir_dec_1.0/coefile_dec.coe"
+                             "$ad_hdl_dir/library/analog_lib.com_user_util_fir_int_1.0/coefile_int.coe"
 ad_ip_instance xlslice interp_slice
 ad_ip_instance util_upack2 tx_upack
 
@@ -218,7 +218,7 @@ ad_ip_parameter axi_ad9361_adc_dma CONFIG.DMA_2D_TRANSFER 0
 ad_ip_parameter axi_ad9361_adc_dma CONFIG.DMA_DATA_WIDTH_SRC 64
 
 ad_add_decimation_filter "rx_fir_decimator" 8 2 1 {61.44} {61.44} \
-                         "$ad_hdl_dir/library/analog_lib.com_user_util_fir_int_1.0/coefile_int.coe"
+                         "$ad_hdl_dir/library/analog_lib.com_user_util_fir_dec_1.0/coefile_dec.coe"
 ad_ip_instance xlslice decim_slice
 ad_ip_instance util_cpack2 cpack
 
