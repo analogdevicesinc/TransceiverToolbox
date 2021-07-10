@@ -208,6 +208,8 @@ cp -r hdl/projects/common common
 cp -r hdl/projects/scripts/adi_board.tcl .
 
 mv hdl/projects projects_premerge
+# Remove pluto since its manually updated
+rm -rf projects_premerge/pluto
 cp -r projects hdl/
 cp -R projects_premerge/* hdl/projects/
 rm -rf projects_premerge
