@@ -232,14 +232,6 @@ cd CI
 echo "SED 2"
 grep -rl ${DEFAULT_V_VERSION} hdl/projects/scripts | xargs sed -i "s/${DEFAULT_V_VERSION}/$VIVADOFULL/g"
 
-# Remove git directory move to bsp folder
-rm -fr hdl/.git*
-TARGET="../hdl/vendor/AnalogDevices/vivado"
-if [ -d "$TARGET" ]; then
-    rm -rf "$TARGET"
-fi
-cp -r hdl $TARGET
-
 # Remove extra projects
 FILES=$(find hdl/projects)
 for f in $FILES
@@ -264,6 +256,15 @@ do
   rm -rf "hdl/projects/$f"
   
 done
+
+# Remove git directory move to bsp folder
+rm -fr hdl/.git*
+TARGET="../hdl/vendor/AnalogDevices/vivado"
+if [ -d "$TARGET" ]; then
+    rm -rf "$TARGET"
+fi
+cp -r hdl $TARGET
+
 
 # Cleanup
 rm vivado_*

@@ -11,6 +11,8 @@ end
 
 if contains(lower(ReferenceDesignName),'936')
     dev = 'AD9361';
+elseif contains(lower(ReferenceDesignName),'9002')
+    dev = 'ADRV9002';
 elseif contains(lower(ReferenceDesignName),'pluto')
     dev = 'AD9361';
     numChannels = 1;
@@ -66,8 +68,10 @@ hdlset_param([mdl,'/HDL_DUT/validIn2'], 'IOInterfaceMapping', '');
 switch mode
     case 'tx'
         % Connect enables
-        hdlset_param([mdl,'/HDL_DUT/validOut1'], 'IOInterface', 'IP Load Tx Data OUT');
-        hdlset_param([mdl,'/HDL_DUT/validOut1'], 'IOInterfaceMapping', '[0]');
+        if ~strcmp(dev,'ADRV9002')
+            hdlset_param([mdl,'/HDL_DUT/validOut1'], 'IOInterface', 'IP Load Tx Data OUT');
+            hdlset_param([mdl,'/HDL_DUT/validOut1'], 'IOInterfaceMapping', '[0]');
+        end
         hdlset_param([mdl,'/HDL_DUT/validIn1'], 'IOInterface', 'IP Valid Tx Data IN');
         hdlset_param([mdl,'/HDL_DUT/validIn1'], 'IOInterfaceMapping', '[0]');
         
@@ -138,8 +142,12 @@ switch mode
         end
     case 'rxtx'
         % Connect enables
-        hdlset_param([mdl,'/HDL_DUT/validOut1'], 'IOInterface', 'IP Load Tx Data OUT');
-        hdlset_param([mdl,'/HDL_DUT/validOut1'], 'IOInterfaceMapping', '[0]');
+        if ~strcmp(dev,'ADRV9002')
+            hdlset_param([mdl,'/HDL_DUT/validOut1'], 'IOInterface', 'IP Load Tx Data OUT');
+            hdlset_param([mdl,'/HDL_DUT/validOut1'], 'IOInterfaceMapping', '[0]');
+        end
+%         hdlset_param([mdl,'/HDL_DUT/validOut1'], 'IOInterface', 'IP Load Tx Data OUT');
+%         hdlset_param([mdl,'/HDL_DUT/validOut1'], 'IOInterfaceMapping', '[0]');
         hdlset_param([mdl,'/HDL_DUT/validIn1'], 'IOInterface', 'IP Valid Tx Data IN');
         hdlset_param([mdl,'/HDL_DUT/validIn1'], 'IOInterfaceMapping', '[0]');
         hdlset_param([mdl,'/HDL_DUT/validOut2'], 'IOInterface', 'IP Data Valid OUT');
