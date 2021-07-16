@@ -2,7 +2,7 @@
 set -x
 
 if [ -z "${HDLBRANCH}" ]; then
-HDLBRANCH='hdl_2019_r1'
+HDLBRANCH='hdl_2019_r2'
 fi
 
 
@@ -208,6 +208,8 @@ cp -r hdl/projects/common common
 cp -r hdl/projects/scripts/adi_board.tcl .
 
 mv hdl/projects projects_premerge
+# Remove pluto since its manually updated
+rm -rf projects_premerge/pluto
 cp -r projects hdl/
 cp -R projects_premerge/* hdl/projects/
 rm -rf projects_premerge
@@ -230,6 +232,31 @@ cd CI
 echo "SED 2"
 grep -rl ${DEFAULT_V_VERSION} hdl/projects/scripts | xargs sed -i "s/${DEFAULT_V_VERSION}/$VIVADOFULL/g"
 
+# Remove extra projects
+FILES=$(find hdl/projects)
+for f in $FILES
+do
+  if [[ "$f" == 'adrv9009' ]]; then
+    continue
+  elif [[ "$f" == 'adrv9371x' ]]; then
+    continue
+  elif [[ "$f" == 'fmcomms2' ]]; then
+    continue
+  elif [[ "$f" == 'fmcomms5' ]]; then
+    continue
+  elif [[ "$f" == 'pluto' ]]; then
+    continue
+  elif [[ "$f" == 'adrv9001' ]]; then
+    continue
+  elif [[ "$f" == 'adrv9361z7035' ]]; then
+    continue
+  elif [[ "$f" == 'adrv9364z7020' ]]; then
+    continue
+  fi
+  rm -rf "hdl/projects/$f"
+  
+done
+
 # Remove git directory move to bsp folder
 rm -fr hdl/.git*
 TARGET="../hdl/vendor/AnalogDevices/vivado"
@@ -237,6 +264,7 @@ if [ -d "$TARGET" ]; then
     rm -rf "$TARGET"
 fi
 cp -r hdl $TARGET
+
 
 # Cleanup
 rm vivado_*

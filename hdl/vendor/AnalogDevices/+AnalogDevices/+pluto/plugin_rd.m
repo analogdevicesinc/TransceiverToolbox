@@ -14,7 +14,7 @@ hRD.ReferenceDesignName = sprintf('AnalogDevices ADALM-PLUTO (%s)', upper(design
 hRD.BoardName = 'AnalogDevices ADALM-PLUTO';
 
 % Tool information
-hRD.SupportedToolVersion = {'2018.3'};
+hRD.SupportedToolVersion = {'2019.1'};
 
 % Get the root directory
 rootDir = fileparts(strtok(mfilename('fullpath'), '+'));
@@ -69,6 +69,6 @@ hRD.addParameter( ...
 %     'ResetConnection',   'sys_rstgen/peripheral_aresetn');
 hRD.addClockInterface( ...
     'ClockConnection',   'axi_ad9361/l_clk', ...
-    'ResetConnection',   'proc_sys_reset_0/peripheral_aresetn'); % Added IP core
-%     'ResetConnection',   'sys_rstgen/peripheral_aresetn');
+    'ResetConnection',   'sys_rstgen/peripheral_aresetn');
+%     'ResetConnection',   'proc_sys_reset_0/peripheral_aresetn'); % Added IP core
 	

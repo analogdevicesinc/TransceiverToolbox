@@ -6,7 +6,7 @@ dockerHost = 'docker'
 
 ////////////////////////////
 
-hdlBranches = ['master','hdl_2019_r1']
+hdlBranches = ['master','hdl_2019_r2']
 
 stage("Build Toolbox") {
     dockerParallelBuild(hdlBranches, dockerHost, dockerConfig) { 
@@ -21,23 +21,24 @@ stage("Build Toolbox") {
 		    sh 'make -C ./CI/scripts gen_tlbx'
 		}
         } catch(Exception ex) {
-		if (branchName == 'hdl_2019_r1') {
+		if (branchName == 'hdl_2019_r2') {
 		    error('Production Toolbox Build Failed')
 		}
 		else {
 		    unstable('Development Build Failed')
 		}
         }
-        if (branchName == 'hdl_2019_r1') {
+        if (branchName == 'hdl_2019_r2') {
             stash includes: '**', name: 'builtSources', useDefaultExcludes: false
+            archiveArtifacts artifacts: 'hdl/*', followSymlinks: false, allowEmptyArchive: true
         }
     }
 }
 
 /////////////////////////////////////////////////////
 
-boardNames = ['zed','zc702','zc706','zcu102','adrv9361','adrv9364']
-dockerConfig.add("-e HDLBRANCH=hdl_2018_r2")
+boardNames = ['zed','zc702','zc706','zcu102','adrv9361','adrv9364','pluto']
+dockerConfig.add("-e HDLBRANCH=hdl_2019_r2")
 
 stage("HDL Tests") {
     dockerParallelBuild(boardNames, dockerHost, dockerConfig) { 

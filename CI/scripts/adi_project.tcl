@@ -7,7 +7,7 @@ variable p_prcfg_list
 variable p_prcfg_status
 
 if {![info exists REQUIRED_VIVADO_VERSION]} {
-  set REQUIRED_VIVADO_VERSION "2018.3"
+  set REQUIRED_VIVADO_VERSION "2019.1"
 }
 
 if {[info exists ::env(ADI_IGNORE_VERSION_CHECK)]} {
@@ -21,7 +21,7 @@ set p_device "none"
 set sys_zynq 1
 set ADI_POWER_OPTIMIZATION 0
 
-proc adi_project_xilinx {project_name project_dir update_tcl {mode 0}} {
+proc adi_project_xilinx {project_name project_dir update_tcl {mode 0} {parameter_list ""}} {
 
   global ad_hdl_dir
   global ad_phdl_dir
@@ -130,14 +130,24 @@ proc adi_project_xilinx {project_name project_dir update_tcl {mode 0}} {
   set_msg_config -id {filemgmt 20-1763} -new_severity info
   set_msg_config -severity {CRITICAL WARNING} -quiet -id {BD 41-1276} -new_severity error
 
+ 
+  #Added from adi_project_xilinx R2021a
+  # Set parameters of the top level file
+  # Make the same parameters available to system_bd.tcl
+  set proj_params [get_property generic [current_fileset]]
+  foreach {param value} $parameter_list {
+    lappend proj_params $param=$value
+    set ad_project_params($param) $value
+  }
+
   #Added
   create_bd_design "system"
   source $project_dir/system_bd.tcl
   if {$project_name_org != "adrv9361z7035_ccbox_lvds_modem"} {
     source $project_dir/$update_tcl
   }
- 
- 
+
+  set_property generic $proj_params [current_fileset]
   regenerate_bd_layout
   save_bd_design
   validate_bd_design
