@@ -8,13 +8,13 @@ swv1.SampleRate = 245.76e6;
 x = swv1();
 
 %% Tx set up
-tx = adi.ADRV9009.Tx('uri','ip:analog');
+tx = adi.ADRV9009.Tx('uri','ip:192.168.86.39');
 tx.DataSource = 'DMA';
 tx.EnableCyclicBuffers = true;
 tx.AttenuationChannel0 = -10;
 tx.EnableCustomProfile = true;
 tx.CustomProfileFileName = ...
-    'Tx_BW200_IR245p76_Rx_BW200_OR245p76_ORx_BW200_OR245p76_DC245p76.txt';
+    'Tx_BW200_IR245p76_Rx_BW200_OR245p76_ORx_BW200_OR245p76_ADRV9009.txt';
 tx(x);
 
 %% Rx set up

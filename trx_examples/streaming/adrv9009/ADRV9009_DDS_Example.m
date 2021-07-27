@@ -8,7 +8,7 @@ tx.DDSFrequencies = repmat(toneFreq,2,4);
 tx.AttenuationChannel0 = -10;
 tx.EnableCustomProfile = true;
 tx.CustomProfileFileName = ...
-    'Tx_BW200_IR245p76_Rx_BW200_OR245p76_ORx_BW200_OR245p76_DC245p76.txt';
+    'Tx_BW200_IR245p76_Rx_BW100_OR122p88_ORx_BW200_OR245p76_DC245p76.txt';
 tx();
 pause(1);
 
