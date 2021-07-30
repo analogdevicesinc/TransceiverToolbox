@@ -45,7 +45,7 @@ classdef AD9361Tests < HardwareTests
             sr = rx.getAttributeLongLong('voltage0','sampling_frequency',false);
             rx.release();
             testCase.verifyTrue(valid);
-            testCase.verifyEqual(double(sr),3000000,'Incorrect sample rate');
+            testCase.verifyEqual(double(sr),3000000,'AbsTol',5,'Incorrect sample rate');
             testCase.verifyGreaterThan(sum(abs(double(out))),0);
         end
         
@@ -60,7 +60,7 @@ classdef AD9361Tests < HardwareTests
             sr = rx.getAttributeLongLong('voltage0','sampling_frequency',false);
             rx.release();
             testCase.verifyTrue(valid);
-            testCase.verifyEqual(double(sr),23040000,'Incorrect sample rate');
+            testCase.verifyEqual(double(sr),23040000,'AbsTol',5,'Incorrect sample rate');
             testCase.verifyGreaterThan(sum(abs(double(out))),0);
         end
         
@@ -77,8 +77,8 @@ classdef AD9361Tests < HardwareTests
             sr2 = tx.getAttributeLongLong('voltage0','sampling_frequency',true);
             tx.release();
             testCase.verifyTrue(valid);
-            testCase.verifyEqual(double(sr1),3000000,'Incorrect sample rate');
-            testCase.verifyEqual(double(sr2),3000000,'Incorrect sample rate');
+            testCase.verifyEqual(double(sr1),3000000,'AbsTol',5,'Incorrect sample rate');
+            testCase.verifyEqual(double(sr2),3000000,'AbsTol',5,'Incorrect sample rate');
         end
         
         function testAD9361TxCustomFilterLTE(testCase)
@@ -94,8 +94,8 @@ classdef AD9361Tests < HardwareTests
             sr2 = tx.getAttributeLongLong('voltage0','sampling_frequency',true);
             tx.release();
             testCase.verifyTrue(valid);
-            testCase.verifyEqual(double(sr1),23040000,'Incorrect sample rate');
-            testCase.verifyEqual(double(sr2),23040000,'Incorrect sample rate');
+            testCase.verifyEqual(double(sr1),23040000,'AbsTol',5,'Incorrect sample rate');
+            testCase.verifyEqual(double(sr2),23040000,'AbsTol',5,'Incorrect sample rate');
         end
         
         function testAD9361RxClearing(testCase)
