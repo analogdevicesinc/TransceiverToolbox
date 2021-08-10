@@ -39,7 +39,8 @@ function results = runLTETests(BoardName, LOStepSize)
             device = {'AD9364'};
             LOFreqs = num2cell(70e6:LOStepSize:6000e6);
             family = "catalina";
-        case {"zynqmp-zcu102-rev10-adrv9002"}
+        case {"zynqmp-zcu102-rev10-adrv9002-vlvds", ...
+              "zynqmp-zcu102-rev10-adrv9002-rx2tx2-vlvds"}
             device = {'ADRV9002'};
             LOFreqs = num2cell(2400e6);
             family = "navassa";
