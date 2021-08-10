@@ -57,7 +57,9 @@ lock(label: 'adgt_test_harness_boards') {
   harness.set_enable_resource_queuing(true)
   harness.set_elastic_server('192.168.10.1')
   harness.set_required_hardware([
-    "zynqmp-zcu102-rev10-adrv9002"])
+    "zynqmp-zcu102-rev10-adrv9002-vlvds",
+    "zynqmp-zcu102-rev10-adrv9002-rx2tx2-vlvds",
+    ])
   harness.set_docker_args(['Vivado', 'MATLAB'])
   harness.set_nebula_local_fs_source_root("artifactory.analog.com")
 
