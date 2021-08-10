@@ -3,9 +3,9 @@ lock(label: 'adgt_test_harness_boards') {
   @Library('sdgtt-lib@adgt-test-harness') _ // Not necessary when we turn on global libraries :)
   //@Library('sdgtt-lib@fix_iio_not_defined') _
   def dependencies = ["nebula", "libiio", "libiio-py"]
-  def hdlBranch = "hdl_2019_r2"
-  def linuxBranch = "2019_R2"
-  def bootPartitionBranch = "release"
+  def hdlBranch = "master"
+  def linuxBranch = "master"
+  def bootPartitionBranch = "master"
   def jenkins_job_trigger = "-1"
   def firmwareVersion = 'v0.32'
   def bootfile_source = 'artifactory' // options: sftp, artifactory, http, local
