@@ -1,29 +1,26 @@
-commit 0909bedc1a1a096463a714d18a57aae02ccff8a1
-Author: Travis Collins <travis.collins@analog.com>
-Date:   Tue May 14 16:08:49 2019 -0400
+From ba593c5b818af9392f5bf6f4e8af08686fe26280 Mon Sep 17 00:00:00 2001
+From: "Travis F. Collins" <travis.collins@analog.com>
+Date: Fri, 13 Aug 2021 12:16:28 -0700
+Subject: [PATCH] Add IIO driver for AD936x frequency hopper controller
 
-    Add IIO driver for AD936x frequency hopping controller
-    
-    Signed-off-by: Travis Collins <travis.collins@analog.com>
+Signed-off-by: Travis F. Collins <travis.collins@analog.com>
+---
+ drivers/iio/Kconfig     |   1 +
+ drivers/iio/Kconfig.adi |   1 +
+ drivers/iio/Makefile    |   1 +
+ drivers/iio/ip/Kconfig  |  16 ++
+ drivers/iio/ip/Makefile |   6 +
+ drivers/iio/ip/hopper.c | 328 ++++++++++++++++++++++++++++++++++++++++
+ 6 files changed, 353 insertions(+)
+ create mode 100644 drivers/iio/ip/Kconfig
+ create mode 100644 drivers/iio/ip/Makefile
+ create mode 100644 drivers/iio/ip/hopper.c
 
-diff --git a/arch/arm/configs/zynq_xcomm_adv7511_defconfig b/arch/arm/configs/zynq_xcomm_adv7511_defconfig
-index 173e195..25bac3a 100644
---- a/arch/arm/configs/zynq_xcomm_adv7511_defconfig
-+++ b/arch/arm/configs/zynq_xcomm_adv7511_defconfig
-@@ -359,6 +359,8 @@ CONFIG_ADXRS450=y
- CONFIG_ADIS16400=y
- CONFIG_ADIS16460=y
- CONFIG_ADIS16480=y
-+# Custom IP
-+CONFIG_HOPPER=y
- CONFIG_JESD204=y
- CONFIG_AXI_ADXCVR=y
- CONFIG_AXI_JESD204B=y
 diff --git a/drivers/iio/Kconfig b/drivers/iio/Kconfig
-index 9a3b28d..368a492 100644
+index fb0802667..66257333c 100644
 --- a/drivers/iio/Kconfig
 +++ b/drivers/iio/Kconfig
-@@ -80,6 +80,7 @@ source "drivers/iio/gyro/Kconfig"
+@@ -84,6 +84,7 @@ source "drivers/iio/gyro/Kconfig"
  source "drivers/iio/health/Kconfig"
  source "drivers/iio/humidity/Kconfig"
  source "drivers/iio/imu/Kconfig"
@@ -31,11 +28,20 @@ index 9a3b28d..368a492 100644
  source "drivers/iio/jesd204/Kconfig"
  source "drivers/iio/light/Kconfig"
  source "drivers/iio/logic/Kconfig"
+diff --git a/drivers/iio/Kconfig.adi b/drivers/iio/Kconfig.adi
+index f0ed3cf70..66db0bc85 100644
+--- a/drivers/iio/Kconfig.adi
++++ b/drivers/iio/Kconfig.adi
+@@ -154,3 +154,4 @@ config IIO_ALL_ADI_DRIVERS
+ 	select AXI_JESD204_RX
+ 	select AXI_ADXCVR
+ 	select ONE_BIT_ADC_DAC
++	select HOPPER
 diff --git a/drivers/iio/Makefile b/drivers/iio/Makefile
-index 68971fe..f568551 100644
+index 951b67688..dec33cdd8 100644
 --- a/drivers/iio/Makefile
 +++ b/drivers/iio/Makefile
-@@ -25,6 +25,7 @@ obj-y += frequency/
+@@ -30,6 +30,7 @@ obj-y += frequency/
  obj-y += health/
  obj-y += humidity/
  obj-y += imu/
@@ -45,7 +51,7 @@ index 68971fe..f568551 100644
  obj-y += logic/
 diff --git a/drivers/iio/ip/Kconfig b/drivers/iio/ip/Kconfig
 new file mode 100644
-index 0000000..f8dd3af
+index 000000000..f8dd3af71
 --- /dev/null
 +++ b/drivers/iio/ip/Kconfig
 @@ -0,0 +1,16 @@
@@ -67,7 +73,7 @@ index 0000000..f8dd3af
 +endmenu
 diff --git a/drivers/iio/ip/Makefile b/drivers/iio/ip/Makefile
 new file mode 100644
-index 0000000..7f78566
+index 000000000..7f785668f
 --- /dev/null
 +++ b/drivers/iio/ip/Makefile
 @@ -0,0 +1,6 @@
@@ -79,7 +85,7 @@ index 0000000..7f78566
 +obj-$(CONFIG_HOPPER) += hopper.o
 diff --git a/drivers/iio/ip/hopper.c b/drivers/iio/ip/hopper.c
 new file mode 100644
-index 0000000..eba8fa9
+index 000000000..eba8fa9d0
 --- /dev/null
 +++ b/drivers/iio/ip/hopper.c
 @@ -0,0 +1,328 @@
@@ -411,3 +417,6 @@ index 0000000..eba8fa9
 +MODULE_AUTHOR("Travis Collins <travis.collins@analog.com>");
 +MODULE_DESCRIPTION("Analog Devices Frequency Hopper HDL CORE driver");
 +MODULE_LICENSE("GPL v2");
+-- 
+2.25.1
+
