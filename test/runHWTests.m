@@ -12,7 +12,7 @@ import matlab.unittest.constraints.ContainsSubstring;
 import matlab.unittest.selectors.HasName;
 import matlab.unittest.selectors.HasProcedureName;
 
-at = {'AD9361Tests','AD9363Tests','AD9364Tests'...
+at = {'AD9361Tests','AD9363Tests','AD9364Tests','FMComms5Tests',...
         'AD9371Tests','ADRV9009Tests','DAQ2Tests'};
 
 if nargin == 0
