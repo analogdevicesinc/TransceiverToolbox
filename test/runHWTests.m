@@ -1,12 +1,32 @@
+function runHWTests(board)
+
 import matlab.unittest.TestRunner;
 import matlab.unittest.TestSuite;
 import matlab.unittest.plugins.TestReportPlugin;
 import matlab.unittest.plugins.XMLPlugin
+import matlab.unittest.plugins.DiagnosticsValidationPlugin
+import matlab.unittest.parameters.Parameter
+import matlab.unittest.plugins.ToUniqueFile;
+import matlab.unittest.plugins.TAPPlugin;
+import matlab.unittest.constraints.ContainsSubstring;
+import matlab.unittest.selectors.HasName;
+import matlab.unittest.selectors.HasProcedureName;
+
+at = {'AD9361Tests','AD9363Tests','AD9364Tests'...
+        'AD9371Tests','ADRV9009Tests','DAQ2Tests'};
+
+if nargin == 0
+    suite = testsuite(at);
+else
+    boards = lower(board);
+    suite = testsuite(at);
+    suite = selectIf(suite,HasProcedureName(ContainsSubstring(boards,'IgnoringCase',true)));
+end
 
 try
-    suite = testsuite({'AD9361Tests','AD9363Tests','AD9364Tests'...
-        'AD9371Tests','ADRV9009Tests','DAQ2Tests','FMComms5Tests'});
-    runner = TestRunner.withNoPlugins;
+    
+    runner = matlab.unittest.TestRunner.withTextOutput('OutputDetail',1);
+    runner.addPlugin(DiagnosticsValidationPlugin)
     xmlFile = 'HWTestResults.xml';
     plugin = XMLPlugin.producingJUnitFormat(xmlFile);
     

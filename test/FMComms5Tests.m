@@ -5,6 +5,14 @@ classdef FMComms5Tests < HardwareTests
         author = 'ADI';
     end
     
+    properties (TestParameter)
+        AllEnChsCombos = [num2cell(nchoosek(1:4, 1)).'...
+            mat2cell(nchoosek(1:4, 2), ones(1, nchoosek(4, 2))).'...
+            mat2cell(nchoosek(1:4, 4), 1)];
+        EnChsSingleCombos = num2cell(nchoosek(1:4, 1));
+        EnChsTupleCombos = mat2cell(nchoosek(1:4, 2), ones(1, nchoosek(4, 2)));
+    end
+    
     methods(TestClassSetup)
         % Check hardware connected
         function CheckForHardware(testCase)
@@ -24,77 +32,67 @@ classdef FMComms5Tests < HardwareTests
     
     methods (Test)
         
-        function testFMComms5Rx_ChipA1Rx(testCase)
+        function testFMComms5RxDMA(testCase, AllEnChsCombos)
             % Test Rx DMA data output
             rx = adi.FMComms5.Rx('uri',testCase.uri);
-            rx.EnabledChannels = 1;
+            rx.EnabledChannels = AllEnChsCombos;
             [out, valid] = rx();
             rx.release();
             testCase.verifyTrue(valid);
             testCase.verifyGreaterThan(sum(abs(double(out))),0);
+            for ii = 1:numel(AllEnChsCombos)
+                testCase.verifyNotEqual(testCase, ...
+                    diff(abs(double(out(:,ii)))), ...
+                    zeros(numel(out(:,ii))-1, 1));
+            end
+            if (numel(AllEnChsCombos) > 1)
+                for ii = 2:numel(AllEnChsCombos)
+                    testCase.verifyNotEqual(testCase, ...
+                        sum(abs(double(out(:,1)))), ...
+                        sum(abs(double(out(:,ii)))));                    
+                end
+            end
         end
         
-        function testFMComms5Rx_ChipA2Rx(testCase)
-            % Test Rx DMA data output
-            rx = adi.FMComms5.Rx('uri',testCase.uri);
-            rx.EnabledChannels = [1 2];
-            [out, valid] = rx();
-            rx.release();
-            testCase.verifyTrue(valid);
-            testCase.verifyGreaterThan(sum(abs(double(out(:,1)))),0);
-            testCase.verifyGreaterThan(sum(abs(double(out(:,2)))),0);
-        end
-        
-        function testFMComms5Rx_ChipA2Rx_ChipB1Rx(testCase)
-            % Test Rx DMA data output
-            rx = adi.FMComms5.Rx('uri',testCase.uri);
-            rx.EnabledChannels = [1 4];
-            [out, valid] = rx();
-            rx.release();
-            testCase.verifyTrue(valid);
-            testCase.verifyGreaterThan(sum(abs(double(out(:,1)))),0);
-            testCase.verifyGreaterThan(sum(abs(double(out(:,2)))),0);
-            % testCase.verifyGreaterThan(sum(abs(double(out(:,3)))),0);
-        end
-        
-        function testFMComms5Rx_ChipA2Rx_ChipB2Rx(testCase)
-            % Test Rx DMA data output
-            rx = adi.FMComms5.Rx('uri',testCase.uri);
-            rx.EnabledChannels = [1 2 3 4];
-            [out, valid] = rx();
-            rx.release();
-            testCase.verifyTrue(valid);
-            testCase.verifyGreaterThan(sum(abs(double(out(:,1)))),0);
-            testCase.verifyGreaterThan(sum(abs(double(out(:,2)))),0);
-            testCase.verifyGreaterThan(sum(abs(double(out(:,3)))),0);
-            testCase.verifyGreaterThan(sum(abs(double(out(:,4)))),0);
-        end
-        
-        function testFMComms5RxCustomFilterChipA(testCase)
+        function testFMComms5RxCustomFilterSingle(testCase, EnChsSingleCombos)
             % Test Rx Custom filters
             rx = adi.FMComms5.Rx('uri',testCase.uri);
-            rx.EnabledChannels = 1;
+            rx.EnabledChannels = EnChsSingleCombos;
             rx.EnableCustomFilter = true;
             rx.CustomFilterFileName = 'customAD9361filter.ftr';
             [out, valid] = rx();
             % Check sample rate
-            sr = rx.getAttributeLongLong('voltage0','sampling_frequency',false);
+            if (EnChsSingleCombos < 3)
+                sr = rx.getAttributeLongLong('voltage0','sampling_frequency',false);
+            else
+                sr = rx.getAttributeLongLong('voltage0','sampling_frequency',false,rx.iioDevPHYChipB);
+            end
             rx.release();
             testCase.verifyTrue(valid);
             testCase.verifyEqual(double(sr),3000000,'Incorrect sample rate');
             testCase.verifyGreaterThan(sum(abs(double(out))),0);
+            testCase.verifyNotEqual(testCase, diff(abs(double(out))), ...
+                zeros(numel(out)-1, 1));
         end
         
-        function testFMComms5RxCustomFilterChipB(testCase)
+        function testFMComms5RxCustomFilterTuple(testCase, EnChsTupleCombos)
             % Test Rx Custom filters
             rx = adi.FMComms5.Rx('uri',testCase.uri);
-            rx.EnabledChannels = [3 4];
-            rx.EnableCustomFilterChipB = true;
-            rx.CustomFilterFileNameChipB = 'customAD9361filter.ftr';
+            rx.EnabledChannels = EnChsTupleCombos;
+            rx.EnableCustomFilter = true;
+            rx.CustomFilterFileName = 'customAD9361filter.ftr';
             [out, valid] = rx();
             % Check sample rate
-            sr1 = rx.getAttributeLongLong('voltage0','sampling_frequency',false,rx.iioDevPHYChipB);
-            sr2 = rx.getAttributeLongLong('voltage1','sampling_frequency',false,rx.iioDevPHYChipB);
+            if (EnChsTupleCombos(1) < 3)
+                sr1 = rx.getAttributeLongLong('voltage0','sampling_frequency',false);
+            else
+                sr1 = rx.getAttributeLongLong('voltage0','sampling_frequency',false,rx.iioDevPHYChipB);
+            end
+            if (EnChsTupleCombos(2) < 3)
+                sr2 = rx.getAttributeLongLong('voltage0','sampling_frequency',false);
+            else
+                sr2 = rx.getAttributeLongLong('voltage0','sampling_frequency',false,rx.iioDevPHYChipB);
+            end
             rx.release();
             testCase.verifyTrue(valid);
             testCase.verifyEqual(double(sr1),3000000,'Incorrect sample rate');
@@ -107,9 +105,7 @@ classdef FMComms5Tests < HardwareTests
             rx = adi.FMComms5.Rx('uri',testCase.uri);
             rx.EnabledChannels = [1 2 3 4];
             rx.EnableCustomFilter = true;
-            rx.EnableCustomFilterChipB = true;
             rx.CustomFilterFileName = 'customAD9361filter.ftr';
-            rx.CustomFilterFileNameChipB = 'customAD9361filter.ftr';
             [out, valid] = rx();
             % Check sample rate
             sr1 = rx.getAttributeLongLong('voltage0','sampling_frequency',false);
@@ -128,34 +124,25 @@ classdef FMComms5Tests < HardwareTests
             testCase.verifyGreaterThan(sum(abs(double(out(4,:)))),0);
         end
         
-        function testFMComms5RxCustomFilterLTEChipA(testCase)
+        function testFMComms5RxCustomFilterLTE(testCase, EnChsSingleCombos)
             % Test Rx Custom filters
             rx = adi.FMComms5.Rx('uri',testCase.uri);
-            rx.EnabledChannels = 1;
+            rx.EnabledChannels = EnChsSingleCombos;
             rx.EnableCustomFilter = true;
             rx.CustomFilterFileName = 'LTE15_MHz.ftr';
             [out, valid] = rx();
             % Check sample rate
-            sr = rx.getAttributeLongLong('voltage0','sampling_frequency',false);
+            if (EnChsSingleCombos < 3)
+                sr = rx.getAttributeLongLong('voltage0','sampling_frequency',false);
+            else
+                sr = rx.getAttributeLongLong('voltage0','sampling_frequency',false,rx.iioDevPHYChipB);
+            end
             rx.release();
             testCase.verifyTrue(valid);
             testCase.verifyEqual(double(sr),23040000,'Incorrect sample rate');
             testCase.verifyGreaterThan(sum(abs(double(out))),0);
-        end
-        
-        function testFMComms5RxCustomFilterLTEChipB(testCase)
-            % Test Rx Custom filters
-            rx = adi.FMComms5.Rx('uri',testCase.uri);
-            rx.EnabledChannels = 3;
-            rx.EnableCustomFilterChipB = true;
-            rx.CustomFilterFileNameChipB = 'LTE15_MHz.ftr';
-            [out, valid] = rx();
-            % Check sample rate
-            sr = rx.getAttributeLongLong('voltage0','sampling_frequency',false,rx.iioDevPHYChipB);
-            rx.release();
-            testCase.verifyTrue(valid);
-            testCase.verifyEqual(double(sr),23040000,'Incorrect sample rate');
-            testCase.verifyGreaterThan(sum(abs(double(out))),0);
+            testCase.verifyNotEqual(testCase, diff(abs(double(out))), ...
+                zeros(numel(out)-1, 1));
         end
         
         function testFMComms5RxCustomFilterLTEChipsAandB(testCase)
@@ -164,8 +151,6 @@ classdef FMComms5Tests < HardwareTests
             rx.EnabledChannels = [1 2 3 4];
             rx.EnableCustomFilter = true;
             rx.CustomFilterFileName = 'LTE15_MHz.ftr';
-            rx.EnableCustomFilterChipB = true;
-            rx.CustomFilterFileNameChipB = 'LTE15_MHz.ftr';
             [out, valid] = rx();
             % Check sample rate
             sr1 = rx.getAttributeLongLong('voltage0','sampling_frequency',false);
@@ -210,8 +195,8 @@ classdef FMComms5Tests < HardwareTests
             % Test Tx Custom filters
             tx = adi.FMComms5.Tx('uri',testCase.uri);
             tx.EnabledChannels = [3 4];
-            tx.EnableCustomFilterChipB = true;
-            tx.CustomFilterFileNameChipB = 'customAD9361filter.ftr';
+            tx.EnableCustomFilter = true;
+            tx.CustomFilterFileName = 'customAD9361filter.ftr';
             data = [complex(randn(1e4,1),randn(1e4,1)) ...
                 complex(randn(1e4,1),randn(1e4,1))];
             [valid] = tx(data);
@@ -249,8 +234,8 @@ classdef FMComms5Tests < HardwareTests
             % Test Tx Custom filters
             tx = adi.FMComms5.Tx('uri',testCase.uri);
             tx.EnabledChannels = 3;
-            tx.EnableCustomFilterChipB = true;
-            tx.CustomFilterFileNameChipB = 'LTE15_MHz.ftr';
+            tx.EnableCustomFilter = true;
+            tx.CustomFilterFileName = 'LTE15_MHz.ftr';
             data = complex(randn(1e4,1),randn(1e4,1));
             [valid] = tx(data);
             % Check sample rate
@@ -367,14 +352,12 @@ classdef FMComms5Tests < HardwareTests
             % Test DDS output
             tx = adi.FMComms5.Tx('uri',testCase.uri);
             tx.DataSource = 'DDS';
-            tx.DataSourceChipB = 'DDS';
             toneFreq = 6e5;
             tx.DDSFrequenciesChipB = repmat(toneFreq,2,2);
-            tx.AttenuationChannel0ChipB = -10;
             tx();
             pause(1);
             rx = adi.FMComms5.Rx('uri',testCase.uri);
-            rx.EnabledChannels = 4;
+            rx.EnabledChannels = 3;
             rx.kernelBuffersCount = 1;
             for k=1:10
                 valid = false;
@@ -431,7 +414,7 @@ classdef FMComms5Tests < HardwareTests
             amplitude = 2^15; frequency = 0.12e6;
             swv1 = dsp.SineWave(amplitude, frequency);
             swv1.ComplexOutput = true;
-            swv1.SamplesPerFrame = 1e4*10;
+            swv1.SamplesPerFrame = 1e5;
             swv1.SampleRate = 3e6;
             y = swv1();
             
@@ -440,9 +423,10 @@ classdef FMComms5Tests < HardwareTests
             tx.DataSourceChipB = 'DMA';
             tx.EnableCyclicBuffers = true;
             tx.AttenuationChannel0 = -10;
+            tx.EnabledChannels = 3;
             tx(y);
             rx = adi.FMComms5.Rx('uri',testCase.uri);
-            rx.EnabledChannels = 4;
+            rx.EnabledChannels = 3;
             rx.kernelBuffersCount = 1;
             for k=1:20
                 valid = false;
@@ -452,7 +436,7 @@ classdef FMComms5Tests < HardwareTests
             end
             rx.release();
 
-            freqEst = meanfreq(double(real(out)),rx.SamplingRate);
+            freqEst = meanfreq(double(out),rx.SamplingRate);
             
             testCase.verifyTrue(valid);
             testCase.verifyGreaterThan(sum(abs(double(out))),0);
