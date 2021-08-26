@@ -6,11 +6,10 @@ classdef FMComms5Tests < HardwareTests
     end
     
     properties (TestParameter)
-        AllEnChsCombos = [num2cell(nchoosek(1:4, 1)).'...
-            mat2cell(nchoosek(1:4, 2), ones(1, nchoosek(4, 2))).'...
-            mat2cell(nchoosek(1:4, 4), 1)];
         EnChsSingleCombos = num2cell(nchoosek(1:4, 1));
         EnChsTupleCombos = mat2cell(nchoosek(1:4, 2), ones(1, nchoosek(4, 2)));
+        AllEnChsCombos = [EnChsSingleCombos.'...
+            EnChsTupleCombos.' mat2cell(nchoosek(1:4, 4), 1)];        
     end
     
     methods(TestClassSetup)
