@@ -248,11 +248,6 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
     
     %% API Functions
     methods (Hidden, Access = protected)
-        function ToggleDDSChipB(obj,value)
-            chanPtr = getChan(obj,obj.iioDevChipB,'altvoltage0',true);
-            iio_channel_attr_write_bool(obj,chanPtr,'raw',value);
-        end
-        
         function DDSUpdateChipB(obj)
             %% Set frequencies
             s = size(obj.DDSFrequenciesChipB);
