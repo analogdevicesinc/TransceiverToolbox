@@ -246,10 +246,10 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
                 obj.setAttributeRAW('voltage1','gain_control_mode',obj.GainControlModeChannel1,false);
             end
             if (any(obj.EnabledChannels == 3))
-                obj.setAttributeRAW('voltage0','gain_control_mode',obj.GainControlModeChannel0,false,obj.iioDevPHYChipB);
+                obj.setAttributeRAW('voltage0','gain_control_mode',obj.GainControlModeChannel0ChipB,false,obj.iioDevPHYChipB);
             end
             if (any(obj.EnabledChannels == 4))
-                obj.setAttributeRAW('voltage1','gain_control_mode',obj.GainControlModeChannel1,false,obj.iioDevPHYChipB);
+                obj.setAttributeRAW('voltage1','gain_control_mode',obj.GainControlModeChannel1ChipB,false,obj.iioDevPHYChipB);
             end
             if (strcmp(obj.GainControlModeChannel0,'manual') && any(obj.EnabledChannels == 1))
                 obj.setAttributeLongLong('voltage0','hardwaregain',obj.GainChannel0,false);                
