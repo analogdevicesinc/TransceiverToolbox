@@ -8,8 +8,9 @@ classdef FMComms5Tests < HardwareTests
     properties (TestParameter)
         EnChsSingleCombos = num2cell(nchoosek(1:4, 1));
         EnChsTupleCombos = mat2cell(nchoosek(1:4, 2), ones(1, nchoosek(4, 2)));
-        AllEnChsCombos = [EnChsSingleCombos.'...
-            EnChsTupleCombos.' mat2cell(nchoosek(1:4, 4), 1)];        
+        AllEnChsCombos = [num2cell(nchoosek(1:4, 1)).'...
+            mat2cell(nchoosek(1:4, 2), ones(1, nchoosek(4, 2))).'...
+            mat2cell(nchoosek(1:4, 4), 1)];     
     end
     
     methods(TestClassSetup)
@@ -419,7 +420,6 @@ classdef FMComms5Tests < HardwareTests
             
             tx = adi.FMComms5.Tx('uri',testCase.uri);
             tx.DataSource = 'DMA';
-            tx.DataSourceChipB = 'DMA';
             tx.EnableCyclicBuffers = true;
             tx.AttenuationChannel0 = -10;
             tx.EnabledChannels = 3;
@@ -446,4 +446,3 @@ classdef FMComms5Tests < HardwareTests
     end
     
 end
-

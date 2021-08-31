@@ -239,26 +239,28 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
             % modification to nontunable variables at SetupImpl
             
             % Gains
-            obj.setAttributeRAW('voltage0','gain_control_mode',obj.GainControlModeChannel0,false);
-            if obj.channelCount>2
-                obj.setAttributeRAW('voltage1','gain_control_mode',obj.GainControlModeChannel1,false);
-                if obj.channelCount>4
-                    obj.setAttributeRAW('voltage0','gain_control_mode',obj.GainControlModeChannel0,false,obj.iioDevPHYChipB); 
-                    if obj.channelCount>6
-                        obj.setAttributeRAW('voltage1','gain_control_mode',obj.GainControlModeChannel1,false,obj.iioDevPHYChipB); 
-                    end
-                end                        
+            if (any(obj.EnabledChannels == 1))
+                obj.setAttributeRAW('voltage0','gain_control_mode',obj.GainControlModeChannel0,false);
             end
-            if strcmp(obj.GainControlModeChannel0,'manual')
+            if (any(obj.EnabledChannels == 2))
+                obj.setAttributeRAW('voltage1','gain_control_mode',obj.GainControlModeChannel1,false);
+            end
+            if (any(obj.EnabledChannels == 3))
+                obj.setAttributeRAW('voltage0','gain_control_mode',obj.GainControlModeChannel0,false,obj.iioDevPHYChipB);
+            end
+            if (any(obj.EnabledChannels == 4))
+                obj.setAttributeRAW('voltage1','gain_control_mode',obj.GainControlModeChannel1,false,obj.iioDevPHYChipB);
+            end
+            if (strcmp(obj.GainControlModeChannel0,'manual') && any(obj.EnabledChannels == 1))
                 obj.setAttributeLongLong('voltage0','hardwaregain',obj.GainChannel0,false);                
             end
-            if strcmp(obj.GainControlModeChannel1,'manual') && (obj.channelCount>2)
+            if (strcmp(obj.GainControlModeChannel1,'manual') && any(obj.EnabledChannels == 2))
                 obj.setAttributeLongLong('voltage1','hardwaregain',obj.GainChannel1,false);                
             end
-            if strcmp(obj.GainControlModeChannel0ChipB,'manual') && (obj.channelCount>4)
+            if (strcmp(obj.GainControlModeChannel0ChipB,'manual') && any(obj.EnabledChannels == 3))
                 obj.setAttributeLongLong('voltage0','hardwaregain',obj.GainChannel0ChipB,false,0,obj.iioDevPHYChipB);
             end
-            if strcmp(obj.GainControlModeChannel1ChipB,'manual') && (obj.channelCount>6)
+            if (strcmp(obj.GainControlModeChannel1ChipB,'manual') && any(obj.EnabledChannels == 4))
                 obj.setAttributeLongLong('voltage1','hardwaregain',obj.GainChannel1ChipB,false,0,obj.iioDevPHYChipB);
             end
             % Trackings

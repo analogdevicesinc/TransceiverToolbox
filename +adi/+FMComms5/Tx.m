@@ -8,15 +8,6 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
     %
     %   <a href="https://www.analog.com/en/design-center/evaluation-hardware-and-software/evaluation-boards-kits/eval-ad-fmcomms5-ebz.html">Product Page</a>
     
-    properties (Nontunable)
-        %DataSource Data Source
-        %   Data source, specified as one of the following:
-        %   'DMA' — Specify the host as the source of the data.
-        %   'DDS' — Specify the DDS on the radio hardware as the source
-        %   of the data. In this case, each channel has two additive tones.
-        DataSourceChipB = 'DMA';
-    end
-    
     properties
         %CenterFrequencyChipB Center Frequency
         %   RF center frequency, specified in Hz as a scalar. The
@@ -108,13 +99,6 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
             coder.allowpcode('plain');
             obj = obj@adi.FMComms5.Base(varargin{:});
             obj.channel_names = obj.channel_names_runtime;
-        end
-        % Check DataSourceChipB
-        function set.DataSourceChipB(obj, value)
-            obj.DataSourceChipB = value;
-            if obj.ConnectedToDevice
-                obj.ToggleDDSChipB(strcmp(value,'DDS'));                
-            end
         end
         % Check RFPortSelect
         function set.RFPortSelectChipB(obj, value)
@@ -334,15 +318,17 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
                 writeFilterFileFMComms5ChipB(obj);
             end            
             
-            obj.setAttributeLongLong('voltage0','hardwaregain',obj.AttenuationChannel0,true);
-            if (obj.channelCount>2)
-                obj.setAttributeLongLong('voltage1','hardwaregain',obj.AttenuationChannel1,true);
-                if (obj.channelCount>4)
-                    obj.setAttributeLongLong('voltage0','hardwaregain',obj.AttenuationChannel0ChipB,true,0,obj.iioDevPHYChipB);
-                    if (obj.channelCount>6)
-                        obj.setAttributeLongLong('voltage1','hardwaregain',obj.AttenuationChannel1ChipB,true,0,obj.iioDevPHYChipB);
-                    end
-                end
+            if (any(obj.EnabledChannels == 1))
+                obj.setAttributeRAW('voltage0','gain_control_mode',obj.GainControlModeChannel0,true);
+            end
+            if (any(obj.EnabledChannels == 2))
+                obj.setAttributeRAW('voltage1','gain_control_mode',obj.GainControlModeChannel1,true);
+            end
+            if (any(obj.EnabledChannels == 3))
+                obj.setAttributeRAW('voltage0','gain_control_mode',obj.GainControlModeChannel0,true,obj.iioDevPHYChipB);
+            end
+            if (any(obj.EnabledChannels == 4))
+                obj.setAttributeRAW('voltage1','gain_control_mode',obj.GainControlModeChannel1,true,obj.iioDevPHYChipB);
             end
             obj.ToggleDDS(strcmp(obj.DataSource,'DDS'));
             if strcmp(obj.DataSource,'DDS')
