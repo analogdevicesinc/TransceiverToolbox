@@ -314,16 +314,16 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
             end            
             
             if (any(obj.EnabledChannels == 1))
-                obj.setAttributeRAW('voltage0','hardwaregain',obj.AttenuationChannel0,true);
+                obj.setAttributeLongLong('voltage0','hardwaregain',obj.AttenuationChannel0,true);
             end
             if (any(obj.EnabledChannels == 2))
-                obj.setAttributeRAW('voltage1','hardwaregain',obj.AttenuationChannel1,true);
+                obj.setAttributeLongLong('voltage1','hardwaregain',obj.AttenuationChannel1,true);
             end
             if (any(obj.EnabledChannels == 3))
-                obj.setAttributeRAW('voltage0','hardwaregain',obj.AttenuationChannel0ChipB,true,obj.iioDevPHYChipB);
+                obj.setAttributeLongLong('voltage0','hardwaregain',obj.AttenuationChannel0ChipB,true,obj.iioDevPHYChipB);
             end
             if (any(obj.EnabledChannels == 4))
-                obj.setAttributeRAW('voltage1','hardwaregain',obj.AttenuationChannel1ChipB,true,obj.iioDevPHYChipB);
+                obj.setAttributeLongLong('voltage1','hardwaregain',obj.AttenuationChannel1ChipB,true,obj.iioDevPHYChipB);
             end
             obj.ToggleDDS(strcmp(obj.DataSource,'DDS'));
             if strcmp(obj.DataSource,'DDS')
