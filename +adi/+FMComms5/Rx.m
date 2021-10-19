@@ -153,7 +153,7 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
             obj.GainChannel0ChipB = value;
             if obj.ConnectedToDevice && strcmp(obj.GainControlModeChannel0ChipB,'manual') %#ok<MCSUP>
                 id = 'voltage0';
-                obj.setAttributeLongLong(id,'hardwaregain',value,false,0,obj.iioDevPHYChipB); %#ok<MCSUP>
+                obj.setAttributeDouble(id,'hardwaregain',value,false,0,obj.iioDevPHYChipB); %#ok<MCSUP>
             end
         end
         % Check GainChannel1
@@ -165,7 +165,7 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
             obj.GainChannel1ChipB = value;
             if obj.ConnectedToDevice && strcmp(obj.GainControlModeChannel1ChipB,'manual') %#ok<MCSUP>
                 id = 'voltage1';
-                obj.setAttributeLongLong(id,'hardwaregain',value,false,0,obj.iioDevPHYChipB); %#ok<MCSUP>
+                obj.setAttributeDouble(id,'hardwaregain',value,false,0,obj.iioDevPHYChipB); %#ok<MCSUP>
             end
         end
         % Check EnableQuadratureTracking
@@ -252,16 +252,16 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
                 obj.setAttributeRAW('voltage1','gain_control_mode',obj.GainControlModeChannel1ChipB,false,obj.iioDevPHYChipB);
             end
             if (strcmp(obj.GainControlModeChannel0,'manual') && any(obj.EnabledChannels == 1))
-                obj.setAttributeLongLong('voltage0','hardwaregain',obj.GainChannel0,false);                
+                obj.setAttributeDouble('voltage0','hardwaregain',obj.GainChannel0,false);                
             end
             if (strcmp(obj.GainControlModeChannel1,'manual') && any(obj.EnabledChannels == 2))
-                obj.setAttributeLongLong('voltage1','hardwaregain',obj.GainChannel1,false);                
+                obj.setAttributeDouble('voltage1','hardwaregain',obj.GainChannel1,false);                
             end
             if (strcmp(obj.GainControlModeChannel0ChipB,'manual') && any(obj.EnabledChannels == 3))
-                obj.setAttributeLongLong('voltage0','hardwaregain',obj.GainChannel0ChipB,false,0,obj.iioDevPHYChipB);
+                obj.setAttributeDouble('voltage0','hardwaregain',obj.GainChannel0ChipB,false,0,obj.iioDevPHYChipB);
             end
             if (strcmp(obj.GainControlModeChannel1ChipB,'manual') && any(obj.EnabledChannels == 4))
-                obj.setAttributeLongLong('voltage1','hardwaregain',obj.GainChannel1ChipB,false,0,obj.iioDevPHYChipB);
+                obj.setAttributeDouble('voltage1','hardwaregain',obj.GainChannel1ChipB,false,0,obj.iioDevPHYChipB);
             end
             % Trackings
             obj.setAttributeBool('voltage0','quadrature_tracking_en',obj.EnableQuadratureTracking,false);

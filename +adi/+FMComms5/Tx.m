@@ -116,7 +116,7 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
             obj.AttenuationChannel0ChipB = value;
             if obj.ConnectedToDevice
                 id = 'voltage0';
-                obj.setAttributeLongLong(id,'hardwaregain',value,true,0,obj.iioDevPHYChipB); %#ok<MCSUP>
+                obj.setAttributeDouble(id,'hardwaregain',value,true,0,obj.iioDevPHYChipB); %#ok<MCSUP>
             end
         end
         % Check Attentuation
@@ -128,7 +128,7 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
             obj.AttenuationChannel1ChipB = value;
             if obj.ConnectedToDevice
                 id = 'voltage1';
-                obj.setAttributeLongLong(id,'hardwaregain',value,true,0,obj.iioDevPHYChipB); %#ok<MCSUP>
+                obj.setAttributeDouble(id,'hardwaregain',value,true,0,obj.iioDevPHYChipB); %#ok<MCSUP>
             end
         end
         % Check CenterFrequency
@@ -314,16 +314,16 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
             end            
             
             if (any(obj.EnabledChannels == 1))
-                obj.setAttributeLongLong('voltage0','hardwaregain',obj.AttenuationChannel0,true);
+                obj.setAttributeDouble('voltage0','hardwaregain',obj.AttenuationChannel0,true);
             end
             if (any(obj.EnabledChannels == 2))
-                obj.setAttributeLongLong('voltage1','hardwaregain',obj.AttenuationChannel1,true);
+                obj.setAttributeDouble('voltage1','hardwaregain',obj.AttenuationChannel1,true);
             end
             if (any(obj.EnabledChannels == 3))
-                obj.setAttributeLongLong('voltage0','hardwaregain',obj.AttenuationChannel0ChipB,true,obj.iioDevPHYChipB);
+                obj.setAttributeDouble('voltage0','hardwaregain',obj.AttenuationChannel0ChipB,true,obj.iioDevPHYChipB);
             end
             if (any(obj.EnabledChannels == 4))
-                obj.setAttributeLongLong('voltage1','hardwaregain',obj.AttenuationChannel1ChipB,true,obj.iioDevPHYChipB);
+                obj.setAttributeDouble('voltage1','hardwaregain',obj.AttenuationChannel1ChipB,true,obj.iioDevPHYChipB);
             end
             obj.ToggleDDS(strcmp(obj.DataSource,'DDS'));
             if strcmp(obj.DataSource,'DDS')
