@@ -111,16 +111,16 @@ classdef (Abstract, Hidden = true) Base < ...
         
         function state = savePartState(obj)
             id = 'voltage0';
-            state.in1.hardwaregain = getAttributeLongLong(obj,id,'hardwaregain',false);
+            state.in1.hardwaregain = getAttributeDouble(obj,id,'hardwaregain',false);
             state.in1.quadrature_tracking_en = getAttributeLongLong(obj,id,'quadrature_tracking_en',false);
-            state.out1.hardwaregain = getAttributeLongLong(obj,id,'hardwaregain',true);
+            state.out1.hardwaregain = getAttributeDouble(obj,id,'hardwaregain',true);
             state.out1.quadrature_tracking_en = getAttributeLongLong(obj,id,'quadrature_tracking_en',true);
             state.out1.lo_leakage_tracking_en = getAttributeLongLong(obj,id,'lo_leakage_tracking_en',true);
 
             id = 'voltage1';
-            state.in2.hardwaregain = getAttributeLongLong(obj,id,'hardwaregain',false);
+            state.in2.hardwaregain = getAttributeDouble(obj,id,'hardwaregain',false);
             state.in2.quadrature_tracking_en = getAttributeLongLong(obj,id,'quadrature_tracking_en',false);
-            state.out2.hardwaregain = getAttributeLongLong(obj,id,'hardwaregain',true);
+            state.out2.hardwaregain = getAttributeDouble(obj,id,'hardwaregain',true);
             state.out2.quadrature_tracking_en = getAttributeLongLong(obj,id,'quadrature_tracking_en',true);
             state.out2.lo_leakage_tracking_en = getAttributeLongLong(obj,id,'lo_leakage_tracking_en',true);           
             
@@ -132,16 +132,16 @@ classdef (Abstract, Hidden = true) Base < ...
 
         function returnPartState(obj,state)
             id = 'voltage0';
-            setAttributeLongLong(obj,id,'hardwaregain',state.in1.hardwaregain,false);
+            setAttributeDouble(obj,id,'hardwaregain',state.in1.hardwaregain,false);
             setAttributeLongLong(obj,id,'quadrature_tracking_en',state.in1.quadrature_tracking_en,false);
-            setAttributeLongLong(obj,id,'hardwaregain',state.out1.hardwaregain,true);
+            setAttributeDouble(obj,id,'hardwaregain',state.out1.hardwaregain,true);
             setAttributeLongLong(obj,id,'quadrature_tracking_en',state.out1.quadrature_tracking_en,true);
             setAttributeLongLong(obj,id,'lo_leakage_tracking_en',state.out1.lo_leakage_tracking_en,true);
             
             id = 'voltage1';
-            setAttributeLongLong(obj,id,'hardwaregain',state.in2.hardwaregain,false);
+            setAttributeDouble(obj,id,'hardwaregain',state.in2.hardwaregain,false);
             setAttributeLongLong(obj,id,'quadrature_tracking_en',state.in2.quadrature_tracking_en,false);
-            setAttributeLongLong(obj,id,'hardwaregain',state.out2.hardwaregain,true);
+            setAttributeDouble(obj,id,'hardwaregain',state.out2.hardwaregain,true);
             setAttributeLongLong(obj,id,'quadrature_tracking_en',state.out2.quadrature_tracking_en,true);
             setAttributeLongLong(obj,id,'lo_leakage_tracking_en',state.out2.lo_leakage_tracking_en,true);
             

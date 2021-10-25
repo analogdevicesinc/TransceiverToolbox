@@ -187,8 +187,8 @@ classdef Tx < adi.ADRV9009.Base & adi.common.Tx
             obj.setAttributeBool('voltage1','powerdown',false,true);
                         
             obj.setAttributeLongLong('altvoltage0','frequency',obj.CenterFrequency ,true);
-            obj.setAttributeLongLong('voltage0','hardwaregain',obj.AttenuationChannel0,true);
-            obj.setAttributeLongLong('voltage1','hardwaregain',obj.AttenuationChannel1,true);
+            obj.setAttributeDouble('voltage0','hardwaregain',obj.AttenuationChannel0,true);
+            obj.setAttributeDouble('voltage1','hardwaregain',obj.AttenuationChannel1,true);
 
             obj.setAttributeBool('voltage0','quadrature_tracking_en',obj.EnableQuadratureTrackingChannel0,true);
             obj.setAttributeBool('voltage1','quadrature_tracking_en',obj.EnableQuadratureTrackingChannel1,true);

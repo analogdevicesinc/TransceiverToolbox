@@ -133,7 +133,7 @@ classdef ORx < adi.AD9371.Base & adi.common.Rx
             obj.Gain = value;
             if obj.ConnectedToDevice && strcmp(obj.GainControlMode,'manual') %#ok<MCSUP>
                 obj.setAttributeRAW('voltage2','rf_port_select','OFF',false);
-                obj.setAttributeLongLong('voltage2','hardwaregain',value,false);
+                obj.setAttributeDouble('voltage2','hardwaregain',value,false);
                 obj.setAttributeRAW('voltage2','rf_port_select',obj.RFPortSelect,false); %#ok<MCSUP>
             end
         end
@@ -194,7 +194,7 @@ classdef ORx < adi.AD9371.Base & adi.common.Rx
             obj.setAttributeRAW('voltage2','rf_port_select',obj.RFPortSelect,false);
 
             if strcmp(obj.GainControlMode,'manual')
-                obj.setAttributeLongLong('voltage2','hardwaregain',obj.Gain,false);
+                obj.setAttributeDouble('voltage2','hardwaregain',obj.Gain,false);
             end
                         
         end
