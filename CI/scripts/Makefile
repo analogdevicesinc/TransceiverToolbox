@@ -69,7 +69,7 @@ add_libad9361:
 	cd .. ; \
 	mkdir win ; \
 	cd win ; \
-	wget "https://ci.appveyor.com/api/projects/analogdevicesinc/libad9361-iio/artifacts/libad9361-win64.zip?branch=master" -O lib.zip ; \
+	wget "https://github.com/analogdevicesinc/libad9361-iio/releases/download/v0.2/libad9361-0.2-win64.zip" -O lib.zip ; \
 	unzip lib.zip ; \
 	mv libad9361-win64/* . ; \
 	rm -rf libad9361-win64 ; \
