@@ -82,6 +82,9 @@ classdef Rx < adi.ADRV9009ZU11EG.Base & adi.ADRV9009.Rx
             'voltage1_i','voltage1_q',...
             'voltage2_i','voltage2_q',...
             'voltage3_i','voltage3_q'};
+    end
+    
+    properties(Nontunable, Hidden)
         phyDevNameChipB = 'adrv9009-phy-b';
     end
     
@@ -276,12 +279,16 @@ classdef Rx < adi.ADRV9009ZU11EG.Base & adi.ADRV9009.Rx
             % Do one shot cals
             obj.setDeviceAttributeRAW('calibrate_rx_qec_en',num2str(obj.EnableQuadratureCalibration));
             obj.setDeviceAttributeRAW('calibrate_rx_phase_correction_en',num2str(obj.EnablePhaseCorrection));
-            obj.setDeviceAttributeRAW('calibrate_frm_en',num2str(obj.EnableFrequencyHoppingModeCalibration));
+            if strcmpi(class(obj),'adi.ADRV9009ZU11EG.Rx')
+                obj.setDeviceAttributeRAW('calibrate_frm_en',num2str(obj.EnableFrequencyHoppingModeCalibration));
+            end
             obj.setDeviceAttributeRAW('calibrate',num2str(true));
 
             obj.setDeviceAttributeRAW('calibrate_rx_qec_en',num2str(obj.EnableQuadratureCalibrationChipB),obj.iioDevChipB);
             obj.setDeviceAttributeRAW('calibrate_rx_phase_correction_en',num2str(obj.EnablePhaseCorrectionChipB),obj.iioDevChipB);
-            obj.setDeviceAttributeRAW('calibrate_frm_en',num2str(obj.EnableFrequencyHoppingModeCalibrationChipB),obj.iioDevChipB);
+            if strcmpi(class(obj),'adi.ADRV9009ZU11EG.Rx')
+                obj.setDeviceAttributeRAW('calibrate_frm_en',num2str(obj.EnableFrequencyHoppingModeCalibrationChipB),obj.iioDevChipB);
+            end
             obj.setDeviceAttributeRAW('calibrate',num2str(true),obj.iioDevChipB);
 
             

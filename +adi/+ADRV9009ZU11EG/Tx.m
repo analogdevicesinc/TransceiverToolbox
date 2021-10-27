@@ -73,6 +73,9 @@ classdef Tx < adi.ADRV9009ZU11EG.Base & adi.ADRV9009.Tx
     properties(Nontunable, Hidden, Constant)
         channel_names_runtime = {'voltage0','voltage1','voltage2','voltage3',...
             'voltage4','voltage5','voltage6','voltage7'};
+    end
+    
+    properties(Nontunable, Hidden)
         phyDevNameChipB = 'adrv9009-phy-b';
     end
     
@@ -246,13 +249,17 @@ classdef Tx < adi.ADRV9009ZU11EG.Base & adi.ADRV9009.Tx
             obj.setDeviceAttributeRAW('calibrate_tx_qec_en',num2str(obj.EnableQuadratureCalibration));
             obj.setDeviceAttributeRAW('calibrate_tx_lol_en',num2str(obj.EnableLOLeakageCorrection));
             obj.setDeviceAttributeRAW('calibrate_tx_lol_ext_en',num2str(obj.EnableLOLeakageCorrectionExternal));
-            obj.setDeviceAttributeRAW('calibrate_frm_en',num2str(obj.EnableFrequencyHoppingModeCalibration));
+            if strcmpi(class(obj),'adi.ADRV9009ZU11EG.Tx')
+                obj.setDeviceAttributeRAW('calibrate_frm_en',num2str(obj.EnableFrequencyHoppingModeCalibration));
+            end
             obj.setDeviceAttributeRAW('calibrate',num2str(true));
             
             obj.setDeviceAttributeRAW('calibrate_tx_qec_en',num2str(obj.EnableQuadratureCalibrationChipB),obj.iioDevChipB);
             obj.setDeviceAttributeRAW('calibrate_tx_lol_en',num2str(obj.EnableLOLeakageCorrectionChipB),obj.iioDevChipB);
             obj.setDeviceAttributeRAW('calibrate_tx_lol_ext_en',num2str(obj.EnableLOLeakageCorrectionExternalChipB),obj.iioDevChipB);
-            obj.setDeviceAttributeRAW('calibrate_frm_en',num2str(obj.EnableFrequencyHoppingModeCalibrationChipB),obj.iioDevChipB);
+            if strcmpi(class(obj),'adi.ADRV9009ZU11EG.Tx')
+                obj.setDeviceAttributeRAW('calibrate_frm_en',num2str(obj.EnableFrequencyHoppingModeCalibrationChipB),obj.iioDevChipB);
+            end
             obj.setDeviceAttributeRAW('calibrate',num2str(true),obj.iioDevChipB);
             
             % Bring stuff back up as desired
