@@ -92,7 +92,7 @@ classdef Rx < adi.AD9371.Base & adi.common.Rx
             obj.GainChannel0 = value;
             if obj.ConnectedToDevice && strcmp(obj.GainControlModeChannel0,'manual')
                 id = 'voltage0';
-                obj.setAttributeLongLong(id,'hardwaregain',value,false);
+                obj.setAttributeDouble(id,'hardwaregain',value,false);
             end
         end
         % Check GainChannel1
@@ -104,7 +104,7 @@ classdef Rx < adi.AD9371.Base & adi.common.Rx
             obj.GainChannel1 = value;
             if obj.ConnectedToDevice && strcmp(obj.GainControlModeChannel1,'manual')
                 id = 'voltage1';
-                obj.setAttributeLongLong(id,'hardwaregain',value,false);
+                obj.setAttributeDouble(id,'hardwaregain',value,false);
             end
         end
         % Check EnableQuadratureTrackingChannel0
@@ -156,8 +156,8 @@ classdef Rx < adi.AD9371.Base & adi.common.Rx
             obj.setDebugAttributeLongLong('loopback_tx_rx', obj.LoopbackMode);                    
                         
             if strcmp(obj.GainControlMode,'manual')
-                obj.setAttributeLongLong('voltage0','hardwaregain',obj.GainChannel0,false);
-                obj.setAttributeLongLong('voltage1','hardwaregain',obj.GainChannel1,false);
+                obj.setAttributeDouble('voltage0','hardwaregain',obj.GainChannel0,false);
+                obj.setAttributeDouble('voltage1','hardwaregain',obj.GainChannel1,false);
             end
         end
         

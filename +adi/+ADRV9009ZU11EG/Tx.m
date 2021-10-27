@@ -97,7 +97,7 @@ classdef Tx < adi.ADRV9009ZU11EG.Base & adi.ADRV9009.Tx
             obj.AttenuationChannel0ChipB = value;
             if obj.ConnectedToDevice
                 id = 'voltage0';
-                obj.setAttributeLongLong(id,'hardwaregain',value,true,0,obj.iioDevChipB); %#ok<MCSUP>
+                obj.setAttributeDouble(id,'hardwaregain',value,true,0,obj.iioDevChipB); %#ok<MCSUP>
             end
         end
         % Check AttenuationChannel1ChipB
@@ -109,7 +109,7 @@ classdef Tx < adi.ADRV9009ZU11EG.Base & adi.ADRV9009.Tx
             obj.AttenuationChannel1ChipB = value;
             if obj.ConnectedToDevice
                 id = 'voltage1';
-                obj.setAttributeLongLong(id,'hardwaregain',value,true,0,obj.iioDevChipB); %#ok<MCSUP>
+                obj.setAttributeDouble(id,'hardwaregain',value,true,0,obj.iioDevChipB); %#ok<MCSUP>
             end
         end
         
@@ -227,10 +227,10 @@ classdef Tx < adi.ADRV9009ZU11EG.Base & adi.ADRV9009.Tx
             obj.setAttributeLongLong('altvoltage0','frequency',obj.CenterFrequency ,true);
             obj.setAttributeLongLong('altvoltage0','frequency',obj.CenterFrequencyChipB ,true, 10, obj.iioDevChipB);
             % Gain
-            obj.setAttributeLongLong('voltage0','hardwaregain',obj.AttenuationChannel0,true);
-            obj.setAttributeLongLong('voltage1','hardwaregain',obj.AttenuationChannel1,true);
-            obj.setAttributeLongLong('voltage0','hardwaregain',obj.AttenuationChannel0ChipB,true,10,obj.iioDevChipB);
-            obj.setAttributeLongLong('voltage1','hardwaregain',obj.AttenuationChannel1ChipB,true,10,obj.iioDevChipB);
+            obj.setAttributeDouble('voltage0','hardwaregain',obj.AttenuationChannel0,true);
+            obj.setAttributeDouble('voltage1','hardwaregain',obj.AttenuationChannel1,true);
+            obj.setAttributeDouble('voltage0','hardwaregain',obj.AttenuationChannel0ChipB,true,10,obj.iioDevChipB);
+            obj.setAttributeDouble('voltage1','hardwaregain',obj.AttenuationChannel1ChipB,true,10,obj.iioDevChipB);
             
             obj.setAttributeBool('voltage0','quadrature_tracking_en',obj.EnableQuadratureTrackingChannel0,true);
             obj.setAttributeBool('voltage1','quadrature_tracking_en',obj.EnableQuadratureTrackingChannel1,true);

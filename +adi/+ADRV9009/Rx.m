@@ -209,8 +209,8 @@ classdef Rx < adi.ADRV9009.Base & adi.common.Rx
             obj.setAttributeLongLong(id,'frequency',obj.CenterFrequency ,true);
 
             if strcmp(obj.GainControlMode,'manual')
-                obj.setAttributeLongLong('voltage0','hardwaregain',obj.GainChannel0,false);
-                obj.setAttributeLongLong('voltage1','hardwaregain',obj.GainChannel1,false);
+                obj.setAttributeDouble('voltage0','hardwaregain',obj.GainChannel0,false);
+                obj.setAttributeDouble('voltage1','hardwaregain',obj.GainChannel1,false);
             end
             
             % Do one shot cals

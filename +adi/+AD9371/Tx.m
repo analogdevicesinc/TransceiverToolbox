@@ -50,7 +50,7 @@ classdef Tx < adi.AD9371.Base & adi.common.Tx
             obj.AttenuationChannel0 = value;
             if obj.ConnectedToDevice
                 id = 'voltage0';
-                obj.setAttributeLongLong(id,'hardwaregain',value,true);
+                obj.setAttributeDouble(id,'hardwaregain',value,true);
             end
         end
         % Check Attentuation
@@ -62,7 +62,7 @@ classdef Tx < adi.AD9371.Base & adi.common.Tx
             obj.AttenuationChannel1 = value;
             if obj.ConnectedToDevice
                 id = 'voltage1';
-                obj.setAttributeLongLong(id,'hardwaregain',value,true);
+                obj.setAttributeDouble(id,'hardwaregain',value,true);
             end
         end
         
@@ -84,8 +84,8 @@ classdef Tx < adi.AD9371.Base & adi.common.Tx
             
             id = sprintf('altvoltage%d',strcmp(obj.Type,'Tx'));
             obj.setAttributeLongLong(id,'TX_LO_frequency',obj.CenterFrequency ,true);
-            obj.setAttributeLongLong('voltage0','hardwaregain',obj.AttenuationChannel0,true);
-            obj.setAttributeLongLong('voltage1','hardwaregain',obj.AttenuationChannel1,true);
+            obj.setAttributeDouble('voltage0','hardwaregain',obj.AttenuationChannel0,true);
+            obj.setAttributeDouble('voltage1','hardwaregain',obj.AttenuationChannel1,true);
             
             obj.ToggleDDS(strcmp(obj.DataSource,'DDS'));
             if strcmp(obj.DataSource,'DDS')

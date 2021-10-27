@@ -138,7 +138,7 @@ classdef Tx < adi.ADRV9002.Base & adi.common.Tx
             obj.AttenuationChannel0 = value;
             if obj.ConnectedToDevice
                 id = 'voltage0';
-                obj.setAttributeLongLong(id,'hardwaregain',value,true);
+                obj.setAttributeDouble(id,'hardwaregain',value,true);
             end
         end
         % Check AttentuationChannel1
@@ -146,7 +146,7 @@ classdef Tx < adi.ADRV9002.Base & adi.common.Tx
             obj.AttenuationChannel1 = value;
             if obj.ConnectedToDevice
                 id = 'voltage1';
-                obj.setAttributeLongLong(id,'hardwaregain',value,true);
+                obj.setAttributeDouble(id,'hardwaregain',value,true);
             end
         end
         % Check ENSMModeChannel0
@@ -367,8 +367,8 @@ classdef Tx < adi.ADRV9002.Base & adi.common.Tx
             obj.setAttributeRAW('voltage1','atten_control_mode',obj.AttenuationControlModeChannel1,true);
 
             % Gains
-            obj.setAttributeLongLong('voltage0','hardwaregain',obj.AttenuationChannel0,true);
-            obj.setAttributeLongLong('voltage1','hardwaregain',obj.AttenuationChannel1,true);
+            obj.setAttributeDouble('voltage0','hardwaregain',obj.AttenuationChannel0,true);
+            obj.setAttributeDouble('voltage1','hardwaregain',obj.AttenuationChannel1,true);
                       
             % Calibrations
             close_loop_gain_tracking_en_voltage0_state = obj.getAttributeBool('voltage0','close_loop_gain_tracking_en',true);

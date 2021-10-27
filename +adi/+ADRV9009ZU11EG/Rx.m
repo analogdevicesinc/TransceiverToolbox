@@ -117,7 +117,7 @@ classdef Rx < adi.ADRV9009ZU11EG.Base & adi.ADRV9009.Rx
             obj.GainChannel0ChipB = value;
             if obj.ConnectedToDevice && strcmp(obj.GainControlModeChipB,'manual') %#ok<MCSUP>
                 id = 'voltage0';
-                obj.setAttributeLongLong(id,'hardwaregain',value,false,0,obj.iioDevChipB); %#ok<MCSUP>
+                obj.setAttributeDouble(id,'hardwaregain',value,false,0,obj.iioDevChipB); %#ok<MCSUP>
             end
         end
         % Check GainChannel1ChipB
@@ -129,7 +129,7 @@ classdef Rx < adi.ADRV9009ZU11EG.Base & adi.ADRV9009.Rx
             obj.GainChannel1ChipB = value;
             if obj.ConnectedToDevice && strcmp(obj.GainControlModeChipB,'manual') %#ok<MCSUP>
                 id = 'voltage1';
-                obj.setAttributeLongLong(id,'hardwaregain',value,false,0,obj.iioDevChipB); %#ok<MCSUP>
+                obj.setAttributeDouble(id,'hardwaregain',value,false,0,obj.iioDevChipB); %#ok<MCSUP>
             end
         end
         % Check EnableQuadratureTrackingChannel0ChipB
@@ -265,12 +265,12 @@ classdef Rx < adi.ADRV9009ZU11EG.Base & adi.ADRV9009.Rx
             obj.setAttributeLongLong(id,'frequency',obj.CenterFrequencyChipB ,true, 10, obj.iioDevChipB);
 
             if strcmp(obj.GainControlMode,'manual')
-                obj.setAttributeLongLong('voltage0','hardwaregain',obj.GainChannel0,false);
-                obj.setAttributeLongLong('voltage1','hardwaregain',obj.GainChannel1,false);
+                obj.setAttributeDouble('voltage0','hardwaregain',obj.GainChannel0,false);
+                obj.setAttributeDouble('voltage1','hardwaregain',obj.GainChannel1,false);
             end
             if strcmp(obj.GainControlModeChipB,'manual')
-                obj.setAttributeLongLong('voltage0','hardwaregain',obj.GainChannel0ChipB,false,obj.iioDevChipB);
-                obj.setAttributeLongLong('voltage1','hardwaregain',obj.GainChannel1ChipB,false,obj.iioDevChipB);
+                obj.setAttributeDouble('voltage0','hardwaregain',obj.GainChannel0ChipB,false,obj.iioDevChipB);
+                obj.setAttributeDouble('voltage1','hardwaregain',obj.GainChannel1ChipB,false,obj.iioDevChipB);
             end
             
             % Do one shot cals

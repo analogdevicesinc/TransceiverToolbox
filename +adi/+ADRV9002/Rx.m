@@ -350,7 +350,7 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
             obj.AttenuationChannel0 = value;
             if obj.ConnectedToDevice
                 id = 'voltage0';
-                obj.setAttributeLongLong(id,'hardwaregain',value,false);
+                obj.setAttributeDouble(id,'hardwaregain',value,false);
             end
         end
         % Check Attentuation
@@ -358,7 +358,7 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
             obj.AttenuationChannel1 = value;
             if obj.ConnectedToDevice
                 id = 'voltage1';
-                obj.setAttributeLongLong(id,'hardwaregain',value,false);
+                obj.setAttributeDouble(id,'hardwaregain',value,false);
             end
         end
         
@@ -564,10 +564,10 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
             obj.setAttributeRAW('voltage1','port_en_mode',obj.ENSMPortModeChannel0,false);
             
             if ~contains(obj.GainControllerSourceChannel0,'automatic')
-                obj.setAttributeLongLong('voltage0','hardwaregain',obj.AttenuationChannel0,false);
+                obj.setAttributeDouble('voltage0','hardwaregain',obj.AttenuationChannel0,false);
             end
             if ~contains(obj.GainControllerSourceChannel1,'automatic')
-                obj.setAttributeLongLong('voltage1','hardwaregain',obj.AttenuationChannel1,false);
+                obj.setAttributeDouble('voltage1','hardwaregain',obj.AttenuationChannel1,false);
             end
 
             obj.setAttributeLongLong('altvoltage0','RX1_LO_frequency',obj.CenterFrequencyChannel0 ,true);
