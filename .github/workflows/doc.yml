@@ -1,0 +1,22 @@
+name: Documentation
+
+on: [push, pull_request]
+
+jobs:
+  BuildDocs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.6
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.6
+
+      - name: Install dependencies
+        run: |
+          pip install sphinx sphinx-rtd-theme myst-parser furo
+      - name: Check doc build
+        run: |
+          cd CI/gen_doc
+          bash gen_pages.sh
