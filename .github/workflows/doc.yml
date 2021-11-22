@@ -1,0 +1,31 @@
+name: Documentation
+
+on: [push, pull_request]
+
+jobs:
+  BuildDocs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.6
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.6
+
+      - name: Install dependencies
+        run: |
+          pip install sphinx sphinx-rtd-theme myst-parser furo
+      - name: Check doc build
+        run: |
+          cd CI/gen_doc
+          bash gen_pages.sh
+          cd ../..
+
+      - name: Publish master doc
+        if: github.ref == 'refs/heads/master'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./CI/gen_doc/build/html
+          destination_dir: master
