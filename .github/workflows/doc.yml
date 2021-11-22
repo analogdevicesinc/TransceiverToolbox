@@ -20,3 +20,12 @@ jobs:
         run: |
           cd CI/gen_doc
           bash gen_pages.sh
+          cd ../..
+
+      - name: Publish master doc
+        if: github.ref == 'refs/heads/master'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./CI/gen_doc/build/html
+          destination_dir: master
