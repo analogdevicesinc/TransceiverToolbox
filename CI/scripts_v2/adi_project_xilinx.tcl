@@ -265,6 +265,11 @@ proc adi_project_run {project_name} {
   global ADI_POWER_OPTIMIZATION
   global ADI_USE_OOC_SYNTHESIS
 
+  if {[info exists ::env(SKIP_SYNTHESIS)]} {
+    puts "Skipping synthesis"
+    return
+  }
+
   if {$ADI_USE_OOC_SYNTHESIS == 1} {
     launch_runs -jobs 4 system_*_synth_1 synth_1
   } else {
