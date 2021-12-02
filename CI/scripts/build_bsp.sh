@@ -36,3 +36,8 @@ if [ -d "$TARGET" ]; then
     rm -rf "$TARGET"
 fi
 mv hdl $TARGET
+
+# Updates
+cp scripts_v2/matlab_processors.tcl ../hdl/vendor/AnalogDevices/vivado/projects/scripts/matlab_processors.tcl
+cp scripts_v2/adi_project_xilinx.tcl ../hdl/vendor/AnalogDevices/vivado/projects/scripts/adi_project_xilinx.tcl
+cp scripts_v2/system_project_rxtx.tcl ../hdl/vendor/AnalogDevices/vivado/projects/scripts/system_project_rxtx.tcl
