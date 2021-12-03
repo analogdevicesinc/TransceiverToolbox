@@ -1,20 +1,26 @@
-function hRD = plugin_rd(board, design)
+function hRD = plugin_rd(project, board, design)
 % Reference design definition
 
 %   Copyright 2014-2015 The MathWorks, Inc.
+
+if strcmpi(project,'fmcomms2')
+    pname = 'FMCOMMS2/3';
+else
+    pname = project;
+end
 
 % Construct reference design object
 hRD = hdlcoder.ReferenceDesign('SynthesisTool', 'Xilinx Vivado');
 
 % Create the reference design for the SOM-only
 % This is the base reference design that other RDs can build upon
-hRD.ReferenceDesignName = sprintf('FMCOMMS2/3 %s (%s)', upper(board), upper(design));
+hRD.ReferenceDesignName = sprintf('%s %s (%s)', upper(pname), upper(board), upper(design));
 
 % Determine the board name based on the design
-hRD.BoardName = sprintf('AnalogDevices FMCOMMS2/3 %s', upper(board));
+hRD.BoardName = sprintf('AnalogDevices %s %s', upper(pname), upper(board));
 
 % Tool information
-hRD.SupportedToolVersion = {'2019.1'};
+hRD.SupportedToolVersion = {adi.Version.Vivado};
 
 % Get the root directory
 rootDir = fileparts(strtok(mfilename('fullpath'), '+'));
@@ -27,7 +33,7 @@ hRD.SharedRDFolder = fullfile(rootDir, 'vivado');
 hRD.addParameter( ...
     'ParameterID',   'project', ...
     'DisplayName',   'HDL Project Subfolder', ...
-    'DefaultValue',  'fmcomms2');
+    'DefaultValue',  lower(project));
 hRD.addParameter( ...
     'ParameterID',   'carrier', ...
     'DisplayName',   'HDL Project Carrier', ...
@@ -37,20 +43,20 @@ hRD.addParameter( ...
 % add custom Vivado design
 hRD.addCustomVivadoDesign( ...
     'CustomBlockDesignTcl', fullfile('projects', 'scripts', 'system_project_rxtx.tcl'), ...
-    'CustomTopLevelHDL',    fullfile('projects', 'fmcomms2', lower(board), 'system_top.v'));
+    'CustomTopLevelHDL',    fullfile('projects', lower(project), lower(board), 'system_top.v'));
 
-hRD.BlockDesignName = 'system';	
-	
+hRD.BlockDesignName = 'system';
+
 % custom constraint files
 hRD.CustomConstraints = {...
-    fullfile('projects', 'fmcomms2', lower(board), 'system_constr.xdc'), ...
+    fullfile('projects', lower(project), lower(board), 'system_constr.xdc'), ...
     fullfile('projects', 'common', lower(board), sprintf('%s_system_constr.xdc', lower(board))), ...
     };
 
 % custom source files
 hRD.CustomFiles = {...
     fullfile('projects')...,
-	fullfile('library')...,
+    fullfile('library')...,
     };
 
 hRD.addParameter( ...
@@ -62,10 +68,15 @@ hRD.addParameter( ...
     'ParameterID',   'fpga_board', ...
     'DisplayName',   'FPGA Boad', ...
     'DefaultValue',  upper(board));
-	
+
 %% Add interfaces
 % add clock interface
-hRD.addClockInterface( ...
-    'ClockConnection',   'util_ad9361_divclk/clk_out', ...
-    'ResetConnection',   'util_ad9361_divclk_reset/peripheral_aresetn');
-	
+switch lower(project)
+    case 'fmcomms2'
+        hRD.addClockInterface( ...
+            'ClockConnection',   'util_ad9361_divclk/clk_out', ...
+            'ResetConnection',   'util_ad9361_divclk_reset/peripheral_aresetn');
+end
+
+%% Add IO
+AnalogDevices.add_io(hRD,project,board,design);

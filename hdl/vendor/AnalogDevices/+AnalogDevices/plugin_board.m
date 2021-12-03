@@ -1,12 +1,16 @@
-function hB = plugin_board(board)
+function hB = plugin_board(project, board)
 % Use Plugin API to create board plugin object
-
-%   Copyright 2015 The MathWorks, Inc.
 
 hB = hdlcoder.Board;
 
+if strcmpi(project,'fmcomms2')
+    pname = 'FMCOMMS2/3';
+else
+    pname = project;
+end
+
 % Target Board Information
-hB.BoardName    = sprintf('AnalogDevices FMCOMMS2/3 %s', upper(board));
+hB.BoardName    = sprintf('AnalogDevices %s %s', upper(pname), upper(board));
 
 % FPGA Device
 hB.FPGAVendor   = 'Xilinx';
