@@ -52,7 +52,7 @@ for i = 1:length(rtx)
             hRD.addInternalIOInterface( ...
                 'InterfaceID',    inout_id_d(rx.input,j,root.chip,root.complex,type), ...
                 'InterfaceType',  inout(rx.input), ...
-                'PortName',       inout_pn_d(rx.input), ...
+                'PortName',       inout_pn_d(rx.input,j), ...
                 'PortWidth',      rx.width, ...
                 'InterfaceConnection', update_port(rx.name,j-1), ...
                 'IsRequired',     false);
@@ -64,11 +64,11 @@ end
 end
 
 %%
-function out = inout_pn_d(in)
+function out = inout_pn_d(in,port)
 if in
-    out = 'dut_data_in';
+    out = sprintf('dut_data_in_%d',port);
 else
-    out = 'dut_data_out';
+    out = sprintf('dut_data_out_%d',port);
 end
 end
 %%
