@@ -20,7 +20,8 @@ hRD.ReferenceDesignName = sprintf('%s %s (%s)', upper(pname), upper(board), uppe
 hRD.BoardName = sprintf('AnalogDevices %s %s', upper(pname), upper(board));
 
 % Tool information
-hRD.SupportedToolVersion = {adi.Version.Vivado};
+%hRD.SupportedToolVersion = {adi.Version.Vivado}; % FIXME
+hRD.SupportedToolVersion = {'2019.1'};
 
 % Get the root directory
 rootDir = fileparts(strtok(mfilename('fullpath'), '+'));
