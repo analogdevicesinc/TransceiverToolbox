@@ -12,6 +12,6 @@ hRD.addAXI4SlaveInterface( ...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Add Reference design interfaces
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-AnalogDevices.add_io_ports(hRD,lower(project),lower(type));
+AnalogDevices.add_io_ports(hRD,lower(project),lower(type),lower(fpga));
 
 end
