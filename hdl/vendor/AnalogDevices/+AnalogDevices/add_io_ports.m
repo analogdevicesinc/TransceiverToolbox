@@ -1,4 +1,4 @@
-function root = add_io_ports(hRD,project,type,fpga)%(type,project,fpga)
+function root = add_io_ports(hRD,project,type,fpga)
 
 [filepath,~,~] = fileparts(mfilename('fullpath'));
 fileName = fullfile(filepath,'ports.json');
@@ -25,18 +25,18 @@ end
 
 
 if contains(type,'rx')
-    process(hRD, root.ports.rx, root);
+    process(hRD, root.ports.rx, root, 'rx');
 elseif contains(type,'tx')
-    process(hRD, root.ports.tx, root);
+    process(hRD, root.ports.tx, root, 'tx');
 else
-    process(hRD, root.ports.rx, root);
-    process(hRD, root.ports.tx, root);
+    process(hRD, root.ports.rx, root, 'rx');
+    process(hRD, root.ports.tx, root, 'tx');
 end
 
 
 end
 
-function process(hRD, rtx, root)
+function process(hRD, rtx, root, type)
 for i = 1:length(rtx)
     rx = rtx(i);
     if strcmpi(rx.type,'valid')
@@ -50,11 +50,11 @@ for i = 1:length(rtx)
     elseif strcmpi(rx.type,'data')
         for j=1:rx.count
             hRD.addInternalIOInterface( ...
-                'InterfaceID',    inout_id_d(rx.input,j,root.chip,root.complex), ...
+                'InterfaceID',    inout_id_d(rx.input,j,root.chip,root.complex,type), ...
                 'InterfaceType',  inout(rx.input), ...
                 'PortName',       inout_pn_d(rx.input), ...
                 'PortWidth',      rx.width, ...
-                'InterfaceConnection', update_port(rx.name,j), ...
+                'InterfaceConnection', update_port(rx.name,j-1), ...
                 'IsRequired',     false);
         end
     else
@@ -80,21 +80,40 @@ else
 end
 end
 %%
-function out = inout_id_d(in,num,chip,complex)
-if in
-    if complex
-        numC = floor((num-1)/2);
-        if fix(num/2) == num/2 % even
-            out = sprintf('%s ADC Data I%d',chip,numC);
+function out = inout_id_d(in,num,chip,complex,type)
+
+if strcmpi(type,'rx')
+    if in
+        if complex
+            numC = floor((num-1)/2);
+            if fix(num/2) == num/2 % even
+                out = sprintf('%s ADC Data I%d',chip,numC);
+            else
+                out = sprintf('%s ADC Data Q%d',chip,numC);
+            end
         else
-            out = sprintf('%s ADC Data Q%d',chip,numC);
+            out = sprintf('%s ADC Data %d',chip,num-1);
         end
     else
-        out = sprintf('%s ADC Data %d',chip,num-1);
+        out = sprintf('IP Data %d OUT',num-1);
     end
 else
-    out = sprintf('IP Data %d OUT',num-1);
+    if ~in
+        if complex
+            numC = floor((num-1)/2);
+            if fix(num/2) == num/2 % even
+                out = sprintf('%s DAC Data I%d',chip,numC);
+            else
+                out = sprintf('%s DAC Data Q%d',chip,numC);
+            end
+        else
+            out = sprintf('%s DAC Data %d',chip,num-1);
+        end
+    else
+        out = sprintf('IP Data %d IN',num-1);
+    end
 end
+
 end
 %%
 function out = inout_id(in)
