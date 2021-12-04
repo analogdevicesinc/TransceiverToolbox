@@ -40,8 +40,8 @@ proc preprocess_bd {project carrier rxtx} {
                         delete_bd_objs [get_bd_nets util_ad9361_dac_upack_fifo_rd_data_3]
                     }
                     set_property -dict [list CONFIG.NUM_MI {10}] [get_bd_cells axi_cpu_interconnect]
-                    connect_bd_net -net [get_bd_nets util_ad9361_divclk_clk_out] [get_bd_pins axi_cpu_interconnect/M11_ACLK] [get_bd_pins util_ad9361_divclk/clk_out]
-                    connect_bd_net [get_bd_pins util_ad9361_divclk_reset/interconnect_aresetn] [get_bd_pins axi_cpu_interconnect/M11_ARESETN]
+                    connect_bd_net -net [get_bd_nets util_ad9361_divclk_clk_out] [get_bd_pins axi_cpu_interconnect/M09_ACLK] [get_bd_pins util_ad9361_divclk/clk_out]
+                    connect_bd_net [get_bd_pins util_ad9361_divclk_reset/interconnect_aresetn] [get_bd_pins axi_cpu_interconnect/M09_ARESETN]
                 }
                 zc706 {
                     if {$rxtx == "rx" || $rxtx == "rxtx"} {
@@ -59,8 +59,8 @@ proc preprocess_bd {project carrier rxtx} {
                         delete_bd_objs [get_bd_nets util_ad9361_dac_upack_fifo_rd_data_3]
                     }
                     set_property -dict [list CONFIG.NUM_MI {10}] [get_bd_cells axi_cpu_interconnect]
-                    connect_bd_net -net [get_bd_nets util_ad9361_divclk_clk_out] [get_bd_pins axi_cpu_interconnect/M11_ACLK] [get_bd_pins util_ad9361_divclk/clk_out]
-                    connect_bd_net [get_bd_pins util_ad9361_divclk_reset/interconnect_aresetn] [get_bd_pins axi_cpu_interconnect/M11_ARESETN]
+                    connect_bd_net -net [get_bd_nets util_ad9361_divclk_clk_out] [get_bd_pins axi_cpu_interconnect/M09_ACLK] [get_bd_pins util_ad9361_divclk/clk_out]
+                    connect_bd_net [get_bd_pins util_ad9361_divclk_reset/interconnect_aresetn] [get_bd_pins axi_cpu_interconnect/M09_ARESETN]
                 }
             }
         }
