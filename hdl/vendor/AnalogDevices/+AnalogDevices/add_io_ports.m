@@ -41,7 +41,7 @@ for i = 1:length(rtx)
     rx = rtx(i);
     if strcmpi(rx.type,'valid')
         hRD.addInternalIOInterface( ...
-            'InterfaceID',    inout_id(rx.input), ...
+            'InterfaceID',    inout_id(rx.input,type), ...
             'InterfaceType',  inout(rx.input), ...
             'PortName',       inout_pn(rx.input), ...
             'PortWidth',      rx.width, ...
@@ -116,11 +116,19 @@ end
 
 end
 %%
-function out = inout_id(in)
+function out = inout_id(in,type)
 if in
-    out = 'IP Valid Rx Data IN';
+	if strcmpi(type,'rx')
+           out = 'IP Valid Rx Data IN';
+	else
+           out = 'IP Valid Tx Data IN';
+	end
 else
-    out = 'IP Data Valid OUT';
+	if strcmpi(type,'rx')
+           out = 'IP Data Valid OUT';
+	else
+           out = 'IP Load Tx Data OUT';
+	end
 end
 end
 %%
