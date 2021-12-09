@@ -5,6 +5,8 @@ function hRD = plugin_rd(project, board, design)
 
 if strcmpi(project,'fmcomms2')
     pname = 'FMCOMMS2/3';
+elseif strcmpi(project,'adrv9002')
+    pname = 'ADRV9002';
 else
     pname = project;
 end
