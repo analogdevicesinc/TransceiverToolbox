@@ -72,12 +72,7 @@ hRD.addParameter( ...
 
 %% Add interfaces
 % add clock interface
-switch lower(project)
-    case 'fmcomms2'
-        hRD.addClockInterface( ...
-            'ClockConnection',   'util_ad9361_divclk/clk_out', ...
-            'ResetConnection',   'util_ad9361_divclk_reset/peripheral_aresetn');
-end
+AnalogDevices.add_clocks(hRD,project)
 
 %% Add IO
 AnalogDevices.add_io(hRD,project,board,design);
