@@ -57,6 +57,21 @@ classdef AD9371Tests < HardwareTests
             testCase.verifyGreaterThan(sum(abs(double(out))),0);
         end
         
+        function testAD9371RxGains(testCase)
+            % Test Rx DMA data output
+            rx = adi.AD9371.Rx('uri',testCase.uri);
+            rx.GainControlMode = 'manual';
+            rx.EnabledChannels = [1,2];
+            rx.GainChannel0  = randi([0,30],1,1);
+            rx.GainChannel1  = randi([0,30],1,1);
+            [out, valid] = rx();
+            rx.GainChannel0  = randi([0,30],1,1);
+            rx.GainChannel1  = randi([0,30],1,1);            
+            rx.release();
+            testCase.verifyTrue(valid);
+            testCase.verifyGreaterThan(sum(abs(double(out))),0);
+        end
+        
         function testAD9371ObsPortCycle(testCase)
             % Test Rx DMA data output
             rx = adi.AD9371.ORx('uri',testCase.uri);

@@ -90,7 +90,7 @@ classdef Rx < adi.AD9371.Base & adi.common.Rx
                 '', 'Gain');
             assert(mod(value,1/4)==0, 'Gain must be a multiple of 0.25');
             obj.GainChannel0 = value;
-            if obj.ConnectedToDevice && strcmp(obj.GainControlModeChannel0,'manual')
+            if obj.ConnectedToDevice && strcmp(obj.GainControlMode,'manual')
                 id = 'voltage0';
                 obj.setAttributeDouble(id,'hardwaregain',value,false);
             end
@@ -102,7 +102,7 @@ classdef Rx < adi.AD9371.Base & adi.common.Rx
                 '', 'Gain');
             assert(mod(value,1/4)==0, 'Gain must be a multiple of 0.25');
             obj.GainChannel1 = value;
-            if obj.ConnectedToDevice && strcmp(obj.GainControlModeChannel1,'manual')
+            if obj.ConnectedToDevice && strcmp(obj.GainControlMode,'manual')
                 id = 'voltage1';
                 obj.setAttributeDouble(id,'hardwaregain',value,false);
             end
