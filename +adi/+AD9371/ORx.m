@@ -126,15 +126,27 @@ classdef ORx < adi.AD9371.Base & adi.common.Rx
         end
         % Check Gain
         function set.Gain(obj, value)
-            validateattributes( value, { 'double','single' }, ...
-                { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', -4,'<=', 71}, ...
+            
+            invalid = ['INTERNALCALS','OFF'];
+            if contains(invalid,obj.RFPortSelect) || ~strcmp(obj.GainControlMode,'manual')
+               error('Cannot set gain when in manual mode or if RFPort in OFF/INTERNALCALS')
+            end
+            sniff = ['OBS_SNIFFER','SN_A','SN_B','SN_C'];
+            if contains(sniff,obj.RFPortSelect)
+                        validateattributes( value, { 'double','single' }, ...
+                { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', 0,'<=', 52}, ...
                 '', 'Gain');
+            end
+            orx = ['ORX1_SN_LO','ORX2_SN_LO','ORX1_TX_LO','ORX2_TX_LO'];
+            if contains(orx,obj.RFPortSelect)
+                        validateattributes( value, { 'double','single' }, ...
+                { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', 0,'<=', 18}, ...
+                '', 'Gain');
+            end
             assert(mod(value,1/4)==0, 'Gain must be a multiple of 0.25');
             obj.Gain = value;
             if obj.ConnectedToDevice && strcmp(obj.GainControlMode,'manual') %#ok<MCSUP>
-                obj.setAttributeRAW('voltage2','rf_port_select','OFF',false);
                 obj.setAttributeDouble('voltage2','hardwaregain',value,false);
-                obj.setAttributeRAW('voltage2','rf_port_select',obj.RFPortSelect,false); %#ok<MCSUP>
             end
         end
         % Check EnableQuadratureTracking
@@ -193,7 +205,8 @@ classdef ORx < adi.AD9371.Base & adi.common.Rx
             
             obj.setAttributeRAW('voltage2','rf_port_select',obj.RFPortSelect,false);
 
-            if strcmp(obj.GainControlMode,'manual')
+            invalid = ['INTERNALCALS','OFF'];
+            if strcmp(obj.GainControlMode,'manual') && ~contains(invalid,obj.RFPortSelect)
                 obj.setAttributeDouble('voltage2','hardwaregain',obj.Gain,false);
             end
                         
