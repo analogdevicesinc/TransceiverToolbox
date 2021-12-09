@@ -1,6 +1,6 @@
 function add_clocks(hRD,project)
 
-switch project
+switch lower(project)
     case 'fmcomms2'
         hRD.addClockInterface( ...
             'ClockConnection',   'util_ad9361_divclk/clk_out', ...
