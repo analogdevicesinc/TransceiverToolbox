@@ -89,6 +89,7 @@
             "rx & tx"
         ],
         "ports": [
+            {
                 "rx": [
                     {
                         "input": false,
@@ -163,6 +164,7 @@
                         "type": "data"
                     }
                 ]
+            }
         ]
     }
 }
