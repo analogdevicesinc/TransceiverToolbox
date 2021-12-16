@@ -24,6 +24,15 @@ switch project
             otherwise
                 error(sprintf('Unknown Project FPGA %s/%s',project,fpga)); %#ok<*SPERR>
         end
+    case 'adrv9009'
+        switch fpga
+            case {'ZCU102'}
+                InterfaceConnection = 'axi_cpu_interconnect/M16_AXI';
+                BaseAddress = '0x9D000000';
+                MasterAddressSpace = 'sys_ps8/Data';
+            otherwise
+                error(sprintf('Unknown Project FPGA %s/%s',project,fpga)); %#ok<*SPERR>
+        end
     otherwise
         error(sprintf('Unknown Project %s',project)); %#ok<*SPERR>
 end

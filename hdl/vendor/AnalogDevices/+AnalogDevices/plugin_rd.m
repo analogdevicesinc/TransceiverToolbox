@@ -7,6 +7,8 @@ if strcmpi(project,'fmcomms2')
     pname = 'FMCOMMS2/3';
 elseif strcmpi(project,'adrv9002')
     pname = 'ADRV9002';
+elseif strcmpi(project,'adrv9009')
+    pname = 'ADRV9009';
 else
     pname = project;
 end

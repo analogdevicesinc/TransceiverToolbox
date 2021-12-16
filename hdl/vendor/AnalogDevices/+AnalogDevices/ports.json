@@ -167,4 +167,80 @@
             }
         ]
     }
+    "adrv9009": {
+        "chip": "ADRV9009",
+        "complex": true,
+        "fpga": [
+            "zcu102"
+        ],
+        "supported_rd": [
+            "rx",
+            "tx",
+            "rx & tx"
+        ],
+        "ports": [
+            {
+                "rx": [
+                    {
+                        "input": false,
+                        "width": 1,
+                        "name": "util_adrv9009_rx_cpack/fifo_wr_en",
+                        "count": 1,
+                        "type": "valid"
+                    },
+                    {
+                        "input": true,
+                        "width": 1,
+                        "name": "rx_adrv9009_tpl_core/adc_valid_0",
+                        "count": 1,
+                        "type": "valid"
+                    },
+                    {
+                        "input": false,
+                        "width": 16,
+                        "name": "util_adrv9009_rx_cpack/fifo_wr_data_@",
+                        "count": 4,
+                        "type": "data"
+                    },
+                    {
+                        "input": true,
+                        "width": 16,
+                        "name": "rx_adrv9009_tpl_core/adc_data_@",
+                        "count": 4,
+                        "type": "data"
+                    }
+                ],
+                "tx": [
+                    {
+                        "input": true,
+                        "width": 1,
+                        "name": "util_adrv9009_tx_upack/fifo_rd_valid",
+                        "count": 1,
+                        "type": "valid"
+                    },
+                    {
+                        "input": false,
+                        "width": 1,
+                        "name": "util_adrv9009_tx_upack/fifo_rd_en",
+                        "count": 1,
+                        "type": "valid"
+                    },
+                    {
+                        "input": false,
+                        "width": 16,
+                        "name": "tx_adrv9009_tpl_core/dac_data_@",
+                        "count": 4,
+                        "type": "data"
+                    },
+                    {
+                        "input": true,
+                        "width": 16,
+                        "name": "util_adrv9009_tx_upack/fifo_rd_data_@",
+                        "count": 4,
+                        "type": "data"
+                    }
+                ]
+            }
+        ]
+    }
 }
