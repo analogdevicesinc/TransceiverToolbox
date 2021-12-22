@@ -1,0 +1,22 @@
+site_name: Analog Devices, Inc. Transceiver Toolbox
+
+theme: 
+  name: material
+  palette:
+    - scheme: default
+      primary: deep orange
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+    - scheme: slate
+      primary: deep orange
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+
+extra_css:
+   - stylesheets/style.css
+
+plugins:
+    - search
+    - awesome-pages
