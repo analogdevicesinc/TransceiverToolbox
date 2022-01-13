@@ -15,6 +15,21 @@ switch project
             otherwise
                 error(sprintf('Unknown Project FPGA %s/%s',project,fpga)); %#ok<*SPERR>
         end
+    case 'adrv9371x'
+        switch fpga
+            case {'ZC706'}
+                hRD.addAXI4SlaveInterface( ...
+                    'InterfaceConnection', 'axi_cpu_interconnect/M21_AXI', ... % ADC DMA BUS
+                    'BaseAddress',         '0x50000000', ...
+                    'MasterAddressSpace',  'sys_ps7/Data');
+            case {'ZCU102'}
+                hRD.addAXI4SlaveInterface( ...
+                    'InterfaceConnection', 'axi_cpu_interconnect/M16_AXI', ... % ADC DMA BUS
+                    'BaseAddress',         '0x9D000000', ...
+                    'MasterAddressSpace',  'sys_ps8/Data');                
+            otherwise
+                error(sprintf('Unknown Project FPGA %s/%s',project,fpga)); %#ok<*SPERR>
+        end
     case 'adrv9002'
         switch fpga
             case {'ZCU102'}

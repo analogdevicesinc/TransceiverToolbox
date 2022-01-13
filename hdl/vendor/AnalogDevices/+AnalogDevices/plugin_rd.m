@@ -5,6 +5,16 @@ function hRD = plugin_rd(project, board, design)
 
 if strcmpi(project,'fmcomms2')
     pname = 'FMCOMMS2/3';
+elseif strcmpi(project,'fmcomms5')
+    pname = 'FMCOMMS5';
+elseif strcmpi(project,'pluto')
+    pname = 'ADALM-PLUTO';
+elseif strcmpi(project,'adrv9361z7035')
+    pname = 'ADRV9361-Z7035';    
+elseif strcmpi(project,'adrv9364z7020')
+    pname = 'ADRV9364-Z7020';    
+elseif strcmpi(project,'adrv9371')
+    pname = 'ADRV9371';    
 elseif strcmpi(project,'adrv9002')
     pname = 'ADRV9002';
 elseif strcmpi(project,'adrv9009')
