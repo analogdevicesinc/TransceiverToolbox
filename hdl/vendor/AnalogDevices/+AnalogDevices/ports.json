@@ -158,7 +158,7 @@
         ]
     },
     "adrv9364z7020": {
-        "chip": "AD9361",
+        "chip": "AD9364",
         "complex": true,
         "fpga": [
             "ccbob_cmos",
