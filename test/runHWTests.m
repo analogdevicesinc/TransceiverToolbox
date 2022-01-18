@@ -75,7 +75,7 @@ try
     
     runner = matlab.unittest.TestRunner.withTextOutput('OutputDetail',1);
     runner.addPlugin(DiagnosticsValidationPlugin)
-    xmlFile = 'HWTestResults.xml';
+    xmlFile = board+"_HWTestResults.xml";
     plugin = XMLPlugin.producingJUnitFormat(xmlFile);
     
     runner.addPlugin(plugin);
@@ -94,7 +94,7 @@ catch e
     bdclose('all');
     exit(1);
 end
-save(['BSPTest.mat'],'t');
+save(['BSPTest_',datestr(now,'dd_mm_yyyy-HH_MM_SS'),'.mat'],'t');
 bdclose('all');
 exit(any([results.Failed]));
 end
