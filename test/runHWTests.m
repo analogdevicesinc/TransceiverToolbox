@@ -84,11 +84,14 @@ try
     t = table(results);
     disp(t);
     disp(repmat('#',1,80));
+    fid = fopen('failures.txt','a+');
     for test = results
         if test.Failed
             disp(test.Name);
+            fprintf(fid,string(test.Name)+'\n');
         end
     end
+    fclose(fid);
 catch e
     disp(getReport(e,'extended'));
     bdclose('all');
