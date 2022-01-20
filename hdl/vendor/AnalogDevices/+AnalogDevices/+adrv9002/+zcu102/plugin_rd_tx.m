@@ -3,4 +3,3 @@ function hRD = plugin_rd_tx
 
 % Call the common reference design definition function
 hRD = AnalogDevices.plugin_rd('adrv9002', 'ZCU102', 'Tx');
-AnalogDevices.adrv9002.zcu102.add_io(hRD, 'Tx');
