@@ -486,7 +486,7 @@
                 ]
             }
         ]
-    }
+    },
     "adrv9009": {
         "chip": "ADRV9009",
         "complex": true,
