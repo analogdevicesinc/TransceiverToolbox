@@ -5,17 +5,17 @@
 
 
 
-<div class="sysobj_h1">adi.ADRV9371.Tx</div>
+<!-- <div class="sysobj_h1">adi.ADRV9371.Tx</div> -->
 
-<div class="sysobj_top_desc">
+<!-- <div class="sysobj_top_desc">
 Receive data from Analog Devices AD9361 transceiver
-</div>
+</div> -->
 
-<div class="sysobj_desc_title">Description</div>
+<!-- <div class="sysobj_desc_title">Description</div> -->
 
 <div class="sysobj_desc_txt">
 <span>
-    The adi.ADRV9371.Tx System object is a signal sink that can send<br>    complex data to the ADRV9371.<br> <br>    tx = adi.AD9371.Tx;<br>    tx = adi.AD9371.Tx('uri','192.168.2.1');<br> <br>    <a href="https://www.analog.com/en/design-center/evaluation-hardware-and-software/evaluation-boards-kits/EVAL-ADRV9371.html">Product Page</a>    <br> <br>    See also adi.AD9371.Tx<br>    Documentation for adi.ADRV9371.Tx<br>       doc adi.ADRV9371.Tx<br>
+    The adi.ADRV9371.Tx System object is a signal sink that can send<br>    complex data to the ADRV9371.<br> <br>    tx = adi.AD9371.Tx;<br>    tx = adi.AD9371.Tx('uri','ip:192.168.2.1');<br> <br>    <a href="https://www.analog.com/en/design-center/evaluation-hardware-and-software/evaluation-boards-kits/EVAL-ADRV9371.html">Product Page</a>    <br> <br>
 </span>
 
 </div>

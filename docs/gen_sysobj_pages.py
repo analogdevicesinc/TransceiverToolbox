@@ -18,9 +18,31 @@ env = Environment(loader=file_loader)
 loc = os.path.join(template_filename)
 template = env.get_template(loc)
 
+devices = {}
+
+def cleanup(obj):
+
+    obj['dec'] = obj['dec'].replace('192.168.2.1', 'ip:192.168.2.1')
+    d = obj['dec']
+    ol = []
+    for d in obj['dec'].split('<br>'):
+
+        if "See also" in d:
+            continue
+        if "Documentation for" in d:
+            continue
+        if "doc adi." in d:
+            continue
+
+        ol.append(d)
+
+    obj['dec'] = '<br>'.join(ol)
+
+    return obj
+
 for obj in objs:
     # Render template
-    print(obj)
+    obj = cleanup(obj)
     output = template.render(obj=obj)
     # Write output
     output_filename = f"sysobjects/{obj['name']}.md"
@@ -28,9 +50,12 @@ for obj in objs:
     f = open(loc, 'w')
     f.write(output)
     f.close()
-    # break
+    devices[obj['name']] = output_filename
 
-# output = template.render(data=data)
+# Update mkdocs.yml
+loc = os.path.join("mkdocs.tmpl")
+template = env.get_template(loc)
+output = template.render(devices=devices)
 
-# with open(output_filename, "w") as f:
-#     f.write(output)
+with open("mkdocs.yml", "w") as f:
+    f.write(output)

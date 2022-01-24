@@ -5,17 +5,17 @@
 
 
 
-<div class="sysobj_h1">adi.PackRF.Tx</div>
+<!-- <div class="sysobj_h1">adi.PackRF.Tx</div> -->
 
-<div class="sysobj_top_desc">
+<!-- <div class="sysobj_top_desc">
 Receive data from Analog Devices AD9361 transceiver
-</div>
+</div> -->
 
-<div class="sysobj_desc_title">Description</div>
+<!-- <div class="sysobj_desc_title">Description</div> -->
 
 <div class="sysobj_desc_txt">
 <span>
-    Documentation for adi.PackRF.Tx<br>       doc adi.PackRF.Tx<br>
+
 </span>
 
 </div>

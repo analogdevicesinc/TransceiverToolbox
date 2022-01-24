@@ -5,17 +5,17 @@
 
 
 
-<div class="sysobj_h1">adi.ADRV9002.Rx</div>
+<!-- <div class="sysobj_h1">adi.ADRV9002.Rx</div> -->
 
-<div class="sysobj_top_desc">
+<!-- <div class="sysobj_top_desc">
 Receive data from Analog Devices AD9361 transceiver
-</div>
+</div> -->
 
-<div class="sysobj_desc_title">Description</div>
+<!-- <div class="sysobj_desc_title">Description</div> -->
 
 <div class="sysobj_desc_txt">
 <span>
-    The adi.ADRV9002.Rx System object is a signal source that can receive<br>    complex data from the ADRV9002.<br> <br>    rx = adi.ADRV9002.Rx;<br>    rx = adi.ADRV9002.Rx('uri','192.168.2.1');<br> <br>    <a href="http://www.analog.com/media/en/technical-documentation/data-sheets/ADRV9002.pdf">ADRV9002 Datasheet</a><br>    Documentation for adi.ADRV9002.Rx<br>       doc adi.ADRV9002.Rx<br>
+    The adi.ADRV9002.Rx System object is a signal source that can receive<br>    complex data from the ADRV9002.<br> <br>    rx = adi.ADRV9002.Rx;<br>    rx = adi.ADRV9002.Rx('uri','ip:192.168.2.1');<br> <br>    <a href="http://www.analog.com/media/en/technical-documentation/data-sheets/ADRV9002.pdf">ADRV9002 Datasheet</a><br>
 </span>
 
 </div>

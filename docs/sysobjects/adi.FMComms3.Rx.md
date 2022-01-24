@@ -5,17 +5,17 @@
 
 
 
-<div class="sysobj_h1">adi.FMComms3.Rx</div>
+<!-- <div class="sysobj_h1">adi.FMComms3.Rx</div> -->
 
-<div class="sysobj_top_desc">
+<!-- <div class="sysobj_top_desc">
 Receive data from Analog Devices AD9361 transceiver
-</div>
+</div> -->
 
-<div class="sysobj_desc_title">Description</div>
+<!-- <div class="sysobj_desc_title">Description</div> -->
 
 <div class="sysobj_desc_txt">
 <span>
-    The adi.FMComms3.Rx System object is a signal source that can<br>    receive complex data from the FMComms2.<br> <br>    rx = adi.FMComms3.Rx;<br>    rx = adi.FMComms3.Rx('uri','192.168.2.1');<br> <br>    <a href="https://www.analog.com/en/design-center/evaluation-hardware-and-software/evaluation-boards-kits/EVAL-AD-FMCOMMS3.html">Product Page</a><br> <br>    See also adi.AD9361.Rx<br>    Documentation for adi.FMComms3.Rx<br>       doc adi.FMComms3.Rx<br>
+    The adi.FMComms3.Rx System object is a signal source that can<br>    receive complex data from the FMComms2.<br> <br>    rx = adi.FMComms3.Rx;<br>    rx = adi.FMComms3.Rx('uri','ip:192.168.2.1');<br> <br>    <a href="https://www.analog.com/en/design-center/evaluation-hardware-and-software/evaluation-boards-kits/EVAL-AD-FMCOMMS3.html">Product Page</a><br> <br>
 </span>
 
 </div>

@@ -5,17 +5,17 @@
 
 
 
-<div class="sysobj_h1">adi.AD9363.Tx</div>
+<!-- <div class="sysobj_h1">adi.AD9363.Tx</div> -->
 
-<div class="sysobj_top_desc">
+<!-- <div class="sysobj_top_desc">
 Receive data from Analog Devices AD9361 transceiver
-</div>
+</div> -->
 
-<div class="sysobj_desc_title">Description</div>
+<!-- <div class="sysobj_desc_title">Description</div> -->
 
 <div class="sysobj_desc_txt">
 <span>
-    The adi.AD9363.Tx System object is a signal sink that can<br>    transmit complex data from the AD9364.<br> <br>    tx = adi.AD9363.Tx;<br>    tx = adi.AD9363.Tx('uri','192.168.2.1');<br> <br>    <a href="http://www.analog.com/media/en/technical-documentation/data-sheets/AD9363.pdf">AD9363 Datasheet</a><br> <br>    See also adi.Pluto.Tx<br>    Documentation for adi.AD9363.Tx<br>       doc adi.AD9363.Tx<br>
+    The adi.AD9363.Tx System object is a signal sink that can<br>    transmit complex data from the AD9364.<br> <br>    tx = adi.AD9363.Tx;<br>    tx = adi.AD9363.Tx('uri','ip:192.168.2.1');<br> <br>    <a href="http://www.analog.com/media/en/technical-documentation/data-sheets/AD9363.pdf">AD9363 Datasheet</a><br> <br>
 </span>
 
 </div>

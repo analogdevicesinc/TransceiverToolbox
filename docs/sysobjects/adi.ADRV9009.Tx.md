@@ -5,17 +5,17 @@
 
 
 
-<div class="sysobj_h1">adi.ADRV9009.Tx</div>
+<!-- <div class="sysobj_h1">adi.ADRV9009.Tx</div> -->
 
-<div class="sysobj_top_desc">
+<!-- <div class="sysobj_top_desc">
 Receive data from Analog Devices AD9361 transceiver
-</div>
+</div> -->
 
-<div class="sysobj_desc_title">Description</div>
+<!-- <div class="sysobj_desc_title">Description</div> -->
 
 <div class="sysobj_desc_txt">
 <span>
-    The adi.ADRV9009.Tx System object is a signal sink that can tranmsit<br>    complex data from the ADRV9009.<br> <br>    tx = adi.ADRV9009.Tx;<br>    tx = adi.ADRV9009.Tx('uri','192.168.2.1');<br> <br>    <a href="http://www.analog.com/media/en/technical-documentation/data-sheets/ADRV9009.pdf">ADRV9009 Datasheet</a><br>    Documentation for adi.ADRV9009.Tx<br>       doc adi.ADRV9009.Tx<br>
+    The adi.ADRV9009.Tx System object is a signal sink that can tranmsit<br>    complex data from the ADRV9009.<br> <br>    tx = adi.ADRV9009.Tx;<br>    tx = adi.ADRV9009.Tx('uri','ip:192.168.2.1');<br> <br>    <a href="http://www.analog.com/media/en/technical-documentation/data-sheets/ADRV9009.pdf">ADRV9009 Datasheet</a><br>
 </span>
 
 </div>

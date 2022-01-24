@@ -5,17 +5,17 @@
 
 
 
-<div class="sysobj_h1">adi.AD9371.Rx</div>
+<!-- <div class="sysobj_h1">adi.AD9371.Rx</div> -->
 
-<div class="sysobj_top_desc">
+<!-- <div class="sysobj_top_desc">
 Receive data from Analog Devices AD9361 transceiver
-</div>
+</div> -->
 
-<div class="sysobj_desc_title">Description</div>
+<!-- <div class="sysobj_desc_title">Description</div> -->
 
 <div class="sysobj_desc_txt">
 <span>
-    The adi.AD9371.Rx System object is a signal source that can receive<br>    complex data from the AD9371.<br> <br>    rx = adi.AD9371.Rx;<br>    rx = adi.AD9371.Rx('uri','192.168.2.1');<br> <br>    <a href="http://www.analog.com/media/en/technical-documentation/data-sheets/AD9371.pdf">AD9371 Datasheet</a><br>    Documentation for adi.AD9371.Rx<br>       doc adi.AD9371.Rx<br>
+    The adi.AD9371.Rx System object is a signal source that can receive<br>    complex data from the AD9371.<br> <br>    rx = adi.AD9371.Rx;<br>    rx = adi.AD9371.Rx('uri','ip:192.168.2.1');<br> <br>    <a href="http://www.analog.com/media/en/technical-documentation/data-sheets/AD9371.pdf">AD9371 Datasheet</a><br>
 </span>
 
 </div>

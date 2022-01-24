@@ -5,17 +5,17 @@
 
 
 
-<div class="sysobj_h1">adi.FMComms4.Rx</div>
+<!-- <div class="sysobj_h1">adi.FMComms4.Rx</div> -->
 
-<div class="sysobj_top_desc">
+<!-- <div class="sysobj_top_desc">
 Receive data from Analog Devices AD9361 transceiver
-</div>
+</div> -->
 
-<div class="sysobj_desc_title">Description</div>
+<!-- <div class="sysobj_desc_title">Description</div> -->
 
 <div class="sysobj_desc_txt">
 <span>
-    The adi.FMComms4.Tx System object is a signal source that can <br>    send complex data to the FMComms4.<br> <br>    tx = adi.FMComms4.Tx;<br>    tx = adi.FMComms4.Tx('uri','192.168.2.1');<br> <br>    <a href="https://www.analog.com/en/design-center/evaluation-hardware-and-software/evaluation-boards-kits/EVAL-AD-FMCOMMS4.html">Product Page</a><br> <br>    See also adi.AD9364.Tx<br>    Documentation for adi.FMComms4.Rx<br>       doc adi.FMComms4.Rx<br>
+    The adi.FMComms4.Tx System object is a signal source that can <br>    send complex data to the FMComms4.<br> <br>    tx = adi.FMComms4.Tx;<br>    tx = adi.FMComms4.Tx('uri','ip:192.168.2.1');<br> <br>    <a href="https://www.analog.com/en/design-center/evaluation-hardware-and-software/evaluation-boards-kits/EVAL-AD-FMCOMMS4.html">Product Page</a><br> <br>
 </span>
 
 </div>

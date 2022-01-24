@@ -5,17 +5,17 @@
 
 
 
-<div class="sysobj_h1">adi.Pluto.Rx</div>
+<!-- <div class="sysobj_h1">adi.Pluto.Rx</div> -->
 
-<div class="sysobj_top_desc">
+<!-- <div class="sysobj_top_desc">
 Receive data from Analog Devices AD9361 transceiver
-</div>
+</div> -->
 
-<div class="sysobj_desc_title">Description</div>
+<!-- <div class="sysobj_desc_title">Description</div> -->
 
 <div class="sysobj_desc_txt">
 <span>
-    The adi.Pluto.Tx System object is a signal source that can <br>    send complex data to the Pluto.<br> <br>    tx = adi.Pluto.Tx;<br>    tx = adi.Pluto.Tx('uri','192.168.2.1');<br> <br>    <a href="https://www.analog.com/en/design-center/evaluation-hardware-and-software/evaluation-boards-kits/ADALM-PLUTO.html">Product Page</a><br> <br>    See also adi.AD9363.Tx<br>    Documentation for adi.Pluto.Rx<br>       doc adi.Pluto.Rx<br>
+    The adi.Pluto.Tx System object is a signal source that can <br>    send complex data to the Pluto.<br> <br>    tx = adi.Pluto.Tx;<br>    tx = adi.Pluto.Tx('uri','ip:192.168.2.1');<br> <br>    <a href="https://www.analog.com/en/design-center/evaluation-hardware-and-software/evaluation-boards-kits/ADALM-PLUTO.html">Product Page</a><br> <br>
 </span>
 
 </div>

@@ -4,15 +4,53 @@ theme:
   name: material
   palette:
     - scheme: default
-      primary: deep orange
+      primary: blue
       toggle:
         icon: material/toggle-switch-off-outline
         name: Switch to dark mode
     - scheme: slate
-      primary: deep orange
+      primary: blue
       toggle:
         icon: material/toggle-switch
         name: Switch to light mode
+
+nav:
+ - Overview: index.md
+ - Installation: install.md
+ - Data Streaming: streaming.md
+ - HDL Targeting: targeting.md
+ - Examples: examples.md
+ - Reference API:
+    - Device Interfaces:
+       - adi.AD9361.Tx: sysobjects/adi.AD9361.Tx.md
+       - adi.AD9361.Rx: sysobjects/adi.AD9361.Rx.md
+       - adi.AD9363.Tx: sysobjects/adi.AD9363.Tx.md
+       - adi.AD9363.Rx: sysobjects/adi.AD9363.Rx.md
+       - adi.AD9364.Tx: sysobjects/adi.AD9364.Tx.md
+       - adi.AD9364.Rx: sysobjects/adi.AD9364.Rx.md
+       - adi.AD9371.Tx: sysobjects/adi.AD9371.Tx.md
+       - adi.AD9371.Rx: sysobjects/adi.AD9371.Rx.md
+       - adi.ADRV9009.Tx: sysobjects/adi.ADRV9009.Tx.md
+       - adi.ADRV9009.Rx: sysobjects/adi.ADRV9009.Rx.md
+       - adi.ADRV9361Z7035.Tx: sysobjects/adi.ADRV9361Z7035.Tx.md
+       - adi.ADRV9361Z7035.Rx: sysobjects/adi.ADRV9361Z7035.Rx.md
+       - adi.ADRV9364Z7020.Tx: sysobjects/adi.ADRV9364Z7020.Tx.md
+       - adi.ADRV9364Z7020.Rx: sysobjects/adi.ADRV9364Z7020.Rx.md
+       - adi.ADRV9371.Tx: sysobjects/adi.ADRV9371.Tx.md
+       - adi.ADRV9371.Rx: sysobjects/adi.ADRV9371.Rx.md
+       - adi.FMComms2.Tx: sysobjects/adi.FMComms2.Tx.md
+       - adi.FMComms2.Rx: sysobjects/adi.FMComms2.Rx.md
+       - adi.FMComms3.Tx: sysobjects/adi.FMComms3.Tx.md
+       - adi.FMComms3.Rx: sysobjects/adi.FMComms3.Rx.md
+       - adi.FMComms4.Tx: sysobjects/adi.FMComms4.Tx.md
+       - adi.FMComms4.Rx: sysobjects/adi.FMComms4.Rx.md
+       - adi.PackRF.Tx: sysobjects/adi.PackRF.Tx.md
+       - adi.PackRF.Rx: sysobjects/adi.PackRF.Rx.md
+       - adi.Pluto.Tx: sysobjects/adi.Pluto.Tx.md
+       - adi.Pluto.Rx: sysobjects/adi.Pluto.Rx.md
+       - adi.ADRV9002.Tx: sysobjects/adi.ADRV9002.Tx.md
+       - adi.ADRV9002.Rx: sysobjects/adi.ADRV9002.Rx.md
+
 
 extra_css:
    - stylesheets/style.css
@@ -20,3 +58,18 @@ extra_css:
 plugins:
     - search
     - awesome-pages
+    - mermaid2
+
+markdown_extensions:
+    - admonition
+    - pymdownx.details
+    - pymdownx.highlight:
+        anchor_linenums: true
+    - pymdownx.inlinehilite
+    - pymdownx.snippets
+    - pymdownx.superfences:
+        # make exceptions to highlighting of code:
+        custom_fences:
+          - name: mermaid
+            class: mermaid
+            format: !!python/name:mermaid2.fence_mermaid
