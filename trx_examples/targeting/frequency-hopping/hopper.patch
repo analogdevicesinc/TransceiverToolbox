@@ -1,6 +1,6 @@
-From ba593c5b818af9392f5bf6f4e8af08686fe26280 Mon Sep 17 00:00:00 2001
+From 2fdd990facea38577ee89da6d28484fd3393fd57 Mon Sep 17 00:00:00 2001
 From: "Travis F. Collins" <travis.collins@analog.com>
-Date: Fri, 13 Aug 2021 12:16:28 -0700
+Date: Tue, 25 Jan 2022 12:12:41 -0800
 Subject: [PATCH] Add IIO driver for AD936x frequency hopper controller
 
 Signed-off-by: Travis F. Collins <travis.collins@analog.com>
@@ -10,8 +10,8 @@ Signed-off-by: Travis F. Collins <travis.collins@analog.com>
  drivers/iio/Makefile    |   1 +
  drivers/iio/ip/Kconfig  |  16 ++
  drivers/iio/ip/Makefile |   6 +
- drivers/iio/ip/hopper.c | 328 ++++++++++++++++++++++++++++++++++++++++
- 6 files changed, 353 insertions(+)
+ drivers/iio/ip/hopper.c | 326 ++++++++++++++++++++++++++++++++++++++++
+ 6 files changed, 351 insertions(+)
  create mode 100644 drivers/iio/ip/Kconfig
  create mode 100644 drivers/iio/ip/Makefile
  create mode 100644 drivers/iio/ip/hopper.c
@@ -29,7 +29,7 @@ index fb0802667..66257333c 100644
  source "drivers/iio/light/Kconfig"
  source "drivers/iio/logic/Kconfig"
 diff --git a/drivers/iio/Kconfig.adi b/drivers/iio/Kconfig.adi
-index f0ed3cf70..66db0bc85 100644
+index f0ed3cf70..64d429ca2 100644
 --- a/drivers/iio/Kconfig.adi
 +++ b/drivers/iio/Kconfig.adi
 @@ -154,3 +154,4 @@ config IIO_ALL_ADI_DRIVERS
@@ -85,10 +85,10 @@ index 000000000..7f785668f
 +obj-$(CONFIG_HOPPER) += hopper.o
 diff --git a/drivers/iio/ip/hopper.c b/drivers/iio/ip/hopper.c
 new file mode 100644
-index 000000000..eba8fa9d0
+index 000000000..de275f623
 --- /dev/null
 +++ b/drivers/iio/ip/hopper.c
-@@ -0,0 +1,328 @@
+@@ -0,0 +1,326 @@
 +/*
 + * Frequency Hopping HDL CORE driver
 + *
@@ -341,7 +341,6 @@ index 000000000..eba8fa9d0
 +}
 +
 +static const struct iio_info cf_axi_hopper_info = {
-+	.driver_module = THIS_MODULE,
 +	.debugfs_reg_access = &cf_axi_hopper_reg_access,
 +	.attrs = &cf_axi_hopper_attribute_group,
 +};
@@ -406,7 +405,6 @@ index 000000000..eba8fa9d0
 +static struct platform_driver cf_axi_hopper_driver = {
 +	.driver = {
 +		.name = "cf_axi_hopper",
-+		.owner = THIS_MODULE,
 +		.of_match_table = cf_axi_hopper_of_match,
 +	},
 +	.probe		= cf_axi_hopper_probe,
