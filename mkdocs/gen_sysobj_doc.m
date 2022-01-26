@@ -19,6 +19,10 @@ for ii = 1:numel(parts)
         dotmfilename = strcat(mfiledir, '.', parts{ii}, '.', trx_files{jj});
         props = properties(dotmfilename);
         for prop = 1:length(props)
+
+            if prop == "enIO"
+                continue;
+            end
             pdoc = help(strcat(dotmfilename,'.',props{prop}));
             
             pdocs = strsplit(pdoc,'\n');

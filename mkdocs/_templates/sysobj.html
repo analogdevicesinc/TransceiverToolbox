@@ -1,17 +1,12 @@
-<header>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-</header>
-
 {% block content %}
 
-<div class="sysobj_h1">{{ obj.name }}</div>
+<!-- <div class="sysobj_h1">{{ obj.name }}</div> -->
 
-<div class="sysobj_top_desc">
+<!-- <div class="sysobj_top_desc">
 Receive data from Analog Devices AD9361 transceiver
-</div>
+</div> -->
 
-<div class="sysobj_desc_title">Description</div>
+<!-- <div class="sysobj_desc_title">Description</div> -->
 
 <div class="sysobj_desc_txt">
 <span>
@@ -20,11 +15,9 @@ Receive data from Analog Devices AD9361 transceiver
 
 </div>
 
-<div class="sysobj_desc_title">Usage</div>
+<div class="sysobj_desc_title">Creation</div>
 
-<div class="sysobj_desc_txt">
-Creation
-</div>
+The class can be instantiated in the following way with and without property name value pairs.
 
 ```matlab
 dev = {{ obj.name }}
@@ -35,7 +28,7 @@ dev = {{ obj.name }}(Name, Value)
 
 <div class="sysobj_desc_txt">
 <span>
-Unless otherwise indicated, properties are nontunable, which means you cannot change their values after calling the object. Objects lock when you call them, and the release function unlocks them.
+Unless otherwise indicated, properties are non-tunable, which means you cannot change their values after calling the object. Objects lock when you call them, and the release function unlocks them.
 <br><br>
 If a property is tunable, you can change its value at any time.
 <br><br>
@@ -44,21 +37,47 @@ For more information on changing property values, see <a href="https://www.mathw
 </div>
 
 {%- for prop in obj.props %}
-<div class="accordion">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingTwo">
-      <button class="sysobj_prop accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{ prop.prop_name }}" aria-expanded="false" aria-controls="{{ prop.prop_name }}">
-      <span>{{ prop.prop_name }}</span>
-      </button>
-    </h2>
-    <div id="{{ prop.prop_name }}" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        {{ prop.prop_description }}
-      </div>
-    </div>
+<div class="property">
+  <button type="button" onclick="collapse('{{ prop.prop_name }}')" class="collapsible-property collapsible-property-{{ prop.prop_name }}">{{ prop.prop_name }} <span style="text-align:right" class="plus-{{ prop.prop_name }}">+</span></button>
+  <div class="content content-{{ prop.prop_name }}" style="display: none;">
+    <p style="padding: 0px;">{{ prop.prop_description }}</p>
   </div>
   </div>
-  <div class='gap'></div>
 {%- endfor -%}
 
 {% endblock %}
+
+<div class="sysobj_desc_title">Example Usage</div>
+
+```
+{% if obj.type == "Tx" %}
+%% Configure device
+tx = adi.{{ obj.name }};
+tx.uri = "ip:analog.local";
+tx.CenterFrequency = 1e9;
+tx.DataSource = 'DMA';
+tx.EnableCyclicBuffers = true;
+tx.EnabledChannels = 1;
+%% Generate tone
+amplitude = 2^15; frequency = 0.12e6;
+swv1 = dsp.SineWave(amplitude, frequency);
+swv1.ComplexOutput = true;
+swv1.SamplesPerFrame = 2^14;
+swv1.SampleRate = tx.SamplingRate;
+y = swv1();
+% Send
+tx(y);
+{% else %}
+%% Rx set up
+rx = adi.{{ obj.name }}.Rx('uri','ip:analog.local');
+rx.CenterFrequency = 1e9;
+rx.EnabledChannels = 1;
+%% Run
+for k=1:10
+    valid = false;
+    while ~valid
+        [out, valid] = rx();
+    end
+end
+{% endif %}
+```
