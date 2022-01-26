@@ -1,5 +1,22 @@
-title: Home
-## Analog Devices, Inc. Transceiver Toolbox
+<!-- Hide header and click button -->
+<style>
+  .md-typeset h1,
+  .md-content__button {
+    display: none;
+  }
+</style>
+
+<center>
+<div class="dark-logo">
+<img src="https://github.com/analogdevicesinc/TransceiverToolbox/raw/master/logos/logo_black.png" alt="Transceiver Toolbox" width="80%">
+</div>
+<div class="light-logo">
+<img src="https://github.com/analogdevicesinc/TransceiverToolbox/raw/master/logos/logo_white.png" alt="Transceiver Toolbox" width="80%">
+</div>
+</center>
+
+<!-- # Analog Devices, Inc. Transceiver Toolbox -->
+
 
 ADI maintains a set of tools to model, interface, and target with ADI transceiver devices within MATLAB and Simulink. These are combined into single Toolbox which contains a set of Board Support Packages (BSP). The list of supported boards is provided below.
 

@@ -1,8 +1,3 @@
-<header>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-</header>
-
 
 
 <!-- <div class="sysobj_h1">adi.ADRV9009.Tx</div> -->
@@ -20,11 +15,12 @@ Receive data from Analog Devices AD9361 transceiver
 
 </div>
 
-<div class="sysobj_desc_title">Usage</div>
+<div class="sysobj_desc_title">Creation</div>
 
-<div class="sysobj_desc_txt">
-Creation
-</div>
+The class can be instantiated in the following way with and without property name value pairs.
+<!-- <div class="sysobj_desc_txt">
+Creation -->
+<!-- </div> -->
 
 ```matlab
 dev = adi.ADRV9009.Tx
@@ -42,363 +38,170 @@ If a property is tunable, you can change its value at any time.
 For more information on changing property values, see <a href="https://www.mathworks.com/help/matlab/matlab_prog/system-design-in-matlab-using-system-objects.html">System Design in MATLAB Using System Objects.</a>
 </span>
 </div>
-<div class="accordion">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingTwo">
-      <button class="sysobj_prop accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#AttenuationChannel0" aria-expanded="false" aria-controls="AttenuationChannel0">
-      <span>AttenuationChannel0</span>
-      </button>
-    </h2>
-    <div id="AttenuationChannel0" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        Attentuation specified as a scalar from -41.95 to 0 dB with a resolution of 0.05 dB.
-      </div>
-    </div>
+<div class="property">
+  <button type="button" onclick="collapse('AttenuationChannel0')" class="collapsible-property collapsible-property-AttenuationChannel0">AttenuationChannel0 <span style="text-align:right" class="plus-AttenuationChannel0">+</span></button>
+  <div class="content content-AttenuationChannel0" style="display: none;">
+    <p style="padding: 0px;">Attentuation specified as a scalar from -41.95 to 0 dB with a resolution of 0.05 dB.</p>
   </div>
   </div>
-  <div class='gap'></div>
-<div class="accordion">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingTwo">
-      <button class="sysobj_prop accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#AttenuationChannel1" aria-expanded="false" aria-controls="AttenuationChannel1">
-      <span>AttenuationChannel1</span>
-      </button>
-    </h2>
-    <div id="AttenuationChannel1" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        Attentuation specified as a scalar from -41.95 to 0 dB with a resolution of 0.05 dB.
-      </div>
-    </div>
+<div class="property">
+  <button type="button" onclick="collapse('AttenuationChannel1')" class="collapsible-property collapsible-property-AttenuationChannel1">AttenuationChannel1 <span style="text-align:right" class="plus-AttenuationChannel1">+</span></button>
+  <div class="content content-AttenuationChannel1" style="display: none;">
+    <p style="padding: 0px;">Attentuation specified as a scalar from -41.95 to 0 dB with a resolution of 0.05 dB.</p>
   </div>
   </div>
-  <div class='gap'></div>
-<div class="accordion">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingTwo">
-      <button class="sysobj_prop accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#EnableQuadratureTrackingChannel0" aria-expanded="false" aria-controls="EnableQuadratureTrackingChannel0">
-      <span>EnableQuadratureTrackingChannel0</span>
-      </button>
-    </h2>
-    <div id="EnableQuadratureTrackingChannel0" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the transmitted signal.
-      </div>
-    </div>
+<div class="property">
+  <button type="button" onclick="collapse('EnableQuadratureTrackingChannel0')" class="collapsible-property collapsible-property-EnableQuadratureTrackingChannel0">EnableQuadratureTrackingChannel0 <span style="text-align:right" class="plus-EnableQuadratureTrackingChannel0">+</span></button>
+  <div class="content content-EnableQuadratureTrackingChannel0" style="display: none;">
+    <p style="padding: 0px;">Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the transmitted signal.</p>
   </div>
   </div>
-  <div class='gap'></div>
-<div class="accordion">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingTwo">
-      <button class="sysobj_prop accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#EnableQuadratureTrackingChannel1" aria-expanded="false" aria-controls="EnableQuadratureTrackingChannel1">
-      <span>EnableQuadratureTrackingChannel1</span>
-      </button>
-    </h2>
-    <div id="EnableQuadratureTrackingChannel1" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the transmitted signal.
-      </div>
-    </div>
+<div class="property">
+  <button type="button" onclick="collapse('EnableQuadratureTrackingChannel1')" class="collapsible-property collapsible-property-EnableQuadratureTrackingChannel1">EnableQuadratureTrackingChannel1 <span style="text-align:right" class="plus-EnableQuadratureTrackingChannel1">+</span></button>
+  <div class="content content-EnableQuadratureTrackingChannel1" style="display: none;">
+    <p style="padding: 0px;">Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the transmitted signal.</p>
   </div>
   </div>
-  <div class='gap'></div>
-<div class="accordion">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingTwo">
-      <button class="sysobj_prop accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#EnableLOLeakageTrackingChannel0" aria-expanded="false" aria-controls="EnableLOLeakageTrackingChannel0">
-      <span>EnableLOLeakageTrackingChannel0</span>
-      </button>
-    </h2>
-    <div id="EnableLOLeakageTrackingChannel0" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        Option to enable quadrature tracking, specified as true or false. When this property is true, LO leakage compensation is applied to the transmitted signal.
-      </div>
-    </div>
+<div class="property">
+  <button type="button" onclick="collapse('EnableLOLeakageTrackingChannel0')" class="collapsible-property collapsible-property-EnableLOLeakageTrackingChannel0">EnableLOLeakageTrackingChannel0 <span style="text-align:right" class="plus-EnableLOLeakageTrackingChannel0">+</span></button>
+  <div class="content content-EnableLOLeakageTrackingChannel0" style="display: none;">
+    <p style="padding: 0px;">Option to enable quadrature tracking, specified as true or false. When this property is true, LO leakage compensation is applied to the transmitted signal.</p>
   </div>
   </div>
-  <div class='gap'></div>
-<div class="accordion">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingTwo">
-      <button class="sysobj_prop accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#EnableLOLeakageTrackingChannel1" aria-expanded="false" aria-controls="EnableLOLeakageTrackingChannel1">
-      <span>EnableLOLeakageTrackingChannel1</span>
-      </button>
-    </h2>
-    <div id="EnableLOLeakageTrackingChannel1" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        Option to enable quadrature tracking, specified as true or false. When this property is true, LO leakage compensation is applied to the transmitted signal.
-      </div>
-    </div>
+<div class="property">
+  <button type="button" onclick="collapse('EnableLOLeakageTrackingChannel1')" class="collapsible-property collapsible-property-EnableLOLeakageTrackingChannel1">EnableLOLeakageTrackingChannel1 <span style="text-align:right" class="plus-EnableLOLeakageTrackingChannel1">+</span></button>
+  <div class="content content-EnableLOLeakageTrackingChannel1" style="display: none;">
+    <p style="padding: 0px;">Option to enable quadrature tracking, specified as true or false. When this property is true, LO leakage compensation is applied to the transmitted signal.</p>
   </div>
   </div>
-  <div class='gap'></div>
-<div class="accordion">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingTwo">
-      <button class="sysobj_prop accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#EnableQuadratureCalibration" aria-expanded="false" aria-controls="EnableQuadratureCalibration">
-      <span>EnableQuadratureCalibration</span>
-      </button>
-    </h2>
-    <div id="EnableQuadratureCalibration" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        Option to enable quadrature calibration on initialization, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.
-      </div>
-    </div>
+<div class="property">
+  <button type="button" onclick="collapse('EnableQuadratureCalibration')" class="collapsible-property collapsible-property-EnableQuadratureCalibration">EnableQuadratureCalibration <span style="text-align:right" class="plus-EnableQuadratureCalibration">+</span></button>
+  <div class="content content-EnableQuadratureCalibration" style="display: none;">
+    <p style="padding: 0px;">Option to enable quadrature calibration on initialization, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.</p>
   </div>
   </div>
-  <div class='gap'></div>
-<div class="accordion">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingTwo">
-      <button class="sysobj_prop accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#EnableLOLeakageCorrection" aria-expanded="false" aria-controls="EnableLOLeakageCorrection">
-      <span>EnableLOLeakageCorrection</span>
-      </button>
-    </h2>
-    <div id="EnableLOLeakageCorrection" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        Option to enable phase tracking, specified as true or false. When this property is true, at initialization LO leakage correction will be applied
-      </div>
-    </div>
+<div class="property">
+  <button type="button" onclick="collapse('EnableLOLeakageCorrection')" class="collapsible-property collapsible-property-EnableLOLeakageCorrection">EnableLOLeakageCorrection <span style="text-align:right" class="plus-EnableLOLeakageCorrection">+</span></button>
+  <div class="content content-EnableLOLeakageCorrection" style="display: none;">
+    <p style="padding: 0px;">Option to enable phase tracking, specified as true or false. When this property is true, at initialization LO leakage correction will be applied</p>
   </div>
   </div>
-  <div class='gap'></div>
-<div class="accordion">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingTwo">
-      <button class="sysobj_prop accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#EnableLOLeakageCorrectionExternal" aria-expanded="false" aria-controls="EnableLOLeakageCorrectionExternal">
-      <span>EnableLOLeakageCorrectionExternal</span>
-      </button>
-    </h2>
-    <div id="EnableLOLeakageCorrectionExternal" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        Option to enable phase tracking, specified as true or false. When this property is true, at initialization LO leakage correction will be applied within an external loopback path. Note this requires external cabling.
-      </div>
-    </div>
+<div class="property">
+  <button type="button" onclick="collapse('EnableLOLeakageCorrectionExternal')" class="collapsible-property collapsible-property-EnableLOLeakageCorrectionExternal">EnableLOLeakageCorrectionExternal <span style="text-align:right" class="plus-EnableLOLeakageCorrectionExternal">+</span></button>
+  <div class="content content-EnableLOLeakageCorrectionExternal" style="display: none;">
+    <p style="padding: 0px;">Option to enable phase tracking, specified as true or false. When this property is true, at initialization LO leakage correction will be applied within an external loopback path. Note this requires external cabling.</p>
   </div>
   </div>
-  <div class='gap'></div>
-<div class="accordion">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingTwo">
-      <button class="sysobj_prop accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#PowerdownChannel0" aria-expanded="false" aria-controls="PowerdownChannel0">
-      <span>PowerdownChannel0</span>
-      </button>
-    </h2>
-    <div id="PowerdownChannel0" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        Logical which will power down TX channel 0 when set
-      </div>
-    </div>
+<div class="property">
+  <button type="button" onclick="collapse('PowerdownChannel0')" class="collapsible-property collapsible-property-PowerdownChannel0">PowerdownChannel0 <span style="text-align:right" class="plus-PowerdownChannel0">+</span></button>
+  <div class="content content-PowerdownChannel0" style="display: none;">
+    <p style="padding: 0px;">Logical which will power down TX channel 0 when set</p>
   </div>
   </div>
-  <div class='gap'></div>
-<div class="accordion">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingTwo">
-      <button class="sysobj_prop accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#PowerdownChannel1" aria-expanded="false" aria-controls="PowerdownChannel1">
-      <span>PowerdownChannel1</span>
-      </button>
-    </h2>
-    <div id="PowerdownChannel1" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        Logical which will power down TX channel 1 when set
-      </div>
-    </div>
+<div class="property">
+  <button type="button" onclick="collapse('PowerdownChannel1')" class="collapsible-property collapsible-property-PowerdownChannel1">PowerdownChannel1 <span style="text-align:right" class="plus-PowerdownChannel1">+</span></button>
+  <div class="content content-PowerdownChannel1" style="display: none;">
+    <p style="padding: 0px;">Logical which will power down TX channel 1 when set</p>
   </div>
   </div>
-  <div class='gap'></div>
-<div class="accordion">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingTwo">
-      <button class="sysobj_prop accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#SamplesPerFrame" aria-expanded="false" aria-controls="SamplesPerFrame">
-      <span>SamplesPerFrame</span>
-      </button>
-    </h2>
-    <div id="SamplesPerFrame" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        Number of samples per frame, specified as an even positive integer from 2 to 16,777,216. Using values less than 3660 can yield poor performance.
-      </div>
-    </div>
+<div class="property">
+  <button type="button" onclick="collapse('SamplesPerFrame')" class="collapsible-property collapsible-property-SamplesPerFrame">SamplesPerFrame <span style="text-align:right" class="plus-SamplesPerFrame">+</span></button>
+  <div class="content content-SamplesPerFrame" style="display: none;">
+    <p style="padding: 0px;">Number of samples per frame, specified as an even positive integer from 2 to 16,777,216. Using values less than 3660 can yield poor performance.</p>
   </div>
   </div>
-  <div class='gap'></div>
-<div class="accordion">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingTwo">
-      <button class="sysobj_prop accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#EnableCustomProfile" aria-expanded="false" aria-controls="EnableCustomProfile">
-      <span>EnableCustomProfile</span>
-      </button>
-    </h2>
-    <div id="EnableCustomProfile" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        Enable use of custom Profile file to set SamplingRate, RFBandwidth, and FIR in datapaths
-      </div>
-    </div>
+<div class="property">
+  <button type="button" onclick="collapse('EnableCustomProfile')" class="collapsible-property collapsible-property-EnableCustomProfile">EnableCustomProfile <span style="text-align:right" class="plus-EnableCustomProfile">+</span></button>
+  <div class="content content-EnableCustomProfile" style="display: none;">
+    <p style="padding: 0px;">Enable use of custom Profile file to set SamplingRate, RFBandwidth, and FIR in datapaths</p>
   </div>
   </div>
-  <div class='gap'></div>
-<div class="accordion">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingTwo">
-      <button class="sysobj_prop accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#EnableFrequencyHoppingModeCalibration" aria-expanded="false" aria-controls="EnableFrequencyHoppingModeCalibration">
-      <span>EnableFrequencyHoppingModeCalibration</span>
-      </button>
-    </h2>
-    <div id="EnableFrequencyHoppingModeCalibration" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        Option to enable frequency hopping mode VCO calibration, specified as true or false. When this property is true, at initialization VCO calibration lookup table is populated
-      </div>
-    </div>
+<div class="property">
+  <button type="button" onclick="collapse('EnableFrequencyHoppingModeCalibration')" class="collapsible-property collapsible-property-EnableFrequencyHoppingModeCalibration">EnableFrequencyHoppingModeCalibration <span style="text-align:right" class="plus-EnableFrequencyHoppingModeCalibration">+</span></button>
+  <div class="content content-EnableFrequencyHoppingModeCalibration" style="display: none;">
+    <p style="padding: 0px;">Option to enable frequency hopping mode VCO calibration, specified as true or false. When this property is true, at initialization VCO calibration lookup table is populated</p>
   </div>
   </div>
-  <div class='gap'></div>
-<div class="accordion">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingTwo">
-      <button class="sysobj_prop accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#CustomProfileFileName" aria-expanded="false" aria-controls="CustomProfileFileName">
-      <span>CustomProfileFileName</span>
-      </button>
-    </h2>
-    <div id="CustomProfileFileName" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        Path to custom Profile file created from profile wizard
-      </div>
-    </div>
+<div class="property">
+  <button type="button" onclick="collapse('CustomProfileFileName')" class="collapsible-property collapsible-property-CustomProfileFileName">CustomProfileFileName <span style="text-align:right" class="plus-CustomProfileFileName">+</span></button>
+  <div class="content content-CustomProfileFileName" style="display: none;">
+    <p style="padding: 0px;">Path to custom Profile file created from profile wizard</p>
   </div>
   </div>
-  <div class='gap'></div>
-<div class="accordion">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingTwo">
-      <button class="sysobj_prop accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#CenterFrequency" aria-expanded="false" aria-controls="CenterFrequency">
-      <span>CenterFrequency</span>
-      </button>
-    </h2>
-    <div id="CenterFrequency" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        RF center frequency, specified in Hz as a scalar. The default is 2.4e9. This property is tunable.
-      </div>
-    </div>
+<div class="property">
+  <button type="button" onclick="collapse('CenterFrequency')" class="collapsible-property collapsible-property-CenterFrequency">CenterFrequency <span style="text-align:right" class="plus-CenterFrequency">+</span></button>
+  <div class="content content-CenterFrequency" style="display: none;">
+    <p style="padding: 0px;">RF center frequency, specified in Hz as a scalar. The default is 2.4e9. This property is tunable.</p>
   </div>
   </div>
-  <div class='gap'></div>
-<div class="accordion">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingTwo">
-      <button class="sysobj_prop accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#EnabledChannels" aria-expanded="false" aria-controls="EnabledChannels">
-      <span>EnabledChannels</span>
-      </button>
-    </h2>
-    <div id="EnabledChannels" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        Indexs of channels to be enabled. Input should be a [1xN] vector with the indexes of channels to be enabled. Order is irrelevant
-      </div>
-    </div>
+<div class="property">
+  <button type="button" onclick="collapse('EnabledChannels')" class="collapsible-property collapsible-property-EnabledChannels">EnabledChannels <span style="text-align:right" class="plus-EnabledChannels">+</span></button>
+  <div class="content content-EnabledChannels" style="display: none;">
+    <p style="padding: 0px;">Indexs of channels to be enabled. Input should be a [1xN] vector with the indexes of channels to be enabled. Order is irrelevant</p>
   </div>
   </div>
-  <div class='gap'></div>
-<div class="accordion">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingTwo">
-      <button class="sysobj_prop accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#uri" aria-expanded="false" aria-controls="uri">
-      <span>uri</span>
-      </button>
-    </h2>
-    <div id="uri" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        Hostname or IP address of remote libIIO deviceHelp for adi.ADRV9009.Tx/uri is inherited from superclass MATLABSHARED.LIBIIO.BASE
-      </div>
-    </div>
+<div class="property">
+  <button type="button" onclick="collapse('uri')" class="collapsible-property collapsible-property-uri">uri <span style="text-align:right" class="plus-uri">+</span></button>
+  <div class="content content-uri" style="display: none;">
+    <p style="padding: 0px;">Hostname or IP address of remote libIIO deviceHelp for adi.ADRV9009.Tx/uri is inherited from superclass MATLABSHARED.LIBIIO.BASE</p>
   </div>
   </div>
-  <div class='gap'></div>
-<div class="accordion">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingTwo">
-      <button class="sysobj_prop accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#enIO" aria-expanded="false" aria-controls="enIO">
-      <span>enIO</span>
-      </button>
-    </h2>
-    <div id="enIO" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        If true, connects to libIIO device during simulationHelp for adi.ADRV9009.Tx/enIO is inherited from superclass MATLABSHARED.LIBIIO.BASE
-      </div>
-    </div>
+<div class="property">
+  <button type="button" onclick="collapse('enIO')" class="collapsible-property collapsible-property-enIO">enIO <span style="text-align:right" class="plus-enIO">+</span></button>
+  <div class="content content-enIO" style="display: none;">
+    <p style="padding: 0px;">If true, connects to libIIO device during simulationHelp for adi.ADRV9009.Tx/enIO is inherited from superclass MATLABSHARED.LIBIIO.BASE</p>
   </div>
   </div>
-  <div class='gap'></div>
-<div class="accordion">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingTwo">
-      <button class="sysobj_prop accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#DataSource" aria-expanded="false" aria-controls="DataSource">
-      <span>DataSource</span>
-      </button>
-    </h2>
-    <div id="DataSource" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        Data source, specified as one of the following: 'DMA' — Specify the host as the source of the data. 'DDS' — Specify the DDS on the radio hardware as the source of the data. In this case, each channel has two additive tones.Help for adi.ADRV9009.Tx/DataSource is inherited from superclass ADI.COMMON.DDS
-      </div>
-    </div>
+<div class="property">
+  <button type="button" onclick="collapse('DataSource')" class="collapsible-property collapsible-property-DataSource">DataSource <span style="text-align:right" class="plus-DataSource">+</span></button>
+  <div class="content content-DataSource" style="display: none;">
+    <p style="padding: 0px;">Data source, specified as one of the following: 'DMA' — Specify the host as the source of the data. 'DDS' — Specify the DDS on the radio hardware as the source of the data. In this case, each channel has two additive tones.Help for adi.ADRV9009.Tx/DataSource is inherited from superclass ADI.COMMON.DDS</p>
   </div>
   </div>
-  <div class='gap'></div>
-<div class="accordion">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingTwo">
-      <button class="sysobj_prop accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#DDSFrequencies" aria-expanded="false" aria-controls="DDSFrequencies">
-      <span>DDSFrequencies</span>
-      </button>
-    </h2>
-    <div id="DDSFrequencies" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        Frequencies values in Hz of the DDS tone generators. For complex data devices the input is a [2xN] matrix where N is the available channels on the board. For complex data devices this is at most max(EnabledChannels)*2. For non-complex data devices this is at most max(EnabledChannels). If N < this upper limit, other DDSs are not set.Help for adi.ADRV9009.Tx/DDSFrequencies is inherited from superclass ADI.COMMON.DDS
-      </div>
-    </div>
+<div class="property">
+  <button type="button" onclick="collapse('DDSFrequencies')" class="collapsible-property collapsible-property-DDSFrequencies">DDSFrequencies <span style="text-align:right" class="plus-DDSFrequencies">+</span></button>
+  <div class="content content-DDSFrequencies" style="display: none;">
+    <p style="padding: 0px;">Frequencies values in Hz of the DDS tone generators. For complex data devices the input is a [2xN] matrix where N is the available channels on the board. For complex data devices this is at most max(EnabledChannels)*2. For non-complex data devices this is at most max(EnabledChannels). If N < this upper limit, other DDSs are not set.Help for adi.ADRV9009.Tx/DDSFrequencies is inherited from superclass ADI.COMMON.DDS</p>
   </div>
   </div>
-  <div class='gap'></div>
-<div class="accordion">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingTwo">
-      <button class="sysobj_prop accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#DDSScales" aria-expanded="false" aria-controls="DDSScales">
-      <span>DDSScales</span>
-      </button>
-    </h2>
-    <div id="DDSScales" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        Scale of DDS tones in range [0,1]. For complex data devices the input is a [2xN] matrix where N is the available channels on the board. For complex data devices this is at most max(EnabledChannels)*2. For non-complex data devices this is at most max(EnabledChannels). If N < this upper limit, other DDSs are not set.Help for adi.ADRV9009.Tx/DDSScales is inherited from superclass ADI.COMMON.DDS
-      </div>
-    </div>
+<div class="property">
+  <button type="button" onclick="collapse('DDSScales')" class="collapsible-property collapsible-property-DDSScales">DDSScales <span style="text-align:right" class="plus-DDSScales">+</span></button>
+  <div class="content content-DDSScales" style="display: none;">
+    <p style="padding: 0px;">Scale of DDS tones in range [0,1]. For complex data devices the input is a [2xN] matrix where N is the available channels on the board. For complex data devices this is at most max(EnabledChannels)*2. For non-complex data devices this is at most max(EnabledChannels). If N < this upper limit, other DDSs are not set.Help for adi.ADRV9009.Tx/DDSScales is inherited from superclass ADI.COMMON.DDS</p>
   </div>
   </div>
-  <div class='gap'></div>
-<div class="accordion">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingTwo">
-      <button class="sysobj_prop accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#DDSPhases" aria-expanded="false" aria-controls="DDSPhases">
-      <span>DDSPhases</span>
-      </button>
-    </h2>
-    <div id="DDSPhases" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        Phases of DDS tones in range [0,360000]. For complex data devices the input is a [2xN] matrix where N is the available channels on the board. For complex data devices this is at most max(EnabledChannels)*2. For non-complex data devices this is at most max(EnabledChannels). If N < this upper limit, other DDSs are not set.Help for adi.ADRV9009.Tx/DDSPhases is inherited from superclass ADI.COMMON.DDS
-      </div>
-    </div>
+<div class="property">
+  <button type="button" onclick="collapse('DDSPhases')" class="collapsible-property collapsible-property-DDSPhases">DDSPhases <span style="text-align:right" class="plus-DDSPhases">+</span></button>
+  <div class="content content-DDSPhases" style="display: none;">
+    <p style="padding: 0px;">Phases of DDS tones in range [0,360000]. For complex data devices the input is a [2xN] matrix where N is the available channels on the board. For complex data devices this is at most max(EnabledChannels)*2. For non-complex data devices this is at most max(EnabledChannels). If N < this upper limit, other DDSs are not set.Help for adi.ADRV9009.Tx/DDSPhases is inherited from superclass ADI.COMMON.DDS</p>
   </div>
   </div>
-  <div class='gap'></div>
-<div class="accordion">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingTwo">
-      <button class="sysobj_prop accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#EnableCyclicBuffers" aria-expanded="false" aria-controls="EnableCyclicBuffers">
-      <span>EnableCyclicBuffers</span>
-      </button>
-    </h2>
-    <div id="EnableCyclicBuffers" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        Enable Cyclic Buffers, configures transmit buffers to be cyclic, which makes them continuously repeatHelp for adi.ADRV9009.Tx/EnableCyclicBuffers is inherited from superclass ADI.COMMON.DDS
-      </div>
-    </div>
+<div class="property">
+  <button type="button" onclick="collapse('EnableCyclicBuffers')" class="collapsible-property collapsible-property-EnableCyclicBuffers">EnableCyclicBuffers <span style="text-align:right" class="plus-EnableCyclicBuffers">+</span></button>
+  <div class="content content-EnableCyclicBuffers" style="display: none;">
+    <p style="padding: 0px;">Enable Cyclic Buffers, configures transmit buffers to be cyclic, which makes them continuously repeatHelp for adi.ADRV9009.Tx/EnableCyclicBuffers is inherited from superclass ADI.COMMON.DDS</p>
   </div>
   </div>
-  <div class='gap'></div>
+
+<div class="sysobj_desc_title">Example Usage</div>
+
+```
+
+%% Configure device
+tx = adi.adi.ADRV9009.Tx;
+tx.uri = "ip:analog.local";
+tx.CenterFrequency = 1e9;
+tx.DataSource = 'DMA';
+tx.EnableCyclicBuffers = true;
+tx.EnabledChannels = 1;
+%% Generate tone
+amplitude = 2^15; frequency = 0.12e6;
+swv1 = dsp.SineWave(amplitude, frequency);
+swv1.ComplexOutput = true;
+swv1.SamplesPerFrame = 2^14;
+swv1.SampleRate = tx.SamplingRate;
+y = swv1();
+% Send
+tx(y);
+
+```

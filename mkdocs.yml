@@ -55,6 +55,9 @@ nav:
 extra_css:
    - stylesheets/style.css
 
+extra_javascript:
+   - js/sys_objects.js
+
 plugins:
     - search
     - awesome-pages

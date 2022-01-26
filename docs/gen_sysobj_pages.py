@@ -5,7 +5,7 @@ import json
 template_filename = "sysobj.html"
 
 # Data for template
-f = open('sysobjs.json')
+f = open("sysobjs.json")
 objs = json.load(f)
 f.close()
 
@@ -20,12 +20,13 @@ template = env.get_template(loc)
 
 devices = {}
 
+
 def cleanup(obj):
 
-    obj['dec'] = obj['dec'].replace('192.168.2.1', 'ip:192.168.2.1')
-    d = obj['dec']
+    obj["dec"] = obj["dec"].replace("192.168.2.1", "ip:192.168.2.1")
+    d = obj["dec"]
     ol = []
-    for d in obj['dec'].split('<br>'):
+    for d in obj["dec"].split("<br>"):
 
         if "See also" in d:
             continue
@@ -36,9 +37,14 @@ def cleanup(obj):
 
         ol.append(d)
 
-    obj['dec'] = '<br>'.join(ol)
+    obj["dec"] = "<br>".join(ol)
+    if ".Rx" in obj["name"]:
+        obj["type"] = "Rx"
+    else:
+        obj["type"] = "Tx"
 
     return obj
+
 
 for obj in objs:
     # Render template
@@ -47,15 +53,16 @@ for obj in objs:
     # Write output
     output_filename = f"sysobjects/{obj['name']}.md"
     loc = os.path.join(output_filename)
-    f = open(loc, 'w')
+    f = open(loc, "w")
     f.write(output)
     f.close()
-    devices[obj['name']] = output_filename
+    devices[obj["name"]] = output_filename
 
 # Update mkdocs.yml
 loc = os.path.join("mkdocs.tmpl")
 template = env.get_template(loc)
 output = template.render(devices=devices)
 
-with open("mkdocs.yml", "w") as f:
+loc = os.path.join("..", "mkdocs.yml")
+with open(loc, "w") as f:
     f.write(output)
