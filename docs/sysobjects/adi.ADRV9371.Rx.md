@@ -18,9 +18,6 @@ Receive data from Analog Devices AD9361 transceiver
 <div class="sysobj_desc_title">Creation</div>
 
 The class can be instantiated in the following way with and without property name value pairs.
-<!-- <div class="sysobj_desc_txt">
-Creation -->
-<!-- </div> -->
 
 ```matlab
 dev = adi.ADRV9371.Rx
@@ -31,7 +28,7 @@ dev = adi.ADRV9371.Rx(Name, Value)
 
 <div class="sysobj_desc_txt">
 <span>
-Unless otherwise indicated, properties are nontunable, which means you cannot change their values after calling the object. Objects lock when you call them, and the release function unlocks them.
+Unless otherwise indicated, properties are non-tunable, which means you cannot change their values after calling the object. Objects lock when you call them, and the release function unlocks them.
 <br><br>
 If a property is tunable, you can change its value at any time.
 <br><br>

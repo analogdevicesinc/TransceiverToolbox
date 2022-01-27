@@ -21,6 +21,10 @@ nav:
  - HDL Targeting: targeting.md
  - Examples: examples.md
  - Reference API:
+    - HDL Reference Designs:
+{%- for design in designs %}
+       - {{ design }}: {{ designs[design] }}
+{%- endfor %}
     - Device Interfaces:
 {%- for dev in devices %}
        - {{ dev }}: {{ devices[dev] }}

@@ -1,0 +1,29 @@
+{% block content %}
+
+# {{ obj.name }} Reference Design Integration
+
+- ADI Component: {{ obj.chip }}
+- Supported FPGA carriers: 
+{%- for carrier in obj.fpga %}
+    - {{ carrier }}
+{%- endfor %}
+- Supported design variants:
+{%- for supported_rd in obj.supported_rd %}
+    - {{ supported_rd.upper() }}
+{%- endfor %}
+
+## Reference Design
+
+## HDL Worflow Advisor Port Mappings
+
+| Type | Target Platform Interface (MATLAB) | Reference Design Connection (Vivado) | Width | Reference Design Variant |
+| ---- | ------------------------ | --------------------------- | ----- | ----------- |
+{%- for rds in obj.ports[0] %}
+
+{%- for rd in obj.ports[0][rds] %}
+| {{ rd['type'].upper() }}-{% if rd['input'] %}IN{% else %}OUT{% endif %} | {{ rd['ml_name'] }} | {{ rd['name'] }} | {{ rd['width'] }} | {{ rds.upper() }} |
+{%- endfor %}
+
+{%- endfor %}
+
+{% endblock %}
