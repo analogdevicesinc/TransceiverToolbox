@@ -58,10 +58,17 @@ for obj in objs:
     f.close()
     devices[obj["name"]] = output_filename
 
+###############################################################################
+# HDL Refdesigns
+###############################################################################
+from gen_hdl_refdesigns import update_hdl_refdesigns
+
+designs = update_hdl_refdesigns()
+
 # Update mkdocs.yml
 loc = os.path.join("mkdocs.tmpl")
 template = env.get_template(loc)
-output = template.render(devices=devices)
+output = template.render(devices=devices, designs=designs)
 
 loc = os.path.join("..", "mkdocs.yml")
 with open(loc, "w") as f:
