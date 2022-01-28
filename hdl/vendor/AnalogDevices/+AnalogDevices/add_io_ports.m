@@ -50,7 +50,7 @@ for i = 1:length(rtx)
     elseif strcmpi(rx.type,'data')
         for j=1:rx.count
             hRD.addInternalIOInterface( ...
-                'InterfaceID',    inout_id_d(rx.input,j,root.chip,root.complex,type), ...
+                'InterfaceID',    inout_id_d(rx.input,j,root.chip,root.complex,type,rx.name), ...
                 'InterfaceType',  inout(rx.input), ...
                 'PortName',       inout_pn_d(rx.input,j), ...
                 'PortWidth',      rx.width, ...
@@ -80,16 +80,15 @@ else
 end
 end
 %%
-function out = inout_id_d(in,num,chip,complex,type)
+function out = inout_id_d(in,num,chip,complex,type,name)
 
 if strcmpi(type,'rx')
     if in
         if complex
-            numC = floor((num-1)/2);
-            if fix(num/2) == num/2 % even
-                out = sprintf('%s ADC Data I%d',chip,numC);
-            else
-                out = sprintf('%s ADC Data Q%d',chip,numC);
+            if strcmp(name(end-1), 'i')
+                out = sprintf('%s ADC Data I%d',chip,num-1);
+            elseif strcmp(name(end-1), 'q')
+                out = sprintf('%s ADC Data Q%d',chip,num-1);
             end
         else
             out = sprintf('%s ADC Data %d',chip,num-1);
