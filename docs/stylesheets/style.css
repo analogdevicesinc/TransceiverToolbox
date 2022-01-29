@@ -1,7 +1,12 @@
+
+
+
+
 [data-md-color-scheme="slate"] {
     --prop-box-color: var(--md-code-bg-color);
     --logo-light-mode: none;
     --logo-dark-mode: block;
+    --rd-title-color: white;
 }
 
 [data-md-color-scheme="default"] {
@@ -9,6 +14,7 @@
     --prop-box-color: var(--md-default-fg-color--dark);
     --logo-light-mode: block;
     --logo-dark-mode: none;
+    --rd-title-color: black;
 }
 
 
@@ -65,4 +71,16 @@
 
 .light-logo {
     display: var(--logo-dark-mode);
+}
+
+:root {
+    --md-primary-fg-color: #1E68D8;
+    --md-primary-fg-color--light: #1E68D8;
+    --md-primary-fg-color--dark: #1E68D8;
+}
+
+[data-md-color-scheme="blue"] {
+    --md-primary-fg-color: #1E68D8;
+    --md-primary-fg-color--light: #1E68D8;
+    --md-primary-fg-color--dark: #1E68D8;
 }

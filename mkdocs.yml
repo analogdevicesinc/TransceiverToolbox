@@ -62,6 +62,7 @@ nav:
 
 extra_css:
    - stylesheets/style.css
+   - stylesheets/rd_style.css
 
 extra_javascript:
    - js/sys_objects.js
@@ -70,8 +71,11 @@ plugins:
     - search
     - awesome-pages
     - mermaid2
+    - inline-svg
 
 markdown_extensions:
+    - attr_list
+    - md_in_html
     - admonition
     - pymdownx.details
     - pymdownx.highlight:
