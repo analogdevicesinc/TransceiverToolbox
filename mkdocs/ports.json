@@ -2,6 +2,7 @@
     "fmcomms2": {
         "chip": "AD9361",
         "complex": true,
+        "hdl_rd_doc": "https://wiki.analog.com/resources/eval/user-guides/ad-fmcomms2-ebz/reference_hdl",
         "fpga": [
             "zed",
             "zc706",
@@ -80,6 +81,7 @@
     "adrv9361z7035": {
         "chip": "AD9361",
         "complex": true,
+        "hdl_rd_doc": "https://wiki.analog.com/resources/eval/user-guides/ad-fmcomms2-ebz/reference_hdl",
         "fpga": [
             "ccbob_cmos",
             "ccbob_lvds",
@@ -160,6 +162,7 @@
     "adrv9364z7020": {
         "chip": "AD9364",
         "complex": true,
+        "hdl_rd_doc": "https://wiki.analog.com/resources/eval/user-guides/ad-fmcomms2-ebz/reference_hdl",
         "fpga": [
             "ccbob_cmos",
             "ccbob_lvds",
@@ -238,6 +241,7 @@
     "pluto": {
         "chip": "AD9361",
         "complex": true,
+        "hdl_rd_doc": "https://wiki.analog.com/resources/eval/user-guides/ad-fmcomms2-ebz/reference_hdl",
         "supported_rd": [
             "rx",
             "tx"
@@ -324,6 +328,7 @@
     "adrv9371": {
         "chip": "AD9371",
         "complex": true,
+        "hdl_rd_doc": "https://wiki.analog.com/resources/eval/user-guides/mykonos/reference_hdl",
         "fpga": [
             "zc706",
             "zcu102"
@@ -400,6 +405,7 @@
     "adrv9002": {
         "chip": "ADRV9002",
         "complex": true,
+        "hdl_rd_doc": "https://wiki.analog.com/resources/eval/user-guides/adrv9001/reference_hdl",
         "fpga": [
             "zcu102"
         ],
@@ -490,6 +496,7 @@
     "adrv9009": {
         "chip": "ADRV9009",
         "complex": true,
+        "hdl_rd_doc": "https://wiki.analog.com/resources/eval/user-guides/adrv9009/reference_hdl",
         "fpga": [
             "zcu102"
         ],
