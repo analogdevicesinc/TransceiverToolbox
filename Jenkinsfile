@@ -63,6 +63,7 @@ stage("HDL Tests") {
                 sh 'make -C ./CI/scripts test_installer'
                 junit testResults: 'test/*.xml', allowEmptyResults: true
                 archiveArtifacts artifacts: 'test/logs/*', followSymlinks: false, allowEmptyArchive: true
+                archiveArtifacts artifacts: '*BOOT.BIN', followSymlinks: false, allowEmptyArchive: true
             }
         }
     }
@@ -80,6 +81,8 @@ stage("Demo Tests") {
             sh 'make -C ./CI/scripts test_targeting_demos'
             junit testResults: 'test/*.xml', allowEmptyResults: true
             archiveArtifacts artifacts: 'test/logs/*', followSymlinks: false, allowEmptyArchive: true
+            archiveArtifacts artifacts: '*BOOT.BIN', followSymlinks: false, allowEmptyArchive: true
+            archiveArtifacts artifacts: '*uImage', followSymlinks: false, allowEmptyArchive: true
         }
     }
 }

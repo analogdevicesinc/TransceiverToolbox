@@ -75,6 +75,10 @@ try
 catch ME
     if SynthesizeDesign && exist([folder,'/vivado_ip_prj/boot/BOOT.BIN'],'file')
        ME = []; 
+      here = mfilename('fullpath');
+      here = strsplit(here,'/');
+      here = fullfile('/',here{1:end-2},[ReferenceDesignName,'_BOOT.BIN']);
+      copyfile([folder,'/vivado_ip_prj/boot/BOOT.BIN'],here);
     end
     out = ME;%.identifier
 end

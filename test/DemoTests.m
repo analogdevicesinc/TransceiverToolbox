@@ -42,6 +42,8 @@ classdef DemoTests < TestAppGUI
             if exist('hdl_prj/vivado_ip_prj/boot/BOOT.BIN', 'file') ~= 2
                 error('BOOT.BIN Failed');
             end
+            % Save BOOT.BIN
+            copyfile('hdl_prj/vivado_ip_prj/boot/BOOT.BIN',fullfile(testCase.root,'FreqHopper_BOOT.BIN'));
         end
         function buildHDLTuneAGC(testCase)
             testCase.setupVivado('2019.1');
@@ -54,6 +56,8 @@ classdef DemoTests < TestAppGUI
             if exist('hdl_prj/vivado_ip_prj/boot/BOOT.BIN', 'file') ~= 2
                 error('BOOT.BIN not found');
             end
+            % Save BOOT.BIN
+            copyfile('hdl_prj/vivado_ip_prj/boot/BOOT.BIN',fullfile(testCase.root,'TuneAGC_BOOT.BIN'));
         end
         function buildKernelFrequencyHopper(testCase)
             testCase.setupVivado('2019.1');
@@ -64,6 +68,8 @@ classdef DemoTests < TestAppGUI
             if exist('linux/arch/arm/boot/uImage', 'file') ~= 2
                 error('Kernel Build Failed');
             end
+            % Save Kernel
+            copyfile('linux/arch/arm/boot/uImage',fullfile(testCase.root,'Hopper_uImage'));
         end
     end
     
