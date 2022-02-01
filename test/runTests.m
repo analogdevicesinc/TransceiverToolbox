@@ -1,4 +1,4 @@
-function runTests(board)
+function runTests(board,synth)
 
 import matlab.unittest.TestRunner;
 import matlab.unittest.TestSuite;
@@ -10,7 +10,12 @@ import matlab.unittest.plugins.DiagnosticsValidationPlugin
 import matlab.unittest.parameters.Parameter
 
 runParallel = false;
-SynthesizeDesign = {false};
+
+if nargin < 2
+    SynthesizeDesign = {false};
+else
+    SynthesizeDesign = {synth};
+end
 param = Parameter.fromData('SynthesizeDesign',SynthesizeDesign);
 
 if nargin == 0

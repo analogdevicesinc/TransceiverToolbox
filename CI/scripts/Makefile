@@ -85,7 +85,7 @@ test_installer:
 
 test:
 	cd ../.. ; \
-	${MLPATH}/$(MLRELEASE)/bin/matlab $(MLFLAGS) -r "cd('test');runTests('$(BOARD)');"
+	${MLPATH}/$(MLRELEASE)/bin/matlab $(MLFLAGS) -r "cd('test');runTests('$(BOARD)',true);"
 
 test_streaming:
 	cd ../.. ; \
