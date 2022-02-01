@@ -29,6 +29,11 @@ if [ ! -d "hdl" ]; then
    exit 1
 fi
 
+# Pre-build IP library
+cd hdl/library
+make
+cd ../..
+
 # Remove git directory move to bsp folder
 rm -fr hdl/.git*
 TARGET="../hdl/vendor/AnalogDevices/vivado"
