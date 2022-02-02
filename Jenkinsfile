@@ -46,7 +46,7 @@ stage("HDL Tests") {
         withEnv(['BOARD='+branchName]) {
             stage("Source") {
                 unstash "builtSources"
-                sh 'make -C ./CI/scripts test'
+                sh 'make -C ./CI/scripts test_synth'
                 junit testResults: 'test/*.xml', allowEmptyResults: true
                 archiveArtifacts artifacts: 'test/logs/*', followSymlinks: false, allowEmptyArchive: true
             }
