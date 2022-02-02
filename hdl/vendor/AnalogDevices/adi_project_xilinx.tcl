@@ -268,6 +268,10 @@ proc adi_project_run {project_name} {
       util_rfifo
       util_cpack2
       util_upack2
+      ad_ip_jesd204_tpl_adc
+      ad_ip_jesd204_tpl_dac
+      rx_fir_decimator
+      tx_fir_interpolator
     }
     
     set fileWrite [open $p_output_file w]
@@ -275,8 +279,17 @@ proc adi_project_run {project_name} {
     foreach P_IP_name $P_IP_list {
       foreach P_IP_instance [ get_cells -quiet -hierarchical -filter " ORIG_REF_NAME =~ $P_IP_name || REF_NAME =~ $P_IP_name " ] {
         set P_IP_instance_name [regsub -all {i_system_wrapper\/system_i\/} $P_IP_instance {}]
-        set P_IP_INST  [regsub -all {\/inst} $P_IP_instance_name {}]
-        puts $fileWrite "\n$P_IP_INST properties:"
+	if { [regexp {adc_tpl_core} $P_IP_instance_name] } {
+            set P_IP_INST  [regsub -all {\/adc_tpl_core/inst} $P_IP_instance_name {}]
+            puts "$P_IP_INST\n"
+        } elseif { [regexp {dac_tpl_core} $P_IP_instance_name] } {
+            set P_IP_INST  [regsub -all {\/dac_tpl_core/inst} $P_IP_instance_name {}]
+            puts "$P_IP_INST\n"
+        } else {
+            set P_IP_INST  [regsub -all {\/inst} $P_IP_instance_name {}]
+            puts "$P_IP_INST\n"
+        }
+        puts $fileWrite "\n$P_IP_INST properties: \n"
         set list_of_IP_ports [ get_bd_pins -of_objects [get_bd_cells $P_IP_INST]] 
         foreach IP_port $list_of_IP_ports {
           set pin_direction [get_property DIR [get_bd_pins $IP_port]]
