@@ -72,13 +72,6 @@
 #CarrierBox > rect {
     fill: var(--md-default-fg-color--light);
 }
-#AXIAD9361Box > rect {
-    stroke: white;
-}
-
-#AXIAD9361Box:hover > rect {
-    fill: rgb(0, 174, 255);
-}
 #TxDMAEngineBox > rect {
     stroke: white;
 }
@@ -105,6 +98,13 @@
 }
 
 #CPACKBox:hover > rect {
+    fill: rgb(0, 174, 255);
+}
+#AXIADRV9002Box > rect {
+    stroke: white;
+}
+
+#AXIADRV9002Box:hover > rect {
     fill: rgb(0, 174, 255);
 }
 
@@ -170,6 +170,13 @@
 #RxJESDLink:hover > rect {
     fill: rgb(0, 174, 255);
 }
+#RxJESDPHY > rect {
+    stroke: white;
+}
+
+#RxJESDPHY:hover > rect {
+    fill: rgb(0, 174, 255);
+}
 #TxJESDTPL > rect {
     stroke: white;
 }
@@ -182,6 +189,13 @@
 }
 
 #TxJESDLink:hover > rect {
+    fill: rgb(0, 174, 255);
+}
+#TxJESDPHY > rect {
+    stroke: white;
+}
+
+#TxJESDPHY:hover > rect {
     fill: rgb(0, 174, 255);
 }
 
