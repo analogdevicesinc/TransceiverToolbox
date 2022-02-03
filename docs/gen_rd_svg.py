@@ -11,7 +11,7 @@ for ref in refs:
 
     selectable_boxes = {
         "AXIAD9361Box": {"link": "https://wiki.analog.com/resources/fpga/docs/axi_ad9361"},
-        "AXIADRV9001Box": {"link": "https://wiki.analog.com/resources/eval/user-guides/adrv9002/axi_adrv9002"},
+        "AXIADRV9002Box": {"link": "https://wiki.analog.com/resources/eval/user-guides/adrv9002/axi_adrv9002"},
         "TxDMAEngineBox": {"link": "https://wiki.analog.com/resources/fpga/docs/axi_dmac"},
         "TxUPACKBox": {"link": "https://wiki.analog.com/resources/fpga/docs/util_upack"},
         "TxFIFOBox": {"link": "https://wiki.analog.com/resources/fpga/docs/util_rfifo"},
@@ -22,6 +22,8 @@ for ref in refs:
         "TxJESDTPL": {"link": "https://wiki.analog.com/resources/fpga/peripherals/jesd204/jesd204_tpl_dac"},
         "RxJESDLink": {"link": "https://wiki.analog.com/resources/fpga/peripherals/jesd204/axi_jesd204_rx"},
         "TxJESDLink": {"link": "https://wiki.analog.com/resources/fpga/peripherals/jesd204/axi_jesd204_tx"},
+        "RxJESDPHY": {"link": "https://wiki.analog.com/resources/fpga/docs/axi_adxcvr"},
+        "TxJESDPHY": {"link": "https://wiki.analog.com/resources/fpga/docs/axi_adxcvr"},
     }
 
 
