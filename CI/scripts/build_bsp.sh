@@ -29,6 +29,29 @@ if [ ! -d "hdl" ]; then
    exit 1
 fi
 
+# Get required vivado version needed for HDL
+if [ -f "hdl/library/scripts/adi_ip.tcl" ]; then
+	TARGET="hdl/library/scripts/adi_ip.tcl"
+else
+	TARGET="hdl/library/scripts/adi_ip_xilinx.tcl"
+fi
+VER=$(awk '/set REQUIRED_VIVADO_VERSION/ {print $3}' $TARGET | sed 's/"//g')
+echo "Required Vivado version ${VER}"
+VIVADOFULL=${VER}
+if [ ${#VER} = 8 ]
+then
+VER=${VER:0:6}
+fi
+VIVADO=${VER}
+
+# Setup
+source /opt/Xilinx/Vivado/$VIVADO/settings64.sh
+
+# Pre-build IP library
+cd hdl/library
+make
+cd ../..
+
 # Remove git directory move to bsp folder
 rm -fr hdl/.git*
 TARGET="../hdl/vendor/AnalogDevices/vivado"
