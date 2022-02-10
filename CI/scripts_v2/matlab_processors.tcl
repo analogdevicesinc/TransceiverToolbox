@@ -586,7 +586,7 @@ proc preprocess_bd {project carrier rxtx} {
             #delete_bd_objs [get_bd_nets fir_decimator_m_axis_data_tvalid] [get_bd_nets fir_decimator_m_axis_data_tdata] [get_bd_nets decim_slice_Dout] [get_bd_cells fir_decimator]
             #delete_bd_objs [get_bd_nets axi_ad9361_dac_dma_fifo_rd_valid] [get_bd_nets fir_interpolator_s_axis_data_tready] [get_bd_nets interp_slice_Dout] [get_bd_nets axi_ad9361_dac_valid_i0] [get_bd_cells fir_interpolator]
         }
-        adrv9002 {
+        adrv9009 {
                 switch $carrier {
                 zcu102 {
                     if {$rxtx == "rx" || $rxtx == "rxtx"} {

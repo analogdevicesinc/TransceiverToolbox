@@ -65,7 +65,7 @@ end
 function out = inout_pn_d(in,name)
 persistent in_count;
 if in
-    if isempty(in_count)
+    if isempty(in_count) || (in_count == 4)
         in_count = 0;
     end
     out = sprintf('dut_data_in_%d',in_count);
@@ -90,11 +90,13 @@ num = name(end);
 if strcmpi(type,'rx')
     if in
         if complex
-%             if strcmp(name(end-1), 'i')
-                out = sprintf('%s ADC Data %s%s',chip,upper(name(end-1)),num);
-%             elseif strcmp(name(end-1), 'q')
-%                 out = sprintf('%s ADC Data Q%s',chip,num);
-%             end
+            if strcmpi(name(end-1), 'i')
+                out = sprintf('%s ADC Data I%s',chip,num);
+            elseif strcmpi(name(end-1), 'q')
+                out = sprintf('%s ADC Data Q%s',chip,num);
+            else
+                out = sprintf('%s ADC Data %s',chip,num);
+            end
         else
             out = sprintf('%s ADC Data %s',chip,num);
         end
@@ -104,10 +106,12 @@ if strcmpi(type,'rx')
 else
     if ~in
         if complex
-            if strcmp(name(end-1), 'i')
+            if strcmpi(name(end-1), 'i')
                 out = sprintf('%s DAC Data I%s',chip,num);
-            else
+            elseif strcmpi(name(end-1), 'q')
                 out = sprintf('%s DAC Data Q%s',chip,num);
+            else
+                out = sprintf('%s DAC Data %s',chip,num);
             end
         else
             out = sprintf('%s DAC Data %s',chip,num);

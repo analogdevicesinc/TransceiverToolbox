@@ -87,7 +87,7 @@ hRD.addParameter( ...
 
 %% Add interfaces
 % add clock interface
-AnalogDevices.add_clocks(hRD,project)
+AnalogDevices.add_clocks(hRD,project,design)
 
 %% Add IO
 AnalogDevices.add_io(hRD,project,board,design);
