@@ -47,16 +47,14 @@ for i = 1:length(rtx)
             'PortWidth',      rx.width, ...
             'InterfaceConnection', rx.name, ...
             'IsRequired',     false);
-    elseif strcmpi(rx.type,'data')
-        for j=1:rx.count
-            hRD.addInternalIOInterface( ...
-                'InterfaceID',    inout_id_d(rx.input,j,root.chip,root.complex,type,rx.name), ...
-                'InterfaceType',  inout(rx.input), ...
-                'PortName',       inout_pn_d(rx.input,j), ...
-                'PortWidth',      rx.width, ...
-                'InterfaceConnection', update_port(rx.name,j-1), ...
-                'IsRequired',     false);
-        end
+    elseif strcmpi(rx.type,'data')        
+        hRD.addInternalIOInterface( ...
+            'InterfaceID',    inout_id_d(rx.input,root.chip,root.complex,type,rx.name), ...
+            'InterfaceType',  inout(rx.input), ...
+            'PortName',       inout_pn_d(rx.input,rx.name), ...
+            'PortWidth',      rx.width, ...
+            'InterfaceConnection', rx.name, ...
+            'IsRequired',     false);        
     else
         error(sprintf('Unknown port type %s',rx.type));
     end
@@ -64,12 +62,18 @@ end
 end
 
 %%
-function out = inout_pn_d(in,port)
+function out = inout_pn_d(in,name)
+persistent in_count;
 if in
-    out = sprintf('dut_data_in_%d',port);
+    if isempty(in_count)
+        in_count = 0;
+    end
+    out = sprintf('dut_data_in_%d',in_count);
+    in_count=in_count+1;
 else
-    out = sprintf('dut_data_out_%d',port);
+    out = sprintf('dut_data_out_%s',name(end));
 end
+disp(out);
 end
 %%
 function out = inout_pn(in)
@@ -78,41 +82,41 @@ if in
 else
     out = 'dut_data_valid_out';
 end
+disp(out);
 end
 %%
-function out = inout_id_d(in,num,chip,complex,type,name)
-
+function out = inout_id_d(in,chip,complex,type,name)
+num = name(end);
 if strcmpi(type,'rx')
     if in
         if complex
-            if strcmp(name(end-1), 'i')
-                out = sprintf('%s ADC Data I%d',chip,num-1);
-            elseif strcmp(name(end-1), 'q')
-                out = sprintf('%s ADC Data Q%d',chip,num-1);
-            end
+%             if strcmp(name(end-1), 'i')
+                out = sprintf('%s ADC Data %s%s',chip,upper(name(end-1)),num);
+%             elseif strcmp(name(end-1), 'q')
+%                 out = sprintf('%s ADC Data Q%s',chip,num);
+%             end
         else
-            out = sprintf('%s ADC Data %d',chip,num-1);
+            out = sprintf('%s ADC Data %s',chip,num);
         end
     else
-        out = sprintf('IP Data %d OUT',num-1);
+        out = sprintf('IP Data %s OUT',num);
     end
 else
     if ~in
         if complex
-            numC = floor((num-1)/2);
-            if fix(num/2) == num/2 % even
-                out = sprintf('%s DAC Data I%d',chip,numC);
+            if strcmp(name(end-1), 'i')
+                out = sprintf('%s DAC Data I%s',chip,num);
             else
-                out = sprintf('%s DAC Data Q%d',chip,numC);
+                out = sprintf('%s DAC Data Q%s',chip,num);
             end
         else
-            out = sprintf('%s DAC Data %d',chip,num-1);
+            out = sprintf('%s DAC Data %s',chip,num);
         end
     else
-        out = sprintf('IP Data %d IN',num-1);
+        out = sprintf('IP Data %s IN',num);
     end
 end
-
+disp(out);
 end
 %%
 function out = inout_id(in,type)
@@ -129,6 +133,7 @@ else
            out = 'IP Load Tx Data OUT';
 	end
 end
+disp(out);
 end
 %%
 function out = inout(in)
@@ -137,9 +142,6 @@ if in
 else
     out = 'OUT';
 end
-end
-%%
-function out = update_port(temp,num)
-out = strrep(temp,'@',num2str(num));
+disp(out);
 end
 

@@ -415,35 +415,60 @@
                         "input": false,
                         "width": 1,
                         "name": "util_adc_1_pack/fifo_wr_en",
-                        "count": 1,
                         "type": "valid"
                     },
                     {
                         "input": true,
                         "width": 1,
                         "name": "axi_adrv9001/adc_1_valid_i0",
-                        "count": 1,
                         "type": "valid"
                     },
                     {
                         "input": false,
                         "width": 16,
-                        "name": "util_adc_1_pack/fifo_wr_data_@",
-                        "count": 4,
+                        "name": "util_adc_1_pack/fifo_wr_data_0",
+                        "type": "data"
+                    },
+                    {
+                        "input": false,
+                        "width": 16,
+                        "name": "util_adc_1_pack/fifo_wr_data_1",
+                        "type": "data"
+                    },
+                    {
+                        "input": false,
+                        "width": 16,
+                        "name": "util_adc_1_pack/fifo_wr_data_2",
+                        "type": "data"
+                    },
+                    {
+                        "input": false,
+                        "width": 16,
+                        "name": "util_adc_1_pack/fifo_wr_data_3",
                         "type": "data"
                     },
                     {
                         "input": true,
                         "width": 16,
-                        "name": "axi_adrv9001/adc_1_data_i@",
-                        "count": 2,
+                        "name": "axi_adrv9001/adc_1_data_i0",
                         "type": "data"
                     },
                     {
                         "input": true,
                         "width": 16,
-                        "name": "axi_adrv9001/adc_1_data_q@",
-                        "count": 2,
+                        "name": "axi_adrv9001/adc_1_data_i1",
+                        "type": "data"
+                    },
+                    {
+                        "input": true,
+                        "width": 16,
+                        "name": "axi_adrv9001/adc_1_data_q0",
+                        "type": "data"
+                    },
+                    {
+                        "input": true,
+                        "width": 16,
+                        "name": "axi_adrv9001/adc_1_data_q1",
                         "type": "data"
                     }
                 ],
@@ -452,35 +477,60 @@
                         "input": true,
                         "width": 1,
                         "name": "util_dac_1_upack/fifo_rd_valid",
-                        "count": 1,
                         "type": "valid"
                     },
                     {
                         "input": false,
                         "width": 1,
                         "name": "util_dac_1_upack/fifo_rd_en",
-                        "count": 1,
                         "type": "valid"
                     },
                     {
                         "input": false,
                         "width": 16,
-                        "name": "axi_adrv9001/dac_1_data_i@",
-                        "count": 2,
+                        "name": "axi_adrv9001/dac_1_data_i0",
                         "type": "data"
                     },
                     {
                         "input": false,
                         "width": 16,
-                        "name": "axi_adrv9001/dac_1_data_q@",
-                        "count": 2,
+                        "name": "axi_adrv9001/dac_1_data_i1",
+                        "type": "data"
+                    },
+                    {
+                        "input": false,
+                        "width": 16,
+                        "name": "axi_adrv9001/dac_1_data_q0",
+                        "type": "data"
+                    },
+                    {
+                        "input": false,
+                        "width": 16,
+                        "name": "axi_adrv9001/dac_1_data_q1",
                         "type": "data"
                     },
                     {
                         "input": true,
                         "width": 16,
-                        "name": "util_dac_1_upack/fifo_rd_data_@",
-                        "count": 4,
+                        "name": "util_dac_1_upack/fifo_rd_data_0",
+                        "type": "data"
+                    },
+                    {
+                        "input": true,
+                        "width": 16,
+                        "name": "util_dac_1_upack/fifo_rd_data_1",
+                        "type": "data"
+                    },
+                    {
+                        "input": true,
+                        "width": 16,
+                        "name": "util_dac_1_upack/fifo_rd_data_2",
+                        "type": "data"
+                    },
+                    {
+                        "input": true,
+                        "width": 16,
+                        "name": "util_dac_1_upack/fifo_rd_data_3",
                         "type": "data"
                     }
                 ]
