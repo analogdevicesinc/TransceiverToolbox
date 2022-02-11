@@ -11,7 +11,7 @@ with open(ports_json_file) as json_file:
             if (key1 == "rx"):
                 for ii in range(0, len(ports[key0]['ports'][0][key1])):
                     tmp_dict = ports[key0]['ports'][0][key1][ii]
-                    if (tmp_dict['type'].casefold() == "data".casefold()):
+                    if (tmp_dict['type'].lower() == "data"):
                         if tmp_dict['input']:
                             if tmp_key not in tmp_dict:                            
                                 tmp_list = tmp_dict['name'].split("_")
@@ -30,7 +30,7 @@ with open(ports_json_file) as json_file:
                                 tmp_list = tmp_dict['name'].split("_")
                                 last_ele = tmp_list[-1]
                                 tmp_dict[tmp_key] = f"IP Data {last_ele} OUT"
-                    elif (tmp_dict['type'].casefold() == "valid".casefold()):
+                    elif (tmp_dict['type'].lower() == "valid"):
                         if tmp_dict['input']:
                             tmp_dict[tmp_key] = f"IP Valid Rx Data IN"
                         else:
@@ -39,7 +39,7 @@ with open(ports_json_file) as json_file:
             elif (key1 == "tx"):
                 for ii in range(0, len(ports[key0]['ports'][0][key1])):
                     tmp_dict = ports[key0]['ports'][0][key1][ii]
-                    if (tmp_dict['type'].casefold() == "data".casefold()):
+                    if (tmp_dict['type'].lower() == "data"):
                         if not tmp_dict['input']:
                             if tmp_key not in tmp_dict:                            
                                 tmp_list = tmp_dict['name'].split("_")
@@ -58,7 +58,7 @@ with open(ports_json_file) as json_file:
                                 tmp_list = tmp_dict['name'].split("_")
                                 last_ele = tmp_list[-1]
                                 tmp_dict[tmp_key] = f"IP Data {last_ele} IN"
-                    elif (tmp_dict['type'].casefold() == "valid".casefold()):
+                    elif (tmp_dict['type'].lower() == "valid"):
                         if tmp_dict['input']:
                             tmp_dict[tmp_key] = f"IP Valid Tx Data IN"
                         else:
