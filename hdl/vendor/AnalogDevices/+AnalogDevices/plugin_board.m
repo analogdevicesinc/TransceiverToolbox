@@ -1,6 +1,16 @@
-function hB = plugin_board(project, board)
+function hB = plugin_board(project, varargin)
 % Use Plugin API to create board plugin object
 
+if nargin > 2
+    error('incorrect number of arguments provided');
+end
+if nargin > 1
+    if ischar(varargin{1})
+        board = varargin{1};
+    else
+        error('second argument needs to be a char array');
+    end
+end
 hB = hdlcoder.Board;
 
 if strcmpi(project,'fmcomms2')
@@ -10,7 +20,10 @@ else
 end
 
 % Target Board Information
-hB.BoardName    = sprintf('AnalogDevices %s %s', upper(pname), upper(board));
+hB.BoardName    = sprintf('AnalogDevices %s', upper(pname));
+if nargin > 1
+    hB.BoardName    = sprintf('%s %s', hB.BoardName, upper(board));
+end
 
 % FPGA Device
 hB.FPGAVendor   = 'Xilinx';
