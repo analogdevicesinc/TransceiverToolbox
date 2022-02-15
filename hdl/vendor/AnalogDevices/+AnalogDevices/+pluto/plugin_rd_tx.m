@@ -4,4 +4,4 @@ function hRD = plugin_rd_tx
 %   Copyright 2014-2015 The MathWorks, Inc.
 
 % Call the common reference design definition function
-hRD = AnalogDevices.plugin_rd('pluto','','Tx');
+hRD = AnalogDevices.plugin_rd('pluto','PLUTO','Tx');
