@@ -1,7 +1,7 @@
 import json
 
 # open ports.json file and parse
-ports_json_file = 'ports_copy.json'
+ports_json_file = 'ports.json'
 with open(ports_json_file) as json_file:
     ports = json.load(json_file)
 

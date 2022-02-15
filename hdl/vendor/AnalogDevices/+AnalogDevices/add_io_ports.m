@@ -1,7 +1,7 @@
 function root = add_io_ports(hRD,project,type,fpga)
 
 [filepath,~,~] = fileparts(mfilename('fullpath'));
-fileName = fullfile(filepath,'ports_copy.json');
+fileName = fullfile(filepath,'ports.json');
 fid = fopen(fileName);
 raw = fread(fid,inf);
 str = char(raw');
