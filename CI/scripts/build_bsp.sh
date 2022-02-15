@@ -48,9 +48,9 @@ VIVADO=${VER}
 source /opt/Xilinx/Vivado/$VIVADO/settings64.sh
 
 # Pre-build IP library
-cd hdl/library
-make
-cd ../..
+# cd hdl/library
+# make
+# cd ../..
 
 # Remove git directory move to bsp folder
 rm -fr hdl/.git*
@@ -59,6 +59,11 @@ if [ -d "$TARGET" ]; then
     rm -rf "$TARGET"
 fi
 mv hdl $TARGET
+
+# Post-process ports.json
+cp ../hdl/vendor/AnalogDevices/+AnalogDevices/ports.json ./
+python3 ./scripts_v2/read_ports_json.py
+cp ./scripts_v2/ports.json ../hdl/vendor/AnalogDevices/+AnalogDevices/
 
 # Updates
 cp scripts_v2/matlab_processors.tcl ../hdl/vendor/AnalogDevices/vivado/projects/scripts/matlab_processors.tcl
