@@ -63,7 +63,7 @@ mv hdl $TARGET
 # Post-process ports.json
 cp ../hdl/vendor/AnalogDevices/+AnalogDevices/ports.json ./
 python3 ./scripts_v2/read_ports_json.py
-cp ./scripts_v2/ports.json ../hdl/vendor/AnalogDevices/+AnalogDevices/
+cp ports.json ../hdl/vendor/AnalogDevices/+AnalogDevices/
 
 # Updates
 cp scripts_v2/matlab_processors.tcl ../hdl/vendor/AnalogDevices/vivado/projects/scripts/matlab_processors.tcl
