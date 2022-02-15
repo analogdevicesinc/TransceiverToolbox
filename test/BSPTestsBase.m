@@ -124,7 +124,7 @@ classdef BSPTestsBase < matlab.unittest.TestCase
                 assert(0);
             elseif strcmp(s{2},'adrv9361z7035') || ...
                     strcmp(s{2},'adrv9364z7020')
-                h = str2func([strjoin(s(1:2),'.'),'.common.plugin_board']);
+                h = str2func([strjoin(s(1:2),'.'),'.plugin_board']);
             else
                 h = str2func([strjoin(s(1:end-1),'.'),'.plugin_board']);
             end
