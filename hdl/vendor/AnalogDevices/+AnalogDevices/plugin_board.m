@@ -1,16 +1,9 @@
-function hB = plugin_board(project, varargin)
+function hB = plugin_board(project, board)
 % Use Plugin API to create board plugin object
 
-if nargin > 2
-    error('incorrect number of arguments provided');
-end
-if nargin > 1
-    if ischar(varargin{1})
-        board = varargin{1};
-    else
-        error('second argument needs to be a char array');
-    end
-end
+if nargin < 2
+    board = "";
+end    
 hB = hdlcoder.Board;
 
 if strcmpi(project,'fmcomms2')
@@ -64,12 +57,12 @@ switch lower(project)
                 hB.FPGASpeed    = '';
                 hB.FPGAFamily   = 'Zynq';
         end
-    case 'adrv9361z7035'
+    case 'adrv9361-z7035'
         hB.FPGADevice   = sprintf('xc7%s', 'z035i');
         hB.FPGAPackage  = 'fbg676';
         hB.FPGASpeed    = '-2L';
         hB.FPGAFamily   = 'Zynq';
-    case 'adrv9364z7020'
+    case 'adrv9364-z7020'
         hB.FPGADevice   = sprintf('xc7%s', 'z020');
         hB.FPGAPackage  = 'clg400';
         hB.FPGASpeed    = '-1';
@@ -122,7 +115,7 @@ switch lower(project)
         hB.FPGADevice   = sprintf('xc7%s', 'z010');
         hB.FPGAPackage  = 'clg225';
         hB.FPGASpeed    = '-1';	
-    case 'adrv9371x'
+    case 'adrv9371'
         switch(upper(board))
             case 'ZC706'
                 hB.FPGAFamily   = 'Zynq';

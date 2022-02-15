@@ -20,7 +20,7 @@ switch project
             otherwise
                 error(sprintf('Unknown Project FPGA %s/%s',project,fpga)); %#ok<*SPERR>
         end
-    case 'adrv9361z7035'
+    case 'adrv9361-z7035'
         switch lower(fpga)
             case 'ccfmc_lvds'
                 InterfaceConnection = 'axi_cpu_interconnect/M12_AXI';
@@ -37,22 +37,20 @@ switch project
             otherwise
                 error(sprintf('Unknown Project FPGA %s/%s',project,fpga)); %#ok<*SPERR>
         end
-    case 'adrv9364z7020'
+    case 'adrv9364-z7020'
         InterfaceConnection = 'axi_cpu_interconnect/M06_AXI';
         BaseAddress = '0x43C00000';
         MasterAddressSpace = 'sys_ps7/Data';
-    case 'adrv9371x'
+    case 'adrv9371'
         switch fpga
             case {'ZC706'}
-                hRD.addAXI4SlaveInterface( ...
-                    'InterfaceConnection', 'axi_cpu_interconnect/M21_AXI', ... % ADC DMA BUS
-                    'BaseAddress',         '0x50000000', ...
-                    'MasterAddressSpace',  'sys_ps7/Data');
+                InterfaceConnection = 'axi_cpu_interconnect/M21_AXI';
+                BaseAddress = '0x50000000';
+                MasterAddressSpace = 'sys_ps7/Data';
             case {'ZCU102'}
-                hRD.addAXI4SlaveInterface( ...
-                    'InterfaceConnection', 'axi_cpu_interconnect/M16_AXI', ... % ADC DMA BUS
-                    'BaseAddress',         '0x9D000000', ...
-                    'MasterAddressSpace',  'sys_ps8/Data');                
+                InterfaceConnection = 'axi_cpu_interconnect/M16_AXI';
+                BaseAddress = '0x9D000000';
+                MasterAddressSpace = 'sys_ps8/Data';
             otherwise
                 error(sprintf('Unknown Project FPGA %s/%s',project,fpga)); %#ok<*SPERR>
         end

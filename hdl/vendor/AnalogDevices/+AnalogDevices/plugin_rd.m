@@ -3,25 +3,10 @@ function hRD = plugin_rd(project, board, design)
 
 %   Copyright 2014-2015 The MathWorks, Inc.
 
-switch lower(project)
-    case 'fmcomms2'
-        pname = 'FMCOMMS2/3';
-    case 'fmcomms5'
-        pname = 'FMCOMMS5';
-    case 'pluto'
-        pname = 'ADALM-PLUTO';
-    case 'adrv9361z7035'
-        pname = 'ADRV9361-Z7035';    
-    case 'adrv9364z7020'
-        pname = 'ADRV9364-Z7020';    
-    case 'adrv9371'
-        pname = 'ADRV9371';    
-    case 'adrv9002'
-        pname = 'ADRV9002';
-    case 'adrv9009'
-        pname = 'ADRV9009';
-    otherwise
-        pname = project;
+if (strcmpi(project, 'fmcomms2'))
+    pname = 'FMCOMMS2/3';
+else
+    pname = upper(project);
 end
 
 % Construct reference design object
@@ -29,10 +14,20 @@ hRD = hdlcoder.ReferenceDesign('SynthesisTool', 'Xilinx Vivado');
 
 % Create the reference design for the SOM-only
 % This is the base reference design that other RDs can build upon
-hRD.ReferenceDesignName = sprintf('%s %s (%s)', upper(pname), upper(board), upper(design));
+if strcmpi(project, 'pluto')
+    hRD.ReferenceDesignName = sprintf('%s (%s)', pname, upper(design));
+else
+    hRD.ReferenceDesignName = sprintf('%s %s (%s)', pname, upper(board), upper(design));
+end
 
 % Determine the board name based on the design
-hRD.BoardName = sprintf('AnalogDevices %s %s', upper(pname), upper(board));
+if (strcmpi(project, 'pluto') || ...
+        strcmpi(project, 'adrv9361-z7035') || ...
+        strcmpi(project, 'adrv9364-z7020'))
+    hRD.BoardName = sprintf('AnalogDevices %s', pname);
+else
+    hRD.BoardName = sprintf('AnalogDevices %s %s', pname, upper(board));
+end
 
 % Tool information
 %hRD.SupportedToolVersion = {adi.Version.Vivado}; % FIXME
