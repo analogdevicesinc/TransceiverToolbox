@@ -60,14 +60,14 @@ hRD.addParameter( ...
     'DisplayName',   'HDL Project Carrier', ...
     'DefaultValue',  lower(board));
 
-hRD.BlockDesignName = 'system';
 
 %% Add custom design files
-
 % add custom Vivado design
 hRD.addCustomVivadoDesign( ...
     'CustomBlockDesignTcl', fullfile('projects', 'scripts', 'system_project_rxtx.tcl'), ...
     'CustomTopLevelHDL',    fullfile('projects', lower(ppath), lower(board), 'system_top.v'));
+
+hRD.BlockDesignName = 'system';
 
 % custom constraint files
 hRD.CustomConstraints = {...

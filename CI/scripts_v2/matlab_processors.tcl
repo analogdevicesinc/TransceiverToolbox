@@ -6,7 +6,7 @@ proc preprocess_bd {project carrier rxtx} {
         adrv9361z7035 {
             switch $carrier {
                 ccbob_cmos {
-                    if {$rxtx == "rx"} {
+                    if {$rxtx == "rx" || $rxtx == "rxtx"} {
                         # Disconnect the ADC PACK pins
                         delete_bd_objs [get_bd_nets util_ad9361_adc_fifo_dout_data_0]
                         delete_bd_objs [get_bd_nets util_ad9361_adc_fifo_dout_data_1]
@@ -25,7 +25,7 @@ proc preprocess_bd {project carrier rxtx} {
                             }
                         }
                     }
-                    if {$rxtx == "tx"} {
+                    if {$rxtx == "tx" || $rxtx == "rxtx"} {
                         # Disconnect the DAC UNPACK pins
                         delete_bd_objs [get_bd_nets util_ad9361_dac_upack_fifo_rd_data_0]
                         delete_bd_objs [get_bd_nets util_ad9361_dac_upack_fifo_rd_data_1]
@@ -50,7 +50,7 @@ proc preprocess_bd {project carrier rxtx} {
                     connect_bd_net [get_bd_pins util_ad9361_divclk_reset/interconnect_aresetn] [get_bd_pins axi_cpu_interconnect/M07_ARESETN]
                 }
                 ccbob_lvds {
-                    if {$rxtx == "rx"} {
+                    if {$rxtx == "rx" || $rxtx == "rxtx"} {
                         # Disconnect the ADC PACK pins
                         delete_bd_objs [get_bd_nets util_ad9361_adc_fifo_dout_data_0]
                         delete_bd_objs [get_bd_nets util_ad9361_adc_fifo_dout_data_1]
@@ -69,7 +69,7 @@ proc preprocess_bd {project carrier rxtx} {
                             }
                         }
                     }
-                    if {$rxtx == "tx"} {
+                    if {$rxtx == "tx" || $rxtx == "rxtx"} {
                         # Disconnect the DAC UNPACK pins
                         delete_bd_objs [get_bd_nets util_ad9361_dac_upack_fifo_rd_data_0]
                         delete_bd_objs [get_bd_nets util_ad9361_dac_upack_fifo_rd_data_1]
@@ -94,7 +94,7 @@ proc preprocess_bd {project carrier rxtx} {
                     connect_bd_net [get_bd_pins util_ad9361_divclk_reset/interconnect_aresetn] [get_bd_pins axi_cpu_interconnect/M07_ARESETN]
                 }
                 ccbox_lvds {
-                    if {$rxtx == "rx"} {
+                    if {$rxtx == "rx" || $rxtx == "rxtx"} {
                         # Disconnect the ADC PACK pins
                         delete_bd_objs [get_bd_nets util_ad9361_adc_fifo_dout_data_0]
                         delete_bd_objs [get_bd_nets util_ad9361_adc_fifo_dout_data_1]
@@ -113,7 +113,7 @@ proc preprocess_bd {project carrier rxtx} {
                             }
                         }
                     }
-                    if {$rxtx == "tx"} {
+                    if {$rxtx == "tx" || $rxtx == "rxtx"} {
                         # Disconnect the DAC UNPACK pins
                         delete_bd_objs [get_bd_nets util_ad9361_dac_upack_fifo_rd_data_0]
                         delete_bd_objs [get_bd_nets util_ad9361_dac_upack_fifo_rd_data_1]
@@ -138,7 +138,7 @@ proc preprocess_bd {project carrier rxtx} {
                     connect_bd_net [get_bd_pins util_ad9361_divclk_reset/interconnect_aresetn] [get_bd_pins axi_cpu_interconnect/M05_ARESETN]
                 }
                 ccbox_lvds_modem {
-                    if {$rxtx == "rx"} {
+                    if {$rxtx == "rx" || $rxtx == "rxtx"} {
                         # Disconnect the ADC PACK pins
                         delete_bd_objs [get_bd_nets util_ad9361_adc_fifo_dout_data_0]
                         delete_bd_objs [get_bd_nets util_ad9361_adc_fifo_dout_data_1]
@@ -157,7 +157,7 @@ proc preprocess_bd {project carrier rxtx} {
                             }
                         }
                     }
-                    if {$rxtx == "tx"} {
+                    if {$rxtx == "tx" || $rxtx == "rxtx"} {
                         # Disconnect the DAC UNPACK pins
                         delete_bd_objs [get_bd_nets util_ad9361_dac_upack_fifo_rd_data_0]
                         delete_bd_objs [get_bd_nets util_ad9361_dac_upack_fifo_rd_data_1]
@@ -178,7 +178,7 @@ proc preprocess_bd {project carrier rxtx} {
                     }
                 }
                 ccfmc_lvds {
-                    if {$rxtx == "rx"} {
+                    if {$rxtx == "rx" || $rxtx == "rxtx"} {
                         # Disconnect the ADC PACK pins
                         delete_bd_objs [get_bd_nets util_ad9361_adc_fifo_dout_data_0]
                         delete_bd_objs [get_bd_nets util_ad9361_adc_fifo_dout_data_1]
@@ -197,7 +197,7 @@ proc preprocess_bd {project carrier rxtx} {
                             }
                         }
                     }
-                    if {$rxtx == "tx"} {
+                    if {$rxtx == "tx" || $rxtx == "rxtx"} {
                         # Disconnect the DAC UNPACK pins
                         delete_bd_objs [get_bd_nets util_ad9361_dac_upack_fifo_rd_data_0]
                         delete_bd_objs [get_bd_nets util_ad9361_dac_upack_fifo_rd_data_1]
@@ -222,7 +222,7 @@ proc preprocess_bd {project carrier rxtx} {
                     connect_bd_net [get_bd_pins util_ad9361_divclk_reset/interconnect_aresetn] [get_bd_pins axi_cpu_interconnect/M12_ARESETN]
                 }
                 ccpackrf_lvds {
-                    if {$rxtx == "rx"} {
+                    if {$rxtx == "rx" || $rxtx == "rxtx"} {
                         # Disconnect the ADC PACK pins
                         delete_bd_objs [get_bd_nets util_ad9361_adc_fifo_dout_data_0]
                         delete_bd_objs [get_bd_nets util_ad9361_adc_fifo_dout_data_1]
@@ -241,7 +241,7 @@ proc preprocess_bd {project carrier rxtx} {
                             }
                         }
                     }
-                    if {$rxtx == "tx"} {
+                    if {$rxtx == "tx" || $rxtx == "rxtx"} {
                         # Disconnect the DAC UNPACK pins
                         delete_bd_objs [get_bd_nets util_ad9361_dac_upack_fifo_rd_data_0]
                         delete_bd_objs [get_bd_nets util_ad9361_dac_upack_fifo_rd_data_1]
@@ -270,7 +270,7 @@ proc preprocess_bd {project carrier rxtx} {
         adrv9364z7020 {
             switch $carrier {
                 ccbob_cmos {
-                    if {$rxtx == "rx"} {
+                    if {$rxtx == "rx" || $rxtx == "rxtx"} {
                         # Disconnect the ADC PACK pins
                         delete_bd_objs [get_bd_nets util_ad9361_adc_fifo_dout_data_0]
                         delete_bd_objs [get_bd_nets util_ad9361_adc_fifo_dout_data_1]
@@ -278,7 +278,7 @@ proc preprocess_bd {project carrier rxtx} {
                         delete_bd_objs [get_bd_nets util_ad9361_adc_fifo_dout_data_3]
                         delete_bd_objs [get_bd_nets util_ad9361_adc_fifo_dout_valid_0]
                     }
-                    if {$rxtx == "tx"} {
+                    if {$rxtx == "tx" || $rxtx == "rxtx"} {
                         # Disconnect the DAC PACK pins
                         delete_bd_objs [get_bd_nets util_ad9361_dac_upack_fifo_rd_data_0]
                         delete_bd_objs [get_bd_nets util_ad9361_dac_upack_fifo_rd_data_1]
@@ -297,7 +297,7 @@ proc preprocess_bd {project carrier rxtx} {
                     connect_bd_net [get_bd_pins util_ad9361_divclk_reset/interconnect_aresetn] [get_bd_pins axi_cpu_interconnect/M06_ARESETN]
                 }
                 ccbob_lvds {
-                    if {$rxtx == "rx"} {
+                    if {$rxtx == "rx" || $rxtx == "rxtx"} {
                         # Disconnect the ADC PACK pins
                         delete_bd_objs [get_bd_nets util_ad9361_adc_fifo_dout_data_0]
                         delete_bd_objs [get_bd_nets util_ad9361_adc_fifo_dout_data_1]
@@ -305,7 +305,7 @@ proc preprocess_bd {project carrier rxtx} {
                         delete_bd_objs [get_bd_nets util_ad9361_adc_fifo_dout_data_3]
                         delete_bd_objs [get_bd_nets util_ad9361_adc_fifo_dout_valid_0]
                     }
-                    if {$rxtx == "tx"} {
+                    if {$rxtx == "tx" || $rxtx == "rxtx"} {
                         # Disconnect the DAC PACK pins
                         delete_bd_objs [get_bd_nets util_ad9361_dac_upack_fifo_rd_data_0]
                         delete_bd_objs [get_bd_nets util_ad9361_dac_upack_fifo_rd_data_1]
@@ -324,7 +324,7 @@ proc preprocess_bd {project carrier rxtx} {
                     connect_bd_net [get_bd_pins util_ad9361_divclk_reset/interconnect_aresetn] [get_bd_pins axi_cpu_interconnect/M06_ARESETN]
                 }
                 ccbox_lvds {
-                    if {$rxtx == "rx"} {
+                    if {$rxtx == "rx" || $rxtx == "rxtx"} {
                         # Disconnect the ADC PACK pins
                         delete_bd_objs [get_bd_nets util_ad9361_adc_fifo_dout_data_0]
                         delete_bd_objs [get_bd_nets util_ad9361_adc_fifo_dout_data_1]
@@ -332,7 +332,7 @@ proc preprocess_bd {project carrier rxtx} {
                         delete_bd_objs [get_bd_nets util_ad9361_adc_fifo_dout_data_3]
                         delete_bd_objs [get_bd_nets util_ad9361_adc_fifo_dout_valid_0]
                     }
-                    if {$rxtx == "tx"} {
+                    if {$rxtx == "tx" || $rxtx == "rxtx"} {
                         # Disconnect the DAC PACK pins
                         delete_bd_objs [get_bd_nets util_ad9361_dac_upack_fifo_rd_data_0]
                         delete_bd_objs [get_bd_nets util_ad9361_dac_upack_fifo_rd_data_1]
@@ -351,7 +351,7 @@ proc preprocess_bd {project carrier rxtx} {
                     connect_bd_net [get_bd_pins util_ad9361_divclk_reset/interconnect_aresetn] [get_bd_pins axi_cpu_interconnect/M06_ARESETN]
                 }                
                 ccpackrf_lvds {
-                    if {$rxtx == "rx"} {
+                    if {$rxtx == "rx" || $rxtx == "rxtx"} {
                         # Disconnect the ADC PACK pins
                         delete_bd_objs [get_bd_nets util_ad9361_adc_fifo_dout_data_0]
                         delete_bd_objs [get_bd_nets util_ad9361_adc_fifo_dout_data_1]
@@ -359,7 +359,7 @@ proc preprocess_bd {project carrier rxtx} {
                         delete_bd_objs [get_bd_nets util_ad9361_adc_fifo_dout_data_3]
                         delete_bd_objs [get_bd_nets util_ad9361_adc_fifo_dout_valid_0]
                     }
-                    if {$rxtx == "tx"} {
+                    if {$rxtx == "tx" || $rxtx == "rxtx"} {
                         # Disconnect the DAC PACK pins
                         delete_bd_objs [get_bd_nets util_ad9361_dac_upack_fifo_rd_data_0]
                         delete_bd_objs [get_bd_nets util_ad9361_dac_upack_fifo_rd_data_1]
@@ -470,7 +470,7 @@ proc preprocess_bd {project carrier rxtx} {
             }
         }
         fmcomms5 {
-                switch $carrier {
+            switch $carrier {
                 zc702 {
                     if {$rxtx == "rx" || $rxtx == "rxtx"} {
                         # Disconnect the ADC PACK pins
@@ -587,7 +587,7 @@ proc preprocess_bd {project carrier rxtx} {
             #delete_bd_objs [get_bd_nets axi_ad9361_dac_dma_fifo_rd_valid] [get_bd_nets fir_interpolator_s_axis_data_tready] [get_bd_nets interp_slice_Dout] [get_bd_nets axi_ad9361_dac_valid_i0] [get_bd_cells fir_interpolator]
         }
         adrv9009 {
-                switch $carrier {
+            switch $carrier {
                 zcu102 {
                     if {$rxtx == "rx" || $rxtx == "rxtx"} {
                         # Remove decimators
@@ -701,46 +701,46 @@ proc preprocess_bd {project carrier rxtx} {
                         delete_bd_objs [get_bd_nets util_dac_1_upack_fifo_rd_data_2]
                         delete_bd_objs [get_bd_nets util_dac_1_upack_fifo_rd_data_3]
                     }
-                # Add 1 extra AXI master ports to the interconnect
-                set_property -dict [list CONFIG.NUM_MI {7}] [get_bd_cells axi_cpu_interconnect]
-                # Connect clock and reset
-                connect_bd_net [get_bd_pins axi_cpu_interconnect/M06_ACLK] [get_bd_pins sys_ps8/pl_clk0]
-                connect_bd_net [get_bd_pins axi_cpu_interconnect/M06_ARESETN] [get_bd_pins sys_rstgen/peripheral_aresetn]
-                zed {
-                    if {$rxtx == "rx" || $rxtx == "rxtx"} {
-                        # Remove ADC->Pack
-                        delete_bd_objs [get_bd_nets axi_adrv9001_adc_1_data_i0]
-                        delete_bd_objs [get_bd_nets axi_adrv9001_adc_1_data_q0]
-                        delete_bd_objs [get_bd_nets axi_adrv9001_adc_1_data_i1]
-                        delete_bd_objs [get_bd_nets axi_adrv9001_adc_1_data_q1]
-                        # Remove enable aka valid
-                        delete_bd_objs [get_bd_nets axi_adrv9001_adc_1_valid_i0]
-                    }
-                    if {$rxtx == "tx" || $rxtx == "rxtx"} {
-                        # Remove UPack->DAC
-                        delete_bd_objs [get_bd_nets util_dac_1_upack_fifo_rd_data_0]
-                        delete_bd_objs [get_bd_nets util_dac_1_upack_fifo_rd_data_1]
-                        delete_bd_objs [get_bd_nets util_dac_1_upack_fifo_rd_data_2]
-                        delete_bd_objs [get_bd_nets util_dac_1_upack_fifo_rd_data_3]
+                    # Add 1 extra AXI master ports to the interconnect
+                    set_property -dict [list CONFIG.NUM_MI {7}] [get_bd_cells axi_cpu_interconnect]
+                    # Connect clock and reset
+                    connect_bd_net [get_bd_pins axi_cpu_interconnect/M06_ACLK] [get_bd_pins sys_ps8/pl_clk0]
+                    connect_bd_net [get_bd_pins axi_cpu_interconnect/M06_ARESETN] [get_bd_pins sys_rstgen/peripheral_aresetn]
+                    zed {
+                        if {$rxtx == "rx" || $rxtx == "rxtx"} {
+                            # Remove ADC->Pack
+                            delete_bd_objs [get_bd_nets axi_adrv9001_adc_1_data_i0]
+                            delete_bd_objs [get_bd_nets axi_adrv9001_adc_1_data_q0]
+                            delete_bd_objs [get_bd_nets axi_adrv9001_adc_1_data_i1]
+                            delete_bd_objs [get_bd_nets axi_adrv9001_adc_1_data_q1]
+                            # Remove enable aka valid
+                            delete_bd_objs [get_bd_nets axi_adrv9001_adc_1_valid_i0]
+                        }
+                        if {$rxtx == "tx" || $rxtx == "rxtx"} {
+                            # Remove UPack->DAC
+                            delete_bd_objs [get_bd_nets util_dac_1_upack_fifo_rd_data_0]
+                            delete_bd_objs [get_bd_nets util_dac_1_upack_fifo_rd_data_1]
+                            delete_bd_objs [get_bd_nets util_dac_1_upack_fifo_rd_data_2]
+                            delete_bd_objs [get_bd_nets util_dac_1_upack_fifo_rd_data_3]
+                        }
                     }
                 }
-            }
-            ## Add 1 extra AXI master ports to the interconnect
-            set_property -dict [list CONFIG.NUM_MI {6}] [get_bd_cells axi_cpu_interconnect]
-            connect_bd_net [get_bd_pins axi_cpu_interconnect/M05_ACLK] [get_bd_pins axi_ad9361/l_clk]
-            #connect_bd_net [get_bd_pins axi_cpu_interconnect/M05_ARESETN] [get_bd_pins proc_sys_reset_0/peripheral_aresetn]
-            connect_bd_net [get_bd_pins axi_cpu_interconnect/M05_ARESETN] [get_bd_pins sys_rstgen/peripheral_aresetn]
+                ## Add 1 extra AXI master ports to the interconnect
+                set_property -dict [list CONFIG.NUM_MI {6}] [get_bd_cells axi_cpu_interconnect]
+                connect_bd_net [get_bd_pins axi_cpu_interconnect/M05_ACLK] [get_bd_pins axi_ad9361/l_clk]
+                #connect_bd_net [get_bd_pins axi_cpu_interconnect/M05_ARESETN] [get_bd_pins proc_sys_reset_0/peripheral_aresetn]
+                connect_bd_net [get_bd_pins axi_cpu_interconnect/M05_ARESETN] [get_bd_pins sys_rstgen/peripheral_aresetn]
 
-            # Remove filters
-            #delete_bd_objs [get_bd_cells fir_decimator]
-            #delete_bd_objs [get_bd_cells fir_interpolator]
-            delete_bd_objs [get_bd_nets axi_ad9361_adc_valid_i0] [get_bd_nets axi_ad9361_adc_data_i0] [get_bd_nets axi_ad9361_adc_enable_q0] [get_bd_nets rx_fir_decimator_enable_out_1] [get_bd_nets rx_fir_decimator_data_out_1] [get_bd_nets rx_fir_decimator_enable_out_0] [get_bd_nets active_1] [get_bd_nets axi_ad9361_adc_enable_i0] [get_bd_nets rx_fir_decimator_valid_out_0] [get_bd_nets rx_fir_decimator_data_out_0] [get_bd_nets axi_ad9361_adc_valid_q0] [get_bd_nets axi_ad9361_adc_data_q0] [get_bd_cells rx_fir_decimator]
-            delete_bd_objs [get_bd_nets active_2] [get_bd_nets GND_32_dout] [get_bd_nets axi_ad9361_dac_enable_i0] [get_bd_nets tx_fir_interpolator_valid_out_0] [get_bd_nets tx_upack_fifo_rd_data_0] [get_bd_nets tx_fir_interpolator_data_out_0] [get_bd_nets axi_ad9361_dac_valid_q0] [get_bd_nets tx_upack_fifo_rd_data_1] [get_bd_nets axi_ad9361_dac_valid_i0] [get_bd_nets tx_fir_interpolator_enable_out_0] [get_bd_nets axi_ad9361_dac_enable_q0] [get_bd_nets tx_fir_interpolator_enable_out_1] [get_bd_nets tx_fir_interpolator_data_out_1] [get_bd_cells tx_fir_interpolator]
-            #delete_bd_objs [get_bd_nets fir_decimator_m_axis_data_tvalid] [get_bd_nets fir_decimator_m_axis_data_tdata] [get_bd_nets decim_slice_Dout] [get_bd_cells fir_decimator]
-            #delete_bd_objs [get_bd_nets axi_ad9361_dac_dma_fifo_rd_valid] [get_bd_nets fir_interpolator_s_axis_data_tready] [get_bd_nets interp_slice_Dout] [get_bd_nets axi_ad9361_dac_valid_i0] [get_bd_cells fir_interpolator]
-        }
+                # Remove filters
+                #delete_bd_objs [get_bd_cells fir_decimator]
+                #delete_bd_objs [get_bd_cells fir_interpolator]
+                delete_bd_objs [get_bd_nets axi_ad9361_adc_valid_i0] [get_bd_nets axi_ad9361_adc_data_i0] [get_bd_nets axi_ad9361_adc_enable_q0] [get_bd_nets rx_fir_decimator_enable_out_1] [get_bd_nets rx_fir_decimator_data_out_1] [get_bd_nets rx_fir_decimator_enable_out_0] [get_bd_nets active_1] [get_bd_nets axi_ad9361_adc_enable_i0] [get_bd_nets rx_fir_decimator_valid_out_0] [get_bd_nets rx_fir_decimator_data_out_0] [get_bd_nets axi_ad9361_adc_valid_q0] [get_bd_nets axi_ad9361_adc_data_q0] [get_bd_cells rx_fir_decimator]
+                delete_bd_objs [get_bd_nets active_2] [get_bd_nets GND_32_dout] [get_bd_nets axi_ad9361_dac_enable_i0] [get_bd_nets tx_fir_interpolator_valid_out_0] [get_bd_nets tx_upack_fifo_rd_data_0] [get_bd_nets tx_fir_interpolator_data_out_0] [get_bd_nets axi_ad9361_dac_valid_q0] [get_bd_nets tx_upack_fifo_rd_data_1] [get_bd_nets axi_ad9361_dac_valid_i0] [get_bd_nets tx_fir_interpolator_enable_out_0] [get_bd_nets axi_ad9361_dac_enable_q0] [get_bd_nets tx_fir_interpolator_enable_out_1] [get_bd_nets tx_fir_interpolator_data_out_1] [get_bd_cells tx_fir_interpolator]
+                #delete_bd_objs [get_bd_nets fir_decimator_m_axis_data_tvalid] [get_bd_nets fir_decimator_m_axis_data_tdata] [get_bd_nets decim_slice_Dout] [get_bd_cells fir_decimator]
+                #delete_bd_objs [get_bd_nets axi_ad9361_dac_dma_fifo_rd_valid] [get_bd_nets fir_interpolator_s_axis_data_tready] [get_bd_nets interp_slice_Dout] [get_bd_nets axi_ad9361_dac_valid_i0] [get_bd_cells fir_interpolator]
+            }
         ad9371x {
-                switch $carrier {
+            switch $carrier {
                 zc706 {
                     if {$rxtx == "rx" || $rxtx == "rxtx"} {
                         # Remove decimator
