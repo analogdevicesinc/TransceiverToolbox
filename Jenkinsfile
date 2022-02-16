@@ -78,6 +78,7 @@ stage("Demo Tests") {
         branchName ->
         withEnv(['DEMO='+branchName]) {
             unstash "builtSources"
+	    sh 'rm test/*.xml'
             sh 'make -C ./CI/scripts test_targeting_demos'
             junit testResults: 'test/*.xml', allowEmptyResults: true
             archiveArtifacts artifacts: 'test/logs/*', followSymlinks: false, allowEmptyArchive: true
