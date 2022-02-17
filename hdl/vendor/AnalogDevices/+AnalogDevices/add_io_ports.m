@@ -1,7 +1,7 @@
 function root = add_io_ports(hRD,project,type,fpga)
 
 [filepath,~,~] = fileparts(mfilename('fullpath'));
-fileName = fullfile(filepath,'ports.json');
+fileName = fullfile(filepath,'ports_copy.json');
 fid = fopen(fileName);
 raw = fread(fid,inf);
 str = char(raw');
@@ -62,7 +62,7 @@ end
 %%
 function out = inout_pn_d(in,name)
 persistent in_count;
-if in
+if strcmp(in, 'true')
     if isempty(in_count) || (in_count == 4)
         in_count = 0;
     end
@@ -74,7 +74,7 @@ end
 end
 %%
 function out = inout_pn(in)
-if in
+if strcmp(in, 'true')
     out = 'dut_data_valid_in';
 else
     out = 'dut_data_valid_out';
