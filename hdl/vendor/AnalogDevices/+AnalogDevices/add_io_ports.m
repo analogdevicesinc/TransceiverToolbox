@@ -25,31 +25,37 @@ end
 
 
 if contains(type,'rx')
-    process(hRD, root.ports.rx);
+    process(hRD, root.ports.rx, 'rx');
 end
 if contains(type,'tx')
-    process(hRD, root.ports.tx);
+    process(hRD, root.ports.tx, 'tx');
 end
 
 
 end
 
-function process(hRD, rtx)
+function process(hRD, rtx, type)
+count = [-1 -1];
 for i = 1:length(rtx)
     rx = rtx(i);
     if strcmpi(rx.type,'valid')
         hRD.addInternalIOInterface( ...
             'InterfaceID',    rx.m_name, ...
             'InterfaceType',  inout(rx.input), ...
-            'PortName',       inout_pn(rx.input), ...
+            'PortName',       inout_pn(rx.input, type), ...
             'PortWidth',      rx.width, ...
             'InterfaceConnection', rx.name, ...
             'IsRequired',     false);
     elseif strcmpi(rx.type,'data')
+        if strcmp(rx.input, 'true')
+            count(1)=count(1)+1;
+        else
+            count(2)=count(2)+1;
+        end
         hRD.addInternalIOInterface( ...
             'InterfaceID',    rx.m_name, ...
             'InterfaceType',  inout(rx.input), ...
-            'PortName',       inout_pn_d(rx.input,rx.name), ...
+            'PortName',       inout_pn_d(rx.input,count), ...
             'PortWidth',      rx.width, ...
             'InterfaceConnection', rx.name, ...
             'IsRequired',     false);        
@@ -60,25 +66,20 @@ end
 end
 
 %%
-function out = inout_pn_d(in,name)
-persistent in_count;
+function out = inout_pn_d(in,count)
 if strcmp(in, 'true')
-    if isempty(in_count) || (in_count == 4)
-        in_count = 0;
-    end
-    out = sprintf('dut_data_in_%d',in_count);
-    in_count=in_count+1;
+    out = sprintf('dut_data_in_%d',count(1));
 else
-    out = sprintf('dut_data_out_%s',name(end));
+    out = sprintf('dut_data_out_%d',count(2));
 end
 end
 %%
-function out = inout_pn(in)
-if strcmp(in, 'true')
-    out = 'dut_data_valid_in';
-else
-    out = 'dut_data_valid_out';
-end
+function out = inout_pn(in, type)
+    if strcmp(in, 'true')
+        out = sprintf('dut_data_valid_in_%s', type);
+    else
+        out = sprintf('dut_data_valid_out_%s', type);
+    end
 end
 %%
 function out = inout(in)
