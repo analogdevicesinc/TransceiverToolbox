@@ -16,6 +16,9 @@ end
 if strcmpi(project, 'adrv9002')
     ppath = 'adrv9001';
 end
+if strcmpi(project, 'adrv9371')
+    ppath = 'adrv9371x';
+end
 
 % Construct reference design object
 hRD = hdlcoder.ReferenceDesign('SynthesisTool', 'Xilinx Vivado');
