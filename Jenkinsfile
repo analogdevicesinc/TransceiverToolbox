@@ -38,7 +38,7 @@ stage("Build Toolbox") {
 
 /////////////////////////////////////////////////////
 
-boardNames = ['zed','zc702','zc706','zcu102']
+boardNames = ['zed','zc702','zc706','zcu102','adrv9361','adrv9364','pluto']
 dockerConfig.add("-e HDLBRANCH=hdl_2019_r2")
 
 stage("HDL Tests") {
