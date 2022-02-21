@@ -55,7 +55,7 @@ for i = 1:length(rtx)
         hRD.addInternalIOInterface( ...
             'InterfaceID',    rx.m_name, ...
             'InterfaceType',  inout(rx.input), ...
-            'PortName',       inout_pn_d(rx.input,count), ...
+            'PortName',       inout_pn_d(rx.input,count,type), ...
             'PortWidth',      rx.width, ...
             'InterfaceConnection', rx.name, ...
             'IsRequired',     false);        
@@ -66,11 +66,11 @@ end
 end
 
 %%
-function out = inout_pn_d(in,count)
+function out = inout_pn_d(in,count,type)
 if strcmp(in, 'true')
-    out = sprintf('dut_data_in_%d',count(1));
+    out = sprintf('dut_data_in_%d_%s',count(1), type);
 else
-    out = sprintf('dut_data_out_%d',count(2));
+    out = sprintf('dut_data_out_%d_%s',count(2), type);
 end
 end
 %%
