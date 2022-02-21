@@ -327,7 +327,7 @@ proc preprocess_bd {project carrier rxtx} {
                 }                
             }
         }
-        ad9371x {
+        adrv9371x {
             if {$rxtx == "rx" || $rxtx == "rxtx"} {
                 # Remove decimator
                 delete_bd_objs [get_bd_nets rx_fir_decimator_valid_out_0] [get_bd_nets rx_ad9371_tpl_core_adc_data_0] [get_bd_nets rx_ad9371_tpl_core_adc_enable_1] [get_bd_nets rx_ad9371_tpl_core_adc_valid_2] [get_bd_nets rx_ad9371_tpl_core_adc_data_2] [get_bd_nets rx_ad9371_tpl_core_adc_enable_3] [get_bd_nets rx_fir_decimator_enable_out_0] [get_bd_nets rx_ad9371_tpl_core_adc_data_1] [get_bd_nets rx_fir_decimator_enable_out_2] [get_bd_nets rx_ad9371_tpl_core_adc_data_3] [get_bd_nets active_2] [get_bd_nets rx_ad9371_tpl_core_adc_valid_0] [get_bd_nets rx_fir_decimator_data_out_0] [get_bd_nets rx_fir_decimator_enable_out_1] [get_bd_nets rx_fir_decimator_data_out_2] [get_bd_nets rx_fir_decimator_enable_out_3] [get_bd_nets rx_ad9371_tpl_core_adc_enable_0] [get_bd_nets rx_ad9371_tpl_core_adc_valid_1] [get_bd_nets rx_fir_decimator_data_out_1] [get_bd_nets rx_ad9371_tpl_core_adc_enable_2] [get_bd_nets rx_ad9371_tpl_core_adc_valid_3] [get_bd_nets rx_fir_decimator_data_out_3] [get_bd_cells rx_fir_decimator]

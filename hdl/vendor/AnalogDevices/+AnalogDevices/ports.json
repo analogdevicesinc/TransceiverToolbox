@@ -754,7 +754,7 @@
             }
         ]
     },
-    "adrv9371": {
+    "adrv9371x": {
         "chip": "AD9371",
         "complex": "true",
         "fpga": [
@@ -784,25 +784,25 @@
                     {
                         "input": "false",
                         "width": 16,
-                        "name": "util_ad9361_adc_pack/fifo_wr_data_0",
+                        "name": "util_ad9371_rx_cpack/fifo_wr_data_0",
                         "type": "data"
                     },
                     {
                         "input": "false",
                         "width": 16,
-                        "name": "util_ad9361_adc_pack/fifo_wr_data_1",
+                        "name": "util_ad9371_rx_cpack/fifo_wr_data_1",
                         "type": "data"
                     },
                     {
                         "input": "false",
                         "width": 16,
-                        "name": "util_ad9361_adc_pack/fifo_wr_data_2",
+                        "name": "util_ad9371_rx_cpack/fifo_wr_data_2",
                         "type": "data"
                     },
                     {
                         "input": "false",
                         "width": 16,
-                        "name": "util_ad9361_adc_pack/fifo_wr_data_3",
+                        "name": "util_ad9371_rx_cpack/fifo_wr_data_3",
                         "type": "data"
                     },
                     {
