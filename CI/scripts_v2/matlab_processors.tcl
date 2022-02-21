@@ -259,6 +259,13 @@ proc preprocess_bd {project carrier rxtx} {
             }
             switch $carrier {
                 zcu102 {
+
+                    # RX ONLY
+                    # IPCORE_RESETN ->     adrv9009_rx_device_clk_rstgen/peripheral_aresetn
+                    # AXI4_LITE_ARESETN -> adrv9009_rx_device_clk_rstgen/peripheral_aresetn
+                    # M16_RESET -> adrv9009_rx_device_clk_rstgen/peripheral_aresetn
+                    # M16 -> rx_clkgen/clk_0
+
                     if {$rxtx == "rx" || $rxtx == "rxtx"} {
                         connect_bd_net [get_bd_pins axi_cpu_interconnect/M16_ACLK] [get_bd_pins axi_adrv9009_rx_clkgen/clk_0]
                     }
@@ -285,9 +292,10 @@ proc preprocess_bd {project carrier rxtx} {
                         connect_bd_net [get_bd_pins axi_cpu_interconnect/M16_ACLK] [get_bd_pins axi_adrv9009_tx_clkgen/clk_0]
                     }
                     # Add 1 extra AXI master ports to the interconnect
-                    set_property -dict [list CONFIG.NUM_MI {11}] [get_bd_cells axi_cpu_interconnect]
-                    connect_bd_net -net [get_bd_nets util_ad9361_divclk_clk_out] [get_bd_pins axi_cpu_interconnect/M10_ACLK] [get_bd_pins util_ad9361_divclk/clk_out]
-                    connect_bd_net [get_bd_pins util_ad9361_divclk_reset/interconnect_aresetn] [get_bd_pins axi_cpu_interconnect/M10_ARESETN]
+                    set_property -dict [list CONFIG.NUM_MI {17}] [get_bd_cells axi_cpu_interconnect]
+                    #connect_bd_net [get_bd_pins axi_cpu_interconnect/M16_ARESETN] [get_bd_pins sys_rstgen/peripheral_aresetn]
+                    #connect_bd_net -net [get_bd_nets axi_adrv9009_rx_clkgen] [get_bd_pins axi_cpu_interconnect/M16_ACLK] [get_bd_pins axi_adrv9009_rx_clkgen/clk_0]
+                    #connect_bd_net [get_bd_pins sys_rstgen/interconnect_aresetn] [get_bd_pins axi_cpu_interconnect/M16_ARESETN]
                 }                
             }
         }
