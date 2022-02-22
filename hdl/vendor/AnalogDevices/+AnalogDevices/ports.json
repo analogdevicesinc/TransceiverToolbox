@@ -754,7 +754,7 @@
             }
         ]
     },
-    "adrv9371x": {
+    "adrv9371": {
         "chip": "AD9371",
         "complex": "true",
         "fpga": [
