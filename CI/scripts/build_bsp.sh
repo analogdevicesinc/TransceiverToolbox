@@ -60,6 +60,21 @@ if [ -d "$TARGET" ]; then
 fi
 mv hdl $TARGET
 
+# Rename .prj files since MATLAB ignores then during packaging
+FILES=$(grep -lrn hdl/projects/common -e '.prj' | grep -v Makefile | grep -v .git)
+for f in $FILES
+do
+  echo "Updating prj reference in: $f"
+  sed -i "s/\.prj/\.mk/g" "$f"
+done
+FILES=$(find hdl/projects/common -name "*.prj")
+for f in $FILES
+do
+  DEST="${f::-3}mk"
+  echo "Renaming: $f to $DEST"
+  mv "$f" "$DEST"
+done
+
 # Post-process ports.json
 cp ../hdl/vendor/AnalogDevices/+AnalogDevices/ports.json ./
 python3 ./scripts_v2/read_ports_json.py
