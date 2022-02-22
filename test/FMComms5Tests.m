@@ -41,14 +41,12 @@ classdef FMComms5Tests < HardwareTests
             testCase.verifyTrue(valid);
             testCase.verifyGreaterThan(sum(abs(double(out))),0);
             for ii = 1:numel(AllEnChsCombos)
-                testCase.verifyNotEqual(testCase, ...
-                    diff(abs(double(out(:,ii)))), ...
+                testCase.verifyNotEqual(diff(abs(double(out(:,ii)))), ...
                     zeros(numel(out(:,ii))-1, 1));
             end
             if (numel(AllEnChsCombos) > 1)
                 for ii = 2:numel(AllEnChsCombos)
-                    testCase.verifyNotEqual(testCase, ...
-                        sum(abs(double(out(:,1)))), ...
+                    testCase.verifyNotEqual(sum(abs(double(out(:,1)))), ...
                         sum(abs(double(out(:,ii)))));                    
                 end
             end
@@ -71,7 +69,7 @@ classdef FMComms5Tests < HardwareTests
             testCase.verifyTrue(valid);
             testCase.verifyEqual(double(sr),3000000,'Incorrect sample rate');
             testCase.verifyGreaterThan(sum(abs(double(out))),0);
-            testCase.verifyNotEqual(testCase, diff(abs(double(out))), ...
+            testCase.verifyNotEqual(diff(abs(double(out))), ...
                 zeros(numel(out)-1, 1));
         end
         
@@ -141,7 +139,7 @@ classdef FMComms5Tests < HardwareTests
             testCase.verifyTrue(valid);
             testCase.verifyEqual(double(sr),23040000,'Incorrect sample rate');
             testCase.verifyGreaterThan(sum(abs(double(out))),0);
-            testCase.verifyNotEqual(testCase, diff(abs(double(out))), ...
+            testCase.verifyNotEqual(diff(abs(double(out))), ...
                 zeros(numel(out)-1, 1));
         end
         
