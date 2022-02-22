@@ -1,0 +1,172 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AD9361_Rx. &mdash; Transceiver Toolbox 21.1.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/style.css" type="text/css" />
+      <link rel="stylesheet" href="_static/style.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="AD9361_Tx." href="AD9361_Tx.html" />
+    <link rel="prev" title="Devices" href="devices.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Transceiver Toolbox
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Buffers.html">Buffers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CodeExamples.html">CodeExamples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="StateMgmt.html">State Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SupportedHardware.html">SupportedHardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SysObjsProps.html">System Objects and Properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SystemObjects.html">System Objects</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="devices.html">Devices</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">AD9361_Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AD9361_Tx.html">AD9361_Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AD9363_Rx.html">AD9363_Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AD9363_Tx.html">AD9363_Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AD9364_Rx.html">AD9364_Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AD9364_Tx.html">AD9364_Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AD9371_Rx.html">AD9371_Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AD9371_Tx.html">AD9371_Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ADITTBHome.html">ADITTBHome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ADRV9009_Rx.html">ADRV9009_Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ADRV9009_Tx.html">ADRV9009_Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ADRV9361Z7035_Rx.html">ADRV9361Z7035_Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ADRV9361Z7035_Tx.html">ADRV9361Z7035_Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ADRV9364Z7020_Rx.html">ADRV9364Z7020_Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ADRV9364Z7020_Tx.html">ADRV9364Z7020_Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ADRV9371_Rx.html">ADRV9371_Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ADRV9371_Tx.html">ADRV9371_Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FMComms2_Rx.html">FMComms2_Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FMComms2_Tx.html">FMComms2_Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FMComms3_Rx.html">FMComms3_Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FMComms3_Tx.html">FMComms3_Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FMComms4_Rx.html">FMComms4_Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FMComms4_Tx.html">FMComms4_Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PackRF_Rx.html">PackRF_Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PackRF_Tx.html">PackRF_Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Pluto_Rx.html">Pluto_Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Pluto_Tx.html">Pluto_Tx</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ForDevs.html">Developers</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Transceiver Toolbox</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="devices.html">Devices</a> &raquo;</li>
+      <li>AD9361_Rx.</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/AD9361_Rx.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ad9361-rx">
+<h1>AD9361_Rx.<a class="headerlink" href="#ad9361-rx" title="Permalink to this headline"></a></h1>
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <link rel="stylesheet" href="helpwin.css"><script type="text/javascript" src="https://localhost:31515/static/help/includes/product/scripts/jquery/jquery-latest.js"></script><script type="text/javascript" src="https://localhost:31515/static/help/includes/shared/scripts/helpservices.js"></script><title>adi.AD9361.Rx - MATLAB File Help</title>
+   </head>
+   <body>
+      <!--Single-page help-->
+      <table border="0" cellspacing="0" width="100%">
+         <tr class="subheader">
+            <td class="headertitle">adi.AD9361.Rx - MATLAB File Help</td>
+         </tr>
+      </table>
+      <div class="title">adi.AD9361.Rx</div>
+      <div class="helptext"><pre><!--helptext -->  <span class="helptopic">adi.AD9361.Rx</span> Receive data from the AD9361 transceiver
+    The <span class="helptopic">adi.AD9361.Rx</span> System object is a signal source that can receive
+    complex data from the AD9361.
+ 
+    rx = <span class="helptopic">adi.AD9361.Rx</span>;
+    rx = <span class="helptopic">adi.AD9361.Rx</span>('uri','192.168.2.1');
+ 
+    <a href="http://www.analog.com/media/en/technical-documentation/data-sheets/AD9361.pdf">AD9361 Datasheet</a></pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="matlab:doc adi.FMComms2.Rx">adi.FMComms2.Rx</a>, <a href="matlab:doc adi.FMComms3.Rx">adi.FMComms3.Rx</a>, adi.FMComms5.Rx
+</div>
+   </body>
+</html>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="devices.html" class="btn btn-neutral float-left" title="Devices" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="AD9361_Tx.html" class="btn btn-neutral float-right" title="AD9361_Tx." accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Travis F. Collins.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

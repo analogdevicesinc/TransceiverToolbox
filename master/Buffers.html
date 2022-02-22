@@ -1,0 +1,231 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Buffers &mdash; Transceiver Toolbox 21.1.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/style.css" type="text/css" />
+      <link rel="stylesheet" href="_static/style.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="CodeExamples" href="CodeExamples.html" />
+    <link rel="prev" title="Welcome to Transceiver Toolbox’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Transceiver Toolbox
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Buffers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CodeExamples.html">CodeExamples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="StateMgmt.html">State Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SupportedHardware.html">SupportedHardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SysObjsProps.html">System Objects and Properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SystemObjects.html">System Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="devices.html">Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ForDevs.html">Developers</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Transceiver Toolbox</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Buffers</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Buffers.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="buffers">
+<h1>Buffers<a class="headerlink" href="#buffers" title="Permalink to this headline"></a></h1>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,IE=9,chrome=1"><meta name="generator" content="MATLAB 2020b"><title>Receiving and Sending Data</title><style type="text/css">.rtcContent { padding: 30px; } .S0 { margin: 3px 10px 5px 4px; padding: 0px; line-height: 28.8px; min-height: 0px; white-space: pre-wrap; color: rgb(213, 80, 0); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 24px; font-weight: 400; text-align: left;  }
+.S1 { margin: 2px 10px 9px 4px; padding: 0px; line-height: 21px; min-height: 0px; white-space: pre-wrap; color: rgb(0, 0, 0); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 14px; font-weight: 400; text-align: left;  }
+.S2 { margin: 20px 10px 5px 4px; padding: 0px; line-height: 20px; min-height: 0px; white-space: pre-wrap; color: rgb(60, 60, 60); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 20px; font-weight: 700; text-align: left;  }
+.CodeBlock { background-color: #F7F7F7; margin: 10px 0 10px 0;}
+.S3 { border-left: 1px solid rgb(233, 233, 233); border-right: 1px solid rgb(233, 233, 233); border-top: 1px solid rgb(233, 233, 233); border-bottom: 1px solid rgb(233, 233, 233); border-radius: 4px; padding: 6px 45px 4px 13px; line-height: 17.234px; min-height: 18px; white-space: nowrap; color: rgb(0, 0, 0); font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S4 { margin: 10px 10px 9px 4px; padding: 0px; line-height: 21px; min-height: 0px; white-space: pre-wrap; color: rgb(0, 0, 0); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 14px; font-weight: 400; text-align: left;  }
+.S5 { border-left: 1px solid rgb(233, 233, 233); border-right: 1px solid rgb(233, 233, 233); border-top: 1px solid rgb(233, 233, 233); border-bottom: 0px none rgb(0, 0, 0); border-radius: 4px 4px 0px 0px; padding: 6px 45px 0px 13px; line-height: 17.234px; min-height: 18px; white-space: nowrap; color: rgb(0, 0, 0); font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S6 { border-left: 1px solid rgb(233, 233, 233); border-right: 1px solid rgb(233, 233, 233); border-top: 0px none rgb(0, 0, 0); border-bottom: 1px solid rgb(233, 233, 233); border-radius: 0px 0px 4px 4px; padding: 0px 45px 4px 13px; line-height: 17.234px; min-height: 18px; white-space: nowrap; color: rgb(0, 0, 0); font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S7 { border-left: 1px solid rgb(233, 233, 233); border-right: 1px solid rgb(233, 233, 233); border-top: 0px none rgb(0, 0, 0); border-bottom: 0px none rgb(0, 0, 0); border-radius: 0px; padding: 0px 45px 0px 13px; line-height: 17.234px; min-height: 18px; white-space: nowrap; color: rgb(0, 0, 0); font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }</style></head><body><div class = rtcContent><h1  class = 'S0'><span>Receiving and Sending Data</span></h1><div  class = 'S1'><span>The hardware interfacing System Objects all configuration of a hardware component as well as sending data to it or receiving data from it, depending on the component. A given object can send or receive, but not both.</span></div><h2  class = 'S2'><span>Receiving Data</span></h2><div  class = 'S1'><span>To receive or capture data from a given device first you must instantiate that device's interface class. For example on a AD9361 based system, this would be as follows:</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S3'><span style="white-space: pre;"><span>rx = adi.AD9361.Rx;</span></span></div></div></div><div  class = 'S4'><span>Once instantiated you can configure the number of samples to be captured by setting the property </span><span style=' font-weight: bold;'>SamplesPerFrame.</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S3'><span style="white-space: pre;"><span>rx.SamplesPerFrame = 1e6;</span></span></div></div></div><div  class = 'S4'><span style=' font-weight: bold;'>SamplesPerFrame</span><span> is the number of samples per channel which will be captured. If your device produces complex data (I and Q) this is the number of complex samples. There will be a limit to the maximum samples which can be collected. By default this is set to 2^20, but it may be possible to make it larger depending on hardware. Once the operator methods are used for a give instantiation, the object will become locked and the </span><span style=' font-weight: bold;'>SamplesPerFrame</span><span> property cannot be changed. This is known as a non-tunable property.</span></div><div  class = 'S1'><span>To actually collect the samples or perform the capture, the operator of the system object should be used or the </span><span style=' font-weight: bold;'>step</span><span> method as so:</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S5'><span style="white-space: pre;"><span class="warning_squiggle_rte895280806">data</span><span> = rx(); </span><span style="color: rgb(2, 128, 9);">% Operator method</span></span></div></div><div class="inlineWrapper"><div  class = 'S6'><span style="white-space: pre;"><span>data = rx.step(); </span><span style="color: rgb(2, 128, 9);">% Step method</span></span></div></div></div><div  class = 'S4'><span>Both method calls are equivalent, and the produced matrix </span><span style=' font-weight: bold;'>data</span><span> will be of size [SamplesPerFrame x length(EnabledChannels)]. </span><span style=' font-weight: bold;'>EnabledChannels</span><span> determines the channels which data will be collected from. </span><span style=' font-weight: bold;'>EnabledChannels </span><span>is a [1xN] vector with indexes starting at 1 of the desired channels. If the device transmits or receive complex data, these indexes are for complex channel pairs. For example, the AD9361 has 2 receivers (4 ADC) and setting </span><span style=' font-weight: bold;'>EnabledChannels</span><span> as so will capture data from all 4 converters:</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S3'><span style="white-space: pre;"><span>rx.EnabledChannels = [1,2];</span></span></div></div></div><div  class = 'S4'><span>You cannot enable individual converters on complex data based devices, and the </span><span style=' font-weight: bold;'>EnabledChannels</span><span> property is always sorted so the channel mappings cannot be changed within the produced data.</span></div><h2  class = 'S2'><span>Sending Data</span></h2><div  class = 'S1'><span>Transmitting data is very similar to receiving it, a transmitter class needs to be instantiated to send data first. For a ADRV9009 based device this would be as follows:</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S3'><span style="white-space: pre;"><span>tx = adi.ADRV9009.Tx;</span></span></div></div></div><div  class = 'S4'><span>Unlike the receivers, transmit objects automatically create their internal buffers based on the data passed to them during their operator or step methods. These methods can be called as follows with some data:</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S5'><span style="white-space: pre;"><span>tx_data = complex(2^15.*randn(1024,1),2^15.*randn(1024,1));</span></span></div></div><div class="inlineWrapper"><div  class = 'S7'><span style="white-space: pre;"><span>tx(tx_data); </span><span style="color: rgb(2, 128, 9);">% Operator method</span></span></div></div><div class="inlineWrapper"><div  class = 'S6'><span style="white-space: pre;"><span>tx.step(tx_data); </span><span style="color: rgb(2, 128, 9);">% Step method</span></span></div></div></div><div  class = 'S4'><span>However, once the step or operator method is called the object becomes locked and future passed data vectors must be the same length. As with the receive classes, the size of the passed data must be [SomeFixedSize x EnabledChannels]. </span><span style=' font-weight: bold;'>EnabledChannels</span><span> has the same definition as the receive side, except applied to DACs.</span></div><div  class = 'S1'><span>Unlike the receiver, transmit objects have the ability to utilize </span><a href = "https://analogdevicesinc.github.io/libiio/group__Buffer.html#ga6caadf077c112ae55a64276aa24ef832"><span>cyclic buffers</span></a><span> which will continuously transmit a provided vector without gaps forever. To utilize cylic buffers set the </span><span style=' font-weight: bold;'>EnableCyclicBuffers</span><span> property then pass the operator data as follows:</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S5'><span style="white-space: pre;"><span>tx = adi.ADRV9009.Tx;</span></span></div></div><div class="inlineWrapper"><div  class = 'S7'><span style="white-space: pre;"><span>tx.EnableCyclicBuffers = true;</span></span></div></div><div class="inlineWrapper"><div  class = 'S7'><span style="white-space: pre;"><span>tx_data = complex(2^15.*randn(1024,1),2^15.*randn(1024,1));</span></span></div></div><div class="inlineWrapper"><div  class = 'S6'><span style="white-space: pre;"><span>tx(tx_data); </span><span style="color: rgb(2, 128, 9);">% Data will repeat forever</span></span></div></div></div><div  class = 'S4'><span>One a vector is passed to the object with </span><span style=' font-weight: bold;'>EnableCyclicBuffers</span><span> set to </span><span style=' font-weight: bold;'>true</span><span>, the object will not accept future buffers unless first release or cleared.</span></div><div  class = 'S1'><span>By default the system objects will utilize </span><span style=' font-weight: bold;'>DMA </span><span>as the source of data for the DACs, which will use data past from the operator. This can be set manually through the </span><span style=' font-weight: bold;'>DataSource</span><span> properties as follows:</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S3'><span style="white-space: pre;"><span>rx.DataSource = </span><span style="color: rgb(170, 4, 249);">'DMA'</span><span>;</span></span></div></div></div><h2  class = 'S2'><span>DDS</span></h2><div  class = 'S1'><span>Instead of providing data for transmission, it is possible to utilize DDSs inside the FPGA to send tones to individual DACs. For specific boards there are two DDS per DAC, which can be used to create complex (one-sided) tones. These DDSs can be used by first setting the </span><span style=' font-weight: bold;'>DataSource</span><span> property:</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S3'><span style="white-space: pre;"><span>rx.DataSource = </span><span style="color: rgb(170, 4, 249);">'DDS'</span><span>;</span></span></div></div></div><div  class = 'S4'><span>Then the scale, frequency, and phase of each DDS can be controlled through three attributes as follows:</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S5'><span style="white-space: pre;"><span>rx.DDSFrequencies = [1e3,1e3,1e3,1e3;1e4,1e4,1e4,1e4]; </span><span style="color: rgb(2, 128, 9);">% Must be range [0 FS/2]</span></span></div></div><div class="inlineWrapper"><div  class = 'S7'><span style="white-space: pre;"><span>rx.DDSScales = [1,1,1,1;0,0,0,0]; </span><span style="color: rgb(2, 128, 9);">% Must be range [0,1]</span></span></div></div><div class="inlineWrapper"><div  class = 'S6'><span style="white-space: pre;"><span>rx.DDSPhases = [0,90e3,0,90e3,0,0;0,0,0,0]; </span><span style="color: rgb(2, 128, 9);">% Each in millidegrees [0,90000]</span></span></div></div></div><div  class = 'S4'><span>Each of the above properties must be of size [2x(NumberOfPartDACs)], where each row is the first DDS of a given DAC (column) and the second row is the second DDS of a given DAC (column).</span></div></div>
+<br>
+<!-- 
+##### SOURCE BEGIN #####
+%% Receiving and Sending Data
+% The hardware interfacing System Objects all configuration of a hardware component 
+% as well as sending data to it or receiving data from it, depending on the component. 
+% A given object can send or receive, but not both.
+%% Receiving Data
+% To receive or capture data from a given device first you must instantiate 
+% that device's interface class. For example on a AD9361 based system, this would 
+% be as follows:
+
+rx = adi.AD9361.Rx;
+%% 
+% Once instantiated you can configure the number of samples to be captured by 
+% setting the property *SamplesPerFrame.*
+
+rx.SamplesPerFrame = 1e6;
+%% 
+% *SamplesPerFrame* is the number of samples per channel which will be captured. 
+% If your device produces complex data (I and Q) this is the number of complex 
+% samples. There will be a limit to the maximum samples which can be collected. 
+% By default this is set to 2^20, but it may be possible to make it larger depending 
+% on hardware. Once the operator methods are used for a give instantiation, the 
+% object will become locked and the *SamplesPerFrame* property cannot be changed. 
+% This is known as a non-tunable property.
+% 
+% To actually collect the samples or perform the capture, the operator of the 
+% system object should be used or the *step* method as so:
+
+data = rx(); % Operator method
+data = rx.step(); % Step method
+%% 
+% Both method calls are equivalent, and the produced matrix *data* will be of 
+% size [SamplesPerFrame x length(EnabledChannels)]. *EnabledChannels* determines 
+% the channels which data will be collected from. *EnabledChannels* is a [1xN] 
+% vector with indexes starting at 1 of the desired channels. If the device transmits 
+% or receive complex data, these indexes are for complex channel pairs. For example, 
+% the AD9361 has 2 receivers (4 ADC) and setting *EnabledChannels* as so will 
+% capture data from all 4 converters:
+
+rx.EnabledChannels = [1,2];
+%% 
+% You cannot enable individual converters on complex data based devices, and 
+% the *EnabledChannels* property is always sorted so the channel mappings cannot 
+% be changed within the produced data.
+%% Sending Data
+% Transmitting data is very similar to receiving it, a transmitter class needs 
+% to be instantiated to send data first. For a ADRV9009 based device this would 
+% be as follows:
+
+tx = adi.ADRV9009.Tx;
+%% 
+% Unlike the receivers, transmit objects automatically create their internal 
+% buffers based on the data passed to them during their operator or step methods. 
+% These methods can be called as follows with some data:
+
+tx_data = complex(2^15.*randn(1024,1),2^15.*randn(1024,1));
+tx(tx_data); % Operator method
+tx.step(tx_data); % Step method
+%% 
+% However, once the step or operator method is called the object becomes locked 
+% and future passed data vectors must be the same length. As with the receive 
+% classes, the size of the passed data must be [SomeFixedSize x EnabledChannels]. 
+% *EnabledChannels* has the same definition as the receive side, except applied 
+% to DACs.
+% 
+% Unlike the receiver, transmit objects have the ability to utilize <https://analogdevicesinc.github.io/libiio/group__Buffer.html#ga6caadf077c112ae55a64276aa24ef832 
+% cyclic buffers> which will continuously transmit a provided vector without gaps 
+% forever. To utilize cylic buffers set the *EnableCyclicBuffers* property then 
+% pass the operator data as follows:
+
+tx = adi.ADRV9009.Tx;
+tx.EnableCyclicBuffers = true;
+tx_data = complex(2^15.*randn(1024,1),2^15.*randn(1024,1));
+tx(tx_data); % Data will repeat forever
+%% 
+% One a vector is passed to the object with *EnableCyclicBuffers* set to *true*, 
+% the object will not accept future buffers unless first release or cleared.
+% 
+% By default the system objects will utilize *DMA* as the source of data for 
+% the DACs, which will use data past from the operator. This can be set manually 
+% through the *DataSource* properties as follows:
+
+rx.DataSource = 'DMA';
+%% DDS
+% Instead of providing data for transmission, it is possible to utilize DDSs 
+% inside the FPGA to send tones to individual DACs. For specific boards there 
+% are two DDS per DAC, which can be used to create complex (one-sided) tones. 
+% These DDSs can be used by first setting the *DataSource* property:
+
+rx.DataSource = 'DDS';
+%% 
+% Then the scale, frequency, and phase of each DDS can be controlled through 
+% three attributes as follows:
+
+rx.DDSFrequencies = [1e3,1e3,1e3,1e3;1e4,1e4,1e4,1e4]; % Must be range [0 FS/2]
+rx.DDSScales = [1,1,1,1;0,0,0,0]; % Must be range [0,1]
+rx.DDSPhases = [0,90e3,0,90e3,0,0;0,0,0,0]; % Each in millidegrees [0,90000]
+%% 
+% Each of the above properties must be of size [2x(NumberOfPartDACs)], where 
+% each row is the first DDS of a given DAC (column) and the second row is the 
+% second DDS of a given DAC (column).
+##### SOURCE END #####
+--></body></html></section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to Transceiver Toolbox’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="CodeExamples.html" class="btn btn-neutral float-right" title="CodeExamples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Travis F. Collins.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
