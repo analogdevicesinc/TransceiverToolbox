@@ -362,13 +362,13 @@
                     {
                         "input": "true",
                         "width": 16,
-                        "name": "util_ad9361_dac_upack/fifo_rd_data_0",
+                        "name": "tx_upack/fifo_rd_data_0",
                         "type": "data"
                     },
                     {
                         "input": "true",
                         "width": 16,
-                        "name": "util_ad9361_dac_upack/fifo_rd_data_1",
+                        "name": "tx_upack/fifo_rd_data_1",
                         "type": "data"
                     }
                 ]
