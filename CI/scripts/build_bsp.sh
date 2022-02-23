@@ -52,14 +52,6 @@ source /opt/Xilinx/Vivado/$VIVADO/settings64.sh
 # make
 # cd ../..
 
-# Remove git directory move to bsp folder
-rm -fr hdl/.git*
-TARGET="../hdl/vendor/AnalogDevices/vivado"
-if [ -d "$TARGET" ]; then
-    rm -rf "$TARGET"
-fi
-mv hdl $TARGET
-
 # Rename .prj files since MATLAB ignores then during packaging
 FILES=$(grep -lrn hdl/projects/common -e '.prj' | grep -v Makefile | grep -v .git)
 for f in $FILES
@@ -74,6 +66,14 @@ do
   echo "Renaming: $f to $DEST"
   mv "$f" "$DEST"
 done
+
+# Remove git directory move to bsp folder
+rm -fr hdl/.git*
+TARGET="../hdl/vendor/AnalogDevices/vivado"
+if [ -d "$TARGET" ]; then
+    rm -rf "$TARGET"
+fi
+mv hdl $TARGET
 
 # Post-process ports.json
 cp ../hdl/vendor/AnalogDevices/+AnalogDevices/ports.json ./
