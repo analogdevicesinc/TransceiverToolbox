@@ -1040,6 +1040,7 @@
         "chip": "ADRV9009",
         "complex": "true",
         "fpga": [
+            "zc706",
             "zcu102"
         ],
         "supported_rd": [

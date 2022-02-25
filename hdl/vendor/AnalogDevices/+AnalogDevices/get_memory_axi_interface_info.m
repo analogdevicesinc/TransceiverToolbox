@@ -13,6 +13,10 @@ switch project
         end
     case 'adrv9009'
         switch fpga
+            case {'ZC706'}
+                InterfaceConnection = 'axi_cpu_interconnect/M21_AXI';
+                BaseAddress = '0x50000000';
+                MasterAddressSpace = 'sys_ps7/Data';
             case {'ZCU102'}
                 InterfaceConnection = 'axi_cpu_interconnect/M16_AXI';
                 BaseAddress = '0x9D000000';

@@ -264,6 +264,36 @@ proc preprocess_bd {project carrier rxtx} {
                 connect_bd_net [get_bd_pins util_adrv9009_tx_upack/enable_3] [get_bd_pins tx_adrv9009_tpl_core/dac_enable_3]
             }
             switch $carrier {
+                zc706 {
+                    # Add 1 extra AXI master ports to the interconnect
+                    set_property -dict [list CONFIG.NUM_MI {22}] [get_bd_cells axi_cpu_interconnect]
+
+                    if {$rxtx == "rx" || $rxtx == "rxtx"} {
+                        connect_bd_net [get_bd_pins axi_cpu_interconnect/M21_ACLK] [get_bd_pins axi_adrv9009_rx_clkgen/clk_0]
+                    }
+                    if {$rxtx == "tx" || $rxtx == "rxtx"} {
+                        # Remove valid combiner
+                        delete_bd_objs [get_bd_nets tx_fir_interpolator_valid_out_0] [get_bd_nets tx_fir_interpolator_valid_out_2] [get_bd_nets logic_or_Res] [get_bd_cells logic_or]
+                    }
+                    if {$rxtx == "rxtx"} {
+                        # Map all TX clocks to RX
+                        delete_bd_objs [get_bd_nets adrv9009_tx_device_clk]
+
+                        connect_bd_net [get_bd_pins axi_adrv9009_tx_jesd/device_clk] [get_bd_pins axi_adrv9009_rx_clkgen/clk_0]
+                        connect_bd_net [get_bd_pins util_adrv9009_tx_upack/clk] [get_bd_pins axi_adrv9009_rx_clkgen/clk_0]
+                        connect_bd_net [get_bd_pins tx_adrv9009_tpl_core/link_clk] [get_bd_pins axi_adrv9009_rx_clkgen/clk_0]
+                        connect_bd_net [get_bd_pins axi_adrv9009_dacfifo/dac_clk] [get_bd_pins axi_adrv9009_rx_clkgen/clk_0]
+                        connect_bd_net [get_bd_pins adrv9009_tx_device_clk_rstgen/slowest_sync_clk] [get_bd_pins axi_adrv9009_rx_clkgen/clk_0]
+
+                        connect_bd_net [get_bd_pins util_adrv9009_xcvr/tx_clk_0] [get_bd_pins axi_adrv9009_rx_clkgen/clk_0]
+                        connect_bd_net [get_bd_pins util_adrv9009_xcvr/tx_clk_1] [get_bd_pins axi_adrv9009_rx_clkgen/clk_0]
+                        connect_bd_net [get_bd_pins util_adrv9009_xcvr/tx_clk_2] [get_bd_pins axi_adrv9009_rx_clkgen/clk_0]
+                        connect_bd_net [get_bd_pins util_adrv9009_xcvr/tx_clk_3] [get_bd_pins axi_adrv9009_rx_clkgen/clk_0]
+                    }
+                    if {$rxtx == "tx"} {
+                        connect_bd_net [get_bd_pins axi_cpu_interconnect/M21_ACLK] [get_bd_pins axi_adrv9009_tx_clkgen/clk_0]
+                    }
+                }
                 zcu102 {
 
                     # RX ONLY
