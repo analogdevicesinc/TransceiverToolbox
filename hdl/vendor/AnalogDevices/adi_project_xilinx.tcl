@@ -272,6 +272,8 @@ proc adi_project_run {project_name} {
       ad_ip_jesd204_tpl_dac
       rx_fir_decimator
       tx_fir_interpolator
+      axi_ad9361
+      axi_adrv9009
     }
     
     set fileWrite [open $p_output_file w]
