@@ -64,6 +64,10 @@ switch project
                 InterfaceConnection = 'axi_cpu_interconnect/M11_AXI';
                 BaseAddress = '0x43C00000';
                 MasterAddressSpace = 'sys_ps7/Data';
+            case {'ZCU102'}
+                InterfaceConnection = 'axi_cpu_interconnect/M04_AXI';
+                BaseAddress = '0x9D000000';
+                MasterAddressSpace = 'sys_ps8/Data';
             otherwise
                 error(sprintf('Unknown Project FPGA %s/%s',project,fpga)); %#ok<*SPERR>
         end

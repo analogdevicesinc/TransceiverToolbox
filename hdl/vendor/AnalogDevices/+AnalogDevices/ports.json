@@ -381,7 +381,8 @@
         "fpga": [
             "zed",
             "zc706",
-            "zc702"
+            "zc702",
+            "zcu102"
         ],
         "supported_rd": [
             "rx",
