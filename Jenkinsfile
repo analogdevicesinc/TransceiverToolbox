@@ -1,7 +1,7 @@
 @Library('tfc-lib') _
 
 dockerConfig = getDockerConfig(['MATLAB','Vivado'], matlabHSPro=false)
-dockerConfig.add("-e MLRELEASE=R2021a")
+dockerConfig.add("-e MLRELEASE=R2021b")
 dockerHost = 'docker'
 
 ////////////////////////////
@@ -51,14 +51,12 @@ stage("HDL Tests") {
                 junit testResults: 'test/*.xml', allowEmptyResults: true
                 archiveArtifacts artifacts: 'test/logs/*', followSymlinks: false, allowEmptyArchive: true
             }
-/*
             stage("Synth") {
                 unstash "builtSources"
                 sh 'make -C ./CI/scripts test_synth'
                 junit testResults: 'test/*.xml', allowEmptyResults: true
                 archiveArtifacts artifacts: 'test/logs/*', followSymlinks: false, allowEmptyArchive: true
             }
-*/
             stage("Installer") {
                 unstash "builtSources"
                 sh 'make -C ./CI/scripts test_installer'
