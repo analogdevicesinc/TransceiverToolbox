@@ -43,9 +43,10 @@ switch lower(project)
     case {'adrv9009','fmcomms8'}
         switch(upper(board))
         	case 'ZC706'
-        		hB.FPGADevice   = sprintf('xc7%s', 'z045');
-        		hB.FPGAPackage  = 'ffg900';
-        		hB.FPGASpeed    = '-2';
+                hB.FPGADevice   = sprintf('xc7%s', 'z045');
+                hB.FPGAPackage  = 'ffg900';
+                hB.FPGASpeed    = '-2';
+                hB.FPGAFamily   = 'Zynq';
             case 'ZCU102'
                 hB.FPGADevice   = sprintf('xc%s', 'zu9eg-ffvb1156-2-e');
                 hB.FPGAPackage  = '';
