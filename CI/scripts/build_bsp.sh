@@ -76,7 +76,7 @@ fi
 mv hdl $TARGET
 
 # Post-process ports.json
-cp ../hdl/vendor/AnalogDevices/+AnalogDevices/ports.json ./
+mv ./scripts_v2/ports.json ./
 python3 ./scripts_v2/read_ports_json.py
 cp ports.json ../hdl/vendor/AnalogDevices/+AnalogDevices/
 

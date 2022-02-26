@@ -21,71 +21,61 @@
                         "input": "false",
                         "width": 1,
                         "name": "util_ad9361_adc_pack/fifo_wr_en",
-                        "type": "valid",
-                        "m_name": "IP Data Valid OUT"
+                        "type": "valid"
                     },
                     {
                         "input": "true",
                         "width": 1,
                         "name": "util_ad9361_adc_fifo/dout_valid_0",
-                        "type": "valid",
-                        "m_name": "IP Valid Rx Data IN"
+                        "type": "valid"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "util_ad9361_adc_pack/fifo_wr_data_0",
-                        "type": "data",
-                        "m_name": "IP Data 0 OUT"
+                        "type": "data"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "util_ad9361_adc_pack/fifo_wr_data_1",
-                        "type": "data",
-                        "m_name": "IP Data 1 OUT"
+                        "type": "data"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "util_ad9361_adc_pack/fifo_wr_data_2",
-                        "type": "data",
-                        "m_name": "IP Data 2 OUT"
+                        "type": "data"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "util_ad9361_adc_pack/fifo_wr_data_3",
-                        "type": "data",
-                        "m_name": "IP Data 3 OUT"
+                        "type": "data"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_adc_fifo/dout_data_0",
-                        "type": "data",
-                        "m_name": "AD9361 ADC Data I0"
+                        "type": "data"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_adc_fifo/dout_data_1",
-                        "type": "data",
-                        "m_name": "AD9361 ADC Data Q0"
+                        "type": "data"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_adc_fifo/dout_data_2",
-                        "type": "data",
-                        "m_name": "AD9361 ADC Data I1"
+                        "type": "data"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_adc_fifo/dout_data_3",
-                        "type": "data",
-                        "m_name": "AD9361 ADC Data Q1"
+                        "type": "data"
                     }
                 ],
                 "tx": [
@@ -391,7 +381,8 @@
         "fpga": [
             "zed",
             "zc706",
-            "zc702"
+            "zc702",
+            "zcu102"
         ],
         "supported_rd": [
             "rx",
@@ -1049,6 +1040,7 @@
         "chip": "ADRV9009",
         "complex": "true",
         "fpga": [
+            "zc706",
             "zcu102"
         ],
         "supported_rd": [
@@ -1179,6 +1171,236 @@
                         "input": "true",
                         "width": 32,
                         "name": "util_adrv9009_tx_upack/fifo_rd_data_3",
+                        "type": "data"
+                    }
+                ]
+            }
+        ]
+    },
+    "fmcomms8": {
+        "chip": "ADRV9009",
+        "complex": "true",
+        "fpga": [
+            "zcu102"
+        ],
+        "supported_rd": [
+            "rx",
+            "tx",
+            "rx & tx"
+        ],
+        "ports": [
+            {
+                "rx": [
+                    {
+                        "input": "false",
+                        "width": 1,
+                        "name": "util_fmc_rx_cpack/fifo_wr_en",
+                        "type": "valid"
+                    },
+                    {
+                        "input": "true",
+                        "width": 1,
+                        "name": "rx_adrv9009_fmc_tpl_core/adc_valid_0",
+                        "type": "valid"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "util_fmc_rx_cpack/fifo_wr_data_0",
+                        "type": "data"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "util_fmc_rx_cpack/fifo_wr_data_1",
+                        "type": "data"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "util_fmc_rx_cpack/fifo_wr_data_2",
+                        "type": "data"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "util_fmc_rx_cpack/fifo_wr_data_3",
+                        "type": "data"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "util_fmc_rx_cpack/fifo_wr_data_4",
+                        "type": "data"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "util_fmc_rx_cpack/fifo_wr_data_5",
+                        "type": "data"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "util_fmc_rx_cpack/fifo_wr_data_6",
+                        "type": "data"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "util_fmc_rx_cpack/fifo_wr_data_7",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "rx_adrv9009_fmc_tpl_core/adc_data_0",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "rx_adrv9009_fmc_tpl_core/adc_data_1",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "rx_adrv9009_fmc_tpl_core/adc_data_2",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "rx_adrv9009_fmc_tpl_core/adc_data_3",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "rx_adrv9009_fmc_tpl_core/adc_data_4",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "rx_adrv9009_fmc_tpl_core/adc_data_5",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "rx_adrv9009_fmc_tpl_core/adc_data_6",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "rx_adrv9009_fmc_tpl_core/adc_data_7",
+                        "type": "data"
+                    }
+                ],
+                "tx": [
+                    {
+                        "input": "true",
+                        "width": 1,
+                        "name": "util_fmc_tx_upack/fifo_rd_valid",
+                        "type": "valid"
+                    },
+                    {
+                        "input": "false",
+                        "width": 32,
+                        "name": "tx_adrv9009_fmc_tpl_core/dac_data_0",
+                        "type": "data"
+                    },
+                    {
+                        "input": "false",
+                        "width": 32,
+                        "name": "tx_adrv9009_fmc_tpl_core/dac_data_1",
+                        "type": "data"
+                    },
+                    {
+                        "input": "false",
+                        "width": 32,
+                        "name": "tx_adrv9009_fmc_tpl_core/dac_data_2",
+                        "type": "data"
+                    },
+                    {
+                        "input": "false",
+                        "width": 32,
+                        "name": "tx_adrv9009_fmc_tpl_core/dac_data_3",
+                        "type": "data"
+                    },
+                    {
+                        "input": "false",
+                        "width": 32,
+                        "name": "tx_adrv9009_fmc_tpl_core/dac_data_4",
+                        "type": "data"
+                    },
+                    {
+                        "input": "false",
+                        "width": 32,
+                        "name": "tx_adrv9009_fmc_tpl_core/dac_data_5",
+                        "type": "data"
+                    },
+                    {
+                        "input": "false",
+                        "width": 32,
+                        "name": "tx_adrv9009_fmc_tpl_core/dac_data_6",
+                        "type": "data"
+                    },
+                    {
+                        "input": "false",
+                        "width": 32,
+                        "name": "tx_adrv9009_fmc_tpl_core/dac_data_7",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 32,
+                        "name": "util_fmc_tx_upack/fifo_rd_data_0",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 32,
+                        "name": "util_fmc_tx_upack/fifo_rd_data_1",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 32,
+                        "name": "util_fmc_tx_upack/fifo_rd_data_2",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 32,
+                        "name": "util_fmc_tx_upack/fifo_rd_data_3",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 32,
+                        "name": "util_fmc_tx_upack/fifo_rd_data_4",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 32,
+                        "name": "util_fmc_tx_upack/fifo_rd_data_5",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 32,
+                        "name": "util_fmc_tx_upack/fifo_rd_data_6",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 32,
+                        "name": "util_fmc_tx_upack/fifo_rd_data_7",
                         "type": "data"
                     }
                 ]
