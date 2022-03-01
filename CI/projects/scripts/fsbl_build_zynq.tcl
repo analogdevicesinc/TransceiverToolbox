@@ -17,6 +17,11 @@ sdk projects -build -type all
 
 ### Copy common zynq.bif file
 file copy -force $cdir/projects/common/boot/zynq.bif $cdir/boot/zynq.bif
+if {$argc == 1} {
+	file copy -force $cdir/projects/common/boot/[lindex $argv 0]/u-boot.elf $cdir/boot/u-boot.elf
+} else {
+	file copy -force $cdir/projects/common/boot/u-boot.elf $cdir/boot/u-boot.elf
+}
 
 ### Copy fsbl and system_top.bit into the output folder
 file copy -force $sdk_loc/fsbl/Release/fsbl.elf $cdir/boot/fsbl.elf

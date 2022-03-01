@@ -9,6 +9,8 @@ if {[info exists fpga_board]} {
     set fpga_board "ZYNQ"
 }
 
+set prj_carrier $project$carrier
+
 # Build the project
 update_compile_order -fileset sources_1
 reset_run impl_1
@@ -33,6 +35,7 @@ close_project
 # Create the BOOT.bin
 #exec xsdk -batch -source $cdir/projects/scripts/fsbl_build.tcl -tclargs $fpga_board -wait
 
+file mkdir $cdir/boot
 if {$fpga_board eq "ZCU102"} {
     exec hsi -source $cdir/projects/scripts/pmufw_zynqmp.tcl
     file copy -force $cdir/projects/scripts/fixmake.sh $cdir/fixmake.sh
@@ -62,7 +65,11 @@ if {$fpga_board eq "ZCU102"} {
     }
 
 } else {
-    exec xsdk -batch -source $cdir/projects/scripts/fsbl_build_zynq.tcl
+	if {$project == "adrv9361z7035" || $project == "adrv9364z7020"} {
+		exec xsdk -batch -source $cdir/projects/scripts/fsbl_build_zynq.tcl $prj_carrier
+	} else {
+		exec xsdk -batch -source $cdir/projects/scripts/fsbl_build_zynq.tcl
+	}
     if {[file exist boot/BOOT.BIN] eq 0} {
         puts "ERROR: BOOT.BIN not built"
         return -code error 11
