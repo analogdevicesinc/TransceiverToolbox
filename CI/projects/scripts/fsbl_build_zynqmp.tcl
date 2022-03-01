@@ -22,6 +22,7 @@ sdk projects -build -type all
 ### Copy common zynqmp.bif and bl31.elf file
 file copy -force $cdir/projects/common/boot/zynqmp.bif $cdir/boot/zynqmp.bif
 file copy -force $cdir/projects/common/boot/bl31.elf $cdir/boot/bl31.elf
+file copy -force $cdir/projects/common/boot/u-boot-zcu.elf $cdir/boot/u-boot-zcu.elf
 
 ### Copy fsbl and system_top.bit into the output folder
 file copy -force $sdk_loc/fsbl/Release/fsbl.elf $cdir/boot/fsbl.elf
