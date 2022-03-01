@@ -86,4 +86,14 @@ cp scripts_v2/adi_project_xilinx.tcl ../hdl/vendor/AnalogDevices/vivado/projects
 cp scripts_v2/system_project_rxtx.tcl ../hdl/vendor/AnalogDevices/vivado/projects/scripts/system_project_rxtx.tcl
 cp scripts_v2/adi_build.tcl ../hdl/vendor/AnalogDevices/vivado/projects/scripts/adi_build.tcl
 
+# Copy fsbl files
+cp projects/scripts/fsbl_build_zynq.tcl ../hdl/vendor/AnalogDevices/vivado/projects/scripts/fsbl_build_zynq.tcl
+cp projects/scripts/fsbl_build_zynqmp.tcl ../hdl/vendor/AnalogDevices/vivado/projects/scripts/fsbl_build_zynqmp.tcl
+cp projects/scripts/pmufw_zynqmp.tcl  ../hdl/vendor/AnalogDevices/vivado/projects/scripts/pmufw_zynqmp.tcl
+cp projects/scripts/fixmake.sh  ../hdl/vendor/AnalogDevices/vivado/projects/scripts/fixmake.sh
+
+# Copy boot files
+mkdir ../hdl/vendor/AnalogDevices/vivado/projects/common/boot/
+cp -r projects/common/boot/* ../hdl/vendor/AnalogDevices/vivado/projects/common/boot/
+
 echo 'puts "Skipping"' > ../hdl/vendor/AnalogDevices/vivado/library/axi_ad9361/axi_ad9361_delay.tcl
