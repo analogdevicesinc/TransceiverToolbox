@@ -18,7 +18,7 @@ elseif contains(lower(ReferenceDesignName),'9002')
 elseif contains(lower(ReferenceDesignName),'pluto')
     dev = 'AD9361';
     numChannels = 1;
-elseif contains(lower(ReferenceDesignName),'fmcomms')
+elseif contains(lower(ReferenceDesignName),'fmcomms') && ~ contains(lower(ReferenceDesignName),'8')
     dev = 'AD9361';
     if contains(lower(ReferenceDesignName),'fmcomms5')
         numChannels = 4;
@@ -33,7 +33,7 @@ elseif contains(lower(ReferenceDesignName),'937')
         mdl = 'testModel_Rx16Tx32';
         portWidthTX = 32;
     end
-elseif contains(lower(ReferenceDesignName),'9009')
+elseif contains(lower(ReferenceDesignName),'9009') || contains(lower(ReferenceDesignName),'fmcomms8')
     dev = 'ADRV9009';
     if contains(lower(board_name),'tx') || contains(lower(ReferenceDesignName),'tx')
         mdl = 'testModel_Tx32';
@@ -42,6 +42,9 @@ elseif contains(lower(ReferenceDesignName),'9009')
     if contains(lower(board_name),'rx & tx') || contains(lower(ReferenceDesignName),'rx & tx')
         mdl = 'testModel_Rx16Tx32';
         portWidthTX = 32;
+    end
+    if contains(lower(ReferenceDesignName),'fmcomms8')
+        numChannels = 4;
     end
 else
     error('Unknown device');
@@ -70,7 +73,7 @@ hdlset_param([mdl,'/HDL_DUT/validIn2'], 'IOInterfaceMapping', '');
 switch mode
     case 'tx'
         % Connect enables
-        if ~strcmp(dev,'ADRV9002')
+        if ~strcmp(dev,'ADRV9002') && ~contains(lower(ReferenceDesignName),'fmcomms8')
             hdlset_param([mdl,'/HDL_DUT/validOut1'], 'IOInterface', 'IP Load Tx Data OUT');
             hdlset_param([mdl,'/HDL_DUT/validOut1'], 'IOInterfaceMapping', '[0]');
         end
@@ -146,7 +149,7 @@ switch mode
         end
     case 'rxtx'
         % Connect enables
-        if ~strcmp(dev,'ADRV9002')
+        if ~strcmp(dev,'ADRV9002') && ~contains(lower(ReferenceDesignName),'fmcomms8')
             hdlset_param([mdl,'/HDL_DUT/validOut1'], 'IOInterface', 'IP Load Tx Data OUT');
             hdlset_param([mdl,'/HDL_DUT/validOut1'], 'IOInterfaceMapping', '[0]');
         end

@@ -40,7 +40,7 @@ switch lower(project)
                 hB.FPGASpeed    = '';
                 hB.FPGAFamily   = 'Zynq';
         end
-    case 'adrv9009'
+    case {'adrv9009','fmcomms8'}
         switch(upper(board))
         	case 'ZC706'
         		hB.FPGADevice   = sprintf('xc7%s', 'z045');

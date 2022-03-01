@@ -332,7 +332,44 @@ proc preprocess_bd {project carrier rxtx} {
                     }
                     if {$rxtx == "tx"} {
                         connect_bd_net [get_bd_pins axi_cpu_interconnect/M16_ACLK] [get_bd_pins axi_adrv9009_tx_clkgen/clk_0]
-                    }                    
+                    }
+                }
+            }
+        }
+        fmcomms8 {
+            if {$rxtx == "rx" || $rxtx == "rxtx"} {
+                # Remove data between TPL and CPACK
+                for { set port 0}  {$port < 8} {incr port} {
+                    delete_bd_objs [get_bd_nets rx_adrv9009_fmc_tpl_core_adc_data_$port]
+                }
+                # Remove valid
+                delete_bd_objs [get_bd_nets rx_adrv9009_fmc_tpl_core_adc_valid_0]
+
+            }
+            if {$rxtx == "tx" || $rxtx == "rxtx"} {
+                # Remove data between TPL and CPACK
+                for { set port 0}  {$port < 8} {incr port} {
+                    delete_bd_objs [get_bd_nets util_fmc_tx_upack_fifo_rd_data_$port]
+                }
+            }
+            switch $carrier {
+                zcu102 {
+                    # Add 1 extra AXI master ports to the interconnect
+                    set_property -dict [list CONFIG.NUM_MI {14}] [get_bd_cells axi_cpu_interconnect]
+                    connect_bd_net [get_bd_pins axi_cpu_interconnect/M13_ACLK] [get_bd_pins sys_ps8/pl_clk0]
+                    connect_bd_net [get_bd_pins axi_cpu_interconnect/M13_ARESETN] [get_bd_pins sys_rstgen/peripheral_aresetn]
+                    
+                    if {$rxtx == "rx" || $rxtx == "rxtx"} {
+                        # connect_bd_net [get_bd_pins axi_cpu_interconnect/M13_ACLK] [get_bd_pins core_clk_d]
+                        # connect_bd_net [get_bd_pins core_clk_d_rstgen/interconnect_aresetn] [get_bd_pins axi_cpu_interconnect/M13_ARESETN]
+                    }
+                    if {$rxtx == "tx" || $rxtx == "rxtx"} {
+                        # Remove valid combiner
+                        # delete_bd_objs [get_bd_nets tx_fir_interpolator_valid_out_0] [get_bd_nets tx_fir_interpolator_valid_out_2] [get_bd_nets logic_or_Res] [get_bd_cells logic_or]
+                    }
+                    if {$rxtx == "tx"} {
+                        # connect_bd_net [get_bd_pins axi_cpu_interconnect/M13_ACLK] [get_bd_pins core_clk_c]
+                    }
                 }                
             }
         }
