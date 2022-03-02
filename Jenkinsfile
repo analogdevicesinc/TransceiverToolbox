@@ -16,7 +16,7 @@ stage("Build Toolbox") {
 		    checkout scm
 		    sh 'git submodule update --init' 
 		    sh 'make -C ./CI/scripts build'
-		    sh 'make -C ./CI/scripts doc'
+		    sh 'make -C ./CI/gen_doc doc_ml'
 		    sh 'make -C ./CI/scripts add_libad9361'
 		    sh 'make -C ./CI/scripts gen_tlbx'
 		}
