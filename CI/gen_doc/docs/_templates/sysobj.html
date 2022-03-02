@@ -1,0 +1,83 @@
+{% include 'header.tmpl' %}
+{% block content %}
+<!-- <div class="sysobj_h1">{{ obj.name }}</div> -->
+
+<!-- <div class="sysobj_top_desc">
+Receive data from Analog Devices AD9361 transceiver
+</div> -->
+
+<!-- <div class="sysobj_desc_title">Description</div> -->
+
+<div class="sysobj_desc_txt">
+<span>
+{{ obj.dec }}
+</span>
+
+</div>
+
+<div class="sysobj_desc_title">Creation</div>
+
+The class can be instantiated in the following way with and without property name value pairs.
+
+```matlab
+dev = {{ obj.name }}
+dev = {{ obj.name }}(Name, Value)
+```
+
+<div class="sysobj_desc_title">Properties</div>
+
+<div class="sysobj_desc_txt">
+<span>
+Unless otherwise indicated, properties are non-tunable, which means you cannot change their values after calling the object. Objects lock when you call them, and the release function unlocks them.
+<br><br>
+If a property is tunable, you can change its value at any time.
+<br><br>
+For more information on changing property values, see <a href="https://www.mathworks.com/help/matlab/matlab_prog/system-design-in-matlab-using-system-objects.html">System Design in MATLAB Using System Objects.</a>
+</span>
+</div>
+
+{%- for prop in obj.props %}
+<div class="property">
+  <button type="button" onclick="collapse('{{ prop.prop_name }}')" class="collapsible-property collapsible-property-{{ prop.prop_name }}">{{ prop.prop_name }} <span style="text-align:right" class="plus-{{ prop.prop_name }}">+</span></button>
+  <div class="content content-{{ prop.prop_name }}" style="display: none;">
+    <p style="padding: 0px;">{{ prop.prop_description }}</p>
+  </div>
+  </div>
+{%- endfor -%}
+
+{% endblock %}
+
+<div class="sysobj_desc_title">Example Usage</div>
+
+```
+{% if obj.type == "Tx" %}
+%% Configure device
+tx = adi.{{ obj.name }};
+tx.uri = "ip:analog.local";
+tx.CenterFrequency = 1e9;
+tx.DataSource = 'DMA';
+tx.EnableCyclicBuffers = true;
+tx.EnabledChannels = 1;
+%% Generate tone
+amplitude = 2^15; frequency = 0.12e6;
+swv1 = dsp.SineWave(amplitude, frequency);
+swv1.ComplexOutput = true;
+swv1.SamplesPerFrame = 2^14;
+swv1.SampleRate = tx.SamplingRate;
+y = swv1();
+% Send
+tx(y);
+{% else %}
+%% Rx set up
+rx = adi.{{ obj.name }}.Rx('uri','ip:analog.local');
+rx.CenterFrequency = 1e9;
+rx.EnabledChannels = 1;
+%% Run
+for k=1:10
+    valid = false;
+    while ~valid
+        [out, valid] = rx();
+    end
+end
+{% endif %}
+```

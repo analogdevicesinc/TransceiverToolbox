@@ -1,0 +1,86 @@
+
+
+
+
+[data-md-color-scheme="slate"] {
+    --prop-box-color: var(--md-code-bg-color);
+    --logo-light-mode: none;
+    --logo-dark-mode: block;
+    --rd-title-color: white;
+}
+
+[data-md-color-scheme="default"] {
+    --prop-box-color: #f1f1f1;
+    --prop-box-color: var(--md-default-fg-color--dark);
+    --logo-light-mode: block;
+    --logo-dark-mode: none;
+    --rd-title-color: black;
+}
+
+
+.sysobj_desc_title {
+    border-bottom: 1px solid rgb(153, 153, 153);
+    margin-bottom: 10px;
+}
+
+.property {
+    margin: 16px;
+}
+
+/* Style the button that is used to open and close the collapsible content */
+.collapsible-property {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: rgb(153, 153, 153) 1px solid;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    border-radius: 3px;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active,
+.collapsible-property:hover {
+    background-color: #ccc;
+}
+
+/* Style the collapsible content. Note: hidden by default */
+.content {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    background-color: var(--prop-box-color);
+    border-radius: 0px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border: rgb(153, 153, 153) 1px solid;
+}
+
+.screenshot {
+    box-shadow: 0px 6px 5px #ccc;
+    width: 80%;
+}
+
+/* Logo dark/light */
+.dark-logo {
+    display: var(--logo-light-mode);
+}
+
+.light-logo {
+    display: var(--logo-dark-mode);
+}
+
+:root {
+    --md-primary-fg-color: #1E68D8;
+    --md-primary-fg-color--light: #1E68D8;
+    --md-primary-fg-color--dark: #1E68D8;
+}
+
+[data-md-color-scheme="blue"] {
+    --md-primary-fg-color: #1E68D8;
+    --md-primary-fg-color--light: #1E68D8;
+    --md-primary-fg-color--dark: #1E68D8;
+}
