@@ -1,3 +1,4 @@
+{% include 'header.tmpl' %}
 # Receiving and Sending Data
 
 Remote data streaming to and from hardware is made available through [system object interfaces](https://www.mathworks.com/help/matlab/matlab_prog/what-are-system-objects.html), which are unique for each component or platform. The hardware interfacing system objects provide a since class to both configure a given platform and move data back and forth from the device.

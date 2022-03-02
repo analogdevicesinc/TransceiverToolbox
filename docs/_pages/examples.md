@@ -1,4 +1,4 @@
-
+{% include 'header.tmpl' %}
 # Examples
 
 Examples for streaming data and targeting FPGAs are listed within the Toolbox documentation itself. To view run the following with MATLAB:

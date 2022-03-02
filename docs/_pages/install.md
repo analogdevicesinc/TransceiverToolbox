@@ -1,3 +1,4 @@
+{% include 'header.tmpl' %}
 # Installation
 
 ## Dependencies

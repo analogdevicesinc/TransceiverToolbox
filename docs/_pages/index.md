@@ -1,3 +1,4 @@
+{% include 'header.tmpl' %}
 <!-- Hide header and click button -->
 <style>
   .md-typeset h1,
