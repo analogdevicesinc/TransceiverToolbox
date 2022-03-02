@@ -1,0 +1,528 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<link href="../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.2.3, mkdocs-material-8.2.3" name="generator"/>
+<title>Streaming - Analog Devices, Inc. Transceiver Toolbox</title>
+<link href="../../assets/stylesheets/main.e8d9bf0c.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/palette.e6a45f82.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<link href="../../stylesheets/style.css" rel="stylesheet"/>
+<link href="../../stylesheets/rd_style.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body data-md-color-accent="" data-md-color-primary="blue" data-md-color-scheme="default" dir="ltr">
+<script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#receiving-and-sending-data">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header" data-md-component="header">
+<nav aria-label="Header" class="md-header__inner md-grid">
+<a aria-label="Analog Devices, Inc. Transceiver Toolbox" class="md-header__button md-logo" data-md-component="logo" href="../.." title="Analog Devices, Inc. Transceiver Toolbox">
+<img alt="logo" src="../../assets/matlab_white_icon.svg"/>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            Analog Devices, Inc. Transceiver Toolbox
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              Streaming
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="" data-md-color-media="" data-md-color-primary="blue" data-md-color-scheme="default" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_2" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"></path></svg>
+</label>
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="" data-md-color-media="" data-md-color-primary="blue" data-md-color-scheme="slate" id="__palette_2" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3z"></path></svg>
+</label>
+</form>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</label>
+<nav aria-label="Search" class="md-search__options">
+<button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"></path></svg>
+</button>
+</nav>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Analog Devices, Inc. Transceiver Toolbox" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="Analog Devices, Inc. Transceiver Toolbox">
+<img alt="logo" src="../../assets/matlab_white_icon.svg"/>
+</a>
+    Analog Devices, Inc. Transceiver Toolbox
+  </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../..">
+        Overview
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../install/">
+        Installation
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../streaming/">
+        Data Streaming
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../targeting/">
+        HDL Targeting
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../examples/">
+        Examples
+      </a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" id="__nav_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6">
+          Reference API
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-label="Reference API" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+          Reference API
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_1" id="__nav_6_1" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6_1">
+          HDL Reference Designs
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-label="HDL Reference Designs" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_6_1">
+<span class="md-nav__icon md-icon"></span>
+          HDL Reference Designs
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../hdlrefdesigns/fmcomms2/">
+        fmcomms2
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../hdlrefdesigns/adrv9361z7035/">
+        adrv9361z7035
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../hdlrefdesigns/adrv9364z7020/">
+        adrv9364z7020
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../hdlrefdesigns/pluto/">
+        pluto
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../hdlrefdesigns/adrv9371/">
+        adrv9371
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../hdlrefdesigns/adrv9002/">
+        adrv9002
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../hdlrefdesigns/adrv9009/">
+        adrv9009
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_2" id="__nav_6_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6_2">
+          Device Interfaces
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-label="Device Interfaces" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_6_2">
+<span class="md-nav__icon md-icon"></span>
+          Device Interfaces
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../sysobjects/adi.AD9361.Tx/">
+        adi.AD9361.Tx
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../sysobjects/adi.AD9361.Rx/">
+        adi.AD9361.Rx
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../sysobjects/adi.AD9363.Tx/">
+        adi.AD9363.Tx
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../sysobjects/adi.AD9363.Rx/">
+        adi.AD9363.Rx
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../sysobjects/adi.AD9364.Tx/">
+        adi.AD9364.Tx
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../sysobjects/adi.AD9364.Rx/">
+        adi.AD9364.Rx
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../sysobjects/adi.AD9371.Tx/">
+        adi.AD9371.Tx
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../sysobjects/adi.AD9371.Rx/">
+        adi.AD9371.Rx
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../sysobjects/adi.ADRV9009.Tx/">
+        adi.ADRV9009.Tx
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../sysobjects/adi.ADRV9009.Rx/">
+        adi.ADRV9009.Rx
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../sysobjects/adi.ADRV9361Z7035.Tx/">
+        adi.ADRV9361Z7035.Tx
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../sysobjects/adi.ADRV9361Z7035.Rx/">
+        adi.ADRV9361Z7035.Rx
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../sysobjects/adi.ADRV9364Z7020.Tx/">
+        adi.ADRV9364Z7020.Tx
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../sysobjects/adi.ADRV9364Z7020.Rx/">
+        adi.ADRV9364Z7020.Rx
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../sysobjects/adi.ADRV9371.Tx/">
+        adi.ADRV9371.Tx
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../sysobjects/adi.ADRV9371.Rx/">
+        adi.ADRV9371.Rx
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../sysobjects/adi.FMComms2.Tx/">
+        adi.FMComms2.Tx
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../sysobjects/adi.FMComms2.Rx/">
+        adi.FMComms2.Rx
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../sysobjects/adi.FMComms3.Tx/">
+        adi.FMComms3.Tx
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../sysobjects/adi.FMComms3.Rx/">
+        adi.FMComms3.Rx
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../sysobjects/adi.FMComms4.Tx/">
+        adi.FMComms4.Tx
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../sysobjects/adi.FMComms4.Rx/">
+        adi.FMComms4.Rx
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../sysobjects/adi.PackRF.Tx/">
+        adi.PackRF.Tx
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../sysobjects/adi.PackRF.Rx/">
+        adi.PackRF.Rx
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../sysobjects/adi.Pluto.Tx/">
+        adi.Pluto.Tx
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../sysobjects/adi.Pluto.Rx/">
+        adi.Pluto.Rx
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../sysobjects/adi.ADRV9002.Tx/">
+        adi.ADRV9002.Tx
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../sysobjects/adi.ADRV9002.Rx/">
+        adi.ADRV9002.Rx
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#connecting-and-configuration">
+    Connecting and Configuration
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#receiving-data">
+    Receiving Data
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#sending-data">
+    Sending Data
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#dds">
+    DDS
+  </a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<p>{% include 'header.tmpl' %}</p>
+<h1 id="receiving-and-sending-data">Receiving and Sending Data</h1>
+<p>Remote data streaming to and from hardware is made available through <a href="https://www.mathworks.com/help/matlab/matlab_prog/what-are-system-objects.html">system object interfaces</a>, which are unique for each component or platform. The hardware interfacing system objects provide a since class to both configure a given platform and move data back and forth from the device.</p>
+<p>Command and control of hardware from MATLAB is accomplished by leveraging the <a href="https://wiki.analog.com/software/linux/docs/iio/iio">IIO drivers</a> built into the target platform's kernel and <a href="https://wiki.analog.com/resources/tools-software/linux-software/libiio">libiio</a> which provides remote backends to control drivers across different backends. Backends can be Ethernet, serial, or USB based. Below is a diagram of the different components in the stack for an FMComms based systems, but will be nearly identical for all transceiver based systems.</p>
+<p><img alt="MATLAB libiio Stack" src="assets/MATLAB_libiio_Stack.png"/></p>
+<p>Since libiio is cross-platform it can be used from Windows, Linux, or macOS based systems. It is also a lower level library independent of MATLAB, so when moving toward production or untethered systems similar APIs that are used in MATLAB can be used in C,C++,Python, or other languages.</p>
+<h2 id="connecting-and-configuration">Connecting and Configuration</h2>
+<p>Connecting to hardware is done by setting the <strong>uri</strong> property of the system object interface. The <strong>uri</strong> for libiio always has the convention "<em>&lt; backend &gt;:&lt; address &gt;</em>", where <em>backend</em> can be ip,usb, or serial. <em>address</em> will be specific to the backend. This is documented in the <a href="https://analogdevicesinc.github.io/libiio/master/libiio/group__Context.html#gafdcee40508700fa395370b6c636e16fe">libiio API</a>.</p>
+<p>Below is a basic example of setting up an AD9361 receiver using an Ethernet/IP backend where the address of the target system is 192.168.2.1:
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a>rx = adi.AD9361.Rx;
+<a id="__codelineno-0-2" name="__codelineno-0-2"></a>rx.uri = 'ip:192.168.2.1';
+<a id="__codelineno-0-3" name="__codelineno-0-3"></a>data = rx();
+</code></pre></div>
+</td></tr></table>
+With the code above, the hardware is not contacted until the operator or step method is called on line 3. Therefore, any properties that are set or defined before line 3 are not applied or updated on the hardware until after line 3. However, after line 3 has completed the object will become locked and certain configuration changes cannot be applied after this point. These will primarily sample rates and buffer sizes.</p>
+<p>The state of the object follows the flow of the diagram below triggered by line line 3 above.</p>
+<p><div class="mermaid">graph LR
+  Z[Operator Called] --&gt;A;
+  A[Connect To Board] --&gt; B[Update Properties];
+  B --&gt; C[Initialize Buffers];
+  C --&gt; D[Send or Receive Data];
+  D --&gt; E[Lock Object];
+</div>
+Once the object becomes locked it must be released if the sample rate or buffers need to be modified. This will disconnect from the hardware:
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a>rx.release(); % Release object
+</code></pre></div></p>
+<p>To provide a complete example we can do more advanced configuration like so to demonstrate property changes:
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span>
+<span class="normal"><a href="#__codelineno-2-11">11</a></span>
+<span class="normal"><a href="#__codelineno-2-12">12</a></span>
+<span class="normal"><a href="#__codelineno-2-13">13</a></span>
+<span class="normal"><a href="#__codelineno-2-14">14</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a>rx = adi.AD9361.Rx;
+<a id="__codelineno-2-2" name="__codelineno-2-2"></a>rx.uri = 'ip:192.168.2.1';
+<a id="__codelineno-2-3" name="__codelineno-2-3"></a>rx.SamplesPerFrame = 1024;
+<a id="__codelineno-2-4" name="__codelineno-2-4"></a>rx.CenterFrequency = 1e9;
+<a id="__codelineno-2-5" name="__codelineno-2-5"></a>dataLO1 = rx();
+<a id="__codelineno-2-6" name="__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7"></a>% Update tunable property
+<a id="__codelineno-2-8" name="__codelineno-2-8"></a>rx.CenterFrequency = 2e9;
+<a id="__codelineno-2-9" name="__codelineno-2-9"></a>dataLO2 = rx();
+<a id="__codelineno-2-10" name="__codelineno-2-10"></a>
+<a id="__codelineno-2-11" name="__codelineno-2-11"></a>% Update non-tunable property
+<a id="__codelineno-2-12" name="__codelineno-2-12"></a>rx.release();
+<a id="__codelineno-2-13" name="__codelineno-2-13"></a>rx.SamplesPerFrame = 4096;
+<a id="__codelineno-2-14" name="__codelineno-2-14"></a>dataLargerBuffer = rx();
+</code></pre></div>
+</td></tr></table></p>
+<h2 id="receiving-data">Receiving Data</h2>
+<p>To receive or capture data from a given device first you must instantiate that device's interface class. For example on a AD9361 based system, this would be as follows:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a>rx = adi.AD9361.Rx;
+</code></pre></div>
+<p>Once instantiated you can configure the number of samples to be captured by setting the property <strong>SamplesPerFrame.</strong></p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a>rx.SamplesPerFrame = 1e6;
+</code></pre></div>
+<p><strong>SamplesPerFrame</strong> is the number of samples per channel which will be captured. If your device produces complex data (I and Q) this is the number of complex samples. There will be a limit to the maximum samples which can be collected. By default this is set to 2^20, but it may be possible to make it larger depending on hardware. Once the operator methods are used for a give instantiation, the object will become locked and the <strong>SamplesPerFrame</strong> property cannot be changed. This is known as a non-tunable property.</p>
+<p>To actually collect the samples or perform the capture, the operator of the system object should be used or the <strong>step</strong> method as so:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a>data = rx(); % Operator method
+<a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a>data = rx.step(); % Step method
+</code></pre></div>
+<p>Both method calls are equivalent, and the produced matrix <strong>data</strong> will be of size [SamplesPerFrame x length(EnabledChannels)]. <strong>EnabledChannels</strong> determines the channels which data will be collected from. <strong>EnabledChannels</strong> is a [1xN] vector with indexes starting at 1 of the desired channels. If the device transmits or receive complex data, these indexes are for complex channel pairs. For example, the AD9361 has 2 receivers (4 ADC) and setting <strong>EnabledChannels</strong> as so will capture data from all 4 converters:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a>rx.EnabledChannels = [1,2];
+</code></pre></div>
+<p>You cannot enable individual converters on complex data based devices, and the <strong>EnabledChannels</strong> property is always sorted so the channel mappings cannot be changed within the produced data.</p>
+<h2 id="sending-data">Sending Data</h2>
+<p>Transmitting data is very similar to receiving it, a transmitter class needs to be instantiated to send data first. For a ADRV9009 based device this would be as follows:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a>tx = adi.ADRV9009.Tx;
+</code></pre></div>
+<p>Unlike the receivers, transmit objects automatically create their internal buffers based on the data passed to them during their operator or step methods. These methods can be called as follows with some data:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a>tx_data = complex(2^15.*randn(1024,1),2^15.*randn(1024,1));
+<a href="#__codelineno-8-2" id="__codelineno-8-2" name="__codelineno-8-2"></a>tx(tx_data); % Operator method
+<a href="#__codelineno-8-3" id="__codelineno-8-3" name="__codelineno-8-3"></a>tx.step(tx_data); % Step method
+</code></pre></div>
+<p>However, once the step or operator method is called the object becomes locked and future passed data vectors must be the same length. As with the receive classes, the size of the passed data must be [SomeFixedSize x EnabledChannels]. <strong>EnabledChannels</strong> has the same definition as the receive side, except applied to DACs.</p>
+<p>Unlike the receiver, transmit objects have the ability to utilize <a href="https://analogdevicesinc.github.io/libiio/group__Buffer.html#ga6caadf077c112ae55a64276aa24ef832">cyclic buffers</a> which will continuously transmit a provided vector without gaps forever. To utilize cyclic buffers set the <strong>EnableCyclicBuffers</strong> property then pass the operator data as follows:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a>tx = adi.ADRV9009.Tx;
+<a href="#__codelineno-9-2" id="__codelineno-9-2" name="__codelineno-9-2"></a>tx.EnableCyclicBuffers = true;
+<a href="#__codelineno-9-3" id="__codelineno-9-3" name="__codelineno-9-3"></a>tx_data = complex(2^15.*randn(1024,1),2^15.*randn(1024,1));
+<a href="#__codelineno-9-4" id="__codelineno-9-4" name="__codelineno-9-4"></a>tx(tx_data); % Data will repeat forever
+</code></pre></div>
+<p>One a vector is passed to the object with <strong>EnableCyclicBuffers</strong> set to <strong>true</strong>, the object will not accept future buffers unless first release or cleared.</p>
+<p>By default the system objects will utilize <strong>DMA</strong> as the source of data for the DACs, which will use data past from the operator. This can be set manually through the <strong>DataSource</strong> properties as follows:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a>rx.DataSource = 'DMA';
+</code></pre></div>
+<h2 id="dds">DDS</h2>
+<p>Instead of providing data for transmission, it is possible to utilize DDSs inside the FPGA to send tones to individual DACs. For specific boards there are two DDS per DAC, which can be used to create complex (one-sided) tones. These DDSs can be used by first setting the <strong>DataSource</strong> property:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-11-1" id="__codelineno-11-1" name="__codelineno-11-1"></a>rx.DataSource = 'DDS';
+</code></pre></div>
+<p>Then the scale, frequency, and phase of each DDS can be controlled through three attributes as follows:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-12-1" id="__codelineno-12-1" name="__codelineno-12-1"></a>rx.DDSFrequencies = [1e3,1e3,1e3,1e3;1e4,1e4,1e4,1e4]; % Must be range [0 FS/2]
+<a href="#__codelineno-12-2" id="__codelineno-12-2" name="__codelineno-12-2"></a>rx.DDSScales = [1,1,1,1;0,0,0,0]; % Must be range [0,1]
+<a href="#__codelineno-12-3" id="__codelineno-12-3" name="__codelineno-12-3"></a>rx.DDSPhases = [0,90e3,0,90e3,0,0;0,0,0,0]; % Each in millidegrees [0,90000]
+</code></pre></div>
+<p>Each of the above properties must be of size [2x(NumberOfPartDACs)], where each row is the first DDS of a given DAC (column) and the second row is the second DDS of a given DAC (column).</p>
+</article>
+</div>
+</div>
+</main>
+<footer class="md-footer">
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.bd0b6b67.min.js"}</script>
+<script src="../../assets/javascripts/bundle.b88e97c5.min.js"></script>
+<script src="../../js/sys_objects.js"></script>
+<script src="https://unpkg.com/mermaid@8.8.0/dist/mermaid.min.js"></script><script>mermaid.initialize({});</script></body>
+</html>
