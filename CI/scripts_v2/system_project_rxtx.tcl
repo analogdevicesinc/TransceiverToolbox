@@ -1,5 +1,10 @@
 set start_dir [pwd]
 puts "Starting Transceiver Toolbox HDL build"
+
+if {$preprocess == "on"} {
+    source $preprocess_script
+}
+
 if {$project == "pluto"} {
     cd projects/$project/
     source ../scripts/adi_make.tcl
@@ -12,9 +17,6 @@ adi_make::lib all
 set ::env(SKIP_SYNTHESIS) 1
 set ::env(MATLAB) 1
 
-if {$preprocess == "on"} {
-    source $preprocess_script
-}
 source ./system_project.tcl
 
 # Update block design to make room for new IP
