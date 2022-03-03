@@ -37,7 +37,7 @@ stage("Build Toolbox") {
 }
 
 /////////////////////////////////////////////////////
-
+/*
 boardNames = ['zed','zc702','zc706','zcu102','adrv9361','adrv9364','pluto']
 dockerConfig.add("-e HDLBRANCH=hdl_2019_r2")
 
@@ -66,7 +66,21 @@ stage("HDL Tests") {
         }
     }
 }
+*/
+//demoNames = ['HDLLoopbackDelayEstimation','HDLFrequencyHopper','HDLTuneAGC','KernelFrequencyHopper']
+demoNames = ['HDLFrequencyHopper']
 
+stage("Demo Tests") {
+    dockerParallelBuild(demoNames, dockerHost, dockerConfig) {
+        branchName ->
+        withEnv(['DEMO='+branchName]) {
+            unstash "builtSources"
+            sh 'make -C ./CI/scripts test_targeting_demos'
+            junit testResults: 'test/*.xml', allowEmptyResults: true
+            archiveArtifacts artifacts: 'test/logs/*', followSymlinks: false, allowEmptyArchive: true
+        }
+    }
+}
 //////////////////////////////////////////////////////
 
 node {

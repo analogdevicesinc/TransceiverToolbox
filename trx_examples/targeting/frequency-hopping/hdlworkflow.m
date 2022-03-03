@@ -1,8 +1,8 @@
 %--------------------------------------------------------------------------
 % HDL Workflow Script
-% Generated with MATLAB 9.5 (R2018b) at 16:05:58 on 14/05/2019
+% Generated with MATLAB 9.8 (R2020a) at 16:38:14 on 09/02/2021
 % This script was generated using the following parameter values:
-%     Filename  : '/work/mwt-hopper/targeting/frequency-hopping/hdlworkflow2.m'
+%     Filename  : '/tmp/trx/trx_examples/targeting/frequency-hopping/hdlworkflow_stream.m'
 %     Overwrite : true
 %     Comments  : true
 %     Headers   : true
@@ -21,18 +21,18 @@ load_system('frequency_hopping');
 %% Set Model 'frequency_hopping' HDL parameters
 hdlset_param('frequency_hopping', 'HDLSubsystem', 'frequency_hopping/HDL_DUT');
 hdlset_param('frequency_hopping', 'ReferenceDesign', 'ADRV9361 CCFMC_LVDS_HOP (Rx & Tx)');
-hdlset_param('frequency_hopping', 'ReferenceDesignParameter', {'dma_config','Packetized'});
 hdlset_param('frequency_hopping', 'SynthesisTool', 'Xilinx Vivado');
 hdlset_param('frequency_hopping', 'SynthesisToolChipFamily', 'Zynq');
 hdlset_param('frequency_hopping', 'SynthesisToolDeviceName', 'xc7z035i');
 hdlset_param('frequency_hopping', 'SynthesisToolPackageName', 'fbg676');
 hdlset_param('frequency_hopping', 'SynthesisToolSpeedValue', '-2L');
-hdlset_param('frequency_hopping', 'TargetDirectory', 'hdl_prj/hdlsrc');
+hdlset_param('frequency_hopping', 'TargetDirectory', 'hdl_prj2/hdlsrc');
 hdlset_param('frequency_hopping', 'TargetLanguage', 'Verilog');
 hdlset_param('frequency_hopping', 'TargetPlatform', 'AnalogDevices ADRV9361-Z7035 Frequency Hopping');
 hdlset_param('frequency_hopping', 'Workflow', 'IP Core Generation');
 
 % Set SubSystem HDL parameters
+hdlset_param('frequency_hopping/HDL_DUT', 'AXI4SlaveIDWidth', '12');
 hdlset_param('frequency_hopping/HDL_DUT', 'ProcessorFPGASynchronization', 'Free running');
 
 % Set Inport HDL parameters
@@ -64,8 +64,8 @@ hdlset_param('frequency_hopping/HDL_DUT/enableHopping', 'IOInterface', 'AXI4-Lit
 hdlset_param('frequency_hopping/HDL_DUT/enableHopping', 'IOInterfaceMapping', 'x"104"');
 
 % Set Inport HDL parameters
-hdlset_param('frequency_hopping/HDL_DUT/TxDMAEnable', 'IOInterface', 'DMA Ready');
-hdlset_param('frequency_hopping/HDL_DUT/TxDMAEnable', 'IOInterfaceMapping', '[0]');
+hdlset_param('frequency_hopping/HDL_DUT/TxDMAEnable', 'IOInterface', 'No Interface Specified');
+hdlset_param('frequency_hopping/HDL_DUT/TxDMAEnable', 'IOInterfaceMapping', '');
 
 % Set Inport HDL parameters
 hdlset_param('frequency_hopping/HDL_DUT/manual_profile', 'IOInterface', 'AXI4-Lite');
@@ -133,7 +133,7 @@ hdlset_param('frequency_hopping/HDL_DUT/pll_unlocks', 'IOInterfaceMapping', 'x"1
 hWC = hdlcoder.WorkflowConfig('SynthesisTool','Xilinx Vivado','TargetWorkflow','IP Core Generation');
 
 % Specify the top level project directory
-hWC.ProjectFolder = 'hdl_prj';
+hWC.ProjectFolder = 'hdl_prj2';
 hWC.ReferenceDesignToolVersion = '2019.1';
 hWC.IgnoreToolVersionMismatch = false;
 
@@ -146,7 +146,7 @@ hWC.RunTaskProgramTargetDevice = false;
 
 % Set properties related to 'RunTaskGenerateRTLCodeAndIPCore' Task
 hWC.IPCoreRepository = '';
-hWC.GenerateIPCoreReport = false;
+hWC.GenerateIPCoreReport = true;
 
 % Set properties related to 'RunTaskCreateProject' Task
 hWC.Objective = hdlcoder.Objective.None;
@@ -154,7 +154,7 @@ hWC.AdditionalProjectCreationTclFiles = '';
 hWC.EnableIPCaching = false;
 
 % Set properties related to 'RunTaskGenerateSoftwareInterfaceModel' Task
-hWC.OperatingSystem = '';
+hWC.OperatingSystem = 'Linux';
 
 % Set properties related to 'RunTaskBuildFPGABitstream' Task
 hWC.RunExternalBuild = false;
@@ -174,7 +174,7 @@ try
     out = [];
 catch ME
     if exist('hdl_prj/vivado_ip_prj/boot/BOOT.BIN','file')
-       ME = []; 
+       ME = [];
     end
     out = ME;%.identifier
 end
