@@ -17,6 +17,7 @@ stage("Build Toolbox") {
                 sh 'git submodule update --init' 
                 dir('CI/scripts_v2'){
                     // Clone HDL repo
+                    sh 'rm -rf hdl || true'
                     sh 'git clone -b $BRANCH https://github.com/analogdevicesinc/hdl.git'
                     sh 'cp adi_project_xilinx.tcl hdl/projects/scripts/'
                     sh 'mv generate_json.py hdl/'
