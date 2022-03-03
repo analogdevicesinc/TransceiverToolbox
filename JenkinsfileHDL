@@ -21,7 +21,7 @@ stage("Build Toolbox") {
                     sh 'cp adi_project_xilinx.tcl hdl/projects/scripts/'
                     sh 'mv generate_json.py hdl/'
                     dir('hdl/projects/fmcomms2/zed'){
-                        sh 'make'
+                        sh '. /opt/Xilinx/Vivado/2019.1/settings64.sh ; make'
                     }
                     dir('hdl'){
                         sh 'python3 generate_json.py'
