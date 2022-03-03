@@ -13,6 +13,8 @@ stage("Build Toolbox") {
 	branchName ->
         withEnv(['BRANCH='+branchName,'ADI_EXTRACT_PORTS=TRUE']) {
             stage("Build HDL") {
+                checkout scm
+                sh 'git submodule update --init' 
                 dir('CI/scripts_v2'){
                     // Clone HDL repo
                     sh 'git clone -b $BRANCH https://github.com/analogdevicesinc/hdl.git'
