@@ -5,8 +5,11 @@ dockerConfig.add("-e MLRELEASE=R2021b")
 dockerHost = 'docker'
 
 ////////////////////////////
+def case(board, carrier) {
+    return new Tuple2(board, carrier)
+}
 
-projects = [Tuple2('fmcomms2','zc706'),Tuple2('fmcomms2','zed')]
+projects = [case('fmcomms2','zc706'), case('fmcomms2','zed')]
 
 stage("Build Toolbox") {
     dockerParallelBuild(projects, dockerHost, dockerConfig) { 
