@@ -26,6 +26,7 @@ stage("Build Toolbox") {
                     }
                     dir('hdl'){
                         sh 'python3 generate_json.py'
+                        sh 'mv ports.json ports_'+branchName[0]+'_'+branchName[1]+'.json'
                     }
                 }
                 archiveArtifacts artifacts: 'hdl/*.json', followSymlinks: false, allowEmptyArchive: true
