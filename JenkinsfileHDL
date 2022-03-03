@@ -6,7 +6,6 @@ dockerHost = 'docker'
 
 ////////////////////////////
 
-# hdlBranches = ['hdl_2019_r2']
 projects = [Tuple2('fmcomms2','zc706'),Tuple2('fmcomms2','zed')]
 
 stage("Build Toolbox") {
