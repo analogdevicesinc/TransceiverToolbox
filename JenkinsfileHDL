@@ -1,0 +1,35 @@
+@Library('tfc-lib') _
+
+dockerConfig = getDockerConfig(['MATLAB','Vivado'], matlabHSPro=false)
+dockerConfig.add("-e MLRELEASE=R2021b")
+dockerHost = 'docker'
+
+////////////////////////////
+
+hdlBranches = ['hdl_2019_r2']
+
+stage("Build Toolbox") {
+    dockerParallelBuild(hdlBranches, dockerHost, dockerConfig) { 
+	branchName ->
+        withEnv(['BRANCH='+branchName,'ADI_EXTRACT_PORTS=TRUE']) {
+            stage("Build HDL") {
+                dir('CI/scripts_v2'){
+                    // Clone HDL repo
+                    sh 'git clone -b $BRANCH https://github.com/analogdevicesinc/hdl.git'
+                    sh 'cp adi_project_xilinx.tcl hdl/projects/scripts/'
+                    sh 'mv generate_json.py hdl/'
+                    dir('hdl/projects/fmcomms2/zed'){
+                        sh 'make'
+                    }
+                    dir('hdl'){
+                        sh 'python3 generate_json.py'
+                    }
+                }
+                archiveArtifacts artifacts: 'hdl/*.json', followSymlinks: false, allowEmptyArchive: true
+            }
+        }
+    }
+}
+
+//////////////////////////////////////////////////////
+
