@@ -9,7 +9,8 @@ def project(board, carrier) {
     return new Tuple2(board, carrier)
 }
 
-projects = [project('fmcomms2','zc706'), project('fmcomms2','zed')]
+//projects = [project('fmcomms2','zc706'), project('fmcomms2','zed')]
+projects = [['fmcomms2','zc706'], ['fmcomms2','zed']]
 
 stage("Build Toolbox") {
     dockerParallelBuild(projects, dockerHost, dockerConfig) { 
