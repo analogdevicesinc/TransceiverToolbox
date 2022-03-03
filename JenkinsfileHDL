@@ -6,22 +6,24 @@ dockerHost = 'docker'
 
 ////////////////////////////
 
-hdlBranches = ['hdl_2019_r2']
+# hdlBranches = ['hdl_2019_r2']
+projects = [Tuple2('fmcomms2','zc706'),Tuple2('fmcomms2','zed')]
 
 stage("Build Toolbox") {
-    dockerParallelBuild(hdlBranches, dockerHost, dockerConfig) { 
+    dockerParallelBuild(projects, dockerHost, dockerConfig) { 
 	branchName ->
-        withEnv(['BRANCH='+branchName,'ADI_EXTRACT_PORTS=TRUE']) {
+        withEnv(['ADI_EXTRACT_PORTS=TRUE']) {
             stage("Build HDL") {
                 checkout scm
                 sh 'git submodule update --init' 
                 dir('CI/scripts_v2'){
                     // Clone HDL repo
                     sh 'rm -rf hdl || true'
-                    sh 'git clone -b $BRANCH https://github.com/analogdevicesinc/hdl.git'
+                    sh 'git clone -b hdl_2019_r2 https://github.com/analogdevicesinc/hdl.git'
                     sh 'cp adi_project_xilinx.tcl hdl/projects/scripts/'
                     sh 'mv generate_json.py hdl/'
-                    dir('hdl/projects/fmcomms2/zed'){
+                    echo 'Building: '+branchName[0]+' for '+branchName[1]
+                    dir('hdl/projects/'+branchName[0]+'/'+branchName[1]){
                         sh '. /opt/Xilinx/Vivado/2019.1/settings64.sh ; make'
                     }
                     dir('hdl'){
