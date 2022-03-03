@@ -90,6 +90,7 @@ hRD.CustomFiles = {...
 	fullfile(rootDirBSP, 'projects','scripts')...,
 	fullfile(rootDirBSP, 'projects','fmcomms2')...,
 	fullfile(rootDirBSP, 'projects','adrv9361z7035', 'common')...,
+    fullfile(rootDirBSP, 'projects','adrv9361z7035', 'ccfmc_lvds')...,
     fullfile('trx_examples', 'targeting', 'frequency-hopping', 'ccfmc_lvds_hop')...,
     };	
 	
