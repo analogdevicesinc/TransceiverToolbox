@@ -67,8 +67,7 @@ stage("HDL Tests") {
     }
 }
 */
-//demoNames = ['HDLLoopbackDelayEstimation','HDLFrequencyHopper','HDLTuneAGC','KernelFrequencyHopper']
-demoNames = ['HDLFrequencyHopper']
+demoNames = ['HDLLoopbackDelayEstimation','HDLFrequencyHopper','HDLTuneAGC','KernelFrequencyHopper']
 
 stage("Demo Tests") {
     dockerParallelBuild(demoNames, dockerHost, dockerConfig) {

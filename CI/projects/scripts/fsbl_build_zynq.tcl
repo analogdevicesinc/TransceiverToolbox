@@ -16,6 +16,7 @@ configapp -app fsbl build-config release
 sdk projects -build -type all
 
 ### Copy common zynq.bif file
+file mkdir $cdir/boot
 file copy -force $cdir/projects/common/boot/zynq.bif $cdir/boot/zynq.bif
 if {$argc == 1} {
 	file copy -force $cdir/projects/common/boot/[lindex $argv 0]/u-boot.elf $cdir/boot/u-boot.elf
