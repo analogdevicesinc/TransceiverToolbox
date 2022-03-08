@@ -27,6 +27,10 @@ if {$project == "pluto"} {
 }
 preprocess_bd $project $carrier $ref_design
 
+if {$postprocess == "on"} {
+    source $postprocess_script
+}
+
 regenerate_bd_layout
 save_bd_design
 validate_bd_design

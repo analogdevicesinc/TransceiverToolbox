@@ -133,7 +133,7 @@ hdlset_param('frequency_hopping/HDL_DUT/pll_unlocks', 'IOInterfaceMapping', 'x"1
 hWC = hdlcoder.WorkflowConfig('SynthesisTool','Xilinx Vivado','TargetWorkflow','IP Core Generation');
 
 % Specify the top level project directory
-hWC.ProjectFolder = 'hdl_prj2';
+hWC.ProjectFolder = 'hdl_prj';
 hWC.ReferenceDesignToolVersion = '2019.1';
 hWC.IgnoreToolVersionMismatch = false;
 
