@@ -26,7 +26,7 @@ hdlset_param('frequency_hopping', 'SynthesisToolChipFamily', 'Zynq');
 hdlset_param('frequency_hopping', 'SynthesisToolDeviceName', 'xc7z035i');
 hdlset_param('frequency_hopping', 'SynthesisToolPackageName', 'fbg676');
 hdlset_param('frequency_hopping', 'SynthesisToolSpeedValue', '-2L');
-hdlset_param('frequency_hopping', 'TargetDirectory', 'hdl_prj2/hdlsrc');
+hdlset_param('frequency_hopping', 'TargetDirectory', 'hdl_prj/hdlsrc');
 hdlset_param('frequency_hopping', 'TargetLanguage', 'Verilog');
 hdlset_param('frequency_hopping', 'TargetPlatform', 'AnalogDevices ADRV9361-Z7035 Frequency Hopping');
 hdlset_param('frequency_hopping', 'Workflow', 'IP Core Generation');
