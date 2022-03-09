@@ -28,6 +28,7 @@ if {$project == "pluto"} {
 preprocess_bd $project $carrier $ref_design
 
 if {$postprocess == "on"} {
+    cd $start_dir
     source $postprocess_script
 }
 
