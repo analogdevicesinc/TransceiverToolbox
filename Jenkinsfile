@@ -6,7 +6,7 @@ dockerHost = 'docker'
 
 ////////////////////////////
 
-hdlBranches = ['hdl_2019_r2']
+hdlBranches = ['master','hdl_2019_r2']
 
 stage("Build Toolbox") {
     dockerParallelBuild(hdlBranches, dockerHost, dockerConfig) { 
@@ -14,7 +14,7 @@ stage("Build Toolbox") {
 	try {
 		withEnv(['HDLBRANCH='+branchName]) {
 		    checkout scm
-		    sh 'git submodule update --init'
+		    sh 'git submodule update --init' 
 		    sh 'make -C ./CI/scripts build'
 		    sh 'make -C ./CI/scripts doc'
 		    sh 'make -C ./CI/scripts add_libad9361'
@@ -37,7 +37,7 @@ stage("Build Toolbox") {
 }
 
 /////////////////////////////////////////////////////
-/*
+
 boardNames = ['zed','zc702','zc706','zcu102','adrv9361','adrv9364','pluto']
 dockerConfig.add("-e HDLBRANCH=hdl_2019_r2")
 
@@ -66,11 +66,13 @@ stage("HDL Tests") {
         }
     }
 }
-*/
+
+/////////////////////////////////////////////////////
+
 demoNames = ['HDLLoopbackDelayEstimation','HDLFrequencyHopper','HDLTuneAGC','KernelFrequencyHopper']
 
 stage("Demo Tests") {
-    dockerParallelBuild(demoNames, dockerHost, dockerConfig) {
+    dockerParallelBuild(demoNames, dockerHost, dockerConfig) { 
         branchName ->
         withEnv(['DEMO='+branchName]) {
             unstash "builtSources"
@@ -80,6 +82,38 @@ stage("Demo Tests") {
         }
     }
 }
+
+/////////////////////////////////////////////////////
+
+appNames = ['lte_pa_app']
+
+stage("Build Deployable Apps") {
+    dockerParallelBuild(appNames, dockerHost, dockerConfig) { 
+        branchName ->
+        withEnv(['APP='+branchName]) {
+            unstash "builtSources"
+            sh 'make -C ./CI/scripts ${APP}'
+            archiveArtifacts artifacts: 'trx_examples/streaming/LTE_PA_App/LTEPA/for_redistribution/*.exe', followSymlinks: false, allowEmptyArchive: true
+            archiveArtifacts artifacts: 'trx_examples/streaming/LTE_PA_App/LTEPA/for_redistribution/*.install', followSymlinks: false, allowEmptyArchive: true
+        }
+    }
+}
+
+/////////////////////////////////////////////////////
+
+classNames = ['AD9361','AD9363','AD9364','AD9371','ADRV9009']
+
+stage("Hardware Streaming Tests") {
+    dockerParallelBuild(classNames, dockerHost, dockerConfig) { 
+        branchName ->
+        withEnv(['HW='+branchName]) {
+            unstash "builtSources"
+            sh 'echo ${HW}'
+            // sh 'make -C ./CI/scripts test_streaming'
+        }
+    }
+}
+
 //////////////////////////////////////////////////////
 
 node {
