@@ -48,6 +48,7 @@ set p_prcfg_status ""
 proc adi_project {project_name {mode 0} {parameter_list {}} } {
 
   global ad_hdl_dir
+  global ad_ghdl_dir
   global p_board
   global p_device
   global sys_zynq
@@ -58,32 +59,32 @@ proc adi_project {project_name {mode 0} {parameter_list {}} } {
 
   if [regexp "_ac701$" $project_name] {
     set p_device "xc7a200tfbg676-2"
-    set p_board "xilinx.com:ac701:part0:1.0"
+    set p_board [lindex [lsearch -all -inline [get_board_parts] *ac701*] end]
     set sys_zynq 0
   }
   if [regexp "_kc705$" $project_name] {
     set p_device "xc7k325tffg900-2"
-    set p_board "xilinx.com:kc705:part0:1.1"
+    set p_board [lindex [lsearch -all -inline [get_board_parts] *kc705*] end]
     set sys_zynq 0
   }
   if [regexp "_vc707$" $project_name] {
     set p_device "xc7vx485tffg1761-2"
-    set p_board "xilinx.com:vc707:part0:1.1"
+    set p_board [lindex [lsearch -all -inline [get_board_parts] *vc707*] end]
     set sys_zynq 0
   }
   if [regexp "_vcu118$" $project_name] {
     set p_device "xcvu9p-flga2104-2L-e"
-    set p_board "xilinx.com:vcu118:part0:2.0"
+    set p_board [lindex [lsearch -all -inline [get_board_parts] *vcu118*] end]
     set sys_zynq 0
   }
   if [regexp "_kcu105$" $project_name] {
     set p_device "xcku040-ffva1156-2-e"
-    set p_board "xilinx.com:kcu105:part0:1.1"
+    set p_board [lindex [lsearch -all -inline [get_board_parts] *kcu105*] end]
     set sys_zynq 0
   }
   if [regexp "_zed$" $project_name] {
     set p_device "xc7z020clg484-1"
-    set p_board "em.avnet.com:zed:part0:1.3"
+    set p_board [lindex [lsearch -all -inline [get_board_parts] *zed*] end]
     set sys_zynq 1
   }
   if [regexp "_coraz7s$" $project_name] {
@@ -98,12 +99,12 @@ proc adi_project {project_name {mode 0} {parameter_list {}} } {
   }
   if [regexp "_zc702$" $project_name] {
     set p_device "xc7z020clg484-1"
-    set p_board "xilinx.com:zc702:part0:1.2"
+    set p_board [lindex [lsearch -all -inline [get_board_parts] *zc702*] end]
     set sys_zynq 1
   }
   if [regexp "_zc706$" $project_name] {
     set p_device "xc7z045ffg900-2"
-    set p_board "xilinx.com:zc706:part0:1.2"
+    set p_board [lindex [lsearch -all -inline [get_board_parts] *zc706*] end]
     set sys_zynq 1
   }
   if [regexp "_mitx045$" $project_name] {
@@ -113,34 +114,67 @@ proc adi_project {project_name {mode 0} {parameter_list {}} } {
   }
   if [regexp "_zcu102$" $project_name] {
     set p_device "xczu9eg-ffvb1156-2-e"
-    set p_board "xilinx.com:zcu102:part0:3.2"
+    set p_board [lindex [lsearch -all -inline [get_board_parts] *zcu102*] end]
     set sys_zynq 2
   }
 
   set VIVADO_VERSION [version -short]
-  if {[string compare $VIVADO_VERSION $REQUIRED_VIVADO_VERSION] != 0} {
-    puts -nonewline "CRITICAL WARNING: vivado version mismatch; "
-    puts -nonewline "expected $REQUIRED_VIVADO_VERSION, "
-    puts -nonewline "got $VIVADO_VERSION.\n"
+  if {$IGNORE_VERSION_CHECK} {
+    if {[string compare $VIVADO_VERSION $REQUIRED_VIVADO_VERSION] != 0} {
+      puts -nonewline "CRITICAL WARNING: vivado version mismatch; "
+      puts -nonewline "expected $REQUIRED_VIVADO_VERSION, "
+      puts -nonewline "got $VIVADO_VERSION.\n"
+    }
+  } else {
+    if {[string compare $VIVADO_VERSION $REQUIRED_VIVADO_VERSION] != 0} {
+      puts -nonewline "ERROR: vivado version mismatch; "
+      puts -nonewline "expected $REQUIRED_VIVADO_VERSION, "
+      puts -nonewline "got $VIVADO_VERSION.\n"
+      puts -nonewline "This ERROR message can be down-graded to CRITICAL WARNING by setting ADI_IGNORE_VERSION_CHECK environment variable to 1. Be aware that ADI will not support you, if you are using a different tool version.\n"
+      exit 2
+    }
+  }
+
+  if {[info exists ::env(MATLAB)]} {
+    set MATLAB 1
+    set project_name "vivado_prj"
+    set project_root $ad_hdl_dir
+    if {$mode != 0} {
+        puts -nonewline "MATLAB builds do not support mode 2"
+        exit 2
+    }
+  } else {
+    set MATLAB 0
+    set project_root [pwd]
   }
 
   if {$mode == 0} {
-    set project_system_dir "./$project_name.srcs/sources_1/bd/system"
-    create_project $project_name . -part $p_device -force
+    set project_system_dir "$project_root/$project_name.srcs/sources_1/bd/system"
+    if {$MATLAB == 0} {
+        create_project $project_name $project_root -part $p_device -force
+    }
   } else {
-    set project_system_dir ".srcs/sources_1/bd/system"
+    set project_system_dir "$project_root/.srcs/sources_1/bd/system"
     create_project -in_memory -part $p_device
   }
 
   if {$mode == 1} {
-    file mkdir $project_name.data
+    file mkdir $project_root/$project_name.data
   }
 
   if {$p_board ne "not-applicable"} {
     set_property board_part $p_board [current_project]
   }
 
-  set lib_dirs $ad_hdl_dir/library
+  if {$MATLAB == 0} {
+      set lib_dirs $ad_hdl_dir/library
+  } else {
+      set lib_dirs [get_property ip_repo_paths [current_fileset]]
+      lappend lib_dirs $ad_hdl_dir/library
+  }
+  if {$ad_hdl_dir ne $ad_ghdl_dir} {
+    lappend lib_dirs $ad_ghdl_dir/library
+  }
 
   # Set a common IP cache for all projects
   if {$ADI_USE_OOC_SYNTHESIS == 1} {
@@ -231,6 +265,11 @@ proc adi_project_run {project_name} {
   global ADI_POWER_OPTIMIZATION
   global ADI_USE_OOC_SYNTHESIS
 
+  if {[info exists ::env(SKIP_SYNTHESIS)]} {
+    puts "Skipping synthesis"
+    return
+  }
+
   if {$ADI_USE_OOC_SYNTHESIS == 1} {
     launch_runs -jobs 4 system_*_synth_1 synth_1
   } else {
@@ -252,17 +291,17 @@ proc adi_project_run {project_name} {
   launch_runs impl_1 -to_step write_bitstream
   wait_on_run impl_1
   open_run impl_1
-  report_timing_summary -file timing_impl.log
+  report_timing_summary -warn_on_violation -file timing_impl.log
 
   if {[info exists ::env(ADI_GENERATE_UTILIZATION)]} {
-    set csv_file resource_utilization.csv  
+    set csv_file resource_utilization.csv
     if {[ catch {
       xilinx::designutils::report_failfast -csv -file $csv_file -transpose -no_header -ignore_pr -quiet
       set MMCM [llength [get_cells -hierarchical -filter { PRIMITIVE_TYPE =~ *MMCM* }]]
       set PLL [llength [get_cells -hierarchical -filter { PRIMITIVE_TYPE =~ *PLL* }]]
       set worst_slack_setup [get_property SLACK [get_timing_paths -setup]]
       set worst_slack_hold [get_property SLACK [get_timing_paths -hold]]
-   
+
       set fileRead [open $csv_file r]
       set lines [split [read $fileRead] "\n"]
       set names_line [lindex $lines end-3]
@@ -276,8 +315,78 @@ proc adi_project_run {project_name} {
       } issue ] != 0 } {
         puts "GENERATE_REPORTS: tclapp::xilinx::designutils not installed"
       }
-  } else {
+
+      # Define a list of IPs for which to generate report utilization
+      set IP_list {
+        ad_ip_jesd_204_tpl_adc
+        ad_ip_jesd_204_tpl_dac
+        axi_jesd204_rx
+        axi_jesd204_tx
+        jesd204_rx
+        jesd204_tx
+        axi_adxcvr
+        util_adxcvr
+        axi_dmac
+        util_cpack2
+        util_upack2
+      }
+
+      foreach IP_name $IP_list {
+	set output_file ${IP_name}_resource_utilization.log
+        file delete $output_file
+        foreach IP_instance [ get_cells -quiet -hierarchical -filter " ORIG_REF_NAME =~ $IP_name || REF_NAME =~ $IP_name " ] {
+          report_utilization -hierarchical -hierarchical_depth 1 -cells $IP_instance -file $output_file -append -quiet
+          report_property $IP_instance -file $output_file -append -quiet
+          set report_file [ open $output_file a ]
+          puts $report_file "\n\n\n"
+          close $report_file
+        }
+      }
+    } else {
     puts "GENERATE_REPORTS: Resource utilization files won't be generated because ADI_GENERATE_UTILIZATION env var is not set"
+  }
+
+  if {[info exists ::env(ADI_GENERATE_XPA)]} {
+    set csv_file power_analysis.csv
+    set Layers "8to11"
+    set CapLoad "20"
+    set ToggleRate "15.00000"
+    set StatProb "0.500000"
+
+    set_load $CapLoad [all_outputs]
+    set_operating_conditions -board_layers $Layers
+    set_switching_activity -default_toggle_rate $ToggleRate
+    set_switching_activity -default_static_probability $StatProb
+    set_switching_activity -type lut -toggle_rate $ToggleRate -static_probability $StatProb -all
+    set_switching_activity -type register -toggle_rate $ToggleRate -static_probability $StatProb -all
+    set_switching_activity -type shift_register -toggle_rate $ToggleRate -static_probability $StatProb -all
+    set_switching_activity -type lut_ram -toggle_rate $ToggleRate -static_probability $StatProb -all
+    set_switching_activity -type bram -toggle_rate $ToggleRate -static_probability $StatProb -all
+    set_switching_activity -type dsp -toggle_rate $ToggleRate -static_probability $StatProb -all
+    set_switching_activity -type gt_rxdata -toggle_rate $ToggleRate -static_probability $StatProb -all
+    set_switching_activity -type gt_txdata -toggle_rate $ToggleRate -static_probability $StatProb -all
+    set_switching_activity -type io_output -toggle_rate $ToggleRate -static_probability $StatProb -all
+    set_switching_activity -type bram_enable -toggle_rate $ToggleRate -static_probability $StatProb -all
+    set_switching_activity -type bram_wr_enable -toggle_rate $ToggleRate -static_probability $StatProb -all
+    set_switching_activity -type io_bidir_enable -toggle_rate $ToggleRate -static_probability $StatProb -all
+    report_power -file $csv_file
+
+    set fileRead [open $csv_file r]
+    set filecontent [read $fileRead]
+    set input_list [split $filecontent "\n"]
+
+    set TextList [lsearch -all -inline $input_list "*Total On-Chip Power (W)*"]
+    set on_chip_pwr "[lindex [lindex $TextList 0] 6] W"
+    set TextList [lsearch -all -inline $input_list "*Junction Temperature (C)*"]
+    set junction_temp "[lindex [lindex $TextList 0] 5] *C"
+    close $fileRead
+
+    set fileWrite [open $csv_file w]
+    puts $fileWrite "On-chip_power,Junction_temp"
+    puts $fileWrite "$on_chip_pwr,$junction_temp"
+    close $fileWrite
+  } else {
+    puts "GENERATE_REPORTS: Power analysis files won't be generated because ADI_GENERATE_XPA env var is not set"
   }
 
   # Look for undefined clocks which do not show up in the timing summary
@@ -297,7 +406,9 @@ proc adi_project_run {project_name} {
 
   file mkdir $project_name.sdk
 
-  if [expr [string match *VIOLATED* $[report_timing_summary -return_string]] == 1] {
+  set timing_string $[report_timing_summary -return_string]
+  if { [string match "*VIOLATED*" $timing_string] == 1 ||
+       [string match "*Timing constraints are not met*" $timing_string] == 1} {
     file copy -force $project_name.runs/impl_1/system_top.sysdef $project_name.sdk/system_top_bad_timing.hdf
     return -code error [format "ERROR: Timing Constraints NOT met!"]
   } else {
