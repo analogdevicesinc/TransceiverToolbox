@@ -16,7 +16,7 @@ lock(label: 'adgt_test_harness_boards') {
     harness.set_env('telemetry_repo', 'https://github.com/sdgtt/telemetry.git')
     harness.set_env('telemetry_branch', 'master')
     harness.set_env('matlab_repo', 'https://github.com/analogdevicesinc/TransceiverToolbox.git') // Not necessary when using checkout scm
-    harness.set_env('matlab_release','R2021a')
+    harness.set_env('matlab_release','R2021b')
   
     //Update agent with required deps
     harness.set_required_agent(["sdg-nuc-01","sdg-nuc-02"])
