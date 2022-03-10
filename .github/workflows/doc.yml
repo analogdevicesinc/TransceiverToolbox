@@ -15,17 +15,16 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install sphinx sphinx-rtd-theme myst-parser furo
+          sudo apt install -y python3-numpy
+          pip install -r requirements_doc.txt
       - name: Check doc build
         run: |
-          cd CI/gen_doc
-          bash gen_pages.sh
-          cd ../..
+          make -C CI/gen_doc doc
 
       - name: Publish master doc
         if: github.ref == 'refs/heads/master'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./CI/gen_doc/build/html
+          publish_dir: ./doc
           destination_dir: master
