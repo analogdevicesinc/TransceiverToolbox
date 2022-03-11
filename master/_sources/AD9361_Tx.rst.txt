@@ -1,4 +1,0 @@
-AD9361_Tx.
-***********
-.. raw:: html
-   :file: _mlpages/devices/AD9361_Tx.html

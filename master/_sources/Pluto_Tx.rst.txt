@@ -1,4 +1,0 @@
-Pluto_Tx.
-**********
-.. raw:: html
-   :file: _mlpages/devices/Pluto_Tx.html

@@ -1,4 +1,0 @@
-FMComms2_Tx.
-*************
-.. raw:: html
-   :file: _mlpages/devices/FMComms2_Tx.html

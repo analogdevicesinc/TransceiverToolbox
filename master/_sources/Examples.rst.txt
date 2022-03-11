@@ -1,4 +1,0 @@
-Examples
-*********
-.. raw:: html
-   :file: _mlpages/Examples.html

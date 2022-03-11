@@ -1,4 +1,0 @@
-SupportedHardware
-******************
-.. raw:: html
-   :file: _mlpages/SupportedHardware.html

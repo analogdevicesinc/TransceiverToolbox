@@ -1,4 +1,0 @@
-ADRV9364Z7020_Tx.
-******************
-.. raw:: html
-   :file: _mlpages/devices/ADRV9364Z7020_Tx.html

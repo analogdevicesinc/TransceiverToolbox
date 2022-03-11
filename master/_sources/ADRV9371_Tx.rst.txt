@@ -1,4 +1,0 @@
-ADRV9371_Tx.
-*************
-.. raw:: html
-   :file: _mlpages/devices/ADRV9371_Tx.html

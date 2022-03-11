@@ -1,4 +1,0 @@
-AD9371_Tx.
-***********
-.. raw:: html
-   :file: _mlpages/devices/AD9371_Tx.html

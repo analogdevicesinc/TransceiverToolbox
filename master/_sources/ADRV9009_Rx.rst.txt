@@ -1,4 +1,0 @@
-ADRV9009_Rx.
-*************
-.. raw:: html
-   :file: _mlpages/devices/ADRV9009_Rx.html
