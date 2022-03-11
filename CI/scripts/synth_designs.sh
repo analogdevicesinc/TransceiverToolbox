@@ -5,7 +5,7 @@ MLFLAGS="-nodisplay -nodesktop -nosplash"
 
 if [ -z "$MLRELEASE" ]
 then
-	MLRELEASE=R2021a
+	MLRELEASE=R2021b
 fi
 
 MLPATH=/usr/local/MATLAB

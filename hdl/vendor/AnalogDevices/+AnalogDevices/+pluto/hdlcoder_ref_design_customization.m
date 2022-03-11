@@ -17,7 +17,7 @@ rd = {...
     'AnalogDevices.pluto.plugin_rd_rxtx', ...
     };
 
-boardName = 'AnalogDevices ADALM-PLUTO';
+boardName = 'AnalogDevices PLUTO';
 
 end
 

@@ -1,6 +1,0 @@
-# Disconnect the ADC PACK pins
-delete_bd_objs [get_bd_nets util_ad9361_adc_fifo_dout_data_0]
-delete_bd_objs [get_bd_nets util_ad9361_adc_fifo_dout_data_1]
-delete_bd_objs [get_bd_nets util_ad9361_adc_fifo_dout_data_2]
-delete_bd_objs [get_bd_nets util_ad9361_adc_fifo_dout_data_3]
-delete_bd_objs [get_bd_nets util_ad9361_adc_fifo_dout_valid_0]
