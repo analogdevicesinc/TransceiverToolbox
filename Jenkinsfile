@@ -12,11 +12,12 @@ stage("Build Toolbox") {
     dockerParallelBuild(hdlBranches, dockerHost, dockerConfig) { 
 	branchName ->
 	try {
-		withEnv(['HDLBRANCH='+branchName]) {
+		withEnv(['HDLBRANCH='+branchName,'LC_ALL=C.UTF-8','LANG=C.UTF-8']) {
 		    checkout scm
 		    sh 'git submodule update --init' 
 		    sh 'make -C ./CI/scripts build'
-		    sh 'make -C ./CI/scripts doc'
+		    sh 'pip3 install -r requirements_doc.txt'
+		    sh 'make -C ./CI/gen_doc doc_ml'
 		    sh 'make -C ./CI/scripts add_libad9361'
 		    sh 'make -C ./CI/scripts gen_tlbx'
 		}

@@ -51,4 +51,6 @@ doc:
 	cd docs ; \
 	python3 gen_all_doc.py ; \
 	cd .. ; \
-	mkdocs build -d doc
+	mkdocs build -d doc ; \
+	mkdir -p ../../doc ; \
+	cp -r doc/* ../../doc/ ; \
