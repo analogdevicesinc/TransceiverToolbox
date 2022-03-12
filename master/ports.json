@@ -1,0 +1,573 @@
+{
+    "fmcomms2": {
+        "chip": "AD9361",
+        "complex": true,
+        "hdl_rd_doc": "https://wiki.analog.com/resources/eval/user-guides/ad-fmcomms2-ebz/reference_hdl",
+        "fpga": [
+            "zed",
+            "zc706",
+            "zc702"
+        ],
+        "supported_rd": [
+            "rx",
+            "tx",
+            "rx & tx"
+        ],
+        "ports": [
+            {
+                "rx": [
+                    {
+                        "input": false,
+                        "width": 1,
+                        "name": "util_ad9361_adc_pack/fifo_wr_en",
+                        "count": 1,
+                        "type": "valid"
+                    },
+                    {
+                        "input": true,
+                        "width": 1,
+                        "name": "util_ad9361_adc_fifo/dout_valid_0",
+                        "count": 1,
+                        "type": "valid"
+                    },
+                    {
+                        "input": false,
+                        "width": 16,
+                        "name": "util_ad9361_adc_pack/fifo_wr_data_@",
+                        "count": 4,
+                        "type": "data"
+                    },
+                    {
+                        "input": true,
+                        "width": 16,
+                        "name": "util_ad9361_adc_fifo/dout_data_@",
+                        "count": 4,
+                        "type": "data"
+                    }
+                ],
+                "tx": [
+                    {
+                        "input": true,
+                        "width": 1,
+                        "name": "util_ad9361_dac_upack/fifo_rd_valid",
+                        "count": 1,
+                        "type": "valid"
+                    },
+                    {
+                        "input": false,
+                        "width": 1,
+                        "name": "axi_ad9361_dac_fifo/din_valid_in_0",
+                        "count": 1,
+                        "type": "valid"
+                    },
+                    {
+                        "input": false,
+                        "width": 16,
+                        "name": "axi_ad9361_dac_fifo/din_data_@",
+                        "count": 4,
+                        "type": "data"
+                    },
+                    {
+                        "input": true,
+                        "width": 16,
+                        "name": "util_ad9361_dac_upack/fifo_rd_data_@",
+                        "count": 4,
+                        "type": "data"
+                    }
+                ]
+            }
+        ]
+    },
+    "adrv9361z7035": {
+        "chip": "AD9361",
+        "complex": true,
+        "hdl_rd_doc": "https://wiki.analog.com/resources/eval/user-guides/ad-fmcomms2-ebz/reference_hdl",
+        "fpga": [
+            "ccbob_cmos",
+            "ccbob_lvds",
+            "ccbox_lvds",
+            "ccfmc_lvds",
+            "ccpackrf_lvds"
+        ],
+        "supported_rd": [
+            "rx",
+            "tx",
+            "rx & tx"
+        ],
+        "ports": [
+            {
+                "rx": [
+                    {
+                        "input": false,
+                        "width": 1,
+                        "name": "util_ad9361_adc_pack/fifo_wr_en",
+                        "count": 1,
+                        "type": "valid"
+                    },
+                    {
+                        "input": true,
+                        "width": 1,
+                        "name": "util_ad9361_adc_fifo/dout_valid_0",
+                        "count": 1,
+                        "type": "valid"
+                    },
+                    {
+                        "input": false,
+                        "width": 16,
+                        "name": "util_ad9361_adc_pack/fifo_wr_data_@",
+                        "count": 4,
+                        "type": "data"
+                    },
+                    {
+                        "input": true,
+                        "width": 16,
+                        "name": "util_ad9361_adc_fifo/dout_data_@",
+                        "count": 4,
+                        "type": "data"
+                    }
+                ],
+                "tx": [
+                    {
+                        "input": true,
+                        "width": 1,
+                        "name": "util_ad9361_dac_upack/fifo_rd_valid",
+                        "count": 1,
+                        "type": "valid"
+                    },
+                    {
+                        "input": false,
+                        "width": 1,
+                        "name": "axi_ad9361_dac_fifo/din_valid_in_0",
+                        "count": 1,
+                        "type": "valid"
+                    },
+                    {
+                        "input": false,
+                        "width": 16,
+                        "name": "axi_ad9361_dac_fifo/din_data_@",
+                        "count": 4,
+                        "type": "data"
+                    },
+                    {
+                        "input": true,
+                        "width": 16,
+                        "name": "util_ad9361_dac_upack/fifo_rd_data_@",
+                        "count": 4,
+                        "type": "data"
+                    }
+                ]
+            }
+        ]
+    },
+    "adrv9364z7020": {
+        "chip": "AD9364",
+        "complex": true,
+        "hdl_rd_doc": "https://wiki.analog.com/resources/eval/user-guides/ad-fmcomms2-ebz/reference_hdl",
+        "fpga": [
+            "ccbob_cmos",
+            "ccbob_lvds",
+            "ccbox_lvds"
+        ],
+        "supported_rd": [
+            "rx",
+            "tx",
+            "rx & tx"
+        ],
+        "ports": [
+            {
+                "rx": [
+                    {
+                        "input": false,
+                        "width": 1,
+                        "name": "util_ad9361_adc_pack/fifo_wr_en",
+                        "count": 1,
+                        "type": "valid"
+                    },
+                    {
+                        "input": true,
+                        "width": 1,
+                        "name": "util_ad9361_adc_fifo/dout_valid_0",
+                        "count": 1,
+                        "type": "valid"
+                    },
+                    {
+                        "input": false,
+                        "width": 16,
+                        "name": "util_ad9361_adc_pack/fifo_wr_data_@",
+                        "count": 4,
+                        "type": "data"
+                    },
+                    {
+                        "input": true,
+                        "width": 16,
+                        "name": "util_ad9361_adc_fifo/dout_data_@",
+                        "count": 4,
+                        "type": "data"
+                    }
+                ],
+                "tx": [
+                    {
+                        "input": true,
+                        "width": 1,
+                        "name": "util_ad9361_dac_upack/fifo_rd_valid",
+                        "count": 1,
+                        "type": "valid"
+                    },
+                    {
+                        "input": false,
+                        "width": 1,
+                        "name": "axi_ad9361_dac_fifo/din_valid_in_0",
+                        "count": 1,
+                        "type": "valid"
+                    },
+                    {
+                        "input": false,
+                        "width": 16,
+                        "name": "axi_ad9361_dac_fifo/din_data_@",
+                        "count": 4,
+                        "type": "data"
+                    },
+                    {
+                        "input": true,
+                        "width": 16,
+                        "name": "util_ad9361_dac_upack/fifo_rd_data_@",
+                        "count": 4,
+                        "type": "data"
+                    }
+                ]
+            }
+        ]
+    },
+    "pluto": {
+        "chip": "AD9361",
+        "complex": true,
+        "hdl_rd_doc": "https://wiki.analog.com/resources/eval/user-guides/ad-fmcomms2-ebz/reference_hdl",
+        "supported_rd": [
+            "rx",
+            "tx"
+        ],
+        "ports": [
+            {
+                "rx": [
+                    {
+                        "input": false,
+                        "width": 1,
+                        "name": "cpack/fifo_wr_en",
+                        "count": 1,
+                        "type": "valid"
+                    },
+                    {
+                        "input": true,
+                        "width": 1,
+                        "name": "axi_ad9361/adc_valid_i0",
+                        "count": 1,
+                        "type": "valid"
+                    },
+                    {
+                        "input": false,
+                        "width": 16,
+                        "name": "cpack/fifo_wr_data_@",
+                        "count": 2,
+                        "type": "data"
+                    },
+                    {
+                        "input": true,
+                        "width": 16,
+                        "name": "axi_ad9361/adc_data_i0",
+                        "count": 1,
+                        "type": "data"
+                    },
+                    {
+                        "input": true,
+                        "width": 16,
+                        "name": "axi_ad9361/adc_data_q0",
+                        "count": 1,
+                        "type": "data"
+                    }
+                ],
+                "tx": [
+                    {
+                        "input": true,
+                        "width": 1,
+                        "name": "tx_upack/fifo_rd_valid",
+                        "count": 1,
+                        "type": "valid"
+                    },
+                    {
+                        "input": false,
+                        "width": 1,
+                        "name": "logic_or/Op1",
+                        "count": 1,
+                        "type": "valid"
+                    },
+                    {
+                        "input": false,
+                        "width": 16,
+                        "name": "axi_ad9361/dac_data_i0",
+                        "count": 1,
+                        "type": "data"
+                    },
+                    {
+                        "input": false,
+                        "width": 16,
+                        "name": "axi_ad9361/dac_data_q0",
+                        "count": 1,
+                        "type": "data"
+                    },
+                    {
+                        "input": true,
+                        "width": 16,
+                        "name": "util_ad9361_dac_upack/fifo_rd_data_@",
+                        "count": 2,
+                        "type": "data"
+                    }
+                ]
+            }
+        ]
+    },
+    "adrv9371": {
+        "chip": "AD9371",
+        "complex": true,
+        "hdl_rd_doc": "https://wiki.analog.com/resources/eval/user-guides/mykonos/reference_hdl",
+        "fpga": [
+            "zc706",
+            "zcu102"
+        ],
+        "supported_rd": [
+            "rx",
+            "tx"
+        ],
+        "ports": [
+            {
+                "rx": [
+                    {
+                        "input": false,
+                        "width": 1,
+                        "name": "util_ad9371_rx_cpack/fifo_wr_en",
+                        "count": 1,
+                        "type": "valid"
+                    },
+                    {
+                        "input": true,
+                        "width": 1,
+                        "name": "rx_ad9371_tpl_core/adc_valid_0",
+                        "count": 1,
+                        "type": "valid"
+                    },
+                    {
+                        "input": false,
+                        "width": 16,
+                        "name": "util_ad9361_adc_pack/fifo_wr_data_@",
+                        "count": 4,
+                        "type": "data"
+                    },
+                    {
+                        "input": true,
+                        "width": 16,
+                        "name": "rx_ad9371_tpl_core/adc_data_@",
+                        "count": 4,
+                        "type": "data"
+                    }
+                ],
+                "tx": [
+                    {
+                        "input": true,
+                        "width": 1,
+                        "name": "util_ad9371_tx_upack/fifo_rd_valid",
+                        "count": 1,
+                        "type": "valid"
+                    },
+                    {
+                        "input": false,
+                        "width": 1,
+                        "name": "util_ad9371_tx_upack/fifo_rd_en",
+                        "count": 1,
+                        "type": "valid"
+                    },
+                    {
+                        "input": false,
+                        "width": 32,
+                        "name": "tx_ad9371_tpl_core/dac_data_@",
+                        "count": 4,
+                        "type": "data"
+                    },
+                    {
+                        "input": true,
+                        "width": 32,
+                        "name": "util_ad9371_tx_upack/fifo_rd_data_@",
+                        "count": 4,
+                        "type": "data"
+                    }
+                ]
+            }
+        ]
+    },
+    "adrv9002": {
+        "chip": "ADRV9002",
+        "complex": true,
+        "hdl_rd_doc": "https://wiki.analog.com/resources/eval/user-guides/adrv9001/reference_hdl",
+        "fpga": [
+            "zcu102"
+        ],
+        "supported_rd": [
+            "rx",
+            "tx",
+            "rx & tx"
+        ],
+        "ports": [
+            {
+                "rx": [
+                    {
+                        "input": false,
+                        "width": 1,
+                        "name": "util_adc_1_pack/fifo_wr_en",
+                        "count": 1,
+                        "type": "valid"
+                    },
+                    {
+                        "input": true,
+                        "width": 1,
+                        "name": "axi_adrv9001/adc_1_valid_i0",
+                        "count": 1,
+                        "type": "valid"
+                    },
+                    {
+                        "input": false,
+                        "width": 16,
+                        "name": "util_adc_1_pack/fifo_wr_data_@",
+                        "count": 4,
+                        "type": "data"
+                    },
+                    {
+                        "input": true,
+                        "width": 16,
+                        "name": "axi_adrv9001/adc_1_data_i@",
+                        "count": 2,
+                        "type": "data"
+                    },
+                    {
+                        "input": true,
+                        "width": 16,
+                        "name": "axi_adrv9001/adc_1_data_q@",
+                        "count": 2,
+                        "type": "data"
+                    }
+                ],
+                "tx": [
+                    {
+                        "input": true,
+                        "width": 1,
+                        "name": "util_dac_1_upack/fifo_rd_valid",
+                        "count": 1,
+                        "type": "valid"
+                    },
+                    {
+                        "input": false,
+                        "width": 1,
+                        "name": "util_dac_1_upack/fifo_rd_en",
+                        "count": 1,
+                        "type": "valid"
+                    },
+                    {
+                        "input": false,
+                        "width": 16,
+                        "name": "axi_adrv9001/dac_1_data_i@",
+                        "count": 2,
+                        "type": "data"
+                    },
+                    {
+                        "input": false,
+                        "width": 16,
+                        "name": "axi_adrv9001/dac_1_data_q@",
+                        "count": 2,
+                        "type": "data"
+                    },
+                    {
+                        "input": true,
+                        "width": 16,
+                        "name": "util_dac_1_upack/fifo_rd_data_@",
+                        "count": 4,
+                        "type": "data"
+                    }
+                ]
+            }
+        ]
+    },
+    "adrv9009": {
+        "chip": "ADRV9009",
+        "complex": true,
+        "hdl_rd_doc": "https://wiki.analog.com/resources/eval/user-guides/adrv9009/reference_hdl",
+        "fpga": [
+            "zcu102"
+        ],
+        "supported_rd": [
+            "rx",
+            "tx",
+            "rx & tx"
+        ],
+        "ports": [
+            {
+                "rx": [
+                    {
+                        "input": false,
+                        "width": 1,
+                        "name": "util_adrv9009_rx_cpack/fifo_wr_en",
+                        "count": 1,
+                        "type": "valid"
+                    },
+                    {
+                        "input": true,
+                        "width": 1,
+                        "name": "rx_adrv9009_tpl_core/adc_valid_0",
+                        "count": 1,
+                        "type": "valid"
+                    },
+                    {
+                        "input": false,
+                        "width": 16,
+                        "name": "util_adrv9009_rx_cpack/fifo_wr_data_@",
+                        "count": 4,
+                        "type": "data"
+                    },
+                    {
+                        "input": true,
+                        "width": 16,
+                        "name": "rx_adrv9009_tpl_core/adc_data_@",
+                        "count": 4,
+                        "type": "data"
+                    }
+                ],
+                "tx": [
+                    {
+                        "input": true,
+                        "width": 1,
+                        "name": "util_adrv9009_tx_upack/fifo_rd_valid",
+                        "count": 1,
+                        "type": "valid"
+                    },
+                    {
+                        "input": false,
+                        "width": 1,
+                        "name": "util_adrv9009_tx_upack/fifo_rd_en",
+                        "count": 1,
+                        "type": "valid"
+                    },
+                    {
+                        "input": false,
+                        "width": 16,
+                        "name": "tx_adrv9009_tpl_core/dac_data_@",
+                        "count": 4,
+                        "type": "data"
+                    },
+                    {
+                        "input": true,
+                        "width": 16,
+                        "name": "util_adrv9009_tx_upack/fifo_rd_data_@",
+                        "count": 4,
+                        "type": "data"
+                    }
+                ]
+            }
+        ]
+    }
+}
