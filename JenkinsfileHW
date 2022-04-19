@@ -10,11 +10,11 @@ lock(label: 'adgt_test_harness_boards') {
   
     //Udpate repos
     harness.set_env('nebula_repo', 'https://github.com/sdgtt/nebula.git')
-    harness.set_env('nebula_branch','dev')
+    harness.set_env('nebula_branch','master')
     harness.set_env('nebula_config_branch','release')
     harness.set_env('libiio_branch', 'v0.23')
     harness.set_env('telemetry_repo', 'https://github.com/sdgtt/telemetry.git')
-    harness.set_env('telemetry_branch', 'master')
+    harness.set_env('telemetry_branch', 'artifacts-support')
     harness.set_env('matlab_repo', 'https://github.com/analogdevicesinc/TransceiverToolbox.git') // Not necessary when using checkout scm
     harness.set_env('matlab_release','R2021b')
   
