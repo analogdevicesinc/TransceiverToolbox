@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.3.0, mkdocs-material-8.2.9" name="generator"/>
-<title>Data Streaming - Analog Devices, Inc. Transceiver Toolbox</title>
+<title>HDL Workflow - Analog Devices, Inc. Transceiver Toolbox</title>
 <link href="../assets/stylesheets/main.120efc48.min.css" rel="stylesheet"/>
 <link href="../assets/stylesheets/palette.9647289d.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -23,7 +23,7 @@
 <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
 <label class="md-overlay" for="__drawer"></label>
 <div data-md-component="skip">
-<a class="md-skip" href="#receiving-and-sending-data">
+<a class="md-skip" href="#hdl-workflow">
           Skip to content
         </a>
 </div>
@@ -47,7 +47,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              Data Streaming
+              HDL Workflow
             
           </span>
 </div>
@@ -119,43 +119,10 @@
         Installation
       </a>
 </li>
-<li class="md-nav__item md-nav__item--active">
-<input class="md-nav__toggle md-toggle" data-md-toggle="toc" id="__toc" type="checkbox"/>
-<label class="md-nav__link md-nav__link--active" for="__toc">
-          Data Streaming
-          <span class="md-nav__icon md-icon"></span>
-</label>
-<a class="md-nav__link md-nav__link--active" href="./">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../streaming/">
         Data Streaming
       </a>
-<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
-<label class="md-nav__title" for="__toc">
-<span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#connecting-and-configuration">
-    Connecting and Configuration
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#receiving-data">
-    Receiving Data
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#sending-data">
-    Sending Data
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#dds">
-    DDS
-  </a>
-</li>
-</ul>
-</nav>
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="../targeting/">
@@ -407,8 +374,8 @@
 </ul>
 </nav>
 </li>
-<li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" id="__nav_7" type="checkbox"/>
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" id="__nav_7" type="checkbox"/>
 <label class="md-nav__link" for="__nav_7">
           Developers
           <span class="md-nav__icon md-icon"></span>
@@ -419,10 +386,47 @@
           Developers
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../dev_hdl_workflow/">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" data-md-toggle="toc" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+          HDL Workflow
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
         HDL Workflow
       </a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hdl-repo-preparation">
+    HDL Repo Preparation
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hdl-coder-ip-core-generation-flow">
+    HDL-Coder IP Core Generation Flow
+  </a>
+<nav aria-label="HDL-Coder IP Core Generation Flow" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#vivado-project-perspective">
+    Vivado Project Perspective
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#generated-tcl-scripts">
+    Generated TCL Scripts
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
 </li>
 </ul>
 </nav>
@@ -442,24 +446,28 @@
     </label>
 <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#connecting-and-configuration">
-    Connecting and Configuration
+<a class="md-nav__link" href="#hdl-repo-preparation">
+    HDL Repo Preparation
   </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#receiving-data">
-    Receiving Data
+<a class="md-nav__link" href="#hdl-coder-ip-core-generation-flow">
+    HDL-Coder IP Core Generation Flow
+  </a>
+<nav aria-label="HDL-Coder IP Core Generation Flow" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#vivado-project-perspective">
+    Vivado Project Perspective
   </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#sending-data">
-    Sending Data
+<a class="md-nav__link" href="#generated-tcl-scripts">
+    Generated TCL Scripts
   </a>
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#dds">
-    DDS
-  </a>
+</ul>
+</nav>
 </li>
 </ul>
 </nav>
@@ -468,116 +476,78 @@
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1 id="receiving-and-sending-data">Receiving and Sending Data</h1>
-<p>Remote data streaming to and from hardware is made available through <a href="https://www.mathworks.com/help/matlab/matlab_prog/what-are-system-objects.html">system object interfaces</a>, which are unique for each component or platform. The hardware interfacing system objects provide a since class to both configure a given platform and move data back and forth from the device.</p>
-<p>Command and control of hardware from MATLAB is accomplished by leveraging the <a href="https://wiki.analog.com/software/linux/docs/iio/iio">IIO drivers</a> built into the target platform's kernel and <a href="https://wiki.analog.com/resources/tools-software/linux-software/libiio">libiio</a> which provides remote backends to control drivers across different backends. Backends can be Ethernet, serial, or USB based. Below is a diagram of the different components in the stack for an FMComms based systems, but will be nearly identical for all transceiver based systems.</p>
-<p><img alt="MATLAB libiio Stack" src="../assets/MATLAB_libiio_Stack.png"/></p>
-<p>Since libiio is cross-platform it can be used from Windows, Linux, or macOS based systems. It is also a lower level library independent of MATLAB, so when moving toward production or untethered systems similar APIs that are used in MATLAB can be used in C,C++,Python, or other languages.</p>
-<h2 id="connecting-and-configuration">Connecting and Configuration</h2>
-<p>Connecting to hardware is done by setting the <strong>uri</strong> property of the system object interface. The <strong>uri</strong> for libiio always has the convention "<em>&lt; backend &gt;:&lt; address &gt;</em>", where <em>backend</em> can be ip,usb, or serial. <em>address</em> will be specific to the backend. This is documented in the <a href="https://analogdevicesinc.github.io/libiio/master/libiio/group__Context.html#gafdcee40508700fa395370b6c636e16fe">libiio API</a>.</p>
-<p>Below is a basic example of setting up an AD9361 receiver using an Ethernet/IP backend where the address of the target system is 192.168.2.1:
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
-<span class="normal"><a href="#__codelineno-0-2">2</a></span>
-<span class="normal"><a href="#__codelineno-0-3">3</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a>rx = adi.AD9361.Rx;
-<a id="__codelineno-0-2" name="__codelineno-0-2"></a>rx.uri = 'ip:192.168.2.1';
-<a id="__codelineno-0-3" name="__codelineno-0-3"></a>data = rx();
+<h1 id="hdl-workflow">HDL Workflow</h1>
+<p>!!! warning This content is meant for developers or advanced users and is not meant for general consumption.</p>
+<p>This page discusses the HDL targeting support from the perspective of the HDL source repo and HDL-Coder itself. It is not necessary for users to understand these details but for those managing the toolbox or developers extending support to new platforms this information is valuable.</p>
+<p>This page assumes a basic understanding of MathWork's <a href="https://www.mathworks.com/help/hdlcoder/ug/overview-of-workflows-in-hdl-workflow-advisor.html">HDL Workflow Advisor (HWA)</a> and its different steps for creating IP, creating a HDL project, and generating a bitstream. </p>
+<h2 id="hdl-repo-preparation">HDL Repo Preparation</h2>
+<p>When the toolbox is built it will clone a specific branch of the <a href="github.com/analogdevicesinc/hdl">ADI HDL repo</a> and apply certain changes to support the <a href="https://www.mathworks.com/discovery/ip-core-generation.html">IP-Core Generation HDL-Coder</a> workflow. However, with the current flow there are minimal changes required which makes moving between release simpler. This is currently done by simply replacing certain TCL scripts within the HDL repo. </p>
+<p>Creation of the toolbox, cloning of the HDL source, and applying the necessary update is driven through a Makefile in the <strong>CI/scripts</strong> folder. The toolbox is built in source form with the <strong>build</strong> as follows:</p>
+<p><div class="highlight"><pre><span></span><code><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>make -C CI/scripts build
 </code></pre></div>
-</td></tr></table>
-With the code above, the hardware is not contacted until the operator or step method is called on line 3. Therefore, any properties that are set or defined before line 3 are not applied or updated on the hardware until after line 3. However, after line 3 has completed the object will become locked and certain configuration changes cannot be applied after this point. These will primarily sample rates and buffer sizes.</p>
-<p>The state of the object follows the flow of the diagram below triggered by line line 3 above.</p>
+After the above command completes the HDL source will be in place with necessary changes.</p>
+<p>The changes primarily required of the HDL source are interceptions of the build functions (procs) to skip synthesis when building a project. This is done by inserting environmental variable checks into the <a href="https://github.com/analogdevicesinc/TransceiverToolbox/blob/master/CI/scripts/adi_project_xilinx.tcl#L138">adi_project_xilinx.tcl</a> script. At build time these environmental variables are set and will prevent synthesis. This way an HDL project can be built, then handed off to HDL-Coder for IP insertion and eventual synthesis.</p>
+<p>HDL-Coder is limited to only interact with Vivado or Quartus. Therefore, it cannot leverage the makefiles as traditionally used to build HDL projects in the HDL repo. HDL-Coder and the authored scripts in the toolbox use the <a href="https://wiki.analog.com/resources/fpga/docs/build#xilinx_auto_tcl_build">TCL flow</a> normally recommended for just Windows users. This is used on all platforms (Windows and Linux) to support HDL code-generation and integration with ADI toolboxes.</p>
+<h2 id="hdl-coder-ip-core-generation-flow">HDL-Coder IP Core Generation Flow</h2>
+<p>The orchestration of Vivado and calling of specific TCL scripts is managed through MathWork's <a href="https://www.mathworks.com/help/hdlcoder/ug/overview-of-workflows-in-hdl-workflow-advisor.html">HWA</a>. HWA generates HDL (Verilog is currently the only supported language) for specific Simulink blocks, calls a number of TCL scripts maintained by ADI to build a project and make room for IP, then inserts that IP and calls synthesis. This will be discussed from HWA and the generated scripts it creates. This is detailed from the scripting perspective first in the figure below:</p>
 <p><div class="mermaid">graph LR
-  Z[Operator Called] --&gt;A;
-  A[Connect To Board] --&gt; B[Update Properties];
-  B --&gt; C[Initialize Buffers];
-  C --&gt; D[Send or Receive Data];
-  D --&gt; E[Lock Object];
+A[1. Generate Verilog<br/>From Simulink IP]--&gt;B[2. Optional: Pre-BuildProject Script];
+subgraph SS[vivado_create_prj.tcl]
+subgraph vivado_custom_block_design.tcl
+B --&gt; C[3. Build StandardProject<i>system_project.tcl</i>];
+C --&gt; D[4. Prune PreprocessorScript<i>matlab_processors.tcl</i>];
+D --&gt; E[5. Optional: Post-BuildProject Script];
+end
+end
+E --&gt; F[6. Insert and ConnectGenerate IP<i>vivado_insert_ip.tcl</i>];
+
+style B fill:#f9f,stroke:#333,stroke-width:4px
+style E fill:#f9f,stroke:#333,stroke-width:4px
+style C fill:#FF0,stroke:#333,stroke-width:4px,stroke-dasharray: 5 5
+style D fill:#FF0,stroke:#333,stroke-width:4px,stroke-dasharray: 5 5
 </div>
-Once the object becomes locked it must be released if the sample rate or buffers need to be modified. This will disconnect from the hardware:
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a>rx.release(); % Release object
-</code></pre></div></p>
-<p>To provide a complete example we can do more advanced configuration like so to demonstrate property changes:
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
-<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
-<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
-<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
-<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
-<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
-<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
-<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
-<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-2-10">10</a></span>
-<span class="normal"><a href="#__codelineno-2-11">11</a></span>
-<span class="normal"><a href="#__codelineno-2-12">12</a></span>
-<span class="normal"><a href="#__codelineno-2-13">13</a></span>
-<span class="normal"><a href="#__codelineno-2-14">14</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a>rx = adi.AD9361.Rx;
-<a id="__codelineno-2-2" name="__codelineno-2-2"></a>rx.uri = 'ip:192.168.2.1';
-<a id="__codelineno-2-3" name="__codelineno-2-3"></a>rx.SamplesPerFrame = 1024;
-<a id="__codelineno-2-4" name="__codelineno-2-4"></a>rx.CenterFrequency = 1e9;
-<a id="__codelineno-2-5" name="__codelineno-2-5"></a>dataLO1 = rx();
-<a id="__codelineno-2-6" name="__codelineno-2-6"></a>
-<a id="__codelineno-2-7" name="__codelineno-2-7"></a>% Update tunable property
-<a id="__codelineno-2-8" name="__codelineno-2-8"></a>rx.CenterFrequency = 2e9;
-<a id="__codelineno-2-9" name="__codelineno-2-9"></a>dataLO2 = rx();
-<a id="__codelineno-2-10" name="__codelineno-2-10"></a>
-<a id="__codelineno-2-11" name="__codelineno-2-11"></a>% Update non-tunable property
-<a id="__codelineno-2-12" name="__codelineno-2-12"></a>rx.release();
-<a id="__codelineno-2-13" name="__codelineno-2-13"></a>rx.SamplesPerFrame = 4096;
-<a id="__codelineno-2-14" name="__codelineno-2-14"></a>dataLargerBuffer = rx();
-</code></pre></div>
-</td></tr></table></p>
-<h2 id="receiving-data">Receiving Data</h2>
-<p>To receive or capture data from a given device first you must instantiate that device's interface class. For example on a AD9361 based system, this would be as follows:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a>rx = adi.AD9361.Rx;
-</code></pre></div>
-<p>Once instantiated you can configure the number of samples to be captured by setting the property <strong>SamplesPerFrame.</strong></p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a>rx.SamplesPerFrame = 1e6;
-</code></pre></div>
-<p><strong>SamplesPerFrame</strong> is the number of samples per channel which will be captured. If your device produces complex data (I and Q) this is the number of complex samples. There will be a limit to the maximum samples which can be collected. By default this is set to 2^20, but it may be possible to make it larger depending on hardware. Once the operator methods are used for a give instantiation, the object will become locked and the <strong>SamplesPerFrame</strong> property cannot be changed. This is known as a non-tunable property.</p>
-<p>To actually collect the samples or perform the capture, the operator of the system object should be used or the <strong>step</strong> method as so:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a>data = rx(); % Operator method
-<a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a>data = rx.step(); % Step method
-</code></pre></div>
-<p>Both method calls are equivalent, and the produced matrix <strong>data</strong> will be of size [SamplesPerFrame x length(EnabledChannels)]. <strong>EnabledChannels</strong> determines the channels which data will be collected from. <strong>EnabledChannels</strong> is a [1xN] vector with indexes starting at 1 of the desired channels. If the device transmits or receive complex data, these indexes are for complex channel pairs. For example, the AD9361 has 2 receivers (4 ADC) and setting <strong>EnabledChannels</strong> as so will capture data from all 4 converters:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a>rx.EnabledChannels = [1,2];
-</code></pre></div>
-<p>You cannot enable individual converters on complex data based devices, and the <strong>EnabledChannels</strong> property is always sorted so the channel mappings cannot be changed within the produced data.</p>
-<h2 id="sending-data">Sending Data</h2>
-<p>Transmitting data is very similar to receiving it, a transmitter class needs to be instantiated to send data first. For a ADRV9009 based device this would be as follows:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a>tx = adi.ADRV9009.Tx;
-</code></pre></div>
-<p>Unlike the receivers, transmit objects automatically create their internal buffers based on the data passed to them during their operator or step methods. These methods can be called as follows with some data:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a>tx_data = complex(2^15.*randn(1024,1),2^15.*randn(1024,1));
-<a href="#__codelineno-8-2" id="__codelineno-8-2" name="__codelineno-8-2"></a>tx(tx_data); % Operator method
-<a href="#__codelineno-8-3" id="__codelineno-8-3" name="__codelineno-8-3"></a>tx.step(tx_data); % Step method
-</code></pre></div>
-<p>However, once the step or operator method is called the object becomes locked and future passed data vectors must be the same length. As with the receive classes, the size of the passed data must be [SomeFixedSize x EnabledChannels]. <strong>EnabledChannels</strong> has the same definition as the receive side, except applied to DACs.</p>
-<p>Unlike the receiver, transmit objects have the ability to utilize <a href="https://analogdevicesinc.github.io/libiio/group__Buffer.html#ga6caadf077c112ae55a64276aa24ef832">cyclic buffers</a> which will continuously transmit a provided vector without gaps forever. To utilize cyclic buffers set the <strong>EnableCyclicBuffers</strong> property then pass the operator data as follows:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a>tx = adi.ADRV9009.Tx;
-<a href="#__codelineno-9-2" id="__codelineno-9-2" name="__codelineno-9-2"></a>tx.EnableCyclicBuffers = true;
-<a href="#__codelineno-9-3" id="__codelineno-9-3" name="__codelineno-9-3"></a>tx_data = complex(2^15.*randn(1024,1),2^15.*randn(1024,1));
-<a href="#__codelineno-9-4" id="__codelineno-9-4" name="__codelineno-9-4"></a>tx(tx_data); % Data will repeat forever
-</code></pre></div>
-<p>One a vector is passed to the object with <strong>EnableCyclicBuffers</strong> set to <strong>true</strong>, the object will not accept future buffers unless first release or cleared.</p>
-<p>By default the system objects will utilize <strong>DMA</strong> as the source of data for the DACs, which will use data past from the operator. This can be set manually through the <strong>DataSource</strong> properties as follows:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a>rx.DataSource = 'DMA';
-</code></pre></div>
-<h2 id="dds">DDS</h2>
-<p>Instead of providing data for transmission, it is possible to utilize DDSs inside the FPGA to send tones to individual DACs. For specific boards there are two DDS per DAC, which can be used to create complex (one-sided) tones. These DDSs can be used by first setting the <strong>DataSource</strong> property:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-11-1" id="__codelineno-11-1" name="__codelineno-11-1"></a>rx.DataSource = 'DDS';
-</code></pre></div>
-<p>Then the scale, frequency, and phase of each DDS can be controlled through three attributes as follows:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-12-1" id="__codelineno-12-1" name="__codelineno-12-1"></a>rx.DDSFrequencies = [1e3,1e3,1e3,1e3;1e4,1e4,1e4,1e4]; % Must be range [0 FS/2]
-<a href="#__codelineno-12-2" id="__codelineno-12-2" name="__codelineno-12-2"></a>rx.DDSScales = [1,1,1,1;0,0,0,0]; % Must be range [0,1]
-<a href="#__codelineno-12-3" id="__codelineno-12-3" name="__codelineno-12-3"></a>rx.DDSPhases = [0,90e3,0,90e3,0,0;0,0,0,0]; % Each in millidegrees [0,90000]
-</code></pre></div>
-<p>Each of the above properties must be of size [2x(NumberOfPartDACs)], where each row is the first DDS of a given DAC (column) and the second row is the second DDS of a given DAC (column).</p>
+<center>Figure 1: Details IP-Core Generation flow with Toolbox</center></p>
+<p>At a high-level there are six main steps, two of which are optional. From the far left stage "Generate Verilog From Simulink IP" occurs in Stage 3 "HDL Code Generation" within HWA as outlined in red below. This will create Verilog within the defined project folder and then be copied into the full HDL project later on.</p>
+<figure>
+<p><img alt="" src="../HWA_verilog_gen.png" width="80%">
+</img></p>
+<figcaption>Figure 2: HDL Workflow Advisor IP verilog generation.</figcaption>
+</figure>
+<p>Within the largest central block of the flowchart labeled <strong>vivado_create_prj.tcl</strong> are all the core steps related the HWA Step 4.1, where the reference HDL project folder is built and necessary cores and nets removed to make room for IP from Simulink generated in HWA Step 3. This stage is highlighed in the figure below. The purple boxes are optional stages that are used in certain customized examples when additional work is required to prepare a reference design. The <a href="https://github.com/analogdevicesinc/TransceiverToolbox/tree/master/trx_examples/targeting/frequency-hopping">Frequency Hopping example</a> leverages these stages. Once the project is prepared the IP is inserted and bitstream generated, which occurs through HWA Step 4.3.</p>
+<figure>
+<p><img alt="" src="../HWA_project_gen.png" width="80%">
+</img></p>
+<figcaption>Figure 3: HDL Workflow Advisor project generation step.</figcaption>
+</figure>
+<h3 id="vivado-project-perspective">Vivado Project Perspective</h3>
+<p>Based on the flow in Figure 1, there are a three main states the HDL reference design enters from a high level. These states will be discussed more from the Vivado project perspective, specifically the data path of an FMComms2 project. Other HDL projects will be similar.</p>
+<p>The first state is just the initial creation of the standard unmodified block design. Looking at Figure 4, the three IPs show the dataflow from the interface core (axi_ad9361), through the ADC FIFO, and finally into the pack core. In orange are the data buses and valid signal highlighted. These are important since the generated IP needs to be inserted where these nets are connected. Therefore, in the second state of the design these nets are removed to make room from the new IP.</p>
+<figure>
+<p><img alt="" src="../stock_reference_design.png" width="80%"/>
+</p>
+<figcaption>Figure 4: RX path in unmodified standard reference design.</figcaption>
+</figure>
+<p>Once the IP is inserted into the project by HDL-Coder it is connected to the FIFO and pack cores where the nets in Figure 4 were highlighted. The new inserted and connected IP can be see in Figure 5.</p>
+<figure>
+<p><img alt="" src="../reference_design_with_IP.png" width="80%"/>
+</p>
+<figcaption>Figure 5: RX path with inserted IP from HDL-Coder.</figcaption>
+</figure>
+<p>The connecting of the IPs and insertion are entirely managed by HDL-Coder and through the <a href="https://github.com/analogdevicesinc/TransceiverToolbox/blob/master/hdl/vendor/AnalogDevices/+AnalogDevices/add_io_ports.m">add_io_ports</a> function and supporting <a href="https://github.com/analogdevicesinc/TransceiverToolbox/blob/master/hdl/vendor/AnalogDevices/+AnalogDevices/ports.json">JSON port definition file</a>.</p>
+<h3 id="generated-tcl-scripts">Generated TCL Scripts</h3>
+<p>The following scripts outlined in the figure above have certain purposes:</p>
+<ul>
+<li><strong>vivado_create_prj.tcl</strong>: This is the first TCL scripted called in Stage 4 of HWA and is responsible for setting up a standard reference design and trimming nets and IPs to make room for IP from Simulink</li>
+<li><strong>vivado_custom_block_design.tcl</strong>: This is a carbon copy of the <strong>system_project_rxtx.tcl</strong> script and is called by <strong>vivado_create_prj.tcl</strong>. This script will call <a href="https://wiki.analog.com/resources/fpga/docs/build#xilinx_auto_tcl_build">adi_make.tcl</a>, the correct system_project.tcl file, and finally matlab_processor.tcl. It will optionally call the pre/post processor TCL scripts.</li>
+<li><strong>vivado_insert_ip.tcl</strong>: This script is fully generated by MATLAB based on the <a href="https://github.com/analogdevicesinc/TransceiverToolbox/blob/master/hdl/vendor/AnalogDevices/+AnalogDevices/add_io.m">add_io</a> definitions in MATLAB to insert the custom IP into the prepared reference design.</li>
+</ul>
 </article>
 </div>
 </div>
 </main>
 <footer class="md-footer">
 <nav aria-label="Footer" class="md-footer__inner md-grid">
-<a aria-label="Previous: Installation" class="md-footer__link md-footer__link--prev" href="../install/" rel="prev">
+<a aria-label="Previous: adi.ADRV9009ZU11EG.Rx" class="md-footer__link md-footer__link--prev" href="../sysobjects/adi.ADRV9009ZU11EG.Rx/" rel="prev">
 <div class="md-footer__button md-icon">
 <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg>
 </div>
@@ -586,21 +556,8 @@ Once the object becomes locked it must be released if the sample rate or buffers
 <span class="md-footer__direction">
                 Previous
               </span>
-              Installation
+              adi.ADRV9009ZU11EG.Rx
             </div>
-</div>
-</a>
-<a aria-label="Next: HDL Targeting" class="md-footer__link md-footer__link--next" href="../targeting/" rel="next">
-<div class="md-footer__title">
-<div class="md-ellipsis">
-<span class="md-footer__direction">
-                Next
-              </span>
-              HDL Targeting
-            </div>
-</div>
-<div class="md-footer__button md-icon">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"></path></svg>
 </div>
 </a>
 </nav>
