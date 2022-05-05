@@ -44,12 +44,24 @@ function results = runLTETests(BoardName, LOStepSize, server)
     params = Parameter.fromData('AD936xDevice', device, 'LOFreqs', LOFreqs);
     suite = TestSuite.fromClass(?AD936x_LTETests, 'ExternalParameters', params);
 
-    xmlFile = 'LTETestResults.xml';
+    xmlFile = BoardName+"_LTETestResults.xml";
     runner = TestRunner.withTextOutput('LoggingLevel',4);
     runner.addPlugin(details_recording_plugin);
     plugin = XMLPlugin.producingJUnitFormat(xmlFile);
     runner.addPlugin(plugin);
     results = runner.run(suite);
+
+    t = table(results);
+    disp(t);
+    disp(repmat('#',1,80));
+    fid = fopen('failures.txt','a+');
+    for test = results
+        if test.Failed
+            disp(test.Name);
+            fprintf(fid,string(test.Name)+'\n');
+        end
+    end
+    fclose(fid);
     try
         if nargin == 3
             telemetry.ingest.log_lte_test(results,datestr(now,'yyyy-mm-ddTHH:MM:SS.FFF'),server,0);
