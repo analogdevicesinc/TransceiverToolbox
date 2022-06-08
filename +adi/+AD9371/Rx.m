@@ -86,11 +86,11 @@ classdef Rx < adi.AD9371.Base & adi.common.Rx
         % Check GainChannel0
         function set.GainChannel0(obj, value)
             validateattributes( value, { 'double','single' }, ...
-                { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', -4,'<=', 71}, ...
+                { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', 0,'<=', 30}, ...
                 '', 'Gain');
             assert(mod(value,1/4)==0, 'Gain must be a multiple of 0.25');
             obj.GainChannel0 = value;
-            if obj.ConnectedToDevice && strcmp(obj.GainControlModeChannel0,'manual')
+            if obj.ConnectedToDevice && strcmp(obj.GainControlMode,'manual')
                 id = 'voltage0';
                 obj.setAttributeDouble(id,'hardwaregain',value,false);
             end
@@ -98,11 +98,11 @@ classdef Rx < adi.AD9371.Base & adi.common.Rx
         % Check GainChannel1
         function set.GainChannel1(obj, value)
             validateattributes( value, { 'double','single' }, ...
-                { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', -4,'<=', 71}, ...
+                { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', 0,'<=', 30}, ...
                 '', 'Gain');
             assert(mod(value,1/4)==0, 'Gain must be a multiple of 0.25');
             obj.GainChannel1 = value;
-            if obj.ConnectedToDevice && strcmp(obj.GainControlModeChannel1,'manual')
+            if obj.ConnectedToDevice && strcmp(obj.GainControlMode,'manual')
                 id = 'voltage1';
                 obj.setAttributeDouble(id,'hardwaregain',value,false);
             end
