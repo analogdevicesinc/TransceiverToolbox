@@ -62,13 +62,9 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
         %   used for external LNA or DSA control.
         %
         %   Gain control is specified as one of the following:    
-        %   'AutomaticGainCorrection' - Automatically adjust interface gain
-        %   'ManualGainCorrection' - Manually adjust interface gain
-        %   'AutomaticGainCompensation' - Automatically adjust interface
-        %   gain and external gain element
-        %   'ManualGainCompensation' - Manually adjust interface
-        %   gain and external gain element
-        DigitalGainControlModeChannel0 = 'AutomaticGainCorrection';
+        %   'automatic' - Automatically adjust interface gain
+        %   'spi' - Manually adjust interface gain
+        DigitalGainControlModeChannel0 = 'automatic';
         %DigitalGainControlModeChannel1 Digital Gain Control Mode Channel 1
         %   The digital gain control has two major purposes, one for gain
         %   correction which is to correct the small step size inaccuracy
@@ -91,13 +87,9 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
         %   used for external LNA or DSA control.
         %
         %   Gain control is specified as one of the following:    
-        %   'AutomaticGainCorrection' - Automatically adjust interface gain
-        %   'ManualGainCorrection' - Manually adjust interface gain
-        %   'AutomaticGainCompensation' - Automatically adjust interface
-        %   gain and external gain element
-        %   'ManualGainCompensation' - Manually adjust interface
-        %   gain and external gain element
-        DigitalGainControlModeChannel1 = 'AutomaticGainCorrection';
+        %   'automatic' - Automatically adjust interface gain
+        %   'spi' - Manually adjust interface gain
+        DigitalGainControlModeChannel1 = 'automatic';
         
         %AttenuationChannel0 Attenuation Channel 0
         %   Must be greater than 0
@@ -224,13 +216,11 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
             'spi','pin','automatic'});
         GainControllerSourceChannel1Set = matlab.system.StringSet({ ...
             'spi','pin','automatic'});
-        
+
         DigitalGainControlModeChannel0Set = matlab.system.StringSet({ ...
-            'AutomaticGainCorrection','ManualGainCorrection',...
-            'AutomaticGainCompensation','ManualGainCompensation'});
+            'automatic','spi'});
         DigitalGainControlModeChannel1Set = matlab.system.StringSet({ ...
-            'AutomaticGainCorrection','ManualGainCorrection',...
-            'AutomaticGainCompensation','ManualGainCompensation'});
+            'automatic','spi'});
         
         InterfaceGainChannel0Set = matlab.system.StringSet({...
             '18dB', '12dB', '6dB', '0dB', '-6dB', '-12dB', '-18dB',...
@@ -331,8 +321,7 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
             obj.DigitalGainControlModeChannel0 = value;
             if obj.ConnectedToDevice
                 id = 'voltage0';
-                value = obj.AGCModeLookup(value);
-                obj.setAttributeRAW(id,'digital_gain_control_mode',value,false);
+                obj.setAttributeRAW(id,'digital_gain_control_mode',obj.DigitalGainControlModeChannel0,false);
             end
         end
         % Check DigitalGainControlModeChannel1
@@ -340,8 +329,7 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
             obj.DigitalGainControlModeChannel1 = value;
             if obj.ConnectedToDevice
                 id = 'voltage1';
-                value = obj.AGCModeLookup(value);
-                obj.setAttributeRAW(id,'digital_gain_control_mode',value,false);
+                obj.setAttributeRAW(id,'digital_gain_control_mode',obj.DigitalGainControlModeChannel1,false);
             end
         end
         
@@ -367,7 +355,7 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
             obj.InterfaceGainChannel0 = value;
             if obj.ConnectedToDevice
                 id = 'voltage0';
-                if strcmpi(obj.DigitalGainControlModeChannel0,'ManualGainCorrection') &&...
+                if strcmpi(obj.DigitalGainControlModeChannel0,'spi') &&...
                         strcmpi(obj.ENSMModeChannel0,'rf_enabled')
                     obj.setAttributeRAW(id,'interface_gain',value,false);
                 end
@@ -378,7 +366,7 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
             obj.InterfaceGainChannel1 = value;
             if obj.ConnectedToDevice
                 id = 'voltage1';
-                if strcmpi(obj.DigitalGainControlModeChannel1,'ManualGainCorrection') &&...
+                if strcmpi(obj.DigitalGainControlModeChannel1,'spi') &&...
                         strcmpi(obj.ENSMModeChannel1,'rf_enabled')
                     obj.setAttributeRAW(id,'interface_gain',value,false);
                 end
@@ -547,15 +535,15 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
             
             obj.setAttributeRAW('voltage0','gain_control_mode',obj.GainControllerSourceChannel0,false);
             obj.setAttributeRAW('voltage1','gain_control_mode',obj.GainControllerSourceChannel1,false);
-            
-            obj.setAttributeRAW('voltage0','digital_gain_control_mode',obj.AGCModeLookup(obj.DigitalGainControlModeChannel0),false);
-            obj.setAttributeRAW('voltage1','digital_gain_control_mode',obj.AGCModeLookup(obj.DigitalGainControlModeChannel1),false);
 
-            if strcmpi(obj.DigitalGainControlModeChannel0,'ManualGainCorrection') && strcmpi(obj.ENSMModeChannel0,'rf_enabled')
+            obj.setAttributeRAW('voltage0','digital_gain_control_mode',obj.DigitalGainControlModeChannel0,false);
+            obj.setAttributeRAW('voltage1','digital_gain_control_mode',obj.DigitalGainControlModeChannel1,false);
+
+            if strcmpi(obj.DigitalGainControlModeChannel0,'spi') && strcmpi(obj.ENSMModeChannel0,'rf_enabled')
                 obj.setAttributeRAW('voltage0','interface_gain',obj.InterfaceGainChannel0,false);
             end
             
-            if strcmpi(obj.DigitalGainControlModeChannel1,'ManualGainCorrection') && strcmpi(obj.ENSMModeChannel1,'rf_enabled')
+            if strcmpi(obj.DigitalGainControlModeChannel1,'spi') && strcmpi(obj.ENSMModeChannel1,'rf_enabled')
                 obj.setAttributeRAW('voltage1','interface_gain',obj.InterfaceGainChannel1,false);
             end            
             
@@ -639,25 +627,6 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
             
         end
         
-    end
-    
-    methods (Static)
-        
-        function outname = AGCModeLookup(inname)
-            switch inname
-                case 'AutomaticGainCorrection'
-                    outname = 'Gain_Correction_automatic_control';
-                case 'ManualGainCorrection'
-                    outname = 'Gain_Correction_manual_control';
-                case 'AutomaticGainCompensation'
-                    outname = 'Gain_Compensation_manual_control';
-                case 'ManualGainCompensation'
-                    outname = 'Gain_Correction_manual_control';                    
-                otherwise
-                    error('Unknown gain mode');
-            end
-        end
- 
     end
     
 end

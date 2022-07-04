@@ -7,9 +7,7 @@ classdef ADRV9002Tests < HardwareTests
     
     properties (TestParameter)
         GainControlMode = {'spi','pin','automatic'};
-        DigitalGainControlMode = {...
-            'AutomaticGainCorrection','ManualGainCorrection',...
-            'AutomaticGainCompensation', 'ManualGainCompensation'};
+        DigitalGainControlMode = {'automatic','spi'};
         ENSMPortControl = {'pin','spi'};
         InterfaceGain = {'18dB', '12dB', '6dB', '0dB', '-6dB', '-12dB', '-18dB',...
             '-24dB', '-30dB','-36dB'};
