@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <toc>
    <tocitem target="index.html">Analog Devices, Inc Transceiver Toolbox
-      <tocitem target="examples/index.html">Examples</tocitem>
-      <tocitem target="install/index.html">Install</tocitem>
-      <tocitem target="dev_hdl_workflow/index.html">Dev_hdl_workflow</tocitem>
-      <tocitem target="index/index.html">Index</tocitem>
       <tocitem target="targeting/index.html">Targeting</tocitem>
+      <tocitem target="examples/index.html">Examples</tocitem>
+      <tocitem target="index/index.html">Index</tocitem>
+      <tocitem target="dev_hdl_workflow/index.html">Dev_hdl_workflow</tocitem>
+      <tocitem target="install/index.html">Install</tocitem>
       <tocitem target="streaming/index.html">Streaming</tocitem>
       <tocitem target="objects/index.html">Hardware Interface APIs
           <tocitem target="sysobjects/adi.AD9361.Tx/index.html">adi.AD9361.Tx</tocitem>
