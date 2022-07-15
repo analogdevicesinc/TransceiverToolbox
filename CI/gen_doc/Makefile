@@ -41,6 +41,8 @@ GITTAG := $(shell git describe --tags HEAD)
 
 .ONESHELL:
 doc_ml:
+	mkdir -p ../../doc ; \
+	rm -rf ../../doc ; \
 	cd docs ; \
 	MATLAB=ON python3 gen_all_doc.py ; \
 	cd .. ; \
@@ -48,6 +50,8 @@ doc_ml:
 	mv doc ../../
 
 doc:
+	mkdir -p ../../doc ; \
+	rm -rf ../../doc ; \
 	cd docs ; \
 	python3 gen_all_doc.py ; \
 	cd .. ; \
