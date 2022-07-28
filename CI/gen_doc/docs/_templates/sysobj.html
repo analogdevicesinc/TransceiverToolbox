@@ -54,10 +54,10 @@ For more information on changing property values, see <a href="https://www.mathw
 %% Configure device
 tx = {{ obj.name }};
 tx.uri = 'ip:analog.local';
-{% if obj.name == "adi.ADRV9002.Tx" %} 
-tx.CenterFrequency = 1e9;
-{% else %}
+{% if obj.name == "adi.ADRV9002.Tx" %}
 tx.CenterFrequencyChannel0 = 1e9;
+{% else %}
+tx.CenterFrequency = 1e9;
 {% endif %}
 tx.DataSource = 'DMA';
 tx.EnableCyclicBuffers = true;
@@ -75,9 +75,9 @@ tx(y);
 %% Rx set up
 rx = {{ obj.name }}('uri','ip:analog.local');
 {% if obj.name == "adi.ADRV9002.Rx" %} 
-rx.CenterFrequency = 1e9;
-{% else %}
 rx.CenterFrequencyChannel0 = 1e9;
+{% else %}
+rx.CenterFrequency = 1e9;
 {% endif %}
 rx.EnabledChannels = 1;
 %% Run
