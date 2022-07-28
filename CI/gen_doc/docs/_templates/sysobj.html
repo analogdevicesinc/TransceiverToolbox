@@ -52,9 +52,13 @@ For more information on changing property values, see <a href="https://www.mathw
 ```
 {% if obj.type == "Tx" %}
 %% Configure device
-tx = adi.{{ obj.name }};
+tx = {{ obj.name }};
 tx.uri = 'ip:analog.local';
+{% if obj.name == "adi.ADRV9002.Tx" %}
+tx.CenterFrequencyChannel0 = 1e9;
+{% else %}
 tx.CenterFrequency = 1e9;
+{% endif %}
 tx.DataSource = 'DMA';
 tx.EnableCyclicBuffers = true;
 tx.EnabledChannels = 1;
@@ -69,8 +73,12 @@ y = swv1();
 tx(y);
 {% else %}
 %% Rx set up
-rx = adi.{{ obj.name }}.Rx('uri','ip:analog.local');
+rx = {{ obj.name }}('uri','ip:analog.local');
+{% if obj.name == "adi.ADRV9002.Rx" %} 
+rx.CenterFrequencyChannel0 = 1e9;
+{% else %}
 rx.CenterFrequency = 1e9;
+{% endif %}
 rx.EnabledChannels = 1;
 %% Run
 for k=1:10
