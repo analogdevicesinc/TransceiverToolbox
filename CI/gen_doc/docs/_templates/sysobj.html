@@ -53,7 +53,7 @@ For more information on changing property values, see <a href="https://www.mathw
 {% if obj.type == "Tx" %}
 %% Configure device
 tx = adi.{{ obj.name }};
-tx.uri = "ip:analog.local";
+tx.uri = 'ip:analog.local';
 tx.CenterFrequency = 1e9;
 tx.DataSource = 'DMA';
 tx.EnableCyclicBuffers = true;
