@@ -266,7 +266,8 @@ classdef (Abstract, Hidden = true) Base < ...
             assert(~isempty(obj.CustomProfileFileName),'A custom profile file must be defined for custom profiles');
             
             
-            obj.lowerDDSs(strcmpi(obj.channel_names(3),'voltage1_i'));
+            obj.lowerDDSs(strcmpi(obj.channel_names(3),'voltage1_i') || ...
+                strcmpi(obj.channel_names(3),'voltage2'));
             
             % Wrap update in read writes since once profiles are loaded
             % some attributes get lost
