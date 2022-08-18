@@ -337,20 +337,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../fmcomms2/" class="md-nav__link">
-        fmcomms2
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../adrv9361z7035/" class="md-nav__link">
         adrv9361z7035
       </a>
@@ -441,6 +427,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../fmcomms2/" class="md-nav__link">
+        fmcomms2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fmcomms5/" class="md-nav__link">
+        fmcomms5
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../adrv9371/" class="md-nav__link">
         adrv9371
       </a>
@@ -471,6 +485,20 @@
     <li class="md-nav__item">
       <a href="../adrv9009/" class="md-nav__link">
         adrv9009
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fmcomms8/" class="md-nav__link">
+        fmcomms8
       </a>
     </li>
   
@@ -1077,11 +1105,19 @@
 <p>This page outlines the HDL reference design integration for the <em>pluto</em> reference design for the Analog Devices
 AD9361 component. The IP-Core Generation follow is available on the based on the following base HDL reference design for the following board and design variants: </p>
 <ul>
-<li><a href="https://wiki.analog.com/resources/eval/user-guides/ad-fmcomms2-ebz/reference_hdl">Base reference design documentation</a></li>
-<li>Supported FPGA carriers:</li>
+<li><a href="">Base reference design documentation</a></li>
+<li>Supported FPGA carriers:<ul>
+<li>P</li>
+<li>L</li>
+<li>U</li>
+<li>T</li>
+<li>O</li>
+</ul>
+</li>
 <li>Supported design variants:<ul>
 <li>RX</li>
 <li>TX</li>
+<li>RX &amp; TX</li>
 </ul>
 </li>
 </ul>
@@ -1395,7 +1431,7 @@ AD9361 component. The IP-Core Generation follow is available on the based on the
 <td>RX</td>
 </tr>
 <tr>
-<td>VALID-IN</td>
+<td>VALID-OUT</td>
 <td>IP Valid Rx Data IN</td>
 <td>axi_ad9361/adc_valid_i0</td>
 <td>1</td>
@@ -1416,21 +1452,21 @@ AD9361 component. The IP-Core Generation follow is available on the based on the
 <td>RX</td>
 </tr>
 <tr>
-<td>DATA-IN</td>
-<td>AD9361 ADC Data Q0</td>
+<td>DATA-OUT</td>
+<td>AD9361 ADC Data I0</td>
 <td>axi_ad9361/adc_data_i0</td>
 <td>16</td>
 <td>RX</td>
 </tr>
 <tr>
-<td>DATA-IN</td>
+<td>DATA-OUT</td>
 <td>AD9361 ADC Data Q0</td>
 <td>axi_ad9361/adc_data_q0</td>
 <td>16</td>
 <td>RX</td>
 </tr>
 <tr>
-<td>VALID-IN</td>
+<td>VALID-OUT</td>
 <td>IP Valid Tx Data IN</td>
 <td>tx_upack/fifo_rd_valid</td>
 <td>1</td>
@@ -1445,7 +1481,7 @@ AD9361 component. The IP-Core Generation follow is available on the based on the
 </tr>
 <tr>
 <td>DATA-OUT</td>
-<td>AD9361 DAC Data Q0</td>
+<td>AD9361 DAC Data I0</td>
 <td>axi_ad9361/dac_data_i0</td>
 <td>16</td>
 <td>TX</td>
@@ -1458,16 +1494,16 @@ AD9361 component. The IP-Core Generation follow is available on the based on the
 <td>TX</td>
 </tr>
 <tr>
-<td>DATA-IN</td>
+<td>DATA-OUT</td>
 <td>IP Data 0 IN</td>
-<td>util_ad9361_dac_upack/fifo_rd_data_0</td>
+<td>tx_upack/fifo_rd_data_0</td>
 <td>16</td>
 <td>TX</td>
 </tr>
 <tr>
-<td>DATA-IN</td>
+<td>DATA-OUT</td>
 <td>IP Data 1 IN</td>
-<td>util_ad9361_dac_upack/fifo_rd_data_1</td>
+<td>tx_upack/fifo_rd_data_1</td>
 <td>16</td>
 <td>TX</td>
 </tr>
@@ -1502,13 +1538,13 @@ AD9361 component. The IP-Core Generation follow is available on the based on the
       
       
         
-        <a href="../adrv9371/" class="md-footer__link md-footer__link--next" aria-label="Next: adrv9371" rel="next">
+        <a href="../fmcomms2/" class="md-footer__link md-footer__link--next" aria-label="Next: fmcomms2" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              adrv9371
+              fmcomms2
             </div>
           </div>
           <div class="md-footer__button md-icon">

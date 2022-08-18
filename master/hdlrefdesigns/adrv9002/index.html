@@ -337,20 +337,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../fmcomms2/" class="md-nav__link">
-        fmcomms2
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../adrv9361z7035/" class="md-nav__link">
         adrv9361z7035
       </a>
@@ -381,6 +367,34 @@
     <li class="md-nav__item">
       <a href="../pluto/" class="md-nav__link">
         pluto
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fmcomms2/" class="md-nav__link">
+        fmcomms2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fmcomms5/" class="md-nav__link">
+        fmcomms5
       </a>
     </li>
   
@@ -471,6 +485,20 @@
     <li class="md-nav__item">
       <a href="../adrv9009/" class="md-nav__link">
         adrv9009
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fmcomms8/" class="md-nav__link">
+        fmcomms8
       </a>
     </li>
   
@@ -1077,7 +1105,7 @@
 <p>This page outlines the HDL reference design integration for the <em>adrv9002</em> reference design for the Analog Devices
 ADRV9002 component. The IP-Core Generation follow is available on the based on the following base HDL reference design for the following board and design variants: </p>
 <ul>
-<li><a href="https://wiki.analog.com/resources/eval/user-guides/adrv9001/reference_hdl">Base reference design documentation</a></li>
+<li><a href="">Base reference design documentation</a></li>
 <li>Supported FPGA carriers:<ul>
 <li>ZCU102</li>
 </ul>
@@ -1369,7 +1397,7 @@ ADRV9002 component. The IP-Core Generation follow is available on the based on t
 <td>RX</td>
 </tr>
 <tr>
-<td>VALID-IN</td>
+<td>VALID-OUT</td>
 <td>IP Valid Rx Data IN</td>
 <td>axi_adrv9001/adc_1_valid_i0</td>
 <td>1</td>
@@ -1404,35 +1432,35 @@ ADRV9002 component. The IP-Core Generation follow is available on the based on t
 <td>RX</td>
 </tr>
 <tr>
-<td>DATA-IN</td>
-<td>ADRV9002 ADC Data Q0</td>
+<td>DATA-OUT</td>
+<td>ADRV9002 ADC Data I0</td>
 <td>axi_adrv9001/adc_1_data_i0</td>
 <td>16</td>
 <td>RX</td>
 </tr>
 <tr>
-<td>DATA-IN</td>
-<td>ADRV9002 ADC Data I0</td>
+<td>DATA-OUT</td>
+<td>ADRV9002 ADC Data I1</td>
 <td>axi_adrv9001/adc_1_data_i1</td>
 <td>16</td>
 <td>RX</td>
 </tr>
 <tr>
-<td>DATA-IN</td>
+<td>DATA-OUT</td>
 <td>ADRV9002 ADC Data Q0</td>
 <td>axi_adrv9001/adc_1_data_q0</td>
 <td>16</td>
 <td>RX</td>
 </tr>
 <tr>
-<td>DATA-IN</td>
-<td>ADRV9002 ADC Data I0</td>
+<td>DATA-OUT</td>
+<td>ADRV9002 ADC Data Q1</td>
 <td>axi_adrv9001/adc_1_data_q1</td>
 <td>16</td>
 <td>RX</td>
 </tr>
 <tr>
-<td>VALID-IN</td>
+<td>VALID-OUT</td>
 <td>IP Valid Tx Data IN</td>
 <td>util_dac_1_upack/fifo_rd_valid</td>
 <td>1</td>
@@ -1447,14 +1475,14 @@ ADRV9002 component. The IP-Core Generation follow is available on the based on t
 </tr>
 <tr>
 <td>DATA-OUT</td>
-<td>ADRV9002 DAC Data Q0</td>
+<td>ADRV9002 DAC Data I0</td>
 <td>axi_adrv9001/dac_1_data_i0</td>
 <td>16</td>
 <td>TX</td>
 </tr>
 <tr>
 <td>DATA-OUT</td>
-<td>ADRV9002 DAC Data I0</td>
+<td>ADRV9002 DAC Data I1</td>
 <td>axi_adrv9001/dac_1_data_i1</td>
 <td>16</td>
 <td>TX</td>
@@ -1468,34 +1496,34 @@ ADRV9002 component. The IP-Core Generation follow is available on the based on t
 </tr>
 <tr>
 <td>DATA-OUT</td>
-<td>ADRV9002 DAC Data I0</td>
+<td>ADRV9002 DAC Data Q1</td>
 <td>axi_adrv9001/dac_1_data_q1</td>
 <td>16</td>
 <td>TX</td>
 </tr>
 <tr>
-<td>DATA-IN</td>
+<td>DATA-OUT</td>
 <td>IP Data 0 IN</td>
 <td>util_dac_1_upack/fifo_rd_data_0</td>
 <td>16</td>
 <td>TX</td>
 </tr>
 <tr>
-<td>DATA-IN</td>
+<td>DATA-OUT</td>
 <td>IP Data 1 IN</td>
 <td>util_dac_1_upack/fifo_rd_data_1</td>
 <td>16</td>
 <td>TX</td>
 </tr>
 <tr>
-<td>DATA-IN</td>
+<td>DATA-OUT</td>
 <td>IP Data 2 IN</td>
 <td>util_dac_1_upack/fifo_rd_data_2</td>
 <td>16</td>
 <td>TX</td>
 </tr>
 <tr>
-<td>DATA-IN</td>
+<td>DATA-OUT</td>
 <td>IP Data 3 IN</td>
 <td>util_dac_1_upack/fifo_rd_data_3</td>
 <td>16</td>

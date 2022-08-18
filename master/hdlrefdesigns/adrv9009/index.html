@@ -337,20 +337,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../fmcomms2/" class="md-nav__link">
-        fmcomms2
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../adrv9361z7035/" class="md-nav__link">
         adrv9361z7035
       </a>
@@ -381,6 +367,34 @@
     <li class="md-nav__item">
       <a href="../pluto/" class="md-nav__link">
         pluto
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fmcomms2/" class="md-nav__link">
+        fmcomms2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fmcomms5/" class="md-nav__link">
+        fmcomms5
       </a>
     </li>
   
@@ -472,6 +486,20 @@
   
 </nav>
       
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fmcomms8/" class="md-nav__link">
+        fmcomms8
+      </a>
     </li>
   
 
@@ -1077,8 +1105,9 @@
 <p>This page outlines the HDL reference design integration for the <em>adrv9009</em> reference design for the Analog Devices
 ADRV9009 component. The IP-Core Generation follow is available on the based on the following base HDL reference design for the following board and design variants: </p>
 <ul>
-<li><a href="https://wiki.analog.com/resources/eval/user-guides/adrv9009/reference_hdl">Base reference design documentation</a></li>
+<li><a href="">Base reference design documentation</a></li>
 <li>Supported FPGA carriers:<ul>
+<li>ZC706</li>
 <li>ZCU102</li>
 </ul>
 </li>
@@ -1443,7 +1472,7 @@ ADRV9009 component. The IP-Core Generation follow is available on the based on t
 <td>RX</td>
 </tr>
 <tr>
-<td>VALID-IN</td>
+<td>VALID-OUT</td>
 <td>IP Valid Rx Data IN</td>
 <td>rx_adrv9009_tpl_core/adc_valid_0</td>
 <td>1</td>
@@ -1478,35 +1507,35 @@ ADRV9009 component. The IP-Core Generation follow is available on the based on t
 <td>RX</td>
 </tr>
 <tr>
-<td>DATA-IN</td>
-<td>ADRV9009 ADC Data Q0</td>
+<td>DATA-OUT</td>
+<td>ADRV9009 ADC Data I0</td>
 <td>rx_adrv9009_tpl_core/adc_data_0</td>
 <td>16</td>
 <td>RX</td>
 </tr>
 <tr>
-<td>DATA-IN</td>
-<td>ADRV9009 ADC Data I0</td>
+<td>DATA-OUT</td>
+<td>ADRV9009 ADC Data Q0</td>
 <td>rx_adrv9009_tpl_core/adc_data_1</td>
 <td>16</td>
 <td>RX</td>
 </tr>
 <tr>
-<td>DATA-IN</td>
-<td>ADRV9009 ADC Data Q1</td>
+<td>DATA-OUT</td>
+<td>ADRV9009 ADC Data I1</td>
 <td>rx_adrv9009_tpl_core/adc_data_2</td>
 <td>16</td>
 <td>RX</td>
 </tr>
 <tr>
-<td>DATA-IN</td>
-<td>ADRV9009 ADC Data I1</td>
+<td>DATA-OUT</td>
+<td>ADRV9009 ADC Data Q1</td>
 <td>rx_adrv9009_tpl_core/adc_data_3</td>
 <td>16</td>
 <td>RX</td>
 </tr>
 <tr>
-<td>VALID-IN</td>
+<td>VALID-OUT</td>
 <td>IP Valid Tx Data IN</td>
 <td>util_adrv9009_tx_upack/fifo_rd_valid</td>
 <td>1</td>
@@ -1521,58 +1550,58 @@ ADRV9009 component. The IP-Core Generation follow is available on the based on t
 </tr>
 <tr>
 <td>DATA-OUT</td>
-<td>ADRV9009 DAC Data Q0</td>
-<td>tx_adrv9009_tpl_core/dac_data_0</td>
-<td>16</td>
-<td>TX</td>
-</tr>
-<tr>
-<td>DATA-OUT</td>
 <td>ADRV9009 DAC Data I0</td>
-<td>tx_adrv9009_tpl_core/dac_data_1</td>
-<td>16</td>
+<td>tx_adrv9009_tpl_core/dac_data_0</td>
+<td>32</td>
 <td>TX</td>
 </tr>
 <tr>
 <td>DATA-OUT</td>
-<td>ADRV9009 DAC Data Q1</td>
-<td>tx_adrv9009_tpl_core/dac_data_2</td>
-<td>16</td>
+<td>ADRV9009 DAC Data Q0</td>
+<td>tx_adrv9009_tpl_core/dac_data_1</td>
+<td>32</td>
 <td>TX</td>
 </tr>
 <tr>
 <td>DATA-OUT</td>
 <td>ADRV9009 DAC Data I1</td>
-<td>tx_adrv9009_tpl_core/dac_data_3</td>
-<td>16</td>
+<td>tx_adrv9009_tpl_core/dac_data_2</td>
+<td>32</td>
 <td>TX</td>
 </tr>
 <tr>
-<td>DATA-IN</td>
+<td>DATA-OUT</td>
+<td>ADRV9009 DAC Data Q1</td>
+<td>tx_adrv9009_tpl_core/dac_data_3</td>
+<td>32</td>
+<td>TX</td>
+</tr>
+<tr>
+<td>DATA-OUT</td>
 <td>IP Data 0 IN</td>
 <td>util_adrv9009_tx_upack/fifo_rd_data_0</td>
-<td>16</td>
+<td>32</td>
 <td>TX</td>
 </tr>
 <tr>
-<td>DATA-IN</td>
+<td>DATA-OUT</td>
 <td>IP Data 1 IN</td>
 <td>util_adrv9009_tx_upack/fifo_rd_data_1</td>
-<td>16</td>
+<td>32</td>
 <td>TX</td>
 </tr>
 <tr>
-<td>DATA-IN</td>
+<td>DATA-OUT</td>
 <td>IP Data 2 IN</td>
 <td>util_adrv9009_tx_upack/fifo_rd_data_2</td>
-<td>16</td>
+<td>32</td>
 <td>TX</td>
 </tr>
 <tr>
-<td>DATA-IN</td>
+<td>DATA-OUT</td>
 <td>IP Data 3 IN</td>
 <td>util_adrv9009_tx_upack/fifo_rd_data_3</td>
-<td>16</td>
+<td>32</td>
 <td>TX</td>
 </tr>
 </tbody>
@@ -1606,13 +1635,13 @@ ADRV9009 component. The IP-Core Generation follow is available on the based on t
       
       
         
-        <a href="../../sysobjects/adi.AD9361.Tx/" class="md-footer__link md-footer__link--next" aria-label="Next: adi.AD9361.Tx" rel="next">
+        <a href="../fmcomms8/" class="md-footer__link md-footer__link--next" aria-label="Next: fmcomms8" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              adi.AD9361.Tx
+              fmcomms8
             </div>
           </div>
           <div class="md-footer__button md-icon">
