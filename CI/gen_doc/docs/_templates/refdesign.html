@@ -39,7 +39,7 @@ When using the HDL Worflow Advisor, the following port mappings are used to conn
 {%- for rds in obj.ports[0] %}
 
 {%- for rd in obj.ports[0][rds] %}
-| {{ rd['type'].upper() }}-{% if rd['input'] %}IN{% else %}OUT{% endif %} | {{ rd['ml_name'] }} | {{ rd['name'] }} | {{ rd['width'] }} | {{ rds.upper() }} |
+| {{ rd['type'].upper() }}-{% if rd['input' == "true"] %}IN{% else %}OUT{% endif %} | {{ rd['m_name'] }} | {{ rd['name'] }} | {{ rd['width'] }} | {{ rds.upper() }} |
 {%- endfor %}
 
 {%- endfor %}
