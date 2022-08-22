@@ -18,6 +18,15 @@ lock(label: 'adgt_test_harness_boards') {
     harness.set_env('matlab_repo', 'https://github.com/analogdevicesinc/TransceiverToolbox.git') // Not necessary when using checkout scm
     harness.set_env('matlab_release','R2021b')
   
+    //Update nebula config from netbox
+    harness.set_update_nebula_config(true)
+    harness.set_env('nebula_config_source','netbox')
+    harness.set_env('netbox_ip','192.168.10.11')
+    harness.set_env('netbox_port','8000')
+    harness.set_env('netbox_base_url','netbox')
+    harness.set_env('netbox_token','0123456789abcdef0123456789abcdef01234567')
+    harness.set_env('netbox_devices_tag','active')
+    
     //Update agent with required deps
     harness.set_required_agent(["sdg-nuc-01","sdg-nuc-02"])
     harness.update_agents()
