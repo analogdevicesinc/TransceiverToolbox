@@ -299,13 +299,13 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
             if (obj.CustomAGC)
                 % Initialize hardware to reflect debug attribute changes
                 obj.WriteDebugAttributes();
-                obj.setDebugAttributeLongLong('initialize',1);
+                obj.setDebugAttributeBool('initialize',1);
                 obj.WriteToRegisters();
             end
             if (obj.CustomAGCChipB)
                 % Initialize hardware to reflect debug attribute changes
                 obj.WriteDebugAttributesFMComms5ChipB();
-                obj.setDebugAttributeLongLong('initialize',1,0,obj.iioDevPHYChipB);
+                obj.setDebugAttributeBool('initialize',1,0,obj.iioDevPHYChipB);
                 obj.WriteToRegistersFMComms5ChipB();
             end
         end
