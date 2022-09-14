@@ -78,7 +78,7 @@ sed -i 's/16.27/30/' hdl/projects/pluto/system_constr.xdc
 mv hdl $TARGET
 
 # Post-process ports.json
-mv ./scripts/ports.json ./
+cp ./scripts/ports.json ./
 python3 ./scripts/read_ports_json.py
 cp ports.json ../hdl/vendor/AnalogDevices/+AnalogDevices/
 
