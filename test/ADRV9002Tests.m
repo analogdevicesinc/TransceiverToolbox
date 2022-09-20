@@ -37,7 +37,7 @@ classdef ADRV9002Tests < HardwareTests
         function estFrequency(data,fs)
             nSamp = length(data);
             FFTRxData  = fftshift(10*log10(abs(fft(data))));
-            df = fs/nSamp;  freqRangeRx = (-fs/2:df:fs/2-df).'/1000;
+            freqRangeRx = linspace(double(-fs/2),double(fs/2),double(nSamp)).'/1000;
             plot(freqRangeRx, FFTRxData);
         end
     end
@@ -201,14 +201,14 @@ classdef ADRV9002Tests < HardwareTests
             rx = adi.ADRV9002.Rx('uri',testCase.uri);
             rx.EnabledChannels = 1;
             rx.EnableCustomProfile = true;
-            rx.CustomProfileFileName = fullfile('adrv9002_profiles','lte_1_4_cmos_fdd_api_29_2_9.json');
-            rx.CustomStreamFileName = fullfile('adrv9002_profiles','lte_1_4_cmos_fdd_api_29_2_9.stream');
+            rx.CustomProfileFileName = fullfile('adrv9002_profiles','lte_5_cmos_api_67_1_1.json');
+            rx.CustomStreamFileName = fullfile('adrv9002_profiles','lte_5_cmos_api_67_1_1.stream');
             [out, valid] = rx();
             % Check sample rate
             sr = rx.SamplingRate;
             rx.release();
             testCase.verifyTrue(valid);
-            testCase.verifyEqual(double(sr),1920000,'Incorrect sample rate');
+            testCase.verifyEqual(double(sr),7680000,'Incorrect sample rate');
             testCase.verifyGreaterThan(sum(abs(double(out))),0);
         end
 
@@ -217,8 +217,8 @@ classdef ADRV9002Tests < HardwareTests
             tx = adi.ADRV9002.Tx('uri',testCase.uri);
             tx.EnabledChannels = 1;
             tx.EnableCustomProfile = true;
-            tx.CustomProfileFileName = fullfile('adrv9002_profiles','lte_1_4_cmos_fdd_api_29_2_9.json');
-            tx.CustomStreamFileName = fullfile('adrv9002_profiles','lte_1_4_cmos_fdd_api_29_2_9.stream');
+            tx.CustomProfileFileName = fullfile('adrv9002_profiles','lte_5_cmos_api_67_1_1.json');
+            tx.CustomStreamFileName = fullfile('adrv9002_profiles','lte_5_cmos_api_67_1_1.stream');
             data = complex(randn(1e4,1),randn(1e4,1));
             [valid] = tx(data);
             % Check sample rate
@@ -226,8 +226,8 @@ classdef ADRV9002Tests < HardwareTests
             sr2 = tx.getAttributeLongLong('voltage0','sampling_frequency',true);
             tx.release();
             testCase.verifyTrue(valid);
-            testCase.verifyEqual(double(sr1),1920000,'Incorrect sample rate');
-            testCase.verifyEqual(double(sr2),1920000,'Incorrect sample rate');
+            testCase.verifyEqual(double(sr1),7680000,'Incorrect sample rate');
+            testCase.verifyEqual(double(sr2),7680000,'Incorrect sample rate');
         end
         
         function testADRV9002RxClearing(testCase)
@@ -289,8 +289,8 @@ classdef ADRV9002Tests < HardwareTests
             rx.release();
             assert(sr==sr2);
 
-%             plot(real(out));
-%             testCase.estFrequency(out,rx.SamplingRate);
+            % plot(real(out));
+            % testCase.estFrequency(out,rx.SamplingRate);
             freqEst = meanfreq(double(real(out)),sr);
 
             testCase.verifyTrue(valid);
@@ -306,7 +306,7 @@ classdef ADRV9002Tests < HardwareTests
             swv1 = dsp.SineWave(amplitude, frequency);
             swv1.ComplexOutput = true;
             swv1.SamplesPerFrame = 1e4*10;
-            swv1.SampleRate = 1.92e6;
+            swv1.SampleRate = 7.68e6;
             y = swv1();
             
             tx = adi.ADRV9002.Tx('uri',testCase.uri);
@@ -314,8 +314,8 @@ classdef ADRV9002Tests < HardwareTests
             tx.EnableCyclicBuffers = true;
             tx.AttenuationChannel0 = -10;
             tx.EnableCustomProfile = true;
-            tx.CustomProfileFileName = fullfile('adrv9002_profiles','lte_1_4_cmos_fdd_api_29_2_9.json');
-            tx.CustomStreamFileName = fullfile('adrv9002_profiles','lte_1_4_cmos_fdd_api_29_2_9.stream');
+            tx.CustomProfileFileName = fullfile('adrv9002_profiles','lte_5_cmos_api_67_1_1.json');
+            tx.CustomStreamFileName = fullfile('adrv9002_profiles','lte_5_cmos_api_67_1_1.stream');
             tx(y);
             rx = adi.ADRV9002.Rx('uri',testCase.uri);
             rx.EnabledChannels = 1;
@@ -327,8 +327,8 @@ classdef ADRV9002Tests < HardwareTests
                 end
             end
 
-%             plot(real(out));
-%             testCase.estFrequency(out,rx.SamplingRate);
+            % plot(real(out));
+            % testCase.estFrequency(out,rx.SamplingRate);
             freqEst = meanfreq(double(real(out)),rx.SamplingRate);
             rx.release();
             
