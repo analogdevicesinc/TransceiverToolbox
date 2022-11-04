@@ -405,20 +405,23 @@ proc preprocess_bd {project carrier rxtx} {
                 # Remove decimator
                 delete_bd_objs [get_bd_nets rx_fir_decimator_valid_out_0] [get_bd_nets rx_ad9371_tpl_core_adc_data_0] [get_bd_nets rx_ad9371_tpl_core_adc_enable_1] [get_bd_nets rx_ad9371_tpl_core_adc_valid_2] [get_bd_nets rx_ad9371_tpl_core_adc_data_2] [get_bd_nets rx_ad9371_tpl_core_adc_enable_3] [get_bd_nets rx_fir_decimator_enable_out_0] [get_bd_nets rx_ad9371_tpl_core_adc_data_1] [get_bd_nets rx_fir_decimator_enable_out_2] [get_bd_nets rx_ad9371_tpl_core_adc_data_3] [get_bd_nets active_2] [get_bd_nets rx_ad9371_tpl_core_adc_valid_0] [get_bd_nets rx_fir_decimator_data_out_0] [get_bd_nets rx_fir_decimator_enable_out_1] [get_bd_nets rx_fir_decimator_data_out_2] [get_bd_nets rx_fir_decimator_enable_out_3] [get_bd_nets rx_ad9371_tpl_core_adc_enable_0] [get_bd_nets rx_ad9371_tpl_core_adc_valid_1] [get_bd_nets rx_fir_decimator_data_out_1] [get_bd_nets rx_ad9371_tpl_core_adc_enable_2] [get_bd_nets rx_ad9371_tpl_core_adc_valid_3] [get_bd_nets rx_fir_decimator_data_out_3] [get_bd_cells rx_fir_decimator]
 
-                # Connect the ADC PACK valid signals together
-                connect_bd_net [get_bd_pins util_ad9371_rx_cpack/enable_0] [get_bd_pins util_ad9371_rx_cpack/enable_1]
-                connect_bd_net [get_bd_pins util_ad9371_rx_cpack/enable_0] [get_bd_pins util_ad9371_rx_cpack/enable_2]
-                connect_bd_net [get_bd_pins util_ad9371_rx_cpack/enable_0] [get_bd_pins util_ad9371_rx_cpack/enable_3]
+                # Connect the TPL enables to pack enables
+                connect_bd_net [get_bd_pins rx_ad9371_tpl_core/adc_enable_0] [get_bd_pins util_ad9371_rx_cpack/enable_0]
+                connect_bd_net [get_bd_pins rx_ad9371_tpl_core/adc_enable_1] [get_bd_pins util_ad9371_rx_cpack/enable_1]
+                connect_bd_net [get_bd_pins rx_ad9371_tpl_core/adc_enable_2] [get_bd_pins util_ad9371_rx_cpack/enable_2]
+                connect_bd_net [get_bd_pins rx_ad9371_tpl_core/adc_enable_3] [get_bd_pins util_ad9371_rx_cpack/enable_3]
+
+
             }
             if {$rxtx == "tx" || $rxtx == "rxtx"} {
                 # Remove interpolators
                 delete_bd_objs [get_bd_nets active_1] [get_bd_nets tx_fir_interpolator_enable_out_0] [get_bd_nets util_ad9371_tx_upack_fifo_rd_data_1] [get_bd_nets tx_ad9371_tpl_core_dac_valid_2] [get_bd_nets tx_ad9371_tpl_core_dac_enable_3] [get_bd_nets tx_fir_interpolator_data_out_3] [get_bd_nets tx_ad9371_tpl_core_dac_enable_0] [get_bd_nets tx_fir_interpolator_valid_out_0] [get_bd_nets tx_fir_interpolator_data_out_0] [get_bd_nets tx_fir_interpolator_enable_out_1] [get_bd_nets util_ad9371_tx_upack_fifo_rd_data_2] [get_bd_nets tx_ad9371_tpl_core_dac_valid_3] [get_bd_nets tx_ad9371_tpl_core_dac_valid_0] [get_bd_nets tx_ad9371_tpl_core_dac_enable_1] [get_bd_nets tx_fir_interpolator_data_out_1] [get_bd_nets tx_fir_interpolator_valid_out_2] [get_bd_nets tx_fir_interpolator_enable_out_2] [get_bd_nets util_ad9371_tx_upack_fifo_rd_data_3] [get_bd_nets GND_32_dout] [get_bd_nets util_ad9371_tx_upack_fifo_rd_data_0] [get_bd_nets tx_ad9371_tpl_core_dac_valid_1] [get_bd_nets tx_ad9371_tpl_core_dac_enable_2] [get_bd_nets tx_fir_interpolator_data_out_2] [get_bd_nets tx_fir_interpolator_enable_out_3] [get_bd_cells tx_fir_interpolator]
 
-                # Connect the DAC PACK valid signals together
-                connect_bd_net [get_bd_pins util_ad9371_tx_upack/enable_1] [get_bd_pins util_ad9371_tx_upack/enable_0]
-                connect_bd_net [get_bd_pins util_ad9371_tx_upack/enable_2] [get_bd_pins util_ad9371_tx_upack/enable_0]
-                connect_bd_net [get_bd_pins util_ad9371_tx_upack/enable_3] [get_bd_pins util_ad9371_tx_upack/enable_0]
-                connect_bd_net [get_bd_pins tx_ad9371_tpl_core/dac_enable_0] [get_bd_pins util_ad9371_tx_upack/enable_1]
+                # Connect the TPL enables to pack enables
+                connect_bd_net [get_bd_pins tx_ad9371_tpl_core/dac_enable_0] [get_bd_pins util_ad9371_tx_upack/enable_0]
+                connect_bd_net [get_bd_pins tx_ad9371_tpl_core/dac_enable_1] [get_bd_pins util_ad9371_tx_upack/enable_1]
+                connect_bd_net [get_bd_pins tx_ad9371_tpl_core/dac_enable_2] [get_bd_pins util_ad9371_tx_upack/enable_2]
+                connect_bd_net [get_bd_pins tx_ad9371_tpl_core/dac_enable_3] [get_bd_pins util_ad9371_tx_upack/enable_3]
 
                 # Remove valid combiner
                 delete_bd_objs [get_bd_nets tx_fir_interpolator_valid_out_0] [get_bd_nets tx_fir_interpolator_valid_out_2] [get_bd_nets logic_or_Res] [get_bd_cells logic_or]
