@@ -551,10 +551,10 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
             obj.setAttributeRAW('voltage0','port_en_mode',obj.ENSMPortModeChannel0,false);
             obj.setAttributeRAW('voltage1','port_en_mode',obj.ENSMPortModeChannel0,false);
             
-            if ~contains(obj.GainControllerSourceChannel0,'automatic')
+            if strcmpi(obj.GainControllerSourceChannel0,'spi')
                 obj.setAttributeDouble('voltage0','hardwaregain',obj.AttenuationChannel0,false);
             end
-            if ~contains(obj.GainControllerSourceChannel1,'automatic')
+            if strcmpi(obj.GainControllerSourceChannel1,'spi')
                 obj.setAttributeDouble('voltage1','hardwaregain',obj.AttenuationChannel1,false);
             end
 
