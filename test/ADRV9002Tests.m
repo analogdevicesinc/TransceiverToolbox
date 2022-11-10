@@ -337,6 +337,37 @@ classdef ADRV9002Tests < HardwareTests
             testCase.verifyEqual(freqEst,frequency,'RelTol',0.01,...
                 'Frequency of ML tone unexpected')
         end
+
+        function testADRV9002ManualGainControlError(testCase)
+            rx = adi.ADRV9002.Rx;
+            rx.uri = testCase.uri;
+
+            % Set low speed profile < 1 MHz
+            rx.EnableCustomProfile = true;
+            rx.CustomProfileFileName = which('lte_5_cmos_api_67_1_1.json');
+            rx.CustomStreamFileName = which('lte_5_cmos_api_67_1_1.stream');
+
+            rx.DigitalGainControlModeChannel0 = 'spi';
+            rx.InterfaceGainChannel0 = '6dB';
+            verifyError(testCase, @() rx(), ?MException);
+        end
+
+        function testADRV9002ManualGainControl(testCase)
+            rx = adi.ADRV9002.Rx;
+            rx.uri = testCase.uri;
+
+            % Set low speed profile < 1 MHz
+            rx.EnableCustomProfile = true;
+            rx.CustomProfileFileName = which('dmr_tes_v0_21_cmos_24ksps_api_67_1_1.json');
+            rx.CustomStreamFileName = which('dmr_tes_v0_21_cmos_24ksps_api_67_1_1.bin');
+
+            rx.DigitalGainControlModeChannel0 = 'spi';
+            rx.InterfaceGainChannel0 = '6dB';
+            [~,valid] = rx();
+            testCase.assertTrue(valid);
+        end
+
+
     end
     
 end
