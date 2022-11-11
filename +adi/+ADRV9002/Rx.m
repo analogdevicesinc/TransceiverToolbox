@@ -530,101 +530,141 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
                 writeProfileFile(obj);
             end
             
-            obj.setAttributeRAW('voltage0','ensm_mode',obj.ENSMModeChannel0,false);
-            obj.setAttributeRAW('voltage1','ensm_mode',obj.ENSMModeChannel1,false);
+            % Check if channel exists with new profile
+            phydev = getDev(obj, obj.phyDevName);
+            chanPtr = iio_device_find_channel(obj, phydev, 'voltage1', false);
+            status = cPtrCheck(obj,chanPtr);
+            if status ~= 0
+                error("Cannot find channel voltage1")
+            end
+            [status, rValue] = iio_channel_attr_read(obj,chanPtr,'ensm_mode',1024);
+            if status == -19
+                channelsAval = 1;
+            elseif status < 0
+                cstatus(obj,rValue,'Attribute read failed for : ensm_mode');
+            else
+                channelsAval = 2;
+            end
             
+
+            obj.setAttributeRAW('voltage0','ensm_mode',obj.ENSMModeChannel0,false);
+            if channelsAval == 2
+                obj.setAttributeRAW('voltage1','ensm_mode',obj.ENSMModeChannel1,false);
+            end
+
             obj.setAttributeRAW('voltage0','gain_control_mode',obj.GainControllerSourceChannel0,false);
-            obj.setAttributeRAW('voltage1','gain_control_mode',obj.GainControllerSourceChannel1,false);
+            if channelsAval == 2
+                obj.setAttributeRAW('voltage1','gain_control_mode',obj.GainControllerSourceChannel1,false);
+            end
 
             obj.setAttributeRAW('voltage0','digital_gain_control_mode',obj.DigitalGainControlModeChannel0,false);
-            obj.setAttributeRAW('voltage1','digital_gain_control_mode',obj.DigitalGainControlModeChannel1,false);
+            if channelsAval == 2
+                obj.setAttributeRAW('voltage1','digital_gain_control_mode',obj.DigitalGainControlModeChannel1,false);
+            end
 
             if strcmpi(obj.DigitalGainControlModeChannel0,'spi') && strcmpi(obj.ENSMModeChannel0,'rf_enabled')
                 obj.setAttributeRAW('voltage0','interface_gain',obj.InterfaceGainChannel0,false);
             end
             
-            if strcmpi(obj.DigitalGainControlModeChannel1,'spi') && strcmpi(obj.ENSMModeChannel1,'rf_enabled')
+            if strcmpi(obj.DigitalGainControlModeChannel1,'spi') && strcmpi(obj.ENSMModeChannel1,'rf_enabled') && channelsAval == 2
                 obj.setAttributeRAW('voltage1','interface_gain',obj.InterfaceGainChannel1,false);
             end            
             
             
             obj.setAttributeRAW('voltage0','port_en_mode',obj.ENSMPortModeChannel0,false);
-            obj.setAttributeRAW('voltage1','port_en_mode',obj.ENSMPortModeChannel0,false);
+            if channelsAval == 2
+                obj.setAttributeRAW('voltage1','port_en_mode',obj.ENSMPortModeChannel0,false);
+            end
             
             if strcmpi(obj.GainControllerSourceChannel0,'spi')
                 obj.setAttributeDouble('voltage0','hardwaregain',obj.AttenuationChannel0,false);
             end
-            if strcmpi(obj.GainControllerSourceChannel1,'spi')
+            if strcmpi(obj.GainControllerSourceChannel1,'spi') && channelsAval == 2
                 obj.setAttributeDouble('voltage1','hardwaregain',obj.AttenuationChannel1,false);
             end
 
             obj.setAttributeLongLong('altvoltage0','RX1_LO_frequency',obj.CenterFrequencyChannel0 ,true);
-            obj.setAttributeLongLong('altvoltage1','RX2_LO_frequency',obj.CenterFrequencyChannel1 ,true);
+            if channelsAval == 2
+                obj.setAttributeLongLong('altvoltage1','RX2_LO_frequency',obj.CenterFrequencyChannel1 ,true);
+            end
             
             % Calibrations
             agc_tracking_en_voltage0_state = obj.getAttributeBool('voltage0','agc_tracking_en',false);
             if (agc_tracking_en_voltage0_state ~= obj.AGCTrackingChannel0)
                 obj.setAttributeBool('voltage0','agc_tracking_en',obj.AGCTrackingChannel0,false);
             end
+            if channelsAval == 2
             agc_tracking_en_voltage1_state = obj.getAttributeBool('voltage1','agc_tracking_en',false);
             if (agc_tracking_en_voltage1_state ~= obj.AGCTrackingChannel1)
                 obj.setAttributeBool('voltage1','agc_tracking_en',obj.AGCTrackingChannel1,false);
+            end
             end
 
             bbdc_rejection_tracking_en_voltage0_state = obj.getAttributeBool('voltage0','bbdc_rejection_tracking_en',false);
             if (bbdc_rejection_tracking_en_voltage0_state ~= obj.BBDCRejectionTrackingChannel0)
                 obj.setAttributeBool('voltage0','bbdc_rejection_tracking_en',obj.BBDCRejectionTrackingChannel0,false);
             end
+            if channelsAval == 2
             bbdc_rejection_tracking_en_voltage1_state = obj.getAttributeBool('voltage1','bbdc_rejection_tracking_en',false);
-            if (bbdc_rejection_tracking_en_voltage1_state ~= obj.BBDCRejectionTrackingChannel1)
+            if (bbdc_rejection_tracking_en_voltage1_state ~= obj.BBDCRejectionTrackingChannel1) && channelsAval == 2
                 obj.setAttributeBool('voltage1','bbdc_rejection_tracking_en',obj.BBDCRejectionTrackingChannel1,false);
+            end
             end
 
             hd_tracking_en_voltage0_state = obj.getAttributeBool('voltage0','hd_tracking_en',false);
             if (hd_tracking_en_voltage0_state ~= obj.HDTrackingChannel0)
                 obj.setAttributeBool('voltage0','hd_tracking_en',obj.HDTrackingChannel0,false);
             end
+            if channelsAval == 2
             hd_tracking_en_voltage1_state = obj.getAttributeBool('voltage1','hd_tracking_en',false);
-            if (hd_tracking_en_voltage1_state ~= obj.HDTrackingChannel1)
+            if (hd_tracking_en_voltage1_state ~= obj.HDTrackingChannel1) && channelsAval == 2
                 obj.setAttributeBool('voltage1','hd_tracking_en',obj.HDTrackingChannel1,false);
+            end
             end
 
             quadrature_fic_tracking_en_voltage0_state = obj.getAttributeBool('voltage0','quadrature_fic_tracking_en',false);
             if (quadrature_fic_tracking_en_voltage0_state ~= obj.QuadratureFICTrackingChannel0)
                 obj.setAttributeBool('voltage0','quadrature_fic_tracking_en',obj.QuadratureFICTrackingChannel0,false);
             end
+            if channelsAval == 2
             quadrature_fic_tracking_en_voltage1_state = obj.getAttributeBool('voltage1','quadrature_fic_tracking_en',false);
-            if (quadrature_fic_tracking_en_voltage1_state ~= obj.QuadratureFICTrackingChannel1)
+            if (quadrature_fic_tracking_en_voltage1_state ~= obj.QuadratureFICTrackingChannel1) && channelsAval == 2
                 obj.setAttributeBool('voltage1','quadrature_fic_tracking_en',obj.QuadratureFICTrackingChannel1,false);
+            end
             end
 
             quadrature_w_poly_tracking_en_voltage0_state = obj.getAttributeBool('voltage0','quadrature_w_poly_tracking_en',false);
             if (quadrature_w_poly_tracking_en_voltage0_state ~= obj.QuadratureWidebandPolyTrackingChannel0)
                 obj.setAttributeBool('voltage0','quadrature_w_poly_tracking_en',obj.QuadratureWidebandPolyTrackingChannel0,false);
             end
+            if channelsAval == 2
             quadrature_w_poly_tracking_en_voltage1_state = obj.getAttributeBool('voltage1','quadrature_w_poly_tracking_en',false);
-            if (quadrature_w_poly_tracking_en_voltage1_state ~= obj.QuadratureWidebandPolyTrackingChannel1)
+            if (quadrature_w_poly_tracking_en_voltage1_state ~= obj.QuadratureWidebandPolyTrackingChannel1) && channelsAval == 2
                 obj.setAttributeBool('voltage1','quadrature_w_poly_tracking_en',obj.QuadratureWidebandPolyTrackingChannel1,false);
+            end
             end
 
             rfdc_tracking_en_voltage0_state = obj.getAttributeBool('voltage0','rfdc_tracking_en',false);
             if (rfdc_tracking_en_voltage0_state ~= obj.RFDCTrackingChannel0)
                 obj.setAttributeBool('voltage0','rfdc_tracking_en',obj.RFDCTrackingChannel0,false);
             end
+            if channelsAval == 2
             rfdc_tracking_en_voltage1_state = obj.getAttributeBool('voltage1','rfdc_tracking_en',false);
-            if (rfdc_tracking_en_voltage1_state ~= obj.RFDCTrackingChannel1)
+            if (rfdc_tracking_en_voltage1_state ~= obj.RFDCTrackingChannel1) && channelsAval == 2
                 obj.setAttributeBool('voltage1','rfdc_tracking_en',obj.RFDCTrackingChannel1,false);
             end
-            
+            end
+
             rssi_tracking_en_voltage0_state = obj.getAttributeBool('voltage0','rssi_tracking_en',false);
             if (rssi_tracking_en_voltage0_state ~= obj.RSSITrackingChannel0)
                 obj.setAttributeBool('voltage0','rssi_tracking_en',obj.RSSITrackingChannel0,false);
             end
+            if channelsAval == 2
             rssi_tracking_en_voltage1_state = obj.getAttributeBool('voltage1','rssi_tracking_en',false);
-            if (rssi_tracking_en_voltage1_state ~= obj.RSSITrackingChannel1)
+            if (rssi_tracking_en_voltage1_state ~= obj.RSSITrackingChannel1) && channelsAval == 2
                 obj.setAttributeBool('voltage1','rssi_tracking_en',obj.RSSITrackingChannel1,false);
             end
-            
+            end
         end
         
     end

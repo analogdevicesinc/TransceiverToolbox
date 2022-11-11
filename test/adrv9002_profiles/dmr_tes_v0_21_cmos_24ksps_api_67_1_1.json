@@ -1,9 +1,9 @@
 {
   "clocks": {
     "deviceClock_kHz": 38400,
-    "clkPllVcoFreq_daHz": 884736000,
+    "clkPllVcoFreq_daHz": 442368000,
     "clkPllHsDiv": 0,
-    "clkPllMode": 0,
+    "clkPllMode": 1,
     "clk1105Div": 2,
     "armClkDiv": 6,
     "armPowerSavingClkDiv": 1,
@@ -34,59 +34,59 @@
     "loGen2Select": 1
   },
   "rx": {
-    "rxInitChannelMask": 195,
+    "rxInitChannelMask": 65,
     "rxChannelCfg": [ {
         "profile": {
-          "primarySigBandwidth_Hz": 4500000,
-          "rxOutputRate_Hz": 7680000,
-          "rxInterfaceSampleRate_Hz": 7680000,
-          "rxOffsetLo_kHz": 0,
-          "rxNcoEnable": false,
+          "primarySigBandwidth_Hz": 12000,
+          "rxOutputRate_Hz": 24000,
+          "rxInterfaceSampleRate_Hz": 24000,
+          "rxOffsetLo_kHz": 490,
+          "rxNcoEnable": true,
           "outputSignaling": 0,
           "filterOrder": 1,
           "filterOrderLp": 1,
           "hpAdcCorner": 20000000,
           "lpAdcCorner": 0,
-          "adcClk_kHz": 2211840,
+          "adcClk_kHz": 1105920,
           "rxCorner3dB_kHz": 10000,
           "rxCorner3dBLp_kHz": 10000,
-          "tiaPower": 2,
-          "tiaPowerLp": 2,
+          "tiaPower": 0,
+          "tiaPowerLp": 0,
           "channelType": 1,
-          "adcType": 1,
+          "adcType": 0,
           "lpAdcCalMode": 0,
           "gainTableType": 0,
           "rxDpProfile": {
             "rxNbDecTop": {
-              "scicBlk23En": 0,
-              "scicBlk23DivFactor": 1,
+              "scicBlk23En": 1,
+              "scicBlk23DivFactor": 10,
               "scicBlk23LowRippleEn": 0,
-              "decBy2Blk35En": 0,
-              "decBy2Blk37En": 0,
-              "decBy2Blk39En": 0,
-              "decBy2Blk41En": 0,
-              "decBy2Blk43En": 0,
-              "decBy3Blk45En": 0,
-              "decBy2Blk47En": 0
+              "decBy2Blk35En": 1,
+              "decBy2Blk37En": 1,
+              "decBy2Blk39En": 1,
+              "decBy2Blk41En": 1,
+              "decBy2Blk43En": 1,
+              "decBy3Blk45En": 1,
+              "decBy2Blk47En": 1
             },
             "rxWbDecTop": {
               "decBy2Blk25En": 0,
               "decBy2Blk27En": 0,
-              "decBy2Blk29En": 1,
-              "decBy2Blk31En": 1,
-              "decBy2Blk33En": 1,
+              "decBy2Blk29En": 0,
+              "decBy2Blk31En": 0,
+              "decBy2Blk33En": 0,
               "wbLpfBlk33p1En": 0
             },
             "rxDecTop": {
-              "decBy3Blk15En": 1,
+              "decBy3Blk15En": 0,
               "decBy2Hb3Blk17p1En": 0,
-              "decBy2Hb4Blk17p2En": 0,
+              "decBy2Hb4Blk17p2En": 1,
               "decBy2Hb5Blk19p1En": 0,
-              "decBy2Hb6Blk19p2En": 0
+              "decBy2Hb6Blk19p2En": 1
             },
             "rxSincHBTop": {
               "sincGainMux": 1,
-              "sincMux": 4,
+              "sincMux": 1,
               "hbMux": 4,
               "isGainCompEnabled": 0,
               "gainComp9GainI": [ 16384, 16384, 16384, 16384, 16384, 16384 ],
@@ -136,7 +136,7 @@
           "rxSsiConfig": {
             "ssiType": 1,
             "ssiDataFormatSel": 4,
-            "numLaneSel": 2,
+            "numLaneSel": 0,
             "strobeType": 0,
             "lsbFirst": 0,
             "qFirst": 0,
@@ -154,9 +154,360 @@
         }
       }, {
         "profile": {
-          "primarySigBandwidth_Hz": 4500000,
-          "rxOutputRate_Hz": 7680000,
-          "rxInterfaceSampleRate_Hz": 7680000,
+          "primarySigBandwidth_Hz": 12500,
+          "rxOutputRate_Hz": 0,
+          "rxInterfaceSampleRate_Hz": 0,
+          "rxOffsetLo_kHz": 0,
+          "rxNcoEnable": false,
+          "outputSignaling": 0,
+          "filterOrder": 1,
+          "filterOrderLp": 1,
+          "hpAdcCorner": 0,
+          "lpAdcCorner": 0,
+          "adcClk_kHz": 0,
+          "rxCorner3dB_kHz": 0,
+          "rxCorner3dBLp_kHz": 0,
+          "tiaPower": 2,
+          "tiaPowerLp": 2,
+          "channelType": 0,
+          "adcType": 1,
+          "lpAdcCalMode": 0,
+          "gainTableType": 0,
+          "rxDpProfile": {
+            "rxNbDecTop": {
+              "scicBlk23En": 0,
+              "scicBlk23DivFactor": 0,
+              "scicBlk23LowRippleEn": 0,
+              "decBy2Blk35En": 0,
+              "decBy2Blk37En": 0,
+              "decBy2Blk39En": 0,
+              "decBy2Blk41En": 0,
+              "decBy2Blk43En": 0,
+              "decBy3Blk45En": 0,
+              "decBy2Blk47En": 0
+            },
+            "rxWbDecTop": {
+              "decBy2Blk25En": 0,
+              "decBy2Blk27En": 0,
+              "decBy2Blk29En": 0,
+              "decBy2Blk31En": 0,
+              "decBy2Blk33En": 0,
+              "wbLpfBlk33p1En": 0
+            },
+            "rxDecTop": {
+              "decBy3Blk15En": 0,
+              "decBy2Hb3Blk17p1En": 0,
+              "decBy2Hb4Blk17p2En": 0,
+              "decBy2Hb5Blk19p1En": 0,
+              "decBy2Hb6Blk19p2En": 0
+            },
+            "rxSincHBTop": {
+              "sincGainMux": 1,
+              "sincMux": 0,
+              "hbMux": 4,
+              "isGainCompEnabled": 0,
+              "gainComp9GainI": [ 16384, 16384, 16384, 16384, 16384, 16384 ],
+              "gainComp9GainQ": [ 0, 0, 0, 0, 0, 0 ]
+            },
+            "rxNbDem": {
+              "dpInFifo": {
+                "dpInFifoEn": 0,
+                "dpInFifoMode": 0,
+                "dpInFifoTestDataSel": 0
+              },
+              "rxNbNco": {
+                "rxNbNcoEn": 0,
+                "rxNbNcoConfig": {
+                  "freq": 0,
+                  "sampleFreq": 0,
+                  "phase": 0,
+                  "realOut": 0
+                }
+              },
+              "rxWbNbCompPFir": {
+                "bankSel": 0,
+                "rxWbNbCompPFirInMuxSel": 0,
+                "rxWbNbCompPFirEn": 0
+              },
+              "resamp": {
+                "rxResampEn": 0,
+                "resampPhaseI": 0,
+                "resampPhaseQ": 0
+              },
+              "gsOutMuxSel": 1,
+              "rxOutSel": 0,
+              "rxRoundMode": 0,
+              "dpArmSel": 0
+            }
+          },
+          "lnaConfig": {
+            "externalLnaPresent": false,
+            "gpioSourceSel": 0,
+            "externalLnaPinSel": 0,
+            "settlingDelay": 0,
+            "numberLnaGainSteps": 0,
+            "lnaGainSteps_mdB": [ 0, 0, 0, 0 ],
+            "lnaDigitalGainDelay": 0,
+            "minGainIndex": 0
+          },
+          "rxSsiConfig": {
+            "ssiType": 0,
+            "ssiDataFormatSel": 0,
+            "numLaneSel": 0,
+            "strobeType": 0,
+            "lsbFirst": 0,
+            "qFirst": 0,
+            "txRefClockPin": 0,
+            "lvdsIBitInversion": false,
+            "lvdsQBitInversion": false,
+            "lvdsStrobeBitInversion": false,
+            "lvdsUseLsbIn12bitMode": 0,
+            "lvdsRxClkInversionEn": false,
+            "cmosDdrPosClkEn": false,
+            "cmosClkInversionEn": false,
+            "ddrEn": false,
+            "rxMaskStrobeEn": false
+          }
+        }
+      }, {
+        "profile": {
+          "primarySigBandwidth_Hz": 12500,
+          "rxOutputRate_Hz": 0,
+          "rxInterfaceSampleRate_Hz": 0,
+          "rxOffsetLo_kHz": 0,
+          "rxNcoEnable": false,
+          "outputSignaling": 0,
+          "filterOrder": 1,
+          "filterOrderLp": 1,
+          "hpAdcCorner": 0,
+          "lpAdcCorner": 0,
+          "adcClk_kHz": 0,
+          "rxCorner3dB_kHz": 0,
+          "rxCorner3dBLp_kHz": 0,
+          "tiaPower": 2,
+          "tiaPowerLp": 2,
+          "channelType": 0,
+          "adcType": 1,
+          "lpAdcCalMode": 0,
+          "gainTableType": 0,
+          "rxDpProfile": {
+            "rxNbDecTop": {
+              "scicBlk23En": 0,
+              "scicBlk23DivFactor": 0,
+              "scicBlk23LowRippleEn": 0,
+              "decBy2Blk35En": 0,
+              "decBy2Blk37En": 0,
+              "decBy2Blk39En": 0,
+              "decBy2Blk41En": 0,
+              "decBy2Blk43En": 0,
+              "decBy3Blk45En": 0,
+              "decBy2Blk47En": 0
+            },
+            "rxWbDecTop": {
+              "decBy2Blk25En": 0,
+              "decBy2Blk27En": 0,
+              "decBy2Blk29En": 0,
+              "decBy2Blk31En": 0,
+              "decBy2Blk33En": 0,
+              "wbLpfBlk33p1En": 0
+            },
+            "rxDecTop": {
+              "decBy3Blk15En": 0,
+              "decBy2Hb3Blk17p1En": 0,
+              "decBy2Hb4Blk17p2En": 0,
+              "decBy2Hb5Blk19p1En": 0,
+              "decBy2Hb6Blk19p2En": 0
+            },
+            "rxSincHBTop": {
+              "sincGainMux": 1,
+              "sincMux": 0,
+              "hbMux": 4,
+              "isGainCompEnabled": 0,
+              "gainComp9GainI": [ 16384, 16384, 16384, 16384, 16384, 16384 ],
+              "gainComp9GainQ": [ 0, 0, 0, 0, 0, 0 ]
+            },
+            "rxNbDem": {
+              "dpInFifo": {
+                "dpInFifoEn": 0,
+                "dpInFifoMode": 0,
+                "dpInFifoTestDataSel": 0
+              },
+              "rxNbNco": {
+                "rxNbNcoEn": 0,
+                "rxNbNcoConfig": {
+                  "freq": 0,
+                  "sampleFreq": 0,
+                  "phase": 0,
+                  "realOut": 0
+                }
+              },
+              "rxWbNbCompPFir": {
+                "bankSel": 0,
+                "rxWbNbCompPFirInMuxSel": 0,
+                "rxWbNbCompPFirEn": 0
+              },
+              "resamp": {
+                "rxResampEn": 0,
+                "resampPhaseI": 0,
+                "resampPhaseQ": 0
+              },
+              "gsOutMuxSel": 1,
+              "rxOutSel": 0,
+              "rxRoundMode": 0,
+              "dpArmSel": 0
+            }
+          },
+          "lnaConfig": {
+            "externalLnaPresent": false,
+            "gpioSourceSel": 0,
+            "externalLnaPinSel": 0,
+            "settlingDelay": 0,
+            "numberLnaGainSteps": 0,
+            "lnaGainSteps_mdB": [ 0, 0, 0, 0 ],
+            "lnaDigitalGainDelay": 0,
+            "minGainIndex": 0
+          },
+          "rxSsiConfig": {
+            "ssiType": 0,
+            "ssiDataFormatSel": 0,
+            "numLaneSel": 0,
+            "strobeType": 0,
+            "lsbFirst": 0,
+            "qFirst": 0,
+            "txRefClockPin": 0,
+            "lvdsIBitInversion": false,
+            "lvdsQBitInversion": false,
+            "lvdsStrobeBitInversion": false,
+            "lvdsUseLsbIn12bitMode": 0,
+            "lvdsRxClkInversionEn": false,
+            "cmosDdrPosClkEn": false,
+            "cmosClkInversionEn": false,
+            "ddrEn": false,
+            "rxMaskStrobeEn": false
+          }
+        }
+      }, {
+        "profile": {
+          "primarySigBandwidth_Hz": 12500,
+          "rxOutputRate_Hz": 0,
+          "rxInterfaceSampleRate_Hz": 0,
+          "rxOffsetLo_kHz": 0,
+          "rxNcoEnable": false,
+          "outputSignaling": 0,
+          "filterOrder": 1,
+          "filterOrderLp": 1,
+          "hpAdcCorner": 0,
+          "lpAdcCorner": 0,
+          "adcClk_kHz": 0,
+          "rxCorner3dB_kHz": 0,
+          "rxCorner3dBLp_kHz": 0,
+          "tiaPower": 2,
+          "tiaPowerLp": 2,
+          "channelType": 0,
+          "adcType": 1,
+          "lpAdcCalMode": 0,
+          "gainTableType": 0,
+          "rxDpProfile": {
+            "rxNbDecTop": {
+              "scicBlk23En": 0,
+              "scicBlk23DivFactor": 0,
+              "scicBlk23LowRippleEn": 0,
+              "decBy2Blk35En": 0,
+              "decBy2Blk37En": 0,
+              "decBy2Blk39En": 0,
+              "decBy2Blk41En": 0,
+              "decBy2Blk43En": 0,
+              "decBy3Blk45En": 0,
+              "decBy2Blk47En": 0
+            },
+            "rxWbDecTop": {
+              "decBy2Blk25En": 0,
+              "decBy2Blk27En": 0,
+              "decBy2Blk29En": 0,
+              "decBy2Blk31En": 0,
+              "decBy2Blk33En": 0,
+              "wbLpfBlk33p1En": 0
+            },
+            "rxDecTop": {
+              "decBy3Blk15En": 0,
+              "decBy2Hb3Blk17p1En": 0,
+              "decBy2Hb4Blk17p2En": 0,
+              "decBy2Hb5Blk19p1En": 0,
+              "decBy2Hb6Blk19p2En": 0
+            },
+            "rxSincHBTop": {
+              "sincGainMux": 1,
+              "sincMux": 0,
+              "hbMux": 4,
+              "isGainCompEnabled": 0,
+              "gainComp9GainI": [ 16384, 16384, 16384, 16384, 16384, 16384 ],
+              "gainComp9GainQ": [ 0, 0, 0, 0, 0, 0 ]
+            },
+            "rxNbDem": {
+              "dpInFifo": {
+                "dpInFifoEn": 0,
+                "dpInFifoMode": 0,
+                "dpInFifoTestDataSel": 0
+              },
+              "rxNbNco": {
+                "rxNbNcoEn": 0,
+                "rxNbNcoConfig": {
+                  "freq": 0,
+                  "sampleFreq": 0,
+                  "phase": 0,
+                  "realOut": 0
+                }
+              },
+              "rxWbNbCompPFir": {
+                "bankSel": 0,
+                "rxWbNbCompPFirInMuxSel": 0,
+                "rxWbNbCompPFirEn": 0
+              },
+              "resamp": {
+                "rxResampEn": 0,
+                "resampPhaseI": 0,
+                "resampPhaseQ": 0
+              },
+              "gsOutMuxSel": 1,
+              "rxOutSel": 0,
+              "rxRoundMode": 0,
+              "dpArmSel": 0
+            }
+          },
+          "lnaConfig": {
+            "externalLnaPresent": false,
+            "gpioSourceSel": 0,
+            "externalLnaPinSel": 0,
+            "settlingDelay": 0,
+            "numberLnaGainSteps": 0,
+            "lnaGainSteps_mdB": [ 0, 0, 0, 0 ],
+            "lnaDigitalGainDelay": 0,
+            "minGainIndex": 0
+          },
+          "rxSsiConfig": {
+            "ssiType": 0,
+            "ssiDataFormatSel": 0,
+            "numLaneSel": 0,
+            "strobeType": 0,
+            "lsbFirst": 0,
+            "qFirst": 0,
+            "txRefClockPin": 0,
+            "lvdsIBitInversion": false,
+            "lvdsQBitInversion": false,
+            "lvdsStrobeBitInversion": false,
+            "lvdsUseLsbIn12bitMode": 0,
+            "lvdsRxClkInversionEn": false,
+            "cmosDdrPosClkEn": false,
+            "cmosClkInversionEn": false,
+            "ddrEn": false,
+            "rxMaskStrobeEn": false
+          }
+        }
+      }, {
+        "profile": {
+          "primarySigBandwidth_Hz": 12000,
+          "rxOutputRate_Hz": 24000,
+          "rxInterfaceSampleRate_Hz": 24000,
           "rxOffsetLo_kHz": 0,
           "rxNcoEnable": false,
           "outputSignaling": 0,
@@ -164,398 +515,47 @@
           "filterOrderLp": 1,
           "hpAdcCorner": 20000000,
           "lpAdcCorner": 0,
-          "adcClk_kHz": 2211840,
+          "adcClk_kHz": 1105920,
           "rxCorner3dB_kHz": 10000,
           "rxCorner3dBLp_kHz": 10000,
-          "tiaPower": 2,
-          "tiaPowerLp": 2,
-          "channelType": 2,
-          "adcType": 1,
-          "lpAdcCalMode": 0,
-          "gainTableType": 0,
-          "rxDpProfile": {
-            "rxNbDecTop": {
-              "scicBlk23En": 0,
-              "scicBlk23DivFactor": 1,
-              "scicBlk23LowRippleEn": 0,
-              "decBy2Blk35En": 0,
-              "decBy2Blk37En": 0,
-              "decBy2Blk39En": 0,
-              "decBy2Blk41En": 0,
-              "decBy2Blk43En": 0,
-              "decBy3Blk45En": 0,
-              "decBy2Blk47En": 0
-            },
-            "rxWbDecTop": {
-              "decBy2Blk25En": 0,
-              "decBy2Blk27En": 0,
-              "decBy2Blk29En": 1,
-              "decBy2Blk31En": 1,
-              "decBy2Blk33En": 1,
-              "wbLpfBlk33p1En": 0
-            },
-            "rxDecTop": {
-              "decBy3Blk15En": 1,
-              "decBy2Hb3Blk17p1En": 0,
-              "decBy2Hb4Blk17p2En": 0,
-              "decBy2Hb5Blk19p1En": 0,
-              "decBy2Hb6Blk19p2En": 0
-            },
-            "rxSincHBTop": {
-              "sincGainMux": 1,
-              "sincMux": 4,
-              "hbMux": 4,
-              "isGainCompEnabled": 0,
-              "gainComp9GainI": [ 16384, 16384, 16384, 16384, 16384, 16384 ],
-              "gainComp9GainQ": [ 0, 0, 0, 0, 0, 0 ]
-            },
-            "rxNbDem": {
-              "dpInFifo": {
-                "dpInFifoEn": 0,
-                "dpInFifoMode": 0,
-                "dpInFifoTestDataSel": 0
-              },
-              "rxNbNco": {
-                "rxNbNcoEn": 0,
-                "rxNbNcoConfig": {
-                  "freq": 0,
-                  "sampleFreq": 0,
-                  "phase": 0,
-                  "realOut": 0
-                }
-              },
-              "rxWbNbCompPFir": {
-                "bankSel": 2,
-                "rxWbNbCompPFirInMuxSel": 0,
-                "rxWbNbCompPFirEn": 1
-              },
-              "resamp": {
-                "rxResampEn": 0,
-                "resampPhaseI": 0,
-                "resampPhaseQ": 0
-              },
-              "gsOutMuxSel": 1,
-              "rxOutSel": 0,
-              "rxRoundMode": 0,
-              "dpArmSel": 0
-            }
-          },
-          "lnaConfig": {
-            "externalLnaPresent": false,
-            "gpioSourceSel": 0,
-            "externalLnaPinSel": 0,
-            "settlingDelay": 0,
-            "numberLnaGainSteps": 0,
-            "lnaGainSteps_mdB": [ 0, 0, 0, 0 ],
-            "lnaDigitalGainDelay": 0,
-            "minGainIndex": 0
-          },
-          "rxSsiConfig": {
-            "ssiType": 1,
-            "ssiDataFormatSel": 4,
-            "numLaneSel": 2,
-            "strobeType": 0,
-            "lsbFirst": 0,
-            "qFirst": 0,
-            "txRefClockPin": 0,
-            "lvdsIBitInversion": false,
-            "lvdsQBitInversion": false,
-            "lvdsStrobeBitInversion": false,
-            "lvdsUseLsbIn12bitMode": 0,
-            "lvdsRxClkInversionEn": false,
-            "cmosDdrPosClkEn": false,
-            "cmosClkInversionEn": false,
-            "ddrEn": false,
-            "rxMaskStrobeEn": false
-          }
-        }
-      }, {
-        "profile": {
-          "primarySigBandwidth_Hz": 12500,
-          "rxOutputRate_Hz": 0,
-          "rxInterfaceSampleRate_Hz": 0,
-          "rxOffsetLo_kHz": 0,
-          "rxNcoEnable": false,
-          "outputSignaling": 0,
-          "filterOrder": 1,
-          "filterOrderLp": 1,
-          "hpAdcCorner": 0,
-          "lpAdcCorner": 0,
-          "adcClk_kHz": 0,
-          "rxCorner3dB_kHz": 0,
-          "rxCorner3dBLp_kHz": 0,
-          "tiaPower": 2,
-          "tiaPowerLp": 2,
-          "channelType": 0,
-          "adcType": 1,
-          "lpAdcCalMode": 0,
-          "gainTableType": 0,
-          "rxDpProfile": {
-            "rxNbDecTop": {
-              "scicBlk23En": 0,
-              "scicBlk23DivFactor": 0,
-              "scicBlk23LowRippleEn": 0,
-              "decBy2Blk35En": 0,
-              "decBy2Blk37En": 0,
-              "decBy2Blk39En": 0,
-              "decBy2Blk41En": 0,
-              "decBy2Blk43En": 0,
-              "decBy3Blk45En": 0,
-              "decBy2Blk47En": 0
-            },
-            "rxWbDecTop": {
-              "decBy2Blk25En": 0,
-              "decBy2Blk27En": 0,
-              "decBy2Blk29En": 0,
-              "decBy2Blk31En": 0,
-              "decBy2Blk33En": 0,
-              "wbLpfBlk33p1En": 0
-            },
-            "rxDecTop": {
-              "decBy3Blk15En": 0,
-              "decBy2Hb3Blk17p1En": 0,
-              "decBy2Hb4Blk17p2En": 0,
-              "decBy2Hb5Blk19p1En": 0,
-              "decBy2Hb6Blk19p2En": 0
-            },
-            "rxSincHBTop": {
-              "sincGainMux": 1,
-              "sincMux": 0,
-              "hbMux": 4,
-              "isGainCompEnabled": 0,
-              "gainComp9GainI": [ 16384, 16384, 16384, 16384, 16384, 16384 ],
-              "gainComp9GainQ": [ 0, 0, 0, 0, 0, 0 ]
-            },
-            "rxNbDem": {
-              "dpInFifo": {
-                "dpInFifoEn": 0,
-                "dpInFifoMode": 0,
-                "dpInFifoTestDataSel": 0
-              },
-              "rxNbNco": {
-                "rxNbNcoEn": 0,
-                "rxNbNcoConfig": {
-                  "freq": 0,
-                  "sampleFreq": 0,
-                  "phase": 0,
-                  "realOut": 0
-                }
-              },
-              "rxWbNbCompPFir": {
-                "bankSel": 0,
-                "rxWbNbCompPFirInMuxSel": 0,
-                "rxWbNbCompPFirEn": 0
-              },
-              "resamp": {
-                "rxResampEn": 0,
-                "resampPhaseI": 0,
-                "resampPhaseQ": 0
-              },
-              "gsOutMuxSel": 1,
-              "rxOutSel": 0,
-              "rxRoundMode": 0,
-              "dpArmSel": 0
-            }
-          },
-          "lnaConfig": {
-            "externalLnaPresent": false,
-            "gpioSourceSel": 0,
-            "externalLnaPinSel": 0,
-            "settlingDelay": 0,
-            "numberLnaGainSteps": 0,
-            "lnaGainSteps_mdB": [ 0, 0, 0, 0 ],
-            "lnaDigitalGainDelay": 0,
-            "minGainIndex": 0
-          },
-          "rxSsiConfig": {
-            "ssiType": 0,
-            "ssiDataFormatSel": 0,
-            "numLaneSel": 0,
-            "strobeType": 0,
-            "lsbFirst": 0,
-            "qFirst": 0,
-            "txRefClockPin": 0,
-            "lvdsIBitInversion": false,
-            "lvdsQBitInversion": false,
-            "lvdsStrobeBitInversion": false,
-            "lvdsUseLsbIn12bitMode": 0,
-            "lvdsRxClkInversionEn": false,
-            "cmosDdrPosClkEn": false,
-            "cmosClkInversionEn": false,
-            "ddrEn": false,
-            "rxMaskStrobeEn": false
-          }
-        }
-      }, {
-        "profile": {
-          "primarySigBandwidth_Hz": 12500,
-          "rxOutputRate_Hz": 0,
-          "rxInterfaceSampleRate_Hz": 0,
-          "rxOffsetLo_kHz": 0,
-          "rxNcoEnable": false,
-          "outputSignaling": 0,
-          "filterOrder": 1,
-          "filterOrderLp": 1,
-          "hpAdcCorner": 0,
-          "lpAdcCorner": 0,
-          "adcClk_kHz": 0,
-          "rxCorner3dB_kHz": 0,
-          "rxCorner3dBLp_kHz": 0,
-          "tiaPower": 2,
-          "tiaPowerLp": 2,
-          "channelType": 0,
-          "adcType": 1,
-          "lpAdcCalMode": 0,
-          "gainTableType": 0,
-          "rxDpProfile": {
-            "rxNbDecTop": {
-              "scicBlk23En": 0,
-              "scicBlk23DivFactor": 0,
-              "scicBlk23LowRippleEn": 0,
-              "decBy2Blk35En": 0,
-              "decBy2Blk37En": 0,
-              "decBy2Blk39En": 0,
-              "decBy2Blk41En": 0,
-              "decBy2Blk43En": 0,
-              "decBy3Blk45En": 0,
-              "decBy2Blk47En": 0
-            },
-            "rxWbDecTop": {
-              "decBy2Blk25En": 0,
-              "decBy2Blk27En": 0,
-              "decBy2Blk29En": 0,
-              "decBy2Blk31En": 0,
-              "decBy2Blk33En": 0,
-              "wbLpfBlk33p1En": 0
-            },
-            "rxDecTop": {
-              "decBy3Blk15En": 0,
-              "decBy2Hb3Blk17p1En": 0,
-              "decBy2Hb4Blk17p2En": 0,
-              "decBy2Hb5Blk19p1En": 0,
-              "decBy2Hb6Blk19p2En": 0
-            },
-            "rxSincHBTop": {
-              "sincGainMux": 1,
-              "sincMux": 0,
-              "hbMux": 4,
-              "isGainCompEnabled": 0,
-              "gainComp9GainI": [ 16384, 16384, 16384, 16384, 16384, 16384 ],
-              "gainComp9GainQ": [ 0, 0, 0, 0, 0, 0 ]
-            },
-            "rxNbDem": {
-              "dpInFifo": {
-                "dpInFifoEn": 0,
-                "dpInFifoMode": 0,
-                "dpInFifoTestDataSel": 0
-              },
-              "rxNbNco": {
-                "rxNbNcoEn": 0,
-                "rxNbNcoConfig": {
-                  "freq": 0,
-                  "sampleFreq": 0,
-                  "phase": 0,
-                  "realOut": 0
-                }
-              },
-              "rxWbNbCompPFir": {
-                "bankSel": 0,
-                "rxWbNbCompPFirInMuxSel": 0,
-                "rxWbNbCompPFirEn": 0
-              },
-              "resamp": {
-                "rxResampEn": 0,
-                "resampPhaseI": 0,
-                "resampPhaseQ": 0
-              },
-              "gsOutMuxSel": 1,
-              "rxOutSel": 0,
-              "rxRoundMode": 0,
-              "dpArmSel": 0
-            }
-          },
-          "lnaConfig": {
-            "externalLnaPresent": false,
-            "gpioSourceSel": 0,
-            "externalLnaPinSel": 0,
-            "settlingDelay": 0,
-            "numberLnaGainSteps": 0,
-            "lnaGainSteps_mdB": [ 0, 0, 0, 0 ],
-            "lnaDigitalGainDelay": 0,
-            "minGainIndex": 0
-          },
-          "rxSsiConfig": {
-            "ssiType": 0,
-            "ssiDataFormatSel": 0,
-            "numLaneSel": 0,
-            "strobeType": 0,
-            "lsbFirst": 0,
-            "qFirst": 0,
-            "txRefClockPin": 0,
-            "lvdsIBitInversion": false,
-            "lvdsQBitInversion": false,
-            "lvdsStrobeBitInversion": false,
-            "lvdsUseLsbIn12bitMode": 0,
-            "lvdsRxClkInversionEn": false,
-            "cmosDdrPosClkEn": false,
-            "cmosClkInversionEn": false,
-            "ddrEn": false,
-            "rxMaskStrobeEn": false
-          }
-        }
-      }, {
-        "profile": {
-          "primarySigBandwidth_Hz": 4500000,
-          "rxOutputRate_Hz": 7680000,
-          "rxInterfaceSampleRate_Hz": 7680000,
-          "rxOffsetLo_kHz": 0,
-          "rxNcoEnable": false,
-          "outputSignaling": 0,
-          "filterOrder": 1,
-          "filterOrderLp": 1,
-          "hpAdcCorner": 50000000,
-          "lpAdcCorner": 0,
-          "adcClk_kHz": 2211840,
-          "rxCorner3dB_kHz": 100000,
-          "rxCorner3dBLp_kHz": 100000,
-          "tiaPower": 2,
-          "tiaPowerLp": 2,
+          "tiaPower": 0,
+          "tiaPowerLp": 0,
           "channelType": 64,
-          "adcType": 1,
+          "adcType": 0,
           "lpAdcCalMode": 0,
           "gainTableType": 0,
           "rxDpProfile": {
             "rxNbDecTop": {
-              "scicBlk23En": 0,
-              "scicBlk23DivFactor": 1,
+              "scicBlk23En": 1,
+              "scicBlk23DivFactor": 10,
               "scicBlk23LowRippleEn": 0,
-              "decBy2Blk35En": 0,
-              "decBy2Blk37En": 0,
-              "decBy2Blk39En": 0,
-              "decBy2Blk41En": 0,
-              "decBy2Blk43En": 0,
-              "decBy3Blk45En": 0,
-              "decBy2Blk47En": 0
+              "decBy2Blk35En": 1,
+              "decBy2Blk37En": 1,
+              "decBy2Blk39En": 1,
+              "decBy2Blk41En": 1,
+              "decBy2Blk43En": 1,
+              "decBy3Blk45En": 1,
+              "decBy2Blk47En": 1
             },
             "rxWbDecTop": {
               "decBy2Blk25En": 0,
               "decBy2Blk27En": 0,
-              "decBy2Blk29En": 1,
-              "decBy2Blk31En": 1,
-              "decBy2Blk33En": 1,
+              "decBy2Blk29En": 0,
+              "decBy2Blk31En": 0,
+              "decBy2Blk33En": 0,
               "wbLpfBlk33p1En": 0
             },
             "rxDecTop": {
-              "decBy3Blk15En": 1,
-              "decBy2Hb3Blk17p1En": 0,
+              "decBy3Blk15En": 0,
+              "decBy2Hb3Blk17p1En": 1,
               "decBy2Hb4Blk17p2En": 0,
-              "decBy2Hb5Blk19p1En": 0,
+              "decBy2Hb5Blk19p1En": 1,
               "decBy2Hb6Blk19p2En": 0
             },
             "rxSincHBTop": {
               "sincGainMux": 1,
-              "sincMux": 4,
-              "hbMux": 2,
+              "sincMux": 1,
+              "hbMux": 4,
               "isGainCompEnabled": 0,
               "gainComp9GainI": [ 16384, 16384, 16384, 16384, 16384, 16384 ],
               "gainComp9GainQ": [ 0, 0, 0, 0, 0, 0 ]
@@ -604,7 +604,7 @@
           "rxSsiConfig": {
             "ssiType": 1,
             "ssiDataFormatSel": 4,
-            "numLaneSel": 2,
+            "numLaneSel": 0,
             "strobeType": 0,
             "lsbFirst": 0,
             "qFirst": 0,
@@ -622,29 +622,29 @@
         }
       }, {
         "profile": {
-          "primarySigBandwidth_Hz": 4500000,
-          "rxOutputRate_Hz": 7680000,
-          "rxInterfaceSampleRate_Hz": 7680000,
+          "primarySigBandwidth_Hz": 12500,
+          "rxOutputRate_Hz": 0,
+          "rxInterfaceSampleRate_Hz": 0,
           "rxOffsetLo_kHz": 0,
           "rxNcoEnable": false,
           "outputSignaling": 0,
           "filterOrder": 1,
           "filterOrderLp": 1,
-          "hpAdcCorner": 50000000,
+          "hpAdcCorner": 0,
           "lpAdcCorner": 0,
-          "adcClk_kHz": 2211840,
-          "rxCorner3dB_kHz": 100000,
-          "rxCorner3dBLp_kHz": 100000,
+          "adcClk_kHz": 0,
+          "rxCorner3dB_kHz": 0,
+          "rxCorner3dBLp_kHz": 0,
           "tiaPower": 2,
           "tiaPowerLp": 2,
-          "channelType": 128,
+          "channelType": 0,
           "adcType": 1,
           "lpAdcCalMode": 0,
           "gainTableType": 0,
           "rxDpProfile": {
             "rxNbDecTop": {
               "scicBlk23En": 0,
-              "scicBlk23DivFactor": 1,
+              "scicBlk23DivFactor": 0,
               "scicBlk23LowRippleEn": 0,
               "decBy2Blk35En": 0,
               "decBy2Blk37En": 0,
@@ -657,13 +657,13 @@
             "rxWbDecTop": {
               "decBy2Blk25En": 0,
               "decBy2Blk27En": 0,
-              "decBy2Blk29En": 1,
-              "decBy2Blk31En": 1,
-              "decBy2Blk33En": 1,
+              "decBy2Blk29En": 0,
+              "decBy2Blk31En": 0,
+              "decBy2Blk33En": 0,
               "wbLpfBlk33p1En": 0
             },
             "rxDecTop": {
-              "decBy3Blk15En": 1,
+              "decBy3Blk15En": 0,
               "decBy2Hb3Blk17p1En": 0,
               "decBy2Hb4Blk17p2En": 0,
               "decBy2Hb5Blk19p1En": 0,
@@ -671,8 +671,8 @@
             },
             "rxSincHBTop": {
               "sincGainMux": 1,
-              "sincMux": 4,
-              "hbMux": 2,
+              "sincMux": 0,
+              "hbMux": 4,
               "isGainCompEnabled": 0,
               "gainComp9GainI": [ 16384, 16384, 16384, 16384, 16384, 16384 ],
               "gainComp9GainQ": [ 0, 0, 0, 0, 0, 0 ]
@@ -693,7 +693,7 @@
                 }
               },
               "rxWbNbCompPFir": {
-                "bankSel": 3,
+                "bankSel": 0,
                 "rxWbNbCompPFirInMuxSel": 0,
                 "rxWbNbCompPFirEn": 0
               },
@@ -719,9 +719,9 @@
             "minGainIndex": 0
           },
           "rxSsiConfig": {
-            "ssiType": 1,
-            "ssiDataFormatSel": 4,
-            "numLaneSel": 2,
+            "ssiType": 0,
+            "ssiDataFormatSel": 0,
+            "numLaneSel": 0,
             "strobeType": 0,
             "lsbFirst": 0,
             "qFirst": 0,
@@ -974,20 +974,20 @@
       } ]
   },
   "tx": {
-    "txInitChannelMask": 12,
+    "txInitChannelMask": 4,
     "txProfile": [ {
-        "primarySigBandwidth_Hz": 4500000,
-        "txInputRate_Hz": 7680000,
-        "txInterfaceSampleRate_Hz": 7680000,
+        "primarySigBandwidth_Hz": 12000,
+        "txInputRate_Hz": 24000,
+        "txInterfaceSampleRate_Hz": 24000,
         "txOffsetLo_kHz": 0,
         "validDataDelay": 0,
-        "txBbf3dBCorner_kHz": 50000,
+        "txBbf3dBCorner_kHz": 33000,
         "outputSignaling": 0,
         "txPdBiasCurrent": 1,
         "txPdGainEnable": 0,
         "txPrePdRealPole_kHz": 1000000,
         "txPostPdRealPole_kHz": 530000,
-        "txBbfPower": 2,
+        "txBbfPower": 0,
         "txExtLoopBackType": 0,
         "txExtLoopBackForInitCal": 0,
         "txPeakLoopBackPower": 0,
@@ -1006,29 +1006,29 @@
           "txWbIntTop": {
             "txInterpBy2Blk30En": 0,
             "txInterpBy2Blk28En": 0,
-            "txInterpBy2Blk26En": 1,
-            "txInterpBy2Blk24En": 1,
-            "txInterpBy2Blk22En": 1,
+            "txInterpBy2Blk26En": 0,
+            "txInterpBy2Blk24En": 0,
+            "txInterpBy2Blk22En": 0,
             "txWbLpfBlk22p1En": 0
           },
           "txNbIntTop": {
-            "txInterpBy2Blk20En": 0,
-            "txInterpBy2Blk18En": 0,
-            "txInterpBy2Blk16En": 0,
-            "txInterpBy2Blk14En": 0,
-            "txInterpBy2Blk12En": 0,
-            "txInterpBy3Blk10En": 0,
-            "txInterpBy2Blk8En": 0,
-            "txScicBlk32En": 0,
-            "txScicBlk32DivFactor": 1
+            "txInterpBy2Blk20En": 1,
+            "txInterpBy2Blk18En": 1,
+            "txInterpBy2Blk16En": 1,
+            "txInterpBy2Blk14En": 1,
+            "txInterpBy2Blk12En": 1,
+            "txInterpBy3Blk10En": 1,
+            "txInterpBy2Blk8En": 1,
+            "txScicBlk32En": 1,
+            "txScicBlk32DivFactor": 10
           },
           "txIntTop": {
-            "interpBy3Blk44p1En": 1,
+            "interpBy3Blk44p1En": 0,
             "sinc3Blk44En": 0,
             "sinc2Blk42En": 0,
-            "interpBy3Blk40En": 1,
-            "interpBy2Blk38En": 0,
-            "interpBy2Blk36En": 0
+            "interpBy3Blk40En": 0,
+            "interpBy2Blk38En": 1,
+            "interpBy2Blk36En": 1
           },
           "txIntTopFreqDevMap": {
             "rrc2Frac": 0,
@@ -1046,7 +1046,7 @@
             "iqdmThreshold": 0,
             "iqdmNco": {
               "freq": 0,
-              "sampleFreq": 61440000,
+              "sampleFreq": 46080000,
               "phase": 0,
               "realOut": 0
             }
@@ -1055,7 +1055,7 @@
         "txSsiConfig": {
           "ssiType": 1,
           "ssiDataFormatSel": 4,
-          "numLaneSel": 2,
+          "numLaneSel": 0,
           "strobeType": 0,
           "lsbFirst": 0,
           "qFirst": 0,
@@ -1071,17 +1071,17 @@
           "rxMaskStrobeEn": false
         }
       }, {
-        "primarySigBandwidth_Hz": 4500000,
-        "txInputRate_Hz": 7680000,
-        "txInterfaceSampleRate_Hz": 7680000,
+        "primarySigBandwidth_Hz": 12500,
+        "txInputRate_Hz": 0,
+        "txInterfaceSampleRate_Hz": 0,
         "txOffsetLo_kHz": 0,
         "validDataDelay": 0,
-        "txBbf3dBCorner_kHz": 50000,
+        "txBbf3dBCorner_kHz": 33000,
         "outputSignaling": 0,
-        "txPdBiasCurrent": 1,
+        "txPdBiasCurrent": 0,
         "txPdGainEnable": 0,
-        "txPrePdRealPole_kHz": 1000000,
-        "txPostPdRealPole_kHz": 530000,
+        "txPrePdRealPole_kHz": 0,
+        "txPostPdRealPole_kHz": 0,
         "txBbfPower": 2,
         "txExtLoopBackType": 0,
         "txExtLoopBackForInitCal": 0,
@@ -1101,9 +1101,9 @@
           "txWbIntTop": {
             "txInterpBy2Blk30En": 0,
             "txInterpBy2Blk28En": 0,
-            "txInterpBy2Blk26En": 1,
-            "txInterpBy2Blk24En": 1,
-            "txInterpBy2Blk22En": 1,
+            "txInterpBy2Blk26En": 0,
+            "txInterpBy2Blk24En": 0,
+            "txInterpBy2Blk22En": 0,
             "txWbLpfBlk22p1En": 0
           },
           "txNbIntTop": {
@@ -1115,13 +1115,13 @@
             "txInterpBy3Blk10En": 0,
             "txInterpBy2Blk8En": 0,
             "txScicBlk32En": 0,
-            "txScicBlk32DivFactor": 1
+            "txScicBlk32DivFactor": 0
           },
           "txIntTop": {
-            "interpBy3Blk44p1En": 1,
+            "interpBy3Blk44p1En": 0,
             "sinc3Blk44En": 0,
             "sinc2Blk42En": 0,
-            "interpBy3Blk40En": 1,
+            "interpBy3Blk40En": 0,
             "interpBy2Blk38En": 0,
             "interpBy2Blk36En": 0
           },
@@ -1141,20 +1141,20 @@
             "iqdmThreshold": 0,
             "iqdmNco": {
               "freq": 0,
-              "sampleFreq": 61440000,
+              "sampleFreq": 0,
               "phase": 0,
               "realOut": 0
             }
           }
         },
         "txSsiConfig": {
-          "ssiType": 1,
-          "ssiDataFormatSel": 4,
-          "numLaneSel": 2,
+          "ssiType": 0,
+          "ssiDataFormatSel": 0,
+          "numLaneSel": 0,
           "strobeType": 0,
           "lsbFirst": 0,
           "qFirst": 0,
-          "txRefClockPin": 1,
+          "txRefClockPin": 0,
           "lvdsIBitInversion": false,
           "lvdsQBitInversion": false,
           "lvdsStrobeBitInversion": false,
@@ -1168,12 +1168,12 @@
       } ]
   },
   "sysConfig": {
-    "duplexMode": 1,
+    "duplexMode": 0,
     "fhModeOn": 0,
     "numDynamicProfiles": 1,
     "mcsMode": 0,
     "mcsInterfaceType": 0,
-    "adcTypeMonitor": 1,
+    "adcTypeMonitor": 0,
     "pllLockTime_us": 750,
     "pllPhaseSyncWait_us": 0,
     "pllModulus": {
@@ -1188,7 +1188,7 @@
       "symmetricSel": 0,
       "tapsSel": 3,
       "gainSel": 2,
-      "coefficients": [ 475, 312, -782, -39, 1201, -777, -1182, 1981, 177, -2874, 1941, 2393, -4416, 225, 5594, -4581, -3668, 8650, -1992, -9342, 9646, 4213, -15137, 6404, 13615, -18199, -2610, 23969, -15142, -17198, 31204, -3269, -34604, 30213, 17955, -49337, 16361, 45636, -53954, -12567, 72920, -40769, -54562, 89506, -4148, -102269, 83183, 57280, -142874, 41767, 139213, -158628, -45955, 231679, -125964, -193870, 320642, -4532, -442087, 390927, 347244, -1055854, 429729, 4391599, 4391599, 429729, -1055854, 347244, 390927, -442087, -4532, 320642, -193870, -125964, 231679, -45955, -158628, 139213, 41767, -142874, 57280, 83183, -102269, -4148, 89506, -54562, -40769, 72920, -12567, -53954, 45636, 16361, -49337, 17955, 30213, -34604, -3269, 31204, -17198, -15142, 23969, -2610, -18199, 13615, 6404, -15137, 4213, 9646, -9342, -1992, 8650, -3668, -4581, 5594, 225, -4416, 2393, 1941, -2874, 177, 1981, -1182, -777, 1201, -39, -782, 312, 0 ]
+      "coefficients": [ 1, -5, -2, 12, 7, -24, -22, 37, 56, -47, -119, 37, 218, 21, -352, -169, 501, 459, -611, -944, 581, 1659, -252, -2592, -606, 3641, 2295, -4564, -5239, 4868, 10405, -2150, -16860, -7184, 17284, 16170, -15978, -28242, 8754, 41070, 6970, -50243, -31684, 50215, 63113, -35486, -95952, 1919, 122118, 52081, -131402, -124789, 112154, 210975, -51173, -302406, -69399, 388963, 286340, -460206, -731028, 507073, 2617033, 3674001, 2617033, 507073, -731028, -460206, 286340, 388963, -69399, -302406, -51173, 210975, 112154, -124789, -131402, 52081, 122118, 1919, -95952, -35486, 63113, 50215, -31684, -50243, 6970, 41070, 8754, -28242, -15978, 16170, 17284, -7184, -16860, -2150, 10405, 4868, -5239, -4564, 2295, 3641, -606, -2592, -252, 1659, 581, -944, -611, 459, 501, -169, -352, 21, 218, 37, -119, -47, 56, 37, -22, -24, 7, 12, -2, -5, 1, 0 ]
     },
     "pfirRxWbNbChFilterCoeff_B": {
       "numCoeff": 128,
@@ -1202,7 +1202,7 @@
       "symmetricSel": 0,
       "tapsSel": 3,
       "gainSel": 2,
-      "coefficients": [ 475, 312, -782, -39, 1201, -777, -1182, 1981, 177, -2874, 1941, 2393, -4416, 225, 5594, -4581, -3668, 8650, -1992, -9342, 9646, 4213, -15137, 6404, 13615, -18199, -2610, 23969, -15142, -17198, 31204, -3269, -34604, 30213, 17955, -49337, 16361, 45636, -53954, -12567, 72920, -40769, -54562, 89506, -4148, -102269, 83183, 57280, -142874, 41767, 139213, -158628, -45955, 231679, -125964, -193870, 320642, -4532, -442087, 390927, 347244, -1055854, 429729, 4391599, 4391599, 429729, -1055854, 347244, 390927, -442087, -4532, 320642, -193870, -125964, 231679, -45955, -158628, 139213, 41767, -142874, 57280, 83183, -102269, -4148, 89506, -54562, -40769, 72920, -12567, -53954, 45636, 16361, -49337, 17955, 30213, -34604, -3269, 31204, -17198, -15142, 23969, -2610, -18199, 13615, 6404, -15137, 4213, 9646, -9342, -1992, 8650, -3668, -4581, 5594, 225, -4416, 2393, 1941, -2874, 177, 1981, -1182, -777, 1201, -39, -782, 312, 0 ]
+      "coefficients": [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8388608, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
     },
     "pfirRxWbNbChFilterCoeff_D": {
       "numCoeff": 128,
@@ -1226,17 +1226,17 @@
       "coefficients": [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
     },
     "pfirTxWbNbPulShpCoeff_C": {
-      "numCoeff": 128,
+      "numCoeff": 0,
       "symmetricSel": 0,
-      "tapsSel": 3,
-      "gainSel": 2,
+      "tapsSel": 0,
+      "gainSel": 0,
       "coefficients": [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
     },
     "pfirTxWbNbPulShpCoeff_D": {
-      "numCoeff": 128,
+      "numCoeff": 0,
       "symmetricSel": 0,
-      "tapsSel": 3,
-      "gainSel": 2,
+      "tapsSel": 0,
+      "gainSel": 0,
       "coefficients": [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
     },
     "pfirRxNbPulShp": [ {
@@ -1246,74 +1246,74 @@
         "gainSel": 2,
         "coefficients": [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8388608, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
       }, {
-        "numCoeff": 128,
+        "numCoeff": 0,
         "symmetricSel": 0,
-        "taps": 128,
-        "gainSel": 2,
-        "coefficients": [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8388608, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+        "taps": 0,
+        "gainSel": 0,
+        "coefficients": [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
       } ],
     "pfirRxMagLowTiaLowSRHp": [ {
         "numCoeff": 21,
-        "coefficients": [ -346, 1329, -1178, -1281, 1308, 2727, -1341, -5852, -1018, 12236, 19599, 12236, -1018, -5852, -1341, 2727, 1308, -1281, -1178, 1329, -346 ]
+        "coefficients": [ -31, 59, 257, -779, -8, 1745, 30, -4301, -1291, 11248, 18911, 11248, -1291, -4301, 30, 1745, -8, -779, 257, 59, -31 ]
       }, {
-        "numCoeff": 21,
-        "coefficients": [ -346, 1329, -1178, -1281, 1308, 2727, -1341, -5852, -1018, 12236, 19599, 12236, -1018, -5852, -1341, 2727, 1308, -1281, -1178, 1329, -346 ]
+        "numCoeff": 0,
+        "coefficients": [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
       } ],
     "pfirRxMagLowTiaHighSRHp": [ {
         "numCoeff": 21,
-        "coefficients": [ -2474, 892, 6049, 4321, -7599, -15881, -6074, 13307, 18926, 6338, -2843, 6338, 18926, 13307, -6074, -15881, -7599, 4321, 6049, 892, -2474 ]
+        "coefficients": [ -940, -178, 1792, 2565, -566, -5836, -7722, -2815, 6471, 14694, 17836, 14694, 6471, -2815, -7722, -5836, -566, 2565, 1792, -178, -940 ]
       }, {
-        "numCoeff": 21,
-        "coefficients": [ -2474, 892, 6049, 4321, -7599, -15881, -6074, 13307, 18926, 6338, -2843, 6338, 18926, 13307, -6074, -15881, -7599, 4321, 6049, 892, -2474 ]
+        "numCoeff": 0,
+        "coefficients": [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
       } ],
     "pfirRxMagHighTiaHighSRHp": [ {
         "numCoeff": 21,
-        "coefficients": [ 39, -229, 714, -1485, 2134, -1844, -219, 4147, -8514, 8496, 26292, 8496, -8514, 4147, -219, -1844, 2134, -1485, 714, -229, 39 ]
+        "coefficients": [ 41, -241, 750, -1559, 2236, -1920, -262, 4378, -8850, 8452, 26718, 8452, -8850, 4378, -262, -1920, 2236, -1559, 750, -241, 41 ]
       }, {
-        "numCoeff": 21,
-        "coefficients": [ 39, -229, 714, -1485, 2134, -1844, -219, 4147, -8514, 8496, 26292, 8496, -8514, 4147, -219, -1844, 2134, -1485, 714, -229, 39 ]
+        "numCoeff": 0,
+        "coefficients": [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
       } ],
     "pfirRxMagLowTiaLowSRLp": [ {
         "numCoeff": 21,
-        "coefficients": [ -346, 1329, -1178, -1281, 1308, 2727, -1341, -5851, -1018, 12236, 19599, 12236, -1018, -5851, -1341, 2727, 1308, -1281, -1178, 1329, -346 ]
+        "coefficients": [ -31, 59, 257, -779, -8, 1745, 30, -4300, -1289, 11247, 18908, 11247, -1289, -4300, 30, 1745, -8, -779, 257, 59, -31 ]
       }, {
-        "numCoeff": 21,
-        "coefficients": [ -346, 1329, -1178, -1281, 1308, 2727, -1341, -5851, -1018, 12236, 19599, 12236, -1018, -5851, -1341, 2727, 1308, -1281, -1178, 1329, -346 ]
+        "numCoeff": 0,
+        "coefficients": [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
       } ],
     "pfirRxMagLowTiaHighSRLp": [ {
         "numCoeff": 21,
-        "coefficients": [ -2473, 892, 6048, 4321, -7598, -15879, -6072, 13306, 18924, 6338, -2843, 6338, 18924, 13306, -6072, -15879, -7598, 4321, 6048, 892, -2473 ]
+        "coefficients": [ -960, -177, 1876, 2631, -710, -6092, -7709, -2400, 6813, 14477, 17273, 14477, 6813, -2400, -7709, -6092, -710, 2631, 1876, -177, -960 ]
       }, {
-        "numCoeff": 21,
-        "coefficients": [ -2473, 892, 6048, 4321, -7598, -15879, -6072, 13306, 18924, 6338, -2843, 6338, 18924, 13306, -6072, -15879, -7598, 4321, 6048, 892, -2473 ]
+        "numCoeff": 0,
+        "coefficients": [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
       } ],
     "pfirRxMagHighTiaHighSRLp": [ {
         "numCoeff": 21,
-        "coefficients": [ 39, -229, 712, -1481, 2128, -1841, -215, 4131, -8490, 8497, 26266, 8497, -8490, 4131, -215, -1841, 2128, -1481, 712, -229, 39 ]
+        "coefficients": [ 41, -237, 739, -1536, 2208, -1908, -229, 4283, -8730, 8455, 26600, 8455, -8730, 4283, -229, -1908, 2208, -1536, 739, -237, 41 ]
       }, {
-        "numCoeff": 21,
-        "coefficients": [ 39, -229, 712, -1481, 2128, -1841, -215, 4131, -8490, 8497, 26266, 8497, -8490, 4131, -215, -1841, 2128, -1481, 712, -229, 39 ]
+        "numCoeff": 0,
+        "coefficients": [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
       } ],
     "pfirTxMagComp1": {
       "numCoeff": 21,
-      "coefficients": [ 69, -384, 1125, -2089, 2300, -165, -5248, 12368, -13473, 4864, 34039, 4864, -13473, 12368, -5248, -165, 2300, -2089, 1125, -384, 69 ]
+      "coefficients": [ 178, -1042, 3271, -6913, 10209, -9581, 1555, 14717, -24411, 7373, 42061, 7373, -24411, 14717, 1555, -9581, 10209, -6913, 3271, -1042, 178 ]
     },
     "pfirTxMagComp2": {
-      "numCoeff": 21,
-      "coefficients": [ 69, -384, 1125, -2089, 2300, -165, -5248, 12368, -13473, 4864, 34039, 4864, -13473, 12368, -5248, -165, 2300, -2089, 1125, -384, 69 ]
+      "numCoeff": 0,
+      "coefficients": [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
     },
     "pfirTxMagCompNb": [ {
         "numCoeff": 13,
-        "coefficients": [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+        "coefficients": [ 54, -468, 1339, -836, -3842, 9293, 21689, 9293, -3842, -836, 1339, -468, 54 ]
       }, {
-        "numCoeff": 13,
+        "numCoeff": 0,
         "coefficients": [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
       } ],
     "pfirRxMagCompNb": [ {
         "numCoeff": 13,
         "coefficients": [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
       }, {
-        "numCoeff": 13,
+        "numCoeff": 0,
         "coefficients": [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
       } ]
   }
