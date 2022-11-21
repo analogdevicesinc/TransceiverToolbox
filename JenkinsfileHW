@@ -36,7 +36,7 @@ lock(label: 'adgt_test_harness_boards') {
     harness.set_enable_docker(true)
     harness.set_docker_host_mode(false)
     harness.set_send_telemetry(false)
-    harness.set_log_jira(true)
+    harness.set_log_jira(false)
     harness.set_enable_resource_queuing(true)
     harness.set_lock_agent(true) // Required for MATLAB toolbox tests
     harness.set_elastic_server('192.168.10.1')
