@@ -66,6 +66,11 @@ classdef BSPTestsBase < matlab.unittest.TestCase
                 disp('Found workflow_task_CreateProject... copying');
                 movefile('workflow_task_CreateProject.log',[rdn,'_CreateProject_',cfgb.mode,'.log']);
             end
+            system(join(["find '",testCase.Folder,"' -name 'system_top_timing_summary_routed.rpt' | xargs -I '{}' cp {} ."],''));
+            if exist('system_top_timing_summary_routed.rpt','file')
+                disp('Found system_top_timing_summary_routed... copying');
+                movefile('system_top_timing_summary_routed.rpt',[rdn,'_timing_summary_',cfgb.mode,'.rpt']);
+            end
             system(join(["find '",testCase.Folder,"' -name 'workflow_task_BuildFPGABitstream.log' | xargs -I '{}' cp {} ."],''));
             if exist('workflow_task_BuildFPGABitstream.log','file')
                 disp('Found workflow_task_BuildFPGABitstream... copying');
