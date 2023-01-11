@@ -280,14 +280,14 @@ classdef Rx < adi.ADRV9009ZU11EG.Base & adi.ADRV9009.Rx
             obj.setDeviceAttributeRAW('calibrate_rx_qec_en',num2str(obj.EnableQuadratureCalibration));
             obj.setDeviceAttributeRAW('calibrate_rx_phase_correction_en',num2str(obj.EnablePhaseCorrection));
             if strcmpi(class(obj),'adi.ADRV9009ZU11EG.Rx')
-                obj.setDeviceAttributeRAW('calibrate_frm_en',num2str(obj.EnableFrequencyHoppingModeCalibration));
+                obj.setDeviceAttributeRAW('calibrate_fhm_en',num2str(obj.EnableFrequencyHoppingModeCalibration));
             end
             obj.setDeviceAttributeRAW('calibrate',num2str(true));
 
             obj.setDeviceAttributeRAW('calibrate_rx_qec_en',num2str(obj.EnableQuadratureCalibrationChipB),obj.iioDevChipB);
             obj.setDeviceAttributeRAW('calibrate_rx_phase_correction_en',num2str(obj.EnablePhaseCorrectionChipB),obj.iioDevChipB);
             if strcmpi(class(obj),'adi.ADRV9009ZU11EG.Rx')
-                obj.setDeviceAttributeRAW('calibrate_frm_en',num2str(obj.EnableFrequencyHoppingModeCalibrationChipB),obj.iioDevChipB);
+                obj.setDeviceAttributeRAW('calibrate_fhm_en',num2str(obj.EnableFrequencyHoppingModeCalibrationChipB),obj.iioDevChipB);
             end
             obj.setDeviceAttributeRAW('calibrate',num2str(true),obj.iioDevChipB);
 

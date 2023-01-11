@@ -199,7 +199,7 @@ classdef Tx < adi.ADRV9009.Base & adi.common.Tx
             obj.setDeviceAttributeRAW('calibrate_tx_qec_en',num2str(obj.EnableQuadratureCalibration));
             obj.setDeviceAttributeRAW('calibrate_tx_lol_en',num2str(obj.EnableLOLeakageCorrection));
             obj.setDeviceAttributeRAW('calibrate_tx_lol_ext_en',num2str(obj.EnableLOLeakageCorrectionExternal));
-            obj.setDeviceAttributeRAW('calibrate_frm_en',num2str(obj.EnableFrequencyHoppingModeCalibration));
+            obj.setDeviceAttributeRAW('calibrate_fhm_en',num2str(obj.EnableFrequencyHoppingModeCalibration));
             obj.setDeviceAttributeRAW('calibrate',num2str(true));
 
             % Bring stuff back up as desired
