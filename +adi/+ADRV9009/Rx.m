@@ -216,7 +216,7 @@ classdef Rx < adi.ADRV9009.Base & adi.common.Rx
             % Do one shot cals
             obj.setDeviceAttributeRAW('calibrate_rx_qec_en',num2str(obj.EnableQuadratureCalibration));
             obj.setDeviceAttributeRAW('calibrate_rx_phase_correction_en',num2str(obj.EnablePhaseCorrection));
-            obj.setDeviceAttributeRAW('calibrate_frm_en',num2str(obj.EnableFrequencyHoppingModeCalibration));
+            obj.setDeviceAttributeRAW('calibrate_fhm_en',num2str(obj.EnableFrequencyHoppingModeCalibration));
             obj.setDeviceAttributeRAW('calibrate',num2str(true));
             
             % Bring stuff back up as desired

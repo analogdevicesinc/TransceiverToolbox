@@ -176,7 +176,7 @@ classdef ORx < adi.ADRV9009.Base & adi.common.Rx
             obj.setAttributeLongLong('altvoltage0','frequency',obj.CenterFrequency,true);            
             obj.setAttributeRAW('voltage2','rf_port_select',obj.LOSourceSelect,false);
             obj.setAttributeDouble('voltage2','hardwaregain',obj.Gain,false);
-            obj.setDeviceAttributeRAW('calibrate_frm_en',num2str(obj.EnableFrequencyHoppingModeCalibration));
+            obj.setDeviceAttributeRAW('calibrate_fhm_en',num2str(obj.EnableFrequencyHoppingModeCalibration));
             
             % Bring stuff back up as desired
             obj.setAttributeBool('voltage2','powerdown',obj.PowerdownChannel0,false);

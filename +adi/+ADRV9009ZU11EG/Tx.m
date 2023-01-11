@@ -250,7 +250,7 @@ classdef Tx < adi.ADRV9009ZU11EG.Base & adi.ADRV9009.Tx
             obj.setDeviceAttributeRAW('calibrate_tx_lol_en',num2str(obj.EnableLOLeakageCorrection));
             obj.setDeviceAttributeRAW('calibrate_tx_lol_ext_en',num2str(obj.EnableLOLeakageCorrectionExternal));
             if strcmpi(class(obj),'adi.ADRV9009ZU11EG.Tx')
-                obj.setDeviceAttributeRAW('calibrate_frm_en',num2str(obj.EnableFrequencyHoppingModeCalibration));
+                obj.setDeviceAttributeRAW('calibrate_fhm_en',num2str(obj.EnableFrequencyHoppingModeCalibration));
             end
             obj.setDeviceAttributeRAW('calibrate',num2str(true));
             
@@ -258,7 +258,7 @@ classdef Tx < adi.ADRV9009ZU11EG.Base & adi.ADRV9009.Tx
             obj.setDeviceAttributeRAW('calibrate_tx_lol_en',num2str(obj.EnableLOLeakageCorrectionChipB),obj.iioDevChipB);
             obj.setDeviceAttributeRAW('calibrate_tx_lol_ext_en',num2str(obj.EnableLOLeakageCorrectionExternalChipB),obj.iioDevChipB);
             if strcmpi(class(obj),'adi.ADRV9009ZU11EG.Tx')
-                obj.setDeviceAttributeRAW('calibrate_frm_en',num2str(obj.EnableFrequencyHoppingModeCalibrationChipB),obj.iioDevChipB);
+                obj.setDeviceAttributeRAW('calibrate_fhm_en',num2str(obj.EnableFrequencyHoppingModeCalibrationChipB),obj.iioDevChipB);
             end
             obj.setDeviceAttributeRAW('calibrate',num2str(true),obj.iioDevChipB);
             
