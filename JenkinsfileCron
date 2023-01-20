@@ -68,6 +68,8 @@ node("lab1") {
                     junit testResults: 'test/*.xml', allowEmptyResults: true
                     archiveArtifacts artifacts: 'test/logs/*', followSymlinks: false, allowEmptyArchive: true
                     archiveArtifacts artifacts: '*BOOT.BIN*', followSymlinks: false, allowEmptyArchive: true
+                    uploadArtifactory('TransceiverToolbox','*.mltbx')
+                    uploadArtifactory('TransceiverToolbox','*.BIN')
                 }
             }
             finally {
