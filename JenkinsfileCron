@@ -37,7 +37,7 @@ stage("Build Toolbox") {
 }
 
 /////////////////////////////////////////////////////
-
+/*
 boardNames = ['zed','zc702','zc706','zcu102','adrv9361','adrv9364','pluto']
 dockerConfig.add("-e HDLBRANCH=hdl_2019_r2")
 
@@ -54,3 +54,26 @@ stage("HDL Tests") {
         }
     }
 }
+*/
+/////////////////////////////////////////////////////
+
+
+node("lab1") {
+    stage("Synthesis Tests") {
+        withEnv(['HDLBRANCH=hdl_2019_r2','LC_ALL=C.UTF-8','LANG=C.UTF-8']) {
+            try {
+                stage("Synth") {
+                    unstash "builtSources"
+                    sh 'make -C ./CI/scripts test_synth'
+                    junit testResults: 'test/*.xml', allowEmptyResults: true
+                    archiveArtifacts artifacts: 'test/logs/*', followSymlinks: false, allowEmptyArchive: true
+                    archiveArtifacts artifacts: '*BOOT.BIN*', followSymlinks: false, allowEmptyArchive: true
+                }
+            }
+            finally {
+                cleanWs();
+            }
+        }
+    }
+}
+
