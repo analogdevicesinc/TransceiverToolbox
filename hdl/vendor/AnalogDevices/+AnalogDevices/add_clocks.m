@@ -2,6 +2,7 @@ function add_clocks(hRD,project,design)
 
 switch lower(project)    
     case 'adrv9002'
+        switch(upper(design))
             case 'RX & TX'
                 hRD.addClockInterface( ...
                     'ClockConnection',   'axi_adrv9001/adc_1_clk', ...
@@ -14,6 +15,9 @@ switch lower(project)
                 hRD.addClockInterface( ...
                     'ClockConnection',   'axi_adrv9001/dac_1_clk', ...
                     'ResetConnection',   'axi_adrv9001/dac_1_rst');
+            otherwise
+                error('Unknown reference design');
+        end
     case 'adrv9009'
         switch(upper(design))
             case 'RX'
