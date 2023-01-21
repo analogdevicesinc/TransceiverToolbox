@@ -15,6 +15,7 @@ elseif contains(lower(ReferenceDesignName),'9364')
     dev = 'AD9364';
 elseif contains(lower(ReferenceDesignName),'9002')
     dev = 'ADRV9002';
+    mdl = 'testModel_regs';
 elseif contains(lower(ReferenceDesignName),'pluto')
     dev = 'AD9361';
     numChannels = 1;
@@ -69,6 +70,12 @@ hdlset_param([mdl,'/HDL_DUT/validOut2'], 'IOInterface', 'No Interface Specified'
 hdlset_param([mdl,'/HDL_DUT/validOut2'], 'IOInterfaceMapping', '');
 hdlset_param([mdl,'/HDL_DUT/validIn2'], 'IOInterface', 'No Interface Specified');
 hdlset_param([mdl,'/HDL_DUT/validIn2'], 'IOInterfaceMapping', '');
+
+% Add register interface
+hdlset_param('testModel/HDL_DUT/regWrite1', 'IOInterface', 'AXI4-Lite');
+hdlset_param('testModel/HDL_DUT/regWrite1', 'IOInterfaceMapping', 'x"108"');
+hdlset_param('testModel/HDL_DUT/regRead1', 'IOInterface', 'AXI4-Lite');
+hdlset_param('testModel/HDL_DUT/regRead1', 'IOInterfaceMapping', 'x"110"');
 
 switch mode
     case 'tx'
