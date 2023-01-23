@@ -1,4 +1,6 @@
-classdef TuneAGC < adi.common.DebugAttribute & adi.common.RegisterReadWrite        
+classdef TuneAGC < adi.common.DebugAttribute & ...
+        adi.common.RxTx & ...
+        adi.common.RegisterReadWrite
     properties (Nontunable, Hidden)
         CustomAGC = 0;
         
