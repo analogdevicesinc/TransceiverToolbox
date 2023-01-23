@@ -72,10 +72,10 @@ hdlset_param([mdl,'/HDL_DUT/validIn2'], 'IOInterface', 'No Interface Specified')
 hdlset_param([mdl,'/HDL_DUT/validIn2'], 'IOInterfaceMapping', '');
 
 % Add register interface
-hdlset_param('testModel/HDL_DUT/regWrite1', 'IOInterface', 'AXI4-Lite');
-hdlset_param('testModel/HDL_DUT/regWrite1', 'IOInterfaceMapping', 'x"108"');
-hdlset_param('testModel/HDL_DUT/regRead1', 'IOInterface', 'AXI4-Lite');
-hdlset_param('testModel/HDL_DUT/regRead1', 'IOInterfaceMapping', 'x"110"');
+hdlset_param([mdl,'/HDL_DUT/regWrite1'], 'IOInterface', 'AXI4-Lite');
+hdlset_param([mdl,'/HDL_DUT/regWrite1'], 'IOInterfaceMapping', 'x"108"');
+hdlset_param([mdl,'/HDL_DUT/regRead1'], 'IOInterface', 'AXI4-Lite');
+hdlset_param([mdl,'/HDL_DUT/regRead1'], 'IOInterfaceMapping', 'x"110"');
 
 switch mode
     case 'tx'
