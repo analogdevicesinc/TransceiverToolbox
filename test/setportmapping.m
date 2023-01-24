@@ -11,37 +11,45 @@ end
 
 if contains(lower(ReferenceDesignName),'9361')
     dev = 'AD9361';
+    mdl = 'testModel_regs';
 elseif contains(lower(ReferenceDesignName),'9364')
     dev = 'AD9364';
+    mdl = 'testModel_regs';
 elseif contains(lower(ReferenceDesignName),'9002')
     dev = 'ADRV9002';
     mdl = 'testModel_regs';
 elseif contains(lower(ReferenceDesignName),'pluto')
     dev = 'AD9361';
     numChannels = 1;
+    mdl = 'testModel_regs';
 elseif contains(lower(ReferenceDesignName),'fmcomms') && ~ contains(lower(ReferenceDesignName),'8')
     dev = 'AD9361';
     if contains(lower(ReferenceDesignName),'fmcomms5')
         numChannels = 4;
     end
+    mdl = 'testModel_regs';
 elseif contains(lower(ReferenceDesignName),'937')
     dev = 'AD9371';
     if contains(lower(board_name),'tx') || contains(lower(ReferenceDesignName),'tx')
-        mdl = 'testModel_Tx32';
+%         mdl = 'testModel_Tx32';
+        mdl = 'testModel_Tx32_regs';
         portWidthTX = 32;
     end
     if contains(lower(board_name),'rx & tx') || contains(lower(ReferenceDesignName),'rx & tx')
-        mdl = 'testModel_Rx16Tx32';
+%         mdl = 'testModel_Rx16Tx32';
+        mdl = 'testModel_Rx16Tx32_regs';
         portWidthTX = 32;
     end
 elseif contains(lower(ReferenceDesignName),'9009') || contains(lower(ReferenceDesignName),'fmcomms8')
     dev = 'ADRV9009';
     if contains(lower(board_name),'tx') || contains(lower(ReferenceDesignName),'tx')
-        mdl = 'testModel_Tx32';
+%         mdl = 'testModel_Tx32';
+        mdl = 'testModel_Tx32_regs';
         portWidthTX = 32;
     end
     if contains(lower(board_name),'rx & tx') || contains(lower(ReferenceDesignName),'rx & tx')
-        mdl = 'testModel_Rx16Tx32';
+%         mdl = 'testModel_Rx16Tx32';
+        mdl = 'testModel_Rx16Tx32_regs';
         portWidthTX = 32;
     end
     if contains(lower(ReferenceDesignName),'fmcomms8')
