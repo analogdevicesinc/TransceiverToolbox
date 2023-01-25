@@ -1,6 +1,6 @@
 function mdl = setportmapping(mode,ReferenceDesignName,board_name)
 
-mdl = 'testModel';
+mdl = 'testModel_regs';
 numChannels = 2;
 portWidthRX = 16;
 portWidthTX = 16;
@@ -31,24 +31,20 @@ elseif contains(lower(ReferenceDesignName),'fmcomms') && ~ contains(lower(Refere
 elseif contains(lower(ReferenceDesignName),'937')
     dev = 'AD9371';
     if contains(lower(board_name),'tx') || contains(lower(ReferenceDesignName),'tx')
-%         mdl = 'testModel_Tx32';
         mdl = 'testModel_Tx32_regs';
         portWidthTX = 32;
     end
     if contains(lower(board_name),'rx & tx') || contains(lower(ReferenceDesignName),'rx & tx')
-%         mdl = 'testModel_Rx16Tx32';
         mdl = 'testModel_Rx16Tx32_regs';
         portWidthTX = 32;
     end
 elseif contains(lower(ReferenceDesignName),'9009') || contains(lower(ReferenceDesignName),'fmcomms8')
     dev = 'ADRV9009';
     if contains(lower(board_name),'tx') || contains(lower(ReferenceDesignName),'tx')
-%         mdl = 'testModel_Tx32';
         mdl = 'testModel_Tx32_regs';
         portWidthTX = 32;
     end
     if contains(lower(board_name),'rx & tx') || contains(lower(ReferenceDesignName),'rx & tx')
-%         mdl = 'testModel_Rx16Tx32';
         mdl = 'testModel_Rx16Tx32_regs';
         portWidthTX = 32;
     end
