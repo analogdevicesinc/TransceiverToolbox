@@ -66,6 +66,9 @@ node("lab1") {
                     sh 'git clone -b tfcollins/ml-bootbin-dl https://github.com/sdgtt/nebula.git'
                     dir('nebula') {
                         // openssl workaround
+                        sh 'apt remove python3-pip'
+                        sh 'wget https://bootstrap.pypa.io/get-pip.py'
+                        sh 'python3 get-pip.py'
                         sh 'pip3 install pyOpenSSL --upgrade'
                         sh 'pip3 install cryptography --upgrade'
                         sh 'pip3 install -r requirements.txt'
