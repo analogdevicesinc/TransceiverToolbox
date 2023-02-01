@@ -62,6 +62,14 @@ node("lab1") {
     stage("Synthesis Tests") {
         withEnv(['HDLBRANCH=hdl_2019_r2','LC_ALL=C.UTF-8','LANG=C.UTF-8']) {
             try {
+                stage('Install nebula'){
+                    sh 'git clone -b tfcollins/ml-bootbin-dl https://github.com/sdgtt/nebula.git'
+                    dir('nebula') {
+                        sh 'pip3 install -r requirements.txt'
+                        sh 'python3 setup.py install'
+                    }
+                    sh 'nebula --help'
+                }
                 stage("Synth") {
                     unstash "builtSources"
                     sh 'make -C ./CI/scripts test_synth'
@@ -70,7 +78,13 @@ node("lab1") {
                     archiveArtifacts artifacts: 'test/*BOOT.BIN*', followSymlinks: false, allowEmptyArchive: true
                     sh 'find . | grep  ".BIN"'
                     uploadArtifactory('TransceiverToolbox','*.mltbx')
-                    uploadArtifactory('TransceiverToolbox','test/*.BIN')
+                }
+                stage("Upload BOOT.BINs") {
+                    sh 'mkdir bootbins'
+                    sh 'mv test/*.BIN bootbins/'
+                    sh 'nebula show-log dl.bootbin-map bootbins'
+                    uploadArtifactory('TransceiverToolbox','bootbins/*.BIN*')
+                    uploadArtifactory('TransceiverToolbox','mapping.txt')
                 }
             }
             finally {
