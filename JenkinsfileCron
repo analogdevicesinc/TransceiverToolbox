@@ -65,6 +65,9 @@ node("lab1") {
                 stage('Install nebula'){
                     sh 'git clone -b tfcollins/ml-bootbin-dl https://github.com/sdgtt/nebula.git'
                     dir('nebula') {
+                        // openssl workaround
+                        sh 'pip3 install pyOpenSSL --upgrade'
+                        sh 'pip3 install cryptography --upgrade'
                         sh 'pip3 install -r requirements.txt'
                         sh 'pip3 install pyopenssl --upgrade'
                         sh 'python3 setup.py install'
