@@ -93,6 +93,9 @@ node("lab1") {
                     uploadArtifactory('TransceiverToolbox','bootbins/*.BIN*')
                     uploadArtifactory('TransceiverToolbox','mapping.txt')
                 }
+                stage("Trigger Harness") {
+                    triggerHWHarness("TransceiverToolbox")
+                }
             }
             finally {
                 cleanWs();
