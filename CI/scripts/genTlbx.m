@@ -4,9 +4,12 @@ if nargin==0
     examples = 0;
 end
 
-version = '21.2.1';
-ml = ver('MATLAB');
-ml = ml.Release(2:end-1);
+% Lookup versioning info from adi.Version
+cwd = pwd;
+parts = strsplit(mfilename('fullpath'),filesep);
+tbroot = strjoin(parts(1:end-3),filesep);
+cd(tbroot);
+v = adi.Version;
 uuid = matlab.lang.internal.uuid;
 
 %% Unpack verilog source
@@ -34,8 +37,10 @@ f=fread(fid,'*char')';
 fclose(fid);
 
 f = strrep(f,'__REPO-ROOT__',p);
-f = strrep(f,'__VERSION__',version);
-f = strrep(f,'__ML-RELEASE__',ml);
+f = strrep(f,'__VERSION__',v.Release);
+f = strrep(f,'__ML-RELEASE__',v.MATLAB);
+f = strrep(f,'__APP-NAME__',v.AppName);
+f = strrep(f,'__EXAMPLES-DIR__',v.ExamplesDir);
 f = strrep(f,'__UUID__',uuid);
 
 fid  = fopen('../../bsp.prj','w');
@@ -47,10 +52,14 @@ addpath(genpath(matlabshared.supportpkg.getSupportPackageRoot));
 addpath(genpath('.'));
 rmpath(genpath('.'));
 if examples
-    ps = {'doc','hdl','trx_examples','deps'};
+    ps = {'doc',v.ExamplesDir};
 else
-    ps = {'doc','hdl'};
+    ps = {'doc'};
 end
+if isprop(v,'HasHDL') && v.HasHDL
+    ps = [ps(:)',{'hdl'}];
+end
+
 paths = '';
 for p = ps
     pp = genpath(p{:});
@@ -64,9 +73,9 @@ rehash
 projectFile = 'bsp.prj';
 currentVersion = matlab.addons.toolbox.toolboxVersion(projectFile);
 if examples
-    outputFile = ['AnalogDevicesTransceiverToolbox_v',currentVersion];
+    outputFile = sprintf('AnalogDevices%s_v%s',v.ToolboxName,currentVersion);
 else
-    outputFile = ['AnalogDevicesTransceiverToolbox_noexamples_v',currentVersion];
+    outputFile = sprintf('AnalogDevices%s_noexamples_v%s',v.ToolboxName,currentVersion);
 end
 matlab.addons.toolbox.packageToolbox(projectFile,outputFile)
 

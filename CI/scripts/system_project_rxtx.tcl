@@ -5,17 +5,13 @@ if {$preprocess == "on"} {
     source $preprocess_script
 }
 
-if {$project == "pluto"} {
-    cd projects/$project/
-    source ../scripts/adi_make.tcl
-} else {
-    cd projects/$project/$carrier
-    source ../../scripts/adi_make.tcl
-}
+cd projects/$project/$carrier
+source ../../scripts/adi_make.tcl
 adi_make::lib all
 
 set ::env(SKIP_SYNTHESIS) 1
 set ::env(MATLAB) 1
+set ::env(ADI_USE_OOC_SYNTHESYS) 1
 
 source ./system_project.tcl
 
