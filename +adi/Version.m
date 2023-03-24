@@ -6,6 +6,11 @@ classdef Version
         Vivado = '2021.1';
         MATLAB = 'R2022a';
         Release = '22.1.1';
+        AppName = 'Analog Devices, Inc. Transceiver Toolbox';
+        ToolboxName = 'TransceiverToolbox';
+        ToolboxNameShort = 'trx';
+        ExamplesDir = 'trx_examples';
+        HasHDL = true;
     end
     properties(Dependent)
         VivadoShort
