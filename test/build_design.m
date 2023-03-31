@@ -31,6 +31,7 @@ hWC = hdlcoder.WorkflowConfig('SynthesisTool','Xilinx Vivado','TargetWorkflow','
 hWC.ProjectFolder = folder;
 hWC.ReferenceDesignToolVersion = vivado_version;
 hWC.IgnoreToolVersionMismatch = true;
+hWC.AllowUnsupportedToolVersion = true;
 
 % Set Workflow tasks to run
 hWC.RunTaskGenerateRTLCodeAndIPCore = true;
