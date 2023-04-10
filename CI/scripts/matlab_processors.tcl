@@ -716,6 +716,7 @@ proc preprocess_bd {project carrier rxtx number_of_inputs number_of_bits number_
 					data_synchronizer $rxtx $number_of_inputs $number_of_bits $number_of_valids $multiple
 					
                     # Add 1 extra AXI master ports to the interconnect
+					set_property -dict [list CONFIG.NUM_CLKS {2}] [get_bd_cells axi_cpu_interconnect]
                     set_property -dict [list CONFIG.NUM_MI {7}] [get_bd_cells axi_cpu_interconnect]
 					
 					create_bd_cell -type ip -vlnv xilinx.com:ip:util_vector_logic:2.0 rx_rstn_inverter
