@@ -6,7 +6,7 @@ dockerHost = 'docker'
 
 ////////////////////////////
 
-hdlBranches = ['master','hdl_2021_r1']
+hdlBranches = ['hdl_2021_r1']
 
 stage("Build Toolbox") {
     dockerParallelBuild(hdlBranches, dockerHost, dockerConfig) { 
@@ -31,46 +31,23 @@ stage("Build Toolbox") {
         }
         if (branchName == 'hdl_2021_r1') {
             stash includes: '**', name: 'builtSources', useDefaultExcludes: false
-            archiveArtifacts artifacts: 'hdl/*', followSymlinks: false, allowEmptyArchive: true
         }
     }
 }
 
 /////////////////////////////////////////////////////
-/*
-boardNames = ['zed','zc702','zc706','zcu102','adrv9361','adrv9364','pluto']
-dockerConfig.add("-e HDLBRANCH=hdl_2021_r1")
+def deployments = [:]
 
-stage("HDL Tests") {
-    dockerParallelBuild(boardNames, dockerHost, dockerConfig) { 
-        branchName ->
-        withEnv(['BOARD='+branchName]) {
-            stage("Synth") {
-                unstash "builtSources"
-                sh 'make -C ./CI/scripts test_synth'
-                junit testResults: 'test/*.xml', allowEmptyResults: true
-                archiveArtifacts artifacts: 'test/logs/*', followSymlinks: false, allowEmptyArchive: true
-            }
-        }
-    }
-}
-*/
-/////////////////////////////////////////////////////
-
-
-node("lab1") {
+deployments['vm1'] = { node("vm1") {
     stage("Synthesis Tests") {
-        withEnv(['HDLBRANCH=hdl_2021_r1','LC_ALL=C.UTF-8','LANG=C.UTF-8']) {
+        withEnv(['BOARD=zed','MLRELEASE=R2022a','HDLBRANCH=hdl_2021_r1','LC_ALL=C.UTF-8','LANG=C.UTF-8']) {
             try {
                 stage("Synth") {
                     unstash "builtSources"
                     sh 'make -C ./CI/scripts test_synth'
                     junit testResults: 'test/*.xml', allowEmptyResults: true
                     archiveArtifacts artifacts: 'test/logs/*', followSymlinks: false, allowEmptyArchive: true
-                    archiveArtifacts artifacts: 'test/*BOOT.BIN*', followSymlinks: false, allowEmptyArchive: true
-                    sh 'find . | grep  ".BIN"'
-                    uploadArtifactory('TransceiverToolbox','*.mltbx')
-                    uploadArtifactory('TransceiverToolbox','test/*.BIN')
+		            archiveArtifacts artifacts: '*BOOT.BIN*', followSymlinks: false, allowEmptyArchive: true
                 }
             }
             finally {
@@ -78,5 +55,131 @@ node("lab1") {
             }
         }
     }
-}
+}}
 
+/////////////////////////////////////////////////////
+
+deployments['vm2'] = { node("vm2") {
+    stage("Synthesis Tests") {
+        withEnv(['BOARD=zc702','MLRELEASE=R2022a','HDLBRANCH=hdl_2021_r1','LC_ALL=C.UTF-8','LANG=C.UTF-8']) {
+            try {
+                stage("Synth") {
+                    unstash "builtSources"
+                    sh 'make -C ./CI/scripts test_synth'
+                    junit testResults: 'test/*.xml', allowEmptyResults: true
+                    archiveArtifacts artifacts: 'test/logs/*', followSymlinks: false, allowEmptyArchive: true
+		            archiveArtifacts artifacts: '*BOOT.BIN*', followSymlinks: false, allowEmptyArchive: true
+                }
+            }
+            finally {
+                cleanWs();
+            }
+        }
+    }
+}}
+
+/////////////////////////////////////////////////////
+
+deployments['vm3'] = { node("vm1") {
+    stage("Synthesis Tests") {
+        withEnv(['BOARD=zc706','MLRELEASE=R2022a','HDLBRANCH=hdl_2021_r1','LC_ALL=C.UTF-8','LANG=C.UTF-8']) {
+            try {
+                stage("Synth") {
+                    unstash "builtSources"
+                    sh 'make -C ./CI/scripts test_synth'
+                    junit testResults: 'test/*.xml', allowEmptyResults: true
+                    archiveArtifacts artifacts: 'test/logs/*', followSymlinks: false, allowEmptyArchive: true
+		            archiveArtifacts artifacts: '*BOOT.BIN*', followSymlinks: false, allowEmptyArchive: true
+                }
+            }
+            finally {
+                cleanWs();
+            }
+        }
+    }
+}}
+
+/////////////////////////////////////////////////////
+
+deployments['vm4'] = { node("vm2") {
+    stage("Synthesis Tests") {
+        withEnv(['BOARD=zcu102','MLRELEASE=R2022a','HDLBRANCH=hdl_2021_r1','LC_ALL=C.UTF-8','LANG=C.UTF-8']) {
+            try {
+                stage("Synth") {
+                    unstash "builtSources"
+                    sh 'make -C ./CI/scripts test_synth'
+                    junit testResults: 'test/*.xml', allowEmptyResults: true
+                    archiveArtifacts artifacts: 'test/logs/*', followSymlinks: false, allowEmptyArchive: true
+		            archiveArtifacts artifacts: '*BOOT.BIN*', followSymlinks: false, allowEmptyArchive: true
+                }
+            }
+            finally {
+                cleanWs();
+            }
+        }
+    }
+}}
+
+/////////////////////////////////////////////////////
+
+deployments['vm5'] = { node("vm1") {
+    stage("Synthesis Tests") {
+        withEnv(['BOARD=adrv9361','MLRELEASE=R2022a','HDLBRANCH=hdl_2021_r1','LC_ALL=C.UTF-8','LANG=C.UTF-8']) {
+            try {
+                stage("Synth") {
+                    unstash "builtSources"
+                    sh 'make -C ./CI/scripts test_synth'
+                    junit testResults: 'test/*.xml', allowEmptyResults: true
+                    archiveArtifacts artifacts: 'test/logs/*', followSymlinks: false, allowEmptyArchive: true
+		            archiveArtifacts artifacts: '*BOOT.BIN*', followSymlinks: false, allowEmptyArchive: true
+                }
+            }
+            finally {
+                cleanWs();
+            }
+        }
+    }
+}}
+
+/////////////////////////////////////////////////////
+
+deployments['vm6'] = { node("vm2") {
+    stage("Synthesis Tests") {
+        withEnv(['BOARD=adrv9364','MLRELEASE=R2022a','HDLBRANCH=hdl_2021_r1','LC_ALL=C.UTF-8','LANG=C.UTF-8']) {
+            try {
+                stage("Synth") {
+                    unstash "builtSources"
+                    sh 'make -C ./CI/scripts test_synth'
+                    junit testResults: 'test/*.xml', allowEmptyResults: true
+                    archiveArtifacts artifacts: 'test/logs/*', followSymlinks: false, allowEmptyArchive: true
+		            archiveArtifacts artifacts: '*BOOT.BIN*', followSymlinks: false, allowEmptyArchive: true
+                }
+            }
+            finally {
+                cleanWs();
+            }
+        }
+    }
+}}
+
+/////////////////////////////////////////////////////
+
+deployments['vm7'] = { node("vm1") {
+    stage("Synthesis Tests") {
+        withEnv(['BOARD=pluto','MLRELEASE=R2022a','HDLBRANCH=hdl_2021_r1','LC_ALL=C.UTF-8','LANG=C.UTF-8']) {
+            try {
+                stage("Synth") {
+                    unstash "builtSources"
+                    sh 'make -C ./CI/scripts test_synth'
+                    junit testResults: 'test/*.xml', allowEmptyResults: true
+                    archiveArtifacts artifacts: 'test/logs/*', followSymlinks: false, allowEmptyArchive: true
+		            archiveArtifacts artifacts: '*BOOT.BIN*', followSymlinks: false, allowEmptyArchive: true
+                }
+            }
+            finally {
+                cleanWs();
+            }
+        }
+    }
+}}
+parallel deployments
