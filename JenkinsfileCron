@@ -67,6 +67,14 @@ for (int i=0; i < boardNames.size(); i++) {
                         junit testResults: 'test/*.xml', allowEmptyResults: true
                         archiveArtifacts artifacts: 'test/*', followSymlinks: false, allowEmptyArchive: true
                     }
+                    stage("Upload BOOT.BINs") {
+                        sh 'mkdir bootbins'
+                        sh 'mv test/*.BIN bootbins/'
+                        uploadArtifactory('TransceiverToolbox','bootbins/*.BIN*')
+                    }
+                    stage("Trigger Harness") {
+                        triggerHWHarness("TransceiverToolbox")
+                    }
                 }
                 finally {
                     cleanWs();

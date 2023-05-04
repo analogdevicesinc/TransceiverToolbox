@@ -76,7 +76,7 @@ try
     bdclose('all');
     bootbin = [folder,'/vivado_ip_prj/boot/BOOT.BIN'];
     if exist(bootbin, 'file') == 2
-        target = [pwd,filesep,ReferenceDesignName,'_',config.BoardName,'_BOOT.BIN'];
+        target = [pwd,filesep,get_ref_name(ReferenceDesignName)];
         fprintf('Copying BOOT.BIN to local folder \n %s \n %s \n',bootbin,target);
         copyfile(bootbin, target);
     else
