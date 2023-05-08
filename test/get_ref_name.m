@@ -7,6 +7,12 @@ variant = lower(s{3});
 variant = strrep(variant,'(','');
 variant = strrep(variant,')','');
 
+if contains(board,'fmcomms2')
+    board = 'fmcomms2';
+end
+
+ref_name = '';
+
     switch lower(carrier)
         case 'zcu102'
             switch lower(board)
@@ -150,6 +156,10 @@ variant = strrep(variant,')','');
     % zynq-coraz7s-cn0501   Cora Z7 Board
 
     % versal-vck190-ad9081_fmca_ebz     VCK190 Board    EVAL-AD9081
+
+if strcmpi(ref_name, '')
+    error(sprintf('No mapping found for reference design: %s\n',rd_name));
+end
 
 ref_name = sprintf('%s_%s_BOOT.BIN', ref_name, variant);
 
