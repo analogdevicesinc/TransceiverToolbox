@@ -1,19 +1,28 @@
 function ref_name = get_ref_name(rd_name)
 
-s = strsplit(rd_name,' ');
-board = lower(s{1});
-carrier = lower(s{2});
-variant = lower(s{3});
-variant = strrep(variant,'(','');
-variant = strrep(variant,')','');
+    s = strsplit(rd_name, ' ');
+    board = lower(s{1});
+    carrier = lower(s{2});
+    variant = lower(s{3});
+    variant = strrep(variant, '(', '');
+    variant = strrep(variant, ')', '');
 
-if contains(board,'fmcomms2')
-    board = 'fmcomms2';
-end
+    if contains(board, 'adrv936')
+       % Swap
+	   tmp = carrier;
+	   carrier = board;
+	   board = tmp;
+    end
 
-ref_name = '';
+    fprintf('Board: %s | Carrier %s \n', board, carrier);
 
-    switch lower(carrier)
+    if contains(board, 'fmcomms2')
+        board = 'fmcomms2'; % FMCOMMS2/3;
+    end
+
+    ref_name = '';
+
+    switch carrier
         case 'zcu102'
             switch lower(board)
                 case 'ad9172'
@@ -22,11 +31,13 @@ ref_name = '';
                     ref_name = 'zynqmp-zcu102-rev10-ad9361-fmcomms2-3';
                 case 'fmcomms5'
                     ref_name = 'zynqmp-zcu102-rev10-ad9361-fmcomms5';
+                case 'fmcomms8'
+                    ref_name = 'zynqmp-zcu102-rev10-ad9361-fmcomms8';
                 case 'adrv9002'
                     ref_name = 'zynqmp-zcu102-rev10-adrv9002';
                 case 'adrv9009'
                     ref_name = 'zynqmp-zcu102-rev10-adrv9009';
-                case 'ad9371'
+                case 'adrv9371'
                     ref_name = 'zynqmp-zcu102-rev10-adrv9371';
                 case 'daq2'
                     ref_name = 'zynqmp-zcu102-rev10-fmcdaq2';
@@ -48,10 +59,12 @@ ref_name = '';
                     ref_name = 'zynq-zc706-adv7511-ad9434-fmc-500ebz';
                 case 'adrv9009'
                     ref_name = 'zynq-zc706-adv7511-adrv9009';
-                case 'ad9371'
+                case 'adrv9371'
                     ref_name = 'zynq-zc706-adv7511-adrv9371';
                 case 'daq2'
                     ref_name = 'zynq-zc706-adv7511-fmcdaq2';
+                case 'fmcomms11'
+                    ref_name = 'zynq-zc706-adv7511-fmcomms8';
                 case 'fmcomms11'
                     ref_name = 'zynq-zc706-adv7511-fmcomms11';
             end
@@ -115,7 +128,7 @@ ref_name = '';
                     % zynq-zed-imageon  Zed Board   ADV7511     FMC-IMAGEON
 
             end
-        case 'adrv9361z7035'
+        case 'adrv9361-z7035'
             switch board
                 case 'ccbob_cmos'
                     ref_name = 'zynq-adrv9361-z7035-bob-cmos';
@@ -125,9 +138,11 @@ ref_name = '';
                     ref_name = 'zynq-adrv9361-z7035-fmc';
                 case 'ccpackrf_lvds'
                     ref_name = 'zynq-adrv9361-z7035-packrf';
+                otherwise
+                    error('Unknown board');
             end
 
-        case 'adrv9364z7020'
+        case 'adrv9364-z7020'
             switch board
                 case 'ccbob_cmos'
                     ref_name = 'zynq-adrv9364-z7020-bob-cmos';
@@ -135,7 +150,11 @@ ref_name = '';
                     ref_name = 'zynq-adrv9364-z7020-bob';
                 case 'ccpackrf_lvds'
                     ref_name = 'zynq-adrv9364-z7020-packrf';
+                otherwise
+                    error('Unknown board');
             end
+        otherwise
+            error('Unknown Carrier');
     end
 
     % socfpga_arria10_socdk_ad9081  DK-SOC-10AS066S-A       EVAL-ad9081
@@ -157,10 +176,10 @@ ref_name = '';
 
     % versal-vck190-ad9081_fmca_ebz     VCK190 Board    EVAL-AD9081
 
-if strcmpi(ref_name, '')
-    error(sprintf('No mapping found for reference design: %s\n',rd_name));
-end
+    if strcmpi(ref_name, '')
+        error('Unknown board/carrier')
+    end
 
-ref_name = sprintf('%s_%s_BOOT.BIN', ref_name, variant);
+    ref_name = sprintf('%s_%s_BOOT.BIN', ref_name, variant);
 
 end

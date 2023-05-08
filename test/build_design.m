@@ -76,6 +76,10 @@ try
     close_system(mdl, false);
     bdclose('all');
     bootbin = [folder,'/vivado_ip_prj/boot/BOOT.BIN'];
+    if contains(ReferenceDesignName, 'pluto')
+        out = [];
+        return;
+    end
     if exist(bootbin, 'file') == 2
         target = [pwd,filesep,get_ref_name(ReferenceDesignName)];
         fprintf('Copying BOOT.BIN to local folder \n %s \n %s \n',bootbin,target);
