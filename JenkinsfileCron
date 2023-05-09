@@ -72,9 +72,6 @@ for (int i=0; i < boardNames.size(); i++) {
                         sh 'mv test/*.BIN bootbins/'
                         uploadArtifactory('TransceiverToolbox','bootbins/*.BIN*')
                     }
-                    stage("Trigger Harness") {
-                        triggerHWHarness("TransceiverToolbox")
-                    }
                 }
                 finally {
                     cleanWs();
@@ -85,3 +82,9 @@ for (int i=0; i < boardNames.size(); i++) {
 }
 
 parallel deployments
+
+node {
+    stage("Trigger Harness") {
+        triggerHWHarness("TransceiverToolbox")
+    }
+}
