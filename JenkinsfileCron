@@ -87,6 +87,8 @@ parallel deployments
 
 node {
     stage("Trigger Harness") {
+        echo "Node: ${env.NODE_NAME}"
+        unstash "builtSources"
         triggerHWHarness("TransceiverToolbox")
     }
 }
