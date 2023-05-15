@@ -72,11 +72,16 @@ hWC.validate;
 %% Run the workflow
 try
     hdlcoder.runWorkflow([mdl,'/HDL_DUT'], hWC, 'Verbosity', 'on');
+    fprintf('Build finished without exception\n');
     close_system(mdl, false);
     bdclose('all');
     bootbin = [folder,'/vivado_ip_prj/boot/BOOT.BIN'];
+    if contains(ReferenceDesignName, 'pluto')
+        out = [];
+        return;
+    end
     if exist(bootbin, 'file') == 2
-        target = [pwd,filesep,ReferenceDesignName,'_',config.BoardName,'_BOOT.BIN'];
+        target = [pwd,filesep,get_ref_name(ReferenceDesignName)];
         fprintf('Copying BOOT.BIN to local folder \n %s \n %s \n',bootbin,target);
         copyfile(bootbin, target);
     else
@@ -84,6 +89,7 @@ try
     end
     out = [];
 catch ME
+    fprintf('Exception occurred with message: %s\n', ME.message);
     if SynthesizeDesign && exist([folder,'/vivado_ip_prj/boot/BOOT.BIN'],'file')
        ME = []; 
     end
