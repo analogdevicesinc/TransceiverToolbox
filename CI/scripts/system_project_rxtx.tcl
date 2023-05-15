@@ -25,7 +25,7 @@ if {$project == "pluto"} {
 } else {
     source ../../scripts/matlab_processors.tcl
 }
-preprocess_bd $project $carrier $ref_design
+preprocess_bd $project $carrier $ref_design $number_of_inputs $number_of_bits $number_of_valids $multiple
 
 if {$postprocess == "on"} {
     cd $start_dir

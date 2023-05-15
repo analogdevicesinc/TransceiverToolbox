@@ -114,6 +114,15 @@ classdef BSPTestsBase < matlab.unittest.TestCase
                     'vivado_version',vivado_version,'mode',mode);
                 cfg = [cfg(:)',{cfg1},{cfg2},{cfg3}];
                 
+		mode = 'tx_rx';
+                h2 = str2func([s,'.',variants{k},'.plugin_rd_txrx']);h2 = h2();
+                ReferenceDesignName = h2.ReferenceDesignName;
+                vivado_version = h2.SupportedToolVersion{:};
+                cfg4 = struct('Board',h1,...
+                    'ReferenceDesignName',ReferenceDesignName,...
+                    'vivado_version',vivado_version,'mode',mode);
+                cfg = [cfg(:)',{cfg1},{cfg2},{cfg4}];
+
             end
             
         end

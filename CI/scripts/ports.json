@@ -905,7 +905,8 @@
         "supported_rd": [
             "rx",
             "tx",
-            "rx & tx"
+            "rx & tx",
+			"tx & rx"
         ],
         "ports": [
             {
@@ -913,61 +914,61 @@
                     {
                         "input": "false",
                         "width": 1,
-                        "name": "util_adc_1_pack/fifo_wr_en",
+                        "name": "sync_output/data_valid_in_rx_0",
                         "type": "valid"
                     },
                     {
                         "input": "true",
                         "width": 1,
-                        "name": "axi_adrv9001/adc_1_valid_i0",
+                        "name": "sync_input/data_valid_out_rx_0",
                         "type": "valid"
                     },
                     {
                         "input": "false",
                         "width": 16,
-                        "name": "util_adc_1_pack/fifo_wr_data_0",
+                        "name": "sync_output/data_in_rx_0",
                         "type": "data"
                     },
                     {
                         "input": "false",
                         "width": 16,
-                        "name": "util_adc_1_pack/fifo_wr_data_1",
+                        "name": "sync_output/data_in_rx_1",
                         "type": "data"
                     },
                     {
                         "input": "false",
                         "width": 16,
-                        "name": "util_adc_1_pack/fifo_wr_data_2",
+                        "name": "sync_output/data_in_rx_2",
                         "type": "data"
                     },
                     {
                         "input": "false",
                         "width": 16,
-                        "name": "util_adc_1_pack/fifo_wr_data_3",
+                        "name": "sync_output/data_in_rx_3",
                         "type": "data"
                     },
                     {
                         "input": "true",
                         "width": 16,
-                        "name": "axi_adrv9001/adc_1_data_i0",
+                        "name": "sync_input/data_out_rx_0",
                         "type": "data"
                     },
                     {
                         "input": "true",
                         "width": 16,
-                        "name": "axi_adrv9001/adc_1_data_i1",
+                        "name": "sync_input/data_out_rx_1",
                         "type": "data"
                     },
                     {
                         "input": "true",
                         "width": 16,
-                        "name": "axi_adrv9001/adc_1_data_q0",
+                        "name": "sync_input/data_out_rx_2",
                         "type": "data"
                     },
                     {
                         "input": "true",
                         "width": 16,
-                        "name": "axi_adrv9001/adc_1_data_q1",
+                        "name": "sync_input/data_out_rx_3",
                         "type": "data"
                     }
                 ],
@@ -975,61 +976,61 @@
                     {
                         "input": "true",
                         "width": 1,
-                        "name": "util_dac_1_upack/fifo_rd_valid",
+                        "name": "sync_input/data_valid_out_tx_0",
                         "type": "valid"
                     },
                     {
                         "input": "false",
                         "width": 1,
-                        "name": "util_dac_1_upack/fifo_rd_en",
+                        "name": "sync_output/data_valid_in_tx_0",
                         "type": "valid"
                     },
                     {
                         "input": "false",
                         "width": 16,
-                        "name": "axi_adrv9001/dac_1_data_i0",
+                        "name": "sync_output/data_in_tx_0",
                         "type": "data"
                     },
                     {
                         "input": "false",
                         "width": 16,
-                        "name": "axi_adrv9001/dac_1_data_i1",
+                        "name": "sync_output/data_in_tx_1",
                         "type": "data"
                     },
                     {
                         "input": "false",
                         "width": 16,
-                        "name": "axi_adrv9001/dac_1_data_q0",
+                        "name": "sync_output/data_in_tx_2",
                         "type": "data"
                     },
                     {
                         "input": "false",
                         "width": 16,
-                        "name": "axi_adrv9001/dac_1_data_q1",
+                        "name": "sync_output/data_in_tx_3",
                         "type": "data"
                     },
                     {
                         "input": "true",
                         "width": 16,
-                        "name": "util_dac_1_upack/fifo_rd_data_0",
+                        "name": "sync_input/data_out_tx_0",
                         "type": "data"
                     },
                     {
                         "input": "true",
                         "width": 16,
-                        "name": "util_dac_1_upack/fifo_rd_data_1",
+                        "name": "sync_input/data_out_tx_1",
                         "type": "data"
                     },
                     {
                         "input": "true",
                         "width": 16,
-                        "name": "util_dac_1_upack/fifo_rd_data_2",
+                        "name": "sync_input/data_out_tx_2",
                         "type": "data"
                     },
                     {
                         "input": "true",
                         "width": 16,
-                        "name": "util_dac_1_upack/fifo_rd_data_3",
+                        "name": "sync_input/data_out_tx_3",
                         "type": "data"
                     }
                 ]
