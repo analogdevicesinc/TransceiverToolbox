@@ -1033,7 +1033,8 @@
         "supported_rd": [
             "rx",
             "tx",
-            "rx & tx"
+            "rx & tx",
+            "tx & rx"
         ],
         "ports": [
             {
@@ -1041,70 +1042,70 @@
                     {
                         "input": "false",
                         "width": 1,
-                        "name": "util_adc_1_pack/fifo_wr_en",
+                        "name": "sync_output/data_valid_in_rx_0",
                         "type": "valid",
                         "m_name": "IP Data Valid OUT"
                     },
                     {
                         "input": "true",
                         "width": 1,
-                        "name": "axi_adrv9001/adc_1_valid_i0",
+                        "name": "sync_input/data_valid_out_rx_0",
                         "type": "valid",
                         "m_name": "IP Valid Rx Data IN"
                     },
                     {
                         "input": "false",
                         "width": 16,
-                        "name": "util_adc_1_pack/fifo_wr_data_0",
+                        "name": "sync_output/data_in_rx_0",
                         "type": "data",
                         "m_name": "IP Data 0 OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
-                        "name": "util_adc_1_pack/fifo_wr_data_1",
+                        "name": "sync_output/data_in_rx_1",
                         "type": "data",
                         "m_name": "IP Data 1 OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
-                        "name": "util_adc_1_pack/fifo_wr_data_2",
+                        "name": "sync_output/data_in_rx_2",
                         "type": "data",
                         "m_name": "IP Data 2 OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
-                        "name": "util_adc_1_pack/fifo_wr_data_3",
+                        "name": "sync_output/data_in_rx_3",
                         "type": "data",
                         "m_name": "IP Data 3 OUT"
                     },
                     {
                         "input": "true",
                         "width": 16,
-                        "name": "axi_adrv9001/adc_1_data_i0",
+                        "name": "sync_input/data_out_rx_0",
                         "type": "data",
                         "m_name": "ADRV9002 ADC Data I0"
                     },
                     {
                         "input": "true",
                         "width": 16,
-                        "name": "axi_adrv9001/adc_1_data_i1",
-                        "type": "data",
-                        "m_name": "ADRV9002 ADC Data I1"
-                    },
-                    {
-                        "input": "true",
-                        "width": 16,
-                        "name": "axi_adrv9001/adc_1_data_q0",
+                        "name": "sync_input/data_out_rx_1",
                         "type": "data",
                         "m_name": "ADRV9002 ADC Data Q0"
                     },
                     {
                         "input": "true",
                         "width": 16,
-                        "name": "axi_adrv9001/adc_1_data_q1",
+                        "name": "sync_input/data_out_rx_2",
+                        "type": "data",
+                        "m_name": "ADRV9002 ADC Data I1"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "sync_input/data_out_rx_3",
                         "type": "data",
                         "m_name": "ADRV9002 ADC Data Q1"
                     }
@@ -1113,70 +1114,70 @@
                     {
                         "input": "true",
                         "width": 1,
-                        "name": "util_dac_1_upack/fifo_rd_valid",
+                        "name": "sync_input/data_valid_out_tx_0",
                         "type": "valid",
                         "m_name": "IP Valid Tx Data IN"
                     },
                     {
                         "input": "false",
                         "width": 1,
-                        "name": "util_dac_1_upack/fifo_rd_en",
+                        "name": "sync_output/data_valid_in_tx_0",
                         "type": "valid",
                         "m_name": "IP Load Tx Data OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
-                        "name": "axi_adrv9001/dac_1_data_i0",
+                        "name": "sync_output/data_in_tx_0",
                         "type": "data",
                         "m_name": "ADRV9002 DAC Data I0"
                     },
                     {
                         "input": "false",
                         "width": 16,
-                        "name": "axi_adrv9001/dac_1_data_i1",
-                        "type": "data",
-                        "m_name": "ADRV9002 DAC Data I1"
-                    },
-                    {
-                        "input": "false",
-                        "width": 16,
-                        "name": "axi_adrv9001/dac_1_data_q0",
+                        "name": "sync_output/data_in_tx_1",
                         "type": "data",
                         "m_name": "ADRV9002 DAC Data Q0"
                     },
                     {
                         "input": "false",
                         "width": 16,
-                        "name": "axi_adrv9001/dac_1_data_q1",
+                        "name": "sync_output/data_in_tx_2",
+                        "type": "data",
+                        "m_name": "ADRV9002 DAC Data I1"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "sync_output/data_in_tx_3",
                         "type": "data",
                         "m_name": "ADRV9002 DAC Data Q1"
                     },
                     {
                         "input": "true",
                         "width": 16,
-                        "name": "util_dac_1_upack/fifo_rd_data_0",
+                        "name": "sync_input/data_out_tx_0",
                         "type": "data",
                         "m_name": "IP Data 0 IN"
                     },
                     {
                         "input": "true",
                         "width": 16,
-                        "name": "util_dac_1_upack/fifo_rd_data_1",
+                        "name": "sync_input/data_out_tx_1",
                         "type": "data",
                         "m_name": "IP Data 1 IN"
                     },
                     {
                         "input": "true",
                         "width": 16,
-                        "name": "util_dac_1_upack/fifo_rd_data_2",
+                        "name": "sync_input/data_out_tx_2",
                         "type": "data",
                         "m_name": "IP Data 2 IN"
                     },
                     {
                         "input": "true",
                         "width": 16,
-                        "name": "util_dac_1_upack/fifo_rd_data_3",
+                        "name": "sync_input/data_out_tx_3",
                         "type": "data",
                         "m_name": "IP Data 3 IN"
                     }
