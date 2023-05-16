@@ -158,7 +158,7 @@ switch mode
             hdlset_param([mdl,'/HDL_DUT/out8'], 'IOInterfaceMapping', ['[0:',num2str(portWidthRX-1),']']);
             
         end
-    case 'rxtx'
+    case {'rxtx','txrx'}
         % Connect enables
         if ~strcmp(dev,'ADRV9002') && ~contains(lower(ReferenceDesignName),'fmcomms8')
             hdlset_param([mdl,'/HDL_DUT/validOut1'], 'IOInterface', 'IP Load Tx Data OUT');

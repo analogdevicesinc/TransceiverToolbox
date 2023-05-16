@@ -98,4 +98,9 @@ cp scripts/fixmake.sh  ../hdl/vendor/AnalogDevices/vivado/projects/scripts/fixma
 mkdir ../hdl/vendor/AnalogDevices/vivado/projects/common/boot/
 cp -r scripts/boot/* ../hdl/vendor/AnalogDevices/vivado/projects/common/boot/
 
+# Copy additional IP files
+cp -r scripts/library/* ../hdl/vendor/AnalogDevices/vivado/library/
+mkdir -p ../test/hdl/vendor/AnalogDevices/vivado
+cp ../hdl/vendor/AnalogDevices/vivado/quiet.mk ../test/hdl/vendor/AnalogDevices/vivado
+
 echo 'puts "Skipping"' > ../hdl/vendor/AnalogDevices/vivado/library/axi_ad9361/axi_ad9361_delay.tcl
