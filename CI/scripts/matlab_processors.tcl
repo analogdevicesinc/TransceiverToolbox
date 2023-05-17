@@ -523,6 +523,7 @@ proc preprocess_bd {project carrier rxtx number_of_inputs number_of_bits number_
 					
                     # Add 1 extra AXI master ports to the interconnect
                     set_property -dict [list CONFIG.NUM_MI {7}] [get_bd_cells axi_cpu_interconnect]
+					set_property -dict [list CONFIG.NUM_CLKS {2}] [get_bd_cells axi_cpu_interconnect]
 					
 					create_bd_cell -type ip -vlnv xilinx.com:ip:util_vector_logic:2.0 rx_rstn_inverter
 					set_property -dict [list CONFIG.C_SIZE {1} CONFIG.C_OPERATION {not} CONFIG.LOGO_FILE {data/sym_notgate.png}] [get_bd_cells rx_rstn_inverter]
@@ -536,11 +537,9 @@ proc preprocess_bd {project carrier rxtx number_of_inputs number_of_bits number_
 					
                     # Connect clock and reset
                     if {$rxtx == "rx" || $rxtx == "rxtx"} {
-                        connect_bd_net [get_bd_pins axi_cpu_interconnect/M06_ACLK] [get_bd_pins axi_adrv9001/adc_1_clk]
-                        connect_bd_net [get_bd_pins axi_cpu_interconnect/M06_ARESETN] [get_bd_pins rx_rstn_inverter/Res]
+                        connect_bd_net [get_bd_pins axi_cpu_interconnect/aclk1] [get_bd_pins axi_adrv9001/adc_1_clk]
 					} else {
-                        connect_bd_net [get_bd_pins axi_cpu_interconnect/M06_ACLK] [get_bd_pins axi_adrv9001/dac_1_clk]
-                        connect_bd_net [get_bd_pins axi_cpu_interconnect/M06_ARESETN] [get_bd_pins tx_rstn_inverter/Res]
+                        connect_bd_net [get_bd_pins axi_cpu_interconnect/aclk1] [get_bd_pins axi_adrv9001/dac_1_clk]
 					}
 					if {$rxtx != "tx"} {
 						# clock and reset
