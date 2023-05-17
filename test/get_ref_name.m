@@ -34,7 +34,7 @@ function ref_name = get_ref_name(rd_name)
                 case 'fmcomms8'
                     ref_name = 'zynqmp-zcu102-rev10-ad9361-fmcomms8';
                 case 'adrv9002'
-                    ref_name = 'zynqmp-zcu102-rev10-adrv9002';
+                    ref_name = 'zynqmp-zcu102-rev10-adrv9002-vlvds';
                 case 'adrv9009'
                     ref_name = 'zynqmp-zcu102-rev10-adrv9009';
                 case 'adrv9371'
@@ -101,9 +101,9 @@ function ref_name = get_ref_name(rd_name)
                 case 'fmcomms2'
                     ref_name = 'zynq-zed-adv7511-ad9361-fmcomms2-3';
                 case 'adrv9002'
-                    ref_name = 'zynq-zed-adv7511-adrv9002';
+                    ref_name = 'zynq-zed-adv7511-adrv9002-vcmos';
                 case 'adrv9002_rx2tx2'
-                    ref_name = 'zynq-zed-adv7511-adrv9002-rx2tx2';
+                    ref_name = 'zynq-zed-adv7511-adrv9002-rx2tx2-vcmos';
 
                     % zynq-zed-adv7511  Zed Board   ADV7511
                     % zynq-zed-adv7511-ad9364-fmcomms4  Zed Board   ADV7511     AD-FMCOMMS4-EBZ     doc
@@ -131,9 +131,9 @@ function ref_name = get_ref_name(rd_name)
         case 'adrv9361-z7035'
             switch board
                 case 'ccbob_cmos'
-                    ref_name = 'zynq-adrv9361-z7035-bob-cmos';
+                    ref_name = 'zynq-adrv9361-z7035-bob-vcmos';
                 case 'ccbob_lvds'
-                    ref_name = 'zynq-adrv9361-z7035-bob';
+                    ref_name = 'zynq-adrv9361-z7035-bob-vlvds';
                 case 'ccfmc_lvds'
                     ref_name = 'zynq-adrv9361-z7035-fmc';
                 case 'ccpackrf_lvds'
@@ -145,9 +145,9 @@ function ref_name = get_ref_name(rd_name)
         case 'adrv9364-z7020'
             switch board
                 case 'ccbob_cmos'
-                    ref_name = 'zynq-adrv9364-z7020-bob-cmos';
+                    ref_name = 'zynq-adrv9364-z7020-bob-vcmos';
                 case 'ccbob_lvds'
-                    ref_name = 'zynq-adrv9364-z7020-bob';
+                    ref_name = 'zynq-adrv9364-z7020-bob-vlvds';
                 case 'ccpackrf_lvds'
                     ref_name = 'zynq-adrv9364-z7020-packrf';
                 otherwise
