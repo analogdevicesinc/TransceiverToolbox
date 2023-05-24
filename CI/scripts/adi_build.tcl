@@ -1,3 +1,7 @@
+# Define local variables
+set cdir [pwd]
+set sdk_loc vivado_prj.sdk
+set project_system_dir vivado_prj.srcs/sources_1/bd/system
 set prj_carrier $project$carrier
 
 if {$project == "adrv9361z7035"} {
@@ -10,7 +14,7 @@ if {$project == "adrv9361z7035"} {
 puts "FPGA Board: $fpga_board_lc"
 
 # Verify support files exist
-if {![file exists $project_dir/projects/common/boot/$fpga_board_lc/u-boot.elf]} {
+if {![file exists $cdir/projects/common/boot/$fpga_board_lc/u-boot.elf]} {
     puts "ERROR: Missing u-boot.elf for $fpga_board_lc"
     return
 }
@@ -25,11 +29,6 @@ launch_runs synth_1
 wait_on_run synth_1
 launch_runs impl_1 -to_step write_bitstream
 wait_on_run impl_1
-
-# Define local variables
-set cdir [pwd]
-set sdk_loc vivado_prj.sdk
-set project_system_dir vivado_prj.srcs/sources_1/bd/system
 
 # Export the hdf
 file delete -force $sdk_loc
