@@ -2,5 +2,5 @@ the_ROM_image:
 {
 [bootloader] ./fsbl.elf
 ./system_top.bit
-./u-boot_zynq_zed.elf
+./u-boot.elf
 }

@@ -39,15 +39,17 @@ write_hw_platform -fixed -force  -include_bit -file $sdk_loc/system_top.xsa
 close_project
 
 # Create the BOOT.bin
+puts "Generating BOOT.BIN"
+puts "Please wait, this may take a few minutes."
 file mkdir $cdir/boot
 file copy -force $cdir/vivado_prj.runs/impl_1/system_top.bit $cdir/boot/system_top.bit
 file copy -force $cdir/projects/common/boot/$fpga_board_lc/u-boot.elf $cdir/boot/u-boot.elf
 file copy -force $cdir/projects/common/boot/$fpga_board_lc/zynq.bif $cdir/boot/zynq.bif
+file copy -force $cdir/projects/common/boot/$fpga_board_lc/fsbl.elf $cdir/boot/fsbl.elf
 
 if {$fpga_board_lc == "zcu102"} {
     file copy -force $cdir/projects/common/boot/$fpga_board_lc/bl31.elf $cdir/boot/bl31.elf
     file copy -force $cdir/projects/common/boot/$fpga_board_lc/pmufw.elf $cdir/boot/pmufw.elf
-    file copy -force $cdir/projects/common/boot/$fpga_board_lc/fsbl.elf $cdir/boot/fsbl.elf
     cd $cdir/boot
     exec bootgen -arch zynqmp -image zynq.bif -o BOOT.BIN -w
 } else {
@@ -55,10 +57,6 @@ if {$fpga_board_lc == "zcu102"} {
     exec bootgen -arch zynq -image zynq.bif -o BOOT.BIN -w
 }
 
-
-set build_args "$sdk_loc/system_top.xsa $uboot_elf $cdir/boot $arm_tr_frm_elf"
-puts "Please wait, this may take a few minutes."
-eval $xsct_script $build_args
 puts "------------------------------------"
 puts "Embedded system build completed."
 puts "You may close this shell."
