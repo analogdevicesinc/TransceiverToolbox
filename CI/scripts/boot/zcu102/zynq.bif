@@ -4,5 +4,5 @@ the_ROM_image:
 [bootloader,destination_cpu=a53-0] ./fsbl.elf
 [destination_device=pl] ./system_top.bit
 [destination_cpu=a53-0,exception_level=el-3,trustzone] ./bl31.elf
-[destination_cpu=a53-0,exception_level=el-2] ./u-boot-zcu.elf
+[destination_cpu=a53-0,exception_level=el-2] ./u-boot.elf
 }

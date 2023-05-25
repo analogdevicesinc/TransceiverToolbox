@@ -8,9 +8,9 @@ if {$project == "adrv9361z7035"} {
     set fpga_board "adrv9361"
 } elseif {$project == "adrv9364z7020"} {
     set fpga_board "adrv9364"
-} else {
-    set fpga_board_lc [string tolower $fpga_board]
 }
+set fpga_board_lc [string tolower $fpga_board]
+
 puts "FPGA Board: $fpga_board_lc"
 
 # Verify support files exist
@@ -40,9 +40,21 @@ close_project
 
 # Create the BOOT.bin
 file mkdir $cdir/boot
-set xsct_script "exec xsct $cdir/projects/scripts/adi_make_boot_bin.tcl"
-set arm_tr_frm_elf $cdir/projects/common/boot/bl31.elf
-set uboot_elf $cdir/projects/common/boot/$fpga_board_lc/u-boot.elf
+file copy -force $cdir/vivado_prj.runs/impl_1/system_top.bit $cdir/boot/system_top.bit
+file copy -force $cdir/projects/common/boot/$fpga_board_lc/u-boot.elf $cdir/boot/u-boot.elf
+file copy -force $cdir/projects/common/boot/$fpga_board_lc/zynq.bif $cdir/boot/zynq.bif
+
+if {$fpga_board_lc == "zcu102"} {
+    file copy -force $cdir/projects/common/boot/$fpga_board_lc/bl31.elf $cdir/boot/bl31.elf
+    file copy -force $cdir/projects/common/boot/$fpga_board_lc/pmufw.elf $cdir/boot/pmufw.elf
+    file copy -force $cdir/projects/common/boot/$fpga_board_lc/fsbl.elf $cdir/boot/fsbl.elf
+    cd $cdir/boot
+    exec bootgen -arch zynqmp -image zynq.bif -o BOOT.BIN -w
+} else {
+    cd $cdir/boot
+    exec bootgen -arch zynq -image zynq.bif -o BOOT.BIN -w
+}
+
 
 set build_args "$sdk_loc/system_top.xsa $uboot_elf $cdir/boot $arm_tr_frm_elf"
 puts "Please wait, this may take a few minutes."
