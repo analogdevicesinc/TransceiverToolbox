@@ -114,7 +114,7 @@ proc connect_interfaces {rxtx hierarchy shift_register synchronizer number_of_in
 	}
 }
 
-proc preprocess_bd {project carrier rxtx} {
+proc preprocess_bd {project carrier rxtx number_of_inputs number_of_bits number_of_valids multiple} {
 
     puts "Preprocessing $project $carrier $rxtx"
 

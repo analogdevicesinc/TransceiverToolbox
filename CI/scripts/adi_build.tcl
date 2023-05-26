@@ -1,20 +1,23 @@
-global fpga_board
-
-if {[info exists fpga_board]} {
-    puts "==========="
-    puts $fpga_board
-    puts "==========="
-} else {
-    # Set to something not ZCU102
-    set fpga_board "ZYNQ"
-}
-
-set prj_carrier $project$carrier
-
 # Define local variables
 set cdir [pwd]
 set sdk_loc vivado_prj.sdk
 set project_system_dir vivado_prj.srcs/sources_1/bd/system
+set prj_carrier $project$carrier
+
+if {$project == "adrv9361z7035"} {
+    set fpga_board "adrv9361"
+} elseif {$project == "adrv9364z7020"} {
+    set fpga_board "adrv9364"
+}
+set fpga_board_lc [string tolower $fpga_board]
+
+puts "FPGA Board: $fpga_board_lc"
+
+# Verify support files exist
+if {![file exists $cdir/projects/common/boot/$fpga_board_lc/u-boot.elf]} {
+    puts "ERROR: Missing u-boot.elf for $fpga_board_lc"
+    return
+}
 
 # Build the project
 update_compile_order -fileset sources_1
@@ -36,25 +39,22 @@ write_hw_platform -fixed -force  -include_bit -file $sdk_loc/system_top.xsa
 close_project
 
 # Create the BOOT.bin
+puts "Generating BOOT.BIN"
+puts "Please wait, this may take a few minutes."
 file mkdir $cdir/boot
-if {$fpga_board eq "ZCU102"} {
-    set vversion [version -short]
-    exec xsct $cdir/projects/scripts/fsbl_build_zynqmp.tcl $vversion
-    if {[file exist boot/BOOT.BIN] eq 0} {
-        puts "ERROR: BOOT.BIN not built"
-        return -code error 11
-    } else {
-        puts "BOOT.BIN built correctly!"
-    }
+file copy -force $cdir/vivado_prj.runs/impl_1/system_top.bit $cdir/boot/system_top.bit
+file copy -force $cdir/projects/common/boot/$fpga_board_lc/u-boot.elf $cdir/boot/u-boot.elf
+file copy -force $cdir/projects/common/boot/$fpga_board_lc/zynq.bif $cdir/boot/zynq.bif
+file copy -force $cdir/projects/common/boot/$fpga_board_lc/fsbl.elf $cdir/boot/fsbl.elf
 
+if {$fpga_board_lc == "zcu102"} {
+    file copy -force $cdir/projects/common/boot/$fpga_board_lc/bl31.elf $cdir/boot/bl31.elf
+    file copy -force $cdir/projects/common/boot/$fpga_board_lc/pmufw.elf $cdir/boot/pmufw.elf
+    cd $cdir/boot
+    exec bootgen -arch zynqmp -image zynq.bif -o BOOT.BIN -w
 } else {
-    exec xsct $cdir/projects/scripts/fsbl_build_zynq.tcl
-    if {[file exist boot/BOOT.BIN] eq 0} {
-        puts "ERROR: BOOT.BIN not built"
-        return -code error 11
-    } else {
-        puts "BOOT.BIN built correctly!"
-    }
+    cd $cdir/boot
+    exec bootgen -arch zynq -image zynq.bif -o BOOT.BIN -w
 }
 
 puts "------------------------------------"
