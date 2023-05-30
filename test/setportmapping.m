@@ -84,7 +84,7 @@ hdlset_param([mdl,'/HDL_DUT/regRead1'], 'IOInterfaceMapping', 'x"110"');
 switch mode
     case 'tx'
         % Connect enables
-        if ~strcmp(dev,'ADRV9002') && ~contains(lower(ReferenceDesignName),'fmcomms8')
+        if ~strcmp(dev,'ADRV9002') && ~contains(lower(ReferenceDesignName),'fmcomms8') && ~contains(lower(ReferenceDesignName),'pluto')
             hdlset_param([mdl,'/HDL_DUT/validOut1'], 'IOInterface', 'IP Load Tx Data OUT');
             hdlset_param([mdl,'/HDL_DUT/validOut1'], 'IOInterfaceMapping', '[0]');
         end
@@ -160,7 +160,7 @@ switch mode
         end
     case {'rxtx','txrx'}
         % Connect enables
-        if ~strcmp(dev,'ADRV9002') && ~contains(lower(ReferenceDesignName),'fmcomms8')
+        if ~strcmp(dev,'ADRV9002') && ~contains(lower(ReferenceDesignName),'fmcomms8') && ~contains(lower(ReferenceDesignName),'pluto')
             hdlset_param([mdl,'/HDL_DUT/validOut1'], 'IOInterface', 'IP Load Tx Data OUT');
             hdlset_param([mdl,'/HDL_DUT/validOut1'], 'IOInterfaceMapping', '[0]');
         end

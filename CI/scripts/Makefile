@@ -8,11 +8,11 @@ SHELL := /bin/bash
 MLFLAGS := -nodisplay -nodesktop -nosplash
 
 ifeq ($(MLRELEASE),)
-MLRELEASE := R2021b
+MLRELEASE := R2022a
 endif
 
 ifeq ($(HDLBRANCH),)
-HDLBRANCH := hdl_2019_r2
+HDLBRANCH := hdl_2021_r1
 endif
 
 ifeq ($(OS),Windows_NT)
@@ -90,6 +90,10 @@ test:
 test_streaming:
 	cd ../.. ; \
 	${MLPATH}/$(MLRELEASE)/bin/matlab $(MLFLAGS) -r "addpath(genpath('test'));addpath(genpath('deps'));runHWTests;"
+
+run_NonHWTests:
+	cd ../.. ; \
+        ${MLPATH}/$(MLRELEASE)/bin/matlab $(MLFLAGS) -r "addpath(genpath('test'));runNonHWTest;"
 
 test_evm:
 	cd ../.. ; \

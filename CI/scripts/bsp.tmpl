@@ -1,6 +1,6 @@
 <deployment-project plugin="plugin.toolbox" plugin-version="1.0">
   <configuration file="__REPO-ROOT__/bsp.prj" location="__REPO-ROOT__" name="bsp" target="target.toolbox" target-name="Package Toolbox">
-    <param.appname>Analog Devices, Inc. Transceiver Toolbox</param.appname>
+    <param.appname>__APP-NAME__</param.appname>
     <param.authnamewatermark>Travis Collins</param.authnamewatermark>
     <param.email>travis.collins@analog.com</param.email>
     <param.company>Analog Devices, Inc</param.company>
@@ -103,7 +103,7 @@ mltbx/*
       <file>${PROJECT_ROOT}/doc</file>
       <file>${PROJECT_ROOT}/hdl</file>
       <file>${PROJECT_ROOT}/info.xml</file>
-      <file>${PROJECT_ROOT}/trx_examples</file>
+      <file>${PROJECT_ROOT}/__EXAMPLES-DIR__</file>
     </fileset.rootfiles>
     <fileset.depfun.included />
     <fileset.depfun.excluded>

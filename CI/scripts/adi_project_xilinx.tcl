@@ -1,7 +1,10 @@
 
 ## Define the supported tool version
-if {![info exists REQUIRED_VIVADO_VERSION]} {
-  set REQUIRED_VIVADO_VERSION "2019.1"
+set required_vivado_version "2021.1"
+if {[info exists ::env(REQUIRED_VIVADO_VERSION)]} {
+  set required_vivado_version $::env(REQUIRED_VIVADO_VERSION)
+} elseif {[info exists REQUIRED_VIVADO_VERSION]} {
+  set required_vivado_version $REQUIRED_VIVADO_VERSION
 }
 
 ## Define the ADI_IGNORE_VERSION_CHECK environment variable to skip version check
@@ -14,9 +17,20 @@ if {[info exists ::env(ADI_IGNORE_VERSION_CHECK)]} {
 ## Define the ADI_USE_OOC_SYNTHESIS environment variable to enable out of context
 #  synthesis
 if {[info exists ::env(ADI_USE_OOC_SYNTHESIS)]} {
-  set ADI_USE_OOC_SYNTHESIS 1
+  if {[string equal $::env(ADI_USE_OOC_SYNTHESIS) n]} {
+     set ADI_USE_OOC_SYNTHESIS 0
+  } else {
+     set ADI_USE_OOC_SYNTHESIS 1
+  }
 } elseif {![info exists ADI_USE_OOC_SYNTHESIS]} {
-  set ADI_USE_OOC_SYNTHESIS 0
+   set ADI_USE_OOC_SYNTHESIS 1
+}
+
+## Set number of parallel out of context jobs through environment variable
+if {![info exists ::env(ADI_MAX_OOC_JOBS)]} {
+  set ADI_MAX_OOC_JOBS 4
+} else {
+  set ADI_MAX_OOC_JOBS $::env(ADI_MAX_OOC_JOBS)
 }
 
 ## Set to enable incremental compilation
@@ -34,7 +48,7 @@ set p_prcfg_init ""
 set p_prcfg_list ""
 set p_prcfg_status ""
 
-## Creates a Xilinx project.
+## Creates a Xilinx project for a given board
 #
 # \param[project_name] - name of the project
 # \param[mode] - if set non-project mode will be used, otherwise project mode
@@ -42,93 +56,141 @@ set p_prcfg_status ""
 # \param[parameter_list] - a list of global parameters (parameters of the
 # system_top module)
 #
-# Supported carrier names are: ac701, kc705, vc707, vcu118, kcu105, zed,
+# Supported carrier names are: ac701, kc705, vc707, vcu118, vcu128, kcu105, zed,
 # microzed, zc702, zc706, mitx405, zcu102.
 #
 proc adi_project {project_name {mode 0} {parameter_list {}} } {
+
+  set device ""
+  set board ""
+
+  # Determine the device based on the board name
+  if [regexp "_ac701$" $project_name] {
+    set device "xc7a200tfbg676-2"
+    set board [lindex [lsearch -all -inline [get_board_parts] *ac701*] end]
+  }
+  if [regexp "_kc705$" $project_name] {
+    set device "xc7k325tffg900-2"
+    set board [lindex [lsearch -all -inline [get_board_parts] *kc705*] end]
+  }
+  if [regexp "_vc707$" $project_name] {
+    set device "xc7vx485tffg1761-2"
+    set board [lindex [lsearch -all -inline [get_board_parts] *vc707*] end]
+  }
+  if [regexp "_vcu118$" $project_name] {
+    set device "xcvu9p-flga2104-2L-e"
+    set board [lindex [lsearch -all -inline [get_board_parts] *vcu118*] end]
+  }
+  if [regexp "_vcu128$" $project_name] {
+    set device "xcvu37p-fsvh2892-2L-e"
+    set board [lindex [lsearch -all -inline [get_board_parts] *vcu128:part0*] end]
+  }
+  if [regexp "_kcu105$" $project_name] {
+    set device "xcku040-ffva1156-2-e"
+    set board [lindex [lsearch -all -inline [get_board_parts] *kcu105*] end]
+  }
+  if [regexp "_zed$" $project_name] {
+    set device "xc7z020clg484-1"
+    set board [lindex [lsearch -all -inline [get_board_parts] *zed*] end]
+  }
+  if [regexp "_coraz7s$" $project_name] {
+    set device "xc7z007sclg400-1"
+    set board "not-applicable"
+  }
+  if [regexp "_microzed$" $project_name] {
+    set device "xc7z010clg400-1"
+    set board "not-applicable"
+  }
+  if [regexp "_zc702$" $project_name] {
+    set device "xc7z020clg484-1"
+    set board [lindex [lsearch -all -inline [get_board_parts] *zc702*] end]
+  }
+  if [regexp "_zc706$" $project_name] {
+    set device "xc7z045ffg900-2"
+    set board [lindex [lsearch -all -inline [get_board_parts] *zc706*] end]
+  }
+  if [regexp "_mitx045$" $project_name] {
+    set device "xc7z045ffg900-2"
+    set board "not-applicable"
+  }
+  if [regexp "_zcu102$" $project_name] {
+    set device "xczu9eg-ffvb1156-2-e"
+    set board [lindex [lsearch -all -inline [get_board_parts] *zcu102*] end]
+  }
+  if [regexp "_vmk180_es1$" $project_name] {
+    enable_beta_device xcvm*
+    xhub::refresh_catalog [xhub::get_xstores xilinx_board_store]
+    xhub::install [xhub::get_xitems xilinx.com:xilinx_board_store:vmk180_es:*] -quiet
+    set_param board.repoPaths [get_property LOCAL_ROOT_DIR [xhub::get_xstores xilinx_board_store]]
+    set device "xcvm1802-vsva2197-2MP-e-S-es1"
+    set board [lindex [lsearch -all -inline [get_board_parts] *vmk180_es*] end]
+  }
+  if [regexp "_vmk180$" $project_name] {
+    set device "xcvm1802-vsva2197-2MP-e-S"
+    set board [lindex [lsearch -all -inline [get_board_parts] *vmk180*] end]
+  }
+  if [regexp "_vck190$" $project_name] {
+    set device "xcvc1902-vsva2197-2MP-e-S"
+    set board [lindex [lsearch -all -inline [get_board_parts] *vck190*] end]
+  }
+  if [regexp "_vc709$" $project_name] {
+    set device "xc7vx690tffg1761-2"  
+    set board [lindex [lsearch -all -inline [get_board_parts] *vc709*] end]
+  }
+
+  adi_project_create $project_name $mode $parameter_list $device $board
+}
+
+
+## Creates a Xilinx project.
+#
+# \param[project_name] - name of the project
+# \param[mode] - if set non-project mode will be used, otherwise project mode
+# flow, see UG892 for more information
+# \param[parameter_list] - a list of global parameters (parameters of the
+# system_top module)
+# \param[device] - Canonical Xilinx device string
+# \param[board] - board BSP name (optional)
+#
+proc adi_project_create {project_name mode parameter_list device {board "not-applicable"}}  {
 
   global ad_hdl_dir
   global ad_ghdl_dir
   global p_board
   global p_device
   global sys_zynq
-  global REQUIRED_VIVADO_VERSION
+  global required_vivado_version
   global IGNORE_VERSION_CHECK
   global ADI_USE_OOC_SYNTHESIS
   global ADI_USE_INCR_COMP
 
-  if [regexp "_ac701$" $project_name] {
-    set p_device "xc7a200tfbg676-2"
-    set p_board [lindex [lsearch -all -inline [get_board_parts] *ac701*] end]
-    set sys_zynq 0
-  }
-  if [regexp "_kc705$" $project_name] {
-    set p_device "xc7k325tffg900-2"
-    set p_board [lindex [lsearch -all -inline [get_board_parts] *kc705*] end]
-    set sys_zynq 0
-  }
-  if [regexp "_vc707$" $project_name] {
-    set p_device "xc7vx485tffg1761-2"
-    set p_board [lindex [lsearch -all -inline [get_board_parts] *vc707*] end]
-    set sys_zynq 0
-  }
-  if [regexp "_vcu118$" $project_name] {
-    set p_device "xcvu9p-flga2104-2L-e"
-    set p_board [lindex [lsearch -all -inline [get_board_parts] *vcu118*] end]
-    set sys_zynq 0
-  }
-  if [regexp "_kcu105$" $project_name] {
-    set p_device "xcku040-ffva1156-2-e"
-    set p_board [lindex [lsearch -all -inline [get_board_parts] *kcu105*] end]
-    set sys_zynq 0
-  }
-  if [regexp "_zed$" $project_name] {
-    set p_device "xc7z020clg484-1"
-    set p_board [lindex [lsearch -all -inline [get_board_parts] *zed*] end]
+  ## update the value of $p_device only if it was not already updated elsewhere
+  if {$p_device eq "none"} {
+    set p_device $device
+  } 
+  set p_board $board
+
+  if [regexp "^xc7z" $p_device] {
     set sys_zynq 1
-  }
-  if [regexp "_coraz7s$" $project_name] {
-    set p_device "xc7z007sclg400-1"
-    set p_board "not-applicable"
-    set sys_zynq 1
-  }
-  if [regexp "_microzed$" $project_name] {
-    set p_device "xc7z010clg400-1"
-    set p_board "not-applicable"
-    set sys_zynq 1
-  }
-  if [regexp "_zc702$" $project_name] {
-    set p_device "xc7z020clg484-1"
-    set p_board [lindex [lsearch -all -inline [get_board_parts] *zc702*] end]
-    set sys_zynq 1
-  }
-  if [regexp "_zc706$" $project_name] {
-    set p_device "xc7z045ffg900-2"
-    set p_board [lindex [lsearch -all -inline [get_board_parts] *zc706*] end]
-    set sys_zynq 1
-  }
-  if [regexp "_mitx045$" $project_name] {
-    set p_device "xc7z045ffg900-2"
-    set p_board "not-applicable"
-    set sys_zynq 1
-  }
-  if [regexp "_zcu102$" $project_name] {
-    set p_device "xczu9eg-ffvb1156-2-e"
-    set p_board [lindex [lsearch -all -inline [get_board_parts] *zcu102*] end]
+  } elseif [regexp "^xczu" $p_device]  {
     set sys_zynq 2
+  } elseif [regexp "^xcv\[ecmph\]" $p_device]  {
+    set sys_zynq 3
+  } else {
+    set sys_zynq 0
   }
 
   set VIVADO_VERSION [version -short]
   if {$IGNORE_VERSION_CHECK} {
-    if {[string compare $VIVADO_VERSION $REQUIRED_VIVADO_VERSION] != 0} {
+    if {[string compare $VIVADO_VERSION $required_vivado_version] != 0} {
       puts -nonewline "CRITICAL WARNING: vivado version mismatch; "
-      puts -nonewline "expected $REQUIRED_VIVADO_VERSION, "
+      puts -nonewline "expected $required_vivado_version, "
       puts -nonewline "got $VIVADO_VERSION.\n"
     }
   } else {
-    if {[string compare $VIVADO_VERSION $REQUIRED_VIVADO_VERSION] != 0} {
+    if {[string compare $VIVADO_VERSION $required_vivado_version] != 0} {
       puts -nonewline "ERROR: vivado version mismatch; "
-      puts -nonewline "expected $REQUIRED_VIVADO_VERSION, "
+      puts -nonewline "expected $required_vivado_version, "
       puts -nonewline "got $VIVADO_VERSION.\n"
       puts -nonewline "This ERROR message can be down-graded to CRITICAL WARNING by setting ADI_IGNORE_VERSION_CHECK environment variable to 1. Be aware that ADI will not support you, if you are using a different tool version.\n"
       exit 2
@@ -151,7 +213,7 @@ proc adi_project {project_name {mode 0} {parameter_list {}} } {
   if {$mode == 0} {
     set project_system_dir "$project_root/$project_name.srcs/sources_1/bd/system"
     if {$MATLAB == 0} {
-        create_project $project_name $project_root -part $p_device -force
+        create_project $project_name . -part $p_device -force
     }
   } else {
     set project_system_dir "$project_root/.srcs/sources_1/bd/system"
@@ -188,7 +250,10 @@ proc adi_project {project_name {mode 0} {parameter_list {}} } {
   update_ip_catalog
 
   ## Load custom message severity definitions
-  source $ad_hdl_dir/projects/scripts/adi_xilinx_msg.tcl
+
+  if {![info exists ::env(ADI_DISABLE_MESSAGE_SUPPRESION)]} {
+    source $ad_hdl_dir/projects/scripts/adi_xilinx_msg.tcl
+  }
 
   ## In Vivado there is a limit for the number of warnings and errors which are
   ## displayed by the tool for a particular error or warning; the default value
@@ -264,6 +329,7 @@ proc adi_project_run {project_name} {
 
   global ADI_POWER_OPTIMIZATION
   global ADI_USE_OOC_SYNTHESIS
+  global ADI_MAX_OOC_JOBS
 
   if {[info exists ::env(SKIP_SYNTHESIS)]} {
     puts "Skipping synthesis"
@@ -271,7 +337,7 @@ proc adi_project_run {project_name} {
   }
 
   if {$ADI_USE_OOC_SYNTHESIS == 1} {
-    launch_runs -jobs 4 system_*_synth_1 synth_1
+    launch_runs -jobs $ADI_MAX_OOC_JOBS system_*_synth_1 synth_1
   } else {
     launch_runs synth_1
   }
@@ -287,6 +353,8 @@ proc adi_project_run {project_name} {
   set_property STEPS.POWER_OPT_DESIGN.IS_ENABLED true [get_runs impl_1]
   set_property STEPS.POST_PLACE_POWER_OPT_DESIGN.IS_ENABLED true [get_runs impl_1]
   }
+
+  set_param board.repoPaths [get_property LOCAL_ROOT_DIR [xhub::get_xstores xilinx_board_store]]
 
   launch_runs impl_1 -to_step write_bitstream
   wait_on_run impl_1
@@ -409,10 +477,10 @@ proc adi_project_run {project_name} {
   set timing_string $[report_timing_summary -return_string]
   if { [string match "*VIOLATED*" $timing_string] == 1 ||
        [string match "*Timing constraints are not met*" $timing_string] == 1} {
-    file copy -force $project_name.runs/impl_1/system_top.sysdef $project_name.sdk/system_top_bad_timing.hdf
+    write_hw_platform -fixed -force  -include_bit -file $project_name.sdk/system_top_bad_timing.xsa
     return -code error [format "ERROR: Timing Constraints NOT met!"]
   } else {
-    file copy -force $project_name.runs/impl_1/system_top.sysdef $project_name.sdk/system_top.hdf
+    write_hw_platform -fixed -force  -include_bit -file $project_name.sdk/system_top.xsa
   }
 }
 

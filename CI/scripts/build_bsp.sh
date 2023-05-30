@@ -2,7 +2,7 @@
 set -x
 
 if [ -z "${HDLBRANCH}" ]; then
-HDLBRANCH='hdl_2019_r2'
+HDLBRANCH='hdl_2021_r1'
 fi
 
 # Script is designed to run from specific location
@@ -35,7 +35,7 @@ if [ -f "hdl/library/scripts/adi_ip.tcl" ]; then
 else
 	TARGET="hdl/library/scripts/adi_ip_xilinx.tcl"
 fi
-VER=$(awk '/set REQUIRED_VIVADO_VERSION/ {print $3}' $TARGET | sed 's/"//g')
+VER=$(awk '/set required_vivado_version/ {print $3}' $TARGET | sed 's/"//g')
 echo "Required Vivado version ${VER}"
 VIVADOFULL=${VER}
 if [ ${#VER} = 8 ]
@@ -75,6 +75,9 @@ if [ -d "$TARGET" ]; then
 fi
 # Increase rx_clk period to fix timing failures for Pluto designs in R2021b
 sed -i 's/16.27/30/' hdl/projects/pluto/system_constr.xdc
+# update .mk to .prj in zc706_plddr3_dacfifo_bd.tcl
+sed -i 's/.mk/.prj/' hdl/projects/common/zc706/zc706_plddr3_dacfifo_bd.tcl
+sed -i '10i   file copy -force $ad_hdl_dir/projects/common/zc706/zc706_plddr3_mig.mk $ad_hdl_dir/projects/common/zc706/zc706_plddr3_mig.prj' hdl/projects/common/zc706/zc706_plddr3_dacfifo_bd.tcl
 mv hdl $TARGET
 
 # Post-process ports.json
@@ -87,6 +90,7 @@ cp scripts/matlab_processors.tcl ../hdl/vendor/AnalogDevices/vivado/projects/scr
 cp scripts/adi_project_xilinx.tcl ../hdl/vendor/AnalogDevices/vivado/projects/scripts/adi_project_xilinx.tcl
 cp scripts/system_project_rxtx.tcl ../hdl/vendor/AnalogDevices/vivado/projects/scripts/system_project_rxtx.tcl
 cp scripts/adi_build.tcl ../hdl/vendor/AnalogDevices/vivado/projects/scripts/adi_build.tcl
+cp scripts/adi_build_win.tcl ../hdl/vendor/AnalogDevices/vivado/projects/scripts/adi_build_win.tcl
 
 # Copy fsbl files
 cp scripts/fsbl_build_zynq.tcl ../hdl/vendor/AnalogDevices/vivado/projects/scripts/fsbl_build_zynq.tcl
