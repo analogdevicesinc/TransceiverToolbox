@@ -390,13 +390,6 @@
                     },
                     {
                         "input": "false",
-                        "width": 1,
-                        "name": "logic_or/Op1",
-                        "type": "valid",
-                        "m_name": "IP Load Tx Data OUT"
-                    },
-                    {
-                        "input": "false",
                         "width": 16,
                         "name": "axi_ad9361/dac_data_i0",
                         "type": "data",
