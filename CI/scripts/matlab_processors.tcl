@@ -114,6 +114,207 @@ proc connect_interfaces {rxtx hierarchy shift_register synchronizer number_of_in
 	}
 }
 
+proc data_synchronizer {rxtx number_of_inputs number_of_bits number_of_valids multiple} {
+	set hierarchy sync_input
+
+	create_bd_cell -type hier $hierarchy
+
+	set hierarchy sync_output
+
+	create_bd_cell -type hier $hierarchy
+
+	if {$rxtx != "tx"} {
+		set hierarchy sync_input
+
+		create_bd_pin -dir I $hierarchy/rx_clk
+		create_bd_pin -dir I $hierarchy/rx_rstn
+
+		for {set i 0} {$i < $number_of_inputs} {incr i} {
+			create_bd_pin -dir I -from [expr $number_of_bits-1] -to 0 $hierarchy/data_in_rx_${i}
+			create_bd_pin -dir O -from [expr $number_of_bits-1] -to 0 $hierarchy/data_out_rx_${i}
+		}
+
+		for {set i 0} {$i < $number_of_valids} {incr i} {
+			create_bd_pin -dir I $hierarchy/data_valid_in_rx_${i}
+			create_bd_pin -dir O $hierarchy/data_valid_out_rx_${i}
+		}
+
+		set hierarchy sync_output
+
+		create_bd_pin -dir I $hierarchy/rx_clk
+		create_bd_pin -dir I $hierarchy/rx_rstn
+
+		for {set i 0} {$i < $number_of_inputs} {incr i} {
+			create_bd_pin -dir I -from [expr $number_of_bits-1] -to 0 $hierarchy/data_in_rx_${i}
+			create_bd_pin -dir O -from [expr $number_of_bits-1] -to 0 $hierarchy/data_out_rx_${i}
+		}
+
+		for {set i 0} {$i < $number_of_valids} {incr i} {
+			create_bd_pin -dir I $hierarchy/data_valid_in_rx_${i}
+			create_bd_pin -dir O $hierarchy/data_valid_out_rx_${i}
+		}
+	}
+	if {$rxtx != "rx"} {
+		set hierarchy sync_input
+
+		create_bd_pin -dir I $hierarchy/tx_clk
+		create_bd_pin -dir I $hierarchy/tx_rstn
+
+		for {set i 0} {$i < $number_of_inputs} {incr i} {
+			create_bd_pin -dir I -from [expr $number_of_bits-1] -to 0 $hierarchy/data_in_tx_${i}
+			create_bd_pin -dir O -from [expr $number_of_bits-1] -to 0 $hierarchy/data_out_tx_${i}
+		}
+
+		for {set i 0} {$i < $number_of_valids} {incr i} {
+			create_bd_pin -dir I $hierarchy/data_valid_in_tx_${i}
+			create_bd_pin -dir O $hierarchy/data_valid_out_tx_${i}
+		}
+
+		set hierarchy sync_output
+
+		create_bd_pin -dir I $hierarchy/tx_clk
+		create_bd_pin -dir I $hierarchy/tx_rstn
+
+		for {set i 0} {$i < $number_of_inputs} {incr i} {
+			create_bd_pin -dir I -from [expr $number_of_bits-1] -to 0 $hierarchy/data_in_tx_${i}
+			create_bd_pin -dir O -from [expr $number_of_bits-1] -to 0 $hierarchy/data_out_tx_${i}
+		}
+
+		for {set i 0} {$i < $number_of_valids} {incr i} {
+			create_bd_pin -dir I $hierarchy/data_valid_in_tx_${i}
+			create_bd_pin -dir O $hierarchy/data_valid_out_tx_${i}
+		}
+	}
+	if {$rxtx == "rx"} {
+		set hierarchy sync_input
+
+		for {set i 0} {$i < $number_of_inputs} {incr i} {
+			ad_connect $hierarchy/data_in_rx_${i} $hierarchy/data_out_rx_${i}
+		}
+
+		for {set i 0} {$i < $number_of_valids} {incr i} {
+			ad_connect $hierarchy/data_valid_in_rx_${i} $hierarchy/data_valid_out_rx_${i}
+		}
+
+		set hierarchy sync_output
+
+		for {set i 0} {$i < $number_of_inputs} {incr i} {
+			ad_connect $hierarchy/data_in_rx_${i} $hierarchy/data_out_rx_${i}
+		}
+
+		for {set i 0} {$i < $number_of_valids} {incr i} {
+			ad_connect $hierarchy/data_valid_in_rx_${i} $hierarchy/data_valid_out_rx_${i}
+		}
+	}
+	if {$rxtx == "tx"} {
+		set hierarchy sync_input
+
+		for {set i 0} {$i < $number_of_inputs} {incr i} {
+			ad_connect $hierarchy/data_in_tx_${i} $hierarchy/data_out_tx_${i}
+		}
+
+		for {set i 0} {$i < $number_of_valids} {incr i} {
+			ad_connect $hierarchy/data_valid_in_tx_${i} $hierarchy/data_valid_out_tx_${i}
+		}
+
+		set hierarchy sync_output
+
+		for {set i 0} {$i < $number_of_inputs} {incr i} {
+			ad_connect $hierarchy/data_in_tx_${i} $hierarchy/data_out_tx_${i}
+		}
+
+		for {set i 0} {$i < $number_of_valids} {incr i} {
+			ad_connect $hierarchy/data_valid_in_tx_${i} $hierarchy/data_valid_out_tx_${i}
+		}
+	}
+	if {$rxtx == "rxtx" || $rxtx == "txrx"} {
+		# build synchronizer IPs
+		exec cp ../../../../../hdl/vendor/AnalogDevices/vivado/quiet.mk ../../../.
+		exec make -C ../../../library/util_sync/sync_delay
+		exec make -C ../../../library/util_sync/sync_fast_to_slow
+		exec make -C ../../../library/util_sync/sync_slow_to_fast
+		update_ip_catalog -rebuild
+
+		### synchronize the input
+
+		set hierarchy sync_input
+
+		set shift_register util_delay
+
+		set synchronizer sync_slow_to_fast
+
+		set delay [expr {$multiple+3}]
+
+		#create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.1 $hierarchy/VCC
+		#set_property -dict [list CONFIG.CONST_VAL {1}] [get_bd_cells $hierarchy/VCC]
+
+		connect_interfaces $rxtx $hierarchy $shift_register $synchronizer $number_of_inputs $number_of_valids $number_of_bits $delay 1
+
+		#ad_connect $hierarchy/${synchronizer}/in_tick $hierarchy/VCC/dout
+
+		# data priority / faster data
+		if {$rxtx == "rxtx"} {
+			# clocking
+			ad_connect $hierarchy/${synchronizer}/in_clk $hierarchy/tx_clk
+			ad_connect $hierarchy/${synchronizer}/out_clk $hierarchy/rx_clk
+
+			# reset
+			ad_connect $hierarchy/${synchronizer}/in_resetn $hierarchy/tx_rstn
+			ad_connect $hierarchy/${synchronizer}/out_resetn $hierarchy/rx_rstn
+		} else {
+			# clocking
+			ad_connect $hierarchy/${synchronizer}/in_clk $hierarchy/rx_clk
+			ad_connect $hierarchy/${synchronizer}/out_clk $hierarchy/tx_clk
+
+			# reset
+			ad_connect $hierarchy/${synchronizer}/in_resetn $hierarchy/rx_rstn
+			ad_connect $hierarchy/${synchronizer}/out_resetn $hierarchy/tx_rstn
+		}
+
+		### synchronize the output
+
+		set hierarchy sync_output
+
+		if {$multiple==1} {
+			#create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.1 $hierarchy/VCC
+			#set_property -dict [list CONFIG.CONST_VAL {1}] [get_bd_cells $hierarchy/VCC]
+		} else {
+			set synchronizer sync_fast_to_slow
+
+			if {$multiple>3} {
+				set delay [expr {$multiple-2}]
+			} else {
+				set delay [expr {($multiple-1)*2}]
+			}
+		}
+		
+		connect_interfaces $rxtx $hierarchy $shift_register $synchronizer $number_of_inputs $number_of_valids $number_of_bits $delay $multiple
+
+		#if {$multiple==1} {
+			#ad_connect $hierarchy/${synchronizer}/in_tick $hierarchy/VCC/dout
+		#}
+
+		# data priority / faster data
+		if {$rxtx == "rxtx"} {
+			# clocking
+			ad_connect $hierarchy/${synchronizer}/in_clk $hierarchy/rx_clk
+			ad_connect $hierarchy/${synchronizer}/out_clk $hierarchy/tx_clk
+
+			# reset
+			ad_connect $hierarchy/${synchronizer}/in_resetn $hierarchy/rx_rstn
+			ad_connect $hierarchy/${synchronizer}/out_resetn $hierarchy/tx_rstn
+		} else {
+			# clocking
+			ad_connect $hierarchy/${synchronizer}/in_clk $hierarchy/tx_clk
+			ad_connect $hierarchy/${synchronizer}/out_clk $hierarchy/rx_clk
+
+			# reset
+			ad_connect $hierarchy/${synchronizer}/in_resetn $hierarchy/tx_rstn
+			ad_connect $hierarchy/${synchronizer}/out_resetn $hierarchy/rx_rstn
+		}
+	}
+}
+
 proc preprocess_bd {project carrier rxtx number_of_inputs number_of_bits number_of_valids multiple} {
 
     puts "Preprocessing $project $carrier $rxtx"
@@ -523,6 +724,7 @@ proc preprocess_bd {project carrier rxtx number_of_inputs number_of_bits number_
 					
                     # Add 1 extra AXI master ports to the interconnect
                     set_property -dict [list CONFIG.NUM_MI {7}] [get_bd_cells axi_cpu_interconnect]
+					set_property -dict [list CONFIG.NUM_CLKS {2}] [get_bd_cells axi_cpu_interconnect]
 					
 					create_bd_cell -type ip -vlnv xilinx.com:ip:util_vector_logic:2.0 rx_rstn_inverter
 					set_property -dict [list CONFIG.C_SIZE {1} CONFIG.C_OPERATION {not} CONFIG.LOGO_FILE {data/sym_notgate.png}] [get_bd_cells rx_rstn_inverter]
@@ -536,11 +738,9 @@ proc preprocess_bd {project carrier rxtx number_of_inputs number_of_bits number_
 					
                     # Connect clock and reset
                     if {$rxtx == "rx" || $rxtx == "rxtx"} {
-                        connect_bd_net [get_bd_pins axi_cpu_interconnect/M06_ACLK] [get_bd_pins axi_adrv9001/adc_1_clk]
-                        connect_bd_net [get_bd_pins axi_cpu_interconnect/M06_ARESETN] [get_bd_pins rx_rstn_inverter/Res]
+                        connect_bd_net [get_bd_pins axi_cpu_interconnect/aclk1] [get_bd_pins axi_adrv9001/adc_1_clk]
 					} else {
-                        connect_bd_net [get_bd_pins axi_cpu_interconnect/M06_ACLK] [get_bd_pins axi_adrv9001/dac_1_clk]
-                        connect_bd_net [get_bd_pins axi_cpu_interconnect/M06_ARESETN] [get_bd_pins tx_rstn_inverter/Res]
+                        connect_bd_net [get_bd_pins axi_cpu_interconnect/aclk1] [get_bd_pins axi_adrv9001/dac_1_clk]
 					}
 					if {$rxtx != "tx"} {
 						# clock and reset
