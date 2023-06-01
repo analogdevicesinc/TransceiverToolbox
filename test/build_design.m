@@ -3,6 +3,8 @@ function out = build_design(config,ReferenceDesignName,vivado_version,mode,board
 
 %% Restore the Model to default HDL parameters
 %hdlrestoreparams('testModel/HDL_DUT');
+!pwd
+!ls -la *
 
 %% Set port mapping based on design configuration
 mdl = setportmapping(mode,ReferenceDesignName,board_name);
