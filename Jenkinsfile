@@ -38,7 +38,14 @@ stage("Build Toolbox") {
 
 /////////////////////////////////////////////////////
 
-boardNames = ['zed','zc702','zc706','zcu102','adrv9361','adrv9364','pluto']
+boardNames = [
+    'fmcomms2_zed',
+    'fmcomms2_zc702','fmcomms5_zc702',
+    'fmcomms2_zc706','fmcomms5_zc706','adrv9371x_zc706','adrv9009_zc706',
+    'fmcomms2_zcu102','adrv9002_zcu102','adrv9009_zcu102','adrv9371x_zcu10','fmcomms8_zcu102',
+    'adrv9361z7035_ccbob_cmos','adrv9361z7035_ccbob_lvds','adrv9361z7035_ccfmc_lvds','adrv9361z7035_ccpackrf_lvds',
+    'adrv9364z7020_ccbob_cmos','adrv9364z7020_ccbob_lvds',
+    'pluto']
 dockerConfig.add("-e HDLBRANCH=hdl_2021_r1")
 
 stage("HDL Tests") {
