@@ -1,6 +1,6 @@
-From 2fdd990facea38577ee89da6d28484fd3393fd57 Mon Sep 17 00:00:00 2001
+From 1a6a1c5006b7084ff419f3a7ddd98ae76d229e74 Mon Sep 17 00:00:00 2001
 From: "Travis F. Collins" <travis.collins@analog.com>
-Date: Tue, 25 Jan 2022 12:12:41 -0800
+Date: Tue, 6 Jun 2023 09:34:43 -0600
 Subject: [PATCH] Add IIO driver for AD936x frequency hopper controller
 
 Signed-off-by: Travis F. Collins <travis.collins@analog.com>
@@ -9,15 +9,15 @@ Signed-off-by: Travis F. Collins <travis.collins@analog.com>
  drivers/iio/Kconfig.adi |   1 +
  drivers/iio/Makefile    |   1 +
  drivers/iio/ip/Kconfig  |  16 ++
- drivers/iio/ip/Makefile |   6 +
+ drivers/iio/ip/Makefile |   2 +
  drivers/iio/ip/hopper.c | 326 ++++++++++++++++++++++++++++++++++++++++
- 6 files changed, 351 insertions(+)
+ 6 files changed, 347 insertions(+)
  create mode 100644 drivers/iio/ip/Kconfig
  create mode 100644 drivers/iio/ip/Makefile
  create mode 100644 drivers/iio/ip/hopper.c
 
 diff --git a/drivers/iio/Kconfig b/drivers/iio/Kconfig
-index fb0802667..66257333c 100644
+index eb18a2971..58cdd1da1 100644
 --- a/drivers/iio/Kconfig
 +++ b/drivers/iio/Kconfig
 @@ -84,6 +84,7 @@ source "drivers/iio/gyro/Kconfig"
@@ -29,16 +29,19 @@ index fb0802667..66257333c 100644
  source "drivers/iio/light/Kconfig"
  source "drivers/iio/logic/Kconfig"
 diff --git a/drivers/iio/Kconfig.adi b/drivers/iio/Kconfig.adi
-index f0ed3cf70..64d429ca2 100644
+index a9626cf7a..0ed29f5bc 100644
 --- a/drivers/iio/Kconfig.adi
 +++ b/drivers/iio/Kconfig.adi
-@@ -154,3 +154,4 @@ config IIO_ALL_ADI_DRIVERS
+@@ -177,6 +177,7 @@ config IIO_ALL_ADI_DRIVERS
  	select AXI_JESD204_RX
  	select AXI_ADXCVR
  	select ONE_BIT_ADC_DAC
 +	select HOPPER
+ 	select ADUX1020
+ 	select IIO_GEN_MUX
+ 	select AD74413R
 diff --git a/drivers/iio/Makefile b/drivers/iio/Makefile
-index 951b67688..dec33cdd8 100644
+index 3ff8d48df..d6bb7e928 100644
 --- a/drivers/iio/Makefile
 +++ b/drivers/iio/Makefile
 @@ -30,6 +30,7 @@ obj-y += frequency/
@@ -73,26 +76,22 @@ index 000000000..f8dd3af71
 +endmenu
 diff --git a/drivers/iio/ip/Makefile b/drivers/iio/ip/Makefile
 new file mode 100644
-index 000000000..7f785668f
+index 000000000..fb9dd4041
 --- /dev/null
 +++ b/drivers/iio/ip/Makefile
-@@ -0,0 +1,6 @@
-+#
-+# Makefile iio/amplifiers
-+#
-+
+@@ -0,0 +1,2 @@
 +# When adding new entries keep the list in alphabetical order
 +obj-$(CONFIG_HOPPER) += hopper.o
 diff --git a/drivers/iio/ip/hopper.c b/drivers/iio/ip/hopper.c
 new file mode 100644
-index 000000000..de275f623
+index 000000000..267cad00f
 --- /dev/null
 +++ b/drivers/iio/ip/hopper.c
 @@ -0,0 +1,326 @@
 +/*
 + * Frequency Hopping HDL CORE driver
 + *
-+ * Copyright 2019 Analog Devices Inc.
++ * Copyright 2019-2023 Analog Devices Inc.
 + *
 + * Licensed under the GPL-2.
 + */
@@ -415,6 +414,7 @@ index 000000000..de275f623
 +MODULE_AUTHOR("Travis Collins <travis.collins@analog.com>");
 +MODULE_DESCRIPTION("Analog Devices Frequency Hopper HDL CORE driver");
 +MODULE_LICENSE("GPL v2");
+\ No newline at end of file
 -- 
-2.25.1
+2.34.1
 
