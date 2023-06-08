@@ -1,5 +1,7 @@
 @Library('tfc-lib') _
 
+flags = gitParseFlags()
+
 dockerConfig = getDockerConfig(['MATLAB','Vivado'], matlabHSPro=false)
 dockerConfig.add("-e MLRELEASE=R2022a")
 dockerHost = 'docker'
@@ -48,11 +50,11 @@ boardNames = [
     'pluto']
 dockerConfig.add("-e HDLBRANCH=hdl_2021_r1")
 
-stage("HDL Tests") {
+cstage("HDL Tests", "", flags) {
     dockerParallelBuild(boardNames, dockerHost, dockerConfig) { 
         branchName ->
         withEnv(['BOARD='+branchName]) {
-            stage("Source") {
+            cstage("Source", branchName, flags) {
                 unstash "builtSources"
                 sh 'make -C ./CI/scripts test'
                 junit testResults: 'test/*.xml', allowEmptyResults: true
@@ -66,7 +68,7 @@ stage("HDL Tests") {
                 archiveArtifacts artifacts: 'test/logs/*', followSymlinks: false, allowEmptyArchive: true
             }
 */
-            stage("Installer") {
+            cstage("Installer", branchName, flags) {
                 unstash "builtSources"
                 sh 'make -C ./CI/scripts test_installer'
                 junit testResults: 'test/*.xml', allowEmptyResults: true
@@ -80,14 +82,16 @@ stage("HDL Tests") {
 
 demoNames = ['HDLLoopbackDelayEstimation','HDLFrequencyHopper','HDLTuneAGC','KernelFrequencyHopper']
 
-stage("Demo Tests") {
+cstage("Demo Tests", "", flags) {
     dockerParallelBuild(demoNames, dockerHost, dockerConfig) { 
         branchName ->
         withEnv(['DEMO='+branchName]) {
-            unstash "builtSources"
-            sh 'make -C ./CI/scripts test_targeting_demos'
-            junit testResults: 'test/*.xml', allowEmptyResults: true
-            archiveArtifacts artifacts: 'test/logs/*', followSymlinks: false, allowEmptyArchive: true
+            cstage("Demo Test", branchName, flags) {
+                unstash "builtSources"
+                sh 'make -C ./CI/scripts test_targeting_demos'
+                junit testResults: 'test/*.xml', allowEmptyResults: true
+                archiveArtifacts artifacts: 'test/logs/*', followSymlinks: false, allowEmptyArchive: true
+            }
         }
     }
 }
@@ -96,14 +100,16 @@ stage("Demo Tests") {
 
 appNames = ['lte_pa_app']
 
-stage("Build Deployable Apps") {
+cstage("Build Deployable Apps", "", flags) {
     dockerParallelBuild(appNames, dockerHost, dockerConfig) { 
         branchName ->
         withEnv(['APP='+branchName]) {
-            unstash "builtSources"
-            sh 'make -C ./CI/scripts ${APP}'
-            archiveArtifacts artifacts: 'trx_examples/streaming/LTE_PA_App/LTEPA/for_redistribution/*.exe', followSymlinks: false, allowEmptyArchive: true
-            archiveArtifacts artifacts: 'trx_examples/streaming/LTE_PA_App/LTEPA/for_redistribution/*.install', followSymlinks: false, allowEmptyArchive: true
+            cstage("Build DApps", branchName, flags) {
+                unstash "builtSources"
+                sh 'make -C ./CI/scripts ${APP}'
+                archiveArtifacts artifacts: 'trx_examples/streaming/LTE_PA_App/LTEPA/for_redistribution/*.exe', followSymlinks: false, allowEmptyArchive: true
+                archiveArtifacts artifacts: 'trx_examples/streaming/LTE_PA_App/LTEPA/for_redistribution/*.install', followSymlinks: false, allowEmptyArchive: true
+            }
         }
     }
 }
@@ -112,7 +118,7 @@ stage("Build Deployable Apps") {
 
 classNames = ['AD9361','AD9363','AD9364','AD9371','ADRV9009']
 
-stage("Hardware Streaming Tests") {
+cstage("Hardware Streaming Tests", "", flags) {
     dockerParallelBuild(classNames, dockerHost, dockerConfig) { 
         branchName ->
         withEnv(['HW='+branchName]) {
@@ -126,12 +132,12 @@ stage("Hardware Streaming Tests") {
 //////////////////////////////////////////////////////
 
 node {
-    stage('Deploy Development') {
+    cstage('Deploy Development', "", flags) {
         unstash "builtSources"
         uploadArtifactory('TransceiverToolbox','*.mltbx')
     }
     if (env.BRANCH_NAME == 'master') {
-        stage('Deploy Production') {
+        cstage('Deploy Production', "", flags) {
             unstash "builtSources"
             uploadFTP('TransceiverToolbox','*.mltbx')
         }
