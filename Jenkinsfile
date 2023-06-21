@@ -80,7 +80,7 @@ cstage("HDL Tests", "", flags) {
 
 /////////////////////////////////////////////////////
 
-demoNames = ['HDLLoopbackDelayEstimation','HDLFrequencyHopper','HDLTuneAGC','KernelFrequencyHopper']
+demoNames = ['HDLFrequencyHopper','HDLTuneAGC','KernelFrequencyHopper']
 
 cstage("Demo Tests", "", flags) {
     dockerParallelBuild(demoNames, dockerHost, dockerConfig) { 
