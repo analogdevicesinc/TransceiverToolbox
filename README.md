@@ -12,7 +12,7 @@ As with many open source packages, we use [GitHub](https://github.com/analogdevi
 
 | HDL Branch        | MATLAB Release |  Installer Package  |
 |:-----------------:|:--------------:|:-------------------:|
-| 2021_R1           | R2022a         | <a href="http://swdownloads.analog.com/cse/toolboxes/trx/master/AnalogDevicesTransceiverToolbox_v21.2.1.mltbx"><img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png" data-canonical-src="https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png" height="40" /></a>|
+| 2021_R1           | R2022a         | <a href="http://swdownloads.analog.com/cse/toolboxes/trx/master/AnalogDevicesTransceiverToolbox_v22.1.1.mltbx"><img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png" data-canonical-src="https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png" height="40" /></a>|
 
 If you use it, and like it - please let us know. If you use it, and hate it - please let us know that too.
 
