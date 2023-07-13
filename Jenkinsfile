@@ -80,21 +80,36 @@ cstage("HDL Tests", "", flags) {
 
 /////////////////////////////////////////////////////
 
-demoNames = ['HDLLoopbackDelayEstimation','HDLFrequencyHopper','HDLTuneAGC','KernelFrequencyHopper']
+demoNames = ['HDLFrequencyHopper','HDLTuneAGC','KernelFrequencyHopper']
 
-cstage("Demo Tests", "", flags) {
-    dockerParallelBuild(demoNames, dockerHost, dockerConfig) { 
-        branchName ->
-        withEnv(['DEMO='+branchName]) {
-            cstage("Demo Test", branchName, flags) {
-                unstash "builtSources"
-                sh 'make -C ./CI/scripts test_targeting_demos'
-                junit testResults: 'test/*.xml', allowEmptyResults: true
-                archiveArtifacts artifacts: 'test/logs/*', followSymlinks: false, allowEmptyArchive: true
+def deployments = [:]
+for (int i=0; i < demoNames.size(); i++) {
+    def demo = demoNames[i];
+    def nodeLabel = 'baremetal';
+    if (demo.contains("zcu102"))
+        nodeLabel = 'baremetal && high_memory';
+    deployments[demo] = { node(nodeLabel) {
+        stage("Demo Tests") {
+            withEnv(['DEMO='+demo,'MLRELEASE=R2022a','HDLBRANCH=hdl_2021_r1','LC_ALL=C.UTF-8','LANG=C.UTF-8']) {
+                try {
+                    stage(demo) {
+                        echo "Node: ${env.NODE_NAME}"
+                        echo "Demo: ${env.DEMO}"
+                        unstash "builtSources"
+                        sh 'make -C ./CI/scripts test_targeting_demos'
+                        junit testResults: 'test/*.xml', allowEmptyResults: true
+                        archiveArtifacts artifacts: 'test/*', followSymlinks: false, allowEmptyArchive: true
+                    }
+                }
+                finally {
+                    cleanWs();
+                }
             }
         }
-    }
+    }}
 }
+
+parallel deployments
 
 /////////////////////////////////////////////////////
 

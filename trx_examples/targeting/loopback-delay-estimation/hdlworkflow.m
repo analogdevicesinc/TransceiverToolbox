@@ -11,6 +11,10 @@
 % >> hWC.export('DUT','loopback_delay_estimation/HDL_DUT');
 %--------------------------------------------------------------------------
 
+% !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! %
+% Design unsupported in Transceiver Toolbox v22.1.1
+% !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! %
+
 %% Load the Model
 load_system('loopback_delay_estimation');
 
@@ -150,7 +154,8 @@ hWC = hdlcoder.WorkflowConfig('SynthesisTool','Xilinx Vivado','TargetWorkflow','
 % Specify the top level project directory
 hWC.ProjectFolder = 'hdl_prj';
 hWC.ReferenceDesignToolVersion = '2021.1';
-hWC.IgnoreToolVersionMismatch = false;
+hWC.IgnoreToolVersionMismatch = true;
+hWC.AllowUnsupportedToolVersion = true;
 
 % Set Workflow tasks to run
 hWC.RunTaskGenerateRTLCodeAndIPCore = true;
