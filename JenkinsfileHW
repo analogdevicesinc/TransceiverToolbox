@@ -16,7 +16,7 @@ lock(label: 'adgt_test_harness_boards') {
     harness.set_env('telemetry_repo', 'https://github.com/sdgtt/telemetry.git')
     harness.set_env('telemetry_branch', 'master')
     harness.set_env('matlab_repo', 'https://github.com/analogdevicesinc/TransceiverToolbox.git') // Not necessary when using checkout scm
-    harness.set_env('matlab_release','R2022a')
+    harness.set_env('matlab_release','R2022b')
   
     //Update nebula config from netbox
     harness.set_update_nebula_config(true)
