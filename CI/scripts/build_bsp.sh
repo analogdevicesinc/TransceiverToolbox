@@ -104,9 +104,6 @@ cp -r scripts/boot/* ../hdl/vendor/AnalogDevices/vivado/projects/common/boot/
 
 # Copy additional IP files
 cp -r scripts/library/* ../hdl/vendor/AnalogDevices/vivado/library/
-sed -i 's@source ../../scripts/adi_env.tcl@source ../../../scripts/adi_env.tcl@' $TARGET/library/util_sync/sync_delay/util_delay_ip.tcl
-sed -i 's@source ../../scripts/adi_env.tcl@source ../../../scripts/adi_env.tcl@' $TARGET/library/util_sync/sync_fast_to_slow/sync_fast_to_slow_ip.tcl
-sed -i 's@source ../../scripts/adi_env.tcl@source ../../../scripts/adi_env.tcl@' $TARGET/library/util_sync/sync_slow_to_fast/sync_slow_to_fast_ip.tcl
 mkdir -p ../test/hdl/vendor/AnalogDevices/vivado
 cp ../hdl/vendor/AnalogDevices/vivado/quiet.mk ../test/hdl/vendor/AnalogDevices/vivado
 
