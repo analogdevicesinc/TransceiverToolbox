@@ -117,6 +117,7 @@ hRD.CustomConstraints = {...
 
 % custom source files
 hRD.CustomFiles = {...
+	fullfile(rootDirBSP, 'scripts')...,
 	fullfile(rootDirBSP, 'library')...,
 	fullfile(rootDirBSP, 'library','xilinx')...,
 	fullfile(rootDirBSP, 'projects','common')...,
