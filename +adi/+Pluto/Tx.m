@@ -10,13 +10,14 @@ classdef Tx < adi.AD9363.Tx
     %
     %   See also adi.AD9363.Tx
     methods
+
         %% Constructor
         function obj = Tx(varargin)
             % Returns the matlabshared.libiio.base object
             coder.allowpcode('plain');
             obj = obj@adi.AD9363.Tx(varargin{:});
         end
-    end
-    
-end
 
+    end
+
+end

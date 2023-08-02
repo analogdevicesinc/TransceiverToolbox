@@ -9,15 +9,16 @@ classdef Tx < adi.AD9361.Tx
     %   <a href="http://www.analog.com/media/en/technical-documentation/data-sheets/AD9363.pdf">AD9363 Datasheet</a>
     %
     %   See also adi.Pluto.Tx
-    
+
     methods
+
         %% Constructor
         function obj = Tx(varargin)
             % Returns the matlabshared.libiio.base object
             coder.allowpcode('plain');
             obj = obj@adi.AD9361.Tx(varargin{:});
         end
-    end
-    
-end
 
+    end
+
+end

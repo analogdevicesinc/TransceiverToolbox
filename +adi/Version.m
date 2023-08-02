@@ -1,25 +1,26 @@
 classdef Version
-    %Version
+    % Version
     %   BSP Version information
-    properties(Constant)
-        HDL = 'hdl_2021_r1';
-        Vivado = '2021.1';
-        MATLAB = 'R2022a';
-        Release = '22.1.1';
-        AppName = 'Analog Devices, Inc. Transceiver Toolbox';
-        ToolboxName = 'TransceiverToolbox';
-        ToolboxNameShort = 'trx';
-        ExamplesDir = 'trx_examples';
-        HasHDL = true;
+    properties (Constant)
+        HDL = 'hdl_2021_r1'
+        Vivado = '2021.1'
+        MATLAB = 'R2022a'
+        Release = '22.1.1'
+        AppName = 'Analog Devices, Inc. Transceiver Toolbox'
+        ToolboxName = 'TransceiverToolbox'
+        ToolboxNameShort = 'trx'
+        ExamplesDir = 'trx_examples'
+        HasHDL = true
     end
-    properties(Dependent)
+    properties (Dependent)
         VivadoShort
     end
-    
+
     methods
+
         function value = get.VivadoShort(obj)
-            value = obj.Vivado(1:6); 
+            value = obj.Vivado(1:6);
         end
+
     end
 end
-

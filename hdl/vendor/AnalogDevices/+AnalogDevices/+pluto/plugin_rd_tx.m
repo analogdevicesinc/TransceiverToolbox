@@ -1,7 +1,7 @@
 function hRD = plugin_rd_tx
-% Reference design definition
+    % Reference design definition
 
-%   Copyright 2014-2015 The MathWorks, Inc.
+    %   Copyright 2014-2015 The MathWorks, Inc.
 
-% Call the common reference design definition function
-hRD = AnalogDevices.plugin_rd('pluto','PLUTO','Tx');
+    % Call the common reference design definition function
+    hRD = AnalogDevices.plugin_rd('pluto', 'PLUTO', 'Tx');

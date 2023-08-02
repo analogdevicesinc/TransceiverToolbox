@@ -8,42 +8,42 @@ classdef ORx < adi.AD9371.Base & adi.common.Rx
     %   rx = adi.AD9371.ORx;
     %   rx = adi.AD9371.ORx('uri','192.168.2.1');
     %
-    %   <a href="http://www.analog.com/media/en/technical-documentation/data-sheets/AD9371.pdf">AD9371 Datasheet</a>    
+    %   <a href="http://www.analog.com/media/en/technical-documentation/data-sheets/AD9371.pdf">AD9371 Datasheet</a>
     properties
-        %GainControlMode Gain Control Mode
+        % GainControlMode Gain Control Mode
         %   specified as one of the following:
         %   'automatic' — For signals with changing power levels
         %   'manual' — For setting the gain manually with the Gain property
         %   'hybrid' — For configuring hybrid AGC mode
-        GainControlMode = 'automatic';
-        %Gain Gain
+        GainControlMode = 'automatic'
+        % Gain Gain
         %   Rx gain, specified as a scalar from 0 dB to 52 dB. The acceptable
         %   minimum and maximum gain setting depends on the center
         %   frequency.
-        Gain = 10;
+        Gain = 10
     end
-    
+
     properties (Nontunable)
-        %DigitalLoopbackMode Digital Loopback Mode
+        % DigitalLoopbackMode Digital Loopback Mode
         %   Option to set digital loopback mode, specified as 0 or 1.
         %   Allows digital loopback of TX data into the ORX path.
         %    Value   |    Mode
         %   ---------------------------
         %      0     |   Disable
         %      1     |   Enable
-        LoopbackMode = 0;        
+        LoopbackMode = 0
     end
-    
+
     properties (Nontunable, Logical) % MUST BE NONTUNABLE OR SIMULINK WARNS
-        %EnableQuadratureTracking Enable Quadrature Tracking
+        % EnableQuadratureTracking Enable Quadrature Tracking
         %   Option to enable quadrature tracking, specified as true or
         %   false. When this property is true, IQ imbalance compensation is
         %   applied to the input signal.
-        EnableQuadratureTracking = true;
+        EnableQuadratureTracking = true
     end
-    
+
     properties
-        %RFPortSelect RF Port Select
+        % RFPortSelect RF Port Select
         %    'OFF' - SnRx path is disabled
         %    'ORX1_TX_LO' – SnRx operates in observation mode on ORx1 with
         %       Tx LO synthesizer
@@ -74,145 +74,151 @@ classdef ORx < adi.AD9371.Base & adi.common.Rx
         %       LO synthesizer
         %    'SN_C' – SnRx operates in sniffer mode on SnRxC with SNIFFER
         %       LO synthesizer
-        RFPortSelect = 'SN_A';
+        RFPortSelect = 'SN_A'
     end
-    
-    properties(Constant, Hidden)
+
+    properties (Constant, Hidden)
         GainControlModeSet = matlab.system.StringSet({ ...
-            'manual','automatic','hybrid'});
+                                                      'manual', 'automatic', 'hybrid'})
         RFPortSelectSet = matlab.system.StringSet({ ...
-            'OFF',...
-            'ORX1_TX_LO','ORX2_TX_LO',...
-            'INTERNALCALS',...
-            'OBS_SNIFFER',...
-            'ORX1_SN_LO','ORX2_SN_LO',...
-            'SN_A','SN_B','SN_C'});
+                                                   'OFF', ...
+                                                   'ORX1_TX_LO', 'ORX2_TX_LO', ...
+                                                   'INTERNALCALS', ...
+                                                   'OBS_SNIFFER', ...
+                                                   'ORX1_SN_LO', 'ORX2_SN_LO', ...
+                                                   'SN_A', 'SN_B', 'SN_C'})
     end
-    
+
     properties (Hidden, Nontunable, Access = protected)
-        isOutput = false;
+        isOutput = false
     end
-    
-    properties(Nontunable, Hidden, Constant)
-        Type = 'Rx';
-        channel_names = {'voltage0_i','voltage0_q'};
+
+    properties (Nontunable, Hidden, Constant)
+        Type = 'Rx'
+        channel_names = {'voltage0_i', 'voltage0_q'}
     end
-    
+
     properties (Nontunable, Hidden)
-        devName = 'axi-ad9371-rx-obs-hpc';
+        devName = 'axi-ad9371-rx-obs-hpc'
     end
-    
+
     methods
+
         %% Constructor
         function obj = ORx(varargin)
             coder.allowpcode('plain');
             obj = obj@adi.AD9371.Base(varargin{:});
         end
+
         % Check RFPortSelect
         function set.RFPortSelect(obj, value)
             obj.RFPortSelect = value;
             if obj.ConnectedToDevice
-                obj.setAttributeRAW('voltage2','rf_port_select',value,false);
+                obj.setAttributeRAW('voltage2', 'rf_port_select', value, false);
             end
         end
+
         % Check GainControlMode
         function set.GainControlMode(obj, value)
             obj.GainControlMode = value;
             if obj.ConnectedToDevice
-                obj.setAttributeRAW('voltage2','rf_port_select','OFF',false);
-                obj.setAttributeRAW('voltage2','gain_control_mode',value,false)
-                obj.setAttributeRAW('voltage2','rf_port_select',obj.RFPortSelect,false); %#ok<MCSUP>
+                obj.setAttributeRAW('voltage2', 'rf_port_select', 'OFF', false);
+                obj.setAttributeRAW('voltage2', 'gain_control_mode', value, false);
+                obj.setAttributeRAW('voltage2', 'rf_port_select', obj.RFPortSelect, false); %#ok<MCSUP>
             end
         end
+
         % Check Gain
         function set.Gain(obj, value)
-            
-            invalid = ['INTERNALCALS','OFF'];
-            if contains(invalid,obj.RFPortSelect) || ~strcmp(obj.GainControlMode,'manual')
-               error('Cannot set gain when in manual mode or if RFPort in OFF/INTERNALCALS')
+
+            invalid = ['INTERNALCALS', 'OFF'];
+            if contains(invalid, obj.RFPortSelect) || ~strcmp(obj.GainControlMode, 'manual')
+                error('Cannot set gain when in manual mode or if RFPort in OFF/INTERNALCALS');
             end
-            sniff = ['OBS_SNIFFER','SN_A','SN_B','SN_C'];
-            if contains(sniff,obj.RFPortSelect)
-                        validateattributes( value, { 'double','single' }, ...
-                { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', 0,'<=', 52}, ...
-                '', 'Gain');
+            sniff = ['OBS_SNIFFER', 'SN_A', 'SN_B', 'SN_C'];
+            if contains(sniff, obj.RFPortSelect)
+                validateattributes(value, { 'double', 'single' }, ...
+                                   { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', 0, '<=', 52}, ...
+                                   '', 'Gain');
             end
-            orx = ['ORX1_SN_LO','ORX2_SN_LO','ORX1_TX_LO','ORX2_TX_LO'];
-            if contains(orx,obj.RFPortSelect)
-                        validateattributes( value, { 'double','single' }, ...
-                { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', 0,'<=', 18}, ...
-                '', 'Gain');
+            orx = ['ORX1_SN_LO', 'ORX2_SN_LO', 'ORX1_TX_LO', 'ORX2_TX_LO'];
+            if contains(orx, obj.RFPortSelect)
+                validateattributes(value, { 'double', 'single' }, ...
+                                   { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', 0, '<=', 18}, ...
+                                   '', 'Gain');
             end
-            assert(mod(value,1/4)==0, 'Gain must be a multiple of 0.25');
+            assert(mod(value, 1 / 4) == 0, 'Gain must be a multiple of 0.25');
             obj.Gain = value;
-            if obj.ConnectedToDevice && strcmp(obj.GainControlMode,'manual') %#ok<MCSUP>
-                obj.setAttributeDouble('voltage2','hardwaregain',value,false);
+            if obj.ConnectedToDevice && strcmp(obj.GainControlMode, 'manual') %#ok<MCSUP>
+                obj.setAttributeDouble('voltage2', 'hardwaregain', value, false);
             end
         end
+
         % Check EnableQuadratureTracking
         function set.EnableQuadratureTracking(obj, value)
             obj.EnableQuadratureTracking = value;
             if obj.ConnectedToDevice
-                obj.setAttributeRAW('voltage2','rf_port_select','OFF',false);
-                obj.setAttributeBool('voltage2','quadrature_tracking_en',value,false);
-                obj.setAttributeRAW('voltage2','rf_port_select',obj.RFPortSelect,false); %#ok<MCSUP>
+                obj.setAttributeRAW('voltage2', 'rf_port_select', 'OFF', false);
+                obj.setAttributeBool('voltage2', 'quadrature_tracking_en', value, false);
+                obj.setAttributeRAW('voltage2', 'rf_port_select', obj.RFPortSelect, false); %#ok<MCSUP>
             end
         end
+
         function set.LoopbackMode(obj, value)
-            validateattributes( value, { 'double','single', 'uint32' }, ...
-                { 'real', 'nonnegative','scalar', 'finite', 'nonnan', 'nonempty','integer','>=',0,'<=',1}, ...
-                '', 'LoopbackMode');    
+            validateattributes(value, { 'double', 'single', 'uint32' }, ...
+                               { 'real', 'nonnegative', 'scalar', 'finite', 'nonnan', 'nonempty', 'integer', '>=', 0, '<=', 1}, ...
+                               '', 'LoopbackMode');
             obj.LoopbackMode = value;
             if obj.ConnectedToDevice
-                obj.setDebugAttributeLongLong('loopback_tx_obs',value);                    
-            end
-        end
-    end
-    
-    methods (Access=protected)
-        
-        function CenterFrequencySet(obj,value)
-            if obj.ConnectedToDevice
-                obj.setAttributeRAW('voltage2','rf_port_select','OFF',false);
-                obj.setAttributeLongLong('altvoltage2','RX_SN_LO_frequency',value,true);
-                obj.setAttributeRAW('voltage2','rf_port_select',obj.RFPortSelect,false);
+                obj.setDebugAttributeLongLong('loopback_tx_obs', value);
             end
         end
 
     end
-    
+
+    methods (Access = protected)
+
+        function CenterFrequencySet(obj, value)
+            if obj.ConnectedToDevice
+                obj.setAttributeRAW('voltage2', 'rf_port_select', 'OFF', false);
+                obj.setAttributeLongLong('altvoltage2', 'RX_SN_LO_frequency', value, true);
+                obj.setAttributeRAW('voltage2', 'rf_port_select', obj.RFPortSelect, false);
+            end
+        end
+
+    end
+
     %% API Functions
     methods (Hidden, Access = protected)
-                
+
         function setupInit(obj)
             % Write all attributes to device once connected through set
             % methods
             % Do writes directly to hardware without using set methods.
             % This is required sine Simulink support doesn't support
             % modification to nontunable variables at SetupImpl
-            
+
             if obj.EnableCustomProfile
                 writeProfileFile(obj);
             end
-            
-            obj.setAttributeRAW('voltage2','rf_port_select','OFF',false);
-            
-            obj.setAttributeRAW('voltage2','gain_control_mode',obj.GainControlMode,false);
-            obj.setAttributeBool('voltage2','quadrature_tracking_en',obj.EnableQuadratureTracking,false);
-            obj.setAttributeLongLong('altvoltage2','RX_SN_LO_frequency',obj.CenterFrequency ,true);
+
+            obj.setAttributeRAW('voltage2', 'rf_port_select', 'OFF', false);
+
+            obj.setAttributeRAW('voltage2', 'gain_control_mode', obj.GainControlMode, false);
+            obj.setAttributeBool('voltage2', 'quadrature_tracking_en', obj.EnableQuadratureTracking, false);
+            obj.setAttributeLongLong('altvoltage2', 'RX_SN_LO_frequency', obj.CenterFrequency, true);
             % Loopback Mode
-            obj.setDebugAttributeLongLong('loopback_tx_obs', obj.LoopbackMode);                    
-            
-            obj.setAttributeRAW('voltage2','rf_port_select',obj.RFPortSelect,false);
+            obj.setDebugAttributeLongLong('loopback_tx_obs', obj.LoopbackMode);
 
-            invalid = ['INTERNALCALS','OFF'];
-            if strcmp(obj.GainControlMode,'manual') && ~contains(invalid,obj.RFPortSelect)
-                obj.setAttributeDouble('voltage2','hardwaregain',obj.Gain,false);
+            obj.setAttributeRAW('voltage2', 'rf_port_select', obj.RFPortSelect, false);
+
+            invalid = ['INTERNALCALS', 'OFF'];
+            if strcmp(obj.GainControlMode, 'manual') && ~contains(invalid, obj.RFPortSelect)
+                obj.setAttributeDouble('voltage2', 'hardwaregain', obj.Gain, false);
             end
-                        
-        end
-        
-    end
-    
-end
 
+        end
+
+    end
+
+end

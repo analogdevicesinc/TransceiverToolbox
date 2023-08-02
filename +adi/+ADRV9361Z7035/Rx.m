@@ -1,6 +1,6 @@
 classdef Rx < adi.AD9361.Rx
     % adi.ADRV9361Z7035.Rx Receive data from the ADRV9361Z7035 SOM
-    %   The adi.ADRV9361Z7035.Rx System object is a signal source that can 
+    %   The adi.ADRV9361Z7035.Rx System object is a signal source that can
     %   receive complex data from the ADRV9361Z7035.
     %
     %   rx = adi.ADRV9361Z7035.Rx;
@@ -10,13 +10,14 @@ classdef Rx < adi.AD9361.Rx
     %
     %   See also adi.AD9361.Rx
     methods
+
         %% Constructor
         function obj = Rx(varargin)
             % Returns the matlabshared.libiio.base object
             coder.allowpcode('plain');
             obj = obj@adi.AD9361.Rx(varargin{:});
         end
-    end
-    
-end
 
+    end
+
+end
