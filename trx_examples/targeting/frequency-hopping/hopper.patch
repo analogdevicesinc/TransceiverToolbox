@@ -1,7 +1,7 @@
-From 1a6a1c5006b7084ff419f3a7ddd98ae76d229e74 Mon Sep 17 00:00:00 2001
+From aba1a3f64852eefd57ff0fa2d9e30df8ade4314d Mon Sep 17 00:00:00 2001
 From: "Travis F. Collins" <travis.collins@analog.com>
-Date: Tue, 6 Jun 2023 09:34:43 -0600
-Subject: [PATCH] Add IIO driver for AD936x frequency hopper controller
+Date: Thu, 3 Aug 2023 09:38:55 -0600
+Subject: [PATCH] [PATCH] Add IIO driver for AD936x frequency hopper controller
 
 Signed-off-by: Travis F. Collins <travis.collins@analog.com>
 ---
@@ -29,17 +29,17 @@ index eb18a2971..58cdd1da1 100644
  source "drivers/iio/light/Kconfig"
  source "drivers/iio/logic/Kconfig"
 diff --git a/drivers/iio/Kconfig.adi b/drivers/iio/Kconfig.adi
-index a9626cf7a..0ed29f5bc 100644
+index 37dcd99d3..a9574c6f5 100644
 --- a/drivers/iio/Kconfig.adi
 +++ b/drivers/iio/Kconfig.adi
-@@ -177,6 +177,7 @@ config IIO_ALL_ADI_DRIVERS
- 	select AXI_JESD204_RX
- 	select AXI_ADXCVR
- 	select ONE_BIT_ADC_DAC
-+	select HOPPER
- 	select ADUX1020
- 	select IIO_GEN_MUX
- 	select AD74413R
+@@ -183,6 +183,7 @@ config IIO_ALL_ADI_DRIVERS
+ 	imply AXI_JESD204_RX
+ 	imply AXI_ADXCVR
+ 	imply ONE_BIT_ADC_DAC
++	imply HOPPER
+ 	imply ADUX1020
+ 	imply IIO_GEN_MUX
+ 	imply AD74115
 diff --git a/drivers/iio/Makefile b/drivers/iio/Makefile
 index 3ff8d48df..d6bb7e928 100644
 --- a/drivers/iio/Makefile
@@ -84,7 +84,7 @@ index 000000000..fb9dd4041
 +obj-$(CONFIG_HOPPER) += hopper.o
 diff --git a/drivers/iio/ip/hopper.c b/drivers/iio/ip/hopper.c
 new file mode 100644
-index 000000000..267cad00f
+index 000000000..aa25201fb
 --- /dev/null
 +++ b/drivers/iio/ip/hopper.c
 @@ -0,0 +1,326 @@
@@ -196,7 +196,7 @@ index 000000000..267cad00f
 +			ret = kstrtoul(buf, 0, &readin);
 +			if (ret)
 +				break;
-+			if (readin > 2147483648)
++			if (readin > 2147483648UL)
 +			{
 +				ret = -EINVAL;
 +				break;
