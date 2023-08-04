@@ -42,7 +42,7 @@ end
 
 % Tool information
 %hRD.SupportedToolVersion = {adi.Version.Vivado}; % FIXME
-hRD.SupportedToolVersion = {'2021.1'};
+hRD.SupportedToolVersion = {'2021.2'};
 
 % Get the root directory
 rootDir = fileparts(strtok(mfilename('fullpath'), '+'));
@@ -99,8 +99,9 @@ end
 
 % custom source files
 hRD.CustomFiles = {...
-    fullfile('projects')...,
-    fullfile('library')...,
+    fullfile('projects')...
+    fullfile('library')...
+    fullfile('scripts')...
     };
 
 if strcmpi(project, 'adrv9002')

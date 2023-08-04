@@ -14,7 +14,7 @@ hRD.ReferenceDesignName = sprintf('%s (%s)', upper(board), design);
 hRD.BoardName = sprintf('AnalogDevices ADRV9361-Z7035 AGC');
 
 % Tool information
-hRD.SupportedToolVersion = {'2021.1'};
+hRD.SupportedToolVersion = {'2021.2'};
 
 % Add AGC control
 hRD.addParameter( ...
@@ -117,6 +117,7 @@ hRD.CustomConstraints = {...
 
 % custom source files
 hRD.CustomFiles = {...
+	fullfile(rootDirBSP, 'scripts')...,
 	fullfile(rootDirBSP, 'library')...,
 	fullfile(rootDirBSP, 'library','xilinx')...,
 	fullfile(rootDirBSP, 'projects','common')...,
