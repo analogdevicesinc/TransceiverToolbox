@@ -19,4 +19,7 @@ export DISPLAY=:77
 export SWT_GTK3=0
 source /opt/Xilinx/Vivado/2021.2/settings64.sh
 $MLPATH/$MLRELEASE/bin/matlab $MLFLAGS -r "cd('test');runSynthTests('$BOARD');"
-kill -9 `pidof Xvfb`
+XVFB_RET = $(pidof Xvfb)
+if [ $? -eq 0 ]; then
+    kill -9 `pidof Xvfb`
+fi
