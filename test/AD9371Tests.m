@@ -4,6 +4,7 @@ classdef AD9371Tests < HardwareTests
         uri = 'ip:analog';
         SamplingRateRX = 122.88e6;
         author = 'ADI';
+        hardware = 'adrv9371';
     end
     
     methods(TestClassSetup)

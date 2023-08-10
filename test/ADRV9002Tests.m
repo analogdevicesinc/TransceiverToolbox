@@ -3,6 +3,7 @@ classdef ADRV9002Tests < HardwareTests
     properties
         uri = 'ip:analog';
         author = 'ADI';
+        hardware = 'adrv9002';
     end
     
     properties (TestParameter)

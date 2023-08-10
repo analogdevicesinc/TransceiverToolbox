@@ -4,6 +4,7 @@ classdef FMComms8Tests < HardwareTests
         uri = 'ip:analog-2.local';
         SamplingRateRX = 245.76e6;
         author = 'ADI';
+        hardware = 'fmcomms8';
     end
     
     methods(TestClassSetup)

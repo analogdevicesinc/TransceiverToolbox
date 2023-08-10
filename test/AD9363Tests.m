@@ -3,6 +3,8 @@ classdef AD9363Tests < HardwareTests
     properties
         uri = 'ip:analog';
         author = 'ADI';
+        % hardware = 'pluto';
+        hardware = 'adrv9361';
     end
     
     methods(TestClassSetup)

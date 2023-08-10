@@ -3,6 +3,7 @@ classdef FMComms5Tests < HardwareTests
     properties
         uri = 'ip:analog';
         author = 'ADI';
+        hardware = 'fmcomms5';
     end
     
     properties (TestParameter)

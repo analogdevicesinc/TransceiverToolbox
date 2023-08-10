@@ -131,15 +131,27 @@ cstage("Build Deployable Apps", "", flags) {
 
 /////////////////////////////////////////////////////
 
-classNames = ['AD9361','AD9363','AD9364','AD9371','ADRV9009']
+classNames = ["zynq-zed-adv7511-adrv9002-vcmos",
+        "zynqmp-zcu102-rev10-adrv9002-vcmos",
+        "pluto",
+        "zynq-adrv9361-z7035-fmc",
+        "zynq-zed-adv7511-ad9364-fmcomms4",
+        "zynq-zed-adv7511-ad9361-fmcomms2-3",
+        "zynq-zc706-adv7511-ad9361-fmcomms5",
+        "zynq-zc702-adv7511-ad9361-fmcomms2-3",
+        "zynq-adrv9364-z7020-bob-vcmos"]
 
 cstage("Hardware Streaming Tests", "", flags) {
     dockerParallelBuild(classNames, dockerHost, dockerConfig) { 
         branchName ->
-        withEnv(['HW='+branchName]) {
+        withEnv(['BOARD='+branchName]) {
             unstash "builtSources"
-            sh 'echo ${HW}'
-            // sh 'make -C ./CI/scripts test_streaming'
+            sh 'echo ${BOARD}'
+            sh 'wget https://raw.githubusercontent.com/analogdevicesinc/pyadi-iio/master/.github/scripts/install_iioemu.sh'
+            sh 'chmod +x install_iioemu.sh'
+            sh './install_iioemu.sh'
+            sh 'git clone https://github.com/MartinKoch123/yaml'
+            sh 'make -C ./CI/scripts test_emualted'
         }
     }
 }

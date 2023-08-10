@@ -4,6 +4,7 @@ classdef ADRV9009Tests < HardwareTests
         uri = 'ip:analog';
         SamplingRateRX = 245.76e6;
         author = 'ADI';
+        hardware = 'adrv9009';
     end
     
     properties (TestParameter)

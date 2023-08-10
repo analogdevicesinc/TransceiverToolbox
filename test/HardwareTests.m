@@ -1,8 +1,7 @@
-classdef HardwareTests < matlab.unittest.TestCase
+classdef HardwareTests < BSPEmu
     
     properties (Abstract)
         author
-        uri
     end
     
     methods(TestClassSetup)
@@ -18,6 +17,9 @@ classdef HardwareTests < matlab.unittest.TestCase
     methods
         % Check hardware connected
         function CheckDevice(testCase,type,Dev,ip,istx)
+            if testCase.EmulationEnabled{1}
+                return;
+            end
             try
                 switch type
                     case 'usb'

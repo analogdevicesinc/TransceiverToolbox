@@ -3,6 +3,7 @@ classdef AD9364Tests < HardwareTests
     properties
         uri = 'ip:analog';
         author = 'ADI';
+        hardware = 'adrv9364';
     end
     
     methods(TestClassSetup)
