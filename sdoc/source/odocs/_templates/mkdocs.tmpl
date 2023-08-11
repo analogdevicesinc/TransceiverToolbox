@@ -1,0 +1,65 @@
+site_name: Analog Devices, Inc. Transceiver Toolbox
+
+theme:
+  logo: assets/matlab_white_icon.svg
+  favicon: assets/matlab_white_icon.svg
+  name: material
+  palette:
+    - scheme: default
+      primary: blue
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+    - scheme: slate
+      primary: blue
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+
+nav:
+ - Overview: index.md
+ - Installation: install.md
+ - Data Streaming: streaming.md
+ - HDL Targeting: targeting.md
+ - Examples: examples.md
+ - Reference API:
+    - HDL Reference Designs:
+{%- for design in designs %}
+       - {{ design }}: {{ designs[design] }}
+{%- endfor %}
+    - Device Interfaces:
+{%- for dev in devices %}
+       - {{ dev }}: {{ devices[dev] }}
+{%- endfor %}
+ - Developers: 
+    - HDL Workflow: dev_hdl_workflow.md
+
+
+extra_css:
+   - stylesheets/style.css
+   - stylesheets/rd_style.css
+
+extra_javascript:
+   - js/sys_objects.js
+
+plugins:
+    - search
+    - awesome-pages
+    - mermaid2
+    - inline-svg
+
+markdown_extensions:
+    - attr_list
+    - md_in_html
+    - admonition
+    - pymdownx.details
+    - pymdownx.highlight:
+        anchor_linenums: true
+    - pymdownx.inlinehilite
+    - pymdownx.snippets
+    - pymdownx.superfences:
+        # make exceptions to highlighting of code:
+        custom_fences:
+          - name: mermaid
+            class: mermaid
+            format: !!python/name:mermaid2.fence_mermaid
