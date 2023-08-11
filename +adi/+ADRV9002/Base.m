@@ -95,10 +95,10 @@ classdef (Abstract, Hidden = true) Base < ...
             obj.CenterFrequencyChannel0 = value;
             if strcmpi(obj.Type,'Tx')
                 id = 'altvoltage2';
-                prop = 'TX1_LO_frequency';
+                prop = 'frequency';
             else
                 id = 'altvoltage0';
-                prop = 'RX1_LO_frequency';
+                prop = 'frequency';
             end
             if obj.ConnectedToDevice
                 obj.setAttributeLongLong(id,prop,value,true);
@@ -109,10 +109,10 @@ classdef (Abstract, Hidden = true) Base < ...
             obj.CenterFrequencyChannel1 = value;
             if strcmpi(obj.Type,'Tx')
                 id = 'altvoltage3';
-                prop = 'TX2_LO_frequency';
+                prop = 'frequency';
             else
                 id = 'altvoltage1';
-                prop = 'RX2_LO_frequency';
+                prop = 'frequency';
             end
             if obj.ConnectedToDevice
                 obj.setAttributeLongLong(id,prop,value,true);
@@ -224,9 +224,9 @@ classdef (Abstract, Hidden = true) Base < ...
             state.out2.lo_leakage_tracking_en = getAttributeLongLong(obj,id,'lo_leakage_tracking_en',true);           
             
             id = 'altvoltage0';
-            state.out.RX_LO_frequency = getAttributeLongLong(obj,id,'RX_LO_frequency',true);
+            state.out.RX_LO_frequency = getAttributeLongLong(obj,id,'frequency',true);
             id = 'altvoltage1';
-            state.in.TX_LO_frequency = getAttributeLongLong(obj,id,'TX_LO_frequency',true);
+            state.in.TX_LO_frequency = getAttributeLongLong(obj,id,'frequency',true);
         end
 
         function returnPartState(obj,state)
@@ -245,9 +245,9 @@ classdef (Abstract, Hidden = true) Base < ...
             setAttributeLongLong(obj,id,'lo_leakage_tracking_en',state.out2.lo_leakage_tracking_en,true);
             
             id = 'altvoltage0';
-            setAttributeLongLong(obj,id,'RX_LO_frequency',state.out.RX_LO_frequency,true);
+            setAttributeLongLong(obj,id,'frequency',state.out.RX_LO_frequency,true);
             id = 'altvoltage1';
-            setAttributeLongLong(obj,id,'TX_LO_frequency',state.in.TX_LO_frequency,true);
+            setAttributeLongLong(obj,id,'frequency',state.in.TX_LO_frequency,true);
         end
 
         

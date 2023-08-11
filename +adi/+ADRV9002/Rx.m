@@ -583,9 +583,9 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
                 obj.setAttributeDouble('voltage1','hardwaregain',obj.AttenuationChannel1,false);
             end
 
-            obj.setAttributeLongLong('altvoltage0','RX1_LO_frequency',obj.CenterFrequencyChannel0 ,true);
+            obj.setAttributeLongLong('altvoltage0','frequency',obj.CenterFrequencyChannel0 ,true);
             if channelsAval == 2
-                obj.setAttributeLongLong('altvoltage1','RX2_LO_frequency',obj.CenterFrequencyChannel1 ,true);
+                obj.setAttributeLongLong('altvoltage1','frequency',obj.CenterFrequencyChannel1 ,true);
             end
             
             % Calibrations

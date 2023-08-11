@@ -353,8 +353,8 @@ classdef Tx < adi.ADRV9002.Base & adi.common.Tx
                 writeProfileFile(obj);
             end
             
-            obj.setAttributeLongLong('altvoltage2','TX1_LO_frequency',obj.CenterFrequencyChannel0 ,true);
-            obj.setAttributeLongLong('altvoltage3','TX2_LO_frequency',obj.CenterFrequencyChannel1 ,true);
+            obj.setAttributeLongLong('altvoltage2','frequency',obj.CenterFrequencyChannel0 ,true);
+            obj.setAttributeLongLong('altvoltage3','frequency',obj.CenterFrequencyChannel1 ,true);
             
             obj.setAttributeRAW('voltage0','ensm_mode',obj.ENSMModeChannel0,true);
             obj.setAttributeRAW('voltage1','ensm_mode',obj.ENSMModeChannel1,true);
