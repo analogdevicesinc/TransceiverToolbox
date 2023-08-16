@@ -11,9 +11,9 @@
 % >> hWC.export('DUT','loopback_delay_estimation/HDL_DUT');
 %--------------------------------------------------------------------------
 
-% !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! %
-% Design unsupported in Transceiver Toolbox v22.1.1
-% !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! %
+% !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! %
+% Design unsupported in Transceiver Toolbox v22.2.1 and v22.2.2
+% !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! %
 
 %% Load the Model
 load_system('loopback_delay_estimation');
