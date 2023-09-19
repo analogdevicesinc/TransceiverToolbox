@@ -1,6 +1,6 @@
 // Pipeline
 lock(label: 'adgt_test_harness_boards') {
-    @Library('sdgtt-lib@adgt-test-harness') _ // Not necessary when we turn on global libraries :)
+    @Library('sdgtt-lib@matlab-updates') _ // Not necessary when we turn on global libraries :)
     def hdlBranch = "NA"
     def linuxBranch = "NA"
     def bootPartitionBranch = "master" // Workaround changes in Artifactory folder structure, master unaffected (HTH-475)
@@ -17,6 +17,7 @@ lock(label: 'adgt_test_harness_boards') {
     // harness.set_env('telemetry_branch', 'master')
     harness.set_env('matlab_repo', 'https://github.com/analogdevicesinc/TransceiverToolbox.git') // Not necessary when using checkout scm
     harness.set_env('matlab_release','R2022b')
+    harness.set_env('matlab_license','network')
     harness.set_matlab_timeout('5m')
   
     //Update nebula config from netbox
@@ -37,11 +38,11 @@ lock(label: 'adgt_test_harness_boards') {
     //Set other test parameters
     harness.set_nebula_debug(true)
     harness.set_enable_docker(true)
-    harness.set_docker_host_mode(false)
+    harness.set_docker_host_mode(true) // Set to true if using machine-specific license
     harness.set_send_telemetry(false)
     harness.set_log_jira(false)
     harness.set_enable_resource_queuing(true)
-    harness.set_lock_agent(true) // Required for MATLAB toolbox tests
+    harness.set_lock_agent(false) // Set to true if using machine-specific license
     harness.set_elastic_server('192.168.10.1')
     harness.set_required_hardware(["zynq-zed-adv7511-adrv9002-vcmos",
                                   "zynqmp-zcu102-rev10-adrv9002-vcmos",
