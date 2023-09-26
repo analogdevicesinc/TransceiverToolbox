@@ -44,15 +44,16 @@ lock(label: 'adgt_test_harness_boards') {
     harness.set_enable_resource_queuing(true)
     harness.set_lock_agent(false) // Set to true if using machine-specific license
     harness.set_elastic_server('192.168.10.1')
-    harness.set_required_hardware(["zynq-zed-adv7511-adrv9002-vcmos",
-                                  "zynqmp-zcu102-rev10-adrv9002-vcmos",
-                                  "pluto",
-                                  "zynq-adrv9361-z7035-fmc",
-                                  "zynq-zed-adv7511-ad9364-fmcomms4",
-                                  "zynq-zed-adv7511-ad9361-fmcomms2-3",
-                                  "zynq-zc706-adv7511-ad9361-fmcomms5",
-                                  "zynq-zc702-adv7511-ad9361-fmcomms2-3",
-                                  "zynq-adrv9364-z7020-bob-vcmos"])
+    // harness.set_required_hardware(["zynq-zed-adv7511-adrv9002-vcmos",
+    //                               "zynqmp-zcu102-rev10-adrv9002-vcmos",
+    //                               "pluto",
+    //                               "zynq-adrv9361-z7035-fmc",
+    //                               "zynq-zed-adv7511-ad9364-fmcomms4",
+    //                               "zynq-zed-adv7511-ad9361-fmcomms2-3",
+    //                               "zynq-zc706-adv7511-ad9361-fmcomms5",
+    //                               "zynq-zc702-adv7511-ad9361-fmcomms2-3",
+    //                               "zynq-adrv9364-z7020-bob-vcmos"])
+    harness.set_required_hardware(["pluto"])
     harness.set_docker_args(['Vivado', 'MATLAB'])
     harness.set_nebula_local_fs_source_root("artifactory.analog.com")
   
