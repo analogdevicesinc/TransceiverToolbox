@@ -8,6 +8,8 @@ dockerHost = 'docker'
 
 ////////////////////////////
 
+try {
+
 hdlBranches = ['master','hdl_2021_r2']
 
 stage("Build Toolbox") {
@@ -159,3 +161,9 @@ node {
     }
 }
 
+}
+finally {
+    node {
+        influxDbPublisher(selectedTarget: 'influxdb')
+    }
+}
