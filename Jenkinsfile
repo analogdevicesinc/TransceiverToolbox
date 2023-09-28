@@ -91,7 +91,7 @@ for (int i=0; i < demoNames.size(); i++) {
     if (demo.contains("zcu102"))
         nodeLabel = 'baremetal && high_memory';
     deployments[demo] = { node(nodeLabel) {
-        stage("Demo Tests") {
+        cstage("Demo Tests", demo, flags) {
             withEnv(['DEMO='+demo,'MLRELEASE=R2022b','HDLBRANCH=hdl_2021_r2','LC_ALL=C.UTF-8','LANG=C.UTF-8']) {
                 try {
                     stage(demo) {
