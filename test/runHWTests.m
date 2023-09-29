@@ -85,10 +85,14 @@ try
     disp(t);
     disp(repmat('#',1,80));
     fid = fopen('failures.txt','a+');
+    exitcode = 0;
     for test = results
         if test.Failed
             disp(test.Name);
             fprintf(fid,string(test.Name)+'\n');
+            exitcode = 2;
+        elseif test.Incomplete
+            exitcode = 3;
         end
     end
     fclose(fid);
@@ -99,5 +103,5 @@ catch e
 end
 save(['BSPTest_',datestr(now,'dd_mm_yyyy-HH_MM_SS'),'.mat'],'t');
 bdclose('all');
-exit(any([results.Failed]));
+exit(exitcode);
 end
