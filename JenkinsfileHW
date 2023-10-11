@@ -24,6 +24,7 @@ lock(label: 'adgt_test_harness_boards') {
     // harness.set_env('telemetry_branch', 'master')
     harness.set_env('matlab_repo', 'https://github.com/analogdevicesinc/TransceiverToolbox.git') // Not necessary when using checkout scm
     harness.set_env('matlab_release','R2022b')
+    harness.set_env('matlab_license','network')
     harness.set_matlab_timeout('8m')
   
     //Update nebula config from netbox
@@ -44,11 +45,11 @@ lock(label: 'adgt_test_harness_boards') {
     //Set other test parameters
     harness.set_nebula_debug(true)
     harness.set_enable_docker(true)
-    harness.set_docker_host_mode(false)
+    harness.set_docker_host_mode(true) // Set to false if using machine-specific license
     harness.set_send_telemetry(false)
     harness.set_log_jira(false)
     harness.set_enable_resource_queuing(true)
-    harness.set_lock_agent(true) // Required for MATLAB toolbox tests
+    harness.set_lock_agent(false) // Set to true if using machine-specific license
     harness.set_elastic_server('192.168.10.1')
     harness.set_required_hardware(["zynq-zed-adv7511-adrv9002-vcmos",
                                   "zynq-zed-adv7511-adrv9002-rx2tx2-vcmos",
