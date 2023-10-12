@@ -1,9 +1,16 @@
+node('sdg-nuc-01'){
+    sh 'rm /lib/x86_64-linux-gnu/libiio.so* || true'
+}
+node('sdg-nuc-02'){
+    sh 'rm /lib/x86_64-linux-gnu/libiio.so* || true'
+}
+
 // Pipeline
 lock(label: 'adgt_test_harness_boards') {
     @Library('sdgtt-lib@adgt-test-harness') _ // Not necessary when we turn on global libraries :)
     def hdlBranch = "NA"
     def linuxBranch = "NA"
-    def bootPartitionBranch = "master" // Workaround changes in Artifactory folder structure, master unaffected (HTH-475)
+    def bootPartitionBranch = "2021_r2"
     def firmwareVersion = 'v0.34'
     def bootfile_source = 'artifactory' // options: sftp, artifactory, http, local
     def harness = getGauntlet(hdlBranch, linuxBranch, bootPartitionBranch, firmwareVersion, bootfile_source)
@@ -11,13 +18,14 @@ lock(label: 'adgt_test_harness_boards') {
     //Update repos
     harness.set_env('nebula_repo', 'https://github.com/sdgtt/nebula.git')
     harness.set_env('nebula_branch','dev')
-    harness.set_env('nebula_config_branch','master')
-    // harness.set_env('libiio_branch', 'v0.23')
+    harness.set_env('nebula_config_branch','release')
+    harness.set_env('libiio_branch', 'v0.25')
     // harness.set_env('telemetry_repo', 'https://github.com/sdgtt/telemetry.git')
     // harness.set_env('telemetry_branch', 'master')
     harness.set_env('matlab_repo', 'https://github.com/analogdevicesinc/TransceiverToolbox.git') // Not necessary when using checkout scm
     harness.set_env('matlab_release','R2022b')
-    harness.set_matlab_timeout('5m')
+    harness.set_env('matlab_license','network')
+    harness.set_matlab_timeout('8m')
   
     //Update nebula config from netbox
     harness.set_update_nebula_config(true)
@@ -37,21 +45,25 @@ lock(label: 'adgt_test_harness_boards') {
     //Set other test parameters
     harness.set_nebula_debug(true)
     harness.set_enable_docker(true)
-    harness.set_docker_host_mode(false)
+    harness.set_docker_host_mode(true) // Set to false if using machine-specific license
     harness.set_send_telemetry(false)
     harness.set_log_jira(false)
     harness.set_enable_resource_queuing(true)
-    harness.set_lock_agent(true) // Required for MATLAB toolbox tests
+    harness.set_lock_agent(false) // Set to true if using machine-specific license
     harness.set_elastic_server('192.168.10.1')
     harness.set_required_hardware(["zynq-zed-adv7511-adrv9002-vcmos",
+                                  "zynq-zed-adv7511-adrv9002-rx2tx2-vcmos",
                                   "zynqmp-zcu102-rev10-adrv9002-vcmos",
+                                  "zynqmp-zcu102-rev10-adrv9002-rx2tx2-vcmos",
+                                  "zynqmp-zcu102-rev10-adrv9002-rx2tx2-vlvds",
                                   "pluto",
                                   "zynq-adrv9361-z7035-fmc",
                                   "zynq-zed-adv7511-ad9364-fmcomms4",
                                   "zynq-zed-adv7511-ad9361-fmcomms2-3",
                                   "zynq-zc706-adv7511-ad9361-fmcomms5",
                                   "zynq-zc702-adv7511-ad9361-fmcomms2-3",
-                                  "zynq-adrv9364-z7020-bob-vcmos"])
+                                  "zynq-adrv9364-z7020-bob-vcmos",
+                                  "zynq-adrv9364-z7020-bob-vlvds"])
     harness.set_docker_args(['Vivado', 'MATLAB'])
     harness.set_nebula_local_fs_source_root("artifactory.analog.com")
   
