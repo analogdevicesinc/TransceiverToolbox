@@ -334,6 +334,7 @@ classdef Tx < adi.ADRV9002.Base & adi.common.Tx
                 end
                 if any(obj.EnabledChannels==2)
                     obj.devName = 'axi-adrv9002-tx2-lpc';
+                    obj.iioDev = obj.getDev(obj.devName);
                 end
             else
                 obj.channel_names = ...
