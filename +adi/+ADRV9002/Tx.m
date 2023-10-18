@@ -353,9 +353,20 @@ classdef Tx < adi.ADRV9002.Base & adi.common.Tx
             if obj.EnableCustomProfile
                 writeProfileFile(obj);
             end
-            
-            obj.setAttributeLongLong('altvoltage2','frequency',obj.CenterFrequencyChannel0 ,true);
-            obj.setAttributeLongLong('altvoltage3','frequency',obj.CenterFrequencyChannel1 ,true);
+
+            % Check if property naming updated for LOs frequency vs
+            % XLOX_frequency
+            obj.checkDriverAPI();
+
+            if obj.newAPI
+                name1 = 'frequency';
+                name2 = 'frequency';
+            else
+                name1 = 'TX1_LO_frequency';
+                name2 = 'TX2_LO_frequency';
+            end            
+            obj.setAttributeLongLong('altvoltage2',name1,obj.CenterFrequencyChannel0 ,true);
+            obj.setAttributeLongLong('altvoltage3',name2,obj.CenterFrequencyChannel1 ,true);
             
             obj.setAttributeRAW('voltage0','ensm_mode',obj.ENSMModeChannel0,true);
             obj.setAttributeRAW('voltage1','ensm_mode',obj.ENSMModeChannel1,true);

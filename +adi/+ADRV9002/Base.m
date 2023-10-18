@@ -63,6 +63,7 @@ classdef (Abstract, Hidden = true) Base < ...
         dataTypeStr = 'int16';
         phyDevName = 'adrv9002-phy';
         iioDevPHY
+        newAPI = false;
     end
 
     properties (Hidden, Constant)
@@ -95,10 +96,18 @@ classdef (Abstract, Hidden = true) Base < ...
             obj.CenterFrequencyChannel0 = value;
             if strcmpi(obj.Type,'Tx')
                 id = 'altvoltage2';
-                prop = 'frequency';
+                if obj.newAPI
+                    prop = 'frequency';
+                else
+                    prop = 'TX1_LO_frequency';
+                end
             else
                 id = 'altvoltage0';
-                prop = 'frequency';
+                if obj.newAPI
+                    prop = 'frequency';
+                else
+                    prop = 'RX1_LO_frequency';
+                end
             end
             if obj.ConnectedToDevice
                 obj.setAttributeLongLong(id,prop,value,true);
@@ -109,10 +118,18 @@ classdef (Abstract, Hidden = true) Base < ...
             obj.CenterFrequencyChannel1 = value;
             if strcmpi(obj.Type,'Tx')
                 id = 'altvoltage3';
-                prop = 'frequency';
+                if obj.newAPI
+                    prop = 'frequency';
+                else
+                    prop = 'TX2_LO_frequency';
+                end
             else
                 id = 'altvoltage1';
-                prop = 'frequency';
+                if obj.newAPI
+                    prop = 'frequency';
+                else
+                    prop = 'RX2_LO_frequency';
+                end
             end
             if obj.ConnectedToDevice
                 obj.setAttributeLongLong(id,prop,value,true);
@@ -169,7 +186,20 @@ classdef (Abstract, Hidden = true) Base < ...
     
     %% API Functions
     methods (Hidden, Access = protected)
-        
+        function checkDriverAPI(obj)
+            % Due to driver updates between version there are 2 names for
+            % the LO props. We need to check which one we are using
+            phydev = getDev(obj, obj.phyDevName);
+            chanPtr = iio_device_find_channel(obj, phydev, 'altvoltage0', true);
+            status = cPtrCheck(obj,chanPtr);
+            if status ~= 0
+                error("Cannot find channel altvoltage0")
+            end
+            status = iio_channel_attr_read(obj,chanPtr,'frequency',1024);
+            fprintf("Checking for attr frequency\nReturned: %d\n", status);
+            obj.newAPI = status >= 0;
+        end
+
         function lowerDDSs(obj,singleDDS)
             % Since calibrations are sensitive, DDSs need to be powered
             % down anytime a profile is loaded

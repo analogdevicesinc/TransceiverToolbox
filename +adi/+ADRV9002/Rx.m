@@ -547,6 +547,9 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
                 channelsAval = 2;
             end
             
+            % Check if property naming updated for LOs frequency vs
+            % XLOX_frequency
+            obj.checkDriverAPI();
 
             obj.setAttributeRAW('voltage0','ensm_mode',obj.ENSMModeChannel0,false);
             if channelsAval == 2
@@ -584,9 +587,16 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
                 obj.setAttributeDouble('voltage1','hardwaregain',obj.AttenuationChannel1,false);
             end
 
-            obj.setAttributeLongLong('altvoltage0','frequency',obj.CenterFrequencyChannel0 ,true);
+            if obj.newAPI
+                name1 = 'frequency';
+                name2 = 'frequency';
+            else
+                name1 = 'RX1_LO_frequency';
+                name2 = 'RX2_LO_frequency';
+            end
+            obj.setAttributeLongLong('altvoltage0',name1,obj.CenterFrequencyChannel0 ,true);
             if channelsAval == 2
-                obj.setAttributeLongLong('altvoltage1','frequency',obj.CenterFrequencyChannel1 ,true);
+                obj.setAttributeLongLong('altvoltage1',name2,obj.CenterFrequencyChannel1 ,true);
             end
             
             % Calibrations
