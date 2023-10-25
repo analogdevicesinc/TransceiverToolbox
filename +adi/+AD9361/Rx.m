@@ -253,12 +253,14 @@ classdef Rx < adi.AD9361.Base & adi.AD9361.TuneAGC & ...
             
             obj.SamplingRate = value;
             if obj.ConnectedToDevice && ~obj.EnableCustomFilter
+                id = 'voltage0';
+                p = 'sampling_frequency';
                 if libisloaded('libad9361')
                     calllib('libad9361','ad9361_set_bb_rate',obj.iioDevPHY,int32(value));
                 else
-                    id = 'voltage0';
-                    obj.setAttributeLongLong(id,'sampling_frequency',value,true,4);
+                    obj.setAttributeLongLong(id,p,value,true,4);
                 end
+                obj.SamplingRate = double(obj.getAttributeLongLong(id,p,true));
             end
         end  
         function set.LoopbackMode(obj, value)

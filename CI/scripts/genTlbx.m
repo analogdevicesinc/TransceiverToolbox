@@ -12,16 +12,6 @@ cd(tbroot);
 v = adi.Version;
 uuid = matlab.lang.internal.uuid;
 
-%% Unpack verilog source
-if ~examples
-    cd('../../');
-    cd('hdl/vendor/AnalogDevices/vivado');
-    !find -name '*.zip' -exec sh -c 'unzip -d "${1%.*}" "$1"' _ {} \;
-    !find . -name "*.zip" -type f -delete
-    cd('../../../..');
-    cd('CI/scripts');
-end
-
 %%
 cd(fileparts((mfilename('fullpath'))));
 cd('../..');
@@ -60,6 +50,13 @@ if isprop(v,'HasHDL') && v.HasHDL
     ps = [ps(:)',{'hdl'}];
 end
 
+% Check for deps
+if ~isfolder('deps')
+    error('deps folder with libad9361 not available')
+else
+    ps = [ps(:)',{'deps'}];
+end
+
 paths = '';
 for p = ps
     pp = genpath(p{:});
@@ -78,36 +75,6 @@ else
     outputFile = sprintf('AnalogDevices%s_noexamples_v%s',v.ToolboxName,currentVersion);
 end
 matlab.addons.toolbox.packageToolbox(projectFile,outputFile)
-
-if ~usejava('desktop')
-    %% Update toolbox paths
-    mkdir other
-    movefile([outputFile,'.mltbx'], ['other/',outputFile,'.zip']);
-    cd other
-    unzip([outputFile,'.zip'],'out');
-    cd('out')
-    cd('metadata');
-    fid  = fopen('configuration.xml','r');
-    f=fread(fid,'*char')';
-    fclose(fid);
-    
-    s = '</matlabPaths>';
-    sections = strsplit(f,s);
-    s1 = sections{1};
-    s2 = sections{2};
-    newfile = [s1,paths,s,s2];
-    
-    fid  = fopen('configuration.xml','w');
-    fprintf(fid,'%s',newfile);
-    fclose(fid);
-    
-    %% Repack
-    cd('..');
-    zip([outputFile,'.zip'], '*');
-    movefile([outputFile,'.zip'],['../../',outputFile,'.mltbx']);
-    cd('../..');
-    rmdir('other','s');
-end
 
 delete bsp.prj
 
