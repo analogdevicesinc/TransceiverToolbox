@@ -1,10 +1,10 @@
 classdef ADRV9002Tests < HardwareTests
-    
+
     properties
         uri = 'ip:analog';
         author = 'ADI';
     end
-    
+
     properties (TestParameter)
         GainControlMode = {'spi','pin','automatic'};
         DigitalGainControlMode = {'automatic','spi'};
@@ -17,8 +17,18 @@ classdef ADRV9002Tests < HardwareTests
         TxTracking = {'ClosedLoopTracking','LOLeakageTracking',...
             'LoopbackDelayTracking','PACorrectionTracking',...
             'QuadratureTracking'};
+        LVDSProfiles = {...
+            {'lte_10_lvds_nco_api_68_0_6', 15360000},...
+            {'lte_20_lvds_api_68_0_6', 30720000},...
+            {'lte_40_lvds_api_68_0_6', 61440000}};
+        CMOSProfiles = {...
+            {'lte_10_lvds_nco_api_68_0_6',15360000}};
     end
-    
+
+    properties(Hidden) % Internal test usage
+        profileFolderLoc = [];
+    end
+
     methods(TestClassSetup)
         function UpdateURIFromEnv(testCase)
             urienv = getenv('IIO_URI');
@@ -31,8 +41,13 @@ classdef ADRV9002Tests < HardwareTests
             Device = @()adi.ADRV9002.Rx;
             testCase.CheckDevice('ip',Device,testCase.uri(4:end),false);
         end
+        % Get location of filters
+        function getPaths(testCase)
+            filepath = fileparts(mfilename("fullpath"));
+            testCase.profileFolderLoc = fullfile(filepath,'adrv9002_profiles');
+        end
     end
-    
+
     methods (Static)
         function estFrequency(data,fs)
             nSamp = length(data);
@@ -41,9 +56,9 @@ classdef ADRV9002Tests < HardwareTests
             plot(freqRangeRx, FFTRxData);
         end
     end
-    
+
     methods (Test)
-        
+
         function testADRV9002Rx(testCase)
             % Test Rx DMA data output
             rx = adi.ADRV9002.Rx('uri',testCase.uri);
@@ -53,7 +68,7 @@ classdef ADRV9002Tests < HardwareTests
             testCase.verifyTrue(valid);
             testCase.verifyGreaterThan(sum(abs(double(out))),0);
         end
-        
+
         function testADRV9002RxENSM(testCase)
             rx = adi.ADRV9002.Rx('uri',testCase.uri);
             rx.EnabledChannels = 1;
@@ -63,7 +78,7 @@ classdef ADRV9002Tests < HardwareTests
             testCase.verifyTrue(valid);
             testCase.verifyEqual(sum(abs(double(out))),0);
         end
-        
+
         function testADRV9002RxAGC(testCase,GainControlMode)
             rx = adi.ADRV9002.Rx('uri',testCase.uri);
             rx.EnabledChannels = 1;
@@ -74,7 +89,7 @@ classdef ADRV9002Tests < HardwareTests
             testCase.verifyTrue(valid);
             testCase.verifyGreaterThan(sum(abs(double(out))),0);
         end
-        
+
         function testADRV9002RxDAGC(testCase,DigitalGainControlMode)
             rx = adi.ADRV9002.Rx('uri',testCase.uri);
             rx.EnabledChannels = 1;
@@ -87,17 +102,17 @@ classdef ADRV9002Tests < HardwareTests
             testCase.verifyTrue(valid);
             testCase.verifyGreaterThan(sum(abs(double(out))),0);
         end
-        
-%         function testADRV9002RxENSMPorts(testCase,ENSMPortControl)
-%             rx = adi.ADRV9002.Rx('uri',testCase.uri);
-%             rx.EnabledChannels = 1;
-%             rx.ENSMPortModeChannel0 = ENSMPortControl;
-%             rx.ENSMPortModeChannel1 = ENSMPortControl;
-%             [out, valid] = rx();
-%             rx.release();
-%             testCase.verifyTrue(valid);
-%             testCase.verifyGreaterThan(sum(abs(double(out))),0);
-%         end
+
+        %         function testADRV9002RxENSMPorts(testCase,ENSMPortControl)
+        %             rx = adi.ADRV9002.Rx('uri',testCase.uri);
+        %             rx.EnabledChannels = 1;
+        %             rx.ENSMPortModeChannel0 = ENSMPortControl;
+        %             rx.ENSMPortModeChannel1 = ENSMPortControl;
+        %             [out, valid] = rx();
+        %             rx.release();
+        %             testCase.verifyTrue(valid);
+        %             testCase.verifyGreaterThan(sum(abs(double(out))),0);
+        %         end
 
         function testADRV9002RxInterfaceGain(testCase,InterfaceGain)
             rx = adi.ADRV9002.Rx('uri',testCase.uri);
@@ -109,7 +124,7 @@ classdef ADRV9002Tests < HardwareTests
             testCase.verifyTrue(valid);
             testCase.verifyGreaterThan(sum(abs(double(out))),0);
         end
-        
+
         function testADRV9002RxTracking(testCase,Tracking)
             rx = adi.ADRV9002.Rx('uri',testCase.uri);
             rx.EnabledChannels = 1;
@@ -131,94 +146,22 @@ classdef ADRV9002Tests < HardwareTests
             tx.release();
             testCase.verifyTrue(valid);
         end
-        
-%         function testADRV9002RxCustomFilter(testCase)
-%             % Test Rx Custom filters
-%             rx = adi.ADRV9002.Rx('uri',testCase.uri);
-%             rx.EnabledChannels = 1;
-%             rx.EnableCustomProfile = true;
-%             rx.CustomProfileFileName = 'FDD_20MHz_2rx_2tx_LO_2_4G.json';
-%             [out, valid] = rx();
-%             % Check sample rate
-%             sr = rx.getAttributeLongLong('voltage0','sampling_frequency',false);
-%             rx.release();
-%             testCase.verifyTrue(valid);
-%             testCase.verifyEqual(double(sr),3000000,'Incorrect sample rate');
-%             testCase.verifyGreaterThan(sum(abs(double(out))),0);
-%         end
-        
-%         function testADRV9002RxCustomFilterLTE40MHz(testCase)
-%             % Test Rx Custom filters
-%             rx = adi.ADRV9002.Rx('uri',testCase.uri);
-%             rx.EnabledChannels = 1;
-%             rx.EnableCustomProfile = true;
-%             rx.CustomProfileFileName = 'FDD_40MHz_2rx_2tx_LO_2_4G.json';
-%             [out, valid] = rx();
-%             % Check sample rate
-%             sr = rx.getAttributeLongLong('voltage0','sampling_frequency',false);
-%             rx.release();
-%             testCase.verifyTrue(valid);
-%             testCase.verifyEqual(double(sr),23040000,'Incorrect sample rate');
-%             testCase.verifyGreaterThan(sum(abs(double(out))),0);
-%         end
-        
-%         function testADRV9002TxCustomFilter(testCase)
-%             % Test Tx Custom filters
-%             tx = adi.ADRV9002.Tx('uri',testCase.uri);
-%             tx.EnabledChannels = 1;
-%             tx.EnableCustomFilter = true;
-%             tx.CustomFilterFileName = 'customADRV9002filter.ftr';
-%             data = complex(randn(1e4,1),randn(1e4,1));
-%             [valid] = tx(data);
-%             % Check sample rate
-%             sr1 = tx.getAttributeLongLong('voltage0','sampling_frequency',false);
-%             sr2 = tx.getAttributeLongLong('voltage0','sampling_frequency',true);
-%             tx.release();
-%             testCase.verifyTrue(valid);
-%             testCase.verifyEqual(double(sr1),3000000,'Incorrect sample rate');
-%             testCase.verifyEqual(double(sr2),3000000,'Incorrect sample rate');
-%         end
-%         
-%         function testADRV9002TxCustomFilterLTE(testCase)
-%             % Test Tx Custom filters
-%             tx = adi.ADRV9002.Tx('uri',testCase.uri);
-%             tx.EnabledChannels = 1;
-%             tx.EnableCustomFilter = true;
-%             tx.CustomFilterFileName = 'LTE15_MHz.ftr';
-%             data = complex(randn(1e4,1),randn(1e4,1));
-%             [valid] = tx(data);
-%             % Check sample rate
-%             sr1 = tx.getAttributeLongLong('voltage0','sampling_frequency',false);
-%             sr2 = tx.getAttributeLongLong('voltage0','sampling_frequency',true);
-%             tx.release();
-%             testCase.verifyTrue(valid);
-%             testCase.verifyEqual(double(sr1),23040000,'Incorrect sample rate');
-%             testCase.verifyEqual(double(sr2),23040000,'Incorrect sample rate');
-%         end
 
-        function testADRV9002RxLTE1_4(testCase)
-            % Test Rx Custom filters
-            rx = adi.ADRV9002.Rx('uri',testCase.uri);
-            rx.EnabledChannels = 1;
-            rx.EnableCustomProfile = true;
-            rx.CustomProfileFileName = fullfile('adrv9002_profiles','lte_5_cmos_api_67_1_1.json');
-            rx.CustomStreamFileName = fullfile('adrv9002_profiles','lte_5_cmos_api_67_1_1.stream');
-            [out, valid] = rx();
-            % Check sample rate
-            sr = rx.SamplingRate;
-            rx.release();
-            testCase.verifyTrue(valid);
-            testCase.verifyEqual(double(sr),7680000,'Incorrect sample rate');
-            testCase.verifyGreaterThan(sum(abs(double(out))),0);
-        end
+    end
 
-        function testADRV9002TxLTE1_4(testCase)
+    methods (Test, TestTags = {'CMOS'})
+
+        function testADRV9002TxCMOSProfile(testCase, CMOSProfiles)
+            profile = CMOSProfiles{1};
+            fs = CMOSProfiles{2};
+            fprintf("Testing CMOS Profile: %s\n", profile{1});
+            fprintf("Expected sample rate: %d\n", fs);
             % Test Tx Custom filters
             tx = adi.ADRV9002.Tx('uri',testCase.uri);
             tx.EnabledChannels = 1;
             tx.EnableCustomProfile = true;
-            tx.CustomProfileFileName = fullfile('adrv9002_profiles','lte_5_cmos_api_67_1_1.json');
-            tx.CustomStreamFileName = fullfile('adrv9002_profiles','lte_5_cmos_api_67_1_1.stream');
+            tx.CustomProfileFileName = fullfile(testCase.profileFolderLoc,[profile{1},'.json']);
+            tx.CustomStreamFileName = fullfile(testCase.profileFolderLoc,[profile{1},'.stream']);
             data = complex(randn(1e4,1),randn(1e4,1));
             [valid] = tx(data);
             % Check sample rate
@@ -226,10 +169,40 @@ classdef ADRV9002Tests < HardwareTests
             sr2 = tx.getAttributeLongLong('voltage0','sampling_frequency',true);
             tx.release();
             testCase.verifyTrue(valid);
-            testCase.verifyEqual(double(sr1),7680000,'Incorrect sample rate');
-            testCase.verifyEqual(double(sr2),7680000,'Incorrect sample rate');
+            testCase.verifyEqual(double(sr1),fs,'Incorrect sample rate');
+            testCase.verifyEqual(double(sr2),fs,'Incorrect sample rate');
         end
-        
+
+    end
+
+
+    methods (Test, TestTags = {'LVDS'})
+
+        function testADRV9002TxLVDSProfile(testCase, LVDSProfiles)
+            profile = LVDSProfiles{1};
+            fs = LVDSProfiles{2};
+            fprintf("Testing LVDS Profile: %s\n", profile);
+            fprintf("Expected sample rate: %d\n", fs);
+            % Test Tx Custom filters
+            tx = adi.ADRV9002.Tx('uri',testCase.uri);
+            tx.EnabledChannels = 1;
+            tx.EnableCustomProfile = true;
+            tx.CustomProfileFileName = fullfile(testCase.profileFolderLoc,[profile,'.json']);
+            tx.CustomStreamFileName = fullfile(testCase.profileFolderLoc,[profile,'.stream']);
+            data = complex(randn(1e4,1),randn(1e4,1));
+            [valid] = tx(data);
+            % Check sample rate
+            sr1 = tx.getAttributeLongLong('voltage0','sampling_frequency',false);
+            sr2 = tx.getAttributeLongLong('voltage0','sampling_frequency',true);
+            tx.release();
+            testCase.verifyTrue(valid);
+            testCase.verifyEqual(double(sr1),fs,'Incorrect sample rate');
+            testCase.verifyEqual(double(sr2),fs,'Incorrect sample rate');
+        end
+
+    end
+
+    methods (Test)
         function testADRV9002RxClearing(testCase)
             % Verify clearing of system objects is working in all cases
             rx = adi.ADRV9002.Rx();
@@ -258,14 +231,14 @@ classdef ADRV9002Tests < HardwareTests
             if rx.Count ~= 0
                 error('e5');
             end
-            rx();            
+            rx();
             if rx.Count ~= 1
                 error('e6');
             end
             %
             rx.release();
         end
-        
+
         function testADRV9002RxWithTxDDS(testCase)
             % Test DDS output
             tx = adi.ADRV9002.Tx('uri',testCase.uri);
@@ -297,9 +270,13 @@ classdef ADRV9002Tests < HardwareTests
             testCase.verifyGreaterThan(sum(abs(double(out))),0);
             testCase.verifyEqual(freqEst,toneFreq,'RelTol',0.01,...
                 'Frequency of DDS tone unexpected')
-            
+
         end
-        
+
+    end
+
+    methods (Test, TestTags = {'CMOS'})
+
         function testADRV9002RxWithTxData(testCase)
             % Test Tx DMA data output
             amplitude = 2^15; frequency = 0.12e6;
@@ -308,14 +285,14 @@ classdef ADRV9002Tests < HardwareTests
             swv1.SamplesPerFrame = 1e4*10;
             swv1.SampleRate = 7.68e6;
             y = swv1();
-            
+
             tx = adi.ADRV9002.Tx('uri',testCase.uri);
             tx.DataSource = 'DMA';
             tx.EnableCyclicBuffers = true;
             tx.AttenuationChannel0 = -10;
             tx.EnableCustomProfile = true;
-            tx.CustomProfileFileName = fullfile('adrv9002_profiles','lte_5_cmos_api_67_1_1.json');
-            tx.CustomStreamFileName = fullfile('adrv9002_profiles','lte_5_cmos_api_67_1_1.stream');
+            tx.CustomProfileFileName = fullfile(testCase.profileFolderLoc,'lte_5_cmos_api_68_0_6.json');
+            tx.CustomStreamFileName = fullfile(testCase.profileFolderLoc,'lte_5_cmos_api_68_0_6.stream');
             tx(y);
             rx = adi.ADRV9002.Rx('uri',testCase.uri);
             rx.EnabledChannels = 1;
@@ -331,7 +308,7 @@ classdef ADRV9002Tests < HardwareTests
             % testCase.estFrequency(out,rx.SamplingRate);
             freqEst = meanfreq(double(real(out)),rx.SamplingRate);
             rx.release();
-            
+
             testCase.verifyTrue(valid);
             testCase.verifyGreaterThan(sum(abs(double(out))),0);
             testCase.verifyEqual(freqEst,frequency,'RelTol',0.01,...
@@ -344,8 +321,8 @@ classdef ADRV9002Tests < HardwareTests
 
             % Set low speed profile < 1 MHz
             rx.EnableCustomProfile = true;
-            rx.CustomProfileFileName = which('lte_5_cmos_api_67_1_1.json');
-            rx.CustomStreamFileName = which('lte_5_cmos_api_67_1_1.stream');
+            rx.CustomProfileFileName = which('lte_5_cmos_api_68_0_6.json');
+            rx.CustomStreamFileName = which('lte_5_cmos_api_68_0_6.stream');
 
             rx.DigitalGainControlModeChannel0 = 'spi';
             rx.InterfaceGainChannel0 = '6dB';
@@ -358,8 +335,8 @@ classdef ADRV9002Tests < HardwareTests
 
             % Set low speed profile < 1 MHz
             rx.EnableCustomProfile = true;
-            rx.CustomProfileFileName = which('dmr_tes_v0_21_cmos_24ksps_api_67_1_1.json');
-            rx.CustomStreamFileName = which('dmr_tes_v0_21_cmos_24ksps_api_67_1_1.bin');
+            rx.CustomProfileFileName = which('lte_5_cmos_api_68_0_6.json');
+            rx.CustomStreamFileName = which('lte_5_cmos_api_68_0_6.stream');
 
             rx.DigitalGainControlModeChannel0 = 'spi';
             rx.InterfaceGainChannel0 = '6dB';
@@ -367,8 +344,7 @@ classdef ADRV9002Tests < HardwareTests
             testCase.assertTrue(valid);
         end
 
-
     end
-    
+
 end
 

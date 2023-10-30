@@ -11,6 +11,9 @@ import matlab.unittest.plugins.TAPPlugin;
 import matlab.unittest.constraints.ContainsSubstring;
 import matlab.unittest.selectors.HasName;
 import matlab.unittest.selectors.HasProcedureName;
+import matlab.unittest.selectors.HasTag
+
+useNTags = false; % Not tags
 
 switch board
     case "pluto"
@@ -51,6 +54,12 @@ switch board
         "zynqmp-zcu102-rev10-adrv9002-rx2tx2-vcmos", ...
         "zynqmp-zcu102-rev10-adrv9002-rx2tx2-vlvds"}
         at = 'ADRV9002';
+        useNTags = true;
+        if contains(lower(board),'lvds')
+            ntags = 'CMOS';
+        else
+            ntags = 'LVDS';
+        end
     case {"socfpga_arria10_socdk_adrv9009", ...
             "zynqmp-zcu102-rev10-adrv9009", ...
             "zynq-zc706-adv7511-adrv9009", ...
@@ -70,6 +79,12 @@ else
     suite = testsuite(ats);
     suite = selectIf(suite,HasProcedureName(ContainsSubstring(at,'IgnoringCase',true)));
 end
+
+if useNTags
+    % Filter out tests that are not for the current board
+    suite = selectIf(suite,~HasTag(ntags));
+end
+
 
 try
     
