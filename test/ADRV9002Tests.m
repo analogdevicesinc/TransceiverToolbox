@@ -154,14 +154,12 @@ classdef ADRV9002Tests < HardwareTests
         function testADRV9002TxCMOSProfile(testCase, CMOSProfiles)
             profile = CMOSProfiles{1};
             fs = CMOSProfiles{2};
-            fprintf("Testing CMOS Profile: %s\n", profile{1});
-            fprintf("Expected sample rate: %d\n", fs);
             % Test Tx Custom filters
             tx = adi.ADRV9002.Tx('uri',testCase.uri);
             tx.EnabledChannels = 1;
             tx.EnableCustomProfile = true;
-            tx.CustomProfileFileName = fullfile(testCase.profileFolderLoc,[profile{1},'.json']);
-            tx.CustomStreamFileName = fullfile(testCase.profileFolderLoc,[profile{1},'.stream']);
+            tx.CustomProfileFileName = fullfile(testCase.profileFolderLoc,[profile,'.json']);
+            tx.CustomStreamFileName = fullfile(testCase.profileFolderLoc,[profile,'.stream']);
             data = complex(randn(1e4,1),randn(1e4,1));
             [valid] = tx(data);
             % Check sample rate
@@ -181,8 +179,6 @@ classdef ADRV9002Tests < HardwareTests
         function testADRV9002TxLVDSProfile(testCase, LVDSProfiles)
             profile = LVDSProfiles{1};
             fs = LVDSProfiles{2};
-            fprintf("Testing LVDS Profile: %s\n", profile);
-            fprintf("Expected sample rate: %d\n", fs);
             % Test Tx Custom filters
             tx = adi.ADRV9002.Tx('uri',testCase.uri);
             tx.EnabledChannels = 1;
