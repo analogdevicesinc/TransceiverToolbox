@@ -55,6 +55,7 @@ lock(label: 'adgt_test_harness_boards') {
                                   "zynq-zed-adv7511-adrv9002-rx2tx2-vcmos",
                                   "zynqmp-zcu102-rev10-adrv9002-vcmos",
                                   "zynqmp-zcu102-rev10-adrv9002-rx2tx2-vcmos",
+                                  "zynqmp-zcu102-rev10-adrv9002-vlvds",
                                   "zynqmp-zcu102-rev10-adrv9002-rx2tx2-vlvds",
                                   "pluto",
                                   "zynq-adrv9361-z7035-fmc",
