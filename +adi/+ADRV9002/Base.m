@@ -196,7 +196,6 @@ classdef (Abstract, Hidden = true) Base < ...
                 error("Cannot find channel altvoltage0")
             end
             status = iio_channel_attr_read(obj,chanPtr,'frequency',1024);
-            fprintf("Checking for attr frequency\nReturned: %d\n", status);
             obj.newAPI = status >= 0;
         end
 
