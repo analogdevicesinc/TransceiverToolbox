@@ -334,6 +334,7 @@ classdef Tx < adi.ADRV9002.Base & adi.common.Tx
                 end
                 if any(obj.EnabledChannels==2)
                     obj.devName = 'axi-adrv9002-tx2-lpc';
+                    obj.iioDev = obj.getDev(obj.devName);
                 end
             else
                 obj.channel_names = ...
@@ -352,68 +353,115 @@ classdef Tx < adi.ADRV9002.Base & adi.common.Tx
             if obj.EnableCustomProfile
                 writeProfileFile(obj);
             end
-            
-            obj.setAttributeLongLong('altvoltage2','frequency',obj.CenterFrequencyChannel0 ,true);
-            obj.setAttributeLongLong('altvoltage3','frequency',obj.CenterFrequencyChannel1 ,true);
-            
+
+            % Check if channel exists with new profile
+            phydev = getDev(obj, obj.phyDevName);
+            chanPtr = iio_device_find_channel(obj, phydev, 'voltage1', true);
+            status = cPtrCheck(obj,chanPtr);
+            if status ~= 0
+                error("Cannot find channel voltage1")
+            end
+            [status, rValue] = iio_channel_attr_read(obj,chanPtr,'ensm_mode',1024);
+            if status == -19
+                channelsAval = 1;
+            elseif status < 0
+                cstatus(obj,rValue,'Attribute read failed for : ensm_mode');
+            else
+                channelsAval = 2;
+            end
+
+            % Check if property naming updated for LOs frequency vs
+            % XLOX_frequency
+            obj.checkDriverAPI();
+
+            if obj.newAPI
+                name1 = 'frequency';
+                name2 = 'frequency';
+            else
+                name1 = 'TX1_LO_frequency';
+                name2 = 'TX2_LO_frequency';
+            end            
+            obj.setAttributeLongLong('altvoltage2',name1,obj.CenterFrequencyChannel0 ,true);
+            if channelsAval == 2
+                obj.setAttributeLongLong('altvoltage3',name2,obj.CenterFrequencyChannel1 ,true);
+            end
+
             obj.setAttributeRAW('voltage0','ensm_mode',obj.ENSMModeChannel0,true);
-            obj.setAttributeRAW('voltage1','ensm_mode',obj.ENSMModeChannel1,true);
-            
+            if channelsAval == 2
+                obj.setAttributeRAW('voltage1','ensm_mode',obj.ENSMModeChannel1,true);
+            end
+
             % Controls
             obj.setAttributeRAW('voltage0','port_en_mode',obj.PortEnableControlChannel0,true);
-            obj.setAttributeRAW('voltage1','port_en_mode',obj.PortEnableControlChannel1,true);
+            if channelsAval == 2
+                obj.setAttributeRAW('voltage1','port_en_mode',obj.PortEnableControlChannel1,true);
+            end
             
             obj.setAttributeRAW('voltage0','atten_control_mode',obj.AttenuationControlModeChannel0,true);
-            obj.setAttributeRAW('voltage1','atten_control_mode',obj.AttenuationControlModeChannel1,true);
+            if channelsAval == 2
+                obj.setAttributeRAW('voltage1','atten_control_mode',obj.AttenuationControlModeChannel1,true);
+            end
 
             % Gains
             obj.setAttributeDouble('voltage0','hardwaregain',obj.AttenuationChannel0,true);
-            obj.setAttributeDouble('voltage1','hardwaregain',obj.AttenuationChannel1,true);
+            if channelsAval == 2
+                obj.setAttributeDouble('voltage1','hardwaregain',obj.AttenuationChannel1,true);
+            end
                       
             % Calibrations
             close_loop_gain_tracking_en_voltage0_state = obj.getAttributeBool('voltage0','close_loop_gain_tracking_en',true);
             if (close_loop_gain_tracking_en_voltage0_state ~= obj.ClosedLoopTrackingChannel0)
                 obj.setAttributeBool('voltage0','close_loop_gain_tracking_en',obj.ClosedLoopTrackingChannel0,true);
             end
-            close_loop_gain_tracking_en_voltage1_state = obj.getAttributeBool('voltage1','close_loop_gain_tracking_en',true);
-            if (close_loop_gain_tracking_en_voltage1_state ~= obj.ClosedLoopTrackingChannel1)
-                obj.setAttributeBool('voltage1','close_loop_gain_tracking_en',obj.ClosedLoopTrackingChannel1,true);
+            if channelsAval == 2
+                close_loop_gain_tracking_en_voltage1_state = obj.getAttributeBool('voltage1','close_loop_gain_tracking_en',true);
+                if (close_loop_gain_tracking_en_voltage1_state ~= obj.ClosedLoopTrackingChannel1)
+                    obj.setAttributeBool('voltage1','close_loop_gain_tracking_en',obj.ClosedLoopTrackingChannel1,true);
+                end
             end
 
             lo_leakage_tracking_en_voltage0_state = obj.getAttributeBool('voltage0','lo_leakage_tracking_en',true);
             if (lo_leakage_tracking_en_voltage0_state ~= obj.LOLeakageTrackingChannel0)
                 obj.setAttributeBool('voltage0','lo_leakage_tracking_en',obj.LOLeakageTrackingChannel0,true);
             end
-            lo_leakage_tracking_en_voltage1_state = obj.getAttributeBool('voltage1','lo_leakage_tracking_en',true);
-            if (lo_leakage_tracking_en_voltage1_state ~= obj.LOLeakageTrackingChannel1)
-                obj.setAttributeBool('voltage1','lo_leakage_tracking_en',obj.LOLeakageTrackingChannel1,true);
+            if channelsAval == 2
+                lo_leakage_tracking_en_voltage1_state = obj.getAttributeBool('voltage1','lo_leakage_tracking_en',true);
+                if (lo_leakage_tracking_en_voltage1_state ~= obj.LOLeakageTrackingChannel1)
+                    obj.setAttributeBool('voltage1','lo_leakage_tracking_en',obj.LOLeakageTrackingChannel1,true);
+                end
             end
 
             loopback_delay_tracking_en_voltage0_state = obj.getAttributeBool('voltage0','loopback_delay_tracking_en',true);
             if (loopback_delay_tracking_en_voltage0_state ~= obj.LoopbackDelayTrackingChannel0)
                 obj.setAttributeBool('voltage0','loopback_delay_tracking_en',obj.LoopbackDelayTrackingChannel0,true);
             end
-            loopback_delay_tracking_en_voltage1_state = obj.getAttributeBool('voltage1','loopback_delay_tracking_en',true);
-            if (loopback_delay_tracking_en_voltage1_state ~= obj.LoopbackDelayTrackingChannel1)
-                obj.setAttributeBool('voltage1','loopback_delay_tracking_en',obj.LoopbackDelayTrackingChannel1,true);
+            if channelsAval == 2
+                loopback_delay_tracking_en_voltage1_state = obj.getAttributeBool('voltage1','loopback_delay_tracking_en',true);
+                if (loopback_delay_tracking_en_voltage1_state ~= obj.LoopbackDelayTrackingChannel1)
+                    obj.setAttributeBool('voltage1','loopback_delay_tracking_en',obj.LoopbackDelayTrackingChannel1,true);
+                end
             end
             
             pa_correction_tracking_en_voltage0_state = obj.getAttributeBool('voltage0','pa_correction_tracking_en',true);
             if (pa_correction_tracking_en_voltage0_state ~= obj.PACorrectionTrackingChannel0)
                 obj.setAttributeBool('voltage0','pa_correction_tracking_en',obj.PACorrectionTrackingChannel0,true);
             end
-            pa_correction_tracking_en_voltage1_state = obj.getAttributeBool('voltage1','pa_correction_tracking_en',true);
-            if (pa_correction_tracking_en_voltage1_state ~= obj.PACorrectionTrackingChannel1)
-                obj.setAttributeBool('voltage1','pa_correction_tracking_en',obj.PACorrectionTrackingChannel1,true);
+            if channelsAval == 2
+                pa_correction_tracking_en_voltage1_state = obj.getAttributeBool('voltage1','pa_correction_tracking_en',true);
+                if (pa_correction_tracking_en_voltage1_state ~= obj.PACorrectionTrackingChannel1)
+                    obj.setAttributeBool('voltage1','pa_correction_tracking_en',obj.PACorrectionTrackingChannel1,true);
+                end
             end
             
             quadrature_tracking_en_voltage0_state = obj.getAttributeBool('voltage0','quadrature_tracking_en',true);
             if (quadrature_tracking_en_voltage0_state ~= obj.QuadratureTrackingChannel0)
                 obj.setAttributeBool('voltage0','quadrature_tracking_en',obj.QuadratureTrackingChannel0,true);
             end
-            quadrature_tracking_en_voltage1_state = obj.getAttributeBool('voltage1','quadrature_tracking_en',true);
-            if (quadrature_tracking_en_voltage1_state ~= obj.QuadratureTrackingChannel1)
-                obj.setAttributeBool('voltage1','quadrature_tracking_en',obj.QuadratureTrackingChannel1,true);
+            if channelsAval == 2
+                quadrature_tracking_en_voltage1_state = obj.getAttributeBool('voltage1','quadrature_tracking_en',true);
+                if (quadrature_tracking_en_voltage1_state ~= obj.QuadratureTrackingChannel1)
+                    obj.setAttributeBool('voltage1','quadrature_tracking_en',obj.QuadratureTrackingChannel1,true);
+                end
             end
             
 %             obj.setAttributeBool('voltage0','en',obj.PowerdownChannel0,true);
