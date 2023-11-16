@@ -146,7 +146,7 @@ cstage("Hardware Streaming Tests", "", flags) {
 
 //////////////////////////////////////////////////////
 
-node {
+node('baremetal || lab_b5') {
     cstage('Deploy Development', "", flags) {
         unstash "builtSources"
         uploadArtifactory('TransceiverToolbox','*.mltbx')
