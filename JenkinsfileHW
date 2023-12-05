@@ -65,7 +65,7 @@ lock(label: 'adgt_test_harness_boards') {
                                   "zynq-zc702-adv7511-ad9361-fmcomms2-3",
                                   "zynq-adrv9364-z7020-bob-vcmos",
                                   "zynq-adrv9364-z7020-bob-vlvds"])
-    harness.set_docker_args(['Vivado', 'MATLAB'])
+    harness.set_docker_args(['Vivado', 'MATLAB', 'udev'])
     harness.set_nebula_local_fs_source_root("artifactory.analog.com")
   
     // Set stages (Stages are run sequentially on agents.)
