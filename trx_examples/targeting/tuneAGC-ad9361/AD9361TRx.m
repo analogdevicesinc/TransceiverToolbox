@@ -182,7 +182,7 @@ classdef AD9361TRx
             warning('off', 'MATLAB:MKDIR:DirectoryExists');
             mkdir(obj.folder_name);
             obj.sig_filename = char('testWaveform_'+regexprep(string(datetime),'[:-\s]','_')+'.bb');
-            obj.testwaveform_fileloc = [pwd '\' obj.folder_name '\' obj.sig_filename];
+            obj.testwaveform_fileloc = [pwd filesep obj.folder_name filesep obj.sig_filename];
             obj.rxNonHT_2x = resample(obj.rxWaveform, M, N);
             bbw = comm.BasebandFileWriter(obj.testwaveform_fileloc,(M/N)*fs,fc);
             bbw.Metadata = struct('Date',date);
