@@ -275,7 +275,7 @@ classdef AD9361TRx
                 end
             end
             
-            rx_under_mask = find_system(obj.rx_block, 'LookUnderMasks', 'on', 'SearchDepth', 1);   
+            rx_under_mask = find_system(obj.rx_block, 'LookUnderMasks', 'on', 'SearchDepth', 1, 'FollowLinks', 'on');   
 
             for ii = 1:length(rx_under_mask)
                 logged_block_path = strsplit(rx_under_mask{ii}, '/');
