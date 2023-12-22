@@ -265,11 +265,11 @@ classdef AD9361TRx
                 elseif strcmpi(str, 'Attackmode')
                     if (AGC_MODE ~= 3)
                         if (AGC_MODE == 0)
-                            in = in.setBlockParameter(rx_top_level{ii}, 'Attackmode', 'Manual');
+                            in = in.setBlockParameter(rx_top_level{ii}, 'agc', 'Manual');
                         elseif (AGC_MODE == 1)
-                            in = in.setBlockParameter(rx_top_level{ii}, 'Attackmode', 'Fast');
+                            in = in.setBlockParameter(rx_top_level{ii}, 'agc', 'Fast');
                         elseif (AGC_MODE == 2)
-                            in = in.setBlockParameter(rx_top_level{ii}, 'Attackmode', 'Slow');
+                            in = in.setBlockParameter(rx_top_level{ii}, 'agc', 'Slow');
                         end
                     end
                 end
