@@ -1,0 +1,51 @@
+name: Build Toolbox
+
+on: [push]
+
+jobs:
+  build:
+    name: Build Toolbox
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+      - name: Organize Toolbox Dependencies
+        run: |
+            make -C ./CI/scripts build
+            pip3 install -r requirements_doc.txt
+            make -C ./CI/gen_doc doc_ml
+            make -C ./CI/scripts add_libad9361
+
+      - name: Set up MATLAB
+        uses: matlab-actions/setup-matlab@v1
+        with:
+            release: R2022b
+      - name: Compile Toolbox
+        uses: matlab-actions/run-command@v1
+        with:
+            command: cd('CI/scripts');genTlbx(1);exit()
+
+      - name: Move generated .mltbx file
+        run: |
+            mkdir toolbox
+            cp *.mltbx toolbox
+
+      - name: Save generated .mltbx file
+        uses: actions/upload-artifact@v3
+        with:
+          name: TransceiverToolboxInstaller
+          path: toolbox
+
+      - name: Post development build to GH releases page
+        uses: "marvinpinto/action-automatic-releases@latest"
+        if: github.ref == 'refs/heads/master'
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Latest Development Build"
+          files: toolbox
