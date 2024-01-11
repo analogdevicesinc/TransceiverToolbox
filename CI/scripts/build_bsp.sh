@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x
+set -xe
 
 if [ -z "${HDLBRANCH}" ]; then
 HDLBRANCH='hdl_2021_r2'
@@ -45,7 +45,7 @@ fi
 VIVADO=${VER}
 
 # Setup
-source /opt/Xilinx/Vivado/$VIVADO/settings64.sh
+# source /opt/Xilinx/Vivado/$VIVADO/settings64.sh
 
 # Pre-build IP library
 # cd hdl/library
@@ -78,6 +78,12 @@ sed -i 's/16.27/30/' hdl/projects/pluto/system_constr.xdc
 # update .mk to .prj in zc706_plddr3_dacfifo_bd.tcl
 sed -i 's/.mk/.prj/' hdl/projects/common/zc706/zc706_plddr3_dacfifo_bd.tcl
 sed -i '10i   file copy -force $ad_hdl_dir/projects/common/zc706/zc706_plddr3_mig.mk $ad_hdl_dir/projects/common/zc706/zc706_plddr3_mig.prj' hdl/projects/common/zc706/zc706_plddr3_dacfifo_bd.tcl
+# Update ADRV9001 design to include util_sync as dependent IP
+sed -i '23i   # Custom Sync IP' hdl/projects/adrv9001/zcu102/Makefile
+sed -i '24i   LIB_DEPS += util_sync/sync_delay' hdl/projects/adrv9001/zcu102/Makefile
+sed -i '25i   LIB_DEPS += util_sync/sync_fast_to_slow' hdl/projects/adrv9001/zcu102/Makefile
+sed -i '26i   LIB_DEPS += util_sync/sync_slow_to_fast' hdl/projects/adrv9001/zcu102/Makefile
+
 mv hdl $TARGET
 
 # Post-process ports.json
