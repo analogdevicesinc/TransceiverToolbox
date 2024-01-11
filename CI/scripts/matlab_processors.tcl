@@ -233,7 +233,7 @@ proc data_synchronizer {rxtx number_of_inputs number_of_bits number_of_valids mu
 		#exec make -C ../../../library/util_sync/sync_delay
 		#exec make -C ../../../library/util_sync/sync_fast_to_slow
 		#exec make -C ../../../library/util_sync/sync_slow_to_fast
-		#update_ip_catalog -rebuild
+		update_ip_catalog -rebuild
 
 		### synchronize the input
 
