@@ -152,11 +152,5 @@ node('baremetal || lab_b5') {
         unstash "builtSources"
         uploadArtifactory('TransceiverToolbox','*.mltbx')
     }
-    if (env.BRANCH_NAME == 'master') {
-        cstage('Deploy Production', "", flags) {
-            unstash "builtSources"
-            uploadFTP('TransceiverToolbox','*.mltbx')
-        }
-    }
 }
 
