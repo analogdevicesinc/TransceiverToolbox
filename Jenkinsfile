@@ -70,6 +70,7 @@ cstage("HDL Tests", "", flags) {
 */
             cstage("Installer", branchName, flags) {
                 unstash "builtSources"
+                sh 'rm -rf hdl'
                 sh 'make -C ./CI/scripts test_installer'
                 junit testResults: 'test/*.xml', allowEmptyResults: true
                 archiveArtifacts artifacts: 'test/logs/*', followSymlinks: false, allowEmptyArchive: true
