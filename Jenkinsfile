@@ -8,7 +8,7 @@ dockerHost = 'docker'
 
 ////////////////////////////
 
-hdlBranches = ['master','hdl_2021_r2']
+hdlBranches = ['main','hdl_2021_r2']
 
 stage("Build Toolbox") {
     dockerParallelBuild(hdlBranches, dockerHost, dockerConfig) { 
