@@ -29,20 +29,67 @@ if [ ! -d "hdl" ]; then
    exit 1
 fi
 
-# Get required vivado version needed for HDL
-if [ -f "hdl/library/scripts/adi_ip.tcl" ]; then
-	TARGET="hdl/library/scripts/adi_ip.tcl"
-else
-	TARGET="hdl/library/scripts/adi_ip_xilinx.tcl"
+if [ -z "${VIVADO}" ]; then
+   echo "VIVADO not set, will parse HDL"
+
+   # Get required vivado version needed for HDL
+   TARGET="hdl/scripts/adi_env.tcl"
+   # Use grep to find the line containing "set required_vivado_version"
+   matched_line=$(grep 'set required_vivado_version' "$TARGET")
+
+   # Use awk to extract the version number
+   VIVADO=$(echo "$matched_line" | awk -F'"' '{print $2}')
+
+   # Print the extracted version number
+   echo "Parsed Vivado Version: $VIVADO"
 fi
-VER=$(awk '/set required_vivado_version/ {print $3}' $TARGET | sed 's/"//g')
-echo "Required Vivado version ${VER}"
-VIVADOFULL=${VER}
-if [ ${#VER} = 8 ]
-then
-VER=${VER:0:6}
+
+# If not of the form 20xx.x, exit
+if [[ ! $VIVADO =~ ^20[0-9]{2}\.[0-9]$ ]]; then
+    echo "Vivado version not of the form 20xx.x"
+    exit 1
 fi
-VIVADO=${VER}
+
+# Update vivado version in MATLAB files
+echo "Updating toolbox files to use desired Vivado version"
+cd ..
+# Update Version.m
+sed -i "s/Vivado = .*/Vivado = \'${VIVADO}\';/" +adi/Version.m
+# Update plugin_rd
+sed -i "s/hRD\.SupportedToolVersion = .*/hRD\.SupportedToolVersion = {\'${VIVADO}\'};/" hdl/vendor/AnalogDevices/+AnalogDevices/plugin_rd.m
+
+# Demos
+cd trx_examples
+# Update all occurances of hWC.ReferenceDesignToolVersion = '20XX.X'; to use new version
+FILES=$(grep -lrn . -e 'hWC.ReferenceDesignToolVersion =')
+for f in $FILES; do
+   echo "Updating: $f"
+   sed -i "s/hWC\.ReferenceDesignToolVersion = .*/hWC\.ReferenceDesignToolVersion = \'${VIVADO}\';/" "$f"
+done
+# Update all occurances of hRD.SupportedToolVersion = {'20XX.X'}; to use new version
+FILES=$(grep -lr . -e 'hRD.SupportedToolVersion =')
+for f in $FILES; do
+   echo "Updating: $f"
+   sed -i "s/hRD\.SupportedToolVersion = .*/hRD\.SupportedToolVersion = {\'${VIVADO}\'};/" "$f"
+done
+# Update all occurances of Vivado sourcing
+FILES=$(grep -lrn . -e 'source /opt/Xilinx/Vivado/20')
+for f in $FILES; do
+   echo "Updating: $f"
+   sed -i "s/source \/opt\/Xilinx\/Vivado\/20.*/source \/opt\/Xilinx\/Vivado\/${VIVADO}\/settings64.sh/" "$f"
+done
+cd ..
+
+# Tests
+cd test
+# Update line 35 of DemoTests.m to use new version
+sed -i "35s/.*/            testCase.setupVivado('${VIVADO}');/" DemoTests.m
+sed -i "47s/.*/            testCase.setupVivado('${VIVADO}');/" DemoTests.m
+sed -i "59s/.*/            testCase.setupVivado('${VIVADO}');/" DemoTests.m
+
+cd ..
+
+cd CI
 
 # Setup
 # source /opt/Xilinx/Vivado/$VIVADO/settings64.sh
