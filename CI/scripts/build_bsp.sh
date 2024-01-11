@@ -127,7 +127,7 @@ sed -i 's/.mk/.prj/' hdl/projects/common/zc706/zc706_plddr3_dacfifo_bd.tcl
 sed -i '10i   file copy -force $ad_hdl_dir/projects/common/zc706/zc706_plddr3_mig.mk $ad_hdl_dir/projects/common/zc706/zc706_plddr3_mig.prj' hdl/projects/common/zc706/zc706_plddr3_dacfifo_bd.tcl
 # Update ADRV9001 design to include util_sync as dependent IP
 sed -i '23i   # Custom Sync IP' hdl/projects/adrv9001/zcu102/Makefile
-sed -i '24i   LIB_DEPS += util_sync/sync_delay' hdl/projects/adrv9001/zcu102/Makefile
+sed -i '24i   LIB_DEPS += util_sync/util_delay' hdl/projects/adrv9001/zcu102/Makefile
 sed -i '25i   LIB_DEPS += util_sync/sync_fast_to_slow' hdl/projects/adrv9001/zcu102/Makefile
 sed -i '26i   LIB_DEPS += util_sync/sync_slow_to_fast' hdl/projects/adrv9001/zcu102/Makefile
 
