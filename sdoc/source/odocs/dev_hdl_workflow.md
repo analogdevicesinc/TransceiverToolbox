@@ -1,6 +1,8 @@
 # HDL Workflow
 
-!!! warning This content is meant for developers or advanced users and is not meant for general consumption.
+:::{warning}
+This content is meant for developers or advanced users and is not meant for general consumption.
+:::
 
 This page discusses the HDL targeting support from the perspective of the HDL source repo and HDL-Coder itself. It is not necessary for users to understand these details but for those managing the toolbox or developers extending support to new platforms this information is valuable.
 
@@ -25,7 +27,7 @@ HDL-Coder is limited to only interact with Vivado or Quartus. Therefore, it cann
 
 The orchestration of Vivado and calling of specific TCL scripts is managed through MathWork's [HWA](https://www.mathworks.com/help/hdlcoder/ug/overview-of-workflows-in-hdl-workflow-advisor.html). HWA generates HDL (Verilog is currently the only supported language) for specific Simulink blocks, calls a number of TCL scripts maintained by ADI to build a project and make room for IP, then inserts that IP and calls synthesis. This will be discussed from HWA and the generated scripts it creates. This is detailed from the scripting perspective first in the figure below:
 
-``` mermaid
+```{mermaid}
 graph LR
 A[1. Generate Verilog<br/>From Simulink IP]-->B[2. Optional: Pre-Build</br>Project Script];
 subgraph SS[vivado_create_prj.tcl]

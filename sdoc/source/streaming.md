@@ -23,7 +23,7 @@ With the code above, the hardware is not contacted until the operator or step me
 
 The state of the object follows the flow of the diagram below triggered by line line 3 above.
 
-``` mermaid
+```{mermaid}
 graph LR
   Z[Operator Called] -->A;
   A[Connect To Board] --> B[Update Properties];

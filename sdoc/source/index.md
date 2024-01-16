@@ -56,12 +56,12 @@ The following have device-specific implementations in MATLAB and Simulink. If a 
 .. toctree::
    :maxdepth: 2
 
-   odocs/install.md
-   odocs/streaming.md
-   odocs/targeting.md
-   odocs/examples.md
-   odocs/sysobjs.md
-   odocs/hdl_ref_d.md
+   install.md
+   streaming.md
+   targeting.md
+   examples.md
+   objects.md
+   allrefdesigns.md
 
 ```
 
