@@ -8,7 +8,7 @@ dockerHost = 'docker'
 
 ////////////////////////////
 
-hdlBranches = ['master','hdl_2021_r2']
+hdlBranches = ['main','hdl_2021_r2']
 
 stage("Build Toolbox") {
     dockerParallelBuild(hdlBranches, dockerHost, dockerConfig) { 
@@ -70,6 +70,7 @@ cstage("HDL Tests", "", flags) {
 */
             cstage("Installer", branchName, flags) {
                 unstash "builtSources"
+                sh 'rm -rf hdl'
                 sh 'make -C ./CI/scripts test_installer'
                 junit testResults: 'test/*.xml', allowEmptyResults: true
                 archiveArtifacts artifacts: 'test/logs/*', followSymlinks: false, allowEmptyArchive: true
@@ -150,12 +151,6 @@ node('baremetal || lab_b5') {
     cstage('Deploy Development', "", flags) {
         unstash "builtSources"
         uploadArtifactory('TransceiverToolbox','*.mltbx')
-    }
-    if (env.BRANCH_NAME == 'master') {
-        cstage('Deploy Production', "", flags) {
-            unstash "builtSources"
-            uploadFTP('TransceiverToolbox','*.mltbx')
-        }
     }
 }
 
