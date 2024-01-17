@@ -59,12 +59,15 @@ master_doc = "index"
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    "sphinx.ext.autodoc",
+    # "sphinx.ext.autodoc",
     "sphinx.ext.coverage",
     "sphinx.ext.githubpages",
     "myst_parser",
     "sphinx_favicon",
     "sphinxcontrib.mermaid",
+    # "sphinx_copybutton",
+    # "sphinx_togglebutton", # Using this?
+    "sphinx_design",
 ]
 
 myst_enable_extensions = [

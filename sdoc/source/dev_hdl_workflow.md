@@ -48,17 +48,18 @@ style D fill:#FF0,stroke:#333,stroke-width:4px,stroke-dasharray: 5 5
 
 At a high-level there are six main steps, two of which are optional. From the far left stage "Generate Verilog From Simulink IP" occurs in Stage 3 "HDL Code Generation" within HWA as outlined in red below. This will create Verilog within the defined project folder and then be copied into the full HDL project later on.
 
-<figure markdown>
-![](../HWA_verilog_gen.png){ width=80% }
-  <figcaption>Figure 2: HDL Workflow Advisor IP verilog generation.</figcaption>
-</figure>
+```{figure} /_static/assets/HWA_verilog_gen.png
+
+HDL Workflow Advisor IP verilog generation.
+```
 
 Within the largest central block of the flowchart labeled **vivado_create_prj.tcl** are all the core steps related the HWA Step 4.1, where the reference HDL project folder is built and necessary cores and nets removed to make room for IP from Simulink generated in HWA Step 3. This stage is highlighed in the figure below. The purple boxes are optional stages that are used in certain customized examples when additional work is required to prepare a reference design. The [Frequency Hopping example](https://github.com/analogdevicesinc/TransceiverToolbox/tree/master/trx_examples/targeting/frequency-hopping) leverages these stages. Once the project is prepared the IP is inserted and bitstream generated, which occurs through HWA Step 4.3.
 
-<figure markdown>
-![](../HWA_project_gen.png){ width=80% }
-  <figcaption>Figure 3: HDL Workflow Advisor project generation step.</figcaption>
-</figure>
+
+```{figure} /_static/assets/HWA_project_gen.png
+
+HDL Workflow Advisor project generation step.
+```
 
 
 ### Vivado Project Perspective
@@ -67,17 +68,20 @@ Based on the flow in Figure 1, there are a three main states the HDL reference d
 
 The first state is just the initial creation of the standard unmodified block design. Looking at Figure 4, the three IPs show the dataflow from the interface core (axi_ad9361), through the ADC FIFO, and finally into the pack core. In orange are the data buses and valid signal highlighted. These are important since the generated IP needs to be inserted where these nets are connected. Therefore, in the second state of the design these nets are removed to make room from the new IP.
 
-<figure markdown>
-![](../stock_reference_design.png){ width=80% }
-  <figcaption>Figure 4: RX path in unmodified standard reference design.</figcaption>
-</figure>
+
+```{figure} /_static/assets/stock_reference_design.png
+
+RX path in unmodified standard reference design.
+```
+
+
 
 Once the IP is inserted into the project by HDL-Coder it is connected to the FIFO and pack cores where the nets in Figure 4 were highlighted. The new inserted and connected IP can be see in Figure 5.
 
-<figure markdown>
-![](../reference_design_with_IP.png){ width=80% }
-  <figcaption>Figure 5: RX path with inserted IP from HDL-Coder.</figcaption>
-</figure>
+```{figure} /_static/assets/reference_design_with_IP.png
+
+RX path with inserted IP from HDL-Coder.
+```
 
 The connecting of the IPs and insertion are entirely managed by HDL-Coder and through the [add_io_ports](https://github.com/analogdevicesinc/TransceiverToolbox/blob/master/hdl/vendor/AnalogDevices/+AnalogDevices/add_io_ports.m) function and supporting [JSON port definition file](https://github.com/analogdevicesinc/TransceiverToolbox/blob/master/hdl/vendor/AnalogDevices/+AnalogDevices/ports.json).
 

@@ -5,7 +5,7 @@ Remote data streaming to and from hardware is made available through [system obj
 
 Command and control of hardware from MATLAB is accomplished by leveraging the [IIO drivers](https://wiki.analog.com/software/linux/docs/iio/iio) built into the target platform's kernel and [libiio](https://wiki.analog.com/resources/tools-software/linux-software/libiio) which provides remote backends to control drivers across different backends. Backends can be Ethernet, serial, or USB based. Below is a diagram of the different components in the stack for an FMComms based systems, but will be nearly identical for all transceiver based systems.
 
-![MATLAB libiio Stack](assets/MATLAB_libiio_Stack.png)
+![MATLAB libiio Stack](/_static/assets/MATLAB_libiio_Stack.png)
 
 Since libiio is cross-platform it can be used from Windows, Linux, or macOS based systems. It is also a lower level library independent of MATLAB, so when moving toward production or untethered systems similar APIs that are used in MATLAB can be used in C,C++,Python, or other languages.
 

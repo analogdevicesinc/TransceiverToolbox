@@ -1,7 +1,3 @@
----
-hide-toc: true
----
-
 <!-- Hide header and click button -->
 <style>
   .md-typeset h1,
@@ -50,11 +46,11 @@ The following have device-specific implementations in MATLAB and Simulink. If a 
 
 
 
-## TOC
+## Sections
 
 ```{eval-rst}
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    install.md
    streaming.md
@@ -68,6 +64,6 @@ The following have device-specific implementations in MATLAB and Simulink. If a 
 ```{toctree}
 :caption: Development
 
-odocs/dev_hdl_workflow.md
+dev_hdl_workflow.md
 ```
 
