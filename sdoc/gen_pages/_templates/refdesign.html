@@ -1,4 +1,3 @@
-{% include 'header.tmpl' %}
 {% block content %}
 
 # {{ obj.name }} Reference Design Integration
@@ -18,16 +17,16 @@ This page outlines the HDL reference design integration for the *{{ obj.name }}*
 
 ## Reference Design
 
-<figure markdown>
   {% if obj.rd_image == "ad9361" %}
-  ![Reference Design](../assets/rd_ad9361_custom.svg)
+```{figure} /_static/assets/rd_ad9361_custom.svg
   {% elif  obj.rd_image == "adrv9001" %}
-  ![Reference Design](../assets/rd_adrv9001_custom.svg)
+```{figure} /_static/assets/rd_adrv9001_custom.svg
   {% elif  obj.rd_image == "jesd" %}
-  ![Reference Design](../assets/rd_jesd_custom.svg)
+```{figure} /_static/assets/rd_jesd_custom.svg
   {% endif %}
-  <figcaption>HDL Reference Design with Custom IP from HDL-Coder. Click on sub-blocks for more documentation.</figcaption>
-</figure>
+HDL Reference Design with Custom IP from HDL-Coder. Click on sub-blocks for more documentation.
+```
+
 The IP-Core generation flow will integrate IP generated from Simulink subsystem into an ADI authored reference design. Depending on the FPGA carrier and FMC card or SoM, this will support different IP locations based on the diagram above.
 
 ## HDL Worflow Advisor Port Mappings

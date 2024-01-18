@@ -35,21 +35,24 @@ If a property is tunable, you can change its value at any time.
 For more information on changing property values, see <a href="https://www.mathworks.com/help/matlab/matlab_prog/system-design-in-matlab-using-system-objects.html">System Design in MATLAB Using System Objects.</a>
 </span>
 </div>
+<br>
 
-{%- for prop in obj.props %}
-<div class="property">
-  <button type="button" onclick="collapse('{{ prop.prop_name }}')" class="collapsible-property collapsible-property-{{ prop.prop_name }}">{{ prop.prop_name }} <span style="text-align:right" class="plus-{{ prop.prop_name }}">+</span></button>
-  <div class="content content-{{ prop.prop_name }}" style="display: none;">
-    <p style="padding: 0px;">{{ prop.prop_description }}</p>
-  </div>
-  </div>
-{%- endfor -%}
+
+{% for prop in obj.props %}
+:::{dropdown} {{ prop.prop_name }}
+{{ prop.prop_description }}
+:::
+{% endfor -%}
+
+
+
 
 {% endblock %}
 
+<br>
 <div class="sysobj_desc_title">Example Usage</div>
 
-```
+```matlab
 {% if obj.type == "Tx" %}
 %% Configure device
 tx = {{ obj.name }};

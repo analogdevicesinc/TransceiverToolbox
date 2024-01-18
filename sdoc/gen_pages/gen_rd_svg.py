@@ -78,7 +78,7 @@ def gen_rd_svg():
                 output += o
                 continue
             # Add link wrapper
-            output += f'<a xlink:href="{selectable_boxes[id]["link"]}">{gtag}</a>{post_gtag}'
+            output += f'<a href="{selectable_boxes[id]["link"]}">{gtag}</a>{post_gtag}'
             # output += o
             # print(sec)
             # Add css to change fill color
