@@ -27,7 +27,7 @@ if not os.path.exists(p):
 for filename in os.listdir(os.path.join("..", "..", "..", "logos")):
     if filename.endswith(".png"):
         shutil.copy(
-            os.path.join("..", "..", "logos", filename),
+            os.path.join("..", "..", "..", "logos", filename),
             os.path.join("_static", "logos", filename),
         )
         fn = os.path.join("_static", "logos", filename)

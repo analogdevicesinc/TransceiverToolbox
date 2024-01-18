@@ -11,7 +11,7 @@ def update_hdl_refdesigns():
     folder_of_this_file = os.path.dirname(__file__)
     source_folder = os.path.join(folder_of_this_file, "..", "source")
 
-    ci_scripts_folder = os.path.join(folder_of_this_file, "..", "..", "CI", "scripts")
+    ci_scripts_folder = os.path.join(folder_of_this_file, "..", "..", "scripts")
 
     _generated_folder = os.path.join(folder_of_this_file, "..", "source", "_generated")
     if not os.path.exists(_generated_folder):
