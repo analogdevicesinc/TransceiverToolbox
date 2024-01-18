@@ -19,7 +19,7 @@ jobs:
           pip install -r CI/doc/requirements_doc.txt
       - name: Check doc build
         run: |
-          make -C CI/doc gen_hdl_refdesigns html
+          make -C CI/doc gen_autodocs html
 
       - name: Publish master doc
         if: github.ref == 'refs/heads/master'

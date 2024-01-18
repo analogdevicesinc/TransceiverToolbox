@@ -17,7 +17,7 @@ jobs:
         run: |
             make -C ./CI/scripts build
             pip3 install -r CI/doc/requirements_doc.txt
-            make -C CI/doc gen_hdl_refdesigns html
+            make -C CI/doc gen_autodocs html
             make -C ./CI/scripts add_libad9361
 
       - name: Set up MATLAB
