@@ -24,7 +24,7 @@ p = os.path.join("_static", "logos")
 if not os.path.exists(p):
     os.mkdir("_static/logos")
 
-for filename in os.listdir(os.path.join("..", "..", "logos")):
+for filename in os.listdir(os.path.join("..", "..", "..", "logos")):
     if filename.endswith(".png"):
         shutil.copy(
             os.path.join("..", "..", "logos", filename),
