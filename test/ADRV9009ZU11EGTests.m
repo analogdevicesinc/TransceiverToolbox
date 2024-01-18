@@ -37,6 +37,20 @@ classdef ADRV9009ZU11EGTests < HardwareTests
             end
         end
         
+        function testADRV9009ZU11EGRxAllChannels(testCase)
+            % Test Rx DMA data output
+            for k=1:4
+                rx = adi.ADRV9009ZU11EG.Rx('uri',testCase.uri);
+                rx.EnabledChannels = [1,2,3,4];
+                [out, valid] = rx();
+                rx.release();
+                testCase.verifyTrue(valid);
+                for m=1:4
+                    testCase.verifyGreaterThan(sum(abs(double(out(:,m)))),0);
+                end
+            end
+        end
+
         function testADRV9009ZU11EGTx(testCase)
             % Test Rx DMA data output
             data = complex(randn(2^14,1));
@@ -48,7 +62,20 @@ classdef ADRV9009ZU11EGTests < HardwareTests
                 testCase.verifyTrue(valid);
             end
         end
-        
+
+        function testADRV9009ZU11EGTxAllChannels(testCase)
+            % Test Rx DMA data output
+            data = complex(randn(2^14,4),randn(2^14,4));
+            for k=1:4
+                tx = adi.ADRV9009ZU11EG.Tx('uri',testCase.uri);
+                tx.EnabledChannels = [1,2,3,4];
+                valid = tx(data);
+                tx.release();
+                testCase.verifyTrue(valid);
+            end
+        end
+
+
         function testADRV9009ZU11EGRxCustomProfile1(testCase)
             % Test Rx custom profiles
             rx = adi.ADRV9009ZU11EG.Rx('uri',testCase.uri);
