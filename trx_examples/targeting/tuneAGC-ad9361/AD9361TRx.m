@@ -182,7 +182,7 @@ classdef AD9361TRx
             warning('off', 'MATLAB:MKDIR:DirectoryExists');
             mkdir(obj.folder_name);
             obj.sig_filename = char('testWaveform_'+regexprep(string(datetime),'[:-\s]','_')+'.bb');
-            obj.testwaveform_fileloc = [pwd '\' obj.folder_name '\' obj.sig_filename];
+            obj.testwaveform_fileloc = [pwd filesep obj.folder_name filesep obj.sig_filename];
             obj.rxNonHT_2x = resample(obj.rxWaveform, M, N);
             bbw = comm.BasebandFileWriter(obj.testwaveform_fileloc,(M/N)*fs,fc);
             bbw.Metadata = struct('Date',date);
@@ -265,17 +265,17 @@ classdef AD9361TRx
                 elseif strcmpi(str, 'Attackmode')
                     if (AGC_MODE ~= 3)
                         if (AGC_MODE == 0)
-                            in = in.setBlockParameter(rx_top_level{ii}, 'Attackmode', 'Manual');
+                            in = in.setBlockParameter(rx_top_level{ii}, 'agc', 'Manual');
                         elseif (AGC_MODE == 1)
-                            in = in.setBlockParameter(rx_top_level{ii}, 'Attackmode', 'Fast');
+                            in = in.setBlockParameter(rx_top_level{ii}, 'agc', 'Fast');
                         elseif (AGC_MODE == 2)
-                            in = in.setBlockParameter(rx_top_level{ii}, 'Attackmode', 'Slow');
+                            in = in.setBlockParameter(rx_top_level{ii}, 'agc', 'Slow');
                         end
                     end
                 end
             end
             
-            rx_under_mask = find_system(obj.rx_block, 'LookUnderMasks', 'on', 'SearchDepth', 1);   
+            rx_under_mask = find_system(obj.rx_block, 'LookUnderMasks', 'on', 'SearchDepth', 1, 'FollowLinks', 'on');   
 
             for ii = 1:length(rx_under_mask)
                 logged_block_path = strsplit(rx_under_mask{ii}, '/');
