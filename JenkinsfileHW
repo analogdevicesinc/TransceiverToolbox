@@ -41,6 +41,8 @@ lock(label: 'adgt_test_harness_boards') {
     
     //Update agent with required deps
     harness.set_required_agent(["sdg-nuc-01","sdg-nuc-02"])
+    harness.set_env('update_container_lib', true)
+    harness.set_env('update_lib_requirements', true)
     harness.update_agents()
   
     //Set other test parameters
