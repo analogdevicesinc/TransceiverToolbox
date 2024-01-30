@@ -1,0 +1,219 @@
+
+# adi.FMComms8.Tx
+<!-- <div class="sysobj_h1">adi.FMComms8.Tx</div> -->
+
+<!-- <div class="sysobj_top_desc">
+Receive data from Analog Devices AD9361 transceiver
+</div> -->
+
+<!-- <div class="sysobj_desc_title">Description</div> -->
+
+<div class="sysobj_desc_txt">
+<span>
+    The adi.FMComms8.Tx System object is a signal sink that can<br>    transmit complex data from the FMComms8.<br> <br>    tx = adi.FMComms8.Tx;<br>    tx = adi.FMComms8.Tx('uri','ip:192.168.2.1');<br> <br>    <a href="https://www.analog.com/en/design-center/evaluation-hardware-and-software/evaluation-boards-kits/EVAL-AD-FMCOMMS8.html">Product Page</a><br> <br>
+</span>
+
+</div>
+
+<div class="sysobj_desc_title">Creation</div>
+
+The class can be instantiated in the following way with and without property name value pairs.
+
+```matlab
+dev = adi.FMComms8.Tx
+dev = adi.FMComms8.Tx(Name, Value)
+```
+
+<div class="sysobj_desc_title">Properties</div>
+
+<div class="sysobj_desc_txt">
+<span>
+Unless otherwise indicated, properties are non-tunable, which means you cannot change their values after calling the object. Objects lock when you call them, and the release function unlocks them.
+<br><br>
+If a property is tunable, you can change its value at any time.
+<br><br>
+For more information on changing property values, see <a href="https://www.mathworks.com/help/matlab/matlab_prog/system-design-in-matlab-using-system-objects.html">System Design in MATLAB Using System Objects.</a>
+</span>
+</div>
+<br>
+
+
+
+:::{dropdown} AttenuationChannel0ChipB
+Attentuation specified as a scalar from -41.95 to 0 dB with a resolution of 0.05 dB.Help for adi.FMComms8.Tx/AttenuationChannel0ChipB is inherited from superclass ADI.ADRV9009ZU11EG.TX
+:::
+
+:::{dropdown} AttenuationChannel1ChipB
+Attentuation specified as a scalar from -41.95 to 0 dB with a resolution of 0.05 dB.Help for adi.FMComms8.Tx/AttenuationChannel1ChipB is inherited from superclass ADI.ADRV9009ZU11EG.TX
+:::
+
+:::{dropdown} EnableQuadratureTrackingChannel0ChipB
+Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the transmitted signal.Help for adi.FMComms8.Tx/EnableQuadratureTrackingChannel0ChipB is inherited from superclass ADI.ADRV9009ZU11EG.TX
+:::
+
+:::{dropdown} EnableQuadratureTrackingChannel1ChipB
+Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the transmitted signal.Help for adi.FMComms8.Tx/EnableQuadratureTrackingChannel1ChipB is inherited from superclass ADI.ADRV9009ZU11EG.TX
+:::
+
+:::{dropdown} EnableLOLeakageTrackingChannel0ChipB
+Option to enable quadrature tracking, specified as true or false. When this property is true, LO leakage compensation is applied to the transmitted signal.Help for adi.FMComms8.Tx/EnableLOLeakageTrackingChannel0ChipB is inherited from superclass ADI.ADRV9009ZU11EG.TX
+:::
+
+:::{dropdown} EnableLOLeakageTrackingChannel1ChipB
+Option to enable quadrature tracking, specified as true or false. When this property is true, LO leakage compensation is applied to the transmitted signal.Help for adi.FMComms8.Tx/EnableLOLeakageTrackingChannel1ChipB is inherited from superclass ADI.ADRV9009ZU11EG.TX
+:::
+
+:::{dropdown} EnableQuadratureCalibrationChipB
+Option to enable quadrature calibration on initialization, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.Help for adi.FMComms8.Tx/EnableQuadratureCalibrationChipB is inherited from superclass ADI.ADRV9009ZU11EG.TX
+:::
+
+:::{dropdown} EnableLOLeakageCorrectionChipB
+Option to enable phase tracking, specified as true or false. When this property is true, at initialization LO leakage correction will be appliedHelp for adi.FMComms8.Tx/EnableLOLeakageCorrectionChipB is inherited from superclass ADI.ADRV9009ZU11EG.TX
+:::
+
+:::{dropdown} EnableLOLeakageCorrectionExternalChipB
+Option to enable phase tracking, specified as true or false. When this property is true, at initialization LO leakage correction will be applied within an external loopback path. Note this requires external cabling.Help for adi.FMComms8.Tx/EnableLOLeakageCorrectionExternalChipB is inherited from superclass ADI.ADRV9009ZU11EG.TX
+:::
+
+:::{dropdown} PowerdownChannel0ChipB
+Logical which will power down TX channel 0 when setHelp for adi.FMComms8.Tx/PowerdownChannel0ChipB is inherited from superclass ADI.ADRV9009ZU11EG.TX
+:::
+
+:::{dropdown} PowerdownChannel1ChipB
+Logical which will power down TX channel 1 when setHelp for adi.FMComms8.Tx/PowerdownChannel1ChipB is inherited from superclass ADI.ADRV9009ZU11EG.TX
+:::
+
+:::{dropdown} CenterFrequencyChipB
+RF center frequency, specified in Hz as a scalar. The default is 2.4e9. This property is tunable.
+:::
+
+:::{dropdown} EnableFrequencyHoppingModeCalibrationChipB
+Option to enable frequency hopping mode VCO calibration, specified as true or false. When this property is true, at initialization VCO calibration lookup table is populated
+:::
+
+:::{dropdown} SamplesPerFrame
+Number of samples per frame, specified as an even positive integer from 2 to 16,777,216. Using values less than 3660 can yield poor performance.
+:::
+
+:::{dropdown} EnableCustomProfile
+Enable use of custom Profile file to set SamplingRate, RFBandwidth, and FIR in datapaths
+:::
+
+:::{dropdown} EnableFrequencyHoppingModeCalibration
+Option to enable frequency hopping mode VCO calibration, specified as true or false. When this property is true, at initialization VCO calibration lookup table is populated
+:::
+
+:::{dropdown} CustomProfileFileName
+Path to custom Profile file created from profile wizard
+:::
+
+:::{dropdown} CenterFrequency
+RF center frequency, specified in Hz as a scalar. The default is 2.4e9. This property is tunable.
+:::
+
+:::{dropdown} EnabledChannels
+Indexs of channels to be enabled. Input should be a [1xN] vector with the indexes of channels to be enabled. Order is irrelevant
+:::
+
+:::{dropdown} uri
+Hostname or IP address of remote libIIO deviceHelp for adi.FMComms8.Tx/uri is inherited from superclass MATLABSHARED.LIBIIO.BASE
+:::
+
+:::{dropdown} enIO
+If true, connects to libIIO device during simulationHelp for adi.FMComms8.Tx/enIO is inherited from superclass MATLABSHARED.LIBIIO.BASE
+:::
+
+:::{dropdown} devName
+Name of the libIIO deviceHelp for adi.FMComms8.Tx/devName is inherited from superclass MATLABSHARED.LIBIIO.BASE
+:::
+
+:::{dropdown} AttenuationChannel0
+Attentuation specified as a scalar from -41.95 to 0 dB with a resolution of 0.05 dB.Help for adi.FMComms8.Tx/AttenuationChannel0 is inherited from superclass ADI.ADRV9009.TX
+:::
+
+:::{dropdown} AttenuationChannel1
+Attentuation specified as a scalar from -41.95 to 0 dB with a resolution of 0.05 dB.Help for adi.FMComms8.Tx/AttenuationChannel1 is inherited from superclass ADI.ADRV9009.TX
+:::
+
+:::{dropdown} EnableQuadratureTrackingChannel0
+Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the transmitted signal.Help for adi.FMComms8.Tx/EnableQuadratureTrackingChannel0 is inherited from superclass ADI.ADRV9009.TX
+:::
+
+:::{dropdown} EnableQuadratureTrackingChannel1
+Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the transmitted signal.Help for adi.FMComms8.Tx/EnableQuadratureTrackingChannel1 is inherited from superclass ADI.ADRV9009.TX
+:::
+
+:::{dropdown} EnableLOLeakageTrackingChannel0
+Option to enable quadrature tracking, specified as true or false. When this property is true, LO leakage compensation is applied to the transmitted signal.Help for adi.FMComms8.Tx/EnableLOLeakageTrackingChannel0 is inherited from superclass ADI.ADRV9009.TX
+:::
+
+:::{dropdown} EnableLOLeakageTrackingChannel1
+Option to enable quadrature tracking, specified as true or false. When this property is true, LO leakage compensation is applied to the transmitted signal.Help for adi.FMComms8.Tx/EnableLOLeakageTrackingChannel1 is inherited from superclass ADI.ADRV9009.TX
+:::
+
+:::{dropdown} EnableQuadratureCalibration
+Option to enable quadrature calibration on initialization, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.Help for adi.FMComms8.Tx/EnableQuadratureCalibration is inherited from superclass ADI.ADRV9009.TX
+:::
+
+:::{dropdown} EnableLOLeakageCorrection
+Option to enable phase tracking, specified as true or false. When this property is true, at initialization LO leakage correction will be appliedHelp for adi.FMComms8.Tx/EnableLOLeakageCorrection is inherited from superclass ADI.ADRV9009.TX
+:::
+
+:::{dropdown} EnableLOLeakageCorrectionExternal
+Option to enable phase tracking, specified as true or false. When this property is true, at initialization LO leakage correction will be applied within an external loopback path. Note this requires external cabling.Help for adi.FMComms8.Tx/EnableLOLeakageCorrectionExternal is inherited from superclass ADI.ADRV9009.TX
+:::
+
+:::{dropdown} PowerdownChannel0
+Logical which will power down TX channel 0 when setHelp for adi.FMComms8.Tx/PowerdownChannel0 is inherited from superclass ADI.ADRV9009.TX
+:::
+
+:::{dropdown} PowerdownChannel1
+Logical which will power down TX channel 1 when setHelp for adi.FMComms8.Tx/PowerdownChannel1 is inherited from superclass ADI.ADRV9009.TX
+:::
+
+:::{dropdown} DataSource
+Data source, specified as one of the following: 'DMA' — Specify the host as the source of the data. 'DDS' — Specify the DDS on the radio hardware as the source of the data. In this case, each channel has two additive tones.Help for adi.FMComms8.Tx/DataSource is inherited from superclass ADI.COMMON.DDS
+:::
+
+:::{dropdown} DDSFrequencies
+Frequencies values in Hz of the DDS tone generators. For complex data devices the input is a [2xN] matrix where N is the available channels on the board. For complex data devices this is at most max(EnabledChannels)*2. For non-complex data devices this is at most max(EnabledChannels). If N < this upper limit, other DDSs are not set.Help for adi.FMComms8.Tx/DDSFrequencies is inherited from superclass ADI.COMMON.DDS
+:::
+
+:::{dropdown} DDSScales
+Scale of DDS tones in range [0,1]. For complex data devices the input is a [2xN] matrix where N is the available channels on the board. For complex data devices this is at most max(EnabledChannels)*2. For non-complex data devices this is at most max(EnabledChannels). If N < this upper limit, other DDSs are not set.Help for adi.FMComms8.Tx/DDSScales is inherited from superclass ADI.COMMON.DDS
+:::
+
+:::{dropdown} DDSPhases
+Phases of DDS tones in range [0,360000]. For complex data devices the input is a [2xN] matrix where N is the available channels on the board. For complex data devices this is at most max(EnabledChannels)*2. For non-complex data devices this is at most max(EnabledChannels). If N < this upper limit, other DDSs are not set.Help for adi.FMComms8.Tx/DDSPhases is inherited from superclass ADI.COMMON.DDS
+:::
+
+:::{dropdown} EnableCyclicBuffers
+Enable Cyclic Buffers, configures transmit buffers to be cyclic, which makes them continuously repeatHelp for adi.FMComms8.Tx/EnableCyclicBuffers is inherited from superclass ADI.COMMON.DDS
+:::
+
+
+<br>
+<div class="sysobj_desc_title">Example Usage</div>
+
+```matlab
+
+%% Configure device
+tx = adi.FMComms8.Tx;
+tx.uri = 'ip:analog.local';
+
+tx.CenterFrequency = 1e9;
+
+tx.DataSource = 'DMA';
+tx.EnableCyclicBuffers = true;
+tx.EnabledChannels = 1;
+%% Generate tone
+amplitude = 2^15; frequency = 0.12e6;
+swv1 = dsp.SineWave(amplitude, frequency);
+swv1.ComplexOutput = true;
+swv1.SamplesPerFrame = 2^14;
+swv1.SampleRate = tx.SamplingRate;
+y = swv1();
+% Send
+tx(y);
+
+```

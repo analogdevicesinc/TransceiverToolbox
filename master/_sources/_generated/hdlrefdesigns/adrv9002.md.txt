@@ -1,0 +1,53 @@
+
+
+# adrv9002 Reference Design Integration
+
+This page outlines the HDL reference design integration for the *adrv9002* reference design for the Analog Devices
+ADRV9002 component. The IP-Core Generation follow is available on the based on the following base HDL reference design for the following board and design variants: 
+
+- [Base reference design documentation]()
+- Supported FPGA carriers:
+    - ZCU102
+- Supported design variants:
+    - RX
+    - TX
+    - RX & TX
+    - TX & RX
+
+## Reference Design
+
+  
+```{figure} /_static/assets/rd_adrv9001_custom.svg
+  
+HDL Reference Design with Custom IP from HDL-Coder. Click on sub-blocks for more documentation.
+```
+
+The IP-Core generation flow will integrate IP generated from Simulink subsystem into an ADI authored reference design. Depending on the FPGA carrier and FMC card or SoM, this will support different IP locations based on the diagram above.
+
+## HDL Worflow Advisor Port Mappings
+
+When using the HDL Worflow Advisor, the following port mappings are used to connect the reference design to the HDL-Coder generated IP-Core:
+
+| Type | Target Platform Interface (MATLAB) | Reference Design Connection (Vivado) | Width | Reference Design Variant |
+| ---- | ------------------------ | --------------------------- | ----- | ----------- |
+| VALID-OUT |  | sync_output/data_valid_in_rx_0 | 1 | RX |
+| VALID-OUT |  | sync_input/data_valid_out_rx_0 | 1 | RX |
+| DATA-OUT |  | sync_output/data_in_rx_0 | 16 | RX |
+| DATA-OUT |  | sync_output/data_in_rx_1 | 16 | RX |
+| DATA-OUT |  | sync_output/data_in_rx_2 | 16 | RX |
+| DATA-OUT |  | sync_output/data_in_rx_3 | 16 | RX |
+| DATA-OUT |  | sync_input/data_out_rx_0 | 16 | RX |
+| DATA-OUT |  | sync_input/data_out_rx_1 | 16 | RX |
+| DATA-OUT |  | sync_input/data_out_rx_2 | 16 | RX |
+| DATA-OUT |  | sync_input/data_out_rx_3 | 16 | RX |
+| VALID-OUT |  | sync_input/data_valid_out_tx_0 | 1 | TX |
+| VALID-OUT |  | sync_output/data_valid_in_tx_0 | 1 | TX |
+| DATA-OUT |  | sync_output/data_in_tx_0 | 16 | TX |
+| DATA-OUT |  | sync_output/data_in_tx_1 | 16 | TX |
+| DATA-OUT |  | sync_output/data_in_tx_2 | 16 | TX |
+| DATA-OUT |  | sync_output/data_in_tx_3 | 16 | TX |
+| DATA-OUT |  | sync_input/data_out_tx_0 | 16 | TX |
+| DATA-OUT |  | sync_input/data_out_tx_1 | 16 | TX |
+| DATA-OUT |  | sync_input/data_out_tx_2 | 16 | TX |
+| DATA-OUT |  | sync_input/data_out_tx_3 | 16 | TX |
+

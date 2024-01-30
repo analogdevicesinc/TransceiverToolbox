@@ -1,0 +1,230 @@
+
+# adi.ADRV9002.Rx
+<!-- <div class="sysobj_h1">adi.ADRV9002.Rx</div> -->
+
+<!-- <div class="sysobj_top_desc">
+Receive data from Analog Devices AD9361 transceiver
+</div> -->
+
+<!-- <div class="sysobj_desc_title">Description</div> -->
+
+<div class="sysobj_desc_txt">
+<span>
+    The adi.ADRV9002.Rx System object is a signal source that can receive<br>    complex data from the ADRV9002.<br> <br>    rx = adi.ADRV9002.Rx;<br>    rx = adi.ADRV9002.Rx('uri','ip:192.168.2.1');<br> <br>    <a href="http://www.analog.com/media/en/technical-documentation/data-sheets/ADRV9002.pdf">ADRV9002 Datasheet</a><br>
+</span>
+
+</div>
+
+<div class="sysobj_desc_title">Creation</div>
+
+The class can be instantiated in the following way with and without property name value pairs.
+
+```matlab
+dev = adi.ADRV9002.Rx
+dev = adi.ADRV9002.Rx(Name, Value)
+```
+
+<div class="sysobj_desc_title">Properties</div>
+
+<div class="sysobj_desc_txt">
+<span>
+Unless otherwise indicated, properties are non-tunable, which means you cannot change their values after calling the object. Objects lock when you call them, and the release function unlocks them.
+<br><br>
+If a property is tunable, you can change its value at any time.
+<br><br>
+For more information on changing property values, see <a href="https://www.mathworks.com/help/matlab/matlab_prog/system-design-in-matlab-using-system-objects.html">System Design in MATLAB Using System Objects.</a>
+</span>
+</div>
+<br>
+
+
+
+:::{dropdown} ENSMModeChannel0
+specified as one of the following: 'calibrated' 'primed' 'rf_enabled'
+:::
+
+:::{dropdown} ENSMModeChannel1
+specified as one of the following: 'calibrated' 'primed' 'rf_enabled'
+:::
+
+:::{dropdown} InterfaceGainChannel0
+This is the final gain in the digital path with possible values: -36:6:18 This gain should be selected based on primary signal bandwidth. For narrowband applications higher levels of interface gain should be used (0:18) to allow signal level and analog noise to dominate. For wideband applications this gain should be reduced or disabled since quantization noise is minimal.
+:::
+
+:::{dropdown} InterfaceGainChannel1
+This is the final gain in the digital path with possible values: -36:6:18 This gain should be selected based on primary signal bandwidth. For narrowband applications higher levels of interface gain should be used (0:18) to allow signal level and analog noise to dominate. For wideband applications this gain should be reduced or disabled since quantization noise is minimal.
+:::
+
+:::{dropdown} DigitalGainControlModeChannel0
+The digital gain control has two major purposes, one for gain correction which is to correct the small step size inaccuracy in analog front-end attenuation and the other for gain compensation which is to compensate for the entire analog front-end attenuation. The digital gain block is controlled by the Rx gain table. Different digital gain will be applied when configured in gain correction or gain compensation mode. The Rx gain table has a unique front-end attenuator setting, with a corresponding amount of digital gain, programmed at each index of the table. In the end of the Rx data path, the interface gain could be further applied by using a “Slicer” block for 2 major purposes. One is to avoid digital saturation in gain compensation mode. The other one is to ensure the overall SNR is limited only by analog noise and unaffected by quantization noise. Gain correction should be used when external components (LNA or DSA) does not need to be controlled. Compensation should be used for external LNA or DSA control. Gain control is specified as one of the following: 'AutomaticGainCorrection' - Automatically adjust interface gain 'ManualGainCorrection' - Manually adjust interface gain 'AutomaticGainCompensation' - Automatically adjust interface gain and external gain element 'ManualGainCompensation' - Manually adjust interface gain and external gain element
+:::
+
+:::{dropdown} DigitalGainControlModeChannel1
+The digital gain control has two major purposes, one for gain correction which is to correct the small step size inaccuracy in analog front-end attenuation and the other for gain compensation which is to compensate for the entire analog front-end attenuation. The digital gain block is controlled by the Rx gain table. Different digital gain will be applied when configured in gain correction or gain compensation mode. The Rx gain table has a unique front-end attenuator setting, with a corresponding amount of digital gain, programmed at each index of the table. In the end of the Rx data path, the interface gain could be further applied by using a “Slicer” block for 2 major purposes. One is to avoid digital saturation in gain compensation mode. The other one is to ensure the overall SNR is limited only by analog noise and unaffected by quantization noise. Gain correction should be used when external components (LNA or DSA) does not need to be controlled. Compensation should be used for external LNA or DSA control. Gain control is specified as one of the following: 'AutomaticGainCorrection' - Automatically adjust interface gain 'ManualGainCorrection' - Manually adjust interface gain 'AutomaticGainCompensation' - Automatically adjust interface gain and external gain element 'ManualGainCompensation' - Manually adjust interface gain and external gain element
+:::
+
+:::{dropdown} AttenuationChannel0
+Must be greater than 0
+:::
+
+:::{dropdown} AttenuationChannel1
+Must be greater than 0
+:::
+
+:::{dropdown} ENSMPortModeChannel0
+specified as one of the following: 'spi' 'pin'
+:::
+
+:::{dropdown} ENSMPortModeChannel1
+specified as one of the following: 'spi' 'pin'
+:::
+
+:::{dropdown} GainControllerSourceChannel0
+specified as one of the following: 'spi' 'pin' 'automatic'
+:::
+
+:::{dropdown} GainControllerSourceChannel1
+specified as one of the following: 'spi' 'pin' 'automatic'
+:::
+
+:::{dropdown} PowerdownChannel0
+
+:::
+
+:::{dropdown} PowerdownChannel1
+
+:::
+
+:::{dropdown} AGCTrackingChannel0
+AGC on the fly tracking calibration for Channel 0
+:::
+
+:::{dropdown} AGCTrackingChannel1
+AGC on the fly tracking calibration for Channel 1
+:::
+
+:::{dropdown} BBDCRejectionTrackingChannel0
+Baseband DC rejection on the fly tracking calibration for Channel 0
+:::
+
+:::{dropdown} BBDCRejectionTrackingChannel1
+Baseband DC rejection on the fly tracking calibration for Channel 1
+:::
+
+:::{dropdown} HDTrackingChannel0
+Harmonic Distortion on the fly tracking calibration for Channel 0
+:::
+
+:::{dropdown} HDTrackingChannel1
+Harmonic Distortion on the fly tracking calibration for Channel 1
+:::
+
+:::{dropdown} QuadratureFICTrackingChannel0
+Quadrature Error Correction Narrowband FIC on the fly tracking calibration for channel 0
+:::
+
+:::{dropdown} QuadratureFICTrackingChannel1
+Quadrature Error Correction Narrowband FIC on the fly tracking calibration for channel 1
+:::
+
+:::{dropdown} QuadratureWidebandPolyTrackingChannel0
+Quadrature Error Correction Wideband Poly on the fly tracking calibration for channel 0
+:::
+
+:::{dropdown} QuadratureWidebandPolyTrackingChannel1
+Quadrature Error Correction Wideband Poly on the fly tracking calibration for channel 1
+:::
+
+:::{dropdown} RFDCTrackingChannel0
+RF DC on the fly tracking calibration for channel 0
+:::
+
+:::{dropdown} RFDCTrackingChannel1
+RF DC on the fly tracking calibration for channel 1
+:::
+
+:::{dropdown} RSSITrackingChannel0
+RSSI on the fly tracking calibration for channel 0
+:::
+
+:::{dropdown} RSSITrackingChannel1
+RSSI on the fly tracking calibration for channel 1
+:::
+
+:::{dropdown} RSSIChannel0
+Received signal strength indicator. This valid is only valid once the object has been stepped and MATLAB connects to hardware
+:::
+
+:::{dropdown} RSSIChannel1
+Received signal strength indicator. This valid is only valid once the object has been stepped and MATLAB connects to hardware
+:::
+
+:::{dropdown} SamplesPerFrame
+Number of samples per frame, specified as an even positive integer from 2 to 16,777,216. Using values less than 3660 can yield poor performance.
+:::
+
+:::{dropdown} EnableCustomProfile
+Enable use of custom Profile file to set SamplingRate, RFBandwidth, and other features of transceiver
+:::
+
+:::{dropdown} CustomProfileFileName
+Path to custom Profile file created from profile wizard
+:::
+
+:::{dropdown} CustomStreamFileName
+Path to custom stream file created from profile wizard
+:::
+
+:::{dropdown} SamplingRate
+Baseband sampling rate in Hz, specified as a scalar in samples per second. This is a read-only property
+:::
+
+:::{dropdown} CenterFrequencyChannel0
+RF center frequency, specified in Hz as a scalar. The default is 2.4e9. This property is tunable.
+:::
+
+:::{dropdown} CenterFrequencyChannel1
+RF center frequency, specified in Hz as a scalar. The default is 2.4e9. This property is tunable.
+:::
+
+:::{dropdown} NCOCorrectionFrequencyChannel0
+NCO correction frequency, specified in Hz as a scalar. The default is 0. This property is tunable.
+:::
+
+:::{dropdown} NCOCorrectionFrequencyChannel1
+NCO correction frequency, specified in Hz as a scalar. The default is 0. This property is tunable.
+:::
+
+:::{dropdown} EnabledChannels
+Indexs of channels to be enabled. Input should be a [1xN] vector with the indexes of channels to be enabled. Order is irrelevant
+:::
+
+:::{dropdown} uri
+Hostname or IP address of remote libIIO deviceHelp for adi.ADRV9002.Rx/uri is inherited from superclass MATLABSHARED.LIBIIO.BASE
+:::
+
+:::{dropdown} enIO
+If true, connects to libIIO device during simulationHelp for adi.ADRV9002.Rx/enIO is inherited from superclass MATLABSHARED.LIBIIO.BASE
+:::
+
+
+<br>
+<div class="sysobj_desc_title">Example Usage</div>
+
+```matlab
+
+%% Rx set up
+rx = adi.ADRV9002.Rx('uri','ip:analog.local');
+ 
+rx.CenterFrequencyChannel0 = 1e9;
+
+rx.EnabledChannels = 1;
+%% Run
+for k=1:10
+    valid = false;
+    while ~valid
+        [out, valid] = rx();
+    end
+end
+
+```

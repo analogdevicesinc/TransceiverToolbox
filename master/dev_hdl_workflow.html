@@ -1,0 +1,422 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="prev" title="fmcomms8 Reference Design Integration" href="_generated/hdlrefdesigns/fmcomms8.html" />
+
+    <!-- Generated with Sphinx 5.3.0 and Furo 2023.03.27 -->
+        <title>HDL Workflow - Analog Devices, Inc. Transceiver Toolbox v22.2.1</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    <link rel="stylesheet" type="text/css" href="_static/css/style.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  --color-sidebar-item-background--current: black;
+  --color-sidebar-link-text: black;
+  --color-sidebar-link-text--top-level: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-sidebar-item-background--current: white;
+  --color-sidebar-link-text: white;
+  --color-sidebar-link-text--top-level: white;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-sidebar-item-background--current: white;
+  --color-sidebar-link-text: white;
+  --color-sidebar-link-text--top-level: white;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">Analog Devices, Inc. Transceiver Toolbox v22.2.1</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="_static/logos/logo_black_cropped.png" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="_static/logos/logo_white_cropped.png" alt="Dark Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">Analog Devices, Inc. Transceiver Toolbox v22.2.1</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="streaming.html">Receiving and Sending Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="targeting.html">HDL Targeting with HDL-Coder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="objects.html">Hardware Interface APIs</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.AD9361.Tx.html">adi.AD9361.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.AD9361.Rx.html">adi.AD9361.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.AD9363.Tx.html">adi.AD9363.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.AD9363.Rx.html">adi.AD9363.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.AD9364.Tx.html">adi.AD9364.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.AD9364.Rx.html">adi.AD9364.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.AD9371.Tx.html">adi.AD9371.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.AD9371.Rx.html">adi.AD9371.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.ADRV9009.Tx.html">adi.ADRV9009.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.ADRV9009.Rx.html">adi.ADRV9009.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.ADRV9361Z7035.Tx.html">adi.ADRV9361Z7035.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.ADRV9361Z7035.Rx.html">adi.ADRV9361Z7035.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.ADRV9364Z7020.Tx.html">adi.ADRV9364Z7020.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.ADRV9364Z7020.Rx.html">adi.ADRV9364Z7020.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.ADRV9371.Tx.html">adi.ADRV9371.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.ADRV9371.Rx.html">adi.ADRV9371.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.FMComms2.Tx.html">adi.FMComms2.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.FMComms2.Rx.html">adi.FMComms2.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.FMComms3.Tx.html">adi.FMComms3.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.FMComms3.Rx.html">adi.FMComms3.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.FMComms4.Tx.html">adi.FMComms4.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.FMComms4.Rx.html">adi.FMComms4.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.PackRF.Tx.html">adi.PackRF.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.PackRF.Rx.html">adi.PackRF.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.Pluto.Tx.html">adi.Pluto.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.Pluto.Rx.html">adi.Pluto.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.ADRV9002.Tx.html">adi.ADRV9002.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.ADRV9002.Rx.html">adi.ADRV9002.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.FMComms8.Tx.html">adi.FMComms8.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.FMComms8.Rx.html">adi.FMComms8.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.ADRV9009ZU11EG.Tx.html">adi.ADRV9009ZU11EG.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.ADRV9009ZU11EG.Rx.html">adi.ADRV9009ZU11EG.Rx</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="allrefdesigns.html">HDL Reference Designs</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="_generated/hdlrefdesigns/adrv9361z7035.html">adrv9361z7035 Reference Design Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/hdlrefdesigns/adrv9364z7020.html">adrv9364z7020 Reference Design Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/hdlrefdesigns/pluto.html">pluto Reference Design Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/hdlrefdesigns/fmcomms2.html">fmcomms2 Reference Design Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/hdlrefdesigns/fmcomms5.html">fmcomms5 Reference Design Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/hdlrefdesigns/adrv9371.html">adrv9371 Reference Design Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/hdlrefdesigns/adrv9002.html">adrv9002 Reference Design Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/hdlrefdesigns/adrv9009.html">adrv9009 Reference Design Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/hdlrefdesigns/fmcomms8.html">fmcomms8 Reference Design Integration</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul class="current">
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">HDL Workflow</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="hdl-workflow">
+<h1>HDL Workflow<a class="headerlink" href="#hdl-workflow" title="Permalink to this heading">#</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This content is meant for developers or advanced users and is not meant for general consumption.</p>
+</div>
+<p>This page discusses the HDL targeting support from the perspective of the HDL source repo and HDL-Coder itself. It is not necessary for users to understand these details but for those managing the toolbox or developers extending support to new platforms this information is valuable.</p>
+<p>This page assumes a basic understanding of MathWork’s <a class="reference external" href="https://www.mathworks.com/help/hdlcoder/ug/overview-of-workflows-in-hdl-workflow-advisor.html">HDL Workflow Advisor (HWA)</a> and its different steps for creating IP, creating a HDL project, and generating a bitstream.</p>
+<section id="hdl-repo-preparation">
+<h2>HDL Repo Preparation<a class="headerlink" href="#hdl-repo-preparation" title="Permalink to this heading">#</a></h2>
+<p>When the toolbox is built it will clone a specific branch of the <a class="reference internal" href="#github.com/analogdevicesinc/hdl"><span class="xref myst">ADI HDL repo</span></a> and apply certain changes to support the <a class="reference external" href="https://www.mathworks.com/discovery/ip-core-generation.html">IP-Core Generation HDL-Coder</a> workflow. However, with the current flow there are minimal changes required which makes moving between release simpler. This is currently done by simply replacing certain TCL scripts within the HDL repo.</p>
+<p>Creation of the toolbox, cloning of the HDL source, and applying the necessary update is driven through a Makefile in the <strong>CI/scripts</strong> folder. The toolbox is built in source form with the <strong>build</strong> as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>-C<span class="w"> </span>CI/scripts<span class="w"> </span>build
+</pre></div>
+</div>
+<p>After the above command completes the HDL source will be in place with necessary changes.</p>
+<p>The changes primarily required of the HDL source are interceptions of the build functions (procs) to skip synthesis when building a project. This is done by inserting environmental variable checks into the <a class="reference external" href="https://github.com/analogdevicesinc/TransceiverToolbox/blob/master/CI/scripts/adi_project_xilinx.tcl#L138">adi_project_xilinx.tcl</a> script. At build time these environmental variables are set and will prevent synthesis. This way an HDL project can be built, then handed off to HDL-Coder for IP insertion and eventual synthesis.</p>
+<p>HDL-Coder is limited to only interact with Vivado or Quartus. Therefore, it cannot leverage the makefiles as traditionally used to build HDL projects in the HDL repo. HDL-Coder and the authored scripts in the toolbox use the <a class="reference external" href="https://wiki.analog.com/resources/fpga/docs/build#xilinx_auto_tcl_build">TCL flow</a> normally recommended for just Windows users. This is used on all platforms (Windows and Linux) to support HDL code-generation and integration with ADI toolboxes.</p>
+</section>
+<section id="hdl-coder-ip-core-generation-flow">
+<h2>HDL-Coder IP Core Generation Flow<a class="headerlink" href="#hdl-coder-ip-core-generation-flow" title="Permalink to this heading">#</a></h2>
+<p>The orchestration of Vivado and calling of specific TCL scripts is managed through MathWork’s <a class="reference external" href="https://www.mathworks.com/help/hdlcoder/ug/overview-of-workflows-in-hdl-workflow-advisor.html">HWA</a>. HWA generates HDL (Verilog is currently the only supported language) for specific Simulink blocks, calls a number of TCL scripts maintained by ADI to build a project and make room for IP, then inserts that IP and calls synthesis. This will be discussed from HWA and the generated scripts it creates. This is detailed from the scripting perspective first in the figure below:</p>
+<div class="mermaid">
+            graph LR
+A[1. Generate Verilog&lt;br/&gt;From Simulink IP]--&gt;B[2. Optional: Pre-Build&lt;/br&gt;Project Script];
+subgraph SS[vivado_create_prj.tcl]
+subgraph vivado_custom_block_design.tcl
+B --&gt; C[3. Build Standard&lt;/br&gt;Project&lt;/br&gt;&lt;i&gt;system_project.tcl&lt;/i&gt;];
+C --&gt; D[4. Prune Preprocessor&lt;/br&gt;Script&lt;/br&gt;&lt;i&gt;matlab_processors.tcl&lt;/i&gt;];
+D --&gt; E[5. Optional: Post-Build&lt;/br&gt;Project Script&lt;/br&gt;];
+end
+end
+E --&gt; F[6. Insert and Connect&lt;/br&gt;Generate IP&lt;/br&gt;&lt;i&gt;vivado_insert_ip.tcl&lt;/i&gt;];
+
+style B fill:#f9f,stroke:#333,stroke-width:4px
+style E fill:#f9f,stroke:#333,stroke-width:4px
+style C fill:#FF0,stroke:#333,stroke-width:4px,stroke-dasharray: 5 5
+style D fill:#FF0,stroke:#333,stroke-width:4px,stroke-dasharray: 5 5
+        </div><center>Figure 1: Details IP-Core Generation flow with Toolbox</center>
+<p>At a high-level there are six main steps, two of which are optional. From the far left stage “Generate Verilog From Simulink IP” occurs in Stage 3 “HDL Code Generation” within HWA as outlined in red below. This will create Verilog within the defined project folder and then be copied into the full HDL project later on.</p>
+<figure class="align-default" id="id1">
+<img alt="_images/HWA_verilog_gen.png" src="_images/HWA_verilog_gen.png" />
+<figcaption>
+<p><span class="caption-text">HDL Workflow Advisor IP verilog generation.</span><a class="headerlink" href="#id1" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Within the largest central block of the flowchart labeled <strong>vivado_create_prj.tcl</strong> are all the core steps related the HWA Step 4.1, where the reference HDL project folder is built and necessary cores and nets removed to make room for IP from Simulink generated in HWA Step 3. This stage is highlighed in the figure below. The purple boxes are optional stages that are used in certain customized examples when additional work is required to prepare a reference design. The <a class="reference external" href="https://github.com/analogdevicesinc/TransceiverToolbox/tree/master/trx_examples/targeting/frequency-hopping">Frequency Hopping example</a> leverages these stages. Once the project is prepared the IP is inserted and bitstream generated, which occurs through HWA Step 4.3.</p>
+<figure class="align-default" id="id2">
+<img alt="_images/HWA_project_gen.png" src="_images/HWA_project_gen.png" />
+<figcaption>
+<p><span class="caption-text">HDL Workflow Advisor project generation step.</span><a class="headerlink" href="#id2" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<section id="vivado-project-perspective">
+<h3>Vivado Project Perspective<a class="headerlink" href="#vivado-project-perspective" title="Permalink to this heading">#</a></h3>
+<p>Based on the flow in Figure 1, there are a three main states the HDL reference design enters from a high level. These states will be discussed more from the Vivado project perspective, specifically the data path of an FMComms2 project. Other HDL projects will be similar.</p>
+<p>The first state is just the initial creation of the standard unmodified block design. Looking at Figure 4, the three IPs show the dataflow from the interface core (axi_ad9361), through the ADC FIFO, and finally into the pack core. In orange are the data buses and valid signal highlighted. These are important since the generated IP needs to be inserted where these nets are connected. Therefore, in the second state of the design these nets are removed to make room from the new IP.</p>
+<figure class="align-default" id="id3">
+<img alt="_images/stock_reference_design.png" src="_images/stock_reference_design.png" />
+<figcaption>
+<p><span class="caption-text">RX path in unmodified standard reference design.</span><a class="headerlink" href="#id3" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Once the IP is inserted into the project by HDL-Coder it is connected to the FIFO and pack cores where the nets in Figure 4 were highlighted. The new inserted and connected IP can be see in Figure 5.</p>
+<figure class="align-default" id="id4">
+<img alt="_images/reference_design_with_IP.png" src="_images/reference_design_with_IP.png" />
+<figcaption>
+<p><span class="caption-text">RX path with inserted IP from HDL-Coder.</span><a class="headerlink" href="#id4" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>The connecting of the IPs and insertion are entirely managed by HDL-Coder and through the <a class="reference external" href="https://github.com/analogdevicesinc/TransceiverToolbox/blob/master/hdl/vendor/AnalogDevices/+AnalogDevices/add_io_ports.m">add_io_ports</a> function and supporting <a class="reference external" href="https://github.com/analogdevicesinc/TransceiverToolbox/blob/master/hdl/vendor/AnalogDevices/+AnalogDevices/ports.json">JSON port definition file</a>.</p>
+</section>
+<section id="generated-tcl-scripts">
+<h3>Generated TCL Scripts<a class="headerlink" href="#generated-tcl-scripts" title="Permalink to this heading">#</a></h3>
+<p>The following scripts outlined in the figure above have certain purposes:</p>
+<ul class="simple">
+<li><p><strong>vivado_create_prj.tcl</strong>: This is the first TCL scripted called in Stage 4 of HWA and is responsible for setting up a standard reference design and trimming nets and IPs to make room for IP from Simulink</p></li>
+<li><p><strong>vivado_custom_block_design.tcl</strong>: This is a carbon copy of the <strong>system_project_rxtx.tcl</strong> script and is called by <strong>vivado_create_prj.tcl</strong>. This script will call <a class="reference external" href="https://wiki.analog.com/resources/fpga/docs/build#xilinx_auto_tcl_build">adi_make.tcl</a>, the correct system_project.tcl file, and finally matlab_processor.tcl. It will optionally call the pre/post processor TCL scripts.</p></li>
+<li><p><strong>vivado_insert_ip.tcl</strong>: This script is fully generated by MATLAB based on the <a class="reference external" href="https://github.com/analogdevicesinc/TransceiverToolbox/blob/master/hdl/vendor/AnalogDevices/+AnalogDevices/add_io.m">add_io</a> definitions in MATLAB to insert the custom IP into the prepared reference design.</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          <a class="prev-page" href="_generated/hdlrefdesigns/fmcomms8.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">fmcomms8 Reference Design Integration</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2019-2022, Analog Devices, Inc
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">HDL Workflow</a><ul>
+<li><a class="reference internal" href="#hdl-repo-preparation">HDL Repo Preparation</a></li>
+<li><a class="reference internal" href="#hdl-coder-ip-core-generation-flow">HDL-Coder IP Core Generation Flow</a><ul>
+<li><a class="reference internal" href="#vivado-project-perspective">Vivado Project Perspective</a></li>
+<li><a class="reference internal" href="#generated-tcl-scripts">Generated TCL Scripts</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/scripts/furo.js"></script>
+    <script src="_static/design-tabs.js"></script>
+    <script src="https://unpkg.com/mermaid@10.2.0/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({startOnLoad:true});</script>
+    </body>
+</html>

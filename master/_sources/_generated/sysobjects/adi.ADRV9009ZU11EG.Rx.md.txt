@@ -1,0 +1,194 @@
+
+# adi.ADRV9009ZU11EG.Rx
+<!-- <div class="sysobj_h1">adi.ADRV9009ZU11EG.Rx</div> -->
+
+<!-- <div class="sysobj_top_desc">
+Receive data from Analog Devices AD9361 transceiver
+</div> -->
+
+<!-- <div class="sysobj_desc_title">Description</div> -->
+
+<div class="sysobj_desc_txt">
+<span>
+    The adi.ADRV9009ZU11EG.Rx System object is a signal source that can receive<br>    complex data from the ADRV9009ZU11EG.<br> <br>    rx = adi.ADRV9009ZU11EG.Rx;<br>    rx = adi.ADRV9009ZU11EG.Rx('uri','ip:192.168.2.1');<br> <br>    <a href="http://www.analog.com/media/en/technical-documentation/data-sheets/ADRV9009.pdf">ADRV9009 Datasheet</a><br>
+</span>
+
+</div>
+
+<div class="sysobj_desc_title">Creation</div>
+
+The class can be instantiated in the following way with and without property name value pairs.
+
+```matlab
+dev = adi.ADRV9009ZU11EG.Rx
+dev = adi.ADRV9009ZU11EG.Rx(Name, Value)
+```
+
+<div class="sysobj_desc_title">Properties</div>
+
+<div class="sysobj_desc_txt">
+<span>
+Unless otherwise indicated, properties are non-tunable, which means you cannot change their values after calling the object. Objects lock when you call them, and the release function unlocks them.
+<br><br>
+If a property is tunable, you can change its value at any time.
+<br><br>
+For more information on changing property values, see <a href="https://www.mathworks.com/help/matlab/matlab_prog/system-design-in-matlab-using-system-objects.html">System Design in MATLAB Using System Objects.</a>
+</span>
+</div>
+<br>
+
+
+
+:::{dropdown} GainControlModeChipB
+specified as one of the following: 'slow_attack' — For signals with slowly changing power levels 'manual' — For setting the gain manually with the Gain property
+:::
+
+:::{dropdown} GainChannel0ChipB
+Channel 0 gain, specified as a scalar from -4 dB to 71 dB. The acceptable minimum and maximum gain setting depends on the center frequency.
+:::
+
+:::{dropdown} GainChannel1ChipB
+Channel 1 gain, specified as a scalar from -4 dB to 71 dB. The acceptable minimum and maximum gain setting depends on the center frequency.
+:::
+
+:::{dropdown} EnableQuadratureTrackingChannel0ChipB
+Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.
+:::
+
+:::{dropdown} EnableQuadratureTrackingChannel1ChipB
+Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.
+:::
+
+:::{dropdown} EnableHarmonicDistortionTrackingChannel0ChipB
+Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.
+:::
+
+:::{dropdown} EnableHarmonicDistortionTrackingChannel1ChipB
+Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.
+:::
+
+:::{dropdown} EnableQuadratureCalibrationChipB
+Option to enable quadrature calibration on initialization, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.
+:::
+
+:::{dropdown} EnablePhaseCorrectionChipB
+Option to enable phase tracking, specified as true or false. When this property is true, Phase differences between transceivers will be deterministic across power cycles and LO changes
+:::
+
+:::{dropdown} PowerdownChannel0ChipB
+Logical which will power down RX channel 0 when set
+:::
+
+:::{dropdown} PowerdownChannel1ChipB
+Logical which will power down RX channel 1 when set
+:::
+
+:::{dropdown} CenterFrequencyChipB
+RF center frequency, specified in Hz as a scalar. The default is 2.4e9. This property is tunable.
+:::
+
+:::{dropdown} EnableFrequencyHoppingModeCalibrationChipB
+Option to enable frequency hopping mode VCO calibration, specified as true or false. When this property is true, at initialization VCO calibration lookup table is populated
+:::
+
+:::{dropdown} SamplesPerFrame
+Number of samples per frame, specified as an even positive integer from 2 to 16,777,216. Using values less than 3660 can yield poor performance.
+:::
+
+:::{dropdown} EnableCustomProfile
+Enable use of custom Profile file to set SamplingRate, RFBandwidth, and FIR in datapaths
+:::
+
+:::{dropdown} EnableFrequencyHoppingModeCalibration
+Option to enable frequency hopping mode VCO calibration, specified as true or false. When this property is true, at initialization VCO calibration lookup table is populated
+:::
+
+:::{dropdown} CustomProfileFileName
+Path to custom Profile file created from profile wizard
+:::
+
+:::{dropdown} CenterFrequency
+RF center frequency, specified in Hz as a scalar. The default is 2.4e9. This property is tunable.
+:::
+
+:::{dropdown} EnabledChannels
+Indexs of channels to be enabled. Input should be a [1xN] vector with the indexes of channels to be enabled. Order is irrelevant
+:::
+
+:::{dropdown} uri
+Hostname or IP address of remote libIIO deviceHelp for adi.ADRV9009ZU11EG.Rx/uri is inherited from superclass MATLABSHARED.LIBIIO.BASE
+:::
+
+:::{dropdown} enIO
+If true, connects to libIIO device during simulationHelp for adi.ADRV9009ZU11EG.Rx/enIO is inherited from superclass MATLABSHARED.LIBIIO.BASE
+:::
+
+:::{dropdown} devName
+Name of the libIIO deviceHelp for adi.ADRV9009ZU11EG.Rx/devName is inherited from superclass MATLABSHARED.LIBIIO.BASE
+:::
+
+:::{dropdown} GainControlMode
+specified as one of the following: 'slow_attack' — For signals with slowly changing power levels 'manual' — For setting the gain manually with the Gain propertyHelp for adi.ADRV9009ZU11EG.Rx/GainControlMode is inherited from superclass ADI.ADRV9009.RX
+:::
+
+:::{dropdown} GainChannel0
+Channel 0 gain, specified as a scalar from 1 dB to 30 dB. The acceptable minimum and maximum gain setting depends on the center frequency.Help for adi.ADRV9009ZU11EG.Rx/GainChannel0 is inherited from superclass ADI.ADRV9009.RX
+:::
+
+:::{dropdown} GainChannel1
+Channel 1 gain, specified as a scalar from 1 dB to 30 dB. The acceptable minimum and maximum gain setting depends on the center frequency.Help for adi.ADRV9009ZU11EG.Rx/GainChannel1 is inherited from superclass ADI.ADRV9009.RX
+:::
+
+:::{dropdown} EnableQuadratureTrackingChannel0
+Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.Help for adi.ADRV9009ZU11EG.Rx/EnableQuadratureTrackingChannel0 is inherited from superclass ADI.ADRV9009.RX
+:::
+
+:::{dropdown} EnableQuadratureTrackingChannel1
+Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.Help for adi.ADRV9009ZU11EG.Rx/EnableQuadratureTrackingChannel1 is inherited from superclass ADI.ADRV9009.RX
+:::
+
+:::{dropdown} EnableHarmonicDistortionTrackingChannel0
+Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.Help for adi.ADRV9009ZU11EG.Rx/EnableHarmonicDistortionTrackingChannel0 is inherited from superclass ADI.ADRV9009.RX
+:::
+
+:::{dropdown} EnableHarmonicDistortionTrackingChannel1
+Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.Help for adi.ADRV9009ZU11EG.Rx/EnableHarmonicDistortionTrackingChannel1 is inherited from superclass ADI.ADRV9009.RX
+:::
+
+:::{dropdown} EnableQuadratureCalibration
+Option to enable quadrature calibration on initialization, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.Help for adi.ADRV9009ZU11EG.Rx/EnableQuadratureCalibration is inherited from superclass ADI.ADRV9009.RX
+:::
+
+:::{dropdown} EnablePhaseCorrection
+Option to enable phase tracking, specified as true or false. When this property is true, Phase differences between transceivers will be deterministic across power cycles and LO changesHelp for adi.ADRV9009ZU11EG.Rx/EnablePhaseCorrection is inherited from superclass ADI.ADRV9009.RX
+:::
+
+:::{dropdown} PowerdownChannel0
+Logical which will power down RX channel 0 when setHelp for adi.ADRV9009ZU11EG.Rx/PowerdownChannel0 is inherited from superclass ADI.ADRV9009.RX
+:::
+
+:::{dropdown} PowerdownChannel1
+Logical which will power down RX channel 1 when setHelp for adi.ADRV9009ZU11EG.Rx/PowerdownChannel1 is inherited from superclass ADI.ADRV9009.RX
+:::
+
+
+<br>
+<div class="sysobj_desc_title">Example Usage</div>
+
+```matlab
+
+%% Rx set up
+rx = adi.ADRV9009ZU11EG.Rx('uri','ip:analog.local');
+
+rx.CenterFrequency = 1e9;
+
+rx.EnabledChannels = 1;
+%% Run
+for k=1:10
+    valid = false;
+    while ~valid
+        [out, valid] = rx();
+    end
+end
+
+```
