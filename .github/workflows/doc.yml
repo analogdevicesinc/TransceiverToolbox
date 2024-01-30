@@ -16,10 +16,10 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt install -y python3-numpy
-          pip install -r requirements_doc.txt
+          pip install -r CI/doc/requirements_doc.txt
       - name: Check doc build
         run: |
-          make -C CI/gen_doc doc
+          make -C CI/doc gen_autodocs html
 
       - name: Publish master doc
         if: github.ref == 'refs/heads/master'

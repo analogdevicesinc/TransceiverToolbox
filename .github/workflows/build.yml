@@ -16,8 +16,8 @@ jobs:
       - name: Organize Toolbox Dependencies
         run: |
             make -C ./CI/scripts build
-            pip3 install -r requirements_doc.txt
-            make -C ./CI/gen_doc doc_ml
+            pip3 install -r CI/doc/requirements_doc.txt
+            make -C CI/doc gen_autodocs html
             make -C ./CI/scripts add_libad9361
 
       - name: Set up MATLAB
