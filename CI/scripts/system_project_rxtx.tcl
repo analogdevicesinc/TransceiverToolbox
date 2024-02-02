@@ -18,6 +18,11 @@ set ::env(SKIP_SYNTHESIS) 1
 set ::env(MATLAB) 1
 set ::env(ADI_USE_OOC_SYNTHESYS) 1
 
+
+if {$project == "adrv9001"} {
+	set ::env(CMOS_LVDS_N) $CMOS_LVDS_N
+}
+
 source ./system_project.tcl
 
 # Update block design to make room for new IP
