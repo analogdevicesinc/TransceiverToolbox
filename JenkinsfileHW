@@ -1,10 +1,3 @@
-node('sdg-nuc-01'){
-    sh 'rm /lib/x86_64-linux-gnu/libiio.so* || true'
-}
-node('sdg-nuc-02'){
-    sh 'rm /lib/x86_64-linux-gnu/libiio.so* || true'
-}
-
 // Pipeline
 lock(label: 'adgt_test_harness_boards') {
     @Library('sdgtt-lib@adgt-test-harness') _ // Not necessary when we turn on global libraries :)
@@ -16,11 +9,12 @@ lock(label: 'adgt_test_harness_boards') {
     def harness = getGauntlet(hdlBranch, linuxBranch, bootPartitionBranch, firmwareVersion, bootfile_source)
 
     //Update repos
-    harness.set_env('nebula_repo', 'https://github.com/sdgtt/nebula.git')
+    harness.set_env('libiio_repo', 'http://gateway.englab:3000/mirrors/libiio.git')
+    harness.set_env('libiio_branch', 'v0.25')
+    harness.set_env('nebula_repo', 'http://gateway.englab:3000/mirrors/nebula.git')
     harness.set_env('nebula_branch','dev')
     harness.set_env('nebula_config_branch','release')
-    harness.set_env('libiio_branch', 'v0.25')
-    // harness.set_env('telemetry_repo', 'https://github.com/sdgtt/telemetry.git')
+    // harness.set_env('telemetry_repo', 'http://gateway.englab:3000/mirrors/telemetry.git')
     // harness.set_env('telemetry_branch', 'master')
     harness.set_env('matlab_repo', 'https://github.com/analogdevicesinc/TransceiverToolbox.git') // Not necessary when using checkout scm
     harness.set_env('matlab_release','R2022b')
@@ -40,6 +34,8 @@ lock(label: 'adgt_test_harness_boards') {
     
     //Update agent with required deps
     harness.set_required_agent(["sdg-nuc-01","sdg-nuc-02"])
+    harness.set_env('update_container_lib', true)
+    harness.set_env('update_lib_requirements', true)
     harness.update_agents()
   
     //Set other test parameters
