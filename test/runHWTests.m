@@ -65,7 +65,7 @@ switch board
             "zynq-zc706-adv7511-adrv9009"}
         at = 'ADRV9009';
     case {"zynqmp-adrv9009-zu11eg-revb-adrv2crr-fmc-revb"}
-        at = 'ADRV9009ZU11EGTests'
+        at = 'ADRV9009ZU11EG'
     case {"zynqmp-zcu102-rev10-adrv9009-fmcomms8"}
         at = 'FMComms8';
     otherwise
