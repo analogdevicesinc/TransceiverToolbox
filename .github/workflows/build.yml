@@ -23,11 +23,13 @@ jobs:
             make -C ./CI/scripts add_libad9361
 
       - name: Set up MATLAB
-        uses: matlab-actions/setup-matlab@v1
+        uses: matlab-actions/setup-matlab@v2
         with:
             release: R2022b
+            products: Communications_Toolbox_Support_Package_for_Analog_Devices_ADALM-Pluto_Radio
+
       - name: Compile Toolbox
-        uses: matlab-actions/run-command@v1
+        uses: matlab-actions/run-command@v2
         with:
             command: cd('CI/scripts');genTlbx(1);exit()
 
@@ -42,6 +44,11 @@ jobs:
           name: TransceiverToolboxInstaller
           path: toolbox
 
+      - name: Run Tests
+        uses: matlab-actions/run-command@v1
+        with:
+            command: addpath(genpath('test'));runtests("NonHWTest");exit()
+  
       - name: Post development build to GH releases page
         uses: "marvinpinto/action-automatic-releases@latest"
         if: github.ref == 'refs/heads/master'
