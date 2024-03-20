@@ -3,7 +3,7 @@
 flags = gitParseFlags()
 
 dockerConfig = getDockerConfig(['MATLAB','Vivado'], matlabHSPro=false)
-dockerConfig.add("-e MLRELEASE=R2022b")
+dockerConfig.add("-e MLRELEASE=R2023b")
 dockerHost = 'docker'
 
 ////////////////////////////
@@ -91,7 +91,7 @@ for (int i=0; i < demoNames.size(); i++) {
         nodeLabel = 'baremetal && high_memory';
     deployments[demo] = { node(nodeLabel) {
         stage("Demo Tests") {
-            withEnv(['DEMO='+demo,'MLRELEASE=R2022b','HDLBRANCH=hdl_2021_r2','LC_ALL=C.UTF-8','LANG=C.UTF-8']) {
+            withEnv(['DEMO='+demo,'MLRELEASE=R2023b','HDLBRANCH=hdl_2021_r2','LC_ALL=C.UTF-8','LANG=C.UTF-8']) {
                 try {
                     stage(demo) {
                         echo "Node: ${env.NODE_NAME}"

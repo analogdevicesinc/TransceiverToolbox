@@ -17,7 +17,7 @@ lock(label: 'adgt_test_harness_boards') {
     // harness.set_env('telemetry_repo', 'http://gateway.englab:3000/mirrors/telemetry.git')
     // harness.set_env('telemetry_branch', 'master')
     harness.set_env('matlab_repo', 'https://github.com/analogdevicesinc/TransceiverToolbox.git') // Not necessary when using checkout scm
-    harness.set_env('matlab_release','R2022b')
+    harness.set_env('matlab_release','R2023b')
     harness.set_env('matlab_license','network')
     harness.set_matlab_timeout('8m')
   
