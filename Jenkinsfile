@@ -114,6 +114,22 @@ parallel deployments
 
 /////////////////////////////////////////////////////
 
+boardNames = ['NonHW']
+
+cstage("NonHW Tests", "", flags) {
+    dockerParallelBuild(boardNames, dockerHost, dockerConfig) {
+        branchName ->
+        withEnv(['BOARD='+branchName]) {
+            cstage("NonHW", branchName, flags) {
+                unstash "builtSources"
+                sh 'make -C ./CI/scripts run_NonHWTests'
+            }
+        }
+    }
+}
+
+/////////////////////////////////////////////////////
+
 appNames = ['lte_pa_app']
 
 cstage("Build Deployable Apps", "", flags) {
