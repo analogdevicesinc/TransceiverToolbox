@@ -4,7 +4,7 @@ MLFLAGS="-nodisplay -nodesktop -nosplash"
 
 if [ -z "$MLRELEASE" ]
 then
-	MLRELEASE=R2022b
+	MLRELEASE=R2023b
 fi
 if [ -z "$DEMO" ]
 then
