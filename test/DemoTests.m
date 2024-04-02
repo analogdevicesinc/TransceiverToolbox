@@ -94,6 +94,8 @@ classdef DemoTests < TestAppGUI
                         vivado = '2021.1';
                     case '(R2022b)'
                         vivado = '2021.2';
+                    case '(R2023b)'
+                        vivado = '2021.2';
                 end
             end
             if ispc

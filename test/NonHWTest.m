@@ -1,21 +1,12 @@
 classdef NonHWTest < matlab.unittest.TestCase
-    
     properties(TestParameter)
-        rootClasses = {'AD9361','AD9363','AD9364'...
-            'AD9371','ADRV9009','ADRV9002'}
-        children = {'Rx','Tx'};
+        rootClasses = getClasses();
     end
-    
-   
+        
     methods (Test)
-        
-        function call_constructors(testCase,rootClasses,children)
-            sdr = eval(['adi.',rootClasses,'.',children,'()']);
-            testCase.assertEqual(class(sdr),['adi.',rootClasses,'.',children]);
+        function call_constructors(testCase,rootClasses)
+            sdr = eval(['adi.',rootClasses,'()']);
+            testCase.assertEqual(class(sdr),['adi.',rootClasses]);
         end
-        
     end
-
-    
 end
-
