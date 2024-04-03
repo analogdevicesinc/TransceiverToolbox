@@ -72,7 +72,6 @@ lock(label: 'adgt_test_harness_boards') {
     harness.set_matlab_commands(["ad=adi.utils.libad9361",
                     "ad.download_libad9361()",
                     "addpath(genpath('test'))",
-                    "pyenv('Version','/usr/bin/python3')",
                     "runHWTests(getenv('board'))"])
     harness.add_stage(harness.stage_library("MATLABTests"),'continueWhenFail')
   
