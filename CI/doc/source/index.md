@@ -33,6 +33,8 @@ The following have device-specific implementations in MATLAB and Simulink. If a 
 | | ZC702 | Yes | Yes | ADI (2018b) MathWorks (2014b) |
 | | ZC706 | Yes | Yes | ADI (2018b) MathWorks (2014b) |
 | | ZCU102 | Yes | Yes | ADI (2018b) MathWorks (2014b) |
+| FMComms5 | ZC702 | Yes | Yes | ADI (2018b) MathWorks (2019a) |
+| | ZC706 | Yes | Yes | ADI (2018b) MathWorks (2019a) |
 | ARRADIO | Arrow SoCKit | Yes | No | ADI (2018b) |
 | ADRV9361-Z7035 |  | Yes | Yes | ADI (2018b) MathWorks (2015b) |
 | ADRV9364-Z7020 |  | Yes | Yes | ADI (2018b) |
