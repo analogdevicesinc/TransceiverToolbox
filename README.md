@@ -12,7 +12,7 @@ As with many open source packages, we use [GitHub](https://github.com/analogdevi
 
 | HDL Branch        | MATLAB Release |  Installer Package  |
 |:-----------------:|:--------------:|:-------------------:|
-| 2021_R2           | R2023b         | <a href="https://github.com/analogdevicesinc/TransceiverToolbox/releases/tag/latest"><img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png" data-canonical-src="https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png" height="40" /></a>|
+| 2022_R2           | R2023b         | <a href="https://github.com/analogdevicesinc/TransceiverToolbox/releases/tag/latest"><img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png" data-canonical-src="https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png" height="40" /></a>|
 
 If you use it, and like it - please let us know. If you use it, and hate it - please let us know that too.
 
@@ -20,7 +20,7 @@ If you use it, and like it - please let us know. If you use it, and hate it - pl
 
 We provide support across two releases of MATLAB. This does not mean older releases will not work but they are not maintained. Currently supported tools are:
 - Bug fixes only: MATLAB R2022b with Vivado 2021.2
-- Bug fixes and new features: MATLAB R2023b with Vivado 2021.2
+- Bug fixes and new features: MATLAB R2023b with Vivado 2022.2
 
 ## Support and Documentation
 
