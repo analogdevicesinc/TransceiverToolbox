@@ -12,7 +12,7 @@ MLRELEASE := R2023b
 endif
 
 ifeq ($(HDLBRANCH),)
-HDLBRANCH := hdl_2021_r2
+HDLBRANCH := hdl_2022_r2
 endif
 
 ifeq ($(OS),Windows_NT)

@@ -20,7 +20,7 @@ classdef DemoTests < TestAppGUI
     
     methods(Test)
         function buildHDLLoopbackDelayEstimation(testCase)
-            testCase.setupVivado('2021.2');
+            testCase.setupVivado('2022.2');
             cd(fullfile(testCase.root,'trx_examples/targeting/loopback-delay-estimation'));
             hdlworkflow;
             if ~isempty(out)
@@ -32,7 +32,7 @@ classdef DemoTests < TestAppGUI
             end
         end
         function buildHDLFrequencyHopper(testCase)
-            testCase.setupVivado('2021.2');
+            testCase.setupVivado('2022.2');
             cd(fullfile(testCase.root,'trx_examples/targeting/frequency-hopping'));
             hdlworkflow;
             if ~isempty(out)
@@ -44,7 +44,7 @@ classdef DemoTests < TestAppGUI
             end
         end
         function buildHDLTuneAGC(testCase)
-            testCase.setupVivado('2021.2');
+            testCase.setupVivado('2022.2');
             cd(fullfile(testCase.root,'trx_examples/targeting/tuneAGC-ad9361'));
             hdlworkflow;
             if ~isempty(out)
@@ -56,7 +56,7 @@ classdef DemoTests < TestAppGUI
             end
         end
         function buildKernelFrequencyHopper(testCase)
-            testCase.setupVivado('2021.2');
+            testCase.setupVivado('2022.2');
             cd(fullfile(testCase.root,'trx_examples/targeting/frequency-hopping'));
             system('chmod +x build_kernel.sh');
             system('./build_kernel.sh');
@@ -95,7 +95,7 @@ classdef DemoTests < TestAppGUI
                     case '(R2022b)'
                         vivado = '2021.2';
                     case '(R2023b)'
-                        vivado = '2021.2';
+                        vivado = '2022.2';
                 end
             end
             if ispc

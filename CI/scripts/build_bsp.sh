@@ -2,7 +2,7 @@
 set -xe
 
 if [ -z "${HDLBRANCH}" ]; then
-HDLBRANCH='hdl_2021_r2'
+HDLBRANCH='hdl_2022_r2'
 fi
 
 # Script is designed to run from specific location

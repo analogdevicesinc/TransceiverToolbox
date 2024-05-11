@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Build kernel
-git clone -b 2021_R2 --depth=1 https://github.com/analogdevicesinc/linux.git
+git clone -b 2022_r2 --depth=1 https://github.com/analogdevicesinc/linux.git
 cd linux
 export ARCH=arm
 export CROSS_COMPILE=arm-linux-gnueabihf-
