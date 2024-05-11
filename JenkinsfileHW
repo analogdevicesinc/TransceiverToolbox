@@ -41,6 +41,7 @@ lock(label: 'adgt_test_harness_boards') {
     //Set other test parameters
     harness.set_nebula_debug(true)
     harness.set_enable_docker(true)
+    harness.set_env('docker_image', 'tfcollins/test-harness-ci-ubuntu-22_04:latest')
     harness.set_docker_host_mode(true) // Set to false if using machine-specific license
     harness.set_send_telemetry(false)
     harness.set_log_jira(false)
@@ -72,6 +73,7 @@ lock(label: 'adgt_test_harness_boards') {
     harness.set_matlab_commands(["ad=adi.utils.libad9361",
                     "ad.download_libad9361()",
                     "addpath(genpath('test'))",
+                    "pyenv('Version','/usr/bin/python3')",
                     "runHWTests(getenv('board'))"])
     harness.add_stage(harness.stage_library("MATLABTests"),'continueWhenFail')
   
