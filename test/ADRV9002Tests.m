@@ -22,7 +22,7 @@ classdef ADRV9002Tests < HardwareTests
             {'lte_20_lvds_api_68_0_6', 30720000},...
             {'lte_40_lvds_api_68_0_6', 61440000}};
         CMOSProfiles = {...
-            {'lte_10_lvds_nco_api_68_0_6',15360000}};
+            {'lte_5_cmos_api_68_8_1',7680000}};
     end
 
     properties(Hidden) % Internal test usage
