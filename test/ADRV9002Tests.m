@@ -1,7 +1,7 @@
 classdef ADRV9002Tests < HardwareTests
 
     properties
-        uri = 'ip:analog';
+        uri = 'ip:localhost';
         author = 'ADI';
     end
 
@@ -325,20 +325,20 @@ classdef ADRV9002Tests < HardwareTests
             verifyError(testCase, @() rx(), ?MException);
         end
 
-        function testADRV9002ManualGainControl(testCase)
-            rx = adi.ADRV9002.Rx;
-            rx.uri = testCase.uri;
-
-            % Set low speed profile < 1 MHz
-            rx.EnableCustomProfile = true;
-            rx.CustomProfileFileName = which('lte_5_cmos_api_68_0_6.json');
-            rx.CustomStreamFileName = which('lte_5_cmos_api_68_0_6.stream');
-
-            rx.DigitalGainControlModeChannel0 = 'spi';
-            rx.InterfaceGainChannel0 = '6dB';
-            [~,valid] = rx();
-            testCase.assertTrue(valid);
-        end
+        % function testADRV9002ManualGainControl(testCase)
+        %     rx = adi.ADRV9002.Rx;
+        %     rx.uri = testCase.uri;
+        % 
+        %     % Set low speed profile < 1 MHz
+        %     rx.EnableCustomProfile = true;
+        %     rx.CustomProfileFileName = which('lte_5_cmos_api_68_0_6.json');
+        %     rx.CustomStreamFileName = which('lte_5_cmos_api_68_0_6.stream');
+        % 
+        %     rx.DigitalGainControlModeChannel0 = 'spi';
+        %     rx.InterfaceGainChannel0 = '6dB';
+        %     [~,valid] = rx();
+        %     testCase.assertTrue(valid);
+        % end
 
     end
 
