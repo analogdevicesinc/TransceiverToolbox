@@ -1,4 +1,4 @@
-classdef Rx < adi.AD9361.Base & adi.AD9361.TuneAGC & ...
+classdef Rx < adi.AD9361v1.Base & ... % adi.AD9361.TuneAGC & ...
         adi.common.Rx
     % adi.AD9361.Rx Receive data from the AD9361 transceiver
     %   The adi.AD9361.Rx System object is a signal source that can receive
@@ -10,9 +10,9 @@ classdef Rx < adi.AD9361.Base & adi.AD9361.TuneAGC & ...
     %   <a href="http://www.analog.com/media/en/technical-documentation/data-sheets/AD9361.pdf">AD9361 Datasheet</a>
     %
     %   See also adi.FMComms2.Rx, adi.FMComms3.Rx, adi.FMComms5.Rx
-    
+
     properties
-        LibIIOVersion = '0.25';
+        LibIIOVersion = '1.0';
     end
     
     properties
@@ -135,8 +135,8 @@ classdef Rx < adi.AD9361.Base & adi.AD9361.TuneAGC & ...
     methods
         %% Constructor
         function obj = Rx(varargin)
-            coder.allowpcode('plain');
-            obj = obj@adi.AD9361.Base(varargin{:});
+            % coder.allowpcode('plain');
+            obj = obj@adi.AD9361v1.Base(varargin{:});
         end
         % Check RFPortSelect
         function set.RFPortSelect(obj, value)

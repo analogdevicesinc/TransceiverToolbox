@@ -1,4 +1,4 @@
-classdef (Abstract) device < handle & matlabshared.libiio.device
+classdef (Abstract) device < handle% & matlabshared.libiio.device
     % matlabshared.libiio.contextV1p0 context class for base matlabshared.libiio.support
     %
     % This abstract system object defines the APIs necessary to use libIIO
@@ -23,22 +23,13 @@ classdef (Abstract) device < handle & matlabshared.libiio.device
     end
     
     %% Internal Helper Functions
-    methods (Hidden, Access = {?handle})
+    methods (Hidden, Access = {?handle}, Static)
         %% Device Methods
-        function ctxPtr = iio_device_get_context(obj, devPtr)
-        % iio_device_get_context (const char *uri)
-        %
-        % Get context from device pointer.
-            if useCalllib(obj)
-                ctxPtr = calllib(obj.libName, 'iio_device_get_context', devPtr);
-            else
-                ctxPtr = coder.opaque('struct iio_context*', 'NULL');
-                if useCodegen(obj)
-                    ctxPtr = coder.ceval('iio_device_get_context', devPtr);
-                end
-            end
+        function ctxPtr = iio_device_get_context(obj, devPtr)        
+            ctxPtr = calllib(obj.libName, 'iio_device_get_context', devPtr);
         end
 
+        %{
         function iio_device_get_id(obj)
         end
 
@@ -60,13 +51,33 @@ classdef (Abstract) device < handle & matlabshared.libiio.device
 
         function iio_device_get_attr(obj)
         end
+        %}
 
-        function chanPtr = iio_device_find_channel(obj,dev,id,output)
+        function chanPtr = iio_device_find_channel(obj, dev, id, output)
+            % iio_device_find_channel(const struct iio_device *dev, const char *name, bool output)
+            % 
+            % Find channel by name or channel ID.
+            %
+            % Args:
+            %   dev: A pointer to an iio_device structure
+            %   ID: name A NULL-terminated string corresponding to the name
+            %   name or the ID of the channel to search for
+            %   output: True if the searched channel is output, False
+            %   otherwise
+            % 
+            % Returns:
+            %   On success, a pointer to an iio_channel structure. If the
+            %   name or ID does not correspond to any known channel of the
+            %   given device, NULL is returned.
+            chanPtr = calllib(obj.libName, 'iio_device_find_channel', dev, id, output);
         end
 
-        function iio_device_find_attr(obj)
+        function [status, attrPtr] = iio_device_find_attr(obj, devPtr, attr)
+            attrPtr = calllib(obj.libName, 'iio_device_find_attr', devPtr, attr);
+            status = cPtrCheck(obj,attrPtr);
         end
 
+        %{
         function iio_device_set_data(obj)
         end
 
@@ -80,6 +91,16 @@ classdef (Abstract) device < handle & matlabshared.libiio.device
         end
 
         function iio_device_is_trigger(obj)
+        end
+        %}
+
+        function nBytes = iio_device_attr_write(obj,devPtr,attr,src)
+            % [status, attrPtr] = iio_device_find_attr(obj, devPtr, attr);
+            attrPtr = calllib(obj.libName, 'iio_device_find_attr', devPtr, attr);
+            status = cPtrCheck(obj,attrPtr);
+            cstatus(obj,status,['Attribute: ' attr ' not found']);
+            % nBytes = iio_attr_write_string(attrPtr, src);
+            nBytes = calllib(obj.libName, 'iio_attr_write_string', attrPtr, src);
         end
     end
 end

@@ -1,4 +1,4 @@
-classdef (Abstract) channel < handle & matlabshared.libiio.channel
+classdef (Abstract) channel < handle
     % matlabshared.libiio.channel_V1p0 channel class for base matlabshared.libiio.support
     %
     % This abstract system object defines the APIs necessary to use libIIO
@@ -12,7 +12,7 @@ classdef (Abstract) channel < handle & matlabshared.libiio.channel
     properties(Abstract, Hidden, Access = protected)
         libName
     end
-    
+
     methods
         function obj = channel()
             % CHANNEL constructor method for matlabshared.libiio.context
@@ -23,73 +23,63 @@ classdef (Abstract) channel < handle & matlabshared.libiio.channel
     end
     
     %% Internal Helper Functions
-    methods (Hidden, Access = {?handle})
-        function iio_channel_get_device(obj)
+    methods (Hidden, Access = {?handle}, Static)
+        function [status, attrPtr] = iio_channel_find_attr(obj,chanPtr,attr)
+            attrPtr = calllib(obj.libName, 'iio_channel_find_attr', chanPtr, attr);
+            status = cPtrCheck(obj,attrPtr);
         end
 
-        function iio_channel_get_id(obj)
+        function [status, value] = iio_channel_attr_read_bool(obj,chanPtr,attr)
+            % [status, attrPtr] = iio_channel_find_attr(obj,chanPtr,attr);
+            attrPtr = calllib(obj.libName, 'iio_channel_find_attr', chanPtr, attr);
+            status = cPtrCheck(obj,attrPtr);
+            cstatus(obj,status,['Attribute: ' attr ' not found']);            
+            % [status, value] = iio_attr_read_bool(obj,attrPtr);
+            valPtr = libpointer('bool', 0);
+            status = calllib(obj.libName, 'iio_attr_read_bool', attrPtr, valPtr);
+            if ~status
+                value = valPtr.value;
+            end
         end
-        
-        function iio_channel_get_name(obj)
+
+        function [status, value] = iio_channel_attr_read_longlong(obj,chanPtr,attr)
+            % [status, attrPtr] = iio_channel_find_attr(obj,chanPtr,attr);
+            attrPtr = calllib(obj.libName, 'iio_channel_find_attr', chanPtr, attr);
+            status = cPtrCheck(obj,attrPtr);
+            cstatus(obj,status,['Attribute: ' attr ' not found']);            
+            % [status, value] = iio_attr_read_longlong(obj,attrPtr);
+            valPtr = libpointer('int64Ptr', 0);
+            status = calllib(obj.libName, 'iio_attr_read_longlong', attrPtr, valPtr);
+            if ~status
+                value = valPtr.value;
+            end
         end
-        
-        function iio_channel_is_output(obj)
-        end
-        
-        function iio_channel_is_scan_element(obj)
-        end
-        
-        function iio_channel_get_attrs_count(obj)
-        end
-        
-        function iio_channel_get_attr(obj)
-        end
-        
-        function iio_channel_find_attr(obj)
-        end
-        
-        function iio_channel_enable(obj)
-        end
-        
-        function iio_channel_disable(obj)
-        end
-        
-        function iio_channel_is_enabled(obj)
-        end
-        
-        function iio_channel_read(obj)
-        end
-        
-        function iio_channel_write(obj)
-        end        
-        
-        function iio_channel_set_data(obj)
-        end        
-        
-        function iio_channel_get_data(obj)
-        end
-        
-        function iio_channel_get_type(obj)
-        end
-        
-        function iio_channel_get_modifier(obj)
+
+        function status = iio_channel_attr_write_bool(obj,chanPtr,attr,value)
+            % [status, attrPtr] = iio_channel_find_attr(obj,chanPtr,attr);
+            attrPtr = calllib(obj.libName, 'iio_channel_find_attr', chanPtr, attr);
+            status = cPtrCheck(obj,attrPtr);
+            cstatus(obj,status,['Attribute: ' attr ' not found']);
+            % status = iio_attr_write_bool(attrPtr, value);
+            status = calllib(obj.libName, 'iio_attr_write_bool', attrPtr, value);
         end
 
         function status = iio_channel_attr_write_longlong(obj,chanPtr,attr,value)
-            % This function is a wrapper. Its name is chosen to match the
-            % corresponding version in < v1.0 to support compatibility
-            % through Compat.m.
-
+            % [status, attrPtr] = iio_channel_find_attr(obj,chanPtr,attr);
             attrPtr = calllib(obj.libName, 'iio_channel_find_attr', chanPtr, attr);
-            status = calllib(obj.libName, 'iio_attr_write_longlong', attrPtr,value);
+            status = cPtrCheck(obj,attrPtr);
+            cstatus(obj,status,['Attribute: ' attr ' not found']);
+            % status = iio_attr_write_longlong(attrPtr, value);
+            status = calllib(obj.libName, 'iio_attr_write_longlong', attrPtr, value);
         end
 
-        function iio_channel_attr_read_longlong(obj)
-            % This function is a wrapper. It calls iio_channel_read() for
-            % longlong input. Its name is chosen to match the
-            % corresponding version in < v1.0 to support compatibility
-            % through Compat.m.
-            iio_channel_read(obj);
+        function nBytes = iio_channel_attr_write(obj, chanPtr, attr, src)
+            % [status, attrPtr] = iio_channel_find_attr(obj,chanPtr,attr);
+            attrPtr = calllib(obj.libName, 'iio_channel_find_attr', chanPtr, attr);
+            status = cPtrCheck(obj,attrPtr);
+            cstatus(obj,status,['Attribute: ' attr ' not found']);
+            % nBytes = iio_attr_write_string(attrPtr, src);
+            nBytes = calllib(obj.libName, 'iio_attr_write_string', attrPtr, src);
         end
     end
 end

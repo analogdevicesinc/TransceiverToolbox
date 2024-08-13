@@ -1,4 +1,4 @@
-classdef (Abstract) low_level < matlabshared.libiio.device
+classdef (Abstract) low_level < handle% & matlabshared.libiio.device
     % matlabshared.libiio.contextV1p0 context class for base matlabshared.libiio.support
     %
     % This abstract system object defines the APIs necessary to use libIIO
@@ -25,6 +25,7 @@ classdef (Abstract) low_level < matlabshared.libiio.device
     %% Internal Helper Functions
     methods (Hidden, Access = {?handle})
         %% Low-level Methods
+        %{
         function iio_create_channels_mask(obj)
         end
 
@@ -51,6 +52,7 @@ classdef (Abstract) low_level < matlabshared.libiio.device
 
         function iio_device_get_debug_attr(obj)
         end
+        %}
 
         function attr = iio_device_find_debug_attr(obj, devPtr, name)
         % iio_device_find_debug_attr (const struct iio_device *devPtr, const char *name)
@@ -65,6 +67,7 @@ classdef (Abstract) low_level < matlabshared.libiio.device
             end
         end
 
+        %{
         function iio_device_reg_write(obj)
         end
 
@@ -91,5 +94,6 @@ classdef (Abstract) low_level < matlabshared.libiio.device
 
         function iio_attr_write_double(obj)
         end
+        %}
     end
 end

@@ -1,5 +1,5 @@
-classdef (Abstract) context < matlabshared.libiio.context & ...
-        matlabshared.libiio.device
+classdef (Abstract) context < handle% & matlabshared.libiio.context & ...
+        %matlabshared.libiio.device
     % matlabshared.libiio.contextV1p0 context class for base matlabshared.libiio.support
     %
     % This abstract system object defines the APIs necessary to use libIIO
@@ -24,22 +24,13 @@ classdef (Abstract) context < matlabshared.libiio.context & ...
     end
     
     %% Internal Helper Functions
-    methods (Hidden, Access = {?handle})
+    methods (Hidden, Access = {?handle}, Static)
         %% Context Methods
         function ctxPtr = iio_create_context(obj, ctxParamsPtr, uri)
-        % iio_create_context_from_uri (const char *uri)
-        %
-        % Create a context from a URI description.
-            if useCalllib(obj)
-                ctxPtr = calllib(obj.libName, 'iio_create_context', ctxParamsPtr, uri);
-            else
-                ctxPtr = coder.opaque('struct iio_context*', 'NULL');
-                if useCodegen(obj)
-                    ctxPtr = coder.ceval('iio_create_context', ctxParamsPtr, obj.ntstr(uri));
-                end
-            end
+            ctxPtr = calllib(obj.libName, 'iio_create_context', ctxParamsPtr, uri);
         end
 
+        %{
         function iio_context_destroy(obj)
         end
 
@@ -63,10 +54,17 @@ classdef (Abstract) context < matlabshared.libiio.context & ...
 
         function iio_context_get_attrs_count(obj)
         end
+        %}
 
-        function iio_context_get_attr(obj)
+        % function [status, name, value] = iio_context_get_attr(obj, ctxPtr, idx)
+        % end
+
+        function [status, devPtr] = iio_context_find_device(obj, ctxPtr, name)
+            devPtr = calllib(obj.libName, 'iio_context_find_device', ctxPtr, name);
+            status = cPtrCheck(obj,devPtr);
         end
 
+        %{
         function iio_context_find_attr(obj)
         end
 
@@ -76,8 +74,7 @@ classdef (Abstract) context < matlabshared.libiio.context & ...
         function iio_context_get_device(obj)
         end
 
-        function iio_context_find_device(obj)
-        end
+        
 
         function iio_context_set_timeout(obj)
         end
@@ -90,5 +87,6 @@ classdef (Abstract) context < matlabshared.libiio.context & ...
 
         function iio_context_get_data(obj)
         end
+        %}
     end
 end
