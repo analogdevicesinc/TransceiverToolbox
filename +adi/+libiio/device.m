@@ -27,31 +27,7 @@ classdef (Abstract) device < handle% & matlabshared.libiio.device
         %% Device Methods
         function ctxPtr = iio_device_get_context(obj, devPtr)        
             ctxPtr = calllib(obj.libName, 'iio_device_get_context', devPtr);
-        end
-
-        %{
-        function iio_device_get_id(obj)
-        end
-
-        function iio_device_get_name(obj)
-        end
-
-        function iio_device_get_label(obj)
-        end
-
-        function iio_device_get_channels_count(obj)
-        end
-
-        function iio_device_get_attrs_count(obj)
-        end
-
-        function iio_device_get_channel(obj)
-            % iio_device_get_channel@matlabshared.libiio.device(obj);
-        end
-
-        function iio_device_get_attr(obj)
-        end
-        %}
+        end       
 
         function chanPtr = iio_device_find_channel(obj, dev, id, output)
             % iio_device_find_channel(const struct iio_device *dev, const char *name, bool output)
@@ -76,23 +52,6 @@ classdef (Abstract) device < handle% & matlabshared.libiio.device
             attrPtr = calllib(obj.libName, 'iio_device_find_attr', devPtr, attr);
             status = cPtrCheck(obj,attrPtr);
         end
-
-        %{
-        function iio_device_set_data(obj)
-        end
-
-        function iio_device_get_data(obj)
-        end
-
-        function iio_device_get_trigger(obj)
-        end
-
-        function iio_device_set_trigger(obj)
-        end
-
-        function iio_device_is_trigger(obj)
-        end
-        %}
 
         function nBytes = iio_device_attr_write(obj,devPtr,attr,src)
             % [status, attrPtr] = iio_device_find_attr(obj, devPtr, attr);
