@@ -1,4 +1,4 @@
-classdef (Abstract) channel < handle
+classdef (Abstract) channel < adi.libiio.attribute
     % matlabshared.libiio.channel_V1p0 channel class for base matlabshared.libiio.support
     %
     % This abstract system object defines the APIs necessary to use libIIO
@@ -30,56 +30,33 @@ classdef (Abstract) channel < handle
         end
 
         function [status, value] = iio_channel_attr_read_bool(obj,chanPtr,attr)
-            % [status, attrPtr] = iio_channel_find_attr(obj,chanPtr,attr);
-            attrPtr = calllib(obj.libName, 'iio_channel_find_attr', chanPtr, attr);
-            status = cPtrCheck(obj,attrPtr);
+            [status, attrPtr] = adi.libiio.channel.iio_channel_find_attr(obj,chanPtr,attr);
             cstatus(obj,status,['Attribute: ' attr ' not found']);            
-            % [status, value] = iio_attr_read_bool(obj,attrPtr);
-            valPtr = libpointer('bool', 0);
-            status = calllib(obj.libName, 'iio_attr_read_bool', attrPtr, valPtr);
-            if ~status
-                value = valPtr.value;
-            end
+            [status, value] = adi.libiio.attribute.iio_attr_read_bool(obj,attrPtr);
         end
 
         function [status, value] = iio_channel_attr_read_longlong(obj,chanPtr,attr)
-            % [status, attrPtr] = iio_channel_find_attr(obj,chanPtr,attr);
-            attrPtr = calllib(obj.libName, 'iio_channel_find_attr', chanPtr, attr);
-            status = cPtrCheck(obj,attrPtr);
+            [status, attrPtr] = adi.libiio.channel.iio_channel_find_attr(obj,chanPtr,attr);
             cstatus(obj,status,['Attribute: ' attr ' not found']);            
-            % [status, value] = iio_attr_read_longlong(obj,attrPtr);
-            valPtr = libpointer('int64Ptr', 0);
-            status = calllib(obj.libName, 'iio_attr_read_longlong', attrPtr, valPtr);
-            if ~status
-                value = valPtr.value;
-            end
+            [status, value] = adi.libiio.attribute.iio_attr_read_longlong(obj,attrPtr);
         end
 
         function status = iio_channel_attr_write_bool(obj,chanPtr,attr,value)
-            % [status, attrPtr] = iio_channel_find_attr(obj,chanPtr,attr);
-            attrPtr = calllib(obj.libName, 'iio_channel_find_attr', chanPtr, attr);
-            status = cPtrCheck(obj,attrPtr);
+            [status, attrPtr] = adi.libiio.channel.iio_channel_find_attr(obj,chanPtr,attr);
             cstatus(obj,status,['Attribute: ' attr ' not found']);
-            % status = iio_attr_write_bool(attrPtr, value);
-            status = calllib(obj.libName, 'iio_attr_write_bool', attrPtr, value);
+            status = adi.libiio.attribute.iio_attr_write_bool(attrPtr, value);
         end
 
         function status = iio_channel_attr_write_longlong(obj,chanPtr,attr,value)
-            % [status, attrPtr] = iio_channel_find_attr(obj,chanPtr,attr);
-            attrPtr = calllib(obj.libName, 'iio_channel_find_attr', chanPtr, attr);
-            status = cPtrCheck(obj,attrPtr);
+            [status, attrPtr] = adi.libiio.channel.iio_channel_find_attr(obj,chanPtr,attr);
             cstatus(obj,status,['Attribute: ' attr ' not found']);
-            % status = iio_attr_write_longlong(attrPtr, value);
-            status = calllib(obj.libName, 'iio_attr_write_longlong', attrPtr, value);
+            status = adi.libiio.attribute.iio_attr_write_longlong(attrPtr, value);
         end
 
         function nBytes = iio_channel_attr_write(obj, chanPtr, attr, src)
-            % [status, attrPtr] = iio_channel_find_attr(obj,chanPtr,attr);
-            attrPtr = calllib(obj.libName, 'iio_channel_find_attr', chanPtr, attr);
-            status = cPtrCheck(obj,attrPtr);
+            [status, attrPtr] = adi.libiio.channel.iio_channel_find_attr(obj,chanPtr,attr);
             cstatus(obj,status,['Attribute: ' attr ' not found']);
-            % nBytes = iio_attr_write_string(attrPtr, src);
-            nBytes = calllib(obj.libName, 'iio_attr_write_string', attrPtr, src);
+            nBytes = adi.libiio.attribute.iio_attr_write_string(attrPtr, src);
         end
     end
 end

@@ -1,5 +1,5 @@
 classdef (Abstract) attribute < handle
-    % matlabshared.libiio.channel_V1p0 channel class for base matlabshared.libiio.support
+    % matlabshared.libiio.attribute attribute class for base adi.libiio.support
     %
     % This abstract system object defines the APIs necessary to use libIIO
     % V1.0 for MATLAB/Simulink simulation as well as codegen on a Linux
@@ -9,8 +9,8 @@ classdef (Abstract) attribute < handle
     %#codegen
     
     %% Abstract Properties
-    properties(Hidden, Access = protected)
-        libName = 'libiio1'
+    properties(Abstract, Hidden, Access = protected)
+        libName
     end
 
     methods
@@ -24,7 +24,7 @@ classdef (Abstract) attribute < handle
     
     %% Internal Helper Functions
     methods (Hidden, Access = {?handle}, Static)
-        function [status, value] = iio_attr_read_bool(obj,attrPtr)
+        function [status, value] = iio_attr_read_bool(obj, attrPtr)
             valPtr = libpointer('bool', 0);
             status = calllib(obj.libName, 'iio_attr_read_bool', attrPtr, valPtr);
             if ~status
@@ -32,7 +32,7 @@ classdef (Abstract) attribute < handle
             end
         end
 
-        function [status, value] = iio_attr_read_longlong(obj,attrPtr)
+        function [status, value] = iio_attr_read_longlong(obj, attrPtr)
             valPtr = libpointer('int64Ptr', 0);
             status = calllib(obj.libName, 'iio_attr_read_longlong', attrPtr, valPtr);
             if ~status
@@ -40,7 +40,7 @@ classdef (Abstract) attribute < handle
             end
         end
 
-        function [status, value] = iio_attr_read_double(obj,attrPtr)
+        function [status, value] = iio_attr_read_double(obj, attrPtr)
             valPtr = libpointer('double', 0);
             status = calllib(obj.libName, 'iio_attr_read_double', attrPtr, valPtr);
             if ~status
@@ -48,19 +48,19 @@ classdef (Abstract) attribute < handle
             end
         end
 
-        function status = iio_attr_write_string(attrPtr, value)
+        function status = iio_attr_write_string(obj, attrPtr, value)
+            status = calllib(obj.libName, 'iio_attr_write_string', attrPtr, value);
+        end
+
+        function status = iio_attr_write_bool(obj, attrPtr, value)
             status = calllib(obj.libName, 'iio_attr_write_bool', attrPtr, value);
         end
 
-        function status = iio_attr_write_bool(attrPtr, value)
-            status = calllib(obj.libName, 'iio_attr_write_bool', attrPtr, value);
-        end
-
-        function status = iio_attr_write_longlong(attrPtr, value)
+        function status = iio_attr_write_longlong(obj, attrPtr, value)
             status = calllib(obj.libName, 'iio_attr_write_longlong', attrPtr, value);
         end
 
-        function status = iio_attr_write_double(attrPtr, value)
+        function status = iio_attr_write_double(obj, attrPtr, value)
             status = calllib(obj.libName, 'iio_attr_write_double', attrPtr, value);
         end
     end
