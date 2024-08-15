@@ -1,7 +1,4 @@
-classdef (Abstract) base < adi.libiio.device & ...
-        adi.libiio.channel & ...
-        adi.libiio.context & ...
-        adi.libiio.top & ...
+classdef (Abstract) base < adi.libiio.top & ...
         adi.libiio.low_level & ...
         matlab.System
     properties (Hidden, Access = {?handle}, Abstract)
@@ -58,7 +55,7 @@ classdef (Abstract) base < adi.libiio.device & ...
         % function status = cPtrCheck(obj,ptr)
         %     % Returns 0 if ptr is a valid pointer, negative error code
         %     % otherwise
-        %     status = -int32(isNull(ptr));            
+        %     status = -int32(isNull(ptr));
         % end
     end
 
@@ -77,7 +74,7 @@ classdef (Abstract) base < adi.libiio.device & ...
             
             % Get context
             % obj.iioCtx = calllib(obj.libName, 'iio_create_context', obj.iioCtxParams, obj.uri);
-            obj.iioCtx = adi.libiio.context.iio_create_context(obj, obj.iioCtxParams, obj.uri);
+            obj.iioCtx = adi.libiio.context.iio_create_context(obj.iioCtxParams, obj.uri);
             status = -int32(isNull(obj.iioCtx));% cPtrCheck(obj,obj.iioCtx);
             
             % Set context timeout
@@ -85,7 +82,7 @@ classdef (Abstract) base < adi.libiio.device & ...
 
             % Get AD9361 PHY device
             % obj.iioDev = calllib(obj.libName, 'iio_context_find_device', obj.iioCtx, 'ad9361-phy');
-            [status, obj.iioDev] = adi.libiio.context.iio_context_find_device(obj, obj.iioCtx, 'ad9361-phy');
+            obj.iioDev = adi.libiio.context.iio_context_find_device(obj.iioCtx, 'ad9361-phy');
 
             obj.needsTeardown = true;
 
@@ -94,7 +91,7 @@ classdef (Abstract) base < adi.libiio.device & ...
 
             % Find AD9361 LO channel
             % obj.iioChn = calllib(obj.libName, 'iio_device_find_channel', obj.iioDev, 'altvoltage0', true);
-            obj.iioChn = adi.libiio.device.iio_device_find_channel(obj, obj.iioDev, 'altvoltage0', true);
+            obj.iioChn = adi.libiio.device.iio_device_find_channel(obj.iioDev, 'altvoltage0', true);
             
             % obj.iioAttr = calllib(obj.libName, 'iio_channel_find_attr', obj.iioChn, 'frequency');
 
