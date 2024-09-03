@@ -115,6 +115,8 @@ classdef attribute < handle
             
             if ~status
                 value = valPtr.value;
+            else
+                value = false;
             end
         end
 
@@ -128,6 +130,8 @@ classdef attribute < handle
 
             if ~status
                 value = valPtr.value;
+            else
+                value = 0;
             end
         end
 
@@ -141,6 +145,8 @@ classdef attribute < handle
             
             if ~status
                 value = valPtr.value;
+            else
+                value = 0;
             end
         end
 

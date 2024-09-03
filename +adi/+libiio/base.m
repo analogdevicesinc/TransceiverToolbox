@@ -1,6 +1,4 @@
-classdef (Abstract) base < adi.libiio.top & ...
-        adi.libiio.low_level & ...
-        matlab.System
+classdef (Abstract) base < matlab.System
     properties (Hidden, Access = {?handle}, Abstract)
         iioCtx % The LibIIO context pointer
         iioDev% The LibIIO device pointer
@@ -59,10 +57,54 @@ classdef (Abstract) base < adi.libiio.top & ...
         % end
     end
 
+    % methods(Hidden, Access = protected)
+    %     function setupImpl(obj)
+    %         % Setup LibIIO
+    %         [notfound,warnings]=loadlibrary(obj.libName,'iio.h');
+    %         obj.libIsLoaded = true;
+    % 
+    %         % Initialize pointers and variables
+    %         obj.iioCtx = libpointer;
+    %         obj.iioCtxParams = libpointer;
+    %         obj.iioDev = libpointer;
+    %         obj.iioBuf = libpointer;
+    %         obj.contextTimeout = uint32(0);
+    % 
+    %         % Get context
+    %         % obj.iioCtx = calllib(obj.libName, 'iio_create_context', obj.iioCtxParams, obj.uri);
+    %         obj.iioCtx = adi.libiio.context.iio_create_context(obj.iioCtxParams, obj.uri);
+    %         status = -int32(isNull(obj.iioCtx));% cPtrCheck(obj,obj.iioCtx);
+    % 
+    %         % Set context timeout
+    %         % status = calllib(obj.libName, 'iio_context_set_timeout', obj.iioCtx, obj.contextTimeout);
+    % 
+    %         % Get AD9361 PHY device
+    %         % obj.iioDev = calllib(obj.libName, 'iio_context_find_device', obj.iioCtx, 'ad9361-phy');
+    %         obj.iioDev = adi.libiio.context.iio_context_find_device(obj.iioCtx, 'ad9361-phy');
+    % 
+    %         obj.needsTeardown = true;
+    % 
+    %         % Device-specific setup
+    %         configureChanBuffers(obj);
+    % 
+    %         % Find AD9361 LO channel
+    %         % obj.iioChn = calllib(obj.libName, 'iio_device_find_channel', obj.iioDev, 'altvoltage0', true);
+    %         obj.iioChn = adi.libiio.device.iio_device_find_channel(obj.iioDev, 'altvoltage0', true);
+    % 
+    %         % obj.iioAttr = calllib(obj.libName, 'iio_channel_find_attr', obj.iioChn, 'frequency');
+    % 
+    %         % status = calllib(obj.libName, 'iio_attr_write_longlong', obj.iioAttr, obj.CenterFrequency);
+    %     end
+    % 
+    %     function releaseImpl(obj)
+    %         unloadlibrary(obj.libName);
+    %     end
+    % end
+
     methods(Hidden, Access = protected)
         function setupImpl(obj)
             % Setup LibIIO
-            [notfound,warnings]=loadlibrary(obj.libName,'iio.h');
+            [notfound, warnings]=loadlibrary(obj.libName,'iio.h');
             obj.libIsLoaded = true;
             
             % Initialize pointers and variables
@@ -73,15 +115,10 @@ classdef (Abstract) base < adi.libiio.top & ...
             obj.contextTimeout = uint32(0);
             
             % Get context
-            % obj.iioCtx = calllib(obj.libName, 'iio_create_context', obj.iioCtxParams, obj.uri);
             obj.iioCtx = adi.libiio.context.iio_create_context(obj.iioCtxParams, obj.uri);
-            status = -int32(isNull(obj.iioCtx));% cPtrCheck(obj,obj.iioCtx);
+            status = -int32(isNull(obj.iioCtx));
             
-            % Set context timeout
-            % status = calllib(obj.libName, 'iio_context_set_timeout', obj.iioCtx, obj.contextTimeout);
-
             % Get AD9361 PHY device
-            % obj.iioDev = calllib(obj.libName, 'iio_context_find_device', obj.iioCtx, 'ad9361-phy');
             obj.iioDev = adi.libiio.context.iio_context_find_device(obj.iioCtx, 'ad9361-phy');
 
             obj.needsTeardown = true;
@@ -90,12 +127,7 @@ classdef (Abstract) base < adi.libiio.top & ...
             configureChanBuffers(obj);
 
             % Find AD9361 LO channel
-            % obj.iioChn = calllib(obj.libName, 'iio_device_find_channel', obj.iioDev, 'altvoltage0', true);
             obj.iioChn = adi.libiio.device.iio_device_find_channel(obj.iioDev, 'altvoltage0', true);
-            
-            % obj.iioAttr = calllib(obj.libName, 'iio_channel_find_attr', obj.iioChn, 'frequency');
-
-            % status = calllib(obj.libName, 'iio_attr_write_longlong', obj.iioAttr, obj.CenterFrequency);
         end
 
         function releaseImpl(obj)
