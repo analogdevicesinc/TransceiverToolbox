@@ -13,7 +13,7 @@ classdef device < handle
             % libiio function: iio_device_get_context
             
             if coder.target('MATLAB')
-                ctxPtr = adi.libiio.device.calllibADI('iio_device_get_context', devPtr);
+                ctxPtr = adi.libiio.helpers.calllibADI('iio_device_get_context', devPtr);
             else
                 ctxPtr = coder.opaque('struct iio_context*', 'NULL');
                 ctxPtr = coder.ceval('iio_device_get_context', devPtr);
@@ -32,7 +32,7 @@ classdef device < handle
             % libiio function: iio_device_get_id
             
             if coder.target('MATLAB')
-                id = adi.libiio.device.calllibADI('iio_device_get_id', devPtr);
+                id = adi.libiio.helpers.calllibADI('iio_device_get_id', devPtr);
             else
                 id = coder.ceval('iio_device_get_id', devPtr);
             end
@@ -53,7 +53,7 @@ classdef device < handle
             % libiio function: iio_device_get_name
             
             if coder.target('MATLAB')
-                name = adi.libiio.device.calllibADI('iio_device_get_name', devPtr);
+                name = adi.libiio.helpers.calllibADI('iio_device_get_name', devPtr);
             else
                 name = coder.ceval('iio_device_get_name', devPtr);
             end
@@ -74,7 +74,7 @@ classdef device < handle
             % libiio function: iio_device_get_label
             
             if coder.target('MATLAB')
-                label = adi.libiio.device.calllibADI('iio_device_get_label', devPtr);
+                label = adi.libiio.helpers.calllibADI('iio_device_get_label', devPtr);
             else
                 label = coder.ceval('iio_device_get_label', devPtr);
             end
@@ -92,7 +92,7 @@ classdef device < handle
             % libiio function: iio_device_get_channels_count
             
             if coder.target('MATLAB')
-                count = adi.libiio.device.calllibADI('iio_device_get_channels_count', devPtr);
+                count = adi.libiio.helpers.calllibADI('iio_device_get_channels_count', devPtr);
             else
                 count = coder.ceval('iio_device_get_channels_count', devPtr);
             end
@@ -110,7 +110,7 @@ classdef device < handle
             % libiio function: iio_device_get_attrs_count
             
             if coder.target('MATLAB')
-                count = adi.libiio.device.calllibADI('iio_device_get_attrs_count', devPtr);
+                count = adi.libiio.helpers.calllibADI('iio_device_get_attrs_count', devPtr);
             else
                 count = coder.ceval('iio_device_get_attrs_count', devPtr);
             end
@@ -130,7 +130,7 @@ classdef device < handle
             % libiio function: iio_device_get_channel
 
             if coder.target('MATLAB')
-                chanPtr = adi.libiio.device.calllibADI('iio_device_get_channel', devPtr, index);
+                chanPtr = adi.libiio.helpers.calllibADI('iio_device_get_channel', devPtr, index);
             else
                 chanPtr = coder.opaque('struct iio_channel*', 'NULL');
                 chanPtr = coder.ceval('iio_device_get_channel', devPtr, index);
@@ -151,7 +151,7 @@ classdef device < handle
             % libiio function: iio_device_get_attr
 
             if coder.target('MATLAB')
-                attrPtr = adi.libiio.device.calllibADI('iio_device_get_attr', devPtr, index);
+                attrPtr = adi.libiio.helpers.calllibADI('iio_device_get_attr', devPtr, index);
             else
                 attrPtr = coder.opaque('struct iio_attr*', 'NULL');
                 attrPtr = coder.ceval('iio_device_get_attr', devPtr, index);
@@ -176,7 +176,7 @@ classdef device < handle
             % libiio function: iio_device_find_channel
 
             if coder.target('MATLAB')
-                chanPtr = adi.libiio.device.calllibADI('iio_device_find_channel', devPtr, id, output);
+                chanPtr = adi.libiio.helpers.calllibADI('iio_device_find_channel', devPtr, id, output);
             else
                 chanPtr = coder.opaque('struct iio_channel*', 'NULL');
                 chanPtr = coder.ceval('iio_device_find_channel', devPtr, id, output);
@@ -205,7 +205,7 @@ classdef device < handle
             % libiio function: iio_device_find_attr
 
             if coder.target('MATLAB')
-                attrPtr = adi.libiio.device.calllibADI('iio_device_find_attr', devPtr, name);
+                attrPtr = adi.libiio.helpers.calllibADI('iio_device_find_attr', devPtr, name);
             else
                 attrPtr = coder.opaque('struct iio_attr*', 'NULL');
                 attrPtr = coder.ceval('iio_device_find_attr', devPtr, name);
@@ -222,13 +222,13 @@ classdef device < handle
             % libiio function: iio_device_set_data
 
             if coder.target('MATLAB')
-                adi.libiio.device.calllibADI('iio_device_set_data', devPtr, dataPtr);
+                adi.libiio.helpers.calllibADI('iio_device_set_data', devPtr, dataPtr);
             else
                 coder.ceval('iio_device_set_data', devPtr, dataPtr);
             end
         end
 
-        function valPtr = iio_device_get_data(devPtr)
+        function dataPtr = iio_device_get_data(devPtr)
             % Retrieve a previously associated pointer of an iio_device structure
             %
             % Args:
@@ -240,10 +240,10 @@ classdef device < handle
             % libiio function: iio_device_get_data
 
             if coder.target('MATLAB')
-                valPtr = adi.libiio.device.calllibADI('iio_device_get_data', devPtr);
+                dataPtr = adi.libiio.helpers.calllibADI('iio_device_get_data', devPtr);
             else
-                valPtr = coder.opaque('void*', 'NULL'); 
-                valPtr = coder.ceval('iio_device_get_data', devPtr);
+                dataPtr = coder.opaque('void*', 'NULL'); 
+                dataPtr = coder.ceval('iio_device_get_data', devPtr);
             end
         end
 
@@ -264,7 +264,7 @@ classdef device < handle
             % libiio function: iio_device_get_trigger
 
             if coder.target('MATLAB')
-                triggerPtr = adi.libiio.device.calllibADI('iio_device_get_trigger', devPtr, dataPtr);
+                triggerPtr = adi.libiio.helpers.calllibADI('iio_device_get_trigger', devPtr, dataPtr);
             else
                 triggerPtr = coder.opaque('const struct iio_device*', 'NULL'); 
                 triggerPtr = coder.ceval('iio_device_get_trigger', devPtr, dataPtr);
@@ -286,7 +286,7 @@ classdef device < handle
             % libiio function: iio_device_set_trigger
 
             if coder.target('MATLAB')
-                status = adi.libiio.device.calllibADI('iio_device_set_trigger', devPtr, triggerPtr);
+                status = adi.libiio.helpers.calllibADI('iio_device_set_trigger', devPtr, triggerPtr);
             else
                 status = coder.ceval('iio_device_set_trigger', devPtr, triggerPtr);
             end
@@ -304,7 +304,7 @@ classdef device < handle
             % libiio function: iio_device_is_trigger
 
             if coder.target('MATLAB')
-                status = adi.libiio.device.calllibADI('iio_device_is_trigger', devPtr);
+                status = adi.libiio.helpers.calllibADI('iio_device_is_trigger', devPtr);
             else
                 status = coder.ceval('iio_device_is_trigger', devPtr);
             end
@@ -314,73 +314,9 @@ classdef device < handle
     % Wrappers to maintain backwards-compatibility
     methods (Static)
         function nBytes = iio_device_attr_write(devPtr,attr,src)
-            [status, attrPtr] = adi.libiio.device.iio_device_find_attr(devPtr, attr);
+            [status, attrPtr] = adi.libiio.helpers.iio_device_find_attr(devPtr, attr);
             % cstatus(obj,status,['Attribute: ' attr ' not found']);
-            nBytes = adi.libiio.device.iio_attr_write_string(attrPtr, src);
-        end
-    end
-
-    %%Helpers
-    methods (Hidden, Access = private, Static)
-        function libName = getIIOLibName()
-            libName = 'libiio1';
-        end
-
-        function headername = getIIOHeaderName()
-            headername = 'iio.h';
-        end
-
-        function [notfound, warnings] = loadLibIIO()
-            notfound = [];
-            warnings = [];
-            libName = adi.libiio.device.getIIOLibName();
-            headername = adi.libiio.device.getIIOHeaderName();
-            % persistent IsLibiioLoaded
-            % if isempty(IsLibiioLoaded)
-            %     [notfound, warnings] = loadlibrary(libName,headername);
-            %     if ~isempty(notfound)
-            %         % error
-            %     end
-            %     IsLibiioLoaded = libisloaded(libName);
-            % end
-
-            if ~libisloaded(libName)
-                [notfound, warnings] = loadlibrary(libName,headername);
-                if ~isempty(notfound)
-                    % error
-                end
-            end
-        end
-
-        function unloadLibIIO()
-            libName = adi.libiio.device.getIIOLibName();
-            % persistent IsLibiioLoaded
-            % if isempty(IsLibiioLoaded)
-            %     IsLibiioLoaded = libisloaded(libName);
-            % end
-            % 
-            % if IsLibiioLoaded
-            %     unloadlibrary(libName);
-            % end
-
-            if libisloaded(libName)
-                unloadlibrary(libName);
-            end
-        end
-
-        function varargout = calllibADI(fn, varargin)
-            [notfound, warnings] = adi.libiio.device.loadLibIIO();
-            varargout = cell(1, nargout);
-            varargoutLocal = calllib(adi.libiio.device.getIIOLibName(), fn, varargin{:});
-            % adi.libiio.device.unloadLibIIO();
-            [varargout{:}] = varargoutLocal;
-        end
-
-        function strout = ntstr(strin)
-            % Appends a null character to terminate the string.
-            % This is needed for code generation since MATLAB character 
-            % arrays are not null terminated in code generation.
-            strout = [uint8(strin) uint8(0)];
+            nBytes = adi.libiio.helpers.iio_attr_write_string(attrPtr, src);
         end
     end
 end

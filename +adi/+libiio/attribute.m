@@ -20,7 +20,7 @@ classdef attribute < handle
                 'nonnegative', 'integer'});
             
             if coder.target('MATLAB')
-                status = adi.libiio.attribute.calllibADI('iio_attr_read_raw', attrPtr, dstPtr, len);
+                status = adi.libiio.helpers.calllibADI('iio_attr_read_raw', attrPtr, dstPtr, len);
             else
                 status = coder.ceval('iio_attr_read_raw', attrPtr, dstPtr, len);
             end
@@ -44,7 +44,7 @@ classdef attribute < handle
                 'nonnegative', 'integer'});
             
             if coder.target('MATLAB')
-                status = adi.libiio.attribute.calllibADI('iio_attr_write_raw', attrPtr, srcPtr, len);
+                status = adi.libiio.helpers.calllibADI('iio_attr_write_raw', attrPtr, srcPtr, len);
             else
                 status = coder.ceval('iio_attr_write_raw', attrPtr, srcPtr, len);
             end
@@ -62,7 +62,7 @@ classdef attribute < handle
             % libiio function: iio_attr_get_name
             
             if coder.target('MATLAB')
-                name = adi.libiio.attribute.calllibADI('iio_attr_get_name', attrPtr);
+                name = adi.libiio.helpers.calllibADI('iio_attr_get_name', attrPtr);
             else
                 name = coder.ceval('iio_attr_get_name', attrPtr);
             end
@@ -80,7 +80,7 @@ classdef attribute < handle
             % libiio function: iio_attr_get_filename
             
             if coder.target('MATLAB')
-                name = adi.libiio.attribute.calllibADI('iio_attr_get_filename', attrPtr);
+                name = adi.libiio.helpers.calllibADI('iio_attr_get_filename', attrPtr);
             else
                 name = coder.ceval('iio_attr_get_filename', attrPtr);
             end
@@ -99,7 +99,7 @@ classdef attribute < handle
             % libiio function: iio_attr_get_filename
             
             if coder.target('MATLAB')
-                name = adi.libiio.attribute.calllibADI('iio_attr_get_static_value', attrPtr);
+                name = adi.libiio.helpers.calllibADI('iio_attr_get_static_value', attrPtr);
             else
                 name = coder.ceval('iio_attr_get_static_value', attrPtr);
             end
@@ -108,7 +108,7 @@ classdef attribute < handle
         function [status, value] = iio_attr_read_bool(attrPtr)
             valPtr = libpointer('bool', 0);
             if coder.target('MATLAB')
-                status = adi.libiio.attribute.calllibADI('iio_attr_read_bool', attrPtr, valPtr);
+                status = adi.libiio.helpers.calllibADI('iio_attr_read_bool', attrPtr, valPtr);
             else
                 status = coder.ceval('iio_attr_read_bool', attrPtr, valPtr);
             end
@@ -123,7 +123,7 @@ classdef attribute < handle
         function [status, value] = iio_attr_read_longlong(attrPtr)
             valPtr = libpointer('int64Ptr', 0);
             if coder.target('MATLAB')
-                status = adi.libiio.attribute.calllibADI('iio_attr_read_longlong', attrPtr, valPtr);
+                status = adi.libiio.helpers.calllibADI('iio_attr_read_longlong', attrPtr, valPtr);
             else
                 status = coder.ceval('iio_attr_read_longlong', attrPtr, valPtr);
             end
@@ -138,7 +138,7 @@ classdef attribute < handle
         function [status, value] = iio_attr_read_double(attrPtr)
             valPtr = libpointer('double', 0);
             if coder.target('MATLAB')
-                status = adi.libiio.attribute.calllibADI('iio_attr_read_double', attrPtr, valPtr);
+                status = adi.libiio.helpers.calllibADI('iio_attr_read_double', attrPtr, valPtr);
             else
                 status = coder.ceval('iio_attr_read_double', attrPtr, valPtr);
             end
@@ -152,7 +152,7 @@ classdef attribute < handle
 
         function status = iio_attr_write_string(attrPtr, value)
             if coder.target('MATLAB')
-                status = adi.libiio.attribute.calllibADI('iio_attr_write_string', attrPtr, value);
+                status = adi.libiio.helpers.calllibADI('iio_attr_write_string', attrPtr, value);
             else
                 status = coder.ceval('iio_attr_write_string', attrPtr, value);
             end
@@ -160,7 +160,7 @@ classdef attribute < handle
 
         function status = iio_attr_write_bool(attrPtr, value)
             if coder.target('MATLAB')
-                status = adi.libiio.attribute.calllibADI('iio_attr_write_bool', attrPtr, value);
+                status = adi.libiio.helpers.calllibADI('iio_attr_write_bool', attrPtr, value);
             else
                 status = coder.ceval('iio_attr_write_bool', attrPtr, value);
             end
@@ -168,7 +168,7 @@ classdef attribute < handle
 
         function status = iio_attr_write_longlong(attrPtr, value)
             if coder.target('MATLAB')
-                status = adi.libiio.attribute.calllibADI('iio_attr_write_longlong', attrPtr, value);
+                status = adi.libiio.helpers.calllibADI('iio_attr_write_longlong', attrPtr, value);
             else
                 status = coder.ceval('iio_attr_write_longlong', attrPtr, value);
             end
@@ -176,74 +176,10 @@ classdef attribute < handle
 
         function status = iio_attr_write_double(attrPtr, value)
             if coder.target('MATLAB')
-                status = adi.libiio.attribute.calllibADI('iio_attr_write_double', attrPtr, value);
+                status = adi.libiio.helpers.calllibADI('iio_attr_write_double', attrPtr, value);
             else
                 status = coder.ceval('iio_attr_write_double', attrPtr, value);
             end
-        end
-    end
-
-    %%Helpers
-    methods (Hidden, Access = private, Static)
-        function libName = getIIOLibName()
-            libName = 'libiio1';
-        end
-
-        function headername = getIIOHeaderName()
-            headername = 'iio.h';
-        end
-
-        function [notfound, warnings] = loadLibIIO()
-            notfound = [];
-            warnings = [];
-            libName = adi.libiio.attribute.getIIOLibName();
-            headername = adi.libiio.attribute.getIIOHeaderName();
-            % persistent IsLibiioLoaded
-            % if isempty(IsLibiioLoaded)
-            %     [notfound, warnings] = loadlibrary(libName,headername);
-            %     if ~isempty(notfound)
-            %         % error
-            %     end
-            %     IsLibiioLoaded = libisloaded(libName);
-            % end
-
-            if ~libisloaded(libName)
-                [notfound, warnings] = loadlibrary(libName,headername);
-                if ~isempty(notfound)
-                    % error
-                end
-            end
-        end
-
-        function unloadLibIIO()
-            libName = adi.libiio.attribute.getIIOLibName();
-            % persistent IsLibiioLoaded
-            % if isempty(IsLibiioLoaded)
-            %     IsLibiioLoaded = libisloaded(libName);
-            % end
-            % 
-            % if IsLibiioLoaded
-            %     unloadlibrary(libName);
-            % end
-
-            if libisloaded(libName)
-                unloadlibrary(libName);
-            end
-        end
-
-        function varargout = calllibADI(fn, varargin)
-            [notfound, warnings] = adi.libiio.attribute.loadLibIIO();
-            varargout = cell(1, nargout);
-            varargoutLocal = calllib(adi.libiio.attribute.getIIOLibName(), fn, varargin{:});
-            % adi.libiio.attribute.unloadLibIIO();
-            [varargout{:}] = varargoutLocal;
-        end
-
-        function strout = ntstr(strin)
-            % Appends a null character to terminate the string.
-            % This is needed for code generation since MATLAB character 
-            % arrays are not null terminated in code generation.
-            strout = [uint8(strin) uint8(0)];
         end
     end
 end

@@ -63,10 +63,10 @@ classdef context < handle
             % libiio function: iio_create_context
             
             if coder.target('MATLAB')
-                ctxPtr = adi.libiio.context.calllibADI('iio_create_context', ctxParamsPtr, uri);
+                ctxPtr = adi.libiio.helpers.calllibADI('iio_create_context', ctxParamsPtr, uri);
             else
                 ctxPtr = coder.opaque('struct iio_context*', 'NULL');
-                ctxPtr = coder.ceval('iio_create_context', ctxParamsPtr, adi.libiio.context.ntstr(uri));
+                ctxPtr = coder.ceval('iio_create_context', ctxParamsPtr, adi.libiio.helpers.ntstr(uri));
             end
         end
 
@@ -79,7 +79,7 @@ classdef context < handle
             % libiio function: iio_context_destroy
 
             if coder.target('MATLAB')
-                adi.libiio.context.calllibADI('iio_context_destroy', ctxPtr);
+                adi.libiio.helpers.calllibADI('iio_context_destroy', ctxPtr);
             else
                 coder.ceval('iio_context_destroy', ctxPtr);
             end
@@ -101,7 +101,7 @@ classdef context < handle
             % libiio function: iio_context_get_version_major
 
             if coder.target('MATLAB')
-                major = adi.libiio.context.calllibADI('iio_context_get_version_major', ctxPtr);
+                major = adi.libiio.helpers.calllibADI('iio_context_get_version_major', ctxPtr);
             else
                 major = coder.ceval('iio_context_get_version_major', ctxPtr);
             end
@@ -123,7 +123,7 @@ classdef context < handle
             % libiio function: iio_context_get_version_minor
 
             if coder.target('MATLAB')
-                minor = adi.libiio.context.calllibADI('iio_context_get_version_minor', ctxPtr);
+                minor = adi.libiio.helpers.calllibADI('iio_context_get_version_minor', ctxPtr);
             else
                 minor = coder.ceval('iio_context_get_version_minor', ctxPtr);
             end
@@ -145,7 +145,7 @@ classdef context < handle
             % libiio function: iio_context_get_version_tag
 
             if coder.target('MATLAB')
-                vtag = adi.libiio.context.calllibADI('iio_context_get_version_tag', ctxPtr);
+                vtag = adi.libiio.helpers.calllibADI('iio_context_get_version_tag', ctxPtr);
             else
                 vtag = coder.nullcopy(adi.libiio.scan.ntstr(''));
                 vtag = coder.ceval('iio_context_get_version_tag', ctxPtr);
@@ -165,7 +165,7 @@ classdef context < handle
             % libiio function: iio_context_get_xml
 
             if coder.target('MATLAB')
-                xml = adi.libiio.context.calllibADI('iio_context_get_xml', ctxPtr);
+                xml = adi.libiio.helpers.calllibADI('iio_context_get_xml', ctxPtr);
             else
                 xml = coder.nullcopy(adi.libiio.scan.ntstr(''));
                 xml = coder.ceval('iio_context_get_xml', ctxPtr);
@@ -189,7 +189,7 @@ classdef context < handle
             % libiio function: iio_context_get_name
 
             if coder.target('MATLAB')
-                name = adi.libiio.context.calllibADI('iio_context_get_name', ctxPtr);
+                name = adi.libiio.helpers.calllibADI('iio_context_get_name', ctxPtr);
             else
                 name = coder.nullcopy(adi.libiio.scan.ntstr(''));
                 name = coder.ceval('iio_context_get_name', ctxPtr);
@@ -212,7 +212,7 @@ classdef context < handle
             % libiio function: iio_context_get_description
 
             if coder.target('MATLAB')
-                descr = adi.libiio.context.calllibADI('iio_context_get_description', ctxPtr);
+                descr = adi.libiio.helpers.calllibADI('iio_context_get_description', ctxPtr);
             else
                 descr = coder.nullcopy(adi.libiio.scan.ntstr(''));
                 descr = coder.ceval('iio_context_get_description', ctxPtr);
@@ -231,7 +231,7 @@ classdef context < handle
             % libiio function: iio_device_get_channels_count
             
             if coder.target('MATLAB')
-                count = adi.libiio.context.calllibADI('iio_device_get_channels_count', ctxPtr);
+                count = adi.libiio.helpers.calllibADI('iio_device_get_channels_count', ctxPtr);
             else
                 count = coder.ceval('iio_device_get_channels_count', ctxPtr);
             end
@@ -251,7 +251,7 @@ classdef context < handle
             % libiio function: iio_context_find_device
 
             if coder.target('MATLAB')
-                attrPtr = adi.libiio.context.calllibADI('iio_context_get_attr', ctxPtr, idx);
+                attrPtr = adi.libiio.helpers.calllibADI('iio_context_get_attr', ctxPtr, idx);
             else
                 attrPtr = coder.opaque('struct iio_attr*', 'NULL');
                 attrPtr = coder.ceval('iio_context_get_attr', ctxPtr, idx);
@@ -274,10 +274,10 @@ classdef context < handle
             % libiio function: iio_context_find_attr
 
             if coder.target('MATLAB')
-                attrPtr = adi.libiio.context.calllibADI('iio_context_find_attr', ctxPtr, name);
+                attrPtr = adi.libiio.helpers.calllibADI('iio_context_find_attr', ctxPtr, name);
             else
                 attrPtr = coder.opaque('struct iio_attr*', 'NULL');
-                attrPtr = coder.ceval('iio_context_find_attr', ctxPtr, adi.libiio.context.ntstr(name));
+                attrPtr = coder.ceval('iio_context_find_attr', ctxPtr, adi.libiio.helpers.ntstr(name));
             end
         end
 
@@ -293,7 +293,7 @@ classdef context < handle
             % libiio function: iio_context_get_devices_count
             
             if coder.target('MATLAB')
-                count = adi.libiio.context.calllibADI('iio_context_get_devices_count', ctxPtr);
+                count = adi.libiio.helpers.calllibADI('iio_context_get_devices_count', ctxPtr);
             else
                 count = coder.ceval('iio_context_get_devices_count', ctxPtr);
             end
@@ -313,7 +313,7 @@ classdef context < handle
             % libiio function: iio_context_get_device
 
             if coder.target('MATLAB')
-                devPtr = adi.libiio.context.calllibADI('iio_context_get_device', ctxPtr, idx);
+                devPtr = adi.libiio.helpers.calllibADI('iio_context_get_device', ctxPtr, idx);
             else
                 devPtr = coder.opaque('struct iio_device*', 'NULL');
                 devPtr = coder.ceval('iio_context_get_device', ctxPtr, idx);
@@ -336,10 +336,10 @@ classdef context < handle
             % libiio function: iio_context_find_device
 
             if coder.target('MATLAB')
-                devPtr = adi.libiio.context.calllibADI('iio_context_find_device', ctxPtr, name);
+                devPtr = adi.libiio.helpers.calllibADI('iio_context_find_device', ctxPtr, name);
             else
                 devPtr = coder.opaque('struct iio_device*', 'NULL');
-                devPtr = coder.ceval('iio_context_find_device', ctxPtr, adi.libiio.context.ntstr(name));
+                devPtr = coder.ceval('iio_context_find_device', ctxPtr, adi.libiio.helpers.ntstr(name));
             end
         end
 
@@ -359,7 +359,7 @@ classdef context < handle
             % libiio function: iio_context_set_timeout
 
             if coder.target('MATLAB')
-                status = adi.libiio.context.calllibADI('iio_context_set_timeout', ctxPtr, timeout_ms);
+                status = adi.libiio.helpers.calllibADI('iio_context_set_timeout', ctxPtr, timeout_ms);
             else
                 status = coder.opaque('struct iio_device*', 'NULL');
                 status = coder.ceval('iio_context_set_timeout', ctxPtr, timeout_ms);
@@ -378,7 +378,7 @@ classdef context < handle
             % libiio function: iio_context_get_params
 
             if coder.target('MATLAB')
-                ctxParamsPtr = adi.libiio.context.calllibADI('iio_context_get_params', ctxPtr);
+                ctxParamsPtr = adi.libiio.helpers.calllibADI('iio_context_get_params', ctxPtr);
             else
                 ctxParamsPtr = coder.opaque('struct iio_context_params*', 'NULL');
                 ctxParamsPtr = coder.ceval('iio_context_get_params', ctxPtr);
@@ -398,7 +398,7 @@ classdef context < handle
             % libiio function: iio_context_set_data
 
             if coder.target('MATLAB')
-                adi.libiio.context.calllibADI('iio_context_set_data', ctxPtr, dataPtr);
+                adi.libiio.helpers.calllibADI('iio_context_set_data', ctxPtr, dataPtr);
             else
                 coder.ceval('iio_context_set_data', ctxPtr, dataPtr);
             end
@@ -416,75 +416,11 @@ classdef context < handle
             % libiio function: iio_context_get_data
 
             if coder.target('MATLAB')
-                dataPtr = adi.libiio.context.calllibADI('iio_context_set_data', ctxPtr);
+                dataPtr = adi.libiio.helpers.calllibADI('iio_context_set_data', ctxPtr);
             else
                 dataPtr = coder.opaque('void*', 'NULL');
                 dataPtr = coder.ceval('iio_context_set_data', ctxPtr);
             end
-        end
-    end
-
-    %%Helpers
-    methods (Hidden, Access = private, Static)
-        function libName = getIIOLibName()
-            libName = 'libiio1';
-        end
-
-        function headername = getIIOHeaderName()
-            headername = 'iio.h';
-        end
-
-        function [notfound, warnings] = loadLibIIO()
-            notfound = [];
-            warnings = [];
-            libName = adi.libiio.context.getIIOLibName();
-            headername = adi.libiio.context.getIIOHeaderName();
-            % persistent IsLibiioLoaded
-            % if isempty(IsLibiioLoaded)
-            %     [notfound, warnings] = loadlibrary(libName,headername);
-            %     if ~isempty(notfound)
-            %         % error
-            %     end
-            %     IsLibiioLoaded = libisloaded(libName);
-            % end
-
-            if ~libisloaded(libName)
-                [notfound, warnings] = loadlibrary(libName,headername);
-                if ~isempty(notfound)
-                    % error
-                end
-            end
-        end
-
-        function unloadLibIIO()
-            libName = adi.libiio.context.getIIOLibName();
-            % persistent IsLibiioLoaded
-            % if isempty(IsLibiioLoaded)
-            %     IsLibiioLoaded = libisloaded(libName);
-            % end
-            % 
-            % if IsLibiioLoaded
-            %     unloadlibrary(libName);
-            % end
-
-            if libisloaded(libName)
-                unloadlibrary(libName);
-            end
-        end
-
-        function varargout = calllibADI(fn, varargin)
-            [notfound, warnings] = adi.libiio.context.loadLibIIO();
-            varargout = cell(1, nargout);
-            varargoutLocal = calllib(adi.libiio.context.getIIOLibName(), fn, varargin{:});
-            % adi.libiio.context.unloadLibIIO();
-            [varargout{:}] = varargoutLocal;
-        end
-
-        function strout = ntstr(strin)
-            % Appends a null character to terminate the string.
-            % This is needed for code generation since MATLAB character 
-            % arrays are not null terminated in code generation.
-            strout = [uint8(strin) uint8(0)];
         end
     end
 end
