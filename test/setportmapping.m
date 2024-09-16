@@ -55,6 +55,7 @@ else
     error('Unknown device');
 end
 
+run('load_sl_glibc_patch');
 load_system(mdl);
 
 
