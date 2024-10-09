@@ -321,7 +321,7 @@ classdef ADRV9002Tests < HardwareTests
             rx.CustomStreamFileName = which('lte_5_cmos_api_68_0_6.stream');
 
             rx.DigitalGainControlModeChannel0 = 'spi';
-            rx.InterfaceGainChannel0 = '6dB';
+            rx.InterfaceGainChannel0 = rx.InterfaceGainAvailableChannel0{1};
             verifyError(testCase, @() rx(), ?MException);
         end
 
@@ -335,7 +335,7 @@ classdef ADRV9002Tests < HardwareTests
             rx.CustomStreamFileName = which('lte_5_cmos_api_68_0_6.stream');
 
             rx.DigitalGainControlModeChannel0 = 'spi';
-            rx.InterfaceGainChannel0 = '6dB';
+            rx.InterfaceGainChannel0 = rx.InterfaceGainAvailableChannel0{1};
             [~,valid] = rx();
             testCase.assertTrue(valid);
         end
