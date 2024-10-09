@@ -366,9 +366,9 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
         
         % Check InterfaceGainChannel0
         function set.InterfaceGainChannel0(obj, value)
-            mustBeMember(value,obj.InterfaceGainAvailableChannel0);
             obj.InterfaceGainChannel0 = value;
             if obj.ConnectedToDevice
+                mustBeMember(value,obj.InterfaceGainAvailableChannel0);
                 id = 'voltage0';
                 if strcmpi(obj.DigitalGainControlModeChannel0,'spi') &&...
                         strcmpi(obj.ENSMModeChannel0,'rf_enabled')
@@ -378,9 +378,9 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
         end
         % Check InterfaceGainChannel1
         function set.InterfaceGainChannel1(obj, value)
-            mustBeMember(value,obj.InterfaceGainAvailableChannel1);
             obj.InterfaceGainChannel1 = value;
             if obj.ConnectedToDevice
+                mustBeMember(value,obj.InterfaceGainAvailableChannel1);
                 id = 'voltage1';
                 if strcmpi(obj.DigitalGainControlModeChannel1,'spi') &&...
                         strcmpi(obj.ENSMModeChannel1,'rf_enabled')
