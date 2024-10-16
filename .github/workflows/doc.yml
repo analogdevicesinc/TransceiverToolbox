@@ -16,9 +16,14 @@ jobs:
           python-version: 3.7
 
       - name: Set up MATLAB
-        uses: matlab-actions/setup-matlab@v1
+        uses: matlab-actions/setup-matlab@v2
         with:
             release: R2023b
+            products: >
+              Signal_Processing_Toolbox
+              DSP_System_Toolbox
+              Communications_Toolbox
+              Communications_Toolbox_Support_Package_for_Analog_Devices_ADALM-Pluto_Radio
   
       - name: Install dependencies
         run: |
