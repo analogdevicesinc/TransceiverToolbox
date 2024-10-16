@@ -13,10 +13,21 @@ jobs:
         with:
           python-version: 3.7
 
+      - name: Set up MATLAB
+        uses: matlab-actions/setup-matlab@v1
+        with:
+            release: R2023b
+  
       - name: Install dependencies
         run: |
           sudo apt install -y python3-numpy
           pip install -r CI/doc/requirements_doc.txt
+
+      - name: Generate MATLAB side of doc
+        uses: matlab-actions/run-command@v1
+        with:
+            command: addpath(genpath('.')); gen_sysobj_doc; exit();
+
       - name: Check doc build
         run: |
           make -C CI/doc gen_autodocs html
