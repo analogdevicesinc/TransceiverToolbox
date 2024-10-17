@@ -200,7 +200,7 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
         %   hardware
         RSSIChannel1
     end
-        
+
     properties(Constant, Hidden)
         ENSMModeChannel0Set = matlab.system.StringSet({ ...
             'calibrated','primed','rf_enabled'});
@@ -221,15 +221,13 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
             'automatic','spi'});
         DigitalGainControlModeChannel1Set = matlab.system.StringSet({ ...
             'automatic','spi'});
-        
-        InterfaceGainChannel0Set = matlab.system.StringSet({...
-            '18dB', '12dB', '6dB', '0dB', '-6dB', '-12dB', '-18dB',...
-            '-24dB', '-30dB','-36dB'});
-        InterfaceGainChannel1Set = matlab.system.StringSet({...
-            '18dB', '12dB', '6dB', '0dB', '-6dB', '-12dB', '-18dB',...
-            '-24dB', '-30dB','-36dB'});
     end
     
+    properties(Hidden)
+        InterfaceGainAvailableChannel0
+        InterfaceGainAvailableChannel1
+    end
+
     properties (Hidden, Nontunable, Access = protected)
         isOutput = false;
     end
@@ -262,6 +260,22 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
                 value = obj.getAttributeDouble('voltage1','rssi',false);
             else
                 value = NaN;
+            end
+        end
+        function values = get.InterfaceGainAvailableChannel0(obj)
+            if obj.ConnectedToDevice
+                values = obj.getAttributeRAW('voltage0','interface_gain_available',false);
+                values = strsplit(values);
+            else
+                values = NaN;
+            end
+        end
+        function values = get.InterfaceGainAvailableChannel1(obj)
+            if obj.ConnectedToDevice
+                values = obj.getAttributeRAW('voltage0','interface_gain_available',false);
+                values = strsplit(values);
+            else
+                values = NaN;
             end
         end
         
@@ -354,6 +368,7 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
         function set.InterfaceGainChannel0(obj, value)
             obj.InterfaceGainChannel0 = value;
             if obj.ConnectedToDevice
+                mustBeMember(value,obj.InterfaceGainAvailableChannel0);
                 id = 'voltage0';
                 if strcmpi(obj.DigitalGainControlModeChannel0,'spi') &&...
                         strcmpi(obj.ENSMModeChannel0,'rf_enabled')
@@ -365,6 +380,7 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
         function set.InterfaceGainChannel1(obj, value)
             obj.InterfaceGainChannel1 = value;
             if obj.ConnectedToDevice
+                mustBeMember(value,obj.InterfaceGainAvailableChannel1);
                 id = 'voltage1';
                 if strcmpi(obj.DigitalGainControlModeChannel1,'spi') &&...
                         strcmpi(obj.ENSMModeChannel1,'rf_enabled')

@@ -335,8 +335,9 @@ classdef ADRV9002Tests < HardwareTests
             rx.CustomStreamFileName = which('lte_5_cmos_api_68_0_6.stream');
 
             rx.DigitalGainControlModeChannel0 = 'spi';
-            rx.InterfaceGainChannel0 = '6dB';
+            rx.InterfaceGainChannel0 = '0dB';
             [~,valid] = rx();
+            rx.InterfaceGainChannel0 = rx.InterfaceGainAvailableChannel0{1};
             testCase.assertTrue(valid);
         end
 
