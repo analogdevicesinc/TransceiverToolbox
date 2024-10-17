@@ -1,6 +1,6 @@
 
-# adi.FMComms3.Tx
-<!-- <div class="sysobj_h1">adi.FMComms3.Tx</div> -->
+# adi.FMComms5.Tx
+<!-- <div class="sysobj_h1">adi.FMComms5.Tx</div> -->
 
 <!-- <div class="sysobj_top_desc">
 Receive data from Analog Devices AD9361 transceiver
@@ -10,7 +10,7 @@ Receive data from Analog Devices AD9361 transceiver
 
 <div class="sysobj_desc_txt">
 <span>
-    The adi.FMComms3.Tx System object is a signal source that can <br>    send complex data to the FMComms2.<br> <br>    tx = adi.FMComms3.Tx;<br>    tx = adi.FMComms3.Tx('uri','ip:192.168.2.1');<br> <br>    <a href="https://www.analog.com/en/design-center/evaluation-hardware-and-software/evaluation-boards-kits/EVAL-AD-FMCOMMS3.html">Product Page</a><br> <br>
+    The adi.FMComms5.Tx System object is a signal sink that can tranmsit<br>    complex data from the FMComms5.<br> <br>    tx = adi.FMComms5.Tx;<br>    tx = adi.FMComms5.Tx('uri','ip:192.168.2.1');<br> <br>    <a href="https://www.analog.com/en/design-center/evaluation-hardware-and-software/evaluation-boards-kits/eval-ad-fmcomms5-ebz.html">Product Page</a><br>
 </span>
 
 </div>
@@ -20,8 +20,8 @@ Receive data from Analog Devices AD9361 transceiver
 The class can be instantiated in the following way with and without property name value pairs.
 
 ```matlab
-dev = adi.FMComms3.Tx
-dev = adi.FMComms3.Tx(Name, Value)
+dev = adi.FMComms5.Tx
+dev = adi.FMComms5.Tx(Name, Value)
 ```
 
 <div class="sysobj_desc_title">Properties</div>
@@ -38,6 +38,78 @@ For more information on changing property values, see <a href="https://www.mathw
 <br>
 
 
+
+:::{dropdown} CenterFrequencyChipB
+RF center frequency, specified in Hz as a scalar. The default is 2.4e9. This property is tunable.
+:::
+
+:::{dropdown} RFBandwidthChipB
+RF Bandwidth of front-end analog filter in Hz, specified as a scalar from 200 kHz to 56 MHz.
+:::
+
+:::{dropdown} AttenuationChannel0ChipB
+Attentuation specified as a scalar from -89.75 to 0 dB with a resolution of 0.25 dB.
+:::
+
+:::{dropdown} AttenuationChannel1ChipB
+Attentuation specified as a scalar from -89.75 to 0 dB with a resolution of 0.25 dB.
+:::
+
+:::{dropdown} DDSFrequenciesChipB
+Frequencies values in Hz of the DDS tone generators. For complex data devices the input is a [2xN] matrix where N is the available channels on the board. For complex data devices this is at most max(EnabledChannels)*2. For non-complex data devices this is at most max(EnabledChannels). If N < this upper limit, other DDSs are not set.
+:::
+
+:::{dropdown} DDSScalesChipB
+Scale of DDS tones in range [0,1]. For complex data devices the input is a [2xN] matrix where N is the available channels on the board. For complex data devices this is at most max(EnabledChannels)*2. For non-complex data devices this is at most max(EnabledChannels). If N < this upper limit, other DDSs are not set.
+:::
+
+:::{dropdown} DDSPhasesChipB
+Phases of DDS tones in range [0,360000]. For complex data devices the input is a [2xN] matrix where N is the available channels on the board. For complex data devices this is at most max(EnabledChannels)*2. For non-complex data devices this is at most max(EnabledChannels). If N < this upper limit, other DDSs are not set.
+:::
+
+:::{dropdown} RFPortSelectChipB
+'A' 'B'
+:::
+
+:::{dropdown} SamplesPerFrame
+Number of samples per frame, specified as an even positive integer from 2 to 16,777,216. Using values less than 3660 can yield poor performance.
+:::
+
+:::{dropdown} EnableCustomFilter
+Enable use of custom filter file to set SamplingRate, RFBandwidth, and FIR in datapaths
+:::
+
+:::{dropdown} CustomFilterFileName
+Path to custom filter file created from filter wizard
+:::
+
+:::{dropdown} CenterFrequency
+RF center frequency, specified in Hz as a scalar. The default is 2.4e9. This property is tunable.
+:::
+
+:::{dropdown} SamplingRate
+Baseband sampling rate in Hz, specified as a scalar from 65105 to 61.44e6 samples per second.
+:::
+
+:::{dropdown} RFBandwidth
+RF Bandwidth of front-end analog filter in Hz, specified as a scalar from 200 kHz to 56 MHz.
+:::
+
+:::{dropdown} EnabledChannels
+Indexs of channels to be enabled. Input should be a [1xN] vector with the indexes of channels to be enabled. Order is irrelevant
+:::
+
+:::{dropdown} uri
+Hostname or IP address of remote libIIO device
+:::
+
+:::{dropdown} enIO
+If true, connects to libIIO device during simulation
+:::
+
+:::{dropdown} devName
+Name of the libIIO device
+:::
 
 :::{dropdown} CenterFrequency
 RF center frequency, specified in Hz as a scalar. The default is 2.4e9. This property is tunable.
@@ -61,30 +133,6 @@ Attentuation specified as a scalar from -89.75 to 0 dB with a resolution of 0.25
 
 :::{dropdown} RFPortSelect
 'A' 'B'
-:::
-
-:::{dropdown} SamplesPerFrame
-Number of samples per frame, specified as an even positive integer from 2 to 16,777,216. Using values less than 3660 can yield poor performance.
-:::
-
-:::{dropdown} EnableCustomFilter
-Enable use of custom filter file to set SamplingRate, RFBandwidth, and FIR in datapaths
-:::
-
-:::{dropdown} CustomFilterFileName
-Path to custom filter file created from filter wizard
-:::
-
-:::{dropdown} EnabledChannels
-Indexs of channels to be enabled. Input should be a [1xN] vector with the indexes of channels to be enabled. Order is irrelevant
-:::
-
-:::{dropdown} uri
-Hostname or IP address of remote libIIO device
-:::
-
-:::{dropdown} enIO
-If true, connects to libIIO device during simulation
 :::
 
 :::{dropdown} DataSource
@@ -114,7 +162,7 @@ Enable Cyclic Buffers, configures transmit buffers to be cyclic, which makes the
 ```matlab
 
 %% Configure device
-tx = adi.FMComms3.Tx;
+tx = adi.FMComms5.Tx;
 tx.uri = 'ip:analog.local';
 
 tx.CenterFrequency = 1e9;

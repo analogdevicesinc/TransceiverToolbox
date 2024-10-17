@@ -40,27 +40,27 @@ For more information on changing property values, see <a href="https://www.mathw
 
 
 :::{dropdown} GainControlMode
-specified as one of the following: 'slow_attack' — For signals with slowly changing power levels 'fast_attack' — For signals with rapidly changing power levels 'manual' — For setting the gain manually with the Gain property 'hybrid' — For configuring hybrid AGC modeHelp for adi.ADRV9371.Rx/GainControlMode is inherited from superclass ADI.AD9371.RX
+specified as one of the following: 'slow_attack' — For signals with slowly changing power levels 'fast_attack' — For signals with rapidly changing power levels 'manual' — For setting the gain manually with the Gain property 'hybrid' — For configuring hybrid AGC mode
 :::
 
 :::{dropdown} GainChannel0
-Channel 0 gain, specified as a scalar from -4 dB to 71 dB. The acceptable minimum and maximum gain setting depends on the center frequency.Help for adi.ADRV9371.Rx/GainChannel0 is inherited from superclass ADI.AD9371.RX
+Channel 0 gain, specified as a scalar from -4 dB to 71 dB. The acceptable minimum and maximum gain setting depends on the center frequency.
 :::
 
 :::{dropdown} GainChannel1
-Channel 1 gain, specified as a scalar from -4 dB to 71 dB. The acceptable minimum and maximum gain setting depends on the center frequency.Help for adi.ADRV9371.Rx/GainChannel1 is inherited from superclass ADI.AD9371.RX
+Channel 1 gain, specified as a scalar from -4 dB to 71 dB. The acceptable minimum and maximum gain setting depends on the center frequency.
 :::
 
 :::{dropdown} LoopbackMode
-Option to set digital loopback mode, specified as 0 or 1. Allows digital loopback of TX data into the RX path. Value  | Mode ---------------------------  0 |  Disable  1 |  EnableHelp for adi.ADRV9371.Rx/LoopbackMode is inherited from superclass ADI.AD9371.RX
+Option to set digital loopback mode, specified as 0 or 1. Allows digital loopback of TX data into the RX path. Value  | Mode ---------------------------  0 |  Disable  1 |  Enable
 :::
 
 :::{dropdown} EnableQuadratureTrackingChannel0
-Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.Help for adi.ADRV9371.Rx/EnableQuadratureTrackingChannel0 is inherited from superclass ADI.AD9371.RX
+Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.
 :::
 
 :::{dropdown} EnableQuadratureTrackingChannel1
-Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.Help for adi.ADRV9371.Rx/EnableQuadratureTrackingChannel1 is inherited from superclass ADI.AD9371.RX
+Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.
 :::
 
 :::{dropdown} SamplesPerFrame
@@ -84,11 +84,11 @@ Indexs of channels to be enabled. Input should be a [1xN] vector with the indexe
 :::
 
 :::{dropdown} uri
-Hostname or IP address of remote libIIO deviceHelp for adi.ADRV9371.Rx/uri is inherited from superclass MATLABSHARED.LIBIIO.BASE
+Hostname or IP address of remote libIIO device
 :::
 
 :::{dropdown} enIO
-If true, connects to libIIO device during simulationHelp for adi.ADRV9371.Rx/enIO is inherited from superclass MATLABSHARED.LIBIIO.BASE
+If true, connects to libIIO device during simulation
 :::
 
 

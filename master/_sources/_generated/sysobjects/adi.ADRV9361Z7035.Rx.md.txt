@@ -40,51 +40,51 @@ For more information on changing property values, see <a href="https://www.mathw
 
 
 :::{dropdown} CenterFrequency
-RF center frequency, specified in Hz as a scalar. The default is 2.4e9. This property is tunable.Help for adi.ADRV9361Z7035.Rx/CenterFrequency is inherited from superclass ADI.AD9361.RX
+RF center frequency, specified in Hz as a scalar. The default is 2.4e9. This property is tunable.
 :::
 
 :::{dropdown} SamplingRate
-Baseband sampling rate in Hz, specified as a scalar from 65105 to 61.44e6 samples per second.Help for adi.ADRV9361Z7035.Rx/SamplingRate is inherited from superclass ADI.AD9361.RX
+Baseband sampling rate in Hz, specified as a scalar from 65105 to 61.44e6 samples per second.
 :::
 
 :::{dropdown} RFBandwidth
-RF Bandwidth of front-end analog filter in Hz, specified as a scalar from 200 kHz to 56 MHz.Help for adi.ADRV9361Z7035.Rx/RFBandwidth is inherited from superclass ADI.AD9361.RX
+RF Bandwidth of front-end analog filter in Hz, specified as a scalar from 200 kHz to 56 MHz.
 :::
 
 :::{dropdown} GainControlModeChannel0
-specified as one of the following: 'slow_attack' — For signals with slowly changing power levels 'fast_attack' — For signals with rapidly changing power levels 'manual' — For setting the gain manually with the Gain property 'hybrid' — For configuring hybrid AGC modeHelp for adi.ADRV9361Z7035.Rx/GainControlModeChannel0 is inherited from superclass ADI.AD9361.RX
+specified as one of the following: 'slow_attack' — For signals with slowly changing power levels 'fast_attack' — For signals with rapidly changing power levels 'manual' — For setting the gain manually with the Gain property 'hybrid' — For configuring hybrid AGC mode
 :::
 
 :::{dropdown} GainChannel0
-Channel 0 gain, specified as a scalar from -3 dB to 71 dB. The acceptable minimum and maximum gain setting depends on the center frequency.Help for adi.ADRV9361Z7035.Rx/GainChannel0 is inherited from superclass ADI.AD9361.RX
+Channel 0 gain, specified as a scalar from -3 dB to 71 dB. The acceptable minimum and maximum gain setting depends on the center frequency.
 :::
 
 :::{dropdown} GainControlModeChannel1
-specified as one of the following: 'slow_attack' — For signals with slowly changing power levels 'fast_attack' — For signals with rapidly changing power levels 'manual' — For setting the gain manually with the Gain property 'hybrid' — For configuring hybrid AGC modeHelp for adi.ADRV9361Z7035.Rx/GainControlModeChannel1 is inherited from superclass ADI.AD9361.RX
+specified as one of the following: 'slow_attack' — For signals with slowly changing power levels 'fast_attack' — For signals with rapidly changing power levels 'manual' — For setting the gain manually with the Gain property 'hybrid' — For configuring hybrid AGC mode
 :::
 
 :::{dropdown} GainChannel1
-Channel 1 gain, specified as a scalar from -3 dB to 71 dB. The acceptable minimum and maximum gain setting depends on the center frequency.Help for adi.ADRV9361Z7035.Rx/GainChannel1 is inherited from superclass ADI.AD9361.RX
+Channel 1 gain, specified as a scalar from -3 dB to 71 dB. The acceptable minimum and maximum gain setting depends on the center frequency.
 :::
 
 :::{dropdown} LoopbackMode
-Option to set digital loopback mode, specified as 0, 1 or 2. Allows either to digitally loopback TX data into the RX path or vice versa. Value  | Mode ---------------------------  0 |  Disable  1 |  Digital TX -> Digital RX  2 |  RF RX -> RF TX Help for adi.ADRV9361Z7035.Rx/LoopbackMode is inherited from superclass ADI.AD9361.RX
+Option to set digital loopback mode, specified as 0, 1 or 2. Allows either to digitally loopback TX data into the RX path or vice versa. Value  | Mode ---------------------------  0 |  Disable  1 |  Digital TX -> Digital RX  2 |  RF RX -> RF TX
 :::
 
 :::{dropdown} EnableQuadratureTracking
-Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.Help for adi.ADRV9361Z7035.Rx/EnableQuadratureTracking is inherited from superclass ADI.AD9361.RX
+Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.
 :::
 
 :::{dropdown} EnableRFDCTracking
-Option to enable RF DC tracking, specified as true or false. When this property is true, an RF DC blocking filter is applied to the input signal.Help for adi.ADRV9361Z7035.Rx/EnableRFDCTracking is inherited from superclass ADI.AD9361.RX
+Option to enable RF DC tracking, specified as true or false. When this property is true, an RF DC blocking filter is applied to the input signal.
 :::
 
 :::{dropdown} EnableBasebandDCTracking
-Option to enable baseband DC tracking, specified as true or false. When this property is true, a baseband DC blocking filter is applied to the input signal.Help for adi.ADRV9361Z7035.Rx/EnableBasebandDCTracking is inherited from superclass ADI.AD9361.RX
+Option to enable baseband DC tracking, specified as true or false. When this property is true, a baseband DC blocking filter is applied to the input signal.
 :::
 
 :::{dropdown} RFPortSelect
-'A_BALANCED' 'B_BALANCED' 'C_BALANCED' 'A_N' 'A_P' 'B_N' 'B_P' 'C_N' 'C_P' 'TX_MONITOR1' 'TX_MONITOR2' 'TX_MONITOR1_2'Help for adi.ADRV9361Z7035.Rx/RFPortSelect is inherited from superclass ADI.AD9361.RX
+'A_BALANCED' 'B_BALANCED' 'C_BALANCED' 'A_N' 'A_P' 'B_N' 'B_P' 'C_N' 'C_P' 'TX_MONITOR1' 'TX_MONITOR2' 'TX_MONITOR1_2'
 :::
 
 :::{dropdown} SamplesPerFrame
@@ -104,11 +104,11 @@ Indexs of channels to be enabled. Input should be a [1xN] vector with the indexe
 :::
 
 :::{dropdown} uri
-Hostname or IP address of remote libIIO deviceHelp for adi.ADRV9361Z7035.Rx/uri is inherited from superclass MATLABSHARED.LIBIIO.BASE
+Hostname or IP address of remote libIIO device
 :::
 
 :::{dropdown} enIO
-If true, connects to libIIO device during simulationHelp for adi.ADRV9361Z7035.Rx/enIO is inherited from superclass MATLABSHARED.LIBIIO.BASE
+If true, connects to libIIO device during simulation
 :::
 
 

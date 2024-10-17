@@ -80,31 +80,31 @@ Indexs of channels to be enabled. Input should be a [1xN] vector with the indexe
 :::
 
 :::{dropdown} uri
-Hostname or IP address of remote libIIO deviceHelp for adi.AD9361.Tx/uri is inherited from superclass MATLABSHARED.LIBIIO.BASE
+Hostname or IP address of remote libIIO device
 :::
 
 :::{dropdown} enIO
-If true, connects to libIIO device during simulationHelp for adi.AD9361.Tx/enIO is inherited from superclass MATLABSHARED.LIBIIO.BASE
+If true, connects to libIIO device during simulation
 :::
 
 :::{dropdown} DataSource
-Data source, specified as one of the following: 'DMA' — Specify the host as the source of the data. 'DDS' — Specify the DDS on the radio hardware as the source of the data. In this case, each channel has two additive tones.Help for adi.AD9361.Tx/DataSource is inherited from superclass ADI.COMMON.DDS
+Data source, specified as one of the following: 'DMA' — Specify the host as the source of the data. 'DDS' — Specify the DDS on the radio hardware as the source of the data. In this case, each channel has two additive tones.
 :::
 
 :::{dropdown} DDSFrequencies
-Frequencies values in Hz of the DDS tone generators. For complex data devices the input is a [2xN] matrix where N is the available channels on the board. For complex data devices this is at most max(EnabledChannels)*2. For non-complex data devices this is at most max(EnabledChannels). If N < this upper limit, other DDSs are not set.Help for adi.AD9361.Tx/DDSFrequencies is inherited from superclass ADI.COMMON.DDS
+Frequencies values in Hz of the DDS tone generators. For complex data devices the input is a [2xN] matrix where N is the available channels on the board. For complex data devices this is at most max(EnabledChannels)*2. For non-complex data devices this is at most max(EnabledChannels). If N < this upper limit, other DDSs are not set.
 :::
 
 :::{dropdown} DDSScales
-Scale of DDS tones in range [0,1]. For complex data devices the input is a [2xN] matrix where N is the available channels on the board. For complex data devices this is at most max(EnabledChannels)*2. For non-complex data devices this is at most max(EnabledChannels). If N < this upper limit, other DDSs are not set.Help for adi.AD9361.Tx/DDSScales is inherited from superclass ADI.COMMON.DDS
+Scale of DDS tones in range [0,1]. For complex data devices the input is a [2xN] matrix where N is the available channels on the board. For complex data devices this is at most max(EnabledChannels)*2. For non-complex data devices this is at most max(EnabledChannels). If N < this upper limit, other DDSs are not set.
 :::
 
 :::{dropdown} DDSPhases
-Phases of DDS tones in range [0,360000]. For complex data devices the input is a [2xN] matrix where N is the available channels on the board. For complex data devices this is at most max(EnabledChannels)*2. For non-complex data devices this is at most max(EnabledChannels). If N < this upper limit, other DDSs are not set.Help for adi.AD9361.Tx/DDSPhases is inherited from superclass ADI.COMMON.DDS
+Phases of DDS tones in range [0,360000]. For complex data devices the input is a [2xN] matrix where N is the available channels on the board. For complex data devices this is at most max(EnabledChannels)*2. For non-complex data devices this is at most max(EnabledChannels). If N < this upper limit, other DDSs are not set.
 :::
 
 :::{dropdown} EnableCyclicBuffers
-Enable Cyclic Buffers, configures transmit buffers to be cyclic, which makes them continuously repeatHelp for adi.AD9361.Tx/EnableCyclicBuffers is inherited from superclass ADI.COMMON.DDS
+Enable Cyclic Buffers, configures transmit buffers to be cyclic, which makes them continuously repeat
 :::
 
 

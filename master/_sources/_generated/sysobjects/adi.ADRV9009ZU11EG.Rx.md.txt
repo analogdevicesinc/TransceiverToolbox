@@ -116,59 +116,59 @@ Indexs of channels to be enabled. Input should be a [1xN] vector with the indexe
 :::
 
 :::{dropdown} uri
-Hostname or IP address of remote libIIO deviceHelp for adi.ADRV9009ZU11EG.Rx/uri is inherited from superclass MATLABSHARED.LIBIIO.BASE
+Hostname or IP address of remote libIIO device
 :::
 
 :::{dropdown} enIO
-If true, connects to libIIO device during simulationHelp for adi.ADRV9009ZU11EG.Rx/enIO is inherited from superclass MATLABSHARED.LIBIIO.BASE
+If true, connects to libIIO device during simulation
 :::
 
 :::{dropdown} devName
-Name of the libIIO deviceHelp for adi.ADRV9009ZU11EG.Rx/devName is inherited from superclass MATLABSHARED.LIBIIO.BASE
+Name of the libIIO device
 :::
 
 :::{dropdown} GainControlMode
-specified as one of the following: 'slow_attack' — For signals with slowly changing power levels 'manual' — For setting the gain manually with the Gain propertyHelp for adi.ADRV9009ZU11EG.Rx/GainControlMode is inherited from superclass ADI.ADRV9009.RX
+specified as one of the following: 'slow_attack' — For signals with slowly changing power levels 'manual' — For setting the gain manually with the Gain property
 :::
 
 :::{dropdown} GainChannel0
-Channel 0 gain, specified as a scalar from 1 dB to 30 dB. The acceptable minimum and maximum gain setting depends on the center frequency.Help for adi.ADRV9009ZU11EG.Rx/GainChannel0 is inherited from superclass ADI.ADRV9009.RX
+Channel 0 gain, specified as a scalar from 1 dB to 30 dB. The acceptable minimum and maximum gain setting depends on the center frequency.
 :::
 
 :::{dropdown} GainChannel1
-Channel 1 gain, specified as a scalar from 1 dB to 30 dB. The acceptable minimum and maximum gain setting depends on the center frequency.Help for adi.ADRV9009ZU11EG.Rx/GainChannel1 is inherited from superclass ADI.ADRV9009.RX
+Channel 1 gain, specified as a scalar from 1 dB to 30 dB. The acceptable minimum and maximum gain setting depends on the center frequency.
 :::
 
 :::{dropdown} EnableQuadratureTrackingChannel0
-Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.Help for adi.ADRV9009ZU11EG.Rx/EnableQuadratureTrackingChannel0 is inherited from superclass ADI.ADRV9009.RX
+Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.
 :::
 
 :::{dropdown} EnableQuadratureTrackingChannel1
-Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.Help for adi.ADRV9009ZU11EG.Rx/EnableQuadratureTrackingChannel1 is inherited from superclass ADI.ADRV9009.RX
+Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.
 :::
 
 :::{dropdown} EnableHarmonicDistortionTrackingChannel0
-Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.Help for adi.ADRV9009ZU11EG.Rx/EnableHarmonicDistortionTrackingChannel0 is inherited from superclass ADI.ADRV9009.RX
+Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.
 :::
 
 :::{dropdown} EnableHarmonicDistortionTrackingChannel1
-Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.Help for adi.ADRV9009ZU11EG.Rx/EnableHarmonicDistortionTrackingChannel1 is inherited from superclass ADI.ADRV9009.RX
+Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.
 :::
 
 :::{dropdown} EnableQuadratureCalibration
-Option to enable quadrature calibration on initialization, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.Help for adi.ADRV9009ZU11EG.Rx/EnableQuadratureCalibration is inherited from superclass ADI.ADRV9009.RX
+Option to enable quadrature calibration on initialization, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.
 :::
 
 :::{dropdown} EnablePhaseCorrection
-Option to enable phase tracking, specified as true or false. When this property is true, Phase differences between transceivers will be deterministic across power cycles and LO changesHelp for adi.ADRV9009ZU11EG.Rx/EnablePhaseCorrection is inherited from superclass ADI.ADRV9009.RX
+Option to enable phase tracking, specified as true or false. When this property is true, Phase differences between transceivers will be deterministic across power cycles and LO changes
 :::
 
 :::{dropdown} PowerdownChannel0
-Logical which will power down RX channel 0 when setHelp for adi.ADRV9009ZU11EG.Rx/PowerdownChannel0 is inherited from superclass ADI.ADRV9009.RX
+Logical which will power down RX channel 0 when set
 :::
 
 :::{dropdown} PowerdownChannel1
-Logical which will power down RX channel 1 when setHelp for adi.ADRV9009ZU11EG.Rx/PowerdownChannel1 is inherited from superclass ADI.ADRV9009.RX
+Logical which will power down RX channel 1 when set
 :::
 
 

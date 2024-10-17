@@ -84,11 +84,11 @@ Indexs of channels to be enabled. Input should be a [1xN] vector with the indexe
 :::
 
 :::{dropdown} uri
-Hostname or IP address of remote libIIO deviceHelp for adi.AD9371.Rx/uri is inherited from superclass MATLABSHARED.LIBIIO.BASE
+Hostname or IP address of remote libIIO device
 :::
 
 :::{dropdown} enIO
-If true, connects to libIIO device during simulationHelp for adi.AD9371.Rx/enIO is inherited from superclass MATLABSHARED.LIBIIO.BASE
+If true, connects to libIIO device during simulation
 :::
 
 

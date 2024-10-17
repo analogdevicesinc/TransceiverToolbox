@@ -40,27 +40,27 @@ For more information on changing property values, see <a href="https://www.mathw
 
 
 :::{dropdown} CenterFrequency
-RF center frequency, specified in Hz as a scalar. The default is 2.4e9. This property is tunable.Help for adi.Pluto.Tx/CenterFrequency is inherited from superclass ADI.AD9361.TX
+RF center frequency, specified in Hz as a scalar. The default is 2.4e9. This property is tunable.
 :::
 
 :::{dropdown} SamplingRate
-Baseband sampling rate in Hz, specified as a scalar from 65105 to 61.44e6 samples per second.Help for adi.Pluto.Tx/SamplingRate is inherited from superclass ADI.AD9361.TX
+Baseband sampling rate in Hz, specified as a scalar from 65105 to 61.44e6 samples per second.
 :::
 
 :::{dropdown} RFBandwidth
-RF Bandwidth of front-end analog filter in Hz, specified as a scalar from 200 kHz to 56 MHz.Help for adi.Pluto.Tx/RFBandwidth is inherited from superclass ADI.AD9361.TX
+RF Bandwidth of front-end analog filter in Hz, specified as a scalar from 200 kHz to 56 MHz.
 :::
 
 :::{dropdown} AttenuationChannel0
-Attentuation specified as a scalar from -89.75 to 0 dB with a resolution of 0.25 dB.Help for adi.Pluto.Tx/AttenuationChannel0 is inherited from superclass ADI.AD9361.TX
+Attentuation specified as a scalar from -89.75 to 0 dB with a resolution of 0.25 dB.
 :::
 
 :::{dropdown} AttenuationChannel1
-Attentuation specified as a scalar from -89.75 to 0 dB with a resolution of 0.25 dB.Help for adi.Pluto.Tx/AttenuationChannel1 is inherited from superclass ADI.AD9361.TX
+Attentuation specified as a scalar from -89.75 to 0 dB with a resolution of 0.25 dB.
 :::
 
 :::{dropdown} RFPortSelect
-'A' 'B'Help for adi.Pluto.Tx/RFPortSelect is inherited from superclass ADI.AD9361.TX
+'A' 'B'
 :::
 
 :::{dropdown} SamplesPerFrame
@@ -80,31 +80,31 @@ Indexs of channels to be enabled. Input should be a [1xN] vector with the indexe
 :::
 
 :::{dropdown} uri
-Hostname or IP address of remote libIIO deviceHelp for adi.Pluto.Tx/uri is inherited from superclass MATLABSHARED.LIBIIO.BASE
+Hostname or IP address of remote libIIO device
 :::
 
 :::{dropdown} enIO
-If true, connects to libIIO device during simulationHelp for adi.Pluto.Tx/enIO is inherited from superclass MATLABSHARED.LIBIIO.BASE
+If true, connects to libIIO device during simulation
 :::
 
 :::{dropdown} DataSource
-Data source, specified as one of the following: 'DMA' — Specify the host as the source of the data. 'DDS' — Specify the DDS on the radio hardware as the source of the data. In this case, each channel has two additive tones.Help for adi.Pluto.Tx/DataSource is inherited from superclass ADI.COMMON.DDS
+Data source, specified as one of the following: 'DMA' — Specify the host as the source of the data. 'DDS' — Specify the DDS on the radio hardware as the source of the data. In this case, each channel has two additive tones.
 :::
 
 :::{dropdown} DDSFrequencies
-Frequencies values in Hz of the DDS tone generators. For complex data devices the input is a [2xN] matrix where N is the available channels on the board. For complex data devices this is at most max(EnabledChannels)*2. For non-complex data devices this is at most max(EnabledChannels). If N < this upper limit, other DDSs are not set.Help for adi.Pluto.Tx/DDSFrequencies is inherited from superclass ADI.COMMON.DDS
+Frequencies values in Hz of the DDS tone generators. For complex data devices the input is a [2xN] matrix where N is the available channels on the board. For complex data devices this is at most max(EnabledChannels)*2. For non-complex data devices this is at most max(EnabledChannels). If N < this upper limit, other DDSs are not set.
 :::
 
 :::{dropdown} DDSScales
-Scale of DDS tones in range [0,1]. For complex data devices the input is a [2xN] matrix where N is the available channels on the board. For complex data devices this is at most max(EnabledChannels)*2. For non-complex data devices this is at most max(EnabledChannels). If N < this upper limit, other DDSs are not set.Help for adi.Pluto.Tx/DDSScales is inherited from superclass ADI.COMMON.DDS
+Scale of DDS tones in range [0,1]. For complex data devices the input is a [2xN] matrix where N is the available channels on the board. For complex data devices this is at most max(EnabledChannels)*2. For non-complex data devices this is at most max(EnabledChannels). If N < this upper limit, other DDSs are not set.
 :::
 
 :::{dropdown} DDSPhases
-Phases of DDS tones in range [0,360000]. For complex data devices the input is a [2xN] matrix where N is the available channels on the board. For complex data devices this is at most max(EnabledChannels)*2. For non-complex data devices this is at most max(EnabledChannels). If N < this upper limit, other DDSs are not set.Help for adi.Pluto.Tx/DDSPhases is inherited from superclass ADI.COMMON.DDS
+Phases of DDS tones in range [0,360000]. For complex data devices the input is a [2xN] matrix where N is the available channels on the board. For complex data devices this is at most max(EnabledChannels)*2. For non-complex data devices this is at most max(EnabledChannels). If N < this upper limit, other DDSs are not set.
 :::
 
 :::{dropdown} EnableCyclicBuffers
-Enable Cyclic Buffers, configures transmit buffers to be cyclic, which makes them continuously repeatHelp for adi.Pluto.Tx/EnableCyclicBuffers is inherited from superclass ADI.COMMON.DDS
+Enable Cyclic Buffers, configures transmit buffers to be cyclic, which makes them continuously repeat
 :::
 
 
