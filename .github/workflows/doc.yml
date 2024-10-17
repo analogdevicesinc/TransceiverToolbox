@@ -8,15 +8,33 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: recursive
       - name: Set up Python 3.7
         uses: actions/setup-python@v2
         with:
           python-version: 3.7
 
+      - name: Set up MATLAB
+        uses: matlab-actions/setup-matlab@v2
+        with:
+            release: R2023b
+            products: >
+              Signal_Processing_Toolbox
+              DSP_System_Toolbox
+              Communications_Toolbox
+              Communications_Toolbox_Support_Package_for_Analog_Devices_ADALM-Pluto_Radio
+  
       - name: Install dependencies
         run: |
           sudo apt install -y python3-numpy
           pip install -r CI/doc/requirements_doc.txt
+
+      - name: Generate MATLAB side of doc
+        uses: matlab-actions/run-command@v1
+        with:
+            command: addpath(genpath('.')); gen_sysobj_doc; exit();
+
       - name: Check doc build
         run: |
           make -C CI/doc gen_autodocs html

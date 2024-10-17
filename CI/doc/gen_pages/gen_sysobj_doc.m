@@ -6,16 +6,20 @@ files = dir(filepath);
 mfiledir = fullfile('adi');
 docdir = fullfile('doc');
 parts = {'AD9361'; 'AD9363'; 'AD9364'; ...
-    'AD9371'; 'ADRV9009'; 'ADRV9361Z7035'; ...
-    'ADRV9364Z7020'; 'ADRV9371'; 'FMComms2'; ...
-    'FMComms3'; 'FMComms4'; 'PackRF'; 'Pluto';...
-    'ADRV9002'; 'FMComms8'; 'ADRV9009ZU11EG'};
+    'AD9371'; 'ADRV9371'; ...
+    'ADRV9009'; ...
+    'ADRV9361Z7035'; 'ADRV9364Z7020'; ...
+    'FMComms2'; 'FMComms3'; 'FMComms4'; 'FMComms5'; ...
+    'Pluto';...
+    'ADRV9002'; ...
+    'ADRV9009ZU11EG'; 'FMComms8'};
 trx_files = {'Tx','Rx'};
 
 all_devs = [];
 for ii = 1:numel(parts)
     for jj = 1:numel(trx_files)
         all_props = [];
+        fprintf('%s %s\n', parts{ii}, trx_files{jj});
         dotmfilename = strcat(mfiledir, '.', parts{ii}, '.', trx_files{jj});
         props = properties(dotmfilename);
         for prop = 1:length(props)
@@ -34,6 +38,16 @@ for ii = 1:numel(parts)
             prop_description = char(prop_description);
             prop_description = replace(prop_description,'    ',' ');
             prop_description = replace(prop_description,'  ',' ');
+
+            % Remove inherited text notes
+            if contains(prop_description, 'inherited from superclass')
+                loc = strfind(prop_description, 'Help for ');
+                if ~isempty(loc)
+                    prop_description = prop_description(1:loc-1);
+                else
+                    warning('inherited text not as expected');
+                end
+            end
             
             s = struct('prop_name',props{prop},...
                 'prop_title',prop_title,...
@@ -60,7 +74,7 @@ for ii = 1:numel(parts)
 end
 %%
 jsonText = jsonencode(all_devs,'PrettyPrint',true);
-fid = fopen(fullfile('CI','gen_doc','docs','sysobjs.json'), 'w');
+fid = fopen(fullfile('CI','doc','gen_pages','sysobjs.json'), 'w');
 fprintf(fid, '%s', jsonText);
 fclose(fid);
 
