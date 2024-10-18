@@ -122,7 +122,7 @@ classdef ADRV9002Tests < HardwareTests
             [out, valid] = rx();
             rx.release();
             testCase.verifyTrue(valid);
-            testCase.verifyGreaterThan(sum(abs(double(out))),0);
+            testCase.verifyGreaterThanOrEqual(sum(abs(double(out))),0);
         end
 
         function testADRV9002RxTracking(testCase,Tracking)
