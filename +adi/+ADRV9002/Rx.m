@@ -28,7 +28,10 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
         %   For narrowband applications higher levels of interface gain
         %   should be used (0:18) to allow signal level and analog noise to
         %   dominate. For wideband applications this gain should be reduced
-        %   or disabled since quantization noise is minimal.
+        %   or disabled since quantization noise is minimal. Note that the
+        %   available options for this gain depend on the profile loaded
+        %   and picking an option outside of those options generates an
+        %   error.
         InterfaceGainChannel0 = '0dB';
         %InterfaceGainChannel1 Interface Gain Channel 1
         %   This is the final gain in the digital path with possible
@@ -37,7 +40,10 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
         %   For narrowband applications higher levels of interface gain
         %   should be used (0:18) to allow signal level and analog noise to
         %   dominate. For wideband applications this gain should be reduced
-        %   or disabled since quantization noise is minimal.
+        %   or disabled since quantization noise is minimal. Note that the
+        %   available options for this gain depend on the profile loaded
+        %   and picking an option outside of those options generates an
+        %   error.
         InterfaceGainChannel1 = '0dB';
         
         %DigitalGainControlModeChannel0 Digital Gain Control Mode Channel 0
