@@ -48,11 +48,11 @@ specified as one of the following: 'calibrated' 'primed' 'rf_enabled'
 :::
 
 :::{dropdown} InterfaceGainChannel0
-This is the final gain in the digital path with possible values: -36:6:18 This gain should be selected based on primary signal bandwidth. For narrowband applications higher levels of interface gain should be used (0:18) to allow signal level and analog noise to dominate. For wideband applications this gain should be reduced or disabled since quantization noise is minimal.
+This is the final gain in the digital path with possible values: -36:6:18 This gain should be selected based on primary signal bandwidth. For narrowband applications higher levels of interface gain should be used (0:18) to allow signal level and analog noise to dominate. For wideband applications this gain should be reduced or disabled since quantization noise is minimal. Note that the available options for this gain depend on the profile loaded and picking an option outside of those options generates an error.
 :::
 
 :::{dropdown} InterfaceGainChannel1
-This is the final gain in the digital path with possible values: -36:6:18 This gain should be selected based on primary signal bandwidth. For narrowband applications higher levels of interface gain should be used (0:18) to allow signal level and analog noise to dominate. For wideband applications this gain should be reduced or disabled since quantization noise is minimal.
+This is the final gain in the digital path with possible values: -36:6:18 This gain should be selected based on primary signal bandwidth. For narrowband applications higher levels of interface gain should be used (0:18) to allow signal level and analog noise to dominate. For wideband applications this gain should be reduced or disabled since quantization noise is minimal. Note that the available options for this gain depend on the profile loaded and picking an option outside of those options generates an error.
 :::
 
 :::{dropdown} DigitalGainControlModeChannel0
