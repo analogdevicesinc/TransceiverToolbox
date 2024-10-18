@@ -596,10 +596,12 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
             end
 
             if strcmpi(obj.DigitalGainControlModeChannel0,'spi') && strcmpi(obj.ENSMModeChannel0,'rf_enabled')
+                mustBeMember(obj.InterfaceGainChannel0,obj.InterfaceGainAvailableChannel0);
                 obj.setAttributeRAW('voltage0','interface_gain',obj.InterfaceGainChannel0,false);
             end
             
             if strcmpi(obj.DigitalGainControlModeChannel1,'spi') && strcmpi(obj.ENSMModeChannel1,'rf_enabled') && channelsAval == 2
+                mustBeMember(obj.InterfaceGainChannel1,obj.InterfaceGainAvailableChannel1);
                 obj.setAttributeRAW('voltage1','interface_gain',obj.InterfaceGainChannel1,false);
             end            
             
