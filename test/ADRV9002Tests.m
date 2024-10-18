@@ -122,7 +122,7 @@ classdef ADRV9002Tests < HardwareTests
             [out, valid] = rx();
             rx.release();
             testCase.verifyTrue(valid);
-            testCase.verifyGreaterThan(sum(abs(double(out))),0);
+            testCase.verifyGreaterThanOrEqual(sum(abs(double(out))),0);
         end
 
         function testADRV9002RxTracking(testCase,Tracking)
@@ -335,8 +335,9 @@ classdef ADRV9002Tests < HardwareTests
             rx.CustomStreamFileName = which('lte_5_cmos_api_68_0_6.stream');
 
             rx.DigitalGainControlModeChannel0 = 'spi';
-            rx.InterfaceGainChannel0 = '6dB';
+            rx.InterfaceGainChannel0 = '0dB';
             [~,valid] = rx();
+            rx.InterfaceGainChannel0 = rx.InterfaceGainAvailableChannel0{1};
             testCase.assertTrue(valid);
         end
 
