@@ -1,5 +1,5 @@
 // Pipeline
-lock(label: 'adgt_test_harness_boards') {
+lock(label: 'adgt_test_harness_boards', quantity: 1){
     @Library('sdgtt-lib@adgt-test-harness') _ // Not necessary when we turn on global libraries :)
     def hdlBranch = "NA"
     def linuxBranch = "NA"
@@ -12,7 +12,7 @@ lock(label: 'adgt_test_harness_boards') {
     harness.set_env('libiio_repo', 'http://gateway.englab:3000/mirrors/libiio.git')
     harness.set_env('libiio_branch', 'v0.25')
     harness.set_env('nebula_repo', 'http://gateway.englab:3000/mirrors/nebula.git')
-    harness.set_env('nebula_branch','dev')
+    harness.set_env('nebula_branch','main')
     harness.set_env('nebula_config_branch','release')
     // harness.set_env('telemetry_repo', 'http://gateway.englab:3000/mirrors/telemetry.git')
     // harness.set_env('telemetry_branch', 'master')
@@ -30,7 +30,6 @@ lock(label: 'adgt_test_harness_boards') {
     withCredentials([string(credentialsId: 'netbox_token', variable: 'TOKEN')]) {
         harness.set_env('netbox_token', TOKEN)
     }
-    harness.set_env('netbox_devices_tag','active')
     
     //Update agent with required deps
     harness.set_required_agent(["sdg-nuc-01","sdg-nuc-02"])
@@ -44,9 +43,6 @@ lock(label: 'adgt_test_harness_boards') {
     harness.set_env('docker_image', 'tfcollins/test-harness-ci-ubuntu-22_04:latest')
     harness.set_docker_host_mode(true) // Set to false if using machine-specific license
     harness.set_send_telemetry(false)
-    harness.set_log_jira(false)
-    harness.set_enable_resource_queuing(true)
-    harness.set_lock_agent(false) // Set to true if using machine-specific license
     harness.set_elastic_server('192.168.10.1')
     harness.set_required_hardware(["zynq-zed-adv7511-adrv9002-vcmos",
                                   "zynq-zed-adv7511-adrv9002-rx2tx2-vcmos",
