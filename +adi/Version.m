@@ -5,7 +5,7 @@ classdef Version
         HDL = 'hdl_2022_r2';
         Vivado = '2022.2';
         MATLAB = 'R2023b';
-        Release = '23.2.1';
+        Release = '23.2.2';
         AppName = 'Analog Devices, Inc. Transceiver Toolbox';
         ToolboxName = 'TransceiverToolbox';
         ToolboxNameShort = 'trx';

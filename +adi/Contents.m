@@ -1,5 +1,5 @@
 % Analog Devices, Inc. Transceiver Toolbox
-% Version 23.2.1 (R2023b)
+% Version 23.2.2 (R2023b)
 %
 % ==== Table of Contents (TOC) ====
 %
@@ -17,6 +17,7 @@
 %   <a href="matlab:help adi.FMComms2          ">FMComms2</a>       - FMC development board based on the AD9361 with narrowband baluns
 %   <a href="matlab:help adi.FMComms3          ">FMComms3</a>       - FMC development board based on the AD9361 with wideband baluns
 %   <a href="matlab:help adi.FMComms4          ">FMComms4</a>       - FMC development board based on the AD9364
+%   <a href="matlab:help adi.FMComms5          ">FMComms5</a>       - FMC development board based on two AD9361s
 %   <a href="matlab:help adi.FMComms8          ">FMComms8</a>       - FMC development board based on the dual ADRV9009s
 %   <a href="matlab:help adi.PackRF            ">PackRF</a>         - Portable Reference design based on the AD9361 with Zynq-Z7035
 %   <a href="matlab:help adi.Pluto             ">Pluto</a>          - Portable self-contained RF learning module based on the AD9363 with Zynq-Z7020
