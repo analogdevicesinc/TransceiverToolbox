@@ -1,10 +1,13 @@
 name: Build Toolbox
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
+  dependencies:
+    uses: ./.github/workflows/depends.yml
   build:
     name: Build Toolbox
+    needs: dependencies
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -15,12 +18,31 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.10'
+
+      - uses: actions/download-artifact@v4
+        with:
+          path: "."
+  
       - name: Organize Toolbox Dependencies
         run: |
+            ls deps
+            # assert that the dependencies are present
+            if [ ! -f "deps/libad9361.dll" ]; then
+                echo "libad9361-iio DLL not found"
+                exit 1
+            fi
+            if [ ! -f "deps/libad9361.so" ]; then
+                echo "libad9361-iio SO not found"
+                exit 1
+            fi
+            if [ ! -f "deps/ad9361.h" ]; then
+                echo "libad9361-iio header not found"
+                exit 1
+            fi
+
             make -C ./CI/scripts build
             pip3 install -r CI/doc/requirements_doc.txt
             make -C CI/doc gen_autodocs html
-            make -C ./CI/scripts add_libad9361
 
       - name: Set up MATLAB
         uses: matlab-actions/setup-matlab@v1

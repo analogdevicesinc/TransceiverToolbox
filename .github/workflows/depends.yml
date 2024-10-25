@@ -1,0 +1,102 @@
+name: Build Dependencies
+
+on: workflow_call
+
+jobs:
+  build_linux:
+    name: Build libad9361-iio for Linux
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install dependencies
+        run: |
+            sudo apt-get -qq update
+            sudo apt-get install -y git cmake graphviz libavahi-common-dev libavahi-client-dev libaio-dev libusb-1.0-0-dev libxml2-dev rpm tar bzip2 gzip flex bison git libzstd-dev
+            git clone -b v0.25 --single-branch --depth 1 https://github.com/analogdevicesinc/libiio.git
+            cd libiio
+            cmake . -DHAVE_DNS_SD=OFF
+            make
+            sudo make install
+            cd ..
+            rm -rf libiio
+
+      - name: Build libad9361-iio
+        run: |
+            git clone -b 'v0.3' --single-branch --depth 1 https://github.com/analogdevicesinc/libad9361-iio.git
+            cd libad9361-iio
+            cmake .
+            make
+            ls
+            mkdir package_linux
+            ls package_linux/
+            cp libad9361.so package_linux/
+            cp ad9361.h package_linux/
+            mv package_linux ../
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: package_linux
+          path: ./package_linux/*
+
+  build_windows:
+    name: Build libad9361-iio for Windows
+    runs-on: windows-latest
+
+    steps:
+      - name: Install dependencies
+        run: |
+            choco install --no-progress -y git cmake wget
+            git clone -b v0.3 --single-branch --depth 1 https://github.com/analogdevicesinc/libad9361-iio.git
+            cd libad9361-iio
+
+            mkdir package_windows_deps
+            mkdir package_windows_deps\include
+            mkdir deps
+            cd deps
+            wget https://github.com/analogdevicesinc/libiio/releases/download/v0.25/libiio-0.25-gb6028fd-windows.zip
+            unzip libiio-0.25-gb6028fd-windows.zip
+            cd ..
+            mv deps\Windows-VS-2019-x64\* package_windows_deps\
+            mv deps\include\* package_windows_deps\include\
+            ls package_windows_deps\
+            ls package_windows_deps\include
+            cmake -DLIBIIO_LIBRARIES:FILEPATH=$pwd\package_windows_deps\libiio.lib -DLIBIIO_INCLUDEDIR:PATH=$pwd\package_windows_deps\include\ .
+            cmake --build . --config Release
+            ls
+            ls Release
+            cd ..
+            mkdir package_windows
+            mv libad9361-iio/Release/* package_windows/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: package_windows
+          path: ./package_windows/*
+
+
+  unified-package:
+    # Download all the wheels from the previous job
+    name: Unified package
+    needs: [build_linux, build_windows]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+
+      - uses: actions/download-artifact@v4
+        with:
+          path: "."
+    
+      - name: Organize built libraries
+        run : |
+          mkdir deps
+          ls *
+          mv package_linux/* deps/
+          mv package_windows/* deps/
+
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: deps
+          path: deps
