@@ -12,7 +12,7 @@ then
 fi
 echo "Testing demo: $DEMO"
 
-MLPATH=/usr/local/MATLAB
+MLPATH=/opt/MATLAB
 
 cd ../.. 
 source /opt/Xilinx/Vivado/2022.2/settings64.sh

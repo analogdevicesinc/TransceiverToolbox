@@ -8,7 +8,7 @@ then
 	MLRELEASE=R2023b
 fi
 
-MLPATH=/usr/local/MATLAB
+MLPATH=/opt/MATLAB
 
 cd ../.. 
 cp hdl/vendor/AnalogDevices/hdlcoder_board_customization.m test/hdlcoder_board_customization_local.m
