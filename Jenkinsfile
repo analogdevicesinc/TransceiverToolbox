@@ -96,7 +96,7 @@ for (int i=0; i < demoNames.size(); i++) {
                     stage(demo) {
                         echo "Node: ${env.NODE_NAME}"
                         echo "Demo: ${env.DEMO}"
-                        local_unstash('builtSources')
+                        local_unstash('builtSources', '', false)
                         sh 'make -C ./CI/scripts test_targeting_demos'
                         junit testResults: 'test/*.xml', allowEmptyResults: true
                         archiveArtifacts artifacts: 'test/*', followSymlinks: false, allowEmptyArchive: true
@@ -117,7 +117,7 @@ parallel deployments
 node('baremetal') {
 	stage("NonHW Tests") {
         stage("NonHW") {
-            local_unstash('builtSources')
+            local_unstash('builtSources', '', false)
             sh 'make -C ./CI/scripts run_NonHWTests'
         }
     }
@@ -160,7 +160,7 @@ cstage("Hardware Streaming Tests", "", flags) {
 
 node('baremetal || lab_b5') {
     cstage('Deploy Development', "", flags) {
-        local_unstash("builtSources")
+        local_unstash("builtSources", '', false)
         uploadArtifactory('TransceiverToolbox','*.mltbx')
     }
 }
