@@ -52,6 +52,11 @@ classdef DemoTests < TestAppGUI
         function buildHDLTuneAGC(testCase)
             testCase.setupVivado('2022.2');
             cd(fullfile(testCase.root,'trx_examples/targeting/tuneAGC-ad9361'));
+            % Get dependent scripts from example
+            here = pwd;
+            matlab.internal.language.introspective.openExample('comm/WINNERVHTMUMIMOExample', 'helperNoiseEstimate');
+            copyfile("helperNoiseEstimate.m",here);
+            cd(here);
             hdlworkflow;
             if ~isempty(out)
                 disp(out.message);
