@@ -5,6 +5,12 @@ classdef DemoTests < TestAppGUI
     end
     
     methods(TestClassSetup)
+        function refreshCache(~)
+            % Weird bug sometimes when MATLAB installed by mpm
+            Advisor.Manager.refresh_customizations;
+            rehash toolboxcache
+
+        end
         function addpaths(testCase)
             here = mfilename('fullpath');
             here = strsplit(here,'/');
