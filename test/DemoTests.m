@@ -53,6 +53,9 @@ classdef DemoTests < TestAppGUI
             testCase.setupVivado('2022.2');
             cd(fullfile(testCase.root,'trx_examples/targeting/tuneAGC-ad9361'));
             % Get dependent scripts from example
+            if ~usejava('desktop')
+                setenv('EDITOR', 'cat');
+            end
             here = pwd;
             matlab.internal.language.introspective.openExample('comm/WINNERVHTMUMIMOExample', 'helperNoiseEstimate');
             copyfile("helperNoiseEstimate.m",here);
