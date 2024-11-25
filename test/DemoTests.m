@@ -58,6 +58,10 @@ classdef DemoTests < TestAppGUI
             end
             here = pwd;
             matlab.internal.language.introspective.openExample('comm/WINNERVHTMUMIMOExample', 'helperNoiseEstimate');
+            here = mfilename('fullpath');
+            here = strsplit(here,filesep);
+            root = fullfile(filesep,here{1:end-2});
+            here = fullfile(root, 'trx_examples' , 'targeting', 'tuneAGC-ad9361');
             copyfile("helperNoiseEstimate.m",here);
             cd(here);
             hdlworkflow;
