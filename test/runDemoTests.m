@@ -16,7 +16,7 @@ end
 
 
 try
-    runner = matlab.unittest.TestRunner.withTextOutput('OutputDetail',1);
+    runner = matlab.unittest.TestRunner.withTextOutput('OutputDetail',4);
     runner.addPlugin(DiagnosticsValidationPlugin)
 
     xmlFile = 'BSPDemoTests.xml';
