@@ -5,6 +5,12 @@ classdef DemoTests < TestAppGUI
     end
     
     methods(TestClassSetup)
+        function refreshCache(~)
+            % Weird bug sometimes when MATLAB installed by mpm
+            Advisor.Manager.refresh_customizations;
+            rehash toolboxcache
+
+        end
         function addpaths(testCase)
             here = mfilename('fullpath');
             here = strsplit(here,'/');
@@ -46,6 +52,18 @@ classdef DemoTests < TestAppGUI
         function buildHDLTuneAGC(testCase)
             testCase.setupVivado('2022.2');
             cd(fullfile(testCase.root,'trx_examples/targeting/tuneAGC-ad9361'));
+            % Get dependent scripts from example
+            if ~usejava('desktop')
+                setenv('EDITOR', 'cat');
+            end
+            here = pwd;
+            matlab.internal.language.introspective.openExample('comm/WINNERVHTMUMIMOExample', 'helperNoiseEstimate');
+            here = mfilename('fullpath');
+            here = strsplit(here,filesep);
+            root = fullfile(filesep,here{1:end-2});
+            here = fullfile(root, 'trx_examples' , 'targeting', 'tuneAGC-ad9361');
+            copyfile("helperNoiseEstimate.m",here);
+            cd(here);
             hdlworkflow;
             if ~isempty(out)
                 disp(out.message);

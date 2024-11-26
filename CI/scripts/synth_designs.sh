@@ -8,7 +8,7 @@ then
 	MLRELEASE=R2023b
 fi
 
-MLPATH=/usr/local/MATLAB
+MLPATH=/opt/MATLAB
 
 cd ../.. 
 cp hdl/vendor/AnalogDevices/hdlcoder_board_customization.m test/hdlcoder_board_customization_local.m
@@ -19,7 +19,9 @@ export DISPLAY=:77
 export SWT_GTK3=0
 source /opt/Xilinx/Vivado/2022.2/settings64.sh
 $MLPATH/$MLRELEASE/bin/matlab $MLFLAGS -r "cd('test');runSynthTests('$BOARD');"
+EC=$?
 pidof Xvfb
 if [ $? -eq 0 ]; then
     kill -9 `pidof Xvfb`
 fi
+exit $EC

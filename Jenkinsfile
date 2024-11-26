@@ -1,8 +1,8 @@
-@Library('tfc-lib') _
+@Library('tfc-lib@adef-ci') _
 
 flags = gitParseFlags()
 
-dockerConfig = getDockerConfig(['MATLAB','Vivado'], matlabHSPro=false)
+dockerConfig = getDockerConfig(['MATLAB','Vivado','Internal'], matlabHSPro=false)
 dockerConfig.add("-e MLRELEASE=R2023b")
 dockerHost = 'docker'
 
@@ -32,7 +32,7 @@ stage("Build Toolbox") {
 		}
         }
         if (branchName == 'hdl_2022_r2') {
-            stash includes: '**', name: 'builtSources', useDefaultExcludes: false
+            local_stash('builtSources')
             archiveArtifacts artifacts: 'hdl/*', followSymlinks: false, allowEmptyArchive: true
         }
     }
@@ -55,7 +55,7 @@ cstage("HDL Tests", "", flags) {
         branchName ->
         withEnv(['BOARD='+branchName]) {
             cstage("Source", branchName, flags) {
-                unstash "builtSources"
+                local_unstash('builtSources')
                 sh 'make -C ./CI/scripts test'
                 junit testResults: 'test/*.xml', allowEmptyResults: true
                 archiveArtifacts artifacts: 'test/logs/*', followSymlinks: false, allowEmptyArchive: true
@@ -69,7 +69,7 @@ cstage("HDL Tests", "", flags) {
             }
 */
             cstage("Installer", branchName, flags) {
-                unstash "builtSources"
+                local_unstash('builtSources')
                 sh 'rm -rf hdl'
                 sh 'make -C ./CI/scripts test_installer'
                 junit testResults: 'test/*.xml', allowEmptyResults: true
@@ -96,7 +96,7 @@ for (int i=0; i < demoNames.size(); i++) {
                     stage(demo) {
                         echo "Node: ${env.NODE_NAME}"
                         echo "Demo: ${env.DEMO}"
-                        unstash "builtSources"
+                        local_unstash('builtSources', '', false)
                         sh 'make -C ./CI/scripts test_targeting_demos'
                         junit testResults: 'test/*.xml', allowEmptyResults: true
                         archiveArtifacts artifacts: 'test/*', followSymlinks: false, allowEmptyArchive: true
@@ -117,7 +117,7 @@ parallel deployments
 node('baremetal') {
 	stage("NonHW Tests") {
         stage("NonHW") {
-            unstash "builtSources"
+            local_unstash('builtSources', '', false)
             sh 'make -C ./CI/scripts run_NonHWTests'
         }
     }
@@ -132,7 +132,7 @@ cstage("Build Deployable Apps", "", flags) {
         branchName ->
         withEnv(['APP='+branchName]) {
             cstage("Build DApps", branchName, flags) {
-                unstash "builtSources"
+                local_unstash('builtSources')
                 sh 'make -C ./CI/scripts ${APP}'
                 archiveArtifacts artifacts: 'trx_examples/streaming/LTE_PA_App/LTEPAinstaller/*.exe', followSymlinks: false, allowEmptyArchive: true
                 archiveArtifacts artifacts: 'trx_examples/streaming/LTE_PA_App/LTEPAinstaller/*.install', followSymlinks: false, allowEmptyArchive: true
@@ -149,7 +149,7 @@ cstage("Hardware Streaming Tests", "", flags) {
     dockerParallelBuild(classNames, dockerHost, dockerConfig) { 
         branchName ->
         withEnv(['HW='+branchName]) {
-            unstash "builtSources"
+            local_unstash("builtSources")
             sh 'echo ${HW}'
             // sh 'make -C ./CI/scripts test_streaming'
         }
@@ -160,7 +160,7 @@ cstage("Hardware Streaming Tests", "", flags) {
 
 node('baremetal || lab_b5') {
     cstage('Deploy Development', "", flags) {
-        unstash "builtSources"
+        local_unstash("builtSources", '', false)
         uploadArtifactory('TransceiverToolbox','*.mltbx')
     }
 }
