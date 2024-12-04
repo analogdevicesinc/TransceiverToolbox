@@ -37,7 +37,7 @@ classdef DemoTests < TestAppGUI
                 error('system_top.bit not found');
             end
         end
-        function buildHDLFrequencyHopper(testCase)
+        function buildHDLFrequencyHopperADRV9361(testCase)
             testCase.setupVivado('2022.2');
             cd(fullfile(testCase.root,'trx_examples/targeting/frequency-hopping'));
             hdlworkflow;
