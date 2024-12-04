@@ -81,7 +81,10 @@ cstage("HDL Tests", "", flags) {
 
 /////////////////////////////////////////////////////
 
-demoNames = ['HDLFrequencyHopper','HDLTuneAGC','KernelFrequencyHopper']
+demoNames = [
+    'HDLFrequencyHopperADRV9361','HDLFrequencyHopperADRV9364',
+    'HDLTuneAGC',
+    'KernelFrequencyHopper']
 
 def deployments = [:]
 for (int i=0; i < demoNames.size(); i++) {
