@@ -44,7 +44,17 @@ classdef DemoTests < TestAppGUI
             if ~isempty(out)
                 disp(out.message);
             end
-            % Check for BOOT.BIN
+            if exist('hdl_prj/vivado_ip_prj/boot/BOOT.BIN', 'file') ~= 2
+                error('BOOT.BIN Failed');
+            end
+        end
+        function buildHDLFrequencyHopperADRV9364(testCase)
+            testCase.setupVivado('2022.2');
+            cd(fullfile(testCase.root,'trx_examples/targeting/frequency-hopping'));
+            hdlworkflow_adrv9364;
+            if ~isempty(out)
+                disp(out.message);
+            end
             if exist('hdl_prj/vivado_ip_prj/boot/BOOT.BIN', 'file') ~= 2
                 error('BOOT.BIN Failed');
             end
