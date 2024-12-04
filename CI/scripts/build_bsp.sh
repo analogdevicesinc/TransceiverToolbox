@@ -82,10 +82,9 @@ cd ..
 
 # Tests
 cd test
-# Update line 35 of DemoTests.m to use new version
-sed -i "35s/.*/            testCase.setupVivado('${VIVADO}');/" DemoTests.m
-sed -i "47s/.*/            testCase.setupVivado('${VIVADO}');/" DemoTests.m
-sed -i "59s/.*/            testCase.setupVivado('${VIVADO}');/" DemoTests.m
+# Replace testCase.setupVivado('20XX.X') with testCase.setupVivado('${VIVADO}') in DemoTests.m
+sed -i "s/testCase\.setupVivado('20[0-9]\{2\}\.[0-9]');/testCase.setupVivado('${VIVADO}');/" DemoTests.m
+
 
 cd ..
 
