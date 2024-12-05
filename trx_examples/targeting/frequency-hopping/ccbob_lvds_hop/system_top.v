@@ -223,6 +223,9 @@ module system_top (
     .tx_frame_out_p (tx_frame_out_p),
     .txnrx (txnrx),
     .up_enable (gpio_o[47]),
-    .up_txnrx (gpio_o[48]));
+    .up_txnrx (gpio_o[48]),
+    .gpio_en_agc (gpio_en_agc),
+    .gpio_status (gpio_status),
+    .gpio_ctl (gpio_ctl));
 
 endmodule

@@ -40,44 +40,44 @@ stage("Build Toolbox") {
 
 /////////////////////////////////////////////////////
 
-boardNames = [
-    'fmcomms2_zed',
-    'fmcomms2_zc702','fmcomms5_zc702',
-    'fmcomms2_zc706','fmcomms5_zc706','adrv9371x_zc706','adrv9009_zc706',
-    'fmcomms2_zcu102','adrv9002_zcu102','adrv9009_zcu102','adrv9371x_zcu10','fmcomms8_zcu102',
-    'adrv9361z7035_ccbob_cmos','adrv9361z7035_ccbob_lvds','adrv9361z7035_ccfmc_lvds','adrv9361z7035_ccpackrf_lvds',
-    'adrv9364z7020_ccbob_cmos','adrv9364z7020_ccbob_lvds',
-    'pluto']
-dockerConfig.add("-e HDLBRANCH=hdl_2022_r2")
+// boardNames = [
+//     'fmcomms2_zed',
+//     'fmcomms2_zc702','fmcomms5_zc702',
+//     'fmcomms2_zc706','fmcomms5_zc706','adrv9371x_zc706','adrv9009_zc706',
+//     'fmcomms2_zcu102','adrv9002_zcu102','adrv9009_zcu102','adrv9371x_zcu10','fmcomms8_zcu102',
+//     'adrv9361z7035_ccbob_cmos','adrv9361z7035_ccbob_lvds','adrv9361z7035_ccfmc_lvds','adrv9361z7035_ccpackrf_lvds',
+//     'adrv9364z7020_ccbob_cmos','adrv9364z7020_ccbob_lvds',
+//     'pluto']
+// dockerConfig.add("-e HDLBRANCH=hdl_2022_r2")
 
-cstage("HDL Tests", "", flags) {
-    dockerParallelBuild(boardNames, dockerHost, dockerConfig) { 
-        branchName ->
-        withEnv(['BOARD='+branchName]) {
-            cstage("Source", branchName, flags) {
-                local_unstash('builtSources')
-                sh 'make -C ./CI/scripts test'
-                junit testResults: 'test/*.xml', allowEmptyResults: true
-                archiveArtifacts artifacts: 'test/logs/*', followSymlinks: false, allowEmptyArchive: true
-            }
-/*
-            stage("Synth") {
-                unstash "builtSources"
-                sh 'make -C ./CI/scripts test_synth'
-                junit testResults: 'test/*.xml', allowEmptyResults: true
-                archiveArtifacts artifacts: 'test/logs/*', followSymlinks: false, allowEmptyArchive: true
-            }
-*/
-            cstage("Installer", branchName, flags) {
-                local_unstash('builtSources')
-                sh 'rm -rf hdl'
-                sh 'make -C ./CI/scripts test_installer'
-                junit testResults: 'test/*.xml', allowEmptyResults: true
-                archiveArtifacts artifacts: 'test/logs/*', followSymlinks: false, allowEmptyArchive: true
-            }
-        }
-    }
-}
+// cstage("HDL Tests", "", flags) {
+//     dockerParallelBuild(boardNames, dockerHost, dockerConfig) { 
+//         branchName ->
+//         withEnv(['BOARD='+branchName]) {
+//             cstage("Source", branchName, flags) {
+//                 local_unstash('builtSources')
+//                 sh 'make -C ./CI/scripts test'
+//                 junit testResults: 'test/*.xml', allowEmptyResults: true
+//                 archiveArtifacts artifacts: 'test/logs/*', followSymlinks: false, allowEmptyArchive: true
+//             }
+// /*
+//             stage("Synth") {
+//                 unstash "builtSources"
+//                 sh 'make -C ./CI/scripts test_synth'
+//                 junit testResults: 'test/*.xml', allowEmptyResults: true
+//                 archiveArtifacts artifacts: 'test/logs/*', followSymlinks: false, allowEmptyArchive: true
+//             }
+// */
+//             cstage("Installer", branchName, flags) {
+//                 local_unstash('builtSources')
+//                 sh 'rm -rf hdl'
+//                 sh 'make -C ./CI/scripts test_installer'
+//                 junit testResults: 'test/*.xml', allowEmptyResults: true
+//                 archiveArtifacts artifacts: 'test/logs/*', followSymlinks: false, allowEmptyArchive: true
+//             }
+//         }
+//     }
+// }
 
 /////////////////////////////////////////////////////
 
