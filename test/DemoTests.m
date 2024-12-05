@@ -35,6 +35,8 @@ classdef DemoTests < TestAppGUI
             % Check for system_top.bit
             if exist('hdl_prj/vivado_ip_prj/vivado_prj.runs/impl_1/system_top.bit', 'file') ~= 2
                 error('system_top.bit not found');
+            else
+                copyfile('hdl_prj/vivado_ip_prj/vivado_prj.runs/impl_1/system_top.bit','HDLLoopbackDelayEstimation.bit');
             end
         end
         function buildHDLFrequencyHopperADRV9361(testCase)
@@ -46,6 +48,8 @@ classdef DemoTests < TestAppGUI
             end
             if exist('hdl_prj/vivado_ip_prj/boot/BOOT.BIN', 'file') ~= 2
                 error('BOOT.BIN Failed');
+            else
+                copyfile('hdl_prj/vivado_ip_prj/boot/BOOT.BIN','HDLFrequencyHopperADRV9361-BOOT.BIN');
             end
         end
         function buildHDLFrequencyHopperADRV9364(testCase)
@@ -57,6 +61,8 @@ classdef DemoTests < TestAppGUI
             end
             if exist('hdl_prj/vivado_ip_prj/boot/BOOT.BIN', 'file') ~= 2
                 error('BOOT.BIN Failed');
+            else
+                copyfile('hdl_prj/vivado_ip_prj/boot/BOOT.BIN','HDLFrequencyHopperADRV9364-BOOT.BIN');
             end
         end
         function buildHDLTuneAGC(testCase)
@@ -81,6 +87,8 @@ classdef DemoTests < TestAppGUI
             % Check for BOOT.BIN
             if exist('hdl_prj/vivado_ip_prj/boot/BOOT.BIN', 'file') ~= 2
                 error('BOOT.BIN not found');
+            else
+                copyfile('hdl_prj/vivado_ip_prj/boot/BOOT.BIN','HDLTuneAGC-BOOT.BIN');
             end
         end
         function buildKernelFrequencyHopper(testCase)
