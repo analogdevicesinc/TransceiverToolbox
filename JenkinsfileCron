@@ -60,7 +60,7 @@ for (int i=0; i < boardNames.size(); i++) {
                 try {
                     stage("Synth") {
                         echo "Node: ${env.NODE_NAME}"
-                        local_unstash('builtSources')
+                        local_unstash('builtSources', '', false)
                         sh 'echo "BOARD:$BOARD"'
                         sh 'make -C ./CI/scripts test_synth'
                         junit testResults: 'test/*.xml', allowEmptyResults: true
@@ -84,10 +84,10 @@ for (int i=0; i < boardNames.size(); i++) {
 
 parallel deployments
 
-node {
-    stage("Trigger Harness") {
-        echo "Node: ${env.NODE_NAME}"
-        local_unstash('builtSources')
-        triggerHWHarness("TransceiverToolbox")
-    }
-}
+// node {
+//     stage("Trigger Harness") {
+//         echo "Node: ${env.NODE_NAME}"
+//         local_unstash('builtSources')
+//         triggerHWHarness("TransceiverToolbox")
+//     }
+// }
