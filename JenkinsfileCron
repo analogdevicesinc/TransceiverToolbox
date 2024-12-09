@@ -1,6 +1,6 @@
-@Library('tfc-lib') _
+@Library('tfc-lib@adef-ci') _
 
-dockerConfig = getDockerConfig(['MATLAB','Vivado'], matlabHSPro=false)
+dockerConfig = getDockerConfig(['MATLAB','Vivado','Internal'], matlabHSPro=false)
 dockerConfig.add("-e MLRELEASE=R2023b")
 dockerHost = 'docker'
 
@@ -30,7 +30,7 @@ stage("Build Toolbox") {
 		}
         }
         if (branchName == 'hdl_2022_r2') {
-            stash includes: '**', name: 'builtSources', useDefaultExcludes: false
+            local_stash('builtSources')
             archiveArtifacts artifacts: 'hdl/*', followSymlinks: false, allowEmptyArchive: true
         }
     }
@@ -60,8 +60,7 @@ for (int i=0; i < boardNames.size(); i++) {
                 try {
                     stage("Synth") {
                         echo "Node: ${env.NODE_NAME}"
-                        unstash "builtSources"
-                        sh 'apt install -y xvfb'
+                        local_unstash('builtSources', '', false)
                         sh 'echo "BOARD:$BOARD"'
                         sh 'make -C ./CI/scripts test_synth'
                         junit testResults: 'test/*.xml', allowEmptyResults: true
@@ -85,10 +84,10 @@ for (int i=0; i < boardNames.size(); i++) {
 
 parallel deployments
 
-node {
-    stage("Trigger Harness") {
-        echo "Node: ${env.NODE_NAME}"
-        unstash "builtSources"
-        triggerHWHarness("TransceiverToolbox")
-    }
-}
+// node {
+//     stage("Trigger Harness") {
+//         echo "Node: ${env.NODE_NAME}"
+//         local_unstash('builtSources')
+//         triggerHWHarness("TransceiverToolbox")
+//     }
+// }
