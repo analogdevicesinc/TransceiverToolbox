@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 
 BOARD=$1
 MLFLAGS="-nodisplay -nodesktop -nosplash"
@@ -18,7 +19,7 @@ source /opt/Xilinx/Vivado/2022.2/settings64.sh
 export DISPLAY_ID=:$(shuf -i 10-1000 -n 1)
 Xvfb :$DISPLAY_ID &
 XVFB_PID=$!
-export DISPLAY=:$DISPLAY_ID
+export DISPLAY=$DISPLAY_ID
 export SWT_GTK3=0
 source /opt/Xilinx/Vivado/2022.2/settings64.sh
 $MLPATH/$MLRELEASE/bin/matlab $MLFLAGS -r "cd('test');runSynthTests('$BOARD');"
