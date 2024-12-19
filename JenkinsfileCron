@@ -68,14 +68,14 @@ for (int i=0; i < boardNames.size(); i++) {
                     }
 		    if (!board.contains("pluto")) {
 			    stage("Upload BOOT.BINs") {
-				sh 'mkdir bootbins'
-				sh 'mv test/*.BIN bootbins/'
-				uploadArtifactory('TransceiverToolbox','bootbins/*.BIN*')
+  		  		sh 'mkdir bootbins_${board}'
+	  		  	sh 'mv test/*.BIN bootbins_${board}/'
+		  		  uploadArtifactory('TransceiverToolbox','bootbins_${board}/*.BIN*')
 			    }
 		    }
                 }
                 finally {
-                    cleanWs();
+                    //cleanWs();
                 }
             }
         }
