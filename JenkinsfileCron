@@ -52,9 +52,13 @@ def deployments = [:]
 for (int i=0; i < boardNames.size(); i++) {
     def board = boardNames[i];
     def nodeLabel = 'baremetal';
+    def workspaceLabel = board + '_workspace'
+    def bbfolder = 'bootbin_' + board
     if (board.contains("zcu102"))
         nodeLabel = 'baremetal && high_memory';
     deployments[board] = { node(nodeLabel) {
+        def cworkspace = env.WORKSPACE + '/' + workspaceLabel
+        ws(cworkspace) {
         stage("Synthesis Tests") {
             withEnv(['BOARD='+board,'MLRELEASE=R2023b','HDLBRANCH=hdl_2022_r2','LC_ALL=C.UTF-8','LANG=C.UTF-8']) {
                 try {
@@ -66,19 +70,21 @@ for (int i=0; i < boardNames.size(); i++) {
                         junit testResults: 'test/*.xml', allowEmptyResults: true
                         archiveArtifacts artifacts: 'test/*', followSymlinks: false, allowEmptyArchive: true
                     }
-		    if (!board.contains("pluto")) {
-			    stage("Upload BOOT.BINs") {
-  		  		sh 'mkdir bootbins_${board}'
-	  		  	sh 'mv test/*.BIN bootbins_${board}/'
-		  		  uploadArtifactory('TransceiverToolbox','bootbins_${board}/*.BIN*')
-			    }
-		    }
+                    if (!board.contains("pluto")) {
+                        stage("Upload BOOT.BINs") {
+                            sh 'rm -rf ' + bbfolder + ' || true'
+                            sh 'mkdir ' + bbfolder
+                            sh 'mv test/*.BIN '+bbfolder+'/'
+                            uploadArtifactory('TransceiverToolbox', bbfolder+'/*.BIN*')
+                        }
+                    }
                 }
                 finally {
-                    //cleanWs();
+                    cleanWs();
                 }
             }
-        }
+        } // stage
+        } // ws
     }}
 }
 
