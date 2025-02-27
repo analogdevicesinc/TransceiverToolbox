@@ -5,7 +5,7 @@ classdef BSPInstallerTests < BSPTestsBase
     
     methods(TestClassSetup)
         function removeinstalledbsp(~)
-            str = 'Analog Devices Board Support Packages';
+            str = 'Analog Devices';
             ts = matlab.addons.toolbox.installedToolboxes;
             for t = ts
                 if contains(t.Name,str)
