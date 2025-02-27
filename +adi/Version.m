@@ -2,8 +2,8 @@ classdef Version
     %Version
     %   BSP Version information
     properties(Constant)
-        HDL = 'hdl_2022_r2';
-        Vivado = '2022.2';
+        HDL = 'hdl_2023_r2';
+        Vivado = '2023.2';
         MATLAB = 'R2023b';
         Release = '23.2.2';
         AppName = 'Analog Devices, Inc. Transceiver Toolbox';

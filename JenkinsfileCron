@@ -6,7 +6,7 @@ dockerHost = 'docker'
 
 ////////////////////////////
 
-hdlBranches = ['hdl_2022_r2']
+hdlBranches = ['hdl_2023_r2']
 
 stage("Build Toolbox") {
     dockerParallelBuild(hdlBranches, dockerHost, dockerConfig) { 
@@ -22,14 +22,14 @@ stage("Build Toolbox") {
 		    sh 'make -C ./CI/scripts gen_tlbx'
 		}
         } catch(Exception ex) {
-		if (branchName == 'hdl_2022_r2') {
+		if (branchName == 'hdl_2023_r2') {
 		    error('Production Toolbox Build Failed')
 		}
 		else {
 		    unstable('Development Build Failed')
 		}
         }
-        if (branchName == 'hdl_2022_r2') {
+        if (branchName == 'hdl_2023_r2') {
             local_stash('builtSources')
             archiveArtifacts artifacts: 'hdl/*', followSymlinks: false, allowEmptyArchive: true
         }
@@ -60,7 +60,7 @@ for (int i=0; i < boardNames.size(); i++) {
         def cworkspace = env.WORKSPACE + '/' + workspaceLabel
         ws(cworkspace) {
         stage("Synthesis Tests") {
-            withEnv(['BOARD='+board,'MLRELEASE=R2023b','HDLBRANCH=hdl_2022_r2','LC_ALL=C.UTF-8','LANG=C.UTF-8']) {
+            withEnv(['BOARD='+board,'MLRELEASE=R2023b','HDLBRANCH=hdl_2023_r2','LC_ALL=C.UTF-8','LANG=C.UTF-8']) {
                 try {
                     stage("Synth") {
                         echo "Node: ${env.NODE_NAME}"

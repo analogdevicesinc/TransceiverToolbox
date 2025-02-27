@@ -12,7 +12,7 @@ As with many open source packages, we use [GitHub](https://github.com/analogdevi
 
 | HDL Branch        | MATLAB Release |  Installer Package  |
 |:-----------------:|:--------------:|:-------------------:|
-| 2022_R2           | R2023b         | <a href="https://github.com/analogdevicesinc/TransceiverToolbox/releases/tag/latest"><img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png" data-canonical-src="https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png" height="40" /></a>|
+| 2023_R2           | R2023b         | <a href="https://github.com/analogdevicesinc/TransceiverToolbox/releases/tag/latest"><img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png" data-canonical-src="https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png" height="40" /></a>|
 
 If you use it, and like it - please let us know. If you use it, and hate it - please let us know that too.
 
