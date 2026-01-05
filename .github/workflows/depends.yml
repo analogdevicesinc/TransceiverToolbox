@@ -67,7 +67,7 @@ jobs:
             mv deps\include\* package_windows_deps\include\
             ls package_windows_deps\
             ls package_windows_deps\include
-            cmake -DLIBIIO_LIBRARIES:FILEPATH=$pwd\package_windows_deps\libiio.lib -DLIBIIO_INCLUDEDIR:PATH=$pwd\package_windows_deps\include\ .
+            cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DLIBIIO_LIBRARIES:FILEPATH=$pwd\package_windows_deps\libiio.lib -DLIBIIO_INCLUDEDIR:PATH=$pwd\package_windows_deps\include\ .
             cmake --build . --config Release
             ls
             ls Release
