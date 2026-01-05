@@ -45,11 +45,11 @@ jobs:
             make -C CI/doc gen_autodocs html
 
       - name: Set up MATLAB
-        uses: matlab-actions/setup-matlab@v1
+        uses: matlab-actions/setup-matlab@v2
         with:
             release: R2023b
       - name: Compile Toolbox
-        uses: matlab-actions/run-command@v1
+        uses: matlab-actions/run-command@v2
         with:
             command: cd('CI/scripts');genTlbx(1);exit()
 
