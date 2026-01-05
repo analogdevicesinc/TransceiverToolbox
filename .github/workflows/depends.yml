@@ -50,7 +50,9 @@ jobs:
 
       - name: Install dependencies
         run: |
-            choco install --no-progress -y git cmake wget
+            # Download  	CMake 3.31.6 since libad9361-iio requires an ancient version
+            choco install --no-progress -y cmake --version=3.31.6
+            choco install --no-progress -y git wget
             git clone -b v0.3 --single-branch --depth 1 https://github.com/analogdevicesinc/libad9361-iio.git
             cd libad9361-iio
 
