@@ -52,11 +52,11 @@ RF Bandwidth of front-end analog filter in Hz, specified as a scalar from 200 kH
 :::
 
 :::{dropdown} AttenuationChannel0
-Attentuation specified as a scalar from -89.75 to 0 dB with a resolution of 0.25 dB.
+Attenuation specified as a scalar from -89.75 to 0 dB with a resolution of 0.25 dB.
 :::
 
 :::{dropdown} AttenuationChannel1
-Attentuation specified as a scalar from -89.75 to 0 dB with a resolution of 0.25 dB.
+Attenuation specified as a scalar from -89.75 to 0 dB with a resolution of 0.25 dB.
 :::
 
 :::{dropdown} RFPortSelect

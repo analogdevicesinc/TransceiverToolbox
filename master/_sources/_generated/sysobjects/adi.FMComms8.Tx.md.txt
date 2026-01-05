@@ -40,11 +40,11 @@ For more information on changing property values, see <a href="https://www.mathw
 
 
 :::{dropdown} AttenuationChannel0ChipB
-Attentuation specified as a scalar from -41.95 to 0 dB with a resolution of 0.05 dB.
+Attenuation specified as a scalar from -41.95 to 0 dB with a resolution of 0.05 dB.
 :::
 
 :::{dropdown} AttenuationChannel1ChipB
-Attentuation specified as a scalar from -41.95 to 0 dB with a resolution of 0.05 dB.
+Attenuation specified as a scalar from -41.95 to 0 dB with a resolution of 0.05 dB.
 :::
 
 :::{dropdown} EnableQuadratureTrackingChannel0ChipB
@@ -128,11 +128,11 @@ Name of the libIIO device
 :::
 
 :::{dropdown} AttenuationChannel0
-Attentuation specified as a scalar from -41.95 to 0 dB with a resolution of 0.05 dB.
+Attenuation specified as a scalar from -41.95 to 0 dB with a resolution of 0.05 dB.
 :::
 
 :::{dropdown} AttenuationChannel1
-Attentuation specified as a scalar from -41.95 to 0 dB with a resolution of 0.05 dB.
+Attenuation specified as a scalar from -41.95 to 0 dB with a resolution of 0.05 dB.
 :::
 
 :::{dropdown} EnableQuadratureTrackingChannel0

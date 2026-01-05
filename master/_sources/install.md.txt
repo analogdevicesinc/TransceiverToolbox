@@ -5,7 +5,7 @@
 
 The toolbox has different dependencies based on the features required. These are broken down into the base dependencies for data stream and control, and HDL code generation.
 
-The base dependencies for the toolbox requires libiio and the libiio MATLAB bindings. There are three options for this install with different required MathWorks Toolboxes:
+The base dependencies for the toolbox requires libIIO and the libIIO MATLAB bindings. There are three options for this install with different required MathWorks Toolboxes:
 
 - [Communications Toolbox Support Package for Xilinx Zynq-Based Radio](https://www.mathworks.com/help/supportpkg/xilinxzynqbasedradio/index.html)
     - Communications Toolbox
@@ -15,7 +15,7 @@ The base dependencies for the toolbox requires libiio and the libiio MATLAB bind
     - Communications Toolbox
     - Signal Processing Toolbox™
     - DSP System Toolbox™
-- [libiio MATLAB Binding Standalone Installer (R2021b+)](https://github.com/mathworks/buildroot/releases/download/mathworks_zynq_R21.2.0/libiio.mlpkginstall)
+- [libIIO MATLAB Binding Standalone Installer (R2021b+)](https://github.com/mathworks/buildroot/releases/download/mathworks_zynq_R21.2.0/libiio.mlpkginstall)
     - Signal Processing Toolbox™
 
 
@@ -39,7 +39,7 @@ The Transceiver Toolbox itself can be installed either from:
 :::{admonition} MATLAB Versions
 :class: warning
 
-Before installing Transceiver Toolbox check the [Release Page](https://github.com/analogdevicesinc/TransceiverToolbox/releases) to check for the lasted supported of MATLAB. The latest version is the one which is available in [Add-on Explorer](https://www.mathworks.com/products/matlab/add-on-explorer.html), since Add-On Explorer does not currently support hosting multiple versions. If ypu have an older release of MATLAB, download the MLTBX installer from matching release on the [Release Page](https://github.com/analogdevicesinc/TransceiverToolbox/releases).
+Before installing Transceiver Toolbox check the [Release Page](https://github.com/analogdevicesinc/TransceiverToolbox/releases) to check for the lasted supported of MATLAB. The latest version is the one which is available in [Add-on Explorer](https://www.mathworks.com/products/matlab/add-on-explorer.html), since Add-On Explorer does not currently support hosting multiple versions. If you have an older release of MATLAB, download the MLTBX installer from matching release on the [Release Page](https://github.com/analogdevicesinc/TransceiverToolbox/releases).
 
 :::
 

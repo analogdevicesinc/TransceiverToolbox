@@ -10,7 +10,7 @@ Receive data from Analog Devices AD9361 transceiver
 
 <div class="sysobj_desc_txt">
 <span>
-    The adi.ADRV9002.Tx System object is a signal sink that can tranmsit<br>    complex data from the ADRV9002.<br> <br>    tx = adi.ADRV9002.Tx;<br>    tx = adi.ADRV9002.Tx('uri','ip:192.168.2.1');<br> <br>    <a href="http://www.analog.com/media/en/technical-documentation/data-sheets/ADRV9002.pdf">ADRV9002 Datasheet</a><br>
+    The adi.ADRV9002.Tx System object is a signal sink that can transmit<br>    complex data from the ADRV9002.<br> <br>    tx = adi.ADRV9002.Tx;<br>    tx = adi.ADRV9002.Tx('uri','ip:192.168.2.1');<br> <br>    <a href="http://www.analog.com/media/en/technical-documentation/data-sheets/ADRV9002.pdf">ADRV9002 Datasheet</a><br>
 </span>
 
 </div>
@@ -48,11 +48,11 @@ specified as one of the following: 'calibrated' 'primed' 'rf_enabled'
 :::
 
 :::{dropdown} AttenuationChannel0
-Attentuation specified as a scalar from -89.75 to 0 dB with a resolution of 0.25 dB.
+Attenuation specified as a scalar from -89.75 to 0 dB with a resolution of 0.25 dB.
 :::
 
 :::{dropdown} AttenuationChannel1
-Attentuation specified as a scalar from -89.75 to 0 dB with a resolution of 0.25 dB.
+Attenuation specified as a scalar from -89.75 to 0 dB with a resolution of 0.25 dB.
 :::
 
 :::{dropdown} AttenuationControlModeChannel0
