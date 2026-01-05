@@ -1,6 +1,6 @@
 classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
     % adi.FMComms5.Tx Transmit data from the FMComms5
-    %   The adi.FMComms5.Tx System object is a signal sink that can tranmsit
+    %   The adi.FMComms5.Tx System object is a signal sink that can transmit
     %   complex data from the FMComms5.
     %
     %   tx = adi.FMComms5.Tx;
@@ -21,11 +21,11 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
     
     properties
         %AttenuationChannel0ChipB Attenuation Channel 0 ChipB
-        %   Attentuation specified as a scalar from -89.75 to 0 dB with a
+        %   Attenuation specified as a scalar from -89.75 to 0 dB with a
         %   resolution of 0.25 dB.
         AttenuationChannel0ChipB = -30;
         %AttenuationChannel1ChipB Attenuation Channel 1 ChipB
-        %   Attentuation specified as a scalar from -89.75 to 0 dB with a
+        %   Attenuation specified as a scalar from -89.75 to 0 dB with a
         %   resolution of 0.25 dB.
         AttenuationChannel1ChipB = -30;
     end
@@ -107,24 +107,24 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
                 obj.setAttributeRAW('voltage0','rf_port_select',value,false,obj.iioDevPHYChipB); %#ok<MCSUP>
             end
         end
-        % Check Attentuation
+        % Check Attenuation
         function set.AttenuationChannel0ChipB(obj, value)
             validateattributes( value, { 'double','single' }, ...
                 { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', -89.75,'<=', 0}, ...
                 '', 'Attenuation');
-            assert(mod(value,1/4)==0, 'Attentuation must be a multiple of 0.25');
+            assert(mod(value,1/4)==0, 'Attenuation must be a multiple of 0.25');
             obj.AttenuationChannel0ChipB = value;
             if obj.ConnectedToDevice
                 id = 'voltage0';
                 obj.setAttributeDouble(id,'hardwaregain',value,true,0,obj.iioDevPHYChipB); %#ok<MCSUP>
             end
         end
-        % Check Attentuation
+        % Check Attenuation
         function set.AttenuationChannel1ChipB(obj, value)
             validateattributes( value, { 'double','single' }, ...
                 { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', -89.75,'<=', 0}, ...
                 '', 'Attenuation');
-            assert(mod(value,1/4)==0, 'Attentuation must be a multiple of 0.25');
+            assert(mod(value,1/4)==0, 'Attenuation must be a multiple of 0.25');
             obj.AttenuationChannel1ChipB = value;
             if obj.ConnectedToDevice
                 id = 'voltage1';

@@ -1,6 +1,6 @@
 classdef Tx < adi.AD9371.Base & adi.common.Tx
     % adi.AD9371.Tx Transmit data from the AD9371 transceiver
-    %   The adi.AD9371.Tx System object is a signal sink that can tranmsit
+    %   The adi.AD9371.Tx System object is a signal sink that can transmit
     %   complex data from the AD9371.
     %
     %   tx = adi.AD9371.Tx;
@@ -10,11 +10,11 @@ classdef Tx < adi.AD9371.Base & adi.common.Tx
     
     properties
         %AttenuationChannel0 Attenuation Channel 0
-        %   Attentuation specified as a scalar from -89.75 to 0 dB with a
+        %   Attenuation specified as a scalar from -89.75 to 0 dB with a
         %   resolution of 0.25 dB.
         AttenuationChannel0 = -30;
         %AttenuationChannel1 Attenuation Channel 1
-        %   Attentuation specified as a scalar from -89.75 to 0 dB with a
+        %   Attenuation specified as a scalar from -89.75 to 0 dB with a
         %   resolution of 0.25 dB.
         AttenuationChannel1 = -30;
     end
@@ -41,24 +41,24 @@ classdef Tx < adi.AD9371.Base & adi.common.Tx
             coder.allowpcode('plain');
             obj = obj@adi.AD9371.Base(varargin{:});
         end
-        % Check Attentuation
+        % Check Attenuation
         function set.AttenuationChannel0(obj, value)
             validateattributes( value, { 'double','single' }, ...
                 { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', -89.75,'<=', 0}, ...
                 '', 'Attenuation');
-            assert(mod(value,1/4)==0, 'Attentuation must be a multiple of 0.25');
+            assert(mod(value,1/4)==0, 'Attenuation must be a multiple of 0.25');
             obj.AttenuationChannel0 = value;
             if obj.ConnectedToDevice
                 id = 'voltage0';
                 obj.setAttributeDouble(id,'hardwaregain',value,true);
             end
         end
-        % Check Attentuation
+        % Check Attenuation
         function set.AttenuationChannel1(obj, value)
             validateattributes( value, { 'double','single' }, ...
                 { 'real', 'scalar', 'finite', 'nonnan', 'nonempty', '>=', -89.75,'<=', 0}, ...
                 '', 'Attenuation');
-            assert(mod(value,1/4)==0, 'Attentuation must be a multiple of 0.25');
+            assert(mod(value,1/4)==0, 'Attenuation must be a multiple of 0.25');
             obj.AttenuationChannel1 = value;
             if obj.ConnectedToDevice
                 id = 'voltage1';

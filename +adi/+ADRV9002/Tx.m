@@ -1,6 +1,6 @@
 classdef Tx < adi.ADRV9002.Base & adi.common.Tx
     % adi.ADRV9002.Tx Transmit data from the ADRV9002 transceiver
-    %   The adi.ADRV9002.Tx System object is a signal sink that can tranmsit
+    %   The adi.ADRV9002.Tx System object is a signal sink that can transmit
     %   complex data from the ADRV9002.
     %
     %   tx = adi.ADRV9002.Tx;
@@ -23,11 +23,11 @@ classdef Tx < adi.ADRV9002.Base & adi.common.Tx
         ENSMModeChannel1 = 'rf_enabled';
         
         %AttenuationChannel0 Attenuation Channel 0
-        %   Attentuation specified as a scalar from -89.75 to 0 dB with a
+        %   Attenuation specified as a scalar from -89.75 to 0 dB with a
         %   resolution of 0.25 dB.
         AttenuationChannel0 = -30;
         %AttenuationChannel1 Attenuation Channel 1
-        %   Attentuation specified as a scalar from -89.75 to 0 dB with a
+        %   Attenuation specified as a scalar from -89.75 to 0 dB with a
         %   resolution of 0.25 dB.
         AttenuationChannel1 = -30;
         

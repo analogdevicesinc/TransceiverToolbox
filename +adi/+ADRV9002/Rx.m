@@ -360,7 +360,7 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
             end
         end
         
-        % Check Attentuation
+        % Check Attenuation
         function set.AttenuationChannel0(obj, value)
             obj.AttenuationChannel0 = value;
             if obj.ConnectedToDevice
@@ -368,7 +368,7 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
                 obj.setAttributeDouble(id,'hardwaregain',value,false);
             end
         end
-        % Check Attentuation
+        % Check Attenuation
         function set.AttenuationChannel1(obj, value)
             obj.AttenuationChannel1 = value;
             if obj.ConnectedToDevice

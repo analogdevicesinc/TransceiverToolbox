@@ -3,15 +3,17 @@
 
 Remote data streaming to and from hardware is made available through [system object interfaces](https://www.mathworks.com/help/matlab/matlab_prog/what-are-system-objects.html), which are unique for each component or platform. The hardware interfacing system objects provide a since class to both configure a given platform and move data back and forth from the device.
 
-Command and control of hardware from MATLAB is accomplished by leveraging the [IIO drivers](https://wiki.analog.com/software/linux/docs/iio/iio) built into the target platform's kernel and [libiio](https://wiki.analog.com/resources/tools-software/linux-software/libiio) which provides remote backends to control drivers across different backends. Backends can be Ethernet, serial, or USB based. Below is a diagram of the different components in the stack for an FMComms based systems, but will be nearly identical for all transceiver based systems.
+Command and control of hardware from MATLAB is accomplished by leveraging the [IIO drivers](https://wiki.analog.com/software/linux/docs/iio/iio) built into the target platform's kernel and [libIIO](https://wiki.analog.com/resources/tools-software/linux-software/libiio) which provides remote backends to control drivers across different backends. Backends can be Ethernet, serial, or USB based. Below is a diagram of the different components in the stack for an FMCOMMS based systems, but will be nearly identical for all transceiver based systems.
 
-![MATLAB libiio Stack](/_static/assets/MATLAB_libiio_Stack.png)
+![MATLAB libIIO Stack](/_static/assets/MATLAB_libiio_Stack.png)
 
-Since libiio is cross-platform it can be used from Windows, Linux, or macOS based systems. It is also a lower level library independent of MATLAB, so when moving toward production or untethered systems similar APIs that are used in MATLAB can be used in C,C++,Python, or other languages.
+Since libIIO is cross-platform it can be used from Windows, Linux, or macOS based systems. It is also a lower level library independent of MATLAB, so when moving toward production or untethered systems similar APIs that are used in MATLAB can be used in C,C++,Python, or other languages.
 
 ## Connecting and Configuration
 
-Connecting to hardware is done by setting the **uri** property of the system object interface. The **uri** for libiio always has the convention "*< backend >:< address >*", where *backend* can be ip,usb, or serial. *address* will be specific to the backend. This is documented in the [libiio API](https://analogdevicesinc.github.io/libiio/master/libiio/group__Context.html#gafdcee40508700fa395370b6c636e16fe).
+<!-- vale Google.Quotes = NO -->
+Connecting to hardware is done by setting the **uri** property of the system object interface. The **uri** for libIIO always has the convention "*< backend >:< address >*", where *backend* can be ip,usb, or serial. *address* will be specific to the backend. This is documented in the [libIIO API](https://analogdevicesinc.github.io/libiio/master/libiio/group__Context.html#gafdcee40508700fa395370b6c636e16fe).
+<!-- vale Google.Quotes = YES -->
 
 Below is a basic example of setting up an AD9361 receiver using an Ethernet/IP backend where the address of the target system is 192.168.2.1:
 ```linenums="1"
@@ -21,7 +23,7 @@ data = rx();
 ```
 With the code above, the hardware is not contacted until the operator or step method is called on line 3. Therefore, any properties that are set or defined before line 3 are not applied or updated on the hardware until after line 3. However, after line 3 has completed the object will become locked and certain configuration changes cannot be applied after this point. These will primarily sample rates and buffer sizes.
 
-The state of the object follows the flow of the diagram below triggered by line line 3 above.
+The state of the object follows the flow of the diagram below triggered by line 3 above.
 
 ```{mermaid}
 graph LR

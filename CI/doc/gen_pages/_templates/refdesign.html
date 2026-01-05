@@ -1,8 +1,8 @@
 {% block content %}
 
-# {{ obj.name }} Reference Design Integration
+# {{ obj.name|upper }} Reference Design Integration
 
-This page outlines the HDL reference design integration for the *{{ obj.name }}* reference design for the Analog Devices
+This page outlines the HDL reference design integration for the *{{ obj.name|upper }}* reference design for the Analog Devices
 {{ obj.chip }} component. The IP-Core Generation follow is available on the based on the following base HDL reference design for the following board and design variants: 
 
 - [Base reference design documentation]({{ obj.hdl_rd_doc }})
@@ -29,9 +29,9 @@ HDL Reference Design with Custom IP from HDL-Coder. Click on sub-blocks for more
 
 The IP-Core generation flow will integrate IP generated from Simulink subsystem into an ADI authored reference design. Depending on the FPGA carrier and FMC card or SoM, this will support different IP locations based on the diagram above.
 
-## HDL Worflow Advisor Port Mappings
+## HDL Workflow Advisor Port Mappings
 
-When using the HDL Worflow Advisor, the following port mappings are used to connect the reference design to the HDL-Coder generated IP-Core:
+When using the HDL Workflow Advisor, the following port mappings are used to connect the reference design to the HDL-Coder generated IP-Core:
 
 | Type | Target Platform Interface (MATLAB) | Reference Design Connection (Vivado) | Width | Reference Design Variant |
 | ---- | ------------------------ | --------------------------- | ----- | ----------- |
