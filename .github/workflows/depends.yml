@@ -43,6 +43,11 @@ jobs:
     runs-on: windows-latest
 
     steps:
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+        with:
+          vs-version: '[16.0,17.0)'  # VS 2019
+
       - name: Install dependencies
         run: |
             choco install --no-progress -y git cmake wget
