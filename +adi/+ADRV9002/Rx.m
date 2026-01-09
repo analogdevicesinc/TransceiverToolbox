@@ -6,6 +6,12 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
     %   rx = adi.ADRV9002.Rx;
     %   rx = adi.ADRV9002.Rx('uri','192.168.2.1');
     %
+    %   Significant configuration of the transceiver is done by loading profiles
+    %   created through the Transceiver Evaluation Software (TES). This includes
+    %   settings such as sample rate, bandwidth, data interface format, and TDD 
+    %   or FDD operation. For more information on creating and loading profiles,
+    %   refer to the <a href="https://wiki.analog.com/resources/tools-software/linux-drivers/iio-transceiver/adrv9002#profiles">ADRV9002 documentation</a>.
+    %
     %   <a href="http://www.analog.com/media/en/technical-documentation/data-sheets/ADRV9002.pdf">ADRV9002 Datasheet</a>    
     properties
         %ENSMModeChannel0  State Machine Mode Channel 0
