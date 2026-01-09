@@ -50,6 +50,9 @@ def update_hdl_refdesigns():
         else:
             objs[obj]["rd_image"] = "jesd"
 
+        objs[obj]["hdl_rd_doc"] = f"https://analogdevicesinc.github.io/hdl/projects/{objs[obj]['name']}/index.html"
+
+
         output = template.render(obj=objs[obj])
         # Write output
         output_filename = os.path.join(hdlrefdesigns_folder, f"{obj}.md")
