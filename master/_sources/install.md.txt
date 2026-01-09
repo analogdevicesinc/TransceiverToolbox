@@ -29,6 +29,14 @@ To leverage HDL-Coder and the reference designs with the toolbox requires the fo
 - [HDL-Coder™](https://www.mathworks.com/products/hdl-coder.html)
 - [HDL Coder™ Support Package for Xilinx Zynq Platform](https://www.mathworks.com/matlabcentral/fileexchange/40447-hdl-coder-support-package-for-xilinx-zynq-platform)
 
+## Connecting To Hardware
+
+Transceiver Toolbox is designed and tested to work with ADI kernel drivers based in the IIO framework. The most common target platforms will utilize ADI's Kuiper Linux distribution or other buildroot based systems authored by ADI. These images have the necessary IIO drivers and libIIO support built-in. Since drivers can evolve over time, it is recommended to always the supported Kuiper released defined on the [Transceiver Toolbox Release Page](https://github.com/analogdevicesinc/TransceiverToolbox/releases).
+
+To download and flash Kuiper images, refer to the [Kuiper Linux Documentation](https://wiki.analog.com/resources/tools-software/linux-software/kuiper-linux).
+
+It is possible to use Transceiver Toolbox with custom Linux images as long as the necessary IIO drivers and libIIO support is included.
+
 ## Transceiver Toolbox Install
 
 The Transceiver Toolbox itself can be installed either from:

@@ -16,7 +16,9 @@ Connecting to hardware is done by setting the **uri** property of the system obj
 <!-- vale Google.Quotes = YES -->
 
 Below is a basic example of setting up an AD9361 receiver using an Ethernet/IP backend where the address of the target system is 192.168.2.1:
-```linenums="1"
+```{code} matlab
+:number-lines:
+
 rx = adi.AD9361.Rx;
 rx.uri = 'ip:192.168.2.1';
 data = rx();
@@ -33,13 +35,16 @@ graph LR
   C --> D[Send or Receive Data];
   D --> E[Lock Object];
 ```
+
 Once the object becomes locked it must be released if the sample rate or buffers need to be modified. This will disconnect from the hardware:
-```
+```{code} matlab
 rx.release(); % Release object
 ```
 
 To provide a complete example we can do more advanced configuration like so to demonstrate property changes:
-```linenums="1"
+```{code} matlab 
+:number-lines:
+
 rx = adi.AD9361.Rx;
 rx.uri = 'ip:192.168.2.1';
 rx.SamplesPerFrame = 1024;
@@ -60,13 +65,13 @@ dataLargerBuffer = rx();
 
 To receive or capture data from a given device first you must instantiate that device's interface class. For example on a AD9361 based system, this would be as follows:
 
-```
+```{code} matlab
 rx = adi.AD9361.Rx;
 ```
 
 Once instantiated you can configure the number of samples to be captured by setting the property **SamplesPerFrame.**
 
-```
+```{code} matlab
 rx.SamplesPerFrame = 1e6;
 ```
 
@@ -74,14 +79,14 @@ rx.SamplesPerFrame = 1e6;
 
 To actually collect the samples or perform the capture, the operator of the system object should be used or the **step** method as so:
 
-```
+```{code} matlab
 data = rx(); % Operator method
 data = rx.step(); % Step method
 ```
 
 Both method calls are equivalent, and the produced matrix **data** will be of size [SamplesPerFrame x length(EnabledChannels)]. **EnabledChannels** determines the channels which data will be collected from. **EnabledChannels** is a [1xN] vector with indexes starting at 1 of the desired channels. If the device transmits or receive complex data, these indexes are for complex channel pairs. For example, the AD9361 has 2 receivers (4 ADC) and setting **EnabledChannels** as so will capture data from all 4 converters:
 
-```
+```{code} matlab
 rx.EnabledChannels = [1,2];
 ```
 
@@ -91,13 +96,13 @@ You cannot enable individual converters on complex data based devices, and the *
 
 Transmitting data is very similar to receiving it, a transmitter class needs to be instantiated to send data first. For a ADRV9009 based device this would be as follows:
 
-```
+```{code} matlab
 tx = adi.ADRV9009.Tx;
 ```
 
 Unlike the receivers, transmit objects automatically create their internal buffers based on the data passed to them during their operator or step methods. These methods can be called as follows with some data:
 
-```
+```{code} matlab
 tx_data = complex(2^15.*randn(1024,1),2^15.*randn(1024,1));
 tx(tx_data); % Operator method
 tx.step(tx_data); % Step method
@@ -107,7 +112,7 @@ However, once the step or operator method is called the object becomes locked an
 
 Unlike the receiver, transmit objects have the ability to utilize [cyclic buffers](https://analogdevicesinc.github.io/libiio/group__Buffer.html#ga6caadf077c112ae55a64276aa24ef832) which will continuously transmit a provided vector without gaps forever. To utilize cyclic buffers set the **EnableCyclicBuffers** property then pass the operator data as follows:
 
-```
+```{code} matlab
 tx = adi.ADRV9009.Tx;
 tx.EnableCyclicBuffers = true;
 tx_data = complex(2^15.*randn(1024,1),2^15.*randn(1024,1));
@@ -118,7 +123,7 @@ One a vector is passed to the object with **EnableCyclicBuffers** set to **true*
 
 By default the system objects will utilize **DMA** as the source of data for the DACs, which will use data past from the operator. This can be set manually through the **DataSource** properties as follows:
 
-```
+```{code} matlab
 rx.DataSource = 'DMA';
 ```
 
@@ -126,13 +131,13 @@ rx.DataSource = 'DMA';
 
 Instead of providing data for transmission, it is possible to utilize DDSs inside the FPGA to send tones to individual DACs. For specific boards there are two DDS per DAC, which can be used to create complex (one-sided) tones. These DDSs can be used by first setting the **DataSource** property:
 
-```
+```{code} matlab
 rx.DataSource = 'DDS';
 ```
 
 Then the scale, frequency, and phase of each DDS can be controlled through three attributes as follows:
 
-```
+```{code} matlab
 rx.DDSFrequencies = [1e3,1e3,1e3,1e3;1e4,1e4,1e4,1e4]; % Must be range [0 FS/2]
 rx.DDSScales = [1,1,1,1;0,0,0,0]; % Must be range [0,1]
 rx.DDSPhases = [0,90e3,0,90e3,0,0;0,0,0,0]; % Each in millidegrees [0,90000]

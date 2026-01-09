@@ -5,7 +5,7 @@
 This page outlines the HDL reference design integration for the *FMCOMMS8* reference design for the Analog Devices
 ADRV9009 component. The IP-Core Generation follow is available on the based on the following base HDL reference design for the following board and design variants: 
 
-- [Base reference design documentation]()
+- [Base reference design documentation](https://analogdevicesinc.github.io/hdl/projects/fmcomms8/index.html)
 - Supported FPGA carriers:
     - ZCU102
 - Supported design variants:

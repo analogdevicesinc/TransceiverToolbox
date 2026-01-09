@@ -313,9 +313,9 @@
 <p>Connecting to hardware is done by setting the <strong>uri</strong> property of the system object interface. The <strong>uri</strong> for libIIO always has the convention “<em>&lt; backend &gt;:&lt; address &gt;</em>”, where <em>backend</em> can be ip,usb, or serial. <em>address</em> will be specific to the backend. This is documented in the <a class="reference external" href="https://analogdevicesinc.github.io/libiio/master/libiio/group__Context.html#gafdcee40508700fa395370b6c636e16fe">libIIO API</a>.</p>
 <!-- vale Google.Quotes = YES -->
 <p>Below is a basic example of setting up an AD9361 receiver using an Ethernet/IP backend where the address of the target system is 192.168.2.1:</p>
-<div class="highlight-linenums=&quot;1&quot; notranslate"><div class="highlight"><pre><span></span>rx = adi.AD9361.Rx;
-rx.uri = &#39;ip:192.168.2.1&#39;;
-data = rx();
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="n">rx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">adi</span><span class="p">.</span><span class="n">AD9361</span><span class="p">.</span><span class="n">Rx</span><span class="p">;</span>
+<span class="linenos">2</span><span class="n">rx</span><span class="p">.</span><span class="n">uri</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;ip:192.168.2.1&#39;</span><span class="p">;</span>
+<span class="linenos">3</span><span class="n">data</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">rx</span><span class="p">();</span>
 </pre></div>
 </div>
 <p>With the code above, the hardware is not contacted until the operator or step method is called on line 3. Therefore, any properties that are set or defined before line 3 are not applied or updated on the hardware until after line 3. However, after line 3 has completed the object will become locked and certain configuration changes cannot be applied after this point. These will primarily sample rates and buffer sizes.</p>
@@ -328,45 +328,45 @@ data = rx();
   C --&gt; D[Send or Receive Data];
   D --&gt; E[Lock Object];
     </pre><p>Once the object becomes locked it must be released if the sample rate or buffers need to be modified. This will disconnect from the hardware:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rx</span><span class="o">.</span><span class="n">release</span><span class="p">();</span> <span class="o">%</span> <span class="n">Release</span> <span class="nb">object</span>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">rx</span><span class="p">.</span><span class="n">release</span><span class="p">();</span><span class="w"> </span><span class="c">% Release object</span>
 </pre></div>
 </div>
 <p>To provide a complete example we can do more advanced configuration like so to demonstrate property changes:</p>
-<div class="highlight-linenums=&quot;1&quot; notranslate"><div class="highlight"><pre><span></span>rx = adi.AD9361.Rx;
-rx.uri = &#39;ip:192.168.2.1&#39;;
-rx.SamplesPerFrame = 1024;
-rx.CenterFrequency = 1e9;
-dataLO1 = rx();
-
-% Update tunable property
-rx.CenterFrequency = 2e9;
-dataLO2 = rx();
-
-% Update non-tunable property
-rx.release();
-rx.SamplesPerFrame = 4096;
-dataLargerBuffer = rx();
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="n">rx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">adi</span><span class="p">.</span><span class="n">AD9361</span><span class="p">.</span><span class="n">Rx</span><span class="p">;</span>
+<span class="linenos"> 2</span><span class="n">rx</span><span class="p">.</span><span class="n">uri</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;ip:192.168.2.1&#39;</span><span class="p">;</span>
+<span class="linenos"> 3</span><span class="n">rx</span><span class="p">.</span><span class="n">SamplesPerFrame</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1024</span><span class="p">;</span>
+<span class="linenos"> 4</span><span class="n">rx</span><span class="p">.</span><span class="n">CenterFrequency</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">1e9</span><span class="p">;</span>
+<span class="linenos"> 5</span><span class="n">dataLO1</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">rx</span><span class="p">();</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="c">% Update tunable property</span>
+<span class="linenos"> 8</span><span class="n">rx</span><span class="p">.</span><span class="n">CenterFrequency</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">2e9</span><span class="p">;</span>
+<span class="linenos"> 9</span><span class="n">dataLO2</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">rx</span><span class="p">();</span>
+<span class="linenos">10</span>
+<span class="linenos">11</span><span class="c">% Update non-tunable property</span>
+<span class="linenos">12</span><span class="n">rx</span><span class="p">.</span><span class="n">release</span><span class="p">();</span>
+<span class="linenos">13</span><span class="n">rx</span><span class="p">.</span><span class="n">SamplesPerFrame</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">4096</span><span class="p">;</span>
+<span class="linenos">14</span><span class="n">dataLargerBuffer</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">rx</span><span class="p">();</span>
 </pre></div>
 </div>
 </section>
 <section id="receiving-data">
 <h2>Receiving Data<a class="headerlink" href="#receiving-data" title="Link to this heading">¶</a></h2>
 <p>To receive or capture data from a given device first you must instantiate that device’s interface class. For example on a AD9361 based system, this would be as follows:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rx</span> <span class="o">=</span> <span class="n">adi</span><span class="o">.</span><span class="n">AD9361</span><span class="o">.</span><span class="n">Rx</span><span class="p">;</span>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">rx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">adi</span><span class="p">.</span><span class="n">AD9361</span><span class="p">.</span><span class="n">Rx</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>Once instantiated you can configure the number of samples to be captured by setting the property <strong>SamplesPerFrame.</strong></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rx</span><span class="o">.</span><span class="n">SamplesPerFrame</span> <span class="o">=</span> <span class="mf">1e6</span><span class="p">;</span>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">rx</span><span class="p">.</span><span class="n">SamplesPerFrame</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">1e6</span><span class="p">;</span>
 </pre></div>
 </div>
 <p><strong>SamplesPerFrame</strong> is the number of samples per channel which will be captured. If your device produces complex data (I and Q) this is the number of complex samples. There will be a limit to the maximum samples which can be collected. By default this is set to 2^20, but it may be possible to make it larger depending on hardware. Once the operator methods are used for a give instantiation, the object will become locked and the <strong>SamplesPerFrame</strong> property cannot be changed. This is known as a non-tunable property.</p>
 <p>To actually collect the samples or perform the capture, the operator of the system object should be used or the <strong>step</strong> method as so:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">rx</span><span class="p">();</span> <span class="o">%</span> <span class="n">Operator</span> <span class="n">method</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">rx</span><span class="o">.</span><span class="n">step</span><span class="p">();</span> <span class="o">%</span> <span class="n">Step</span> <span class="n">method</span>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">rx</span><span class="p">();</span><span class="w"> </span><span class="c">% Operator method</span>
+<span class="n">data</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">rx</span><span class="p">.</span><span class="n">step</span><span class="p">();</span><span class="w"> </span><span class="c">% Step method</span>
 </pre></div>
 </div>
 <p>Both method calls are equivalent, and the produced matrix <strong>data</strong> will be of size [SamplesPerFrame x length(EnabledChannels)]. <strong>EnabledChannels</strong> determines the channels which data will be collected from. <strong>EnabledChannels</strong> is a [1xN] vector with indexes starting at 1 of the desired channels. If the device transmits or receive complex data, these indexes are for complex channel pairs. For example, the AD9361 has 2 receivers (4 ADC) and setting <strong>EnabledChannels</strong> as so will capture data from all 4 converters:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rx</span><span class="o">.</span><span class="n">EnabledChannels</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">];</span>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">rx</span><span class="p">.</span><span class="n">EnabledChannels</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">];</span>
 </pre></div>
 </div>
 <p>You cannot enable individual converters on complex data based devices, and the <strong>EnabledChannels</strong> property is always sorted so the channel mappings cannot be changed within the produced data.</p>
@@ -374,39 +374,39 @@ dataLargerBuffer = rx();
 <section id="sending-data">
 <h2>Sending Data<a class="headerlink" href="#sending-data" title="Link to this heading">¶</a></h2>
 <p>Transmitting data is very similar to receiving it, a transmitter class needs to be instantiated to send data first. For a ADRV9009 based device this would be as follows:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tx</span> <span class="o">=</span> <span class="n">adi</span><span class="o">.</span><span class="n">ADRV9009</span><span class="o">.</span><span class="n">Tx</span><span class="p">;</span>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">tx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">adi</span><span class="p">.</span><span class="n">ADRV9009</span><span class="p">.</span><span class="n">Tx</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>Unlike the receivers, transmit objects automatically create their internal buffers based on the data passed to them during their operator or step methods. These methods can be called as follows with some data:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tx_data</span> <span class="o">=</span> <span class="nb">complex</span><span class="p">(</span><span class="mi">2</span><span class="o">^</span><span class="mf">15.</span><span class="o">*</span><span class="n">randn</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="mi">2</span><span class="o">^</span><span class="mf">15.</span><span class="o">*</span><span class="n">randn</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span>
-<span class="n">tx</span><span class="p">(</span><span class="n">tx_data</span><span class="p">);</span> <span class="o">%</span> <span class="n">Operator</span> <span class="n">method</span>
-<span class="n">tx</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">tx_data</span><span class="p">);</span> <span class="o">%</span> <span class="n">Step</span> <span class="n">method</span>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">tx_data</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">complex</span><span class="p">(</span><span class="mi">2</span><span class="o">^</span><span class="mi">15</span><span class="o">.*</span><span class="nb">randn</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="mi">2</span><span class="o">^</span><span class="mi">15</span><span class="o">.*</span><span class="nb">randn</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span>
+<span class="n">tx</span><span class="p">(</span><span class="n">tx_data</span><span class="p">);</span><span class="w"> </span><span class="c">% Operator method</span>
+<span class="n">tx</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">tx_data</span><span class="p">);</span><span class="w"> </span><span class="c">% Step method</span>
 </pre></div>
 </div>
 <p>However, once the step or operator method is called the object becomes locked and future passed data vectors must be the same length. As with the receive classes, the size of the passed data must be [SomeFixedSize x EnabledChannels]. <strong>EnabledChannels</strong> has the same definition as the receive side, except applied to DACs.</p>
 <p>Unlike the receiver, transmit objects have the ability to utilize <a class="reference external" href="https://analogdevicesinc.github.io/libiio/group__Buffer.html#ga6caadf077c112ae55a64276aa24ef832">cyclic buffers</a> which will continuously transmit a provided vector without gaps forever. To utilize cyclic buffers set the <strong>EnableCyclicBuffers</strong> property then pass the operator data as follows:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tx</span> <span class="o">=</span> <span class="n">adi</span><span class="o">.</span><span class="n">ADRV9009</span><span class="o">.</span><span class="n">Tx</span><span class="p">;</span>
-<span class="n">tx</span><span class="o">.</span><span class="n">EnableCyclicBuffers</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
-<span class="n">tx_data</span> <span class="o">=</span> <span class="nb">complex</span><span class="p">(</span><span class="mi">2</span><span class="o">^</span><span class="mf">15.</span><span class="o">*</span><span class="n">randn</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="mi">2</span><span class="o">^</span><span class="mf">15.</span><span class="o">*</span><span class="n">randn</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span>
-<span class="n">tx</span><span class="p">(</span><span class="n">tx_data</span><span class="p">);</span> <span class="o">%</span> <span class="n">Data</span> <span class="n">will</span> <span class="n">repeat</span> <span class="n">forever</span>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">tx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">adi</span><span class="p">.</span><span class="n">ADRV9009</span><span class="p">.</span><span class="n">Tx</span><span class="p">;</span>
+<span class="n">tx</span><span class="p">.</span><span class="n">EnableCyclicBuffers</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="n">tx_data</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">complex</span><span class="p">(</span><span class="mi">2</span><span class="o">^</span><span class="mi">15</span><span class="o">.*</span><span class="nb">randn</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="mi">2</span><span class="o">^</span><span class="mi">15</span><span class="o">.*</span><span class="nb">randn</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span>
+<span class="n">tx</span><span class="p">(</span><span class="n">tx_data</span><span class="p">);</span><span class="w"> </span><span class="c">% Data will repeat forever</span>
 </pre></div>
 </div>
 <p>One a vector is passed to the object with <strong>EnableCyclicBuffers</strong> set to <strong>true</strong>, the object will not accept future buffers unless first release or cleared.</p>
 <p>By default the system objects will utilize <strong>DMA</strong> as the source of data for the DACs, which will use data past from the operator. This can be set manually through the <strong>DataSource</strong> properties as follows:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rx</span><span class="o">.</span><span class="n">DataSource</span> <span class="o">=</span> <span class="s1">&#39;DMA&#39;</span><span class="p">;</span>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">rx</span><span class="p">.</span><span class="n">DataSource</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;DMA&#39;</span><span class="p">;</span>
 </pre></div>
 </div>
 </section>
 <section id="dds">
 <h2>DDS<a class="headerlink" href="#dds" title="Link to this heading">¶</a></h2>
 <p>Instead of providing data for transmission, it is possible to utilize DDSs inside the FPGA to send tones to individual DACs. For specific boards there are two DDS per DAC, which can be used to create complex (one-sided) tones. These DDSs can be used by first setting the <strong>DataSource</strong> property:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rx</span><span class="o">.</span><span class="n">DataSource</span> <span class="o">=</span> <span class="s1">&#39;DDS&#39;</span><span class="p">;</span>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">rx</span><span class="p">.</span><span class="n">DataSource</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;DDS&#39;</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>Then the scale, frequency, and phase of each DDS can be controlled through three attributes as follows:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rx</span><span class="o">.</span><span class="n">DDSFrequencies</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1e3</span><span class="p">,</span><span class="mf">1e3</span><span class="p">,</span><span class="mf">1e3</span><span class="p">,</span><span class="mf">1e3</span><span class="p">;</span><span class="mf">1e4</span><span class="p">,</span><span class="mf">1e4</span><span class="p">,</span><span class="mf">1e4</span><span class="p">,</span><span class="mf">1e4</span><span class="p">];</span> <span class="o">%</span> <span class="n">Must</span> <span class="n">be</span> <span class="nb">range</span> <span class="p">[</span><span class="mi">0</span> <span class="n">FS</span><span class="o">/</span><span class="mi">2</span><span class="p">]</span>
-<span class="n">rx</span><span class="o">.</span><span class="n">DDSScales</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">;</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">];</span> <span class="o">%</span> <span class="n">Must</span> <span class="n">be</span> <span class="nb">range</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">rx</span><span class="o">.</span><span class="n">DDSPhases</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mf">90e3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">90e3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">;</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">];</span> <span class="o">%</span> <span class="n">Each</span> <span class="ow">in</span> <span class="n">millidegrees</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">90000</span><span class="p">]</span>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">rx</span><span class="p">.</span><span class="n">DDSFrequencies</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="mf">1e3</span><span class="p">,</span><span class="mf">1e3</span><span class="p">,</span><span class="mf">1e3</span><span class="p">,</span><span class="mf">1e3</span><span class="p">;</span><span class="mf">1e4</span><span class="p">,</span><span class="mf">1e4</span><span class="p">,</span><span class="mf">1e4</span><span class="p">,</span><span class="mf">1e4</span><span class="p">];</span><span class="w"> </span><span class="c">% Must be range [0 FS/2]</span>
+<span class="n">rx</span><span class="p">.</span><span class="n">DDSScales</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">;</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">];</span><span class="w"> </span><span class="c">% Must be range [0,1]</span>
+<span class="n">rx</span><span class="p">.</span><span class="n">DDSPhases</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mf">90e3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">90e3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">;</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">];</span><span class="w"> </span><span class="c">% Each in millidegrees [0,90000]</span>
 </pre></div>
 </div>
 <p>Each of the above properties must be of size [2x(NumberOfPartDACs)], where each row is the first DDS of a given DAC (column) and the second row is the second DDS of a given DAC (column).</p>

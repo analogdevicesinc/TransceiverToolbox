@@ -5,7 +5,7 @@
 This page outlines the HDL reference design integration for the *ADRV9002* reference design for the Analog Devices
 ADRV9002 component. The IP-Core Generation follow is available on the based on the following base HDL reference design for the following board and design variants: 
 
-- [Base reference design documentation]()
+- [Base reference design documentation](https://analogdevicesinc.github.io/hdl/projects/adrv9002/index.html)
 - Supported FPGA carriers:
     - ZCU102
 - Supported design variants:

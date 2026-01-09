@@ -42,13 +42,14 @@ The following have device-specific implementations in MATLAB and Simulink. If a 
 | | ZCU102 | Yes | Yes | ADI (2018b) |
 | | ZYNQ3 | Yes | No | ADI (2018b) |
 | ADRV9002 | ZCU102 | Yes | Yes | ADI (2020a) |
+| Jupiter |  | Yes | No | ADI (2020a) |
 | ADRV9009/8 | ZC706 | Yes | No | ADI (2018b) |
 | | ZCU102 | Yes | Yes | ADI (2018b) |
 | ADRV9009-ZU11EG |  | Yes | No | ADI (2020a) |
 
 
 
-## Sections
+# Sections
 
 ```{eval-rst}
 .. toctree::

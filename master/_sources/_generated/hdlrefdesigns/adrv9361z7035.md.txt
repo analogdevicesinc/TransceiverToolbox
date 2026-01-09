@@ -5,7 +5,7 @@
 This page outlines the HDL reference design integration for the *ADRV9361Z7035* reference design for the Analog Devices
 AD9361 component. The IP-Core Generation follow is available on the based on the following base HDL reference design for the following board and design variants: 
 
-- [Base reference design documentation]()
+- [Base reference design documentation](https://analogdevicesinc.github.io/hdl/projects/adrv9361z7035/index.html)
 - Supported FPGA carriers:
     - CCBOB_CMOS
     - CCBOB_LVDS

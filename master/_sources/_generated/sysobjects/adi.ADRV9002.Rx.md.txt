@@ -10,7 +10,7 @@ Receive data from Analog Devices AD9361 transceiver
 
 <div class="sysobj_desc_txt">
 <span>
-    The adi.ADRV9002.Rx System object is a signal source that can receive<br>    complex data from the ADRV9002.<br> <br>    rx = adi.ADRV9002.Rx;<br>    rx = adi.ADRV9002.Rx('uri','ip:192.168.2.1');<br> <br>    <a href="http://www.analog.com/media/en/technical-documentation/data-sheets/ADRV9002.pdf">ADRV9002 Datasheet</a><br>
+    The adi.ADRV9002.Rx System object is a signal source that can receive<br>    complex data from the ADRV9002.<br> <br>    rx = adi.ADRV9002.Rx;<br>    rx = adi.ADRV9002.Rx('uri','ip:192.168.2.1');<br> <br>    Significant configuration of the transceiver is done by loading profiles<br>    created through the Transceiver Evaluation Software (TES). This includes<br>    settings such as sample rate, bandwidth, data interface format, and TDD <br>    or FDD operation. For more information on creating and loading profiles,<br>    refer to the <a href="https://wiki.analog.com/resources/tools-software/linux-drivers/iio-transceiver/adrv9002#profiles">ADRV9002 documentation</a>.<br> <br>    <a href="http://www.analog.com/media/en/technical-documentation/data-sheets/ADRV9002.pdf">ADRV9002 Datasheet</a><br>
 </span>
 
 </div>

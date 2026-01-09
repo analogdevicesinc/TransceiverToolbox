@@ -340,6 +340,12 @@
 </ul>
 </section>
 </section>
+<section id="connecting-to-hardware">
+<h2>Connecting To Hardware<a class="headerlink" href="#connecting-to-hardware" title="Link to this heading">¶</a></h2>
+<p>Transceiver Toolbox is designed and tested to work with ADI kernel drivers based in the IIO framework. The most common target platforms will utilize ADI’s Kuiper Linux distribution or other buildroot based systems authored by ADI. These images have the necessary IIO drivers and libIIO support built-in. Since drivers can evolve over time, it is recommended to always the supported Kuiper released defined on the <a class="reference external" href="https://github.com/analogdevicesinc/TransceiverToolbox/releases">Transceiver Toolbox Release Page</a>.</p>
+<p>To download and flash Kuiper images, refer to the <a class="reference external" href="https://wiki.analog.com/resources/tools-software/linux-software/kuiper-linux">Kuiper Linux Documentation</a>.</p>
+<p>It is possible to use Transceiver Toolbox with custom Linux images as long as the necessary IIO drivers and libIIO support is included.</p>
+</section>
 <section id="transceiver-toolbox-install">
 <h2>Transceiver Toolbox Install<a class="headerlink" href="#transceiver-toolbox-install" title="Link to this heading">¶</a></h2>
 <p>The Transceiver Toolbox itself can be installed either from:</p>
@@ -427,6 +433,7 @@
 <li><a class="reference internal" href="#hdl-generation-support">HDL Generation Support</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#connecting-to-hardware">Connecting To Hardware</a></li>
 <li><a class="reference internal" href="#transceiver-toolbox-install">Transceiver Toolbox Install</a><ul>
 <li><a class="reference internal" href="#add-on-explorer-walkthrough">Add-On Explorer Walkthrough</a></li>
 </ul>
