@@ -35,7 +35,7 @@ graph LR
   C --> D[Send or Receive Data];
   D --> E[Lock Object];
 ```
-```
+
 Once the object becomes locked it must be released if the sample rate or buffers need to be modified. This will disconnect from the hardware:
 ```{code} matlab
 rx.release(); % Release object
