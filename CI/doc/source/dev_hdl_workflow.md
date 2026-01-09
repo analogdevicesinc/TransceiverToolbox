@@ -10,7 +10,7 @@ This page assumes a basic understanding of MathWork's [HDL Workflow Advisor (HWA
 
 ## HDL Repository Preparation
 
-When the toolbox is built it will clone a specific branch of the [ADI HDL repository](github.com/analogdevicesinc/hdl) and apply certain changes to support the [IP-Core Generation HDL-Coder](https://www.mathworks.com/discovery/ip-core-generation.html) workflow. However, with the current flow there are minimal changes required which makes moving between release simpler. This is currently done by simply replacing certain TCL scripts within the HDL repository. 
+When the toolbox is built it will clone a specific branch of the [ADI HDL repository](https://github.com/analogdevicesinc/hdl) and apply certain changes to support the [IP-Core Generation HDL-Coder](https://www.mathworks.com/discovery/ip-core-generation.html) workflow. However, with the current flow there are minimal changes required which makes moving between release simpler. This is currently done by simply replacing certain TCL scripts within the HDL repository. 
 
 Creation of the toolbox, cloning of the HDL source, and applying the necessary update is driven through a Makefile in the **CI/scripts** folder. The toolbox is built in source form with the **build** as follows:
 

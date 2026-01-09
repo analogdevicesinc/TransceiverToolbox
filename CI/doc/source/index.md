@@ -48,7 +48,7 @@ The following have device-specific implementations in MATLAB and Simulink. If a 
 
 
 
-## Sections
+# Sections
 
 ```{eval-rst}
 .. toctree::
