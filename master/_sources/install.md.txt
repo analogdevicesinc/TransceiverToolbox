@@ -56,20 +56,22 @@ Before installing Transceiver Toolbox check the [Release Page](https://github.co
 
 To install the toolbox from within MATLAB using the Add-On Explorer, first launch the Explorer from MATLAB's Home tab:
 
-<img class="screenshot" src="/_static/assets/add_ex.png">
+```{figure} _static/assets/add_ex.png
+```
 
 Search for the toolbox:
 
-<!-- ![Add-On Explorer](assets/trx_search_wbox.png) -->
-<img class="screenshot" src="/_static/assets/trx_search_wbox.png">
+```{figure} _static/assets/trx_search_wbox.png
+```
+
 
 Select Transceiver Toolbox from results:
 
-<!-- ![Add-On Explorer](assets/trx_search_find_wbox.png) -->
-<img class="screenshot" src="/_static/assets/trx_search_find_wbox.png">
+```{figure} _static/assets/trx_search_find_wbox.png
+```
 
 
 Select add:
 
-<!-- ![Add-On Explorer](assets/addons_page_wbox.png) -->
-<img class="screenshot" src="/_static/assets/addons_page_wbox.png">
+```{figure} _static/assets/addons_page_wbox.png
+```
