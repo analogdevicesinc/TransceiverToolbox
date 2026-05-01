@@ -32,7 +32,7 @@ classdef DemoTests < TestAppGUI
             if ~isempty(out)
                 disp(out.message);
             end
-            % Check for system_top.bit
+            testCase.setupVivado('2025.1');
             if exist('hdl_prj/vivado_ip_prj/vivado_prj.runs/impl_1/system_top.bit', 'file') ~= 2
                 error('system_top.bit not found');
             end
@@ -44,7 +44,7 @@ classdef DemoTests < TestAppGUI
             if ~isempty(out)
                 disp(out.message);
             end
-            % Check for BOOT.BIN
+            testCase.setupVivado('2025.1');
             if exist('hdl_prj/vivado_ip_prj/boot/BOOT.BIN', 'file') ~= 2
                 error('BOOT.BIN Failed');
             end
@@ -56,7 +56,7 @@ classdef DemoTests < TestAppGUI
             if ~usejava('desktop')
                 setenv('EDITOR', 'cat');
             end
-            here = pwd;
+            testCase.setupVivado('2025.1');
             matlab.internal.language.introspective.openExample('comm/WINNERVHTMUMIMOExample', 'helperNoiseEstimate');
             here = mfilename('fullpath');
             here = strsplit(here,filesep);

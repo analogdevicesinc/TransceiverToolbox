@@ -41,8 +41,8 @@ else
 end
 
 % Tool information
-%hRD.SupportedToolVersion = {adi.Version.Vivado}; % FIXME
-hRD.SupportedToolVersion = {'2022.2'};
+%hRD.SupportedToolVersion = {'2025.1'};
+hRD.SupportedToolVersion = {'2025.1'};
 
 % Get the root directory
 rootDir = fileparts(strtok(mfilename('fullpath'), '+'));

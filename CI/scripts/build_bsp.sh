@@ -2,7 +2,7 @@
 set -xe
 
 if [ -z "${HDLBRANCH}" ]; then
-HDLBRANCH='hdl_2022_r2'
+HDLBRANCH='main'
 fi
 
 # Script is designed to run from specific location
@@ -130,6 +130,16 @@ sed -i '23i   # Custom Sync IP' hdl/projects/adrv9001/zcu102/Makefile
 sed -i '24i   LIB_DEPS += util_sync/util_delay' hdl/projects/adrv9001/zcu102/Makefile
 sed -i '25i   LIB_DEPS += util_sync/sync_fast_to_slow' hdl/projects/adrv9001/zcu102/Makefile
 sed -i '26i   LIB_DEPS += util_sync/sync_slow_to_fast' hdl/projects/adrv9001/zcu102/Makefile
+
+# Localize adi_env.tcl's quartus-carrier foreach loop variable so it does not
+# leak `carrier` into the global scope. Without this, sourcing adi_env.tcl
+# (via system_project.tcl) sets `carrier` to the last value in the iteration
+# list, which breaks downstream `[info exists carrier]` checks in
+# system_project_rxtx.tcl for carrierless projects (pluto, jupiter_sdr).
+sed -i \
+  -e 's/foreach carrier \$quartus_std_carriers/foreach _carrier_iter $quartus_std_carriers/' \
+  -e 's/\[string match "\*\$carrier\*" \[pwd\]\]/[string match "*$_carrier_iter*" [pwd]]/' \
+  hdl/scripts/adi_env.tcl
 
 mv hdl $TARGET
 
