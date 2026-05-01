@@ -15,7 +15,7 @@ stage("Build Toolbox") {
     dockerParallelBuild(hdlBranches, dockerHost, dockerConfig) { 
 	branchName ->
 	try {
-		withEnv(['HDLBRANCH='+branchName,'LC_ALL=C.UTF-8','LANG=C.UTF-8']) {
+		withEnv(['HDLBRANCH='+branchName,'LC_ALL=C.UTF-8','LANG=C.UTF-8','QT_QPA_PLATFORM=offscreen']) {
 		    checkout scm
 		    sh 'git submodule update --init' 
 		    sh 'make -C ./CI/scripts build'
@@ -54,7 +54,7 @@ dockerConfig.add("-e HDLBRANCH=${targetBranch}")
 cstage("HDL Tests", "", flags) {
     dockerParallelBuild(boardNames, dockerHost, dockerConfig) { 
         branchName ->
-        withEnv(['BOARD='+branchName]) {
+        withEnv(['BOARD='+branchName,'QT_QPA_PLATFORM=offscreen']) {
             cstage("Source", branchName, flags) {
                 local_unstash('builtSources')
                 sh 'make -C ./CI/scripts test'
@@ -92,7 +92,7 @@ for (int i=0; i < demoNames.size(); i++) {
         nodeLabel = 'baremetal && high_memory';
     deployments[demo] = { node(nodeLabel) {
         stage("Demo Tests") {
-            withEnv(['DEMO='+demo,'MLRELEASE=R2025b','HDLBRANCH='+targetBranch,'LC_ALL=C.UTF-8','LANG=C.UTF-8']) {
+            withEnv(['DEMO='+demo,'MLRELEASE=R2025b','HDLBRANCH='+targetBranch,'LC_ALL=C.UTF-8','LANG=C.UTF-8','QT_QPA_PLATFORM=offscreen']) {
                 try {
                     stage(demo) {
                         echo "Node: ${env.NODE_NAME}"
@@ -131,7 +131,7 @@ appNames = ['lte_pa_app']
 cstage("Build Deployable Apps", "", flags) {
     dockerParallelBuild(appNames, dockerHost, dockerConfig) { 
         branchName ->
-        withEnv(['APP='+branchName]) {
+        withEnv(['APP='+branchName,'QT_QPA_PLATFORM=offscreen']) {
             cstage("Build DApps", branchName, flags) {
                 local_unstash('builtSources')
                 sh 'make -C ./CI/scripts ${APP}'
@@ -149,7 +149,7 @@ classNames = ['AD9361','AD9363','AD9364','AD9371','ADRV9009']
 cstage("Hardware Streaming Tests", "", flags) {
     dockerParallelBuild(classNames, dockerHost, dockerConfig) { 
         branchName ->
-        withEnv(['HW='+branchName]) {
+        withEnv(['HW='+branchName,'QT_QPA_PLATFORM=offscreen']) {
             local_unstash("builtSources")
             sh 'echo ${HW}'
             // sh 'make -C ./CI/scripts test_streaming'
