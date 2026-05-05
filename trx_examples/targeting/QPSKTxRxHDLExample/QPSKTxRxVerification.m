@@ -10,7 +10,10 @@ disp('Running the verification script');
 %=================================================
 % Generate reference data to compare Simulink Tx
 %=================================================
-[refTxWaveform,refQPSKSym] = generateQPSKTxReference(dataBits);
+frameSize = 2240;
+dataBits = reshape(repmat(randsrc(frameSize*1,1,[0,1],RandStream('mcg16807','Seed',0)), 59,1), [frameSize*59,1]);
+enabledScramble = false;
+[refTxWaveform,refQPSKSym] = generateQPSKTxReference(dataBits, enabledScramble);
 
 %=================================================
 % Compare Tx constellation symbols with reference
@@ -26,7 +29,11 @@ simTxWaveform(1:symPerFrame*Config.SamplesPerSymbol) = [];
 
 % Discard all the extra samples from the simulation output greater than
 % required length for comparison.
-simTxWaveform = simTxWaveform(1:length(refTxWaveform));
+if length(refTxWaveform) < length(simTxWaveform)
+    simTxWaveform = simTxWaveform(1:length(refTxWaveform));
+else
+    refTxWaveform = refTxWaveform(1:length(simTxWaveform));
+end
 
 % The initial RRC filter state for reference waveform is all zeros where as
 % for Simulink waveform it is from the first dummy frame. So, the first
@@ -55,6 +62,12 @@ srtLoc = find(RxOutSrt);
 endLoc = find(RxOutEnd);
 
 [RxBits,trueOffset] = getBitsofCorrectSyncedPackets(RxOut(:),simTimingOffset,srtLoc(:),endLoc(:),payloadLen);
+
+% Trim
+pks = min([length(srtLoc),length(endLoc)]);
+srtLoc = srtLoc(1:pks);
+endLoc = endLoc(1:pks);
+
 
 for idx = length(srtLoc(:)):-1:1
     if isempty(RxBits{idx})
@@ -112,7 +125,7 @@ disp([newline 'Number of bits errored = ' num2str(nErrBits)...
     ' out of ' num2str(nReceivedBits)]);
 
 %%
-function [txWaveform,QPSKModSymbols] = generateQPSKTxReference(databits)
+function [txWaveform,QPSKModSymbols] = generateQPSKTxReference(databits, enableScramble)
 % This function is a algorithmic equivalent of QPSK Tx subsystem
 % in commhdlQPSKTxRx.slx. This will not generate frame gaps between the
 % frames where as the Simulink model does.
@@ -126,8 +139,13 @@ function [txWaveform,QPSKModSymbols] = generateQPSKTxReference(databits)
 
     dataBitsPacketWise = reshape(databits,DataBitsPerPacket,[]);
     ScrambledBitsPacketWise = zeros(size(dataBitsPacketWise));
-    for packetNo = 1:size(dataBitsPacketWise,2)
-        ScrambledBitsPacketWise(:,packetNo) = scramble(dataBitsPacketWise(:,packetNo));
+    if enableScramble
+        for packetNo = 1:size(dataBitsPacketWise,2)
+            ScrambledBitsPacketWise(:,packetNo) = scramble(dataBitsPacketWise(:,packetNo));
+        end
+    else
+        packetNo = size(dataBitsPacketWise,2);
+        ScrambledBitsPacketWise = dataBitsPacketWise;
     end
     BitsPacketWise = [repmat(Preamble,1,packetNo);ScrambledBitsPacketWise];
     QPSKModSymbols = QPSKModulate(BitsPacketWise(:));

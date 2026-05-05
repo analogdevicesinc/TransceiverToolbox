@@ -4,6 +4,17 @@
 
 %   Copyright 2020-2023 The MathWorks, Inc. 
 
+% Each message is 112 bits
+% numOfMsgs = 2;
+% [bits,info] = generateHelloworldMsgBits(numOfMsgs)
+% size(bits)
+%%
+% a = reshape(repmat(randsrc(2240*1,1,[0,1],RandStream('mcg16807','Seed',0)), 59,1), [2240*59,1]);
+% b = reshape(repmat(randsrc(2240*1,1,[0,1],RandStream('mcg16807','Seed',0)), 59,1), [2240*59,1]);
+% 
+% disp(isequal(a,b))
+
+%%
 dataBits = eval(get_param([gcs '/Input Data'],'dataBits'));
 Rsym = eval(get_param([gcs '/Input Data'],'Rsym'));
 validateattributes(dataBits,{'double'},{'binary','column','finite'},'','dataBits');
