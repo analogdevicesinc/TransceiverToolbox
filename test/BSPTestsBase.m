@@ -158,7 +158,11 @@ classdef BSPTestsBase < matlab.unittest.TestCase
                 fprintf('Using custom Vivado path: %s\n',pathname);
             else
                 if ispc
-                    pathname = ['C:\Xilinx\Vivado\',vivado,'\bin\vivado.bat'];
+                    if vivado == "2025.1"
+                        pathname = ['C:\Xilinx\',vivado,'\Vivado\bin\vivado.bat'];
+                    else
+                        pathname = ['C:\Xilinx\Vivado\',vivado,'\bin\vivado.bat'];
+                    end
                 elseif isunix
                     if vivado == "2025.1"
                         pathname = '/opt/Xilinx/2025.1/Vivado/bin/vivado';

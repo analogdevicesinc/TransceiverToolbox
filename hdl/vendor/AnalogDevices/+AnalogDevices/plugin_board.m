@@ -40,6 +40,12 @@ switch lower(project)
                 hB.FPGASpeed    = '';
                 hB.FPGAFamily   = 'Zynq';
         end
+    case 'jupiter'
+        % xczu3eg-sfva625-2-e
+        hB.FPGAFamily   = 'Zynq UltraScale+';
+        hB.FPGADevice   = 'xczu3eg-sfva625-2-e';
+        hB.FPGAPackage  = '';
+        hB.FPGASpeed    = '';
     case {'adrv9009','fmcomms8'}
         switch(upper(board))
         	case 'ZC706'
@@ -134,6 +140,8 @@ switch lower(project)
                 hB.FPGAPackage  = '';
                 hB.FPGASpeed    = '';
         end
+    otherwise
+        error('Unknown BOARD');
 end
 
 % Tool Info

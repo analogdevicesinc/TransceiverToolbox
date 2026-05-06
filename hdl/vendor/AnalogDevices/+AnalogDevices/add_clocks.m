@@ -1,7 +1,7 @@
 function add_clocks(hRD,project,design)
 
 switch lower(project)    
-    case 'adrv9002'
+    case {'adrv9002','jupiter'}
         switch(upper(design))
             case 'RX & TX'
                 hRD.addClockInterface( ...

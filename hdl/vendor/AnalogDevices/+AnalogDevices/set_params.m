@@ -5,6 +5,10 @@ switch lower(project)
         Number_of_inputs = '4';
 		Number_of_valids = '1';
 		Data_width = '16';
+    case 'jupiter'
+        Number_of_inputs = '4';
+		Number_of_valids = '1';
+		Data_width = '16';
     case 'adrv9009'
         Number_of_inputs = '4';
 		Number_of_valids = '1';

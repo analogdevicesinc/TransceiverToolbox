@@ -783,6 +783,88 @@ proc preprocess_bd {project carrier rxtx number_of_inputs number_of_bits number_
                 }
             }
         }
+        jupiter_sdr {
+            if {$rxtx != "tx"} {
+                # Remove ADC->Pack
+                delete_bd_objs [get_bd_nets axi_adrv9001_adc_1_data_i0]
+                delete_bd_objs [get_bd_nets axi_adrv9001_adc_1_data_q0]
+                delete_bd_objs [get_bd_nets axi_adrv9001_adc_1_data_i1]
+                delete_bd_objs [get_bd_nets axi_adrv9001_adc_1_data_q1]
+                # Remove enable aka valid
+                delete_bd_objs [get_bd_nets axi_adrv9001_adc_1_valid_i0]
+            }
+            if {$rxtx != "rx"} {
+                # Remove UPack->DAC
+                delete_bd_objs [get_bd_nets util_dac_1_upack_fifo_rd_data_0]
+                delete_bd_objs [get_bd_nets util_dac_1_upack_fifo_rd_data_1]
+                delete_bd_objs [get_bd_nets util_dac_1_upack_fifo_rd_data_2]
+                delete_bd_objs [get_bd_nets util_dac_1_upack_fifo_rd_data_3]
+				# Remove enable aka valid
+				delete_bd_objs [get_bd_nets axi_adrv9001_dac_1_valid_i0]
+            }
+
+			# Create and connect synchronizers
+			data_synchronizer $rxtx $number_of_inputs $number_of_bits $number_of_valids $multiple
+			
+            # Add 1 extra AXI master ports to the interconnect
+            set_property -dict [list CONFIG.NUM_MI {8}] [get_bd_cells axi_hpm0_lpd_interconnect]
+			set_property -dict [list CONFIG.NUM_CLKS {2}] [get_bd_cells axi_hpm0_lpd_interconnect]
+			
+			create_bd_cell -type ip -vlnv xilinx.com:ip:util_vector_logic:2.0 rx_rstn_inverter
+			set_property -dict [list CONFIG.C_SIZE {1} CONFIG.C_OPERATION {not} CONFIG.LOGO_FILE {data/sym_notgate.png}] [get_bd_cells rx_rstn_inverter]
+			
+			ad_connect axi_adrv9001/adc_1_rst rx_rstn_inverter/Op1
+			
+			create_bd_cell -type ip -vlnv xilinx.com:ip:util_vector_logic:2.0 tx_rstn_inverter
+			set_property -dict [list CONFIG.C_SIZE {1} CONFIG.C_OPERATION {not} CONFIG.LOGO_FILE {data/sym_notgate.png}] [get_bd_cells tx_rstn_inverter]
+			
+			ad_connect axi_adrv9001/dac_1_rst tx_rstn_inverter/Op1
+			
+            # Connect clock and reset
+            if {$rxtx == "rx" || $rxtx == "rxtx"} {
+                connect_bd_net [get_bd_pins axi_hpm0_lpd_interconnect/aclk1] [get_bd_pins axi_adrv9001/adc_1_clk]
+			} else {
+                connect_bd_net [get_bd_pins axi_hpm0_lpd_interconnect/aclk1] [get_bd_pins axi_adrv9001/dac_1_clk]
+			}
+			if {$rxtx != "tx"} {
+				# clock and reset
+				connect_bd_net [get_bd_pins axi_adrv9001/adc_1_clk] [get_bd_pins sync_input/rx_clk]
+				connect_bd_net [get_bd_pins rx_rstn_inverter/Res] [get_bd_pins sync_input/rx_rstn]
+				connect_bd_net [get_bd_pins axi_adrv9001/adc_1_clk] [get_bd_pins sync_output/rx_clk]
+				connect_bd_net [get_bd_pins rx_rstn_inverter/Res] [get_bd_pins sync_output/rx_rstn]
+				# sync input connections
+				connect_bd_net [get_bd_pins sync_input/data_in_rx_0] [get_bd_pins axi_adrv9001/adc_1_data_i0]
+				connect_bd_net [get_bd_pins sync_input/data_in_rx_1] [get_bd_pins axi_adrv9001/adc_1_data_i1]
+				connect_bd_net [get_bd_pins sync_input/data_in_rx_2] [get_bd_pins axi_adrv9001/adc_1_data_q0]
+				connect_bd_net [get_bd_pins sync_input/data_in_rx_3] [get_bd_pins axi_adrv9001/adc_1_data_q1]
+				connect_bd_net [get_bd_pins sync_input/data_valid_in_rx_0] [get_bd_pins axi_adrv9001/adc_1_valid_i0]
+				# sync ouput connections
+				connect_bd_net [get_bd_pins sync_output/data_out_rx_0] [get_bd_pins util_adc_1_pack/fifo_wr_data_0]
+				connect_bd_net [get_bd_pins sync_output/data_out_rx_1] [get_bd_pins util_adc_1_pack/fifo_wr_data_1]
+				connect_bd_net [get_bd_pins sync_output/data_out_rx_2] [get_bd_pins util_adc_1_pack/fifo_wr_data_2]
+				connect_bd_net [get_bd_pins sync_output/data_out_rx_3] [get_bd_pins util_adc_1_pack/fifo_wr_data_3]
+				connect_bd_net [get_bd_pins sync_output/data_valid_out_rx_0] [get_bd_pins util_adc_1_pack/fifo_wr_en]
+			}
+			if {$rxtx != "rx"} {
+				# clock and reset
+				connect_bd_net [get_bd_pins axi_adrv9001/dac_1_clk] [get_bd_pins sync_input/tx_clk]
+				connect_bd_net [get_bd_pins tx_rstn_inverter/Res] [get_bd_pins sync_input/tx_rstn]
+				connect_bd_net [get_bd_pins axi_adrv9001/dac_1_clk] [get_bd_pins sync_output/tx_clk]
+				connect_bd_net [get_bd_pins tx_rstn_inverter/Res] [get_bd_pins sync_output/tx_rstn]
+				# sync input connections
+				connect_bd_net [get_bd_pins sync_input/data_in_tx_0] [get_bd_pins util_dac_1_upack/fifo_rd_data_0]
+				connect_bd_net [get_bd_pins sync_input/data_in_tx_1] [get_bd_pins util_dac_1_upack/fifo_rd_data_1]
+				connect_bd_net [get_bd_pins sync_input/data_in_tx_2] [get_bd_pins util_dac_1_upack/fifo_rd_data_2]
+				connect_bd_net [get_bd_pins sync_input/data_in_tx_3] [get_bd_pins util_dac_1_upack/fifo_rd_data_3]
+				connect_bd_net [get_bd_pins sync_input/data_valid_in_tx_0] [get_bd_pins axi_adrv9001/dac_1_valid_i0]
+				# sync ouput connections
+				connect_bd_net [get_bd_pins sync_output/data_out_tx_0] [get_bd_pins axi_adrv9001/dac_1_data_i0]
+				connect_bd_net [get_bd_pins sync_output/data_out_tx_1] [get_bd_pins axi_adrv9001/dac_1_data_i1]
+				connect_bd_net [get_bd_pins sync_output/data_out_tx_2] [get_bd_pins axi_adrv9001/dac_1_data_q0]
+				connect_bd_net [get_bd_pins sync_output/data_out_tx_3] [get_bd_pins axi_adrv9001/dac_1_data_q1]
+				connect_bd_net [get_bd_pins sync_output/data_valid_out_tx_0] [get_bd_pins util_dac_1_upack/fifo_rd_en]
+			}
+        }
         adrv9371x {
             if {$rxtx == "rx" || $rxtx == "rxtx"} {
                 # Remove decimator

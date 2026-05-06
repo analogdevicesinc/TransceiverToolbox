@@ -15,7 +15,7 @@ if contains(lower(ReferenceDesignName),'9361')
 elseif contains(lower(ReferenceDesignName),'9364')
     dev = 'AD9364';
     mdl = 'testModel_regs';
-elseif contains(lower(ReferenceDesignName),'9002')
+elseif contains(lower(ReferenceDesignName),'9002') || contains(lower(ReferenceDesignName),'jupiter')
     dev = 'ADRV9002';
     mdl = 'testModel_regs';
 elseif contains(lower(ReferenceDesignName),'pluto')

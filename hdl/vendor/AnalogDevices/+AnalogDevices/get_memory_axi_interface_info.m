@@ -2,6 +2,10 @@ function out = get_memory_axi_interface_info(fpga,project)
 
 
 switch project
+    case 'jupiter'
+        InterfaceConnection = 'axi_hpm0_lpd_interconnect/M07_AXI';
+        BaseAddress = '0x9D000000';
+        MasterAddressSpace = 'sys_ps8/Data';
     case 'adrv9002'
         switch fpga
             case {'ZCU102'}

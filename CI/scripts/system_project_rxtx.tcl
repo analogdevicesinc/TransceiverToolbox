@@ -7,6 +7,7 @@ if {$preprocess == "on"} {
 
 if {![info exists carrier] || $carrier == ""} {
 	cd projects/$project/
+    set carrier ""
 	source ../scripts/adi_make.tcl
 } else {
 	cd projects/$project/$carrier
