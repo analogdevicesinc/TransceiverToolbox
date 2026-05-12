@@ -1031,6 +1031,147 @@
             }
         ]
     },
+    "jupiter": {
+        "chip": "ADRV9002",
+        "complex": "true",
+        "fpga": [
+            "jupiter"
+        ],
+        "supported_rd": [
+            "rx",
+            "tx",
+            "rx & tx",
+			"tx & rx"
+        ],
+        "ports": [
+            {
+                "rx": [
+                    {
+                        "input": "false",
+                        "width": 1,
+                        "name": "sync_output/data_valid_in_rx_0",
+                        "type": "valid"
+                    },
+                    {
+                        "input": "true",
+                        "width": 1,
+                        "name": "sync_input/data_valid_out_rx_0",
+                        "type": "valid"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "sync_output/data_in_rx_0",
+                        "type": "data"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "sync_output/data_in_rx_1",
+                        "type": "data"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "sync_output/data_in_rx_2",
+                        "type": "data"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "sync_output/data_in_rx_3",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "sync_input/data_out_rx_0",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "sync_input/data_out_rx_1",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "sync_input/data_out_rx_2",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "sync_input/data_out_rx_3",
+                        "type": "data"
+                    }
+                ],
+                "tx": [
+                    {
+                        "input": "true",
+                        "width": 1,
+                        "name": "sync_input/data_valid_out_tx_0",
+                        "type": "valid"
+                    },
+                    {
+                        "input": "false",
+                        "width": 1,
+                        "name": "sync_output/data_valid_in_tx_0",
+                        "type": "valid"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "sync_output/data_in_tx_0",
+                        "type": "data"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "sync_output/data_in_tx_1",
+                        "type": "data"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "sync_output/data_in_tx_2",
+                        "type": "data"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "sync_output/data_in_tx_3",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "sync_input/data_out_tx_0",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "sync_input/data_out_tx_1",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "sync_input/data_out_tx_2",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "sync_input/data_out_tx_3",
+                        "type": "data"
+                    }
+                ]
+            }
+        ]
+    },
     "adrv9009": {
         "chip": "ADRV9009",
         "complex": "true",
