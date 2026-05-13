@@ -14,7 +14,7 @@ SynthesizeDesign = {true};
 param = Parameter.fromData('SynthesizeDesign',SynthesizeDesign);
 
 if nargin == 0
-    suite = testsuite({'BSPTests'});
+    suite = TestSuite.fromClass(?BSPTests,'ExternalParameters',param);
 else
     boards = ['*',lower(board),'*'];
     suite = TestSuite.fromClass(?BSPTests,'ExternalParameters',param);

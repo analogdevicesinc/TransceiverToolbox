@@ -695,7 +695,7 @@ proc preprocess_bd {project carrier rxtx number_of_inputs number_of_bits number_
                     if {$rxtx == "tx"} {
 						connect_bd_net [get_bd_pins axi_cpu_interconnect/aclk1] [get_bd_pins core_clk_c]
                     }
-                }                
+                }
             }
         }
         adrv9001 {

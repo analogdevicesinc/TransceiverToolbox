@@ -59,7 +59,10 @@ hWC.RunExternalBuild = false;
 
 if ~contains(hdlget_param(mdl, 'ReferenceDesign'), 'PLUTO')
     hWC.TclFileForSynthesisBuild = hdlcoder.BuildOption.Custom;
-    hWC.CustomBuildTclFile = '../hdl/vendor/AnalogDevices/vivado/projects/scripts/adi_build.tcl';
+    parts = strsplit(mfilename('fullpath'),filesep);
+    tbroot = strjoin(parts(1:end-2),filesep);
+    hWC.CustomBuildTclFile = fullfile(tbroot,'hdl','vendor','AnalogDevices','vivado','projects','scripts','adi_build.tcl');
+    assert(isfile(hWC.CustomBuildTclFile));
 end
 
 % Set properties related to 'RunTaskProgramTargetDevice' Task
@@ -75,7 +78,7 @@ try
     fprintf('Build finished without exception\n');
     close_system(mdl, false);
     bdclose('all');
-    bootbin = [folder,'/vivado_ip_prj/boot/BOOT.BIN'];
+    bootbin = fullfile(folder,'vivado_ip_prj','boot','BOOT.BIN');
     if contains(ReferenceDesignName, 'pluto')
         out = [];
         return;
@@ -90,7 +93,7 @@ try
     out = [];
 catch ME
     fprintf('Exception occurred with message: %s\n', ME.message);
-    if SynthesizeDesign && exist([folder,'/vivado_ip_prj/boot/BOOT.BIN'],'file')
+    if SynthesizeDesign && exist(fullfile(folder,'vivado_ip_prj','boot','BOOT.BIN'),'file')
        ME = []; 
     end
     out = ME;%.identifier

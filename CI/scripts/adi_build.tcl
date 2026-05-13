@@ -2,21 +2,32 @@
 set cdir [pwd]
 set sdk_loc vivado_prj.sdk
 set project_system_dir vivado_prj.srcs/sources_1/bd/system
-set prj_carrier $project$carrier
+
 
 if {$project == "adrv9361z7035"} {
     set fpga_board "adrv9361"
 } elseif {$project == "adrv9364z7020"} {
     set fpga_board "adrv9364"
 }
+
+if {$project == "jupiter_sdr"} {
+    set prj_carrier $project
+    set fpga_board "jupiter_sdr"
+} else {
+    set prj_carrier $project$carrier
+}
 set fpga_board_lc [string tolower $fpga_board]
 
 puts "FPGA Board: $fpga_board_lc"
 
 # Verify support files exist
-if {![file exists $cdir/projects/common/boot/$fpga_board_lc/u-boot.elf]} {
-    puts "ERROR: Missing u-boot.elf for $fpga_board_lc"
-    return
+if {$project == "jupiter_sdr"} {
+    puts "Skipping"
+} else {
+    if {![file exists $cdir/projects/common/boot/$fpga_board_lc/u-boot.elf]} {
+        puts "ERROR: Missing u-boot.elf for $fpga_board_lc"
+        return
+    }
 }
 
 # Build the project
