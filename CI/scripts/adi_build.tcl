@@ -21,13 +21,9 @@ set fpga_board_lc [string tolower $fpga_board]
 puts "FPGA Board: $fpga_board_lc"
 
 # Verify support files exist
-if {$project == "jupiter_sdr"} {
-    puts "Skipping"
-} else {
-    if {![file exists $cdir/projects/common/boot/$fpga_board_lc/u-boot.elf]} {
-        puts "ERROR: Missing u-boot.elf for $fpga_board_lc"
-        return
-    }
+if {![file exists $cdir/projects/common/boot/$fpga_board_lc/u-boot.elf]} {
+    puts "ERROR: Missing u-boot.elf for $fpga_board_lc"
+    return
 }
 
 # Build the project
@@ -59,6 +55,11 @@ file copy -force $cdir/projects/common/boot/$fpga_board_lc/zynq.bif $cdir/boot/z
 file copy -force $cdir/projects/common/boot/$fpga_board_lc/fsbl.elf $cdir/boot/fsbl.elf
 
 if {$fpga_board_lc == "zcu102"} {
+    file copy -force $cdir/projects/common/boot/$fpga_board_lc/bl31.elf $cdir/boot/bl31.elf
+    file copy -force $cdir/projects/common/boot/$fpga_board_lc/pmufw.elf $cdir/boot/pmufw.elf
+    cd $cdir/boot
+    exec bootgen -arch zynqmp -image zynq.bif -o BOOT.BIN -w
+} elseif {$fpga_board_lc == "jupiter_sdr"} {
     file copy -force $cdir/projects/common/boot/$fpga_board_lc/bl31.elf $cdir/boot/bl31.elf
     file copy -force $cdir/projects/common/boot/$fpga_board_lc/pmufw.elf $cdir/boot/pmufw.elf
     cd $cdir/boot
