@@ -62,6 +62,7 @@ if {$fpga_board_lc == "zcu102"} {
 } elseif {$fpga_board_lc == "jupiter_sdr"} {
     file copy -force $cdir/projects/common/boot/$fpga_board_lc/bl31.elf $cdir/boot/bl31.elf
     file copy -force $cdir/projects/common/boot/$fpga_board_lc/pmufw.elf $cdir/boot/pmufw.elf
+    file copy -force $cdir/projects/common/boot/$fpga_board_lc/regs.init $cdir/boot/regs.init
     cd $cdir/boot
     exec bootgen -arch zynqmp -image zynq.bif -o BOOT.BIN -w
 } else {
