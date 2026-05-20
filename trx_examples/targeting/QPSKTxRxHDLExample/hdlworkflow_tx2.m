@@ -1,8 +1,8 @@
 %--------------------------------------------------------------------------
 % HDL Workflow Script
-% Generated with MATLAB 25.2 (R2025b) at 15:19:11 on 18/05/2026
+% Generated with MATLAB 25.2 (R2025b) at 14:14:25 on 20/05/2026
 % This script was generated using the following parameter values:
-%     Filename  : 'C:\work\datalink\TransceiverToolbox\trx_examples\targeting\QPSKTxRxHDLExample\hdlworkflow.m'
+%     Filename  : 'C:\work\datalink\TransceiverToolbox\trx_examples\targeting\QPSKTxRxHDLExample\hdlworkflow_tx2.m'
 %     Overwrite : true
 %     Comments  : true
 %     Headers   : true
@@ -81,6 +81,15 @@ hdlset_param('commhdlQPSKTxRx/Transmitter/complex', 'IOInterfaceMapping', '');
 % Set Outport HDL parameters
 hdlset_param('commhdlQPSKTxRx/Transmitter/msg_count_out', 'IOInterface', 'AXI4-Lite');
 hdlset_param('commhdlQPSKTxRx/Transmitter/msg_count_out', 'IOInterfaceMapping', 'x"104"');
+
+% Set Outport HDL parameters
+hdlset_param('commhdlQPSKTxRx/Transmitter/dataOutQ2', 'IOInterface', 'ADRV9002 DAC Data I1 [0:15]');
+hdlset_param('commhdlQPSKTxRx/Transmitter/dataOutQ2', 'IOInterfaceMapping', '[0:15]');
+
+% Set Outport HDL parameters
+hdlset_param('commhdlQPSKTxRx/Transmitter/dataOutI2', 'IOInterface', 'ADRV9002 DAC Data Q1 [0:15]');
+hdlset_param('commhdlQPSKTxRx/Transmitter/dataOutI2', 'IOInterfaceMapping', '[0:15]');
+
 
 %% Workflow Configuration Settings
 % Construct the Workflow Configuration Object with default settings
