@@ -35,7 +35,7 @@ jobs:
           pip install -r requirements_dev.txt
       - name: Check code styling
         run: |
-          mh_metrics +adi --html=metrics.html
+          mh_metric +adi --html=metrics.html
 
       - name: Archive report
         uses: actions/upload-artifact@v4
