@@ -123,7 +123,10 @@ jobs:
 
   publish:
     needs: hw
-    if: always()
+    # Run only when the hw matrix actually ran (i.e. the hw-test path was
+    # taken). When hw is skipped, there is nothing to publish — skip too,
+    # so this job never sits pending on a PR that has no HW runner.
+    if: ${{ always() && needs.hw.result != 'skipped' }}
     runs-on: [self-hosted, hw-coordinator]
     # The test-result action posts a check run and a PR comment.
     permissions:
