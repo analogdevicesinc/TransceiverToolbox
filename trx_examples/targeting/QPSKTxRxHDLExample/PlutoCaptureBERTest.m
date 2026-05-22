@@ -25,6 +25,15 @@ classdef PlutoCaptureBERTest < matlab.unittest.TestCase
                 ['No capture file ' PlutoCaptureBERTest.CaptureFile ' — capture the Jupiter TX on the Pluto first.']);
             fid = fopen(PlutoCaptureBERTest.CaptureFile,'r'); raw = fread(fid, Inf, 'int16'); fclose(fid);
             iq = raw(1:2:end) + 1j*raw(2:2:end);
+            % Guard: a 'capture' that's only a tone/noise (the host TX-DMA
+            % didn't stream) is not a meaningful BER test -- skip with a clear
+            % diagnostic so it doesn't masquerade as a QPSK-decode failure.
+            seg = iq(round(0.4*numel(iq)):min(end, round(0.4*numel(iq))+2^15-1));
+            seg = seg - mean(seg); Y = abs(fftshift(fft(seg.*hann(numel(seg))))).^2;
+            ff = (-numel(seg)/2:numel(seg)/2-1)/numel(seg)*PlutoCaptureBERTest.CaptureFs;
+            cs = cumsum(Y)/sum(Y); bw = ff(find(cs>=0.95,1)) - ff(find(cs>=0.05,1));
+            testCase.assumeGreaterThan(bw, 1e6, sprintf( ...
+                'capture has BW=%.2f MHz < 1 MHz (only a tone/noise) — host TX-DMA did not stream the QPSK; not a QPSK-link failure', bw/1e6));
             [ber, nframes, evm, info] = demodPlutoCapture(iq, PlutoCaptureBERTest.CaptureFs);
             fprintf('\n[Pluto-capture decode] %s\n', info);
             testCase.verifyGreaterThan(nframes, 5, ...
