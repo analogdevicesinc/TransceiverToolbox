@@ -103,7 +103,7 @@ classdef ConnectHardware < matlab.hwmgr.internal.hwsetup.ManualConfiguration
                     setSerialNum(obj.Workflow, radios.SerialNum);
                     logMessage(obj, ...
                                sprintf('Found radio with ID: %s and SN: %s', ...
-                              radios.RadioID, radios.SerialNum));
+                                       radios.RadioID, radios.SerialNum));
                 end
             end
         end
