@@ -1,0 +1,44 @@
+name: Lint
+
+on: [push, pull_request]
+
+jobs:
+  LintCode:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements_dev.txt
+      - name: Check code styling
+        run: |
+          mh_style +adi
+
+  RunMetrics:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements_dev.txt
+      - name: Check code styling
+        run: |
+          mh_metrics +adi --html=metrics.html
+
+      - name: Archive report
+        uses: actions/upload-artifact@v2
+        with:
+          name: Metrics
+          path: metrics.html
