@@ -1,0 +1,131 @@
+name: Hardware Tests (labgrid)
+
+# Bespoke MATLAB hardware-CI workflow. labgrid (adi-labgrid-plugins) boots
+# the board for a coordinator place, hands MATLAB the booted board's libIIO
+# URI via the IIO_URI env var, and runs runHWTests against it.
+#
+# Two job stages:
+#   discover  — on a coordinator-adjacent runner, intersect live coordinator
+#               places with test/hw_ci/board_map.yaml -> matrix of places.
+#   hw        — one shard per place, pinned to its hw-<place> self-hosted
+#               runner (which must have MATLAB + libiio installed), boots the
+#               board and runs MATLAB.
+#
+# Requires a coordinator reachable at vars.ADI_LG_COORDINATOR and self-hosted
+# runners labeled [self-hosted, hw-coordinator] and [self-hosted, hw-<place>]
+# per the adi-labgrid-plugins HW-CI runner contract.
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 8 * * *"
+  pull_request:
+    types: [labeled, opened, synchronize, reopened]
+
+# A pinned reference to adi-labgrid-plugins. Bump alongside the coordinator.
+env:
+  ADI_LG_PLUGINS_REF: "v2"
+  VENV_DIR: "${{ github.workspace }}/.hw-ci-venv"
+  MATLAB_BIN: "/opt/MATLAB/R2025b/bin/matlab"
+
+jobs:
+  discover:
+    # Only on PRs that opt in with the `hw-test` label; always on dispatch/cron.
+    if: >-
+      github.event_name != 'pull_request' ||
+      contains(github.event.pull_request.labels.*.name, 'hw-test')
+    runs-on: [self-hosted, hw-coordinator]
+    outputs:
+      matrix: ${{ steps.discover.outputs.matrix }}
+      count: ${{ steps.discover.outputs.count }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup venv (adi-labgrid-plugins)
+        uses: tfcollins/labgrid-plugins/.github/actions/setup-uv-venv@v2
+        with:
+          venv_dir: ${{ env.VENV_DIR }}
+          install_cmd: >-
+            uv pip install --python "$VENV_DIR/bin/python"
+            "adi-labgrid-plugins @ git+https://github.com/tfcollins/labgrid-plugins.git@${{ env.ADI_LG_PLUGINS_REF }}"
+
+      - name: Discover places
+        id: discover
+        env:
+          LG_COORDINATOR: ${{ vars.ADI_LG_COORDINATOR }}
+        run: |
+          "$VENV_DIR/bin/adi-lg-matlab" discover \
+            --coord "$LG_COORDINATOR" \
+            --board-map test/hw_ci/board_map.yaml \
+            --github-output
+
+  hw:
+    needs: discover
+    if: ${{ needs.discover.outputs.count != '0' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.discover.outputs.matrix).include }}
+    runs-on: [self-hosted, "hw-${{ matrix.place }}"]
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup venv (adi-labgrid-plugins)
+        uses: tfcollins/labgrid-plugins/.github/actions/setup-uv-venv@v2
+        with:
+          venv_dir: ${{ env.VENV_DIR }}
+          install_cmd: >-
+            uv pip install --python "$VENV_DIR/bin/python"
+            "adi-labgrid-plugins @ git+https://github.com/tfcollins/labgrid-plugins.git@${{ env.ADI_LG_PLUGINS_REF }}"
+
+      - name: Acquire place
+        uses: tfcollins/labgrid-plugins/.github/actions/acquire-place@v2
+        with:
+          coordinator: ${{ vars.ADI_LG_COORDINATOR }}
+          place: ${{ matrix.place }}
+          labgrid_client: ${{ env.VENV_DIR }}/bin/labgrid-client
+
+      - name: Boot board + run MATLAB HW tests
+        env:
+          LG_COORDINATOR: ${{ vars.ADI_LG_COORDINATOR }}
+        run: |
+          # Place is already acquired by the composite action above, so do
+          # NOT pass --acquire here (avoids double-acquire).
+          "$VENV_DIR/bin/adi-lg-matlab" run \
+            --coord "$LG_COORDINATOR" \
+            --place "${{ matrix.place }}" \
+            --board-map test/hw_ci/board_map.yaml \
+            --repo-dir "$GITHUB_WORKSPACE" \
+            --matlab "$MATLAB_BIN" \
+            --junit "junit-${{ matrix.place }}.xml"
+
+      - name: Release place
+        if: always()
+        run: |
+          "$VENV_DIR/bin/labgrid-client" -x "${{ vars.ADI_LG_COORDINATOR }}" \
+            -p "${{ matrix.place }}" release || true
+
+      - name: Upload JUnit + MATLAB logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hw-results-${{ matrix.place }}
+          path: |
+            junit-${{ matrix.place }}.xml
+            ${{ matrix.matlab_board }}_HWTestResults.xml
+            failures.txt
+          if-no-files-found: ignore
+
+  publish:
+    needs: hw
+    if: always()
+    runs-on: [self-hosted, hw-coordinator]
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: hw-results
+      - name: Publish test summary
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        with:
+          junit_files: "hw-results/**/junit-*.xml"
