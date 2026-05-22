@@ -39,135 +39,135 @@ For more information on changing property values, see <a href="https://www.mathw
 
 
 
-:::{dropdown} GainControlModeChipB
+:::{collapsible} GainControlModeChipB
 specified as one of the following: 'slow_attack' — For signals with slowly changing power levels 'manual' — For setting the gain manually with the Gain property
 :::
 
-:::{dropdown} GainChannel0ChipB
+:::{collapsible} GainChannel0ChipB
 Channel 0 gain, specified as a scalar from -4 dB to 71 dB. The acceptable minimum and maximum gain setting depends on the center frequency.
 :::
 
-:::{dropdown} GainChannel1ChipB
+:::{collapsible} GainChannel1ChipB
 Channel 1 gain, specified as a scalar from -4 dB to 71 dB. The acceptable minimum and maximum gain setting depends on the center frequency.
 :::
 
-:::{dropdown} EnableQuadratureTrackingChannel0ChipB
+:::{collapsible} EnableQuadratureTrackingChannel0ChipB
 Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.
 :::
 
-:::{dropdown} EnableQuadratureTrackingChannel1ChipB
+:::{collapsible} EnableQuadratureTrackingChannel1ChipB
 Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.
 :::
 
-:::{dropdown} EnableHarmonicDistortionTrackingChannel0ChipB
+:::{collapsible} EnableHarmonicDistortionTrackingChannel0ChipB
 Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.
 :::
 
-:::{dropdown} EnableHarmonicDistortionTrackingChannel1ChipB
+:::{collapsible} EnableHarmonicDistortionTrackingChannel1ChipB
 Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.
 :::
 
-:::{dropdown} EnableQuadratureCalibrationChipB
+:::{collapsible} EnableQuadratureCalibrationChipB
 Option to enable quadrature calibration on initialization, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.
 :::
 
-:::{dropdown} EnablePhaseCorrectionChipB
+:::{collapsible} EnablePhaseCorrectionChipB
 Option to enable phase tracking, specified as true or false. When this property is true, Phase differences between transceivers will be deterministic across power cycles and LO changes
 :::
 
-:::{dropdown} PowerdownChannel0ChipB
+:::{collapsible} PowerdownChannel0ChipB
 Logical which will power down RX channel 0 when set
 :::
 
-:::{dropdown} PowerdownChannel1ChipB
+:::{collapsible} PowerdownChannel1ChipB
 Logical which will power down RX channel 1 when set
 :::
 
-:::{dropdown} CenterFrequencyChipB
+:::{collapsible} CenterFrequencyChipB
 RF center frequency, specified in Hz as a scalar. The default is 2.4e9. This property is tunable.
 :::
 
-:::{dropdown} EnableFrequencyHoppingModeCalibrationChipB
+:::{collapsible} EnableFrequencyHoppingModeCalibrationChipB
 Option to enable frequency hopping mode VCO calibration, specified as true or false. When this property is true, at initialization VCO calibration lookup table is populated
 :::
 
-:::{dropdown} SamplesPerFrame
+:::{collapsible} SamplesPerFrame
 Number of samples per frame, specified as an even positive integer from 2 to 16,777,216. Using values less than 3660 can yield poor performance.
 :::
 
-:::{dropdown} EnableCustomProfile
+:::{collapsible} EnableCustomProfile
 Enable use of custom Profile file to set SamplingRate, RFBandwidth, and FIR in datapaths
 :::
 
-:::{dropdown} EnableFrequencyHoppingModeCalibration
+:::{collapsible} EnableFrequencyHoppingModeCalibration
 Option to enable frequency hopping mode VCO calibration, specified as true or false. When this property is true, at initialization VCO calibration lookup table is populated
 :::
 
-:::{dropdown} CustomProfileFileName
+:::{collapsible} CustomProfileFileName
 Path to custom Profile file created from profile wizard
 :::
 
-:::{dropdown} CenterFrequency
+:::{collapsible} CenterFrequency
 RF center frequency, specified in Hz as a scalar. The default is 2.4e9. This property is tunable.
 :::
 
-:::{dropdown} EnabledChannels
+:::{collapsible} EnabledChannels
 Indexs of channels to be enabled. Input should be a [1xN] vector with the indexes of channels to be enabled. Order is irrelevant
 :::
 
-:::{dropdown} uri
+:::{collapsible} uri
 Hostname or IP address of remote libIIO device
 :::
 
-:::{dropdown} enIO
+:::{collapsible} enIO
 If true, connects to libIIO device during simulation
 :::
 
-:::{dropdown} devName
+:::{collapsible} devName
 Name of the libIIO device
 :::
 
-:::{dropdown} GainControlMode
+:::{collapsible} GainControlMode
 specified as one of the following: 'slow_attack' — For signals with slowly changing power levels 'manual' — For setting the gain manually with the Gain property
 :::
 
-:::{dropdown} GainChannel0
+:::{collapsible} GainChannel0
 Channel 0 gain, specified as a scalar from 1 dB to 30 dB. The acceptable minimum and maximum gain setting depends on the center frequency.
 :::
 
-:::{dropdown} GainChannel1
+:::{collapsible} GainChannel1
 Channel 1 gain, specified as a scalar from 1 dB to 30 dB. The acceptable minimum and maximum gain setting depends on the center frequency.
 :::
 
-:::{dropdown} EnableQuadratureTrackingChannel0
+:::{collapsible} EnableQuadratureTrackingChannel0
 Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.
 :::
 
-:::{dropdown} EnableQuadratureTrackingChannel1
+:::{collapsible} EnableQuadratureTrackingChannel1
 Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.
 :::
 
-:::{dropdown} EnableHarmonicDistortionTrackingChannel0
+:::{collapsible} EnableHarmonicDistortionTrackingChannel0
 Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.
 :::
 
-:::{dropdown} EnableHarmonicDistortionTrackingChannel1
+:::{collapsible} EnableHarmonicDistortionTrackingChannel1
 Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.
 :::
 
-:::{dropdown} EnableQuadratureCalibration
+:::{collapsible} EnableQuadratureCalibration
 Option to enable quadrature calibration on initialization, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.
 :::
 
-:::{dropdown} EnablePhaseCorrection
+:::{collapsible} EnablePhaseCorrection
 Option to enable phase tracking, specified as true or false. When this property is true, Phase differences between transceivers will be deterministic across power cycles and LO changes
 :::
 
-:::{dropdown} PowerdownChannel0
+:::{collapsible} PowerdownChannel0
 Logical which will power down RX channel 0 when set
 :::
 
-:::{dropdown} PowerdownChannel1
+:::{collapsible} PowerdownChannel1
 Logical which will power down RX channel 1 when set
 :::
 

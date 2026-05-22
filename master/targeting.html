@@ -4,14 +4,12 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta content="Transceiver Toolbox supports the IP Core generation flow from MathWorks which allows for automated integration of DSP into HDL reference designs from Analog Devices. This workflow will take Simulink subsystems, run HDL-Coder to generate source Verilog, and then integrate that into a larger reference design. The figure below is a simplified block diagram of a SoC (Fabric+ARM) device, where specialized IP are inserted into the receive and transmit datapaths. This is supported on specific FPGA families and transceiver based reference designs. This support is based on the Zynq HDL-Coder and support" name="description" />
+<meta content="Transceiver Toolbox supports the IP Core generation flow from MathWorks which allows for automated integration of DSP into HDL reference designs from Analog Devices. This workflow will take Simulink subsystems, run HDL-Coder to generate source Verilog, and then integrate that into a larger reference design. The figure below is a simplified block diagram of a SoC (Fabric+ARM) device, where specialized IP are inserted into the receive and transmit datapaths. This is supported on specific FPGA families and transceiver based reference designs, and is built on the Zynq HDL-Coder workflow and the HDL Coder Support Package for Xilinx Zynq Platform." name="description" />
 
     <title>HDL Targeting with HDL-Coder &#8212; Analog Devices, Inc. Transceiver Toolbox v22.2.1</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8e8a900e" />
     <link rel="stylesheet" type="text/css" href="_static/app.min.css?v=ac863bf0" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="_static/css/style.css?v=373103a6" />
-    <script src="_static/design-tabs.js?v=f930bc37"></script>
     <script async="async" src="_static/app.umd.js?v=09b0c6bc"></script>
     <link rel="icon" href="_static/favicon.png"/>
     <link rel="index" title="Index" href="genindex.html" />
@@ -97,7 +95,14 @@
           <ul>
 <li><a class="reference internal" href="#">HDL Targeting with HDL-Coder</a><ul>
 <li><a class="reference internal" href="#recommended-review">Recommended Review</a></li>
-<li><a class="reference internal" href="#getting-started">Getting Started</a></li>
+<li><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li><a class="reference internal" href="#getting-started">Getting Started</a><ul>
+<li><a class="reference internal" href="#point-matlab-at-your-xilinx-tools">1. Point MATLAB at your Xilinx tools</a></li>
+<li><a class="reference internal" href="#open-a-model">2. Open a model</a></li>
+<li><a class="reference internal" href="#select-a-reference-design">3. Select a reference design</a></li>
+<li><a class="reference internal" href="#generate-ip-build-and-optionally-program">4. Generate IP, build, and (optionally) program</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -201,16 +206,81 @@ Content on this topic
             
   <section id="hdl-targeting-with-hdl-coder">
 <h1>HDL Targeting with HDL-Coder<a class="headerlink" href="#hdl-targeting-with-hdl-coder" title="Link to this heading"></a></h1>
-<p>Transceiver Toolbox supports the IP Core generation flow from MathWorks which allows for automated integration of DSP into HDL reference designs from Analog Devices. This workflow will take Simulink subsystems, run HDL-Coder to generate source Verilog, and then integrate that into a larger reference design. The figure below is a simplified block diagram of a SoC (Fabric+ARM) device, where specialized IP are inserted into the receive and transmit datapaths. This is supported on specific FPGA families and transceiver based reference designs. This support is based on the Zynq HDL-Coder and support</p>
-<img src="/_static/assets/MATLAB_HDL_Ref_Design.png">
+<p>Transceiver Toolbox supports the IP Core generation flow from MathWorks which allows for automated integration of DSP into HDL reference designs from Analog Devices. This workflow will take Simulink subsystems, run HDL-Coder to generate source Verilog, and then integrate that into a larger reference design. The figure below is a simplified block diagram of a SoC (Fabric+ARM) device, where specialized IP are inserted into the receive and transmit datapaths. This is supported on specific FPGA families and transceiver based reference designs, and is built on the Zynq HDL-Coder workflow and the HDL Coder Support Package for Xilinx Zynq Platform.</p>
+<figure class="align-default" id="id1">
+<img alt="_images/MATLAB_HDL_Ref_Design.png" src="_images/MATLAB_HDL_Ref_Design.png" />
+<figcaption>
+<p><span class="caption-text">Simplified block diagram of a SoC (FPGA fabric + ARM) device. Simulink-generated IP is inserted into the receive and transmit datapaths of an ADI reference design.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
 <section id="recommended-review">
 <h2>Recommended Review<a class="headerlink" href="#recommended-review" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p><a class="icon link reference external" href="https://www.mathworks.com/support/search.html/videos/getting-started-with-zynq-80338.html?fq%5B%5D=asset_type_name:video&amp;amp;fq%5B%5D=category:hdlcoder/index&amp;amp;page=1" target="_blank">Getting started with Zynq</a></p></li>
 </ul>
 </section>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h2>
+<p>Targeting requires the HDL generation dependencies described in <a class="reference internal" href="install.html"><span class="std std-doc">Installation</span></a>:</p>
+<ul class="simple">
+<li><p>Xilinx Vivado and Vitis, version matched to your toolbox release (for example, Vivado/Vitis 2022.2 for the R2023b-based release)</p></li>
+<li><p>Simulink, <a class="icon link reference external" href="https://www.mathworks.com/products/hdl-coder.html" target="_blank">HDL Coder™</a>, and the <a class="icon link reference external" href="https://www.mathworks.com/matlabcentral/fileexchange/40447-hdl-coder-support-package-for-xilinx-zynq-platform" target="_blank">HDL Coder™ Support Package for Xilinx Zynq Platform</a></p></li>
+</ul>
+<p>Targeting is only available for specific transceiver and FPGA carrier combinations. See the support table on the <a class="reference internal" href="index.html"><span class="std std-doc">home page</span></a> — the <strong>Targeting</strong> column lists the boards and minimum releases that support this flow.</p>
+</section>
 <section id="getting-started">
 <h2>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading"></a></h2>
+<p>The targeting flow takes a Simulink subsystem (your DSP “DUT”), runs HDL Coder to generate Verilog, and integrates it into an ADI HDL reference design to produce a bitstream you can run on hardware. The steps below outline the user-facing workflow. For a detailed look at what happens internally — the generated TCL scripts, net trimming, and IP insertion — see <a class="reference internal" href="dev_hdl_workflow.html"><span class="std std-doc">HDL Workflow</span></a>.</p>
+<section id="point-matlab-at-your-xilinx-tools">
+<h3>1. Point MATLAB at your Xilinx tools<a class="headerlink" href="#point-matlab-at-your-xilinx-tools" title="Link to this heading"></a></h3>
+<p>Register Vivado with HDL Coder so it can drive the build. Adjust the path for your installation:</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">hdlsetuptoolpath</span><span class="p">(</span><span class="s">&#39;ToolName&#39;</span><span class="p">,</span><span class="s">&#39;Xilinx Vivado&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="s">&#39;ToolPath&#39;</span><span class="p">,</span><span class="s">&#39;/opt/Xilinx/Vivado/2022.2/bin/vivado&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="open-a-model">
+<h3>2. Open a model<a class="headerlink" href="#open-a-model" title="Link to this heading"></a></h3>
+<p>Start from one of the worked examples under <code class="docutils literal notranslate"><span class="pre">trx_examples/targeting/</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">frequency-hopping</span></code> — frequency hopping on the ADRV9361-Z7035</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">loopback-delay-estimation</span></code> — loopback delay estimation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tuneAGC-ad9361</span></code> — AGC tuning for the AD9361</p></li>
+</ul>
+<p>or create your own model. The portion of the algorithm to be implemented in fabric must live in a single subsystem (the <strong>HDL DUT</strong>), with its inputs and outputs mapped to the transceiver datapath (for example, the AD9361 ADC/DAC data and valid interfaces).</p>
+</section>
+<section id="select-a-reference-design">
+<h3>3. Select a reference design<a class="headerlink" href="#select-a-reference-design" title="Link to this heading"></a></h3>
+<p>Open the HDL Workflow Advisor on your DUT subsystem (right-click the subsystem → <strong>HDL Code → HDL Workflow Advisor</strong>, or run <code class="docutils literal notranslate"><span class="pre">hdladvisor</span></code>). Set:</p>
+<ul class="simple">
+<li><p><strong>Target workflow:</strong> IP Core Generation</p></li>
+<li><p><strong>Synthesis tool:</strong> Xilinx Vivado</p></li>
+<li><p><strong>Reference design:</strong> the ADI design matching your board and datapath — Rx, Tx, or Rx &amp; Tx (for example, <em>AnalogDevices ADRV9361-Z7035</em>)</p></li>
+</ul>
+<p>Each supported board registers its reference designs through the HDL Coder board and reference-design plugins shipped with the toolbox under <code class="docutils literal notranslate"><span class="pre">hdl/vendor/AnalogDevices/+AnalogDevices/</span></code>.</p>
+</section>
+<section id="generate-ip-build-and-optionally-program">
+<h3>4. Generate IP, build, and (optionally) program<a class="headerlink" href="#generate-ip-build-and-optionally-program" title="Link to this heading"></a></h3>
+<p>Step through the Workflow Advisor tasks. HDL Coder will:</p>
+<ol class="arabic simple">
+<li><p>generate Verilog from your DUT subsystem,</p></li>
+<li><p>build the reference-design Vivado project and trim the nets where your IP will be inserted,</p></li>
+<li><p>insert and connect your generated IP, and</p></li>
+<li><p>run synthesis and generate the bitstream.</p></li>
+</ol>
+<p>To re-run the workflow without re-entering settings, use a workflow script. The examples ship a generated <code class="docutils literal notranslate"><span class="pre">hdlworkflow.m</span></code> for exactly this — it configures an <code class="docutils literal notranslate"><span class="pre">hdlcoder.WorkflowConfig</span></code> and calls <code class="docutils literal notranslate"><span class="pre">hdlcoder.runWorkflow</span></code>:</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">hWC</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">hdlcoder</span><span class="p">.</span><span class="n">WorkflowConfig</span><span class="p">(</span><span class="s">&#39;SynthesisTool&#39;</span><span class="p">,</span><span class="s">&#39;Xilinx Vivado&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="s">&#39;TargetWorkflow&#39;</span><span class="p">,</span><span class="s">&#39;IP Core Generation&#39;</span><span class="p">);</span>
+<span class="n">hWC</span><span class="p">.</span><span class="n">ProjectFolder</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;hdl_prj&#39;</span><span class="p">;</span>
+<span class="n">hWC</span><span class="p">.</span><span class="n">RunTaskGenerateRTLCodeAndIPCore</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="n">hWC</span><span class="p">.</span><span class="n">RunTaskCreateProject</span><span class="w">            </span><span class="p">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="n">hWC</span><span class="p">.</span><span class="n">RunTaskBuildFPGABitstream</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="n">hWC</span><span class="p">.</span><span class="n">RunTaskProgramTargetDevice</span><span class="w">      </span><span class="p">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"> </span><span class="c">% set true to program the board</span>
+<span class="n">hdlcoder</span><span class="p">.</span><span class="n">runWorkflow</span><span class="p">(</span><span class="s">&#39;frequency_hopping/HDL_DUT&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">hWC</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Verbosity&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;on&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Once built, the bitstream and supporting files can be loaded onto the target (see <a class="reference internal" href="install.html"><span class="std std-doc">Connecting To Hardware</span></a>).</p>
+</section>
 </section>
 </section>
 

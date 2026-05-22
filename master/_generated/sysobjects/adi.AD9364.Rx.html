@@ -9,9 +9,7 @@
     <title>adi.AD9364.Rx &#8212; Analog Devices, Inc. Transceiver Toolbox v22.2.1</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8e8a900e" />
     <link rel="stylesheet" type="text/css" href="../../_static/app.min.css?v=ac863bf0" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../_static/css/style.css?v=373103a6" />
-    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script async="async" src="../../_static/app.umd.js?v=09b0c6bc"></script>
     <link rel="icon" href="../../_static/favicon.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -224,97 +222,115 @@ For more information on changing property values, see <a href="https://www.mathw
 </span>
 </div>
 <br>
-<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
-<summary class="sd-summary-title sd-card-header">
-<span class="sd-summary-text">CenterFrequency</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
-<p class="sd-card-text">RF center frequency, specified in Hz as a scalar. The default is 2.4e9. This property is tunable.</p>
+<div><div class="collapsible docutils">
+<input class="collapsible_input" id="8e1c44179482cfecb7ee8154a8a729229b670554" name="8e1c44179482cfecb7ee8154a8a729229b670554" type="checkbox"></input><label for="8e1c44179482cfecb7ee8154a8a729229b670554"><p>CenterFrequency</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>RF center frequency, specified in Hz as a scalar. The default is 2.4e9. This property is tunable.</p>
 </div>
-</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
-<summary class="sd-summary-title sd-card-header">
-<span class="sd-summary-text">SamplingRate</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
-<p class="sd-card-text">Baseband sampling rate in Hz, specified as a scalar from 65105 to 61.44e6 samples per second.</p>
 </div>
-</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
-<summary class="sd-summary-title sd-card-header">
-<span class="sd-summary-text">RFBandwidth</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
-<p class="sd-card-text">RF Bandwidth of front-end analog filter in Hz, specified as a scalar from 200 kHz to 56 MHz.</p>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="bb72bfe93eeaa4cd9093d49160a45f8ad783dc39" name="bb72bfe93eeaa4cd9093d49160a45f8ad783dc39" type="checkbox"></input><label for="bb72bfe93eeaa4cd9093d49160a45f8ad783dc39"><p>SamplingRate</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Baseband sampling rate in Hz, specified as a scalar from 65105 to 61.44e6 samples per second.</p>
 </div>
-</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
-<summary class="sd-summary-title sd-card-header">
-<span class="sd-summary-text">GainControlModeChannel0</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
-<p class="sd-card-text">specified as one of the following: ‘slow_attack’ — For signals with slowly changing power levels ‘fast_attack’ — For signals with rapidly changing power levels ‘manual’ — For setting the gain manually with the Gain property ‘hybrid’ — For configuring hybrid AGC mode</p>
 </div>
-</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
-<summary class="sd-summary-title sd-card-header">
-<span class="sd-summary-text">GainChannel0</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
-<p class="sd-card-text">Channel 0 gain, specified as a scalar from -3 dB to 71 dB. The acceptable minimum and maximum gain setting depends on the center frequency.</p>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="036e3726932d5897441d4ab6ed6b3d015ba19794" name="036e3726932d5897441d4ab6ed6b3d015ba19794" type="checkbox"></input><label for="036e3726932d5897441d4ab6ed6b3d015ba19794"><p>RFBandwidth</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>RF Bandwidth of front-end analog filter in Hz, specified as a scalar from 200 kHz to 56 MHz.</p>
 </div>
-</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
-<summary class="sd-summary-title sd-card-header">
-<span class="sd-summary-text">GainControlModeChannel1</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
-<p class="sd-card-text">specified as one of the following: ‘slow_attack’ — For signals with slowly changing power levels ‘fast_attack’ — For signals with rapidly changing power levels ‘manual’ — For setting the gain manually with the Gain property ‘hybrid’ — For configuring hybrid AGC mode</p>
 </div>
-</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
-<summary class="sd-summary-title sd-card-header">
-<span class="sd-summary-text">GainChannel1</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
-<p class="sd-card-text">Channel 1 gain, specified as a scalar from -3 dB to 71 dB. The acceptable minimum and maximum gain setting depends on the center frequency.</p>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="f98f19a504b7b0311aecdfd726c3cf1d543c16d2" name="f98f19a504b7b0311aecdfd726c3cf1d543c16d2" type="checkbox"></input><label for="f98f19a504b7b0311aecdfd726c3cf1d543c16d2"><p>GainControlModeChannel0</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>specified as one of the following: ‘slow_attack’ — For signals with slowly changing power levels ‘fast_attack’ — For signals with rapidly changing power levels ‘manual’ — For setting the gain manually with the Gain property ‘hybrid’ — For configuring hybrid AGC mode</p>
 </div>
-</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
-<summary class="sd-summary-title sd-card-header">
-<span class="sd-summary-text">LoopbackMode</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
-<p class="sd-card-text">Option to set digital loopback mode, specified as 0, 1 or 2. Allows either to digitally loopback TX data into the RX path or vice versa. Value  | Mode —————————  0 |  Disable  1 |  Digital TX -&gt; Digital RX  2 |  RF RX -&gt; RF TX</p>
 </div>
-</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
-<summary class="sd-summary-title sd-card-header">
-<span class="sd-summary-text">EnableQuadratureTracking</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
-<p class="sd-card-text">Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.</p>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="cba9a80b58b1e7b48636493c38017930055b296b" name="cba9a80b58b1e7b48636493c38017930055b296b" type="checkbox"></input><label for="cba9a80b58b1e7b48636493c38017930055b296b"><p>GainChannel0</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Channel 0 gain, specified as a scalar from -3 dB to 71 dB. The acceptable minimum and maximum gain setting depends on the center frequency.</p>
 </div>
-</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
-<summary class="sd-summary-title sd-card-header">
-<span class="sd-summary-text">EnableRFDCTracking</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
-<p class="sd-card-text">Option to enable RF DC tracking, specified as true or false. When this property is true, an RF DC blocking filter is applied to the input signal.</p>
 </div>
-</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
-<summary class="sd-summary-title sd-card-header">
-<span class="sd-summary-text">EnableBasebandDCTracking</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
-<p class="sd-card-text">Option to enable baseband DC tracking, specified as true or false. When this property is true, a baseband DC blocking filter is applied to the input signal.</p>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="9985ba1187e4079a955d20ed337d52a45cccbdcb" name="9985ba1187e4079a955d20ed337d52a45cccbdcb" type="checkbox"></input><label for="9985ba1187e4079a955d20ed337d52a45cccbdcb"><p>GainControlModeChannel1</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>specified as one of the following: ‘slow_attack’ — For signals with slowly changing power levels ‘fast_attack’ — For signals with rapidly changing power levels ‘manual’ — For setting the gain manually with the Gain property ‘hybrid’ — For configuring hybrid AGC mode</p>
 </div>
-</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
-<summary class="sd-summary-title sd-card-header">
-<span class="sd-summary-text">RFPortSelect</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
-<p class="sd-card-text">‘A_BALANCED’ ‘B_BALANCED’ ‘C_BALANCED’ ‘A_N’ ‘A_P’ ‘B_N’ ‘B_P’ ‘C_N’ ‘C_P’ ‘TX_MONITOR1’ ‘TX_MONITOR2’ ‘TX_MONITOR1_2’</p>
 </div>
-</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
-<summary class="sd-summary-title sd-card-header">
-<span class="sd-summary-text">SamplesPerFrame</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
-<p class="sd-card-text">Number of samples per frame, specified as an even positive integer from 2 to 16,777,216. Using values less than 3660 can yield poor performance.</p>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="6938eae40a76d8919dc28890709bf5b9b8e41c99" name="6938eae40a76d8919dc28890709bf5b9b8e41c99" type="checkbox"></input><label for="6938eae40a76d8919dc28890709bf5b9b8e41c99"><p>GainChannel1</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Channel 1 gain, specified as a scalar from -3 dB to 71 dB. The acceptable minimum and maximum gain setting depends on the center frequency.</p>
 </div>
-</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
-<summary class="sd-summary-title sd-card-header">
-<span class="sd-summary-text">EnableCustomFilter</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
-<p class="sd-card-text">Enable use of custom filter file to set SamplingRate, RFBandwidth, and FIR in datapaths</p>
 </div>
-</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
-<summary class="sd-summary-title sd-card-header">
-<span class="sd-summary-text">CustomFilterFileName</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
-<p class="sd-card-text">Path to custom filter file created from filter wizard</p>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="a9041076055b3dfe2c350b36f9f9d5400e83b7b7" name="a9041076055b3dfe2c350b36f9f9d5400e83b7b7" type="checkbox"></input><label for="a9041076055b3dfe2c350b36f9f9d5400e83b7b7"><p>LoopbackMode</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Option to set digital loopback mode, specified as 0, 1 or 2. Allows either to digitally loopback TX data into the RX path or vice versa. Value  | Mode —————————  0 |  Disable  1 |  Digital TX -&gt; Digital RX  2 |  RF RX -&gt; RF TX</p>
 </div>
-</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
-<summary class="sd-summary-title sd-card-header">
-<span class="sd-summary-text">EnabledChannels</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
-<p class="sd-card-text">Indexs of channels to be enabled. Input should be a [1xN] vector with the indexes of channels to be enabled. Order is irrelevant</p>
 </div>
-</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
-<summary class="sd-summary-title sd-card-header">
-<span class="sd-summary-text">uri</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
-<p class="sd-card-text">Hostname or IP address of remote libIIO device</p>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="1205acf8ff70b6a9179935ae46687bdded4d1252" name="1205acf8ff70b6a9179935ae46687bdded4d1252" type="checkbox"></input><label for="1205acf8ff70b6a9179935ae46687bdded4d1252"><p>EnableQuadratureTracking</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.</p>
 </div>
-</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
-<summary class="sd-summary-title sd-card-header">
-<span class="sd-summary-text">enIO</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
-<p class="sd-card-text">If true, connects to libIIO device during simulation</p>
 </div>
-</details><br>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="aee281ac288bce92b1c0b0252c6d5206f3bccb5f" name="aee281ac288bce92b1c0b0252c6d5206f3bccb5f" type="checkbox"></input><label for="aee281ac288bce92b1c0b0252c6d5206f3bccb5f"><p>EnableRFDCTracking</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Option to enable RF DC tracking, specified as true or false. When this property is true, an RF DC blocking filter is applied to the input signal.</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="50364775e071fe8af0b8d8d10c0df9c34457cf9b" name="50364775e071fe8af0b8d8d10c0df9c34457cf9b" type="checkbox"></input><label for="50364775e071fe8af0b8d8d10c0df9c34457cf9b"><p>EnableBasebandDCTracking</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Option to enable baseband DC tracking, specified as true or false. When this property is true, a baseband DC blocking filter is applied to the input signal.</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="5d0ed986e318fdb748a4e3aeb113a4e84c4cbe4e" name="5d0ed986e318fdb748a4e3aeb113a4e84c4cbe4e" type="checkbox"></input><label for="5d0ed986e318fdb748a4e3aeb113a4e84c4cbe4e"><p>RFPortSelect</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>‘A_BALANCED’ ‘B_BALANCED’ ‘C_BALANCED’ ‘A_N’ ‘A_P’ ‘B_N’ ‘B_P’ ‘C_N’ ‘C_P’ ‘TX_MONITOR1’ ‘TX_MONITOR2’ ‘TX_MONITOR1_2’</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="81cc5fd6e5b24e3d67c7ec13e350266a07c7a873" name="81cc5fd6e5b24e3d67c7ec13e350266a07c7a873" type="checkbox"></input><label for="81cc5fd6e5b24e3d67c7ec13e350266a07c7a873"><p>SamplesPerFrame</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Number of samples per frame, specified as an even positive integer from 2 to 16,777,216. Using values less than 3660 can yield poor performance.</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="48d50b1d096913abe06b59f8246d09a845d5711e" name="48d50b1d096913abe06b59f8246d09a845d5711e" type="checkbox"></input><label for="48d50b1d096913abe06b59f8246d09a845d5711e"><p>EnableCustomFilter</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Enable use of custom filter file to set SamplingRate, RFBandwidth, and FIR in datapaths</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="b3993997df912f329857c771f13d286dddfd933b" name="b3993997df912f329857c771f13d286dddfd933b" type="checkbox"></input><label for="b3993997df912f329857c771f13d286dddfd933b"><p>CustomFilterFileName</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Path to custom filter file created from filter wizard</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="dea8da78c9f8adde26b1c64f3878ad6e3d411a52" name="dea8da78c9f8adde26b1c64f3878ad6e3d411a52" type="checkbox"></input><label for="dea8da78c9f8adde26b1c64f3878ad6e3d411a52"><p>EnabledChannels</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Indexs of channels to be enabled. Input should be a [1xN] vector with the indexes of channels to be enabled. Order is irrelevant</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="bc241a48b00ddd0ad4a972eed32e36352de806f3" name="bc241a48b00ddd0ad4a972eed32e36352de806f3" type="checkbox"></input><label for="bc241a48b00ddd0ad4a972eed32e36352de806f3"><p>uri</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Hostname or IP address of remote libIIO device</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="f2f405899e34fc48d17721946c8b96128fda1137" name="f2f405899e34fc48d17721946c8b96128fda1137" type="checkbox"></input><label for="f2f405899e34fc48d17721946c8b96128fda1137"><p>enIO</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>If true, connects to libIIO device during simulation</p>
+</div>
+</div>
+</div><br>
 <div class="sysobj_desc_title">Example Usage</div>
 <div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% Rx set up</span>
 <span class="n">rx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">adi</span><span class="p">.</span><span class="n">AD9364</span><span class="p">.</span><span class="n">Rx</span><span class="p">(</span><span class="s">&#39;uri&#39;</span><span class="p">,</span><span class="s">&#39;ip:analog.local&#39;</span><span class="p">);</span>

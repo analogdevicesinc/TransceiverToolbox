@@ -39,155 +39,155 @@ For more information on changing property values, see <a href="https://www.mathw
 
 
 
-:::{dropdown} AttenuationChannel0ChipB
+:::{collapsible} AttenuationChannel0ChipB
 Attenuation specified as a scalar from -41.95 to 0 dB with a resolution of 0.05 dB.
 :::
 
-:::{dropdown} AttenuationChannel1ChipB
+:::{collapsible} AttenuationChannel1ChipB
 Attenuation specified as a scalar from -41.95 to 0 dB with a resolution of 0.05 dB.
 :::
 
-:::{dropdown} EnableQuadratureTrackingChannel0ChipB
+:::{collapsible} EnableQuadratureTrackingChannel0ChipB
 Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the transmitted signal.
 :::
 
-:::{dropdown} EnableQuadratureTrackingChannel1ChipB
+:::{collapsible} EnableQuadratureTrackingChannel1ChipB
 Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the transmitted signal.
 :::
 
-:::{dropdown} EnableLOLeakageTrackingChannel0ChipB
+:::{collapsible} EnableLOLeakageTrackingChannel0ChipB
 Option to enable quadrature tracking, specified as true or false. When this property is true, LO leakage compensation is applied to the transmitted signal.
 :::
 
-:::{dropdown} EnableLOLeakageTrackingChannel1ChipB
+:::{collapsible} EnableLOLeakageTrackingChannel1ChipB
 Option to enable quadrature tracking, specified as true or false. When this property is true, LO leakage compensation is applied to the transmitted signal.
 :::
 
-:::{dropdown} EnableQuadratureCalibrationChipB
+:::{collapsible} EnableQuadratureCalibrationChipB
 Option to enable quadrature calibration on initialization, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.
 :::
 
-:::{dropdown} EnableLOLeakageCorrectionChipB
+:::{collapsible} EnableLOLeakageCorrectionChipB
 Option to enable phase tracking, specified as true or false. When this property is true, at initialization LO leakage correction will be applied
 :::
 
-:::{dropdown} EnableLOLeakageCorrectionExternalChipB
+:::{collapsible} EnableLOLeakageCorrectionExternalChipB
 Option to enable phase tracking, specified as true or false. When this property is true, at initialization LO leakage correction will be applied within an external loopback path. Note this requires external cabling.
 :::
 
-:::{dropdown} PowerdownChannel0ChipB
+:::{collapsible} PowerdownChannel0ChipB
 Logical which will power down TX channel 0 when set
 :::
 
-:::{dropdown} PowerdownChannel1ChipB
+:::{collapsible} PowerdownChannel1ChipB
 Logical which will power down TX channel 1 when set
 :::
 
-:::{dropdown} CenterFrequencyChipB
+:::{collapsible} CenterFrequencyChipB
 RF center frequency, specified in Hz as a scalar. The default is 2.4e9. This property is tunable.
 :::
 
-:::{dropdown} EnableFrequencyHoppingModeCalibrationChipB
+:::{collapsible} EnableFrequencyHoppingModeCalibrationChipB
 Option to enable frequency hopping mode VCO calibration, specified as true or false. When this property is true, at initialization VCO calibration lookup table is populated
 :::
 
-:::{dropdown} SamplesPerFrame
+:::{collapsible} SamplesPerFrame
 Number of samples per frame, specified as an even positive integer from 2 to 16,777,216. Using values less than 3660 can yield poor performance.
 :::
 
-:::{dropdown} EnableCustomProfile
+:::{collapsible} EnableCustomProfile
 Enable use of custom Profile file to set SamplingRate, RFBandwidth, and FIR in datapaths
 :::
 
-:::{dropdown} EnableFrequencyHoppingModeCalibration
+:::{collapsible} EnableFrequencyHoppingModeCalibration
 Option to enable frequency hopping mode VCO calibration, specified as true or false. When this property is true, at initialization VCO calibration lookup table is populated
 :::
 
-:::{dropdown} CustomProfileFileName
+:::{collapsible} CustomProfileFileName
 Path to custom Profile file created from profile wizard
 :::
 
-:::{dropdown} CenterFrequency
+:::{collapsible} CenterFrequency
 RF center frequency, specified in Hz as a scalar. The default is 2.4e9. This property is tunable.
 :::
 
-:::{dropdown} EnabledChannels
+:::{collapsible} EnabledChannels
 Indexs of channels to be enabled. Input should be a [1xN] vector with the indexes of channels to be enabled. Order is irrelevant
 :::
 
-:::{dropdown} uri
+:::{collapsible} uri
 Hostname or IP address of remote libIIO device
 :::
 
-:::{dropdown} enIO
+:::{collapsible} enIO
 If true, connects to libIIO device during simulation
 :::
 
-:::{dropdown} devName
+:::{collapsible} devName
 Name of the libIIO device
 :::
 
-:::{dropdown} AttenuationChannel0
+:::{collapsible} AttenuationChannel0
 Attenuation specified as a scalar from -41.95 to 0 dB with a resolution of 0.05 dB.
 :::
 
-:::{dropdown} AttenuationChannel1
+:::{collapsible} AttenuationChannel1
 Attenuation specified as a scalar from -41.95 to 0 dB with a resolution of 0.05 dB.
 :::
 
-:::{dropdown} EnableQuadratureTrackingChannel0
+:::{collapsible} EnableQuadratureTrackingChannel0
 Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the transmitted signal.
 :::
 
-:::{dropdown} EnableQuadratureTrackingChannel1
+:::{collapsible} EnableQuadratureTrackingChannel1
 Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the transmitted signal.
 :::
 
-:::{dropdown} EnableLOLeakageTrackingChannel0
+:::{collapsible} EnableLOLeakageTrackingChannel0
 Option to enable quadrature tracking, specified as true or false. When this property is true, LO leakage compensation is applied to the transmitted signal.
 :::
 
-:::{dropdown} EnableLOLeakageTrackingChannel1
+:::{collapsible} EnableLOLeakageTrackingChannel1
 Option to enable quadrature tracking, specified as true or false. When this property is true, LO leakage compensation is applied to the transmitted signal.
 :::
 
-:::{dropdown} EnableQuadratureCalibration
+:::{collapsible} EnableQuadratureCalibration
 Option to enable quadrature calibration on initialization, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.
 :::
 
-:::{dropdown} EnableLOLeakageCorrection
+:::{collapsible} EnableLOLeakageCorrection
 Option to enable phase tracking, specified as true or false. When this property is true, at initialization LO leakage correction will be applied
 :::
 
-:::{dropdown} EnableLOLeakageCorrectionExternal
+:::{collapsible} EnableLOLeakageCorrectionExternal
 Option to enable phase tracking, specified as true or false. When this property is true, at initialization LO leakage correction will be applied within an external loopback path. Note this requires external cabling.
 :::
 
-:::{dropdown} PowerdownChannel0
+:::{collapsible} PowerdownChannel0
 Logical which will power down TX channel 0 when set
 :::
 
-:::{dropdown} PowerdownChannel1
+:::{collapsible} PowerdownChannel1
 Logical which will power down TX channel 1 when set
 :::
 
-:::{dropdown} DataSource
+:::{collapsible} DataSource
 Data source, specified as one of the following: 'DMA' — Specify the host as the source of the data. 'DDS' — Specify the DDS on the radio hardware as the source of the data. In this case, each channel has two additive tones.
 :::
 
-:::{dropdown} DDSFrequencies
+:::{collapsible} DDSFrequencies
 Frequencies values in Hz of the DDS tone generators. For complex data devices the input is a [2xN] matrix where N is the available channels on the board. For complex data devices this is at most max(EnabledChannels)*2. For non-complex data devices this is at most max(EnabledChannels). If N < this upper limit, other DDSs are not set.
 :::
 
-:::{dropdown} DDSScales
+:::{collapsible} DDSScales
 Scale of DDS tones in range [0,1]. For complex data devices the input is a [2xN] matrix where N is the available channels on the board. For complex data devices this is at most max(EnabledChannels)*2. For non-complex data devices this is at most max(EnabledChannels). If N < this upper limit, other DDSs are not set.
 :::
 
-:::{dropdown} DDSPhases
+:::{collapsible} DDSPhases
 Phases of DDS tones in range [0,360000]. For complex data devices the input is a [2xN] matrix where N is the available channels on the board. For complex data devices this is at most max(EnabledChannels)*2. For non-complex data devices this is at most max(EnabledChannels). If N < this upper limit, other DDSs are not set.
 :::
 
-:::{dropdown} EnableCyclicBuffers
+:::{collapsible} EnableCyclicBuffers
 Enable Cyclic Buffers, configures transmit buffers to be cyclic, which makes them continuously repeat
 :::
 
