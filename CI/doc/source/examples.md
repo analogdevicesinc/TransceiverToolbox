@@ -1,4 +1,3 @@
-
 # Examples
 
 Examples for streaming data and targeting FPGAs are listed within the Toolbox documentation itself. To view run the following with MATLAB:
@@ -9,8 +8,8 @@ doc adi
 
 They can also be viewed on GitHub:
 
- - [Targeting examples](https://github.com/analogdevicesinc/TransceiverToolbox/tree/master/trx_examples/targeting)
- - [Streaming examples](https://github.com/analogdevicesinc/TransceiverToolbox/tree/master/trx_examples/streaming)
+- [Targeting examples](https://github.com/analogdevicesinc/TransceiverToolbox/tree/master/trx_examples/targeting)
+- [Streaming examples](https://github.com/analogdevicesinc/TransceiverToolbox/tree/master/trx_examples/streaming)
 
 ## Highlighted Demos
 

@@ -1,0 +1,41 @@
+name: Documentation Lint
+
+on: [push, pull_request]
+
+jobs:
+  vale:
+    name: Vale prose lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install Vale
+        run: |
+          VALE_VERSION=3.9.1
+          curl -sfL "https://github.com/errata-ai/vale/releases/download/v${VALE_VERSION}/vale_${VALE_VERSION}_Linux_64-bit.tar.gz" \
+            | sudo tar -xz -C /usr/local/bin vale
+          vale --version
+
+      # Styles are committed under .github/doc/styles; .vale.ini drives the rules.
+      # Vale exits non-zero only on error-level alerts, so warnings do not fail CI.
+      - name: Run Vale
+        run: vale CI/doc/source
+
+  mdformat:
+    name: Markdown format check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install mdformat
+        run: pip install -r CI/doc/requirements_lint.txt
+
+      - name: Check Markdown formatting
+        run: make -C CI/doc format-check

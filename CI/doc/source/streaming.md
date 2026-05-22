@@ -1,4 +1,3 @@
-
 # Receiving and Sending Data
 
 Remote data streaming to and from hardware is made available through [system object interfaces](https://www.mathworks.com/help/matlab/matlab_prog/what-are-system-objects.html), which are unique for each component or platform. The hardware interfacing system objects provide a since class to both configure a given platform and move data back and forth from the device.
@@ -12,10 +11,13 @@ Since libIIO is cross-platform it can be used from Windows, Linux, or macOS base
 ## Connecting and Configuration
 
 <!-- vale Google.Quotes = NO -->
+
 Connecting to hardware is done by setting the **uri** property of the system object interface. The **uri** for libIIO always has the convention "*< backend >:< address >*", where *backend* can be ip,usb, or serial. *address* will be specific to the backend. This is documented in the [libIIO API](https://analogdevicesinc.github.io/libiio/master/libiio/group__Context.html#gafdcee40508700fa395370b6c636e16fe).
+
 <!-- vale Google.Quotes = YES -->
 
 Below is a basic example of setting up an AD9361 receiver using an Ethernet/IP backend where the address of the target system is 192.168.2.1:
+
 ```{code} matlab
 :number-lines:
 
@@ -23,6 +25,7 @@ rx = adi.AD9361.Rx;
 rx.uri = 'ip:192.168.2.1';
 data = rx();
 ```
+
 With the code above, the hardware is not contacted until the operator or step method is called on line 3. Therefore, any properties that are set or defined before line 3 are not applied or updated on the hardware until after line 3. However, after line 3 has completed the object will become locked and certain configuration changes cannot be applied after this point. These will primarily sample rates and buffer sizes.
 
 The state of the object follows the flow of the diagram below triggered by line 3 above.
@@ -37,12 +40,14 @@ graph LR
 ```
 
 Once the object becomes locked it must be released if the sample rate or buffers need to be modified. This will disconnect from the hardware:
+
 ```{code} matlab
 rx.release(); % Release object
 ```
 
 To provide a complete example we can do more advanced configuration like so to demonstrate property changes:
-```{code} matlab 
+
+```{code} matlab
 :number-lines:
 
 rx = adi.AD9361.Rx;
@@ -144,4 +149,3 @@ rx.DDSPhases = [0,90e3,0,90e3,0,0;0,0,0,0]; % Each in millidegrees [0,90000]
 ```
 
 Each of the above properties must be of size [2x(NumberOfPartDACs)], where each row is the first DDS of a given DAC (column) and the second row is the second DDS of a given DAC (column).
-

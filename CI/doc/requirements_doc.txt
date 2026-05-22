@@ -8,3 +8,4 @@ pillow
 numpy
 jinja2
 sphinx_design
+sphinx-copybutton

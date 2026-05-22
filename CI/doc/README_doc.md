@@ -22,3 +22,25 @@ The system object documentation is generated from the MATLAB code and comments, 
 cd CI/doc/gen_pages
 gen_sysobj_doc
 ```
+
+## Linting and Formatting
+
+The documentation is prose-linted with [Vale](https://vale.sh) and the Markdown is
+formatted with [mdformat](https://mdformat.readthedocs.io). Both run automatically on push
+and pull request through the *Documentation Lint* workflow, and can be run locally:
+
+```bash
+# Prose linting (requires the Vale binary on PATH).
+# Styles are committed under .github/doc/styles and configured by the root .vale.ini.
+# Only error-level alerts fail; warnings are advisory.
+make -C CI/doc lint
+
+# Markdown formatting of the authored source files.
+pip install -r CI/doc/requirements_lint.txt
+make -C CI/doc format          # rewrite files in place
+make -C CI/doc format-check    # verify only (used by CI)
+```
+
+The generated index pages `objects.md` and `allrefdesigns.md` are produced by `gen_autodocs`
+and are intentionally excluded from formatting. To refresh the bundled Google style rules, run
+`.github/doc/scripts/get_styles.sh`.

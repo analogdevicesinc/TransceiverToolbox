@@ -6,17 +6,18 @@ This content is meant for developers or advanced users and is not meant for gene
 
 This page discusses the HDL targeting support from the perspective of the HDL source repository and HDL-Coder itself. It is not necessary for users to understand these details but for those managing the toolbox or developers extending support to new platforms this information is valuable.
 
-This page assumes a basic understanding of MathWork's [HDL Workflow Advisor (HWA)](https://www.mathworks.com/help/hdlcoder/ug/overview-of-workflows-in-hdl-workflow-advisor.html) and its different steps for creating IP, creating a HDL project, and generating a bitstream. 
+This page assumes a basic understanding of MathWork's [HDL Workflow Advisor (HWA)](https://www.mathworks.com/help/hdlcoder/ug/overview-of-workflows-in-hdl-workflow-advisor.html) and its different steps for creating IP, creating a HDL project, and generating a bitstream.
 
 ## HDL Repository Preparation
 
-When the toolbox is built it will clone a specific branch of the [ADI HDL repository](https://github.com/analogdevicesinc/hdl) and apply certain changes to support the [IP-Core Generation HDL-Coder](https://www.mathworks.com/discovery/ip-core-generation.html) workflow. However, with the current flow there are minimal changes required which makes moving between release simpler. This is currently done by simply replacing certain TCL scripts within the HDL repository. 
+When the toolbox is built it will clone a specific branch of the [ADI HDL repository](https://github.com/analogdevicesinc/hdl) and apply certain changes to support the [IP-Core Generation HDL-Coder](https://www.mathworks.com/discovery/ip-core-generation.html) workflow. However, with the current flow there are minimal changes required which makes moving between release simpler. This is currently done by simply replacing certain TCL scripts within the HDL repository.
 
 Creation of the toolbox, cloning of the HDL source, and applying the necessary update is driven through a Makefile in the **CI/scripts** folder. The toolbox is built in source form with the **build** as follows:
 
 ```bash
 make -C CI/scripts build
 ```
+
 After the above command completes the HDL source will be in place with necessary changes.
 
 The changes primarily required of the HDL source are interceptions of the build functions (procs) to skip synthesis when building a project. This is done by inserting environmental variable checks into the [adi_project_xilinx.tcl](https://github.com/analogdevicesinc/TransceiverToolbox/blob/master/CI/scripts/adi_project_xilinx.tcl#L138) script. At build time these environmental variables are set and will prevent synthesis. This way an HDL project can be built, then handed off to HDL-Coder for IP insertion and eventual synthesis.
@@ -44,6 +45,7 @@ style E fill:#f9f,stroke:#333,stroke-width:4px
 style C fill:#FF0,stroke:#333,stroke-width:4px,stroke-dasharray: 5 5
 style D fill:#FF0,stroke:#333,stroke-width:4px,stroke-dasharray: 5 5
 ```
+
 <center>Figure 1: Details IP-Core Generation flow with Toolbox</center>
 
 At a high-level there are six main steps, two of which are optional. From the far left stage "Generate Verilog From Simulink IP" occurs in Stage 3 "HDL Code Generation" within HWA as outlined in red below. This will create Verilog within the defined project folder and then be copied into the full HDL project later on.
@@ -55,12 +57,10 @@ HDL Workflow Advisor IP verilog generation.
 
 Within the largest central block of the flowchart labeled **vivado_create_prj.tcl** are all the core steps related the HWA Step 4.1, where the reference HDL project folder is built and necessary cores and nets removed to make room for IP from Simulink generated in HWA Step 3. This stage is highlighted in the figure below. The purple boxes are optional stages that are used in certain customized examples when additional work is required to prepare a reference design. The [Frequency Hopping example](https://github.com/analogdevicesinc/TransceiverToolbox/tree/master/trx_examples/targeting/frequency-hopping) leverages these stages. Once the project is prepared the IP is inserted and bitstream generated, which occurs through HWA Step 4.3.
 
-
 ```{figure} /_static/assets/HWA_project_gen.png
 
 HDL Workflow Advisor project generation step.
 ```
-
 
 ### Vivado Project Perspective
 
@@ -68,13 +68,10 @@ Based on the flow in Figure 1, there are a three main states the HDL reference d
 
 The first state is just the initial creation of the standard unmodified block design. Looking at Figure 4, the three IPs show the dataflow from the interface core (axi_ad9361), through the ADC FIFO, and finally into the pack core. In orange are the data buses and valid signal highlighted. These are important since the generated IP needs to be inserted where these nets are connected. Therefore, in the second state of the design these nets are removed to make room from the new IP.
 
-
 ```{figure} /_static/assets/stock_reference_design.png
 
 RX path in unmodified standard reference design.
 ```
-
-
 
 Once the IP is inserted into the project by HDL-Coder it is connected to the FIFO and pack cores where the nets in Figure 4 were highlighted. The new inserted and connected IP can be see in Figure 5.
 
@@ -86,7 +83,6 @@ RX path with inserted IP from HDL-Coder.
 The connecting of the IPs and insertion are entirely managed by HDL-Coder and through the [add_io_ports](https://github.com/analogdevicesinc/TransceiverToolbox/blob/master/hdl/vendor/AnalogDevices/+AnalogDevices/add_io_ports.m) function and supporting [JSON port definition file](https://github.com/analogdevicesinc/TransceiverToolbox/blob/master/hdl/vendor/AnalogDevices/+AnalogDevices/ports.json).
 
 ### Generated TCL Scripts
-
 
 The following scripts outlined in the figure above have certain purposes:
 

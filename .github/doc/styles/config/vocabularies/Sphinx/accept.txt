@@ -88,3 +88,5 @@ spi
 [nN]arrowband
 [Ww]ideband
 rf_enabled
+[kK]uiper
+[bB]uildroot
