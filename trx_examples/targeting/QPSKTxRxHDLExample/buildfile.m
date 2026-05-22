@@ -1,0 +1,28 @@
+function plan = buildfile
+%BUILDFILE  CI build/test plan for the QPSK Rx front-end verification suite.
+%
+%   Run from this directory:
+%     buildtool            % default: runs the "test" task
+%     buildtool test       % run the 34-test regression suite
+%
+%   CI (headless):
+%     matlab -batch "buildtool test"
+%
+%   Produces JUnit XML at test-results/junit.xml for CI result ingestion.
+%   The task fails (nonzero exit under -batch) if any test fails.
+
+plan = buildplan(localfunctions);
+
+% Front-end DSP verification suites (see README_tests.md).
+testFiles = [ ...
+    "PhaseAmbiguityEstimatorTest.m"; ...
+    "CoarseFreqEstimatorTest.m"; ...
+    "PreambleDetectorTest.m"; ...
+    "SymbolSynchronizerTest.m"];
+
+plan("test") = matlab.buildtool.tasks.TestTask(testFiles, ...
+    TestResults = "test-results/junit.xml", ...
+    Description = "Run the QPSK Rx front-end verification suite (34 tests)");
+
+plan.DefaultTasks = "test";
+end
