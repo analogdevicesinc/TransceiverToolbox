@@ -1,0 +1,5 @@
+# mdformat configuration — https://mdformat.readthedocs.io
+# Do not reflow prose; only normalize structure (lists, spacing, tables).
+wrap = "keep"
+number = false
+end_of_line = "lf"
