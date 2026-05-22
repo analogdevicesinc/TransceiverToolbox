@@ -28,6 +28,10 @@ env:
   VENV_DIR: "${{ github.workspace }}/.hw-ci-venv"
   MATLAB_BIN: "/opt/MATLAB/R2025b/bin/matlab"
 
+# Minimal default token permissions; the publish job widens its own below.
+permissions:
+  contents: read
+
 jobs:
   discover:
     # Only on PRs that opt in with the `hw-test` label; always on dispatch/cron.
@@ -121,6 +125,11 @@ jobs:
     needs: hw
     if: always()
     runs-on: [self-hosted, hw-coordinator]
+    # The test-result action posts a check run and a PR comment.
+    permissions:
+      contents: read
+      checks: write
+      pull-requests: write
     steps:
       - uses: actions/download-artifact@v4
         with:
