@@ -40,9 +40,9 @@ classdef ORx < adi.ADRV9009.Base & adi.common.Rx
     
     properties
         %LOSourceSelect LO Source Select
-        %    'OBS_TX_LO' – ORx operates in observation mode on ORx1 with
+        %    'OBS_TX_LO' - ORx operates in observation mode on ORx1 with
         %       RxTx LO synthesizer
-        %    'OBS_AUX_LO' – ORx operates in observation mode on ORx2 with
+        %    'OBS_AUX_LO' - ORx operates in observation mode on ORx2 with
         %       AUX LO synthesizer
         LOSourceSelect = 'OBS_TX_LO';
     end

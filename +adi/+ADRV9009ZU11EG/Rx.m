@@ -10,8 +10,8 @@ classdef Rx < adi.ADRV9009ZU11EG.Base & adi.ADRV9009.Rx
     properties
         %GainControlModeChipB Gain Control Mode
         %   specified as one of the following:
-        %   'slow_attack' — For signals with slowly changing power levels
-        %   'manual' — For setting the gain manually with the Gain property
+        %   'slow_attack' - For signals with slowly changing power levels
+        %   'manual' - For setting the gain manually with the Gain property
         GainControlModeChipB = 'slow_attack';
         %GainChannel0 Gain Channel 0 Chip B
         %   Channel 0 gain, specified as a scalar from -4 dB to 71 dB. The acceptable

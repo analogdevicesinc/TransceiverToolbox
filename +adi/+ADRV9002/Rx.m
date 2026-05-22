@@ -63,7 +63,7 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
         %   gain table has a unique front-end attenuator setting, with a
         %   corresponding amount of digital gain, programmed at each index
         %   of the table. In the end of the Rx data path, the interface
-        %   gain could be further applied by using a “Slicer” block for 2
+        %   gain could be further applied by using a "Slicer" block for 2
         %   major purposes. One is to avoid digital saturation in gain
         %   compensation mode. The other one is to ensure the overall SNR
         %   is limited only by analog noise and unaffected by quantization
@@ -88,7 +88,7 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
         %   gain table has a unique front-end attenuator setting, with a
         %   corresponding amount of digital gain, programmed at each index
         %   of the table. In the end of the Rx data path, the interface
-        %   gain could be further applied by using a “Slicer” block for 2
+        %   gain could be further applied by using a "Slicer" block for 2
         %   major purposes. One is to avoid digital saturation in gain
         %   compensation mode. The other one is to ensure the overall SNR
         %   is limited only by analog noise and unaffected by quantization

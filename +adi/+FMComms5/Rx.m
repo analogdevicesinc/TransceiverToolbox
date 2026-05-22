@@ -25,10 +25,10 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
     properties
         %GainControlModeChannel0ChipB Gain Control Mode Channel 0 Chip B
         %   specified as one of the following:
-        %   'slow_attack' — For signals with slowly changing power levels
-        %   'fast_attack' — For signals with rapidly changing power levels
-        %   'manual' — For setting the gain manually with the Gain property
-        %   'hybrid' — For configuring hybrid AGC mode
+        %   'slow_attack' - For signals with slowly changing power levels
+        %   'fast_attack' - For signals with rapidly changing power levels
+        %   'manual' - For setting the gain manually with the Gain property
+        %   'hybrid' - For configuring hybrid AGC mode
         GainControlModeChannel0ChipB = 'slow_attack';
         %GainChannel0ChipB Gain Channel 0 Chip B 
         %   Channel 0 gain, specified as a scalar from -4 dB to 71 dB. The acceptable
@@ -37,10 +37,10 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
         GainChannel0ChipB = 10;
         %GainControlModeChannel1ChipB Gain Control Mode Channel 1 Chip B
         %   specified as one of the following:
-        %   'slow_attack' — For signals with slowly changing power levels
-        %   'fast_attack' — For signals with rapidly changing power levels
-        %   'manual' — For setting the gain manually with the Gain property
-        %   'hybrid' — For configuring hybrid AGC mode
+        %   'slow_attack' - For signals with slowly changing power levels
+        %   'fast_attack' - For signals with rapidly changing power levels
+        %   'manual' - For setting the gain manually with the Gain property
+        %   'hybrid' - For configuring hybrid AGC mode
         GainControlModeChannel1ChipB = 'slow_attack';
         %GainChannel1ChipB Gain Channel 1 Chip B
         %   Channel 1 gain, specified as a scalar from -4 dB to 71 dB. The acceptable

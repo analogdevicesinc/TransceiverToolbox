@@ -10,8 +10,8 @@ classdef Rx < adi.ADRV9009.Base & adi.common.Rx
     properties
         %GainControlMode Gain Control Mode
         %   specified as one of the following:
-        %   'slow_attack' — For signals with slowly changing power levels
-        %   'manual' — For setting the gain manually with the Gain property
+        %   'slow_attack' - For signals with slowly changing power levels
+        %   'manual' - For setting the gain manually with the Gain property
         GainControlMode = 'slow_attack';
         %GainChannel0 Gain Channel 0
         %   Channel 0 gain, specified as a scalar from 1 dB to 30 dB. The acceptable

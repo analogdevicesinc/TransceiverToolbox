@@ -29,10 +29,10 @@ classdef Rx < adi.AD9361.Base & adi.AD9361.TuneAGC & ...
     properties
         %GainControlModeChannel0 Gain Control Mode Channel 0
         %   specified as one of the following:
-        %   'slow_attack' — For signals with slowly changing power levels
-        %   'fast_attack' — For signals with rapidly changing power levels
-        %   'manual' — For setting the gain manually with the Gain property
-        %   'hybrid' — For configuring hybrid AGC mode
+        %   'slow_attack' - For signals with slowly changing power levels
+        %   'fast_attack' - For signals with rapidly changing power levels
+        %   'manual' - For setting the gain manually with the Gain property
+        %   'hybrid' - For configuring hybrid AGC mode
         GainControlModeChannel0 = 'slow_attack';
         %GainChannel0 Gain Channel 0
         %   Channel 0 gain, specified as a scalar from -3 dB to 71 dB. The acceptable
@@ -41,10 +41,10 @@ classdef Rx < adi.AD9361.Base & adi.AD9361.TuneAGC & ...
         GainChannel0 = 10;
         %GainControlModeChannel1 Gain Control Mode Channel 1
         %   specified as one of the following:
-        %   'slow_attack' — For signals with slowly changing power levels
-        %   'fast_attack' — For signals with rapidly changing power levels
-        %   'manual' — For setting the gain manually with the Gain property
-        %   'hybrid' — For configuring hybrid AGC mode
+        %   'slow_attack' - For signals with slowly changing power levels
+        %   'fast_attack' - For signals with rapidly changing power levels
+        %   'manual' - For setting the gain manually with the Gain property
+        %   'hybrid' - For configuring hybrid AGC mode
         GainControlModeChannel1 = 'slow_attack';
         %GainChannel1 Gain Channel 1
         %   Channel 1 gain, specified as a scalar from -3 dB to 71 dB. The acceptable

@@ -12,9 +12,9 @@ classdef ORx < adi.AD9371.Base & adi.common.Rx
     properties
         %GainControlMode Gain Control Mode
         %   specified as one of the following:
-        %   'automatic' — For signals with changing power levels
-        %   'manual' — For setting the gain manually with the Gain property
-        %   'hybrid' — For configuring hybrid AGC mode
+        %   'automatic' - For signals with changing power levels
+        %   'manual' - For setting the gain manually with the Gain property
+        %   'hybrid' - For configuring hybrid AGC mode
         GainControlMode = 'automatic';
         %Gain Gain
         %   Rx gain, specified as a scalar from 0 dB to 52 dB. The acceptable
@@ -45,11 +45,11 @@ classdef ORx < adi.AD9371.Base & adi.common.Rx
     properties
         %RFPortSelect RF Port Select
         %    'OFF' - SnRx path is disabled
-        %    'ORX1_TX_LO' – SnRx operates in observation mode on ORx1 with
+        %    'ORX1_TX_LO' - SnRx operates in observation mode on ORx1 with
         %       Tx LO synthesizer
-        %    'ORX2_TX_LO' – SnRx operates in observation mode on ORx2 with
+        %    'ORX2_TX_LO' - SnRx operates in observation mode on ORx2 with
         %       Tx LO synthesizer
-        %    'INTERNALCALS' – enables scheduled Tx calibrations while using
+        %    'INTERNALCALS' - enables scheduled Tx calibrations while using
         %       SnRx path. The enableTrackingCals function needs to be called
         %       in RADIO_OFF state. It sets the calibration mask, which the
         %       scheduler will later use to schedule the desired calibrations.
@@ -59,20 +59,20 @@ classdef ORx < adi.AD9371.Base & adi.common.Rx
         %       based on the state of the transceiver. The Tx calibrations
         %       will not be scheduled until INTERNALCALS is selected and the
         %       Tx calibrations are enabled in the cal mask.
-        %    'OBS_SNIFFER' – SnRx operates in sniffer mode with latest
-        %       selected Sniffer Input – for hardware pin control operation.
+        %    'OBS_SNIFFER' - SnRx operates in sniffer mode with latest
+        %       selected Sniffer Input - for hardware pin control operation.
         %       In pin mode, the GPIO pins designated for ORX_MODE would
         %       select SNIFFER mode. Then MYKONOS_setSnifferChannel function
         %       would choose the channel.
-        %    'ORX1_SN_LO' – SnRx operates in observation mode on ORx1 with
+        %    'ORX1_SN_LO' - SnRx operates in observation mode on ORx1 with
         %       SNIFFER LO synthesizer
-        %    'ORX2_SN_LO' – SnRx operates in observation mode on ORx2 with
+        %    'ORX2_SN_LO' - SnRx operates in observation mode on ORx2 with
         %       SNIFFER LO synthesizer
-        %    'SN_A' – SnRx operates in sniffer mode on SnRxA with SNIFFER
+        %    'SN_A' - SnRx operates in sniffer mode on SnRxA with SNIFFER
         %       LO synthesizer
-        %    'SN_B' – SnRx operates in sniffer mode on SnRxB with SNIFFER
+        %    'SN_B' - SnRx operates in sniffer mode on SnRxB with SNIFFER
         %       LO synthesizer
-        %    'SN_C' – SnRx operates in sniffer mode on SnRxC with SNIFFER
+        %    'SN_C' - SnRx operates in sniffer mode on SnRxC with SNIFFER
         %       LO synthesizer
         RFPortSelect = 'SN_A';
     end
