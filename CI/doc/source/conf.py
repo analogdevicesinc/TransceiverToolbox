@@ -73,7 +73,6 @@ needs_extensions = {"adi_doctools": "0.4.21"}
 # Collapsible property blocks (adi_doctools "collapsible" directive) are
 # collapsed by default.
 hide_collapsible_content = True
-
 myst_enable_extensions = [
     "colon_fence",
 ]
