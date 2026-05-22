@@ -51,8 +51,10 @@ hdlset_param('commhdlQPSKTxRx/Receiver/dataInQ', 'IOInterface', 'ADRV9002 ADC Da
 hdlset_param('commhdlQPSKTxRx/Receiver/dataInQ', 'IOInterfaceMapping', '[0:15]');
 
 % Set Inport HDL parameters
-hdlset_param('commhdlQPSKTxRx/Receiver/rstCS', 'IOInterface', 'No Interface Specified');
-hdlset_param('commhdlQPSKTxRx/Receiver/rstCS', 'IOInterfaceMapping', '');
+% rstCS (carrier-sync reset) exposed as AXI4-Lite so the host can reset the
+% carrier synchronizer for a clean re-acquisition (write 1 then 0 to x"110").
+hdlset_param('commhdlQPSKTxRx/Receiver/rstCS', 'IOInterface', 'AXI4-Lite');
+hdlset_param('commhdlQPSKTxRx/Receiver/rstCS', 'IOInterfaceMapping', 'x"110"');
 
 % Set Inport HDL parameters
 hdlset_param('commhdlQPSKTxRx/Receiver/iq_debug_mux', 'IOInterface', 'AXI4-Lite');
@@ -296,10 +298,11 @@ hWC.GenerateHostInterfaceModel = false;
 hWC.GenerateHostInterfaceScript = false;
 
 % Set properties related to 'RunTaskBuildFPGABitstream' Task
-hWC.RunExternalBuild = true;
+hWC.RunExternalBuild = false;
 hWC.EnableDesignCheckpoint = false;
 hWC.TclFileForSynthesisBuild = hdlcoder.BuildOption.Custom;
-hWC.CustomBuildTclFile = 'C:\work\datalink\TransceiverToolbox\CI\scripts\adi_build.tcl';
+%hWC.CustomBuildTclFile = 'C:\work\datalink\TransceiverToolbox\CI\scripts\adi_build.tcl';
+hWC.CustomBuildTclFile = '/home/tcollins/dev/qpsk_ai/TransceiverToolbox/CI/scripts/adi_build.tcl';
 hWC.DefaultCheckpointFile = 'Default';
 hWC.RoutedDesignCheckpointFilePath = '';
 hWC.MaxNumOfCoresForBuild = '';
