@@ -36,3 +36,36 @@ rgetz@pinky:~/TransceiverToolbox$ make -C CI/scripts/ build
 
 Then simply add the `hdl` folder to your MATLAB path `addpath(genpath('hdl'))`
 
+## Hardware Testing with labgrid
+
+The MATLAB hardware tests (`runHWTests`) connect to a board over a libIIO URI
+and honor the `IIO_URI` environment variable. They assume the board is already
+powered, booted, and reachable.
+
+[adi-labgrid-plugins](https://github.com/analogdevicesinc/adi-labgrid-plugins)
+can provision that board automatically — power it, boot the FPGA/SoC, and hand
+MATLAB the booted board's URI — both locally and in GitHub Actions, via the
+`adi-lg-matlab` launcher.
+
+The mapping from a labgrid place (tagged with `carrier` / `daughter-board`) to
+the MATLAB board reference name that `runHWTests` expects lives in
+[`test/hw_ci/board_map.yaml`](test/hw_ci/board_map.yaml).
+
+Run locally against a coordinator place:
+
+```bash
+pip install "adi-labgrid-plugins @ git+https://github.com/tfcollins/labgrid-plugins.git@v2"
+
+adi-lg-matlab run \
+    --coord $LG_COORDINATOR --place mini2 \
+    --board-map test/hw_ci/board_map.yaml \
+    --repo-dir . --matlab /opt/MATLAB/R2025b/bin/matlab \
+    --junit junit-mini2.xml --acquire
+```
+
+This boots the board, sets `IIO_URI`, runs `runHWTests`, copies the JUnit
+results, and releases the place. The GitHub Actions equivalent is
+[`.github/workflows/hw-matlab.yml`](.github/workflows/hw-matlab.yml). See the
+[MATLAB Hardware CI guide](https://adi-labgrid-plugins.readthedocs.io/en/latest/user-guide/matlab-hw-ci.html)
+for details.
+
