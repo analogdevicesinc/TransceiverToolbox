@@ -6,4 +6,3 @@ sphinx-simplepdf
 pillow
 numpy
 jinja2
-sphinx_design
