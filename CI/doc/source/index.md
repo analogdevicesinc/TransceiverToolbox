@@ -8,13 +8,9 @@
 
 <br>
 <center>
-<div style="width:70%;">
-<div id="indexlogo_dark">
-<img src="_static/logos/logo_black.png" alt="PyADI-IIO Logo" />
-</div>
-<div id="indexlogo_light">
-<img src="_static/logos/logo_white.png" alt="PyADI-IIO Logo" />
-</div>
+<div id="indexlogo" style="width:70%;">
+<img class="only-light" src="_static/logos/logo_black.png" alt="Transceiver Toolbox Logo" />
+<img class="only-dark" src="_static/logos/logo_white.png" alt="Transceiver Toolbox Logo" />
 </div>
 </center>
 
