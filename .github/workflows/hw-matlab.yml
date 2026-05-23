@@ -86,9 +86,11 @@ jobs:
         uses: tfcollins/labgrid-plugins/.github/actions/setup-uv-venv@v2
         with:
           venv_dir: ${{ env.VENV_DIR }}
+          # [kuiper] extra pulls in pytsk3 — KuiperDLDriver needs it to
+          # extract uImage / devicetree.dtb from the Kuiper SD image.
           install_cmd: >-
             uv pip install --python "$VENV_DIR/bin/python"
-            "adi-labgrid-plugins @ git+https://github.com/tfcollins/labgrid-plugins.git@${{ env.ADI_LG_PLUGINS_REF }}"
+            "adi-labgrid-plugins[kuiper] @ git+https://github.com/tfcollins/labgrid-plugins.git@${{ env.ADI_LG_PLUGINS_REF }}"
 
       - name: Acquire place
         uses: tfcollins/labgrid-plugins/.github/actions/acquire-place@v2
@@ -103,20 +105,24 @@ jobs:
         run: |
           # Place is already acquired by the composite action above, so do
           # NOT pass --acquire here (avoids double-acquire).
-          # --skip-boot: the lab's coordinator places are tagged with
-          # boot-strategy=BootZynq7000JTAGRecovery, whose template does
-          # not yet expose the consumer-supplied kernel/uboot/initramfs/
-          # bitstream paths needed for a real transition. Acquire the
-          # place and resolve its NetworkService URI; let the toolbox's
-          # CheckDevice handle reachability gracefully via assumeFail
-          # until the lab supplies those inputs (see adi-labgrid-plugins
-          # #33 for the --skip-boot mechanic).
+          #
+          # --boot-strategy BootFPGASoCTFTP overrides the place's tag
+          # (currently BootZynq7000JTAGRecovery, which is a recovery
+          # strategy that doesn't load the IIO HDL). BootFPGASoCTFTP
+          # JTAG-bootstraps U-Boot, has KuiperDLDriver TFTP the kernel +
+          # devicetree from the cached Kuiper image, and boots Linux
+          # with the daughter-board's real HDL design active — so the
+          # toolbox's MATLAB tests can actually reach the IIO devices
+          # over libIIO instead of skipping via CheckDevice.
+          #
           # runHWTests exit codes (see test/runHWTests.m):
-          #   0 = all passed, 2 = one or more failed, 3 = one or more Incomplete.
-          # When --skip-boot is used (board not booted), CheckDevice's
-          # assumeFail filters every test -> exit 3. That's not a CI failure;
-          # the JUnit reflects the skipped status and `publish` aggregates it.
-          # Treat exit 3 as success here; let exit 2 (real failure) propagate.
+          #   0 = all passed
+          #   2 = one or more failed
+          #   3 = one or more Incomplete (e.g. CheckDevice assumeFail).
+          # On a real boot, 0 is the happy path; 2 propagates as failure.
+          # We still tolerate exit 3 (some boards may be unreachable for
+          # transient reasons; JUnit reflects skip status and publish
+          # aggregates).
           set +e
           "$VENV_DIR/bin/adi-lg-matlab" run \
             --coord "$LG_COORDINATOR" \
@@ -124,11 +130,11 @@ jobs:
             --board-map test/hw_ci/board_map.yaml \
             --repo-dir "$GITHUB_WORKSPACE" \
             --matlab "$MATLAB_BIN" \
-            --skip-boot \
+            --boot-strategy BootFPGASoCTFTP \
             --junit "junit-${{ matrix.place }}.xml"
           rc=$?
           if [ "$rc" = "3" ]; then
-            echo "::notice::All tests Incomplete (skipped via CheckDevice; expected with --skip-boot)"
+            echo "::notice::Tests reported Incomplete (CheckDevice assumeFail) — JUnit has details."
             exit 0
           fi
           exit "$rc"
