@@ -96,12 +96,21 @@ jobs:
         run: |
           # Place is already acquired by the composite action above, so do
           # NOT pass --acquire here (avoids double-acquire).
+          # --skip-boot: the lab's coordinator places are tagged with
+          # boot-strategy=BootZynq7000JTAGRecovery, whose template does
+          # not yet expose the consumer-supplied kernel/uboot/initramfs/
+          # bitstream paths needed for a real transition. Acquire the
+          # place and resolve its NetworkService URI; let the toolbox's
+          # CheckDevice handle reachability gracefully via assumeFail
+          # until the lab supplies those inputs (see adi-labgrid-plugins
+          # #33 for the --skip-boot mechanic).
           "$VENV_DIR/bin/adi-lg-matlab" run \
             --coord "$LG_COORDINATOR" \
             --place "${{ matrix.place }}" \
             --board-map test/hw_ci/board_map.yaml \
             --repo-dir "$GITHUB_WORKSPACE" \
             --matlab "$MATLAB_BIN" \
+            --skip-boot \
             --junit "junit-${{ matrix.place }}.xml"
 
       - name: Release place
