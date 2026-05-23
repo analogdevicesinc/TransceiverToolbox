@@ -26,7 +26,9 @@ on:
 env:
   ADI_LG_PLUGINS_REF: "v2"
   VENV_DIR: "${{ github.workspace }}/.hw-ci-venv"
-  MATLAB_BIN: "/opt/MATLAB/R2025b/bin/matlab"
+  # MATLAB binary path on the hw-<place> runner. Override per-repo with
+  # vars.MATLAB_BIN — lab MATLAB installs vary (/opt vs /mnt vs /usr/local).
+  MATLAB_BIN: "${{ vars.MATLAB_BIN || '/opt/MATLAB/R2025b/bin/matlab' }}"
 
 # Minimal default token permissions; the publish job widens its own below.
 permissions:
