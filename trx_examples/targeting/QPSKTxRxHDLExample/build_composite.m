@@ -83,17 +83,16 @@ delete_block([loop '/c_valid']);
 % Terminator on the composite validIn now redundant
 try, delete_block([loop '/t_validIn']); delete_line(loop, 'validIn/1', 't_validIn/1'); catch, end
 
-% Use dspsigops/Repeat in sample-based mode to upsample Tx -> Rx rate.
-make_repeat = @(name, pos) add_block('dspsigops/Repeat', [loop '/' name], ...
-  'FactorSource','Dialog parameter', 'N','UpsamplesRx', 'Nmax','16', ...
-  'InputProcessing','Elements as channels (sample based)', ...
-  'RateOptions','Allow multirate processing', 'ic','0', 'Position', pos);
-make_repeat('RT_I',     [470 220 500 240]);
-make_repeat('RT_Q',     [470 250 500 270]);
-make_repeat('RT_valid', [470 280 500 300]);
+% Use proper Repeat (N=UpsamplesRx=2) for interpolation, not naive Rate
+% Transition. Tx Outports anchored at 1/7.68e6, Rx Inports anchored at
+% 1/15.36e6, so Repeat correctly bridges them with sample replication
+% (which the downstream RRC matched filter inside the Receiver expects).
+add_block('dspsigops/Repeat', [loop '/RT_I'],     'FactorSource','Dialog parameter','N','UpsamplesRx','Nmax','16','InputProcessing','Elements as channels (sample based)','RateOptions','Allow multirate processing','ic','0', 'Position',[470 220 500 240]);
+add_block('dspsigops/Repeat', [loop '/RT_Q'],     'FactorSource','Dialog parameter','N','UpsamplesRx','Nmax','16','InputProcessing','Elements as channels (sample based)','RateOptions','Allow multirate processing','ic','0', 'Position',[470 250 500 270]);
+add_block('dspsigops/Repeat', [loop '/RT_valid'], 'FactorSource','Dialog parameter','N','UpsamplesRx','Nmax','16','InputProcessing','Elements as channels (sample based)','RateOptions','Allow multirate processing','ic','0', 'Position',[470 280 500 300]);
 add_line(loop, 'Transmitter/4', 'RT_valid/1');     % validOut
-add_line(loop, 'Transmitter/8', 'RT_I/1');         % dataOutI2
-add_line(loop, 'Transmitter/7', 'RT_Q/1');         % dataOutQ2
+add_line(loop, 'Transmitter/1', 'RT_I/1');         % dataOutI (RRC-shaped, what the original model wires to the data path)
+add_line(loop, 'Transmitter/2', 'RT_Q/1');         % dataOutQ
 add_line(loop, 'RT_valid/1', 'Receiver/1');
 add_line(loop, 'RT_I/1',     'Receiver/2');
 add_line(loop, 'RT_Q/1',     'Receiver/3');
