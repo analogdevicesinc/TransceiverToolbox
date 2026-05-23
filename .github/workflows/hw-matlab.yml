@@ -76,6 +76,11 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
+        with:
+          # +adi/+common is a git submodule (ToolboxCommon shared across ADI
+          # MATLAB toolboxes). Without it MATLAB can't resolve adi.common.RxTx
+          # superclass and every test fails to instantiate.
+          submodules: recursive
 
       - name: Setup venv (adi-labgrid-plugins)
         uses: tfcollins/labgrid-plugins/.github/actions/setup-uv-venv@v2
@@ -106,6 +111,13 @@ jobs:
           # CheckDevice handle reachability gracefully via assumeFail
           # until the lab supplies those inputs (see adi-labgrid-plugins
           # #33 for the --skip-boot mechanic).
+          # runHWTests exit codes (see test/runHWTests.m):
+          #   0 = all passed, 2 = one or more failed, 3 = one or more Incomplete.
+          # When --skip-boot is used (board not booted), CheckDevice's
+          # assumeFail filters every test -> exit 3. That's not a CI failure;
+          # the JUnit reflects the skipped status and `publish` aggregates it.
+          # Treat exit 3 as success here; let exit 2 (real failure) propagate.
+          set +e
           "$VENV_DIR/bin/adi-lg-matlab" run \
             --coord "$LG_COORDINATOR" \
             --place "${{ matrix.place }}" \
@@ -114,6 +126,12 @@ jobs:
             --matlab "$MATLAB_BIN" \
             --skip-boot \
             --junit "junit-${{ matrix.place }}.xml"
+          rc=$?
+          if [ "$rc" = "3" ]; then
+            echo "::notice::All tests Incomplete (skipped via CheckDevice; expected with --skip-boot)"
+            exit 0
+          fi
+          exit "$rc"
 
       - name: Release place
         if: always()
