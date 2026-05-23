@@ -28,12 +28,13 @@ classdef HardwareLoopbackBERTest < matlab.unittest.TestCase
     methods (Test, TestTags = {'Hardware'})
         function testLoopbackBerUnder1pct(testCase)
             % 1. confirm the board is reachable; if not, skip cleanly
-            [rc,~] = HardwareLoopbackBERTest.runSsh('true', testCase.SshConnectTimeoutSec);
+            [rc,~] = BistRegisters.sshExec('true', testCase.SshConnectTimeoutSec);
             testCase.assumeEqual(rc, 0, ...
                 'Jupiter at 10.0.0.146 not reachable -- skipping HW test');
 
             % 2. snapshot the BIST counters at t=0
-            [p0, e0] = HardwareLoopbackBERTest.readBist(testCase);
+            S0 = BistRegisters.readAll(testCase.SshConnectTimeoutSec);
+            p0 = S0.packets; e0 = S0.bit_errors;
             fprintf('[t=0.0s] packets=%d bit_errors=%d\n', p0, e0);
 
             % 3. poll until >= MinDecodedBits decoded OR timeout
@@ -41,7 +42,8 @@ classdef HardwareLoopbackBERTest < matlab.unittest.TestCase
             p1 = p0; e1 = e0;
             while toc(t0) < testCase.TotalTimeoutSec
                 pause(testCase.PollIntervalSec);
-                [p1, e1] = HardwareLoopbackBERTest.readBist(testCase);
+                S = BistRegisters.readAll(testCase.SshConnectTimeoutSec);
+                p1 = S.packets; e1 = S.bit_errors;
                 dp = p1 - p0; de = e1 - e0;
                 bits = dp * testCase.DataBitsPerPacket;
                 ber  = de / max(1, bits);
@@ -68,40 +70,6 @@ classdef HardwareLoopbackBERTest < matlab.unittest.TestCase
         end
     end
 
-    methods (Static)
-        function [packets, bit_errors] = readBist(testCase)
-            % One round-trip: ssh runs devmem twice; we parse the two hex
-            % values from stdout.
-            cmd = sprintf('busybox devmem %s 32; busybox devmem %s 32', ...
-                          testCase.AxiPackets, testCase.AxiBitErrors);
-            [rc, out] = HardwareLoopbackBERTest.runSsh(cmd, testCase.SshConnectTimeoutSec);
-            if rc ~= 0
-                packets = NaN; bit_errors = NaN; return;
-            end
-            hexlines = regexp(strtrim(out), '0[xX][0-9A-Fa-f]+', 'match');
-            if numel(hexlines) < 2
-                packets = NaN; bit_errors = NaN; return;
-            end
-            packets    = double(hex2dec(hexlines{1}(3:end)));
-            bit_errors = double(hex2dec(hexlines{2}(3:end)));
-        end
-
-        function [rc, out] = runSsh(remoteCmd, connectTimeoutSec)
-            % Wraps ssh with a transient SSH_ASKPASS for the board password
-            % "analog". Returns rc and stdout (no trailing newline).
-            askpass = '/tmp/HardwareLoopbackBERTest_askpass.sh';
-            fid = fopen(askpass,'w');
-            fprintf(fid, '#!/bin/bash\necho analog\n');
-            fclose(fid);
-            fileattrib(askpass,'+x');
-            envprefix = sprintf( ...
-              'SSH_ASKPASS=%s SSH_ASKPASS_REQUIRE=force DISPLAY=:0 ', askpass);
-            sshcmd = sprintf( ...
-              'setsid -w ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=%d -o NumberOfPasswordPrompts=1 %s %s', ...
-              connectTimeoutSec, HardwareLoopbackBERTest.BoardHost, ...
-              ['"' strrep(remoteCmd,'"','\"') '"']);
-            [rc, out] = system([envprefix sshcmd ' 2>/dev/null']);
-            delete(askpass);
-        end
-    end
+    % (ssh + devmem + parse plumbing factored out to BistRegisters.m and
+    %  exercised separately by BistRegisterReadTest.m)
 end
