@@ -15,8 +15,8 @@
 % disp(isequal(a,b))
 
 %%
-dataBits = eval(get_param([gcs '/Transmitter/Input Data'],'dataBits'));
-Rsym = eval(get_param([gcs '/Transmitter/Input Data'],'Rsym'));
+dataBits = eval(get_param(qpskFindTxInputData(gcs),'dataBits'));
+Rsym = eval(get_param(qpskFindTxInputData(gcs),'Rsym'));
 validateattributes(dataBits,{'double'},{'binary','column','finite'},'','dataBits');
 validateattributes(Rsym,{'double'},{'finite','scalar','positive'},'','Rsym');
 
