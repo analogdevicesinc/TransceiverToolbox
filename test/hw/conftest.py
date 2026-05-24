@@ -67,15 +67,47 @@ def _do_labgrid_boot() -> None:
     target = env.get_target("main")
     _lg_strategy = target.get_driver("Strategy")
 
-    # `shell` (rather than just `booted`) ensures the strategy's shell
-    # driver is active so we can read the DHCP IP from the serial
-    # console below — same convention pyadi-iio uses.
-    _lg_strategy.transition("shell")
+    # The transition target is read from the place's env (set in the
+    # yaml as `transition_to` under the `Strategy` driver). Default is
+    # `booted` — power-cycle + wait for the Linux marker, no file
+    # updates over SSH. Override per-place via the env yaml if a lab
+    # needs `shell` (BootFPGASoCSSH's full update-and-reboot loop).
+    transition_to = os.environ.get("LG_TRANSITION_TO", "booted")
+    _lg_strategy.transition(transition_to)
 
-    shell = target.get_driver("CommandProtocol")
-    ip = _wait_for_ipv4(shell, timeout=60)
+    # Resolve the board's libIIO URI. Two paths:
+    #
+    # 1. Shell-poll: pyadi-iio's path. Asks the booted board for its
+    #    own DHCP-assigned IP via `ip route get`. Works on labs where
+    #    the board reaches its final IP only after some user-space
+    #    fixup (BootFabric's `udhcpc` step etc.).
+    # 2. Resource fallback: read the place's `NetworkService.address`
+    #    directly. Works on labs where the board has a stable IP the
+    #    exporter already knows about (the Kuiper-on-SD case here).
+    #
+    # Try the shell path first; on any failure, fall back to the
+    # resource. Both are equivalent when DHCP gives the configured IP.
+    ip = ""
+    try:
+        shell = target.get_driver("CommandProtocol")
+        ip = _wait_for_ipv4(shell, timeout=60)
+    except Exception as e:  # noqa: BLE001
+        warnings.warn(
+            f"shell-based IP poll failed ({e!r}); falling back to "
+            f"NetworkService.address",
+            stacklevel=1,
+        )
     if not ip:
-        raise RuntimeError("could not extract a valid IPv4 from board within 60s")
+        try:
+            ns = target.get_resource("NetworkService")
+            ip = ns.address
+        except Exception as e:  # noqa: BLE001
+            raise RuntimeError(
+                f"could not resolve board IP (shell poll empty, "
+                f"NetworkService lookup failed: {e!r})"
+            ) from e
+    if not ip:
+        raise RuntimeError("could not resolve a board IP from shell or NetworkService")
     _resolved_uri = f"ip:{ip}"
 
 

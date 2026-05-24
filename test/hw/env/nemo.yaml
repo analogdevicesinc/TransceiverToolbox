@@ -12,12 +12,12 @@
 ## registered) keeps tests whose `@pytest.mark.iio_hardware([...])`
 ## includes that chip and skips the rest.
 ##
-## Strategy: BootFPGASoCTFTP with JTAG-bootstrap inputs. The board's
-## SD does not carry a working FSBL/U-Boot, so the strategy xsdb-loads
-## ps7_init + fsbl + u-boot from /srv/recovery/zc706/ before TFTP-booting
-## the Kuiper uImage/devicetree. Carrier-aware defaults are applied by
-## the strategy class (`Zynq>` prompt, `bootm`, `uImage`,
-## `devicetree.dtb`, 32-bit kernel/dtb load addresses).
+## Strategy: BootFPGASoCSSH. The board's SD carries a working Kuiper
+## image that auto-boots straight to Linux (root@analog:~#), so we
+## don't need to flash anything, JTAG-bootstrap U-Boot, or TFTP a
+## kernel — just power-cycle and wait for the Linux marker. The
+## conftest deliberately calls `transition("booted")` (NOT "shell")
+## so the strategy's SSH file-update path is skipped.
 
 targets:
   main:
@@ -27,42 +27,16 @@ targets:
     resources:
       RemotePlace:
         name: nemo
-      # Local TFTP root for KuiperDLDriver's uImage/devicetree drop.
-      # Named to avoid colliding with any TFTPServerResource the
-      # coordinator's exporter publishes on this place.
-      TFTPServerResource:
-        name: local-tftp
-        address: 'auto'
-        port: 3069
-        root: /tmp/labgrid-tftp-nemo
     drivers:
       HomeAssistantPowerDriver: {}
       SerialDriver: {}
-      XilinxJTAGDriver: {}
       ADIShellDriver:
         prompt: 'root@.*'
         login_prompt: 'analog login: '
         username: 'root'
         password: 'analog'
       KuiperDLDriver: {}
-      TFTPServerDriver:
-        bindings:
-          resource: local-tftp
-      BootFPGASoCTFTP:
-        bindings:
-          tftp_server: local-tftp
+      SSHDriver: {}
+      BootFPGASoCSSH:
         reached_linux_marker: 'analog'
-        wait_for_linux_prompt_timeout: 240
-        # JTAG bootstrap (carrier-specific PS files; same for any
-        # daughter board on zc706 — bitstream is daughter-specific).
-        ps7_init_tcl: '/srv/recovery/zc706/ps7_init.tcl'
-        uboot_elf: '/srv/recovery/zc706/u-boot.elf'
-        fsbl_elf: '/srv/recovery/zc706/fsbl.elf'
-        bitstream_path: '/srv/recovery/zc706/system_top.bit'
-        # Zynq-7000 U-Boot defaults
-        uboot_prompt: 'Zynq>.*'
-        kernel_image_name: 'uImage'
-        dtb_image_name: 'devicetree.dtb'
-        boot_cmd: 'bootm'
-        kernel_addr: '0x3000000'
-        dtb_addr: '0x2A00000'
+        wait_for_linux_prompt_timeout: 180
