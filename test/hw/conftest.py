@@ -65,38 +65,47 @@ def _do_labgrid_boot() -> None:
 
     env = Environment(_LG_ENV)
     target = env.get_target("main")
-    _lg_strategy = target.get_driver("Strategy")
 
-    # The transition target is read from the place's env (set in the
-    # yaml as `transition_to` under the `Strategy` driver). Default is
-    # `booted` — power-cycle + wait for the Linux marker, no file
-    # updates over SSH. Override per-place via the env yaml if a lab
-    # needs `shell` (BootFPGASoCSSH's full update-and-reboot loop).
-    transition_to = os.environ.get("LG_TRANSITION_TO", "booted")
-    _lg_strategy.transition(transition_to)
+    # The transition target is configurable via $LG_TRANSITION_TO:
+    #   "skip" (default)  — never transition; rely on the board being
+    #                       already booted (auto-boot Kuiper SD case).
+    #                       Just resolves NetworkService.address.
+    #   "booted"          — BootFPGASoCSSH-style: power-cycle and wait
+    #                       for the Linux kernel banner. Use this when
+    #                       the lab needs a known-fresh boot.
+    #   "shell"           — pyadi-iio's full-transition default
+    #                       (BootFPGASoC's SD-mux flash + boot).
+    # The matching strategy is determined by the env yaml — `Strategy`
+    # is whatever boot-strategy class is declared under `drivers:`.
+    transition_to = os.environ.get("LG_TRANSITION_TO", "skip")
+    if transition_to and transition_to != "skip":
+        _lg_strategy = target.get_driver("Strategy")
+        _lg_strategy.transition(transition_to)
 
     # Resolve the board's libIIO URI. Two paths:
     #
-    # 1. Shell-poll: pyadi-iio's path. Asks the booted board for its
-    #    own DHCP-assigned IP via `ip route get`. Works on labs where
-    #    the board reaches its final IP only after some user-space
-    #    fixup (BootFabric's `udhcpc` step etc.).
-    # 2. Resource fallback: read the place's `NetworkService.address`
-    #    directly. Works on labs where the board has a stable IP the
-    #    exporter already knows about (the Kuiper-on-SD case here).
+    # 1. Shell-poll (pyadi-iio's path): ask the booted board for its
+    #    own DHCP-assigned IP via `ip route get`. Only meaningful when
+    #    a transition was performed AND the strategy activated a
+    #    CommandProtocol — when LG_TRANSITION_TO=skip there's no
+    #    active shell to query.
+    # 2. Resource lookup: read the place's `NetworkService.address`
+    #    directly. The exporter publishes this on the coordinator;
+    #    works regardless of boot state for stable-DHCP labs.
     #
-    # Try the shell path first; on any failure, fall back to the
-    # resource. Both are equivalent when DHCP gives the configured IP.
+    # Prefer (1) when we actually transitioned; fall through to (2)
+    # otherwise (and as a fallback when shell-poll fails).
     ip = ""
-    try:
-        shell = target.get_driver("CommandProtocol")
-        ip = _wait_for_ipv4(shell, timeout=60)
-    except Exception as e:  # noqa: BLE001
-        warnings.warn(
-            f"shell-based IP poll failed ({e!r}); falling back to "
-            f"NetworkService.address",
-            stacklevel=1,
-        )
+    if _lg_strategy is not None:
+        try:
+            shell = target.get_driver("CommandProtocol")
+            ip = _wait_for_ipv4(shell, timeout=60)
+        except Exception as e:  # noqa: BLE001
+            warnings.warn(
+                f"shell-based IP poll failed ({e!r}); falling back to "
+                f"NetworkService.address",
+                stacklevel=1,
+            )
     if not ip:
         try:
             ns = target.get_resource("NetworkService")
