@@ -52,18 +52,18 @@ classdef HardwareGainRobustnessTest < matlab.unittest.TestCase
                 'Jupiter at 10.0.0.146 not reachable -- skipping HW gain suite');
             % Behavioural probe: inj_gain is write-only -- write 0 and assert
             % BIST stops advancing within 1.5 s, confirming V4 deployment.
+            % (The receiver auto-re-acquires when we restore unity gain; no
+            % host-side rstCS pulse needed -- the AGC tracks the new
+            % amplitude on its own given a few seconds settle time.)
             BistRegisters.write(testCase.InjGainAddr, 0, testCase.SshTimeoutSec);
             pause(0.2);
             S0 = BistRegisters.readAll(testCase.SshTimeoutSec);
             pause(1.5);
             S1 = BistRegisters.readAll(testCase.SshTimeoutSec);
             dpZero = S1.packets - S0.packets;
-            % Restore unity + re-acquire for the test methods
+            % Restore unity; receiver self-reacquires
             BistRegisters.write(testCase.InjGainAddr, testCase.UnityGain, testCase.SshTimeoutSec);
-            BistRegisters.write(BistRegisters.RstCsAddr, 1, testCase.SshTimeoutSec);
-            pause(0.05);
-            BistRegisters.write(BistRegisters.RstCsAddr, 0, testCase.SshTimeoutSec);
-            pause(2);
+            pause(3);   % natural AGC + sync settle, no rstCS pulse
             testCase.assumeLessThan(dpZero, 100, ...
                 sprintf(['inj_gain=0 did not stall the link (dp=%d in 1.5s); ' ...
                          'deployed BOOT.BIN does not appear to be V4_gain_inj'], dpZero));
@@ -80,10 +80,7 @@ classdef HardwareGainRobustnessTest < matlab.unittest.TestCase
         % Gains inside the AGC operating range must decode at BER < 1%.
         function testPassingGainSweep(testCase, passingGain)
             BistRegisters.write(testCase.InjGainAddr, passingGain, testCase.SshTimeoutSec);
-            BistRegisters.write(BistRegisters.RstCsAddr, 1, testCase.SshTimeoutSec);
-            pause(0.05);
-            BistRegisters.write(BistRegisters.RstCsAddr, 0, testCase.SshTimeoutSec);
-            pause(2);   % AGC + sync settle
+            pause(3);   % natural AGC + sync settle, no rstCS pulse
             S0 = BistRegisters.readAll(testCase.SshTimeoutSec);
             pause(3);
             S1 = BistRegisters.readAll(testCase.SshTimeoutSec);
@@ -104,10 +101,7 @@ classdef HardwareGainRobustnessTest < matlab.unittest.TestCase
         % BIST stops advancing instead of accumulating spurious errors.
         function testBelowFloorGainStalls(testCase, failingGain)
             BistRegisters.write(testCase.InjGainAddr, failingGain, testCase.SshTimeoutSec);
-            BistRegisters.write(BistRegisters.RstCsAddr, 1, testCase.SshTimeoutSec);
-            pause(0.05);
-            BistRegisters.write(BistRegisters.RstCsAddr, 0, testCase.SshTimeoutSec);
-            pause(2);
+            pause(3);   % give the receiver a chance to try -- and fail -- to lock
             S0 = BistRegisters.readAll(testCase.SshTimeoutSec);
             pause(2);
             S1 = BistRegisters.readAll(testCase.SshTimeoutSec);
@@ -120,31 +114,28 @@ classdef HardwareGainRobustnessTest < matlab.unittest.TestCase
         end
 
         % Operating-range characterization: verify the link recovers from
-        % a below-floor excursion (write 0x0800 -> link stops; restore unity
-        % + rstCS -> link must come back).
+        % a below-floor excursion. The receiver auto-re-acquires when the
+        % amplitude is restored -- no host-side rstCS pulse needed.
         function testGainRecoveryFromFloor(testCase)
-            % Drop to below-floor, verify stall
+            % Drop to below-floor, verify stall (no rstCS)
             BistRegisters.write(testCase.InjGainAddr, 2048, testCase.SshTimeoutSec);   % 0x0800
-            pause(2);
+            pause(3);
             S0 = BistRegisters.readAll(testCase.SshTimeoutSec);
             pause(1.5);
             Smid = BistRegisters.readAll(testCase.SshTimeoutSec);
             stallDp = Smid.packets - S0.packets;
-            % Now restore unity + rstCS and verify recovery
+            % Now restore unity -- receiver auto-recovers (no rstCS)
             BistRegisters.write(testCase.InjGainAddr, testCase.UnityGain, testCase.SshTimeoutSec);
-            BistRegisters.write(BistRegisters.RstCsAddr, 1, testCase.SshTimeoutSec);
-            pause(0.05);
-            BistRegisters.write(BistRegisters.RstCsAddr, 0, testCase.SshTimeoutSec);
-            pause(2);
+            pause(3);   % natural AGC + sync settle
             S2 = BistRegisters.readAll(testCase.SshTimeoutSec);
             pause(2);
             S3 = BistRegisters.readAll(testCase.SshTimeoutSec);
             recoveredDp = S3.packets - S2.packets;
-            fprintf('floor stall = +%d pkts/1.5s ; recovery = +%d pkts/2s\n', stallDp, recoveredDp);
+            fprintf('floor stall = +%d pkts/1.5s ; recovery = +%d pkts/2s (no rstCS)\n', stallDp, recoveredDp);
             testCase.verifyLessThan(stallDp, 100, ...
                 'expected link to stall at gain=0x0800');
             testCase.verifyGreaterThan(recoveredDp, 5000, ...
-                'expected link to recover (advance fast) after restoring unity gain + rstCS');
+                'expected link to auto-recover after restoring unity gain');
         end
     end
 end

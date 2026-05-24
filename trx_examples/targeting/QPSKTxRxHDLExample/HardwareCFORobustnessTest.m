@@ -96,22 +96,21 @@ classdef HardwareCFORobustnessTest < matlab.unittest.TestCase
             % unrecoverable-sync-loss regime, (b) far enough above the
             % design range that the link partial-stalls (~10x slower
             % packet rate), giving a wide V5-vs-non-V5 separation.
+            % Probe with 900 kHz CFO -- no rstCS pulse; the receiver naturally
+            % loses lock and the packet rate drops sharply. After the probe
+            % we restore CFO=0 and let the receiver auto-re-acquire (no host
+            % rstCS write needed; carrier sync re-locks on its own given a
+            % few seconds settle time).
             probeCfoReg = HardwareCFORobustnessTest.hzToReg(900e3);
             BistRegisters.write(testCase.CfoAddr, probeCfoReg, testCase.SshTimeoutSec);
-            BistRegisters.write(BistRegisters.RstCsAddr, 1, testCase.SshTimeoutSec);
-            pause(0.05);
-            BistRegisters.write(BistRegisters.RstCsAddr, 0, testCase.SshTimeoutSec);
-            pause(2);
+            pause(3);   % let the new CFO take effect, link partial-stalls
             S0 = BistRegisters.readAll(testCase.SshTimeoutSec);
             pause(2);
             S1 = BistRegisters.readAll(testCase.SshTimeoutSec);
             dpHi = S1.packets - S0.packets;
-            % Restore zero CFO + re-acquire
+            % Restore zero CFO; receiver auto-re-acquires
             BistRegisters.write(testCase.CfoAddr, 0, testCase.SshTimeoutSec);
-            BistRegisters.write(BistRegisters.RstCsAddr, 1, testCase.SshTimeoutSec);
-            pause(0.05);
-            BistRegisters.write(BistRegisters.RstCsAddr, 0, testCase.SshTimeoutSec);
-            pause(2);
+            pause(4);   % natural carrier-sync settle, no rstCS
             % Baseline rate is ~13.4k pkts/2s; under 900 kHz CFO V5 sees
             % ~1.3k pkts/2s. Pre-V5 keeps ~13.4k.
             testCase.assumeLessThan(dpHi, 5000, ...
@@ -131,10 +130,7 @@ classdef HardwareCFORobustnessTest < matlab.unittest.TestCase
         function testPassingCFOSweep(testCase, passingCFOHz)
             reg = HardwareCFORobustnessTest.hzToReg(passingCFOHz);
             BistRegisters.write(testCase.CfoAddr, reg, testCase.SshTimeoutSec);
-            BistRegisters.write(BistRegisters.RstCsAddr, 1, testCase.SshTimeoutSec);
-            pause(0.05);
-            BistRegisters.write(BistRegisters.RstCsAddr, 0, testCase.SshTimeoutSec);
-            pause(2);   % carrier-sync + AGC settle
+            pause(3);   % natural carrier-sync settle, no rstCS pulse
             S0 = BistRegisters.readAll(testCase.SshTimeoutSec);
             pause(3);
             S1 = BistRegisters.readAll(testCase.SshTimeoutSec);
@@ -155,10 +151,7 @@ classdef HardwareCFORobustnessTest < matlab.unittest.TestCase
         function testBeyondRangeCharacterization(testCase, characterizeCFOHz)
             reg = HardwareCFORobustnessTest.hzToReg(characterizeCFOHz);
             BistRegisters.write(testCase.CfoAddr, reg, testCase.SshTimeoutSec);
-            BistRegisters.write(BistRegisters.RstCsAddr, 1, testCase.SshTimeoutSec);
-            pause(0.05);
-            BistRegisters.write(BistRegisters.RstCsAddr, 0, testCase.SshTimeoutSec);
-            pause(2);
+            pause(3);   % let the new CFO take effect, no rstCS pulse
             S0 = BistRegisters.readAll(testCase.SshTimeoutSec);
             pause(2);
             S1 = BistRegisters.readAll(testCase.SshTimeoutSec);
@@ -178,37 +171,35 @@ classdef HardwareCFORobustnessTest < matlab.unittest.TestCase
         end
 
         % --- recovery: pull CFO to a value the link can't lock, then
-        %     restore zero, assert recovery ---
+        %     restore zero, assert auto-recovery (no rstCS) ---
         function testCFORecoveryAfterLockLoss(testCase)
             % Push CFO to 900 kHz (well beyond design range, ~10x BIST
-            % slowdown), then restore zero + rstCS and assert recovery.
+            % slowdown), then restore zero and assert recovery via the
+            % receiver's own re-acquisition. No host-side rstCS pulse:
+            % the carrier sync re-locks naturally given ~5s settle time.
             % We deliberately stay below the ~1.5 MHz regime where the
-            % preamble detector enters a hard rstCS-unrecoverable state.
+            % preamble detector enters a hard unrecoverable state that
+            % requires a board reboot.
             reg = HardwareCFORobustnessTest.hzToReg(900e3);
             BistRegisters.write(testCase.CfoAddr, reg, testCase.SshTimeoutSec);
-            BistRegisters.write(BistRegisters.RstCsAddr, 1, testCase.SshTimeoutSec);
-            pause(0.05);
-            BistRegisters.write(BistRegisters.RstCsAddr, 0, testCase.SshTimeoutSec);
-            pause(2);
+            pause(3);
             S0 = BistRegisters.readAll(testCase.SshTimeoutSec);
             pause(1.5);
             S1 = BistRegisters.readAll(testCase.SshTimeoutSec);
             stallDp = S1.packets - S0.packets;
-            % Restore zero CFO + rstCS for re-acquisition
+            % Restore zero CFO; receiver auto-re-acquires
             BistRegisters.write(testCase.CfoAddr, 0, testCase.SshTimeoutSec);
-            BistRegisters.write(BistRegisters.RstCsAddr, 1, testCase.SshTimeoutSec);
-            pause(0.05);
-            BistRegisters.write(BistRegisters.RstCsAddr, 0, testCase.SshTimeoutSec);
-            pause(2);
+            pause(5);   % natural settle, no rstCS pulse
             S2 = BistRegisters.readAll(testCase.SshTimeoutSec);
             pause(2);
             S3 = BistRegisters.readAll(testCase.SshTimeoutSec);
             recoveredDp = S3.packets - S2.packets;
-            fprintf('out-of-lock stall=+%d/1.5s ; recovery=+%d/2s\n', stallDp, recoveredDp);
+            fprintf('out-of-lock stall=+%d/1.5s ; auto-recovery=+%d/2s (no rstCS)\n', ...
+                stallDp, recoveredDp);
             testCase.verifyLessThan(stallDp, 5000, ...
                 'expected link rate to drop sharply at 900 kHz CFO');
             testCase.verifyGreaterThan(recoveredDp, 5000, ...
-                'expected link to recover after restoring zero CFO + rstCS');
+                'expected link to auto-recover after restoring zero CFO');
         end
     end
 end
