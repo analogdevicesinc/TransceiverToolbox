@@ -1,0 +1,68 @@
+## TransceiverToolbox HW-CI env for ADRV9009 + ZC706 via the `nemo`
+## remote place on the labgrid coordinator.
+##
+## Run locally:
+##   labgrid-client -x 10.0.0.41:20408 -p nemo acquire
+##   LG_COORDINATOR=10.0.0.41:20408 LG_ENV=test/hw/env/nemo.yaml \
+##       HW_DAUGHTER=adrv9009 \
+##       pytest test/hw/ -v
+##   labgrid-client -x 10.0.0.41:20408 -p nemo release
+##
+## `adrv9009` is in features so `adi_lg_plugins.pytest_plugin` (auto-
+## registered) keeps tests whose `@pytest.mark.iio_hardware([...])`
+## includes that chip and skips the rest.
+##
+## Strategy: BootFPGASoCTFTP with JTAG-bootstrap inputs. The board's
+## SD does not carry a working FSBL/U-Boot, so the strategy xsdb-loads
+## ps7_init + fsbl + u-boot from /srv/recovery/zc706/ before TFTP-booting
+## the Kuiper uImage/devicetree. Carrier-aware defaults are applied by
+## the strategy class (`Zynq>` prompt, `bootm`, `uImage`,
+## `devicetree.dtb`, 32-bit kernel/dtb load addresses).
+
+targets:
+  main:
+    features:
+      - adrv9009
+      - zc706
+    resources:
+      RemotePlace:
+        name: nemo
+      # Local TFTP root for KuiperDLDriver's uImage/devicetree drop.
+      # Named to avoid colliding with any TFTPServerResource the
+      # coordinator's exporter publishes on this place.
+      TFTPServerResource:
+        name: local-tftp
+        address: 'auto'
+        port: 3069
+        root: /tmp/labgrid-tftp-nemo
+    drivers:
+      HomeAssistantPowerDriver: {}
+      SerialDriver: {}
+      XilinxJTAGDriver: {}
+      ADIShellDriver:
+        prompt: 'root@.*'
+        login_prompt: 'analog login: '
+        username: 'root'
+        password: 'analog'
+      KuiperDLDriver: {}
+      TFTPServerDriver:
+        bindings:
+          resource: local-tftp
+      BootFPGASoCTFTP:
+        bindings:
+          tftp_server: local-tftp
+        reached_linux_marker: 'analog'
+        wait_for_linux_prompt_timeout: 240
+        # JTAG bootstrap (carrier-specific PS files; same for any
+        # daughter board on zc706 — bitstream is daughter-specific).
+        ps7_init_tcl: '/srv/recovery/zc706/ps7_init.tcl'
+        uboot_elf: '/srv/recovery/zc706/u-boot.elf'
+        fsbl_elf: '/srv/recovery/zc706/fsbl.elf'
+        bitstream_path: '/srv/recovery/zc706/system_top.bit'
+        # Zynq-7000 U-Boot defaults
+        uboot_prompt: 'Zynq>.*'
+        kernel_image_name: 'uImage'
+        dtb_image_name: 'devicetree.dtb'
+        boot_cmd: 'bootm'
+        kernel_addr: '0x3000000'
+        dtb_addr: '0x2A00000'

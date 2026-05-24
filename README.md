@@ -39,33 +39,51 @@ Then simply add the `hdl` folder to your MATLAB path `addpath(genpath('hdl'))`
 ## Hardware Testing with labgrid
 
 The MATLAB hardware tests (`runHWTests`) connect to a board over a libIIO URI
-and honor the `IIO_URI` environment variable. They assume the board is already
+and honour the `IIO_URI` environment variable. They assume the board is already
 powered, booted, and reachable.
 
 [adi-labgrid-plugins](https://github.com/analogdevicesinc/adi-labgrid-plugins)
 can provision that board automatically — power it, boot the FPGA/SoC, and hand
-MATLAB the booted board's URI — both locally and in GitHub Actions, via the
-`adi-lg-matlab` launcher.
+MATLAB the booted URI — both locally and in GitHub Actions. The integration
+mirrors the
+[pyadi-iio hardware-CI pattern](https://github.com/analogdevicesinc/pyadi-iio):
+a thin `test/hw/conftest.py` boots the board via labgrid and exposes an
+`iio_uri` fixture; per-board bridge tests in `test/hw/test_*.py` carry
+`@pytest.mark.iio_hardware([chip])` markers and subprocess `runHWTests`.
 
-The mapping from a labgrid place (tagged with `carrier` / `daughter-board`) to
-the MATLAB board reference name that `runHWTests` expects lives in
-[`test/hw_ci/board_map.yaml`](test/hw_ci/board_map.yaml).
+Per-place env yamls live in [`test/hw/env/`](test/hw/env/) — one file per
+coordinator place, declaring the labgrid drivers + boot strategy inline.
 
-Run locally against a coordinator place:
+### Run locally
 
 ```bash
-pip install "adi-labgrid-plugins @ git+https://github.com/tfcollins/labgrid-plugins.git@v2"
+pip install -r test/hw/requirements_dev.txt
 
-adi-lg-matlab run \
-    --coord $LG_COORDINATOR --place mini2 \
-    --board-map test/hw_ci/board_map.yaml \
-    --repo-dir . --matlab /opt/MATLAB/R2025b/bin/matlab \
-    --junit junit-mini2.xml --acquire
+# Acquire the lab place, run the marker-filtered bridge test, release.
+labgrid-client -x $LG_COORDINATOR -p nemo acquire
+LG_COORDINATOR=10.0.0.41:20408 LG_ENV=test/hw/env/nemo.yaml \
+    HW_DAUGHTER=adrv9009 \
+    MATLAB_BIN=/mnt/onetb/MATLAB/R2025b/bin/matlab \
+    pytest test/hw/ -v --junitxml=junit-nemo.xml
+labgrid-client -x $LG_COORDINATOR -p nemo release
 ```
 
-This boots the board, sets `IIO_URI`, runs `runHWTests`, copies the JUnit
-results, and releases the place. The GitHub Actions equivalent is
-[`.github/workflows/hw-matlab.yml`](.github/workflows/hw-matlab.yml). See the
-[MATLAB Hardware CI guide](https://adi-labgrid-plugins.readthedocs.io/en/latest/user-guide/matlab-hw-ci.html)
-for details.
+The `conftest.py` transitions the place's `Strategy` driver to `shell`, polls
+the booted board for its DHCP-assigned IP, and yields `iio_uri = "ip:<addr>"`.
+Bridge tests use it to launch MATLAB (`matlab -batch "runHWTests(getenv('board'))"`)
+and copy MATLAB's `<board>_HWTestResults.xml` into a per-test JUnit. On
+session finish the strategy transitions back to `powered_off`.
+
+When `LG_ENV` is unset, `conftest.py` is a no-op and the bridge tests skip
+cleanly — existing non-labgrid invocations (`make test`, plain `runHWTests` in
+a MATLAB session, etc.) are completely unaffected.
+
+### CI
+
+[`.github/workflows/hardware-test.yml`](.github/workflows/hardware-test.yml)
+mirrors pyadi-iio's standalone workflow: a `preflight` job probes the
+coordinator, intersects against `test/hw/env/*.yaml`, and emits a per-place
+matrix; each `hw-coord (<place>)` shard runs on its `hw-<place>` self-hosted
+runner, acquires the place, runs the marker-filtered pytest, releases. On
+PRs the workflow is gated on the `hw-test` label.
 

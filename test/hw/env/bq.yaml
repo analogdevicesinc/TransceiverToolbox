@@ -1,0 +1,54 @@
+## TransceiverToolbox HW-CI env for ADRV9371 + ZC706 via the `bq`
+## remote place on the labgrid coordinator.
+##
+## Run locally:
+##   labgrid-client -x 10.0.0.41:20408 -p bq acquire
+##   LG_COORDINATOR=10.0.0.41:20408 LG_ENV=test/hw/env/bq.yaml \
+##       HW_DAUGHTER=adrv9371 \
+##       pytest test/hw/ -v
+##   labgrid-client -x 10.0.0.41:20408 -p bq release
+##
+## Same shape as nemo.yaml — only `features:` (daughter board) and the
+## RemotePlace name differ. See nemo.yaml for inline-comment details.
+
+targets:
+  main:
+    features:
+      - adrv9371
+      - zc706
+    resources:
+      RemotePlace:
+        name: bq
+      TFTPServerResource:
+        name: local-tftp
+        address: 'auto'
+        port: 3069
+        root: /tmp/labgrid-tftp-bq
+    drivers:
+      HomeAssistantPowerDriver: {}
+      SerialDriver: {}
+      XilinxJTAGDriver: {}
+      ADIShellDriver:
+        prompt: 'root@.*'
+        login_prompt: 'analog login: '
+        username: 'root'
+        password: 'analog'
+      KuiperDLDriver: {}
+      TFTPServerDriver:
+        bindings:
+          resource: local-tftp
+      BootFPGASoCTFTP:
+        bindings:
+          tftp_server: local-tftp
+        reached_linux_marker: 'analog'
+        wait_for_linux_prompt_timeout: 240
+        ps7_init_tcl: '/srv/recovery/zc706/ps7_init.tcl'
+        uboot_elf: '/srv/recovery/zc706/u-boot.elf'
+        fsbl_elf: '/srv/recovery/zc706/fsbl.elf'
+        bitstream_path: '/srv/recovery/zc706/system_top.bit'
+        uboot_prompt: 'Zynq>.*'
+        kernel_image_name: 'uImage'
+        dtb_image_name: 'devicetree.dtb'
+        boot_cmd: 'bootm'
+        kernel_addr: '0x3000000'
+        dtb_addr: '0x2A00000'

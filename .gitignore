@@ -4,3 +4,13 @@
 AD9361_Filter_Wizard/*TestFiltWiz*.m
 AD9361_Filter_Wizard/.previous_ip_addr
 _generated/*
+
+# runHWTests transient outputs (timestamped result mat + JUnit + failures
+# log) — useful artifacts on the runner, never want them committed.
+BSPTest_*.mat
+*_HWTestResults.xml
+failures.txt
+
+# pytest / Python caches from test/hw/ runs
+__pycache__/
+.pytest_cache/
