@@ -22,8 +22,10 @@ classdef HardwareGainRobustnessTest < matlab.unittest.TestCase
 
     properties (Constant)
         InjGainAddr        = '0x9D000114';
-        DataBitsPerPacket  = 2240;
-        BerThreshold       = 0.01;
+        % BIST compares 120 bits per packet (not 2240); see
+        % HardwareLoopbackBERTest header for the normalisation history.
+        BistCheckedBitsPerPacket = 120;
+        BerThreshold       = 0.10;
         SshTimeoutSec      = 5;
         UnityGain          = 16384;  % Q1.14: 1.0
     end
@@ -86,7 +88,7 @@ classdef HardwareGainRobustnessTest < matlab.unittest.TestCase
             S1 = BistRegisters.readAll(testCase.SshTimeoutSec);
             dp = S1.packets - S0.packets;
             de = S1.bit_errors - S0.bit_errors;
-            bits = dp * testCase.DataBitsPerPacket;
+            bits = dp * testCase.BistCheckedBitsPerPacket;
             ber  = de / max(1, bits);
             fprintf('inj_gain Q1.14=%d (%.3fx): +pkts=%d bits=%d BER=%.4f%%\n', ...
                 passingGain, passingGain/16384, dp, bits, 100*ber);

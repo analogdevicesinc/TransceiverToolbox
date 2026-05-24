@@ -17,9 +17,15 @@ classdef HardwareLoopbackBERTest < matlab.unittest.TestCase
         AxiCount           = '0x9D000100';
         AxiPackets         = '0x9D000104';
         AxiBitErrors       = '0x9D000108';
-        DataBitsPerPacket  = 2240;          % commhdlQPSKTxRxParameters
-        MinDecodedBits     = 1e6;           % must accumulate >= this many bits
-        BerThreshold       = 0.01;          % BER must be < 1%
+        % NOTE: the BIST MATLAB Function only compares the first 120 bits of
+        % each 2240-bit packet payload against a literal "ADI Hello World"
+        % ASCII reference. So BER must be normalised to the 120-bit window,
+        % not to DataBitsPerPacket=2240. (Previous test code divided by 2240
+        % which under-reported the true per-checked-bit error rate by
+        % ~18.7x.)
+        BistCheckedBitsPerPacket = 120;
+        MinDecodedBits     = 1e5;           % must accumulate >= this many checked bits
+        BerThreshold       = 0.10;          % BER (on the 120-bit BIST window) must be < 10%
         TotalTimeoutSec    = 30;            % hard cap so the test never hangs
         SshConnectTimeoutSec = 5;           % per ssh call
         PollIntervalSec    = 1.0;
@@ -45,7 +51,7 @@ classdef HardwareLoopbackBERTest < matlab.unittest.TestCase
                 S = BistRegisters.readAll(testCase.SshConnectTimeoutSec);
                 p1 = S.packets; e1 = S.bit_errors;
                 dp = p1 - p0; de = e1 - e0;
-                bits = dp * testCase.DataBitsPerPacket;
+                bits = dp * testCase.BistCheckedBitsPerPacket;
                 ber  = de / max(1, bits);
                 fprintf('[t=%.1fs] +packets=%d +bit_errors=%d bits=%d  BER=%.4f%%\n', ...
                     toc(t0), dp, de, bits, 100*ber);
@@ -54,7 +60,7 @@ classdef HardwareLoopbackBERTest < matlab.unittest.TestCase
 
             elapsed = toc(t0);
             dp = p1 - p0; de = e1 - e0;
-            bits = dp * testCase.DataBitsPerPacket;
+            bits = dp * testCase.BistCheckedBitsPerPacket;
             ber  = de / max(1, bits);
 
             % 4. assertions

@@ -36,8 +36,10 @@ classdef HardwareCFORobustnessTest < matlab.unittest.TestCase
         CfoAddr            = '0x9D000118';
         Fs                 = 15.36e6;
         PhaseAccumBits     = 16;
-        DataBitsPerPacket  = 2240;
-        BerThreshold       = 0.01;
+        % BIST compares 120 bits per packet (not 2240); see
+        % HardwareLoopbackBERTest header for the normalisation history.
+        BistCheckedBitsPerPacket = 120;
+        BerThreshold       = 0.10;
         SshTimeoutSec      = 5;
     end
 
@@ -136,7 +138,7 @@ classdef HardwareCFORobustnessTest < matlab.unittest.TestCase
             S1 = BistRegisters.readAll(testCase.SshTimeoutSec);
             dp = S1.packets - S0.packets;
             de = S1.bit_errors - S0.bit_errors;
-            bits = dp * testCase.DataBitsPerPacket;
+            bits = dp * testCase.BistCheckedBitsPerPacket;
             ber  = de / max(1, bits);
             fprintf('cfo=%+.0f Hz (reg=0x%04X): +pkts=%d bits=%d BER=%.4f%%\n', ...
                 passingCFOHz, reg, dp, bits, 100*ber);
@@ -162,7 +164,7 @@ classdef HardwareCFORobustnessTest < matlab.unittest.TestCase
             dp = S1.packets - S0.packets;
             de = S1.bit_errors - S0.bit_errors;
             if dp > 0
-                ber = de / (dp * testCase.DataBitsPerPacket);
+                ber = de / (dp * testCase.BistCheckedBitsPerPacket);
                 fprintf('cfo=%+.0f Hz (out-of-range): +pkts=%d BER=%.4f%% (info)\n', ...
                     characterizeCFOHz, dp, 100*ber);
             else

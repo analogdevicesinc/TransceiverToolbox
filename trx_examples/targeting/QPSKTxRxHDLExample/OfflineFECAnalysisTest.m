@@ -16,7 +16,13 @@ classdef OfflineFECAnalysisTest < matlab.unittest.TestCase
     %   Run:  runtests('OfflineFECAnalysisTest')
 
     properties (Constant)
-        ChannelBer = 0.003906;     % measured V4 BIST channel BER
+        % Corrected channel BER -- the BIST MATLAB Function only compares
+        % the first 120 bits per packet (against the literal "ADI Hello
+        % World" reference), so the previous 0.0039 figure (which divided
+        % by 2240) under-reported the per-checked-bit error rate by 18.7x.
+        % True per-checked-bit error rate from the V4 5-min endurance run:
+        %   19,981,487 errors / (2,283,552 packets * 120 bits) = 7.29%
+        ChannelBer = 0.0729;
         Nbits      = 1e7;          % Monte Carlo size
     end
 
@@ -40,8 +46,8 @@ classdef OfflineFECAnalysisTest < matlab.unittest.TestCase
             berExp = 3*pe^2 - 2*pe^3;
             fprintf('Repetition(3,1)  measured=%.6f%%  expected=%.6f%%\n', ...
                 100*berFec, 100*berExp);
-            testCase.verifyLessThan(berFec, 0.02 * pe, ...
-                'Repetition(3,1) should drop BER to < 2% of channel BER');
+            testCase.verifyLessThan(berFec, 0.3 * pe, ...
+                'Repetition(3,1) should drop BER to < 30% of channel BER');
             testCase.verifyEqual(berFec, berExp, 'RelTol', 0.30, ...
                 'measured Repetition BER far from theoretical');
         end
@@ -88,8 +94,8 @@ classdef OfflineFECAnalysisTest < matlab.unittest.TestCase
             berExpUpper = 12 * pe^2;         % loose upper bound w/ higher orders
             fprintf('Hamming(7,4)     measured=%.6f%%  expected range [%.6f%%, %.6f%%]\n', ...
                 100*berFec, 100*berExpLower, 100*berExpUpper);
-            testCase.verifyLessThan(berFec, 0.1 * pe, ...
-                'Hamming(7,4) should drop BER to < 10% of channel BER');
+            testCase.verifyLessThan(berFec, 0.7 * pe, ...
+                'Hamming(7,4) should drop BER to < 70% of channel BER (barely helps at p~7%)');
             testCase.verifyGreaterThanOrEqual(berFec, berExpLower, ...
                 'measured Hamming BER below theoretical lower bound (sanity)');
             testCase.verifyLessThanOrEqual(berFec, berExpUpper, ...
@@ -97,14 +103,17 @@ classdef OfflineFECAnalysisTest < matlab.unittest.TestCase
         end
 
         function testReportSummary(testCase)
-            % Pure reporting test -- produces the summary table that
-            % motivates the FEC variant build decision.
-            pe = testCase.ChannelBer;
+            % Pure reporting test -- summary table at the corrected channel
+            % BER (7.29%, normalised to the BIST's 120-bit per-packet
+            % comparison window).
             fprintf('\n%-25s  %-12s  %-12s  %-8s\n', 'scheme', 'post-FEC BER', 'user rate', 'rate');
-            fprintf('%-25s  %-12s  %-12s  %-8s\n', 'uncoded',         '0.391%',   '7.68 Mbps', '1');
-            fprintf('%-25s  %-12s  %-12s  %-8s\n', 'Hamming(7,4)',    '0.014%',   '4.39 Mbps', '4/7');
-            fprintf('%-25s  %-12s  %-12s  %-8s\n', 'Repetition(3,1)', '0.005%',   '2.56 Mbps', '1/3');
-            testCase.verifyTrue(true); % placeholder so it shows up as a test
+            fprintf('%-25s  %-12s  %-12s  %-8s\n', 'uncoded',         '7.29%',    '7.68 Mbps', '1');
+            fprintf('%-25s  %-12s  %-12s  %-8s\n', 'Hamming(7,4)',    '~3.85%',   '4.39 Mbps', '4/7');
+            fprintf('%-25s  %-12s  %-12s  %-8s\n', 'Repetition(3,1)', '~1.51%',   '2.56 Mbps', '1/3');
+            fprintf('Note: previous OfflineFECAnalysisTest used 0.391%% channel BER\n');
+            fprintf('      which was wrong (divided by 2240 not 120). Real FEC benefit\n');
+            fprintf('      is much smaller than the previous numbers suggested.\n');
+            testCase.verifyTrue(true);
         end
     end
 end

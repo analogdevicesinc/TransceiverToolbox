@@ -12,13 +12,18 @@ classdef HardwareEnduranceTest < matlab.unittest.TestCase
     %   Run:  runtests('HardwareEnduranceTest')
 
     properties (Constant)
-        DataBitsPerPacket  = 2240;
-        BerThreshold       = 0.01;       % 1% BER ceiling
-        BerSpreadCap       = 0.005;      % max-min per-window BER spread
+        % The BIST MATLAB Function only compares the first 120 bits per
+        % packet (against literal "ADI Hello World") -- so BER must be
+        % normalised to that 120-bit window. Previous code that divided
+        % by DataBitsPerPacket=2240 under-reported the true per-checked-
+        % bit error rate by 18.7x.
+        BistCheckedBitsPerPacket = 120;
+        BerThreshold       = 0.10;       % 10% on the BIST window
+        BerSpreadCap       = 0.02;       % max-min per-window BER spread, 2 pp
         WindowSec          = 10;         % sample interval
         NumWindows         = 30;         % 30 * 10s = 5 minutes
         SshTimeoutSec      = 5;
-        MinBitsPerWindow   = 1e6;        % every window must accumulate >= this
+        MinBitsPerWindow   = 1e5;        % every window must accumulate >= this many checked bits
     end
 
     methods (Test, TestTags = {'Hardware'})
@@ -29,7 +34,7 @@ classdef HardwareEnduranceTest < matlab.unittest.TestCase
                 'Jupiter at 10.0.0.146 not reachable -- skipping HW endurance test');
 
             N    = testCase.NumWindows;
-            DBPP = testCase.DataBitsPerPacket;
+            DBPP = testCase.BistCheckedBitsPerPacket;
             pkts = zeros(N+1, 1);
             errs = zeros(N+1, 1);
             ts   = zeros(N+1, 1);
