@@ -98,6 +98,12 @@ fprintf('build_variant cwd=%s\n', pwd);
 try; rmdir(fullfile(pwd,'hdl_prj_jupiter_loopback'),'s'); catch; end
 try; rmdir(fullfile(pwd,'slprj'),'s'); catch; end
 run('variant_pre.m');
+% Bump the model Description so HDL Coder's smart-build cannot claim "no
+% functional changes" (which causes the IP core packaging step to skip and
+% then fail when its expected doc/* dir doesn't exist).
+sys = 'commhdlQPSKTxRxLoopback';
+set_param(sys,'Description', sprintf('variant=%s build=%s', '$NAME', char(datetime('now'))));
+save_system(sys,[],'OverwriteIfChangedOnDisk',true);
 run('hdlworkflow_loopback.m');
 fprintf('VARIANT_BUILD_DONE: %s\n', '$NAME');
 EOF
