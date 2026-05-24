@@ -52,14 +52,26 @@ classdef HardwareGainRobustnessTest < matlab.unittest.TestCase
             [rc,~] = BistRegisters.sshExec('true', testCase.SshTimeoutSec);
             testCase.assumeEqual(rc, 0, ...
                 'Jupiter at 10.0.0.146 not reachable -- skipping HW gain suite');
-            % Probe inj_gain register: writing then reading back should round-trip
+            % Behavioural probe: inj_gain is a write-only AXI register in
+            % HDL Coder's IP wrapper (readback always returns 0). Verify
+            % the V4 BOOT.BIN by writing inj_gain=0 -> assert BIST packet
+            % rate falls to ~0 (signal zeroed out); then restore unity.
+            BistRegisters.write(testCase.InjGainAddr, 0, testCase.SshTimeoutSec);
+            pause(0.2);
+            S0 = BistRegisters.readAll(testCase.SshTimeoutSec);
+            pause(1.5);
+            S1 = BistRegisters.readAll(testCase.SshTimeoutSec);
+            dpZero = S1.packets - S0.packets;
+            % Restore unity so the rest of the suite + later tests have it
             BistRegisters.write(testCase.InjGainAddr, testCase.UnityGain, testCase.SshTimeoutSec);
-            pause(0.1);
-            rb = BistRegisters.read(testCase.InjGainAddr, testCase.SshTimeoutSec);
-            testCase.assumeEqual(rb, testCase.UnityGain, ...
-                sprintf(['inj_gain register at %s did not round-trip ' ...
-                         '(wrote %d, read %d); deployed BOOT.BIN is not V4_gain_inj'], ...
-                    testCase.InjGainAddr, testCase.UnityGain, rb));
+            testCase.assumeLessThan(dpZero, 100, ...
+                sprintf(['inj_gain=0 should suppress the loopback (dp=%d in 1.5s); ' ...
+                         'deployed BOOT.BIN does not appear to be V4_gain_inj'], dpZero));
+            % belt-and-braces: re-acquire after restoring
+            BistRegisters.write(BistRegisters.RstCsAddr, 1, testCase.SshTimeoutSec);
+            pause(0.05);
+            BistRegisters.write(BistRegisters.RstCsAddr, 0, testCase.SshTimeoutSec);
+            pause(2);
         end
 
         function leaveUnityOnExit(testCase)
