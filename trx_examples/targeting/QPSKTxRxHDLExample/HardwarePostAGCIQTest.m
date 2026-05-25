@@ -84,9 +84,13 @@ classdef HardwarePostAGCIQTest < matlab.unittest.TestCase
                 if numel(cand) < 4, continue; end
                 % normalize
                 candN = cand / sqrt(mean(abs(cand).^2));
-                % project onto nearest QPSK symbol
+                % project onto nearest QPSK symbol -- explicit column x row
+                % broadcast to avoid the dim-mismatch that errored in Wave 1
                 refSyms = exp(1j*pi/4) * [1; 1j; -1; -1j];
-                evm = mean(min(abs(candN - refSyms.'), [], 2));
+                candCol = candN(:);
+                refRow  = refSyms(:).';
+                dist = abs(candCol - refRow);
+                evm = mean(min(dist, [], 2));
                 if evm < bestEvm
                     bestEvm = evm;
                     bestPhase = ph;
