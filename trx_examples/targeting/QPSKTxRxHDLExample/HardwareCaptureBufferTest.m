@@ -14,10 +14,11 @@ classdef HardwareCaptureBufferTest < matlab.unittest.TestCase
 %   Run: runtests('HardwareCaptureBufferTest')
 
     properties (Constant)
-        URI = 'ip:10.0.0.146'
-        REG_IQ_DEBUG_MUX  = uint32(hex2dec('10C'))
-        REG_CAPTURE_WORD  = uint32(hex2dec('11C'))
-        REG_PACKETS       = uint32(hex2dec('104'))
+        AxiCaptureWord = '0x9D00011C';
+        AxiMuxSelect   = '0x9D00010C';
+        AxiPackets     = '0x9D000104';
+        SshTimeoutSec  = 5;
+        SettleSec      = 6;
     end
 
     methods (TestClassSetup)
@@ -32,19 +33,24 @@ classdef HardwareCaptureBufferTest < matlab.unittest.TestCase
         end
     end
 
-    methods (Test)
+    methods (Test, TestTags = {'Hardware'})
         function decodeCaptureBuffer(testCase)
-            ctx = iio.Context(testCase.URI);
-            cleanup = onCleanup(@() ctx.release());
-            dev = ctx.find_device('axi_hdlcoder');
-            assert(~isempty(dev), 'axi_hdlcoder device not found');
+            % Skip cleanly if board not reachable
+            [rc,~] = BistRegisters.sshExec('true', testCase.SshTimeoutSec);
+            testCase.assumeEqual(rc, 0, ...
+                'Jupiter at 10.0.0.146 not reachable -- skipping V16 capture-buffer test');
 
-            % Read all 32 words
+            % Let the buffer fill (first dstart after boot starts capture;
+            % capture freezes after 1024 bits). SettleSec >>> 1024/(3.84e6/2) us.
+            pause(testCase.SettleSec);
+
+            % Read all 32 words via libiio devmem
             words = zeros(1,32,'uint32');
             for i = 0:31
-                dev.reg_write(testCase.REG_IQ_DEBUG_MUX, uint32(i));
-                pause(0.05);
-                words(i+1) = dev.reg_read(testCase.REG_CAPTURE_WORD);
+                BistRegisters.write(testCase.AxiMuxSelect, i, testCase.SshTimeoutSec);
+                pause(0.02);
+                w = BistRegisters.read(testCase.AxiCaptureWord, testCase.SshTimeoutSec);
+                words(i+1) = uint32(w);
             end
 
             % Reconstruct bit stream (LSB-first per word, matching the
@@ -74,12 +80,12 @@ classdef HardwareCaptureBufferTest < matlab.unittest.TestCase
             shifts = 0:119;
             tgt = repmat(refBits, 1, ceil(1024/120));
             tgt = tgt(1:1024);
-            for s = shifts
-                rotated = [captured(s+1:end) captured(1:s)];
+            for shift = shifts
+                rotated = [captured(shift+1:end) captured(1:shift)];
                 m = sum(rotated == tgt);
                 if m > bestMatch
                     bestMatch = m;
-                    bestShift = s;
+                    bestShift = shift;
                 end
             end
 
@@ -128,14 +134,16 @@ classdef HardwareCaptureBufferTest < matlab.unittest.TestCase
             % Persist output for offline analysis
             outDir = fullfile(fileparts(mfilename('fullpath')),'test-results');
             if ~exist(outDir,'dir'), mkdir(outDir); end
-            s.rawWords = double(words);
-            s.bestShift = bestShift;
-            s.bestMatch = bestMatch;
-            s.errMatrix = double(errMatrix);
-            s.colSums = double(colSums);
-            s.capturedASCII = char(bytes);
+            out = struct();
+            out.rawWords     = double(words);
+            out.bestShift    = bestShift;
+            out.bestMatch    = bestMatch;
+            out.errMatrix    = double(errMatrix);
+            out.colSums      = double(colSums);
+            out.capturedASCII = char(bytes);
+            out.perPacketErrors = double(sum(errMatrix, 2)');
             fid = fopen(fullfile(outDir,'captureBuffer.json'),'w');
-            fprintf(fid, '%s', jsonencode(s));
+            fprintf(fid, '%s', jsonencode(out));
             fclose(fid);
 
             testCase.verifyGreaterThan(bestMatch, 0, 'No bits matched — buffer never armed?');
