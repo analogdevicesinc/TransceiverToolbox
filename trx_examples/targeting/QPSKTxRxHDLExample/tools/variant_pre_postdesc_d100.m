@@ -1,0 +1,139 @@
+% V24_postdesc_d100: same tap as V23 (post-Descrambler dataOut, V16
+% wiring), but arm threshold reduced from 10000 -> 100 dstart pulses
+% (~3 ms past boot). Bisects when the receiver transitions from
+% cold-start-perfect (V16, V18, packet 0) to limit-cycle (V22, V23,
+% packet ~10000).
+%
+% Diagnostic question: at packet ~100,
+%   - if buffer shows BIST data with V15-style 2-12% per-bit ramp, the
+%     transition happens between packet 100 and packet 10000 (continue
+%     bisecting with V25/V26 at intermediate thresholds);
+%   - if buffer already shows the 36-bit limit-cycle pattern V23 found,
+%     the transition happens earlier than packet 100 -- drop the
+%     threshold further (V27 with threshold=10).
+%
+% Selector: iq_debug_mux (5 LSBs, 0..31) -> selects which 32-bit word
+% Output:   capture_word_out, AXI4-Lite x"11C"
+
+sys  = 'commhdlQPSKTxRxLoopback';
+load_system(sys);
+loop = [sys '/TxRxLoopback'];
+rx   = [loop '/Receiver'];
+
+% --- V3 scalar patches (same as V16) ---
+ic = get_param(sys,'InitFcn');
+ic = regexprep(ic,'UpsamplesRx\s*=\s*\d+\s*;','UpsamplesRx = 1;');
+ic = regexprep(ic,'UpsamplesTx\s*=\s*\d+\s*;','UpsamplesTx = 1;');
+set_param(sys,'InitFcn',ic);
+for c = {[sys '/Transmitter/Input Data'], [sys '/TxRxLoopback/Transmitter/Input Data']}
+  try, set_param(c{1},'Rsym','3.84e6'); catch, end
+end
+
+for cp = { ...
+    [sys '/Receiver/QPSK Rx/Frequency and Time Synchronizer/Symbol Synchronizer/Rate Handle/HDL Counter'], ...
+    [sys '/Transmitter/QPSK Tx/Bit Packetizer/Data Bits FIFO/HDL Counter3'], ...
+    [sys '/TxRxLoopback/Receiver/QPSK Rx/Frequency and Time Synchronizer/Symbol Synchronizer/Rate Handle/HDL Counter'], ...
+    [sys '/TxRxLoopback/Transmitter/QPSK Tx/Bit Packetizer/Data Bits FIFO/HDL Counter3']}
+  b = cp{1};
+  try
+    wl = get_param(b,'CountWordLen');
+    if ~startsWith(strtrim(wl),'max(1,'), set_param(b,'CountWordLen', sprintf('max(1,%s)', wl)); end
+    cm = get_param(b,'CountMax');
+    if ~startsWith(strtrim(cm),'max(1,'), set_param(b,'CountMax', sprintf('max(1,%s)', cm)); end
+  catch, end
+end
+
+% --- Idempotency marker ---
+if ~isempty(find_system(loop,'SearchDepth',1,'BlockType','Outport','Name','capture_word_out'))
+    fprintf('V24 already instrumented; skipping insertions.\n');
+    save_system(sys,[],'OverwriteIfChangedOnDisk',true);
+    return;
+end
+
+% --- Insert BitCapture block (V22-style delayed arm, V16-style wiring) ---
+if isempty(find_system(rx,'SearchDepth',1,'Name','BitCapture'))
+    fprintf('Inserting BitCapture block...\n');
+    bc = [rx '/BitCapture'];
+    add_block('simulink/User-Defined Functions/MATLAB Function', bc);
+
+    bcLines = { ...
+        'function out_word = bitCap(valid, datain, dstart, addr_sel)' ...
+        '%#codegen' ...
+        '% Capture 1024 bits into 32x32-bit buffer, delayed-arm:' ...
+        '% count dstart pulses; arm on the 100th (~3 ms past boot at' ...
+        '% 30 kpkt/s); then freeze. Compare with V23 (threshold=10000)' ...
+        '% to bisect when the chain transitions to limit cycle.' ...
+        'persistent buffer write_idx armed pktCount' ...
+        'if isempty(buffer)' ...
+        '    buffer = zeros(1,32,''uint32'');' ...
+        '    write_idx = uint16(0);' ...
+        '    armed = uint8(0);' ...
+        '    pktCount = uint16(0);' ...
+        'end' ...
+        'if dstart && armed == uint8(0)' ...
+        '    if pktCount < uint16(100)' ...
+        '        pktCount = pktCount + uint16(1);' ...
+        '    else' ...
+        '        armed = uint8(1);' ...
+        '        write_idx = uint16(0);' ...
+        '    end' ...
+        'end' ...
+        'if armed == uint8(1) && valid && write_idx < uint16(1024)' ...
+        '    wordIdx = idivide(write_idx, uint16(32)) + uint16(1);' ...
+        '    bitInWord = uint8(mod(write_idx, uint16(32)));' ...
+        '    if datain' ...
+        '        buffer(wordIdx) = bitor(buffer(wordIdx), bitshift(uint32(1), bitInWord));' ...
+        '    end' ...
+        '    write_idx = write_idx + uint16(1);' ...
+        '    if write_idx >= uint16(1024)' ...
+        '        armed = uint8(2);' ...
+        '    end' ...
+        'end' ...
+        'addrU = uint32(addr_sel);' ...
+        'if addrU < uint32(32)' ...
+        '    out_word = buffer(addrU + uint32(1));' ...
+        'else' ...
+        '    out_word = uint32(0);' ...
+        'end'};
+    bcScript = strjoin(bcLines, sprintf('\n'));
+
+    sfRoot = sfroot;
+    emCharts = sfRoot.find('-isa','Stateflow.EMChart');
+    found = false;
+    for k=1:numel(emCharts)
+        if strcmp(emCharts(k).Path, bc), emCharts(k).Script = bcScript; found = true; break; end
+    end
+    if ~found, error('BitCapture EMChart not found'); end
+
+    % Wiring matches V16 -- post-Descrambler dataOut/dataSrt/validOut
+    cdb = [rx '/Capture Data Bits'];
+    phCdb = get_param(cdb,'PortHandles');
+    srcDataOut = get_param(get_param(phCdb.Inport(1),'Line'), 'SrcPortHandle');
+    srcDataSrt = get_param(get_param(phCdb.Inport(2),'Line'), 'SrcPortHandle');
+    srcValid   = get_param(get_param(phCdb.Inport(4),'Line'), 'SrcPortHandle');
+    iqMuxBlk = [rx '/iq_debug_mux'];
+    srcSel = get_param(iqMuxBlk,'PortHandles').Outport(1);
+
+    add_line(rx, srcValid,   get_param(bc,'PortHandles').Inport(1), 'autorouting','on');
+    add_line(rx, srcDataOut, get_param(bc,'PortHandles').Inport(2), 'autorouting','on');
+    add_line(rx, srcDataSrt, get_param(bc,'PortHandles').Inport(3), 'autorouting','on');
+    add_line(rx, srcSel,     get_param(bc,'PortHandles').Inport(4), 'autorouting','on');
+
+    nRxOut = numel(find_system(rx,'SearchDepth',1,'BlockType','Outport'));
+    rxNewOut = [rx '/capture_word_out'];
+    add_block('built-in/Outport', rxNewOut, 'Port', num2str(nRxOut+1));
+    add_line(rx, get_param(bc,'PortHandles').Outport(1), get_param(rxNewOut,'PortHandles').Inport(1), 'autorouting','on');
+
+    rxPort = numel(find_system(rx,'SearchDepth',1,'BlockType','Outport'));
+    phRxLoop = get_param([loop '/Receiver'],'PortHandles');
+    loopNewOut = [loop '/capture_word_out'];
+    nLoopOut = numel(find_system(loop,'SearchDepth',1,'BlockType','Outport'));
+    add_block('built-in/Outport', loopNewOut, 'Port', num2str(nLoopOut+1));
+    add_line(loop, phRxLoop.Outport(rxPort), get_param(loopNewOut,'PortHandles').Inport(1), 'autorouting','on');
+
+    hdlset_param(loopNewOut, 'IOInterface', 'AXI4-Lite');
+    hdlset_param(loopNewOut, 'IOInterfaceMapping', 'x"11C"');
+    fprintf('V24_postdesc_d100 insertion complete.\n');
+end
+
+save_system(sys,[],'OverwriteIfChangedOnDisk',true);
