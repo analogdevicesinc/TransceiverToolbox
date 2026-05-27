@@ -1,6 +1,27 @@
 cd('/home/tcollins/dev/qpsk_ai/TransceiverToolbox'); run('setup.m'); addpath(pwd);
 addpath('trx_examples/targeting/QPSKTxRxHDLExample');
 
+% build_composite.m -- construct commhdlQPSKTxRxLoopback.slx as the unified
+% TxRxComposite subsystem (Phase A.1 of the clean-restart plan).
+%
+% Topology decisions:
+%   - EVERY data port in/out of TxRxComposite is at 1/15.36e6 (FPGA clock).
+%   - INSIDE the composite:
+%       * Tx output is at 1/7.68e6 (synchronizer-native rate); Repeat by 2
+%         brings it to 1/15.36e6 at the composite Tx-output Outport.
+%       * ADC inputs at 1/15.36e6 feed the Receiver directly (Receiver's
+%         internal Downsample by UpsamplesRx=2 brings its internal datapath
+%         to 1/7.68e6).
+%       * rx_input_select MUX swaps between internal Tx-loopback (Tx output
+%         after Repeat) and the real-RF ADC inputs. Both MUX inputs are
+%         at 1/15.36e6 -- the MUX output rate is unambiguous.
+%   - All composite Inports have explicit SampleTime = 1/15.36e6 so HDL
+%     Coder's rate propagation into child blocks works cleanly (no
+%     -1 inheritance crossing subsystem walls).
+%
+% Channel block (sim-only, marked 'No HDL') and debug-tap MUX are added
+% in a follow-up iteration after this base topology is verified in sim.
+
 srcSlx = 'trx_examples/targeting/QPSKTxRxHDLExample/commhdlQPSKTxRx.slx';
 dstSlx = 'trx_examples/targeting/QPSKTxRxHDLExample/commhdlQPSKTxRxLoopback.slx';
 if exist(dstSlx,'file'), delete(dstSlx); end
@@ -8,45 +29,50 @@ copyfile(srcSlx, dstSlx);
 fprintf('cloned -> %s\n', dstSlx);
 
 load_system('commhdlQPSKTxRxLoopback'); sys='commhdlQPSKTxRxLoopback';
+% Fire the InitFcn so UpsamplesRx/Tx are in base workspace before any
+% rate-aware block parameter evaluations.
+eval(get_param(sys,'InitFcn'));
 
-% Leave Solver as original cloned setting (Fixed-step / FixedStepDiscrete /
-% FixedStep='auto') -- Simulink picks the base sample time automatically.
+% Remove any prior TxRxComposite / TxRxLoopback (in case of retry)
+for n = {'TxRxComposite','TxRxLoopback'}
+  prev = find_system(sys,'SearchDepth',1,'Name',n{1});
+  for k=1:numel(prev), delete_block(prev{k}); end
+end
 
-% Remove any prior TxRxLoopback (in case of retry)
-prev = find_system(sys,'SearchDepth',1,'Name','TxRxLoopback');
-for k=1:numel(prev), delete_block(prev{k}); end
+loop = [sys '/TxRxComposite'];
+add_block('built-in/SubSystem', loop, 'Position',[100 600 280 800]);
 
-loop=[sys '/TxRxLoopback']; add_block('built-in/SubSystem', loop, 'Position',[100 600 280 800]);
-
-% Composite Inports with specific data types + sample time. Inports for the
-% reference design's ADC interface live at the FPGA clock (1/15.36e6); AXI
-% control Inports inherit.
+% ----- Composite Inports (ALL data at 1/15.36e6) -----
 in_spec = {
-  'validIn',       'boolean',     '1/15.36e6'; ...
-  'dataInI',       'int16',       '1/15.36e6'; ...
-  'dataInQ',       'int16',       '1/15.36e6'; ...
-  'rstCS',         'boolean',     '-1'; ...
-  'iq_debug_mux',  'uint32',      '-1'};
+  'adc_validIn',      'boolean', '1/15.36e6'; ...
+  'adc_dataInI',      'int16',   '1/15.36e6'; ...
+  'adc_dataInQ',      'int16',   '1/15.36e6'; ...
+  'rstCS',            'boolean', '-1'; ...
+  'iq_debug_mux',     'uint32',  '-1'; ...
+  'rx_input_select',  'boolean', '-1'};
 for k=1:size(in_spec,1)
   blk = [loop '/' in_spec{k,1}];
-  add_block('built-in/Inport', blk, 'Port', num2str(k), 'Position', [30 30+40*k 60 50+40*k]);
+  add_block('built-in/Inport', blk, 'Port', num2str(k), ...
+            'Position', [30 30+40*k 60 50+40*k]);
   set_param(blk, 'OutDataTypeStr', in_spec{k,2}, 'SampleTime', in_spec{k,3});
 end
-out_names = {'count_out','packets_out','bit_errors_out','debugI','debugQ','debugValid','debugI1','debugQ1'};
+
+% ----- Composite Outports -----
+% 1..3 BIST counters, 4..8 Receiver debug, 9..11 Tx external (DAC).
+out_names = {'count_out','packets_out','bit_errors_out', ...
+             'debugI','debugQ','debugValid','debugI1','debugQ1', ...
+             'tx_dataOutI','tx_dataOutQ','tx_validOut'};
 for k=1:numel(out_names)
-  add_block('built-in/Outport', [loop '/' out_names{k}], 'Port', num2str(k), 'Position', [800 30+40*k 830 50+40*k]);
+  add_block('built-in/Outport', [loop '/' out_names{k}], ...
+            'Port', num2str(k), 'Position', [800 30+40*k 830 50+40*k]);
 end
 
-% copy Transmitter and Receiver INTO composite
+% ----- Copy Transmitter and Receiver INTO composite -----
 add_block([sys '/Transmitter'], [loop '/Transmitter'], 'CopyOption','duplicate', 'Position',[300 200 430 350]);
 add_block([sys '/Receiver'],    [loop '/Receiver'],    'CopyOption','duplicate', 'Position',[600 200 730 400]);
 
-% constants for Transmitter external inputs (mirror existing top-level constants
-% INCLUDING the SampleTime/data type so the downstream Downsample blocks see a
-% finite rate)
+% Transmitter constant inputs (debug, dataI, dataQ -- same as original top-level constants).
 gp = @(nm,p) get_param([sys '/' nm], p);
-% Compiled Debug constants in the original model run at 1/7.68e6 (=1.3e-7).
-% Use that explicitly so the composite's Tx Downsample sees a finite input rate.
 make_const = @(name, orig) add_block('built-in/Constant', [loop '/' name], ...
    'Value',          gp(orig,'Value'), ...
    'SampleTime',     '1/7.68e6', ...
@@ -55,49 +81,74 @@ make_const = @(name, orig) add_block('built-in/Constant', [loop '/' name], ...
 make_const('c_dbg',   'Debug');  set_param([loop '/c_dbg'],   'Position', [150 210 180 230]);
 make_const('c_dataI', 'Debug1'); set_param([loop '/c_dataI'], 'Position', [150 240 180 260]);
 make_const('c_dataQ', 'Debug2'); set_param([loop '/c_dataQ'], 'Position', [150 270 180 290]);
-make_const('c_valid', 'Debug3'); set_param([loop '/c_valid'], 'Position', [150 300 180 320]);
 
-% No Repeat block: route the Tx's alternative outputs dataOutI2/dataOutQ2
-% (ports 8/7) which sit at the FPGA-clock rate directly into Receiver.
-% No-op placeholder so subsequent add_line references stay sane.
+% Wire Transmitter inputs.
+% validIn drives the Tx pipeline -- composite adc_validIn is at 1/15.36e6
+% but Tx expects 1/7.68e6 for its internal logic. We Downsample by 2 before
+% feeding Tx (the Tx then runs at 1/7.68e6 internally).
+add_block('dspsigops/Downsample', [loop '/DS_TxValid'], ...
+          'N', '2', ...
+          'InputProcessing','Elements as channels (sample based)', ...
+          'RateOptions','Allow multirate processing', ...
+          'Position',[200 280 230 320]);
+add_line(loop, 'adc_validIn/1', 'DS_TxValid/1');
+add_line(loop, 'c_dbg/1',       'Transmitter/1');
+add_line(loop, 'c_dataI/1',     'Transmitter/2');
+add_line(loop, 'c_dataQ/1',     'Transmitter/3');
+add_line(loop, 'DS_TxValid/1',  'Transmitter/4');     % Tx.validIn at 1/7.68e6
 
-% Terminators for unused ADC inputs
-add_block('built-in/Terminator', [loop '/t_validIn'], 'Position',[120 70 140 90]);
-add_block('built-in/Terminator', [loop '/t_dataInI'], 'Position',[120 110 140 130]);
-add_block('built-in/Terminator', [loop '/t_dataInQ'], 'Position',[120 150 140 170]);
+% ----- Tx output bridge to 1/15.36e6 (for DAC outputs AND for internal loopback MUX input) -----
+% Use Repeat (N=2) blocks: 1/7.68e6 -> 1/15.36e6.
+add_block('dspsigops/Repeat', [loop '/REP_TxI'], ...
+          'FactorSource','Dialog parameter','N','2', 'Nmax','16', ...
+          'InputProcessing','Elements as channels (sample based)', ...
+          'RateOptions','Allow multirate processing','ic','0', ...
+          'Position',[470 220 500 240]);
+add_block('dspsigops/Repeat', [loop '/REP_TxQ'], ...
+          'FactorSource','Dialog parameter','N','2', 'Nmax','16', ...
+          'InputProcessing','Elements as channels (sample based)', ...
+          'RateOptions','Allow multirate processing','ic','0', ...
+          'Position',[470 260 500 280]);
+add_block('dspsigops/Repeat', [loop '/REP_TxValid'], ...
+          'FactorSource','Dialog parameter','N','2', 'Nmax','16', ...
+          'InputProcessing','Elements as channels (sample based)', ...
+          'RateOptions','Allow multirate processing','ic','0', ...
+          'Position',[470 300 500 320]);
+% Tx outputs at 1/7.68e6 -> Repeat -> 1/15.36e6
+add_line(loop, 'Transmitter/1', 'REP_TxI/1');      % dataOutI (RRC-shaped, port 1)
+add_line(loop, 'Transmitter/2', 'REP_TxQ/1');      % dataOutQ (port 2)
+add_line(loop, 'Transmitter/4', 'REP_TxValid/1');  % validOut (port 4)
 
-% --- wiring ---
-% unused ADC inputs -> terminators
-add_line(loop, 'validIn/1', 't_validIn/1');
-add_line(loop, 'dataInI/1', 't_dataInI/1');
-add_line(loop, 'dataInQ/1', 't_dataInQ/1');
+% Tx outputs to external DAC (sync_output ports)
+add_line(loop, 'REP_TxI/1',     'tx_dataOutI/1');
+add_line(loop, 'REP_TxQ/1',     'tx_dataOutQ/1');
+add_line(loop, 'REP_TxValid/1', 'tx_validOut/1');
 
-% Transmitter inputs. validIn is driven by the composite Inport so the
-% FPGA-clock rate (from the reference design) propagates THROUGH the Tx.
-add_line(loop, 'c_dbg/1',   'Transmitter/1');
-add_line(loop, 'c_dataI/1', 'Transmitter/2');
-add_line(loop, 'c_dataQ/1', 'Transmitter/3');
-add_line(loop, 'validIn/1', 'Transmitter/4');     % composite validIn -> Tx.validIn (rate source)
-% drop the c_valid constant since validIn now comes from outside
-delete_block([loop '/c_valid']);
-% Terminator on the composite validIn now redundant
-try, delete_block([loop '/t_validIn']); delete_line(loop, 'validIn/1', 't_validIn/1'); catch, end
+% ----- rx_input_select MUX (Switch blocks for I, Q, valid) -----
+% Inputs at 1/15.36e6 (both ADC and REP_Tx outputs are at that rate).
+% Criteria: u2 ~= 0 -> select Input 1 (top, ADC); else Input 3 (bottom, REP_Tx).
+add_block('built-in/Switch', [loop '/MUX_RxI'],     'Criteria','u2 ~= 0', 'Position',[540 215 570 245]);
+add_block('built-in/Switch', [loop '/MUX_RxQ'],     'Criteria','u2 ~= 0', 'Position',[540 255 570 285]);
+add_block('built-in/Switch', [loop '/MUX_RxValid'], 'Criteria','u2 ~= 0', 'Position',[540 295 570 325]);
 
-% Use proper Repeat (N=UpsamplesRx=2) for interpolation, not naive Rate
-% Transition. Tx Outports anchored at 1/7.68e6, Rx Inports anchored at
-% 1/15.36e6, so Repeat correctly bridges them with sample replication
-% (which the downstream RRC matched filter inside the Receiver expects).
-add_block('dspsigops/Repeat', [loop '/RT_I'],     'FactorSource','Dialog parameter','N','UpsamplesRx','Nmax','16','InputProcessing','Elements as channels (sample based)','RateOptions','Allow multirate processing','ic','0', 'Position',[470 220 500 240]);
-add_block('dspsigops/Repeat', [loop '/RT_Q'],     'FactorSource','Dialog parameter','N','UpsamplesRx','Nmax','16','InputProcessing','Elements as channels (sample based)','RateOptions','Allow multirate processing','ic','0', 'Position',[470 250 500 270]);
-add_block('dspsigops/Repeat', [loop '/RT_valid'], 'FactorSource','Dialog parameter','N','UpsamplesRx','Nmax','16','InputProcessing','Elements as channels (sample based)','RateOptions','Allow multirate processing','ic','0', 'Position',[470 280 500 300]);
-add_line(loop, 'Transmitter/4', 'RT_valid/1');     % validOut
-add_line(loop, 'Transmitter/1', 'RT_I/1');         % dataOutI (RRC-shaped, what the original model wires to the data path)
-add_line(loop, 'Transmitter/2', 'RT_Q/1');         % dataOutQ
-add_line(loop, 'RT_valid/1', 'Receiver/1');
-add_line(loop, 'RT_I/1',     'Receiver/2');
-add_line(loop, 'RT_Q/1',     'Receiver/3');
+% MUX wiring: u1=ADC, u2=rx_input_select, u3=Tx-loopback
+add_line(loop, 'adc_dataInI/1',     'MUX_RxI/1');
+add_line(loop, 'rx_input_select/1', 'MUX_RxI/2');
+add_line(loop, 'REP_TxI/1',         'MUX_RxI/3');
+add_line(loop, 'adc_dataInQ/1',     'MUX_RxQ/1');
+add_line(loop, 'rx_input_select/1', 'MUX_RxQ/2');
+add_line(loop, 'REP_TxQ/1',         'MUX_RxQ/3');
+add_line(loop, 'adc_validIn/1',     'MUX_RxValid/1');
+add_line(loop, 'rx_input_select/1', 'MUX_RxValid/2');
+add_line(loop, 'REP_TxValid/1',     'MUX_RxValid/3');
 
-% AXI controls
+% MUX outputs at 1/15.36e6 -> Receiver Inports (Rx expects 1/15.36e6; its
+% internal Downsample by UpsamplesRx=2 converts to 1/7.68e6).
+add_line(loop, 'MUX_RxValid/1', 'Receiver/1');
+add_line(loop, 'MUX_RxI/1',     'Receiver/2');
+add_line(loop, 'MUX_RxQ/1',     'Receiver/3');
+
+% AXI controls into Receiver
 add_line(loop, 'rstCS/1',        'Receiver/4');
 add_line(loop, 'iq_debug_mux/1', 'Receiver/5');
 
@@ -111,7 +162,7 @@ add_line(loop, 'Receiver/7', 'debugValid/1');
 add_line(loop, 'Receiver/8', 'debugI1/1');
 add_line(loop, 'Receiver/9', 'debugQ1/1');
 
-% delete sim-only logging blocks inside the COPIED Tx/Rx so they don't
+% Delete sim-only logging blocks inside the COPIED Tx/Rx so they don't
 % clash with the originals on the top level.
 killtypes = {'ToFile','ToWorkspace','Scope','XYGraph','SpectrumAnalyzer','ConstellationDiagram'};
 nkilled = 0;
@@ -121,6 +172,9 @@ for kt = killtypes
 end
 fprintf('deleted %d sim-only logging blocks inside composite\n', nkilled);
 
+% Make TxRxComposite the HDL DUT.
+hdlset_param(sys, 'HDLSubsystem', loop);
+
 save_system(sys);
 close_system(sys);
-fprintf('composite saved with explicit Rate Transitions on loopback path.\n');
+fprintf('TxRxComposite saved: all data ports at 1/15.36e6, rx_input_select MUX at 1/15.36e6.\n');
