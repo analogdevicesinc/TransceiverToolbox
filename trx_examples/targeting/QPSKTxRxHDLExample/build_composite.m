@@ -42,14 +42,21 @@ end
 loop = [sys '/TxRxComposite'];
 add_block('built-in/SubSystem', loop, 'Position',[100 600 280 800]);
 
-% ----- Composite Inports (ALL data at 1/15.36e6) -----
+% ----- Composite Inports (ALL ports at 1/15.36e6) -----
+% Originally the AXI4-Lite register Inports (rstCS, iq_debug_mux,
+% rx_input_select) were inherited (-1). But iq_debug_mux feeds a
+% Downsample block inside the Receiver (the Receiver downsamples the AXI
+% register so the capture-buffer address is in the slow-rate domain).
+% With -1 here, HDL Coder's static rate analyzer fails on that Downsample
+% with "input rate cannot be zero or Inf". Explicit 1/15.36e6 on every
+% composite Inport gives HDL Coder a definitive boundary rate.
 in_spec = {
   'adc_validIn',      'boolean', '1/15.36e6'; ...
   'adc_dataInI',      'int16',   '1/15.36e6'; ...
   'adc_dataInQ',      'int16',   '1/15.36e6'; ...
-  'rstCS',            'boolean', '-1'; ...
-  'iq_debug_mux',     'uint32',  '-1'; ...
-  'rx_input_select',  'boolean', '-1'};
+  'rstCS',            'boolean', '1/15.36e6'; ...
+  'iq_debug_mux',     'uint32',  '1/15.36e6'; ...
+  'rx_input_select',  'boolean', '1/15.36e6'};
 for k=1:size(in_spec,1)
   blk = [loop '/' in_spec{k,1}];
   add_block('built-in/Inport', blk, 'Port', num2str(k), ...
@@ -142,11 +149,27 @@ add_line(loop, 'adc_validIn/1',     'MUX_RxValid/1');
 add_line(loop, 'rx_input_select/1', 'MUX_RxValid/2');
 add_line(loop, 'REP_TxValid/1',     'MUX_RxValid/3');
 
-% MUX outputs at 1/15.36e6 -> Receiver Inports (Rx expects 1/15.36e6; its
-% internal Downsample by UpsamplesRx=2 converts to 1/7.68e6).
-add_line(loop, 'MUX_RxValid/1', 'Receiver/1');
-add_line(loop, 'MUX_RxI/1',     'Receiver/2');
-add_line(loop, 'MUX_RxQ/1',     'Receiver/3');
+% MUX outputs at 1/15.36e6 -> Rate Transition blocks (explicit
+% OutPortSampleTime=1/15.36e6) -> Receiver Inports. Rate Transition is the
+% escape hatch: Simulink runtime-rate propagation works (sim decodes), but
+% HDL Coder's static rate analyzer fails on the Receiver's internal
+% Downsample blocks. Rate Transition declares the rate explicitly, which
+% HDL Coder picks up as a definitive boundary.
+add_block('built-in/RateTransition', [loop '/RT_RxValid'], ...
+          'OutPortSampleTime', '1/15.36e6', ...
+          'Position',[590 295 620 325]);
+add_block('built-in/RateTransition', [loop '/RT_RxI'], ...
+          'OutPortSampleTime', '1/15.36e6', ...
+          'Position',[590 215 620 245]);
+add_block('built-in/RateTransition', [loop '/RT_RxQ'], ...
+          'OutPortSampleTime', '1/15.36e6', ...
+          'Position',[590 255 620 285]);
+add_line(loop, 'MUX_RxValid/1', 'RT_RxValid/1');
+add_line(loop, 'MUX_RxI/1',     'RT_RxI/1');
+add_line(loop, 'MUX_RxQ/1',     'RT_RxQ/1');
+add_line(loop, 'RT_RxValid/1', 'Receiver/1');
+add_line(loop, 'RT_RxI/1',     'Receiver/2');
+add_line(loop, 'RT_RxQ/1',     'Receiver/3');
 
 % AXI controls into Receiver
 add_line(loop, 'rstCS/1',        'Receiver/4');
