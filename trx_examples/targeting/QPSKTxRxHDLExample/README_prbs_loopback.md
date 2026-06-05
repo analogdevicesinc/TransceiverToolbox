@@ -71,11 +71,30 @@ signedness is irrelevant, and uint16 keeps the path HDL-native (`typecast` lower
 `memcpy`, which HDL Coder cannot synthesize). The reference-design interface maps the 16
 bits `[0:15]` regardless of signedness.
 
-## Remaining (needs Vivado 2025.1 + JUPITER board)
+## Hardware status (built + deployed on the JUPITER board)
 
-`hdlworkflow_prbs` packages the AXI4-Lite IP and builds the bitstream (Vivado), then
-`run_prbs_loopback` runs the hardware PASS/FAIL. Neither was available in the authoring
-environment.
+- **Bitstream built** (Vivado 2025.1, ~60 min): timing **met** (WNS=+0.191 ns, WHS=+0.010 ns).
+  The AXI4-Lite IP is mapped at base `0x9D000000` (matches `PrbsLoopbackRegisters`).
+- **Deployed** to `root@10.0.0.146` (see `tools/deploy_prbs.sh`, which backs up the prior
+  `/boot/BOOT.BIN` to `/boot/BOOT.BIN.prev`). Board reboots to FPGA state `operating`.
+- **AXI interface live**: `prbs_control` writes take effect (reset clears the counters),
+  the generator drives PRBS out the ADRV9002 DAC SSI lanes. With no loopback the checker
+  correctly does **not** lock (`lock=0`, `samp=0`) — exactly as designed.
+
+### The one remaining step: enable the ADRV9002 SSI digital loopback
+
+To make the returned PRBS lock and read 0 errors, the **chip's SSI digital loopback** must
+be on (Tx SSI → Rx SSI inside the ADRV9002). On this board's driver that loopback is **not
+exposed** via sysfs/debugfs (`adrv9002-phy` has GPIO/`api_version` but no
+`direct_reg_access`, and `out_voltageN_loopback_delay_tracking_en` is the *calibration*,
+not a data loopback). Enabling it requires the ADI API (`adi_adrv9001_Ssi_Loopback_Set`)
+via a board-side helper, or a profile built with SSI loopback enabled. Once it is on:
+
+```matlab
+result = run_prbs_loopback;   % expect: locked, 0 bit errors -> PASS
+```
+
+The deployed design + `run_prbs_loopback` produce PASS/FAIL the instant the loopback closes.
 
 ## Open item — chip SSI loopback enable
 
