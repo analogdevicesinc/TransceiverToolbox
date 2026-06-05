@@ -1,7 +1,11 @@
 # ADRV9002 PRBS Digital-Loopback Interface Test — Design
 
 **Date:** 2026-06-04
-**Status:** Approved (decisions below locked via /goal directive)
+**Status:** Implemented + verified in MATLAB R2025b — `PrbsLoopbackModelTest` 6/6 pass
+(incl. full Simulink loopback sim: lanes lock, 0 bit errors); `makehdl` generates
+synthesizable Verilog with 0 errors. Bitstream (Vivado 2025.1) + hardware run remain.
+Note: DUT data ports are **uint16** (bit-pattern test; avoids `typecast`/`memcpy` which
+HDL Coder cannot synthesize — signedness is irrelevant over a bit-exact loopback).
 **Goal:** Build an HDL design that runs PRBS testing through an ADRV9002 *digital* (SSI)
 loopback to verify the FPGA↔ADRV9002 digital data interface.
 

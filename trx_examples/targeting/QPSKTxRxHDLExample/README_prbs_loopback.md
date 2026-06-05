@@ -55,16 +55,27 @@ result = run_prbs_loopback;      % 4. enable chip loopback, run PRBS, PASS/FAIL
 measures errors over a dwell window, then self-tests the error counter (inject) and
 confirms lock drops when loopback is disabled (proving the path is really under test).
 
-## Algorithm validation (already done, no hardware)
+## Verification status (done in MATLAB R2025b)
 
-The bit-level PRBS logic was validated independently of MATLAB (`/tmp/prbs_check.py`
-port, faithful to MATLAB's 1-based `bitget`):
+- **`PrbsLoopbackModelTest`: 6/6 pass** — pure-helper clean/fault/swap checks, the stateful
+  engine through a modeled loopback (lock + 0 errors), inject-error counting, **and a full
+  Simulink simulation** of `commhdlPRBSLoopback` (both lanes lock, 0 bit errors).
+- **`makehdl` on the DUT: 0 errors** — synthesizable Verilog generated (`PRBSLoopback.v`,
+  `PRBSEngine.v`) with the correct PRBS-15 (`y[n]=y[n-14]^y[n-15]`) and PRBS-9
+  (`y[n]=y[n-5]^y[n-9]`) LFSR taps and the full AXI/data port set.
+- Bit-level logic was also cross-checked in a standalone Python port: PRBS-15 confirmed
+  **maximal-length** (period 32767 = 2¹⁵−1); single-bit fault detected; I/Q swap detected.
 
-- clean loopback → **0 errors** on both lanes
-- PRBS-15 is **maximal-length** (period 32767 = 2¹⁵−1)
-- single in-transit bit flip → detected (≈3 counts, multiplicative-descrambler ×3 spread)
-- I/Q swap (PRBS-15 into the PRBS-9 checker) → 4015 errors (clearly detected)
-- engine-in-loopback → both lanes lock, 0 errors, sample count advances
+Note: the DUT data ports are **uint16** (raw 16-bit words). This is a bit-pattern test, so
+signedness is irrelevant, and uint16 keeps the path HDL-native (`typecast` lowers to
+`memcpy`, which HDL Coder cannot synthesize). The reference-design interface maps the 16
+bits `[0:15]` regardless of signedness.
+
+## Remaining (needs Vivado 2025.1 + JUPITER board)
+
+`hdlworkflow_prbs` packages the AXI4-Lite IP and builds the bitstream (Vivado), then
+`run_prbs_loopback` runs the hardware PASS/FAIL. Neither was available in the authoring
+environment.
 
 ## Open item — chip SSI loopback enable
 

@@ -13,7 +13,7 @@ function [word, h] = prbs9_gen16(h) %#codegen
 %   Pure / stateless / HDL-Coder compatible. Companion checker PRBS9_CHK16.
 
     word = uint16(0);
-    for b = 1:16 %#ok<NASGU> loop index unused; fixed 16-bit word
+    for b = 1:16    % fixed 16-bit word; loop index intentionally unused
         yb   = bitxor(bitget(h, 5), bitget(h, 9));          % y[n]=y[n-5]^y[n-9]
         word = bitor(bitshift(word, 1), uint16(yb));        % accumulate MSB-first
         h    = bitor(bitshift(bitand(h, uint16(255)), 1), uint16(yb)); % push, keep 9 bits

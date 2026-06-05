@@ -27,8 +27,8 @@ function build_prbs_model()
     add_block('built-in/Subsystem', dut);
 
     % Inports (DUT boundary -> HDL interface mapping done in hdlworkflow_prbs)
-    addPort(dut, 'Inport',  'adc_dataInI', 1, 'int16');
-    addPort(dut, 'Inport',  'adc_dataInQ', 2, 'int16');
+    addPort(dut, 'Inport',  'adc_dataInI', 1, 'uint16');
+    addPort(dut, 'Inport',  'adc_dataInQ', 2, 'uint16');
     addPort(dut, 'Inport',  'adc_validIn', 3, 'boolean');
     addPort(dut, 'Inport',  'prbs_control', 4, 'uint32');
 
@@ -45,6 +45,14 @@ function build_prbs_model()
     fcn = [dut '/PRBSEngine'];
     add_block('simulink/User-Defined Functions/MATLAB Function', fcn);
     setMatlabFunctionScript(fcn, prbsEngineBlockScript());
+    % Pin output types/sizes explicitly. A feedback path into a MATLAB
+    % Function block makes Simulink's output type/size inference cyclic;
+    % declaring them breaks the cycle (and matches the AXI/data port types).
+    outTypes = { 'tx_dataOutI','uint16'; 'tx_dataOutQ','uint16'; ...
+                 'tx_validOut','boolean'; 'sample_count','uint32'; ...
+                 'bit_errors_I','uint32'; 'bit_errors_Q','uint32'; ...
+                 'lock_status','uint8' };
+    setMatlabFunctionOutputTypes(fcn, outTypes);
 
     % Wire inports -> function -> outports
     connect(dut, 'adc_dataInI/1',  'PRBSEngine/1');
@@ -70,6 +78,11 @@ function build_prbs_model()
     % Unit delays model the loopback round-trip latency (break direct feed).
     add_block('built-in/UnitDelay', [model '/loopI'], 'InitialCondition', '0');
     add_block('built-in/UnitDelay', [model '/loopQ'], 'InitialCondition', '0');
+    % Explicitly-typed loop breakers: a feedback path into a MATLAB Function
+    % block leaves its output type inference cyclic, so force int16 on the
+    % returning signal to anchor the loop.
+    add_block('built-in/DataTypeConversion', [model '/castI'], 'OutDataTypeStr', 'uint16');
+    add_block('built-in/DataTypeConversion', [model '/castQ'], 'OutDataTypeStr', 'uint16');
 
     % Scopes/terminators for observation in sim.
     add_block('built-in/Terminator', [model '/t_txValid']);
@@ -83,13 +96,21 @@ function build_prbs_model()
     connect(model, 'adc_valid/1',    'PRBSLoopback/3');
     connect(model, 'PRBSLoopback/1', 'loopI/1');   % txI -> delay
     connect(model, 'PRBSLoopback/2', 'loopQ/1');   % txQ -> delay
-    connect(model, 'loopI/1', 'PRBSLoopback/1');   % delay -> adcI
-    connect(model, 'loopQ/1', 'PRBSLoopback/2');   % delay -> adcQ
+    connect(model, 'loopI/1', 'castI/1');          % delay -> cast(int16)
+    connect(model, 'loopQ/1', 'castQ/1');
+    connect(model, 'castI/1', 'PRBSLoopback/1');   % cast -> adcI
+    connect(model, 'castQ/1', 'PRBSLoopback/2');   % cast -> adcQ
     connect(model, 'PRBSLoopback/3', 't_txValid/1');
     connect(model, 'PRBSLoopback/4', 'o_sample_count/1');
     connect(model, 'PRBSLoopback/5', 'o_bit_errors_I/1');
     connect(model, 'PRBSLoopback/6', 'o_bit_errors_Q/1');
     connect(model, 'PRBSLoopback/7', 'o_lock_status/1');
+
+    % Name the monitored signals so they appear by name in the sim Dataset.
+    nameOutportSignal(model, 'o_sample_count', 'o_sample_count');
+    nameOutportSignal(model, 'o_bit_errors_I', 'o_bit_errors_I');
+    nameOutportSignal(model, 'o_bit_errors_Q', 'o_bit_errors_Q');
+    nameOutportSignal(model, 'o_lock_status',  'o_lock_status');
 
     % ---- solver / model config: single-rate discrete, fixed-step ----
     set_param(model, 'SolverType', 'Fixed-step', 'Solver', 'FixedStepDiscrete', ...
@@ -107,8 +128,14 @@ end
 function addPort(sys, kind, name, num, dtype)
     blk = [sys '/' name];
     add_block(['built-in/' kind], blk, 'Port', num2str(num));
-    if ~isempty(dtype) && strcmp(kind, 'Inport')
-        set_param(blk, 'OutDataTypeStr', dtype);
+    if strcmp(kind, 'Inport')
+        % Anchor type + scalar dimension at the DUT boundary so the
+        % Tx->delay->Rx feedback loop resolves (otherwise the MATLAB
+        % Function block output dims are reported underspecified).
+        if ~isempty(dtype)
+            set_param(blk, 'OutDataTypeStr', dtype);
+        end
+        set_param(blk, 'PortDimensions', '1');
     end
 end
 
@@ -116,11 +143,34 @@ function connect(sys, src, dst)
     add_line(sys, src, dst, 'autorouting', 'on');
 end
 
+function nameOutportSignal(model, outportName, sigName)
+    % Name the signal entering an Outport so it is logged by name in yout.
+    ph = get_param([model '/' outportName], 'PortHandles');
+    lh = get_param(ph.Inport(1), 'Line');
+    set_param(lh, 'Name', sigName);
+end
+
 function setMatlabFunctionScript(blockPath, script)
     % Inject code into a MATLAB Function (EML) block via the Stateflow API.
     sf = sfroot;
     chart = sf.find('-isa', 'Stateflow.EMChart', 'Path', blockPath);
     chart.Script = script;
+end
+
+function setMatlabFunctionOutputTypes(blockPath, nameTypePairs)
+    % Set explicit data type + scalar size on named MATLAB Function outputs.
+    sf = sfroot;
+    chart = sf.find('-isa', 'Stateflow.EMChart', 'Path', blockPath);
+    data = chart.find('-isa', 'Stateflow.Data');
+    for d = reshape(data, 1, [])
+        if strcmpi(d.Scope, 'Output')
+            idx = find(strcmp(nameTypePairs(:,1), d.Name), 1);
+            if ~isempty(idx)
+                d.DataType = nameTypePairs{idx, 2};
+                d.Props.Array.Size = '1';
+            end
+        end
+    end
 end
 
 function s = prbsEngineBlockScript()

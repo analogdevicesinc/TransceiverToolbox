@@ -7,13 +7,18 @@ function [txI, txQ, txValid, sampleCount, bitErrI, bitErrQ, lockStatus] = ...
 %   digital loopback. On a bit-exact link the checker locks and accumulates
 %   zero bit errors; any nonzero count is a real digital-interface fault.
 %
+%   Data ports are uint16 raw 16-bit words: this is a bit-pattern loopback
+%   test, so signedness is irrelevant and uint16 keeps the path HDL-native
+%   (no typecast, which HDL Coder cannot synthesize). The reference-design
+%   interface maps the 16 bits [0:15] regardless of signedness.
+%
 %   Inputs
-%     adcI, adcQ   int16   received words (ADRV9002 ADC Data I0/Q0)
+%     adcI, adcQ   uint16  received words (ADRV9002 ADC Data I0/Q0)
 %     adcValid     logical received-word valid (IP Valid Rx Data IN)
 %     prbsControl  uint32  AXI control: bit0 reset, bit1 gen_enable,
 %                          bit2 inject_error (single-bit Tx fault for self-test)
 %   Outputs
-%     txI, txQ     int16   generated words (ADRV9002 DAC Data I0/Q0)
+%     txI, txQ     uint16  generated words (ADRV9002 DAC Data I0/Q0)
 %     txValid      logical generated-word valid (IP Load Tx Data OUT)
 %     sampleCount  uint32  valid samples scored since first lock
 %     bitErrI      uint32  accumulated I-lane bit errors (post-lock)
@@ -54,15 +59,13 @@ function [txI, txQ, txValid, sampleCount, bitErrI, bitErrQ, lockStatus] = ...
     else
         txValid = false;
     end
-    txI = typecast(wI, 'int16');
-    txQ = typecast(wQ, 'int16');
+    txI = wI;
+    txQ = wQ;
 
     % ---- Checker: descramble returned words, accumulate errors once locked ----
     if adcValid
-        rI = typecast(adcI, 'uint16');
-        rQ = typecast(adcQ, 'uint16');
-        [errI, hC15] = prbs15_chk16(hC15, rI);
-        [errQ, hC9]  = prbs9_chk16(hC9, rQ);
+        [errI, hC15] = prbs15_chk16(hC15, adcI);
+        [errQ, hC9]  = prbs9_chk16(hC9, adcQ);
 
         if ~lockedI
             if errI == 0

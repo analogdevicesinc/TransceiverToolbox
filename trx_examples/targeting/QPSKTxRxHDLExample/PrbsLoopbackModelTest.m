@@ -96,25 +96,26 @@ classdef PrbsLoopbackModelTest < matlab.unittest.TestCase
             tc.assumeTrue(exist('commhdlPRBSLoopback.slx', 'file') == 4 || ...
                           exist('commhdlPRBSLoopback', 'file') == 4, ...
                 'commhdlPRBSLoopback.slx not built yet; run build_prbs_model first');
-            so = sim('commhdlPRBSLoopback', 'StopTime', '3000', ...
-                     'SaveOutput', 'on', 'SaveFormat', 'Array');
-            y = so.yout;
-            % outports order: o_sample_count, o_bit_errors_I, o_bit_errors_Q, o_lock_status
-            lock  = y{4}.Values.Data(end);
-            errI  = y{2}.Values.Data(end);
-            errQ  = y{3}.Values.Data(end);
-            tc.verifyEqual(double(lock), 3, 'Model sim must end with both lanes locked');
-            tc.verifyEqual(double(errI), 0, 'Model sim I-lane errors must be zero');
-            tc.verifyEqual(double(errQ), 0, 'Model sim Q-lane errors must be zero');
+            so = sim('commhdlPRBSLoopback', 'StopTime', '3000');
+            y = so.yout;   % Dataset; outports logged by block name
+            endVal = @(nm) double(y.getElement(nm).Values.Data(end));
+            lock  = endVal('o_lock_status');
+            errI  = endVal('o_bit_errors_I');
+            errQ  = endVal('o_bit_errors_Q');
+            cnt   = endVal('o_sample_count');
+            tc.verifyEqual(lock, 3, 'Model sim must end with both lanes locked');
+            tc.verifyEqual(errI, 0, 'Model sim I-lane errors must be zero');
+            tc.verifyEqual(errQ, 0, 'Model sim Q-lane errors must be zero');
+            tc.verifyGreaterThan(cnt, 0, 'Model sim sample_count must advance');
         end
     end
 
     methods
-        function [ls, eI, eQ, cnt] = runLoopback(tc, nSamp, doInject, injectAt)
+        function [ls, eI, eQ, cnt] = runLoopback(~, nSamp, doInject, injectAt)
             % Software model of the DUT-in-loopback: adc[k] = tx[k-1].
             clear PRBSEngine %#ok<CLFUNC>
             GEN_EN = uint32(2);
-            prevTxI = int16(0); prevTxQ = int16(0);
+            prevTxI = uint16(0); prevTxQ = uint16(0);
             ls = uint8(0); eI = uint32(0); eQ = uint32(0); cnt = uint32(0);
             for k = 1:nSamp
                 ctrl = GEN_EN;
