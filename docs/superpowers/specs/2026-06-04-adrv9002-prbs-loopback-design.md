@@ -26,7 +26,11 @@ This gives a clean go/no-go on the interface that the QPSK chain could never iso
 3. **Model:** new standalone `commhdlPRBSLoopback.slx`, independent of the QPSK chain.
 4. **Checker style:** self-synchronizing PRBS monitor (approach A) — latency-agnostic, no
    alignment FSM. (Approaches B replica+align and C counter-ramp rejected.)
-5. **PRBS polynomial:** PRBS-15 (`x¹⁵ + x¹⁴ + 1`), 16-bit-parallel.
+5. **PRBS polynomial:** 16-bit-parallel, **per-lane distinct** so an I/Q swap is detectable
+   — I-lane PRBS-15 (`x¹⁵ + x¹⁴ + 1`), Q-lane PRBS-9 (`x⁹ + x⁵ + 1`). (Refined during
+   implementation: the self-synchronizing/multiplicative checker is phase-insensitive, so
+   two same-polynomial lanes could swap undetected; distinct polynomials fix this at zero
+   cost.)
 6. **Initial scope:** channel-0 I and Q (2 lanes), matching the existing single-channel
    port mapping. Channel-1 (I1/Q1) is a documented drop-in extension.
 
@@ -52,18 +56,20 @@ New model `commhdlPRBSLoopback.slx` with a single atomic subsystem `PRBSLoopback
             ADRV9002 placed in SSI digital loopback: DAC-side SSI data returned on ADC-side SSI.
 ```
 
-### Generator
-16-bit-parallel maximal-length LFSR, PRBS-15. Advancing the LFSR 16 steps per sample
-yields one 16-bit word per clock. I and Q use **independent seeds** so the test also
-catches an I/Q swap and inter-lane coupling. Output gated by `gen_enable`; held/zeroed on
-`reset`. `inject_error` XORs a single bit into the Tx word for one sample (self-test that
-the checker actually counts).
+### Generator (multiplicative scrambler driven with 0)
+Each lane is a multiplicative scrambler fed a constant 0, which emits the maximal-length
+PRBS for its polynomial (I: PRBS-15, Q: PRBS-9). Per sample it processes 16 bits (MSB-
+first), updating a small history register, yielding one 16-bit word per clock. Distinct
+polynomials per lane make an I/Q swap or inter-lane coupling detectable. Output gated by
+`gen_enable`; history reset on `reset`. `inject_error` XORs a single bit into the Tx word
+for one sample (self-test that the checker actually counts).
 
-### Checker (self-synchronizing, per lane)
-A self-synchronizing PRBS-15 monitor reloads its shift register from the *received* bits
-each sample, then predicts the next set of bits from the prior received bits and XOR-
-compares. Because the loopback is bit-exact with fixed latency, this locks within a couple
-of samples regardless of round-trip delay, with **no alignment FSM**:
+### Checker (self-synchronizing multiplicative descrambler, per lane)
+The matching multiplicative descrambler recovers the scrambler's input from the *received*
+word: `x̂ = y ⊕ y[n-a] ⊕ y[n-L]`, using only the received-bit history. If the link is
+bit-exact, `x̂ ≡ 0`; every recovered `1` is a real bit error (popcount accumulated). A
+multiplicative descrambler **self-synchronizes inherently** after `L` received bits (≤ one
+16-bit sample) — no seed sharing, no alignment FSM, latency-agnostic:
 - `lock` asserts after `N_LOCK` (e.g. 64) consecutive error-free samples.
 - Once locked, `bit_errors` accumulates the popcount of each mismatch; `sample_count`
   counts qualified samples. A mismatch burst drops `lock` (re-arm).
