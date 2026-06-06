@@ -1,5 +1,6 @@
-function [txI, txQ, txValid, sampleCount, bitErrI, bitErrQ, lockStatus] = ...
-        PRBSEngine(adcI, adcQ, adcValid, prbsControl) %#codegen
+function [txI, txQ, txValid, sampleCount, bitErrI, bitErrQ, lockStatus, ...
+          capTxI, capAdcI, capAdcQ] = ...
+        PRBSEngine(adcI, adcQ, adcValid, prbsControl, capIdx) %#codegen
 %PRBSENGINE  PRBS digital-loopback BIST engine for the ADRV9002 interface.
 %   One step per sample clock. Generates an independent PRBS on the I lane
 %   (PRBS-15) and Q lane (PRBS-9), drives them out the Tx data ports, and
@@ -16,7 +17,8 @@ function [txI, txQ, txValid, sampleCount, bitErrI, bitErrQ, lockStatus] = ...
 %     adcI, adcQ   uint16  received words (ADRV9002 ADC Data I0/Q0)
 %     adcValid     logical received-word valid (IP Valid Rx Data IN)
 %     prbsControl  uint32  AXI control: bit0 reset, bit1 gen_enable,
-%                          bit2 inject_error (single-bit Tx fault for self-test)
+%                          bit2 inject_error, bit3 capture_arm
+%     capIdx       uint32  AXI read index into the capture buffer (0..63)
 %   Outputs
 %     txI, txQ     uint16  generated words (ADRV9002 DAC Data I0/Q0)
 %     txValid      logical generated-word valid (IP Load Tx Data OUT)
@@ -24,30 +26,49 @@ function [txI, txQ, txValid, sampleCount, bitErrI, bitErrQ, lockStatus] = ...
 %     bitErrI      uint32  accumulated I-lane bit errors (post-lock)
 %     bitErrQ      uint32  accumulated Q-lane bit errors (post-lock)
 %     lockStatus   uint8   bit0 I locked, bit1 Q locked
+%     capTxI       uint16  capture buffer: I word SENT at sample capIdx
+%     capAdcI      uint16  capture buffer: I word RECEIVED at sample capIdx
+%     capAdcQ      uint16  capture buffer: Q word RECEIVED at sample capIdx
+%
+%   The capture buffer records CAP_N consecutive sent/received samples after a
+%   rising edge on capture_arm, so the host can correlate the transmitted PRBS
+%   with the looped-back data and recover the latency and any bit/word-order
+%   transform (an in-DUT, AXI-readable substitute for an ILA).
 %
 %   HDL-Coder compatible: single rate, persistent state, integer ops only.
 %   The bit-level work lives in the pure helpers PRBS15/9_GEN16 / _CHK16.
 
     N_LOCK = uint32(64);   % consecutive clean samples required to declare lock
+    CAP_N  = uint32(64);   % capture buffer depth
 
     persistent hG15 hG9 hC15 hC9 cnt eI eQ consecI consecQ lockedI lockedQ txIh txQh
+    persistent bufTxI bufAI bufAQ wptr capturing prevArm
     if isempty(hG15)
         [hG15, hG9, hC15, hC9, cnt, eI, eQ, consecI, consecQ, lockedI, lockedQ] = ...
             local_reset();
         txIh = uint16(0);
         txQh = uint16(0);
+        bufTxI = zeros(1, 64, 'uint16');
+        bufAI  = zeros(1, 64, 'uint16');
+        bufAQ  = zeros(1, 64, 'uint16');
+        wptr = uint32(0);
+        capturing = false;
+        prevArm = false;
     end
 
     ctrl   = uint8(bitand(prbsControl, uint32(255)));
     doReset = bitget(ctrl, 1);
     genEn   = bitget(ctrl, 2);
     inject  = bitget(ctrl, 3);
+    capArm  = bitget(ctrl, 4) ~= uint8(0);
 
     if doReset
         [hG15, hG9, hC15, hC9, cnt, eI, eQ, consecI, consecQ, lockedI, lockedQ] = ...
             local_reset();
         txIh = uint16(0);
         txQh = uint16(0);
+        wptr = uint32(0);
+        capturing = false;
     end
 
     % ---- Generator: advance ONCE PER RECEIVED SAMPLE (adcValid) ----
@@ -55,9 +76,7 @@ function [txI, txQ, txValid, sampleCount, bitErrI, bitErrQ, lockStatus] = ...
     % many times the ADRV9002 SSI sample rate. Advancing the PRBS only when
     % adcValid strobes emits one word per sample, keeping the transmitted stream
     % a contiguous PRBS at the DAC rate so the self-syncing checker (also gated
-    % by adcValid) can lock. Driving it every clock would send ~8 words per DAC
-    % sample -> the loopback returns a decimated, non-PRBS stream that never
-    % locks (the IP-core-clock vs sample-rate mismatch).
+    % by adcValid) can lock.
     advance = genEn && adcValid;
     if advance
         [wI, hG15] = prbs15_gen16(hG15);
@@ -71,19 +90,33 @@ function [txI, txQ, txValid, sampleCount, bitErrI, bitErrQ, lockStatus] = ...
     txI = txIh;                            % held between samples (DAC sees one/sample)
     txQ = txQh;
     % tx_validOut drives the SSI strobe framing, so it must stay continuously
-    % asserted while generating (a gapped strobe corrupts SSI alignment ->
-    % strobeAlignError). Rate coherence comes from updating the DATA (txIh/txQh)
-    % once per adcValid above, NOT from gapping the valid.
+    % asserted while generating (a gapped strobe corrupts SSI alignment).
     txValid = genEn ~= uint8(0);
+
+    % ---- Capture buffer: record sent/received words after a capture_arm edge --
+    armEdge = capArm && ~prevArm;
+    prevArm = capArm;
+    if armEdge
+        wptr = uint32(0);
+        capturing = true;
+    end
+    if capturing && adcValid
+        k = wptr + 1;
+        bufTxI(k) = txIh;
+        bufAI(k)  = adcI;
+        bufAQ(k)  = adcQ;
+        wptr = wptr + 1;
+        if wptr >= CAP_N
+            capturing = false;
+        end
+    end
 
     % ---- Checker: descramble returned words, accumulate errors once locked ----
     if adcValid
         [errI, hC15] = prbs15_chk16(hC15, adcI);
         [errQ, hC9]  = prbs9_chk16(hC9, adcQ);
 
-        % Guard against a false lock on a dead (all-zero) ADC stream: all-zero
-        % input descrambles to all-zero (0 errors) for any LFSR, so only count
-        % error-free samples that actually carry data.
+        % Guard against a false lock on a dead (all-zero) ADC stream.
         activeI = adcI ~= uint16(0);
         activeQ = adcQ ~= uint16(0);
 
@@ -121,6 +154,12 @@ function [txI, txQ, txValid, sampleCount, bitErrI, bitErrQ, lockStatus] = ...
     if lockedI, ls = bitor(ls, uint8(1)); end
     if lockedQ, ls = bitor(ls, uint8(2)); end
     lockStatus = ls;
+
+    % ---- Capture readout (host writes capIdx, reads these) ----
+    ri = bitand(capIdx, uint32(63)) + uint32(1);
+    capTxI  = bufTxI(ri);
+    capAdcI = bufAI(ri);
+    capAdcQ = bufAQ(ri);
 end
 
 function [hG15, hG9, hC15, hC9, cnt, eI, eQ, consecI, consecQ, lockedI, lockedQ] = ...

@@ -31,6 +31,7 @@ function build_prbs_model()
     addPort(dut, 'Inport',  'adc_dataInQ', 2, 'uint16');
     addPort(dut, 'Inport',  'adc_validIn', 3, 'boolean');
     addPort(dut, 'Inport',  'prbs_control', 4, 'uint32');
+    addPort(dut, 'Inport',  'capture_idx', 5, 'uint32');
 
     % Outports
     addPort(dut, 'Outport', 'tx_dataOutI', 1, '');
@@ -40,6 +41,9 @@ function build_prbs_model()
     addPort(dut, 'Outport', 'bit_errors_I', 5, '');
     addPort(dut, 'Outport', 'bit_errors_Q', 6, '');
     addPort(dut, 'Outport', 'lock_status', 7, '');
+    addPort(dut, 'Outport', 'capture_txI', 8, '');
+    addPort(dut, 'Outport', 'capture_adcI', 9, '');
+    addPort(dut, 'Outport', 'capture_adcQ', 10, '');
 
     % MATLAB Function block running the PRBS engine
     fcn = [dut '/PRBSEngine'];
@@ -51,7 +55,8 @@ function build_prbs_model()
     outTypes = { 'tx_dataOutI','uint16'; 'tx_dataOutQ','uint16'; ...
                  'tx_validOut','boolean'; 'sample_count','uint32'; ...
                  'bit_errors_I','uint32'; 'bit_errors_Q','uint32'; ...
-                 'lock_status','uint8' };
+                 'lock_status','uint8'; 'capture_txI','uint16'; ...
+                 'capture_adcI','uint16'; 'capture_adcQ','uint16' };
     setMatlabFunctionOutputTypes(fcn, outTypes);
 
     % Wire inports -> function -> outports
@@ -59,6 +64,7 @@ function build_prbs_model()
     connect(dut, 'adc_dataInQ/1',  'PRBSEngine/2');
     connect(dut, 'adc_validIn/1',  'PRBSEngine/3');
     connect(dut, 'prbs_control/1', 'PRBSEngine/4');
+    connect(dut, 'capture_idx/1',  'PRBSEngine/5');
     connect(dut, 'PRBSEngine/1', 'tx_dataOutI/1');
     connect(dut, 'PRBSEngine/2', 'tx_dataOutQ/1');
     connect(dut, 'PRBSEngine/3', 'tx_validOut/1');
@@ -66,6 +72,9 @@ function build_prbs_model()
     connect(dut, 'PRBSEngine/5', 'bit_errors_I/1');
     connect(dut, 'PRBSEngine/6', 'bit_errors_Q/1');
     connect(dut, 'PRBSEngine/7', 'lock_status/1');
+    connect(dut, 'PRBSEngine/8', 'capture_txI/1');
+    connect(dut, 'PRBSEngine/9', 'capture_adcI/1');
+    connect(dut, 'PRBSEngine/10', 'capture_adcQ/1');
 
     % ---- top-level loopback testbench ----
     % Control source: gen_enable=1 (bit1). Toggle reset/inject in tests.
@@ -84,8 +93,15 @@ function build_prbs_model()
     add_block('built-in/DataTypeConversion', [model '/castI'], 'OutDataTypeStr', 'uint16');
     add_block('built-in/DataTypeConversion', [model '/castQ'], 'OutDataTypeStr', 'uint16');
 
+    % Capture-index source (0 in sim; host drives it on HW).
+    add_block('built-in/Constant', [model '/capture_idx'], ...
+        'Value', '0', 'OutDataTypeStr', 'uint32');
+
     % Scopes/terminators for observation in sim.
     add_block('built-in/Terminator', [model '/t_txValid']);
+    add_block('built-in/Terminator', [model '/t_capTxI']);
+    add_block('built-in/Terminator', [model '/t_capAdcI']);
+    add_block('built-in/Terminator', [model '/t_capAdcQ']);
     add_block('built-in/Outport', [model '/o_sample_count']);
     add_block('built-in/Outport', [model '/o_bit_errors_I']);
     add_block('built-in/Outport', [model '/o_bit_errors_Q']);
@@ -93,6 +109,7 @@ function build_prbs_model()
 
     % Wire DUT into the loopback.
     connect(model, 'prbs_control/1', 'PRBSLoopback/4');
+    connect(model, 'capture_idx/1',  'PRBSLoopback/5');
     connect(model, 'adc_valid/1',    'PRBSLoopback/3');
     connect(model, 'PRBSLoopback/1', 'loopI/1');   % txI -> delay
     connect(model, 'PRBSLoopback/2', 'loopQ/1');   % txQ -> delay
@@ -105,6 +122,9 @@ function build_prbs_model()
     connect(model, 'PRBSLoopback/5', 'o_bit_errors_I/1');
     connect(model, 'PRBSLoopback/6', 'o_bit_errors_Q/1');
     connect(model, 'PRBSLoopback/7', 'o_lock_status/1');
+    connect(model, 'PRBSLoopback/8', 't_capTxI/1');
+    connect(model, 'PRBSLoopback/9', 't_capAdcI/1');
+    connect(model, 'PRBSLoopback/10', 't_capAdcQ/1');
 
     % Name the monitored signals so they appear by name in the sim Dataset.
     nameOutportSignal(model, 'o_sample_count', 'o_sample_count');
@@ -179,9 +199,9 @@ function s = prbsEngineBlockScript()
     % NB: wrapper name must differ from PRBSEngine to avoid shadowing the
     % path function it calls.
     s = sprintf([ ...
-        'function [tx_dataOutI, tx_dataOutQ, tx_validOut, sample_count, bit_errors_I, bit_errors_Q, lock_status] = prbs_loopback_step(adc_dataInI, adc_dataInQ, adc_validIn, prbs_control)\n' ...
+        'function [tx_dataOutI, tx_dataOutQ, tx_validOut, sample_count, bit_errors_I, bit_errors_Q, lock_status, capture_txI, capture_adcI, capture_adcQ] = prbs_loopback_step(adc_dataInI, adc_dataInQ, adc_validIn, prbs_control, capture_idx)\n' ...
         '%%#codegen\n' ...
-        '[tx_dataOutI, tx_dataOutQ, tx_validOut, sample_count, bit_errors_I, bit_errors_Q, lock_status] = ...\n' ...
-        '    PRBSEngine(adc_dataInI, adc_dataInQ, adc_validIn, prbs_control);\n' ...
+        '[tx_dataOutI, tx_dataOutQ, tx_validOut, sample_count, bit_errors_I, bit_errors_Q, lock_status, capture_txI, capture_adcI, capture_adcQ] = ...\n' ...
+        '    PRBSEngine(adc_dataInI, adc_dataInQ, adc_validIn, prbs_control, capture_idx);\n' ...
         'end\n']);
 end

@@ -122,7 +122,7 @@ classdef PrbsLoopbackModelTest < matlab.unittest.TestCase
                 if k == 1, ctrl = bitor(ctrl, uint32(1)); end          % reset pulse
                 if doInject && k >= injectAt, ctrl = bitor(ctrl, uint32(4)); end
                 [txI, txQ, ~, cnt, eI, eQ, ls] = ...
-                    PRBSEngine(prevTxI, prevTxQ, true, ctrl);
+                    PRBSEngine(prevTxI, prevTxQ, true, ctrl, uint32(0));
                 prevTxI = txI; prevTxQ = txQ;
             end
         end

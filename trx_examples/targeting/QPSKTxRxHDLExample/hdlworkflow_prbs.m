@@ -48,9 +48,13 @@ hdlset_param('commhdlPRBSLoopback/PRBSLoopback/adc_dataInQ', 'IOInterface', 'ADR
 hdlset_param('commhdlPRBSLoopback/PRBSLoopback/adc_dataInQ', 'IOInterfaceMapping', '[0:15]');
 
 % --- AXI4-Lite control in ---
-% prbs_control: bit0 reset/resync, bit1 gen_enable, bit2 inject_error.
+% prbs_control: bit0 reset/resync, bit1 gen_enable, bit2 inject_error, bit3 capture_arm.
 hdlset_param('commhdlPRBSLoopback/PRBSLoopback/prbs_control', 'IOInterface', 'AXI4-Lite');
 hdlset_param('commhdlPRBSLoopback/PRBSLoopback/prbs_control', 'IOInterfaceMapping', 'x"100"');
+
+% capture_idx: host-written read pointer into the capture buffer (0..63).
+hdlset_param('commhdlPRBSLoopback/PRBSLoopback/capture_idx', 'IOInterface', 'AXI4-Lite');
+hdlset_param('commhdlPRBSLoopback/PRBSLoopback/capture_idx', 'IOInterfaceMapping', 'x"118"');
 
 % --- Tx data out (FPGA -> ADRV9002 DAC). Same DAC interface the QPSK cable
 %     loopback proved reaches the chip (ADRV9002 DAC Data I0/Q0, NOT IP Data
@@ -71,6 +75,15 @@ hdlset_param('commhdlPRBSLoopback/PRBSLoopback/bit_errors_Q', 'IOInterface', 'AX
 hdlset_param('commhdlPRBSLoopback/PRBSLoopback/bit_errors_Q', 'IOInterfaceMapping', 'x"10C"');
 hdlset_param('commhdlPRBSLoopback/PRBSLoopback/lock_status', 'IOInterface', 'AXI4-Lite');
 hdlset_param('commhdlPRBSLoopback/PRBSLoopback/lock_status', 'IOInterfaceMapping', 'x"110"');
+
+% Capture-buffer readout (host writes capture_idx, pulses prbs_control bit3,
+% then reads these back per index): sent I, received I, received Q.
+hdlset_param('commhdlPRBSLoopback/PRBSLoopback/capture_txI', 'IOInterface', 'AXI4-Lite');
+hdlset_param('commhdlPRBSLoopback/PRBSLoopback/capture_txI', 'IOInterfaceMapping', 'x"11C"');
+hdlset_param('commhdlPRBSLoopback/PRBSLoopback/capture_adcI', 'IOInterface', 'AXI4-Lite');
+hdlset_param('commhdlPRBSLoopback/PRBSLoopback/capture_adcI', 'IOInterfaceMapping', 'x"120"');
+hdlset_param('commhdlPRBSLoopback/PRBSLoopback/capture_adcQ', 'IOInterface', 'AXI4-Lite');
+hdlset_param('commhdlPRBSLoopback/PRBSLoopback/capture_adcQ', 'IOInterfaceMapping', 'x"124"');
 
 %% Workflow Configuration
 hWC = hdlcoder.WorkflowConfig('SynthesisTool','Xilinx Vivado','TargetWorkflow','IP Core Generation');

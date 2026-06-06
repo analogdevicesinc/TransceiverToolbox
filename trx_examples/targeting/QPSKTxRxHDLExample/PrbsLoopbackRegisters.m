@@ -19,11 +19,16 @@ classdef PrbsLoopbackRegisters
         BitErrIAddr   = '0x9D000108';   % bit_errors_I (R)
         BitErrQAddr   = '0x9D00010C';   % bit_errors_Q (R)
         LockAddr      = '0x9D000110';   % lock_status  (R)
+        CapIdxAddr    = '0x9D000118';   % capture_idx  (W)
+        CapTxIAddr    = '0x9D00011C';   % capture_txI  (R)
+        CapAdcIAddr   = '0x9D000120';   % capture_adcI (R)
+        CapAdcQAddr   = '0x9D000124';   % capture_adcQ (R)
 
         % control bit masks
         CTRL_RESET    = 1;
         CTRL_GEN_EN   = 2;
         CTRL_INJECT   = 4;
+        CTRL_CAPTURE  = 8;   % bit3: arm the capture buffer (rising edge)
     end
 
     methods (Static)
