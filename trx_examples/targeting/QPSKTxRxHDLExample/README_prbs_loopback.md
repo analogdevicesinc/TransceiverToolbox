@@ -107,15 +107,32 @@ built-in checker expects ADI's own test pattern, not this design's custom PRBS-1
 This was also the lever that exposed `tx_validOut` as the SSI-strobe driver: a gapped valid
 gave `strobeAlignError: 1`; a continuous valid restores `0`.
 
-### Remaining: FPGA-side checker end-to-end lock
+### Why the FPGA-side checker can't lock (root-caused via the in-DUT capture buffer)
 
-The FPGA PRBS checker does not yet lock through the loopback. With the SSI transport proven
-healthy, the cause is a residual **data-format/phase detail** of the looped 16-bit words
-(e.g. SSI bit/word order, or one-update-per-sample phase vs the DAC consume strobe) that the
-self-syncing descrambler is intolerant of. Pinning it down needs **signal observation of the
-looped-back samples** (the rx DMA can't capture here because the DUT consumes the ADC data
-directly — an ILA on `adc_validIn`/`tx_dataOut`/looped-rx is the next step, as in the QPSK
-work). Iterating blind would mean a ~60-min Vivado rebuild per guess.
+`PRBSEngine` includes a 64-deep **capture buffer** (an in-DUT ILA): on a `capture_arm` edge
+(`prbs_control` bit3) it records the sent `txI` and the received `adcI`/`adcQ` per sample,
+read back via `capture_idx` (`x"118"`) → `capture_txI` (`x"11C"`), `capture_adcI` (`x"120"`),
+`capture_adcQ` (`x"124"`). A capture on hardware showed:
+
+- received `adcI` range is **±0x1fff (~14-bit)**, not the full-16-bit white PRBS that was sent;
+- received `adcI` **lag-1 autocorrelation ≈ 0.68** (a white PRBS is ~0) — i.e. **filtered**;
+- `adcQ[k] == adcI[k-10]` exactly; **zero** bit-exact matches to `txI` at any latency.
+
+**Conclusion:** `tx_ssi_test_mode_loopback_en` is **not a raw-bit SSI loopback** — the looped
+data passes through the ADRV9002 **Rx decimation datapath**, so the FPGA's `adc_dataIn` (which
+taps *after* that datapath) receives a band-limited, correlated signal, never the raw SSI bits.
+A bit-exact FPGA-side PRBS check therefore **cannot** lock through this loopback. This is an
+architecture fact, not a design bug — the design, AXI, capture buffer, generator and checker
+all work (verified in sim and on hardware).
+
+### Correct bit-exact SSI verification on the ADRV9002
+
+Because the FPGA sits behind the Rx datapath, the bit-exact interface check belongs to the
+**chip's own SSI BIST** (`tx*_ssi_test_mode`), which compares the *raw* Tx-SSI bits the FPGA
+sends against a PRBS before the datapath. The healthy `strobeAlignError: 0` / balanced-FIFO
+status already came from that mechanism. Driving its `dataError` to 0 would require the FPGA
+to emit the chip's exact expected SSI pattern (single PRBS, matched serialization) on both
+lanes — a different generator config than this design's distinct-per-lane PRBS.
 
 ## Open item — chip SSI loopback enable
 
