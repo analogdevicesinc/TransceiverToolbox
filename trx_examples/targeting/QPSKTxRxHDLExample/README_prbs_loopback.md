@@ -125,14 +125,26 @@ A bit-exact FPGA-side PRBS check therefore **cannot** lock through this loopback
 architecture fact, not a design bug — the design, AXI, capture buffer, generator and checker
 all work (verified in sim and on hardware).
 
-### Correct bit-exact SSI verification on the ADRV9002
+### Chip SSI BIST (`tx*_ssi_test_mode`) — attempted, indicator not trustworthy here
 
-Because the FPGA sits behind the Rx datapath, the bit-exact interface check belongs to the
-**chip's own SSI BIST** (`tx*_ssi_test_mode`), which compares the *raw* Tx-SSI bits the FPGA
-sends against a PRBS before the datapath. The healthy `strobeAlignError: 0` / balanced-FIFO
-status already came from that mechanism. Driving its `dataError` to 0 would require the FPGA
-to emit the chip's exact expected SSI pattern (single PRBS, matched serialization) on both
-lanes — a different generator config than this design's distinct-per-lane PRBS.
+The bit-exact check ideally belongs to the chip's own SSI BIST, which compares the raw Tx-SSI
+bits against a PRBS before the datapath. I configured `tx0_ssi_test_mode_data =
+TESTMODE_DATA_PRBS15` (with the FPGA emitting PRBS-15 on I) and read `dataError: 0`. **But the
+negative controls failed**: `dataError` stayed `0` with the generator OFF, with an injected
+bit fault, and even when the chip's *expected* pattern was changed to PRBS7 / FIXED while the
+FPGA kept sending PRBS-15. `strobeAlignError` was also inconsistent under rapid reconfigure.
+So the `tx*_ssi_test_mode_status` debugfs reading is **not a reliable live verdict** in this
+setup — I do not claim it as a pass. A trustworthy chip-side BIST likely needs ADI's official
+SSI test procedure/tooling (TES / a specific configure-and-arm sequence), not raw debugfs pokes.
+
+### What IS solidly verified
+
+Across the four builds, the SSI **strobe/clock framing** indicator responded correctly to the
+design: gapping `tx_validOut` produced `strobeAlignError: 1`, and a continuous `tx_validOut`
+produced `strobeAlignError: 0`, with FIFO always balanced. That is a genuine confirmation that
+the FPGA↔ADRV9002 SSI **strobe/clock alignment and rate** — the dominant SSI interface failure
+mode — are correct. The PRBS HDL design itself (generator, self-syncing checker, AXI, capture
+buffer) is fully built, simulated (6/6), synthesized (timing-met), and deployed/live.
 
 ## Open item — chip SSI loopback enable
 
