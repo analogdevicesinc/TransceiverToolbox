@@ -70,7 +70,11 @@ function [txI, txQ, txValid, sampleCount, bitErrI, bitErrQ, lockStatus] = ...
     end
     txI = txIh;                            % held between samples (DAC sees one/sample)
     txQ = txQh;
-    txValid = advance;                     % load the DAC at the sample rate
+    % tx_validOut drives the SSI strobe framing, so it must stay continuously
+    % asserted while generating (a gapped strobe corrupts SSI alignment ->
+    % strobeAlignError). Rate coherence comes from updating the DATA (txIh/txQh)
+    % once per adcValid above, NOT from gapping the valid.
+    txValid = genEn ~= uint8(0);
 
     % ---- Checker: descramble returned words, accumulate errors once locked ----
     if adcValid
