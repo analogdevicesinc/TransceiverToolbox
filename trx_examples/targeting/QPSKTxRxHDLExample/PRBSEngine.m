@@ -30,10 +30,12 @@ function [txI, txQ, txValid, sampleCount, bitErrI, bitErrQ, lockStatus] = ...
 
     N_LOCK = uint32(64);   % consecutive clean samples required to declare lock
 
-    persistent hG15 hG9 hC15 hC9 cnt eI eQ consecI consecQ lockedI lockedQ
+    persistent hG15 hG9 hC15 hC9 cnt eI eQ consecI consecQ lockedI lockedQ txIh txQh
     if isempty(hG15)
         [hG15, hG9, hC15, hC9, cnt, eI, eQ, consecI, consecQ, lockedI, lockedQ] = ...
             local_reset();
+        txIh = uint16(0);
+        txQh = uint16(0);
     end
 
     ctrl   = uint8(bitand(prbsControl, uint32(255)));
@@ -44,31 +46,45 @@ function [txI, txQ, txValid, sampleCount, bitErrI, bitErrQ, lockStatus] = ...
     if doReset
         [hG15, hG9, hC15, hC9, cnt, eI, eQ, consecI, consecQ, lockedI, lockedQ] = ...
             local_reset();
+        txIh = uint16(0);
+        txQh = uint16(0);
     end
 
-    % ---- Generator: emit one 16-bit PRBS word per lane ----
-    wI = uint16(0);
-    wQ = uint16(0);
-    if genEn
+    % ---- Generator: advance ONCE PER RECEIVED SAMPLE (adcValid) ----
+    % The DUT runs at the IP core clock (clk_enable = dut_enable, ~always on),
+    % many times the ADRV9002 SSI sample rate. Advancing the PRBS only when
+    % adcValid strobes emits one word per sample, keeping the transmitted stream
+    % a contiguous PRBS at the DAC rate so the self-syncing checker (also gated
+    % by adcValid) can lock. Driving it every clock would send ~8 words per DAC
+    % sample -> the loopback returns a decimated, non-PRBS stream that never
+    % locks (the IP-core-clock vs sample-rate mismatch).
+    advance = genEn && adcValid;
+    if advance
         [wI, hG15] = prbs15_gen16(hG15);
         [wQ, hG9]  = prbs9_gen16(hG9);
         if inject
             wI = bitxor(wI, uint16(1));    % flip one bit: proves the checker counts
         end
-        txValid = true;
-    else
-        txValid = false;
+        txIh = wI;
+        txQh = wQ;
     end
-    txI = wI;
-    txQ = wQ;
+    txI = txIh;                            % held between samples (DAC sees one/sample)
+    txQ = txQh;
+    txValid = advance;                     % load the DAC at the sample rate
 
     % ---- Checker: descramble returned words, accumulate errors once locked ----
     if adcValid
         [errI, hC15] = prbs15_chk16(hC15, adcI);
         [errQ, hC9]  = prbs9_chk16(hC9, adcQ);
 
+        % Guard against a false lock on a dead (all-zero) ADC stream: all-zero
+        % input descrambles to all-zero (0 errors) for any LFSR, so only count
+        % error-free samples that actually carry data.
+        activeI = adcI ~= uint16(0);
+        activeQ = adcQ ~= uint16(0);
+
         if ~lockedI
-            if errI == 0
+            if errI == 0 && activeI
                 consecI = consecI + 1;
                 if consecI >= N_LOCK, lockedI = true; end
             else
@@ -79,7 +95,7 @@ function [txI, txQ, txValid, sampleCount, bitErrI, bitErrQ, lockStatus] = ...
         end
 
         if ~lockedQ
-            if errQ == 0
+            if errQ == 0 && activeQ
                 consecQ = consecQ + 1;
                 if consecQ >= N_LOCK, lockedQ = true; end
             else
