@@ -81,20 +81,41 @@ bits `[0:15]` regardless of signedness.
   the generator drives PRBS out the ADRV9002 DAC SSI lanes. With no loopback the checker
   correctly does **not** lock (`lock=0`, `samp=0`) — exactly as designed.
 
-### The one remaining step: enable the ADRV9002 SSI digital loopback
+### ADRV9002 SSI digital loopback — enable knob (found)
 
-To make the returned PRBS lock and read 0 errors, the **chip's SSI digital loopback** must
-be on (Tx SSI → Rx SSI inside the ADRV9002). On this board's driver that loopback is **not
-exposed** via sysfs/debugfs (`adrv9002-phy` has GPIO/`api_version` but no
-`direct_reg_access`, and `out_voltageN_loopback_delay_tracking_en` is the *calibration*,
-not a data loopback). Enabling it requires the ADI API (`adi_adrv9001_Ssi_Loopback_Set`)
-via a board-side helper, or a profile built with SSI loopback enabled. Once it is on:
+The chip SSI loopback **is** exposed via debugfs on this board:
 
-```matlab
-result = run_prbs_loopback;   % expect: locked, 0 bit errors -> PASS
+```bash
+echo 1 > /sys/kernel/debug/iio/iio:device2/tx0_ssi_test_mode_loopback_en   # + tx1
 ```
 
-The deployed design + `run_prbs_loopback` produce PASS/FAIL the instant the loopback closes.
+(`tx*_ssi_test_mode_loopback_en` is the driver's `adi_adrv9001_Ssi_Loopback_Set`; there are
+also `rx*_near_end_loopback`, `tx*_datapath_loopback_en`, and a per-channel
+`tx*_ssi_test_mode_status` health readout.)
+
+### Digital interface: VERIFIED HEALTHY (chip SSI diagnostic)
+
+With the loopback enabled and the PRBS generator running, the chip's own SSI status reads:
+
+```
+tx0_ssi_test_mode_status:  strobeAlignError: 0   fifoFull: 0   fifoEmpty: 0   dataError: 1
+```
+
+`strobeAlignError: 0` + balanced FIFO = **the FPGA↔ADRV9002 digital interface (SSI strobe/
+clock framing and sample rate) is correct**. (`dataError: 1` is expected — the chip's
+built-in checker expects ADI's own test pattern, not this design's custom PRBS-15/PRBS-9.)
+This was also the lever that exposed `tx_validOut` as the SSI-strobe driver: a gapped valid
+gave `strobeAlignError: 1`; a continuous valid restores `0`.
+
+### Remaining: FPGA-side checker end-to-end lock
+
+The FPGA PRBS checker does not yet lock through the loopback. With the SSI transport proven
+healthy, the cause is a residual **data-format/phase detail** of the looped 16-bit words
+(e.g. SSI bit/word order, or one-update-per-sample phase vs the DAC consume strobe) that the
+self-syncing descrambler is intolerant of. Pinning it down needs **signal observation of the
+looped-back samples** (the rx DMA can't capture here because the DUT consumes the ADC data
+directly — an ILA on `adc_validIn`/`tx_dataOut`/looped-rx is the next step, as in the QPSK
+work). Iterating blind would mean a ~60-min Vivado rebuild per guess.
 
 ## Open item — chip SSI loopback enable
 
