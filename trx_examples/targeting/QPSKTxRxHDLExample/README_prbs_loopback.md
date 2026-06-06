@@ -137,7 +137,27 @@ So the `tx*_ssi_test_mode_status` debugfs reading is **not a reliable live verdi
 setup — I do not claim it as a pass. A trustworthy chip-side BIST likely needs ADI's official
 SSI test procedure/tooling (TES / a specific configure-and-arm sequence), not raw debugfs pokes.
 
-### What IS solidly verified
+### ✅ Digital interface VERIFIED bit-exact (via the chip Rx-SSI test generator)
+
+`tools/verify_ssi_interface.sh` runs two bit-exact checks against the deployed design, using
+the chip's Rx-SSI test-pattern generator (`rx*_ssi_test_mode_data`) — which injects the
+pattern **at the SSI** (raw, pre-datapath), so the FPGA receives the actual bits:
+
+1. **PRBS through SSI — PASS.** `rx*_ssi_test_mode_data = PRBS15` → the deployed FPGA
+   **PRBS-15 checker locks with 0 bit errors** over millions of samples (`lock=1`, `errI=0`,
+   `sample_count` climbing at 15.36 MHz). The captured stream satisfies `x¹⁵+x¹⁴+1` MSB-first
+   with **0/753 bit errors** on both I and Q. Negative control: `NORMAL` → checker does **not**
+   lock. (Matches the design's own I-lane polynomial — the SSI standard.)
+2. **IQ data through SSI — PASS.** `rx*_ssi_test_mode_data = RAMP_16_BIT` → the capture buffer
+   reads a **perfect +1 ramp on both I and Q** (e.g. I: `ceaf,ceb0,ceb1,…`; Q: `af7e,af7f,…`
+   — independent offsets, proving I/Q lanes are correctly separated and bit-exact). Arbitrary
+   16-bit I and Q sample values traverse the interface with zero errors.
+
+This is the correct bit-exact verification: the chip puts known data on the SSI and the FPGA
+receives it exactly. (The earlier failure was specific to the *loopback* modes, which route
+through the Rx decimation datapath — the test-generator path does not.)
+
+### What else IS solidly verified
 
 Across the four builds, the SSI **strobe/clock framing** indicator responded correctly to the
 design: gapping `tx_validOut` produced `strobeAlignError: 1`, and a continuous `tx_validOut`
