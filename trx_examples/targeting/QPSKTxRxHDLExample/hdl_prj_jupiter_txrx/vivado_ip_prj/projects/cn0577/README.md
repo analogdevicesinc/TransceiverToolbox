@@ -1,0 +1,17 @@
+# CN0577 HDL Project
+
+- Evaluation board product page:
+  - [EVAL-CN0577](https://www.analog.com/cn0577)
+- System documentation: https://wiki.analog.com/resources/eval/user-guides/circuits-from-the-lab/cn0577 
+- HDL project documentation: http://analogdevicesinc.github.io/hdl/projects/cn0577/index.html
+- Evaluation board VADJ: 2.5V
+
+## Supported parts
+
+| Part name                               | Description                                               |
+|-----------------------------------------|-----------------------------------------------------------|
+| [LTC2387-18](https://www.analog.com/LTC2387-18) | 18-Bit, 15 MSPS, SAR ADC |
+
+## Building the project
+
+Please enter the folder for the FPGA carrier you want to use and read the README.md.

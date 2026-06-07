@@ -1,0 +1,453 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="rtwreport.css" /><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>
+High-level DUT Information Report for commhdlQPSKTxRx
+</title>
+
+</head>
+<body bgcolor="#ffffff" link="0033CC" vlink="#666666">
+<script>
+<!--
+function hdlTableShrink(o,tagNameStr)
+{
+var temp = document.getElementsByName(tagNameStr);
+if (temp[0].style.display == "")
+{
+	temp[0].style.display = "none";
+	o.innerHTML = '<span style="font-family:monospace">[+]</span>';
+}
+else
+{
+	temp[0].style.display = "";
+	o.innerHTML = '<span style="font-family:monospace">[-]</span>';
+}
+}
+// -->
+</script>
+<script>
+<!--
+function hdlTableCollapseAll(o, numNtks, numComps)
+{
+	var id = "";
+	for (i = 1; i <= numNtks; i++)
+	{
+		for (j = 1; j <= numComps; j++)
+		{
+			id = "Multiply" + "_" + i + "_" + j;
+			var temp = document.getElementsByName(id);
+			if (temp != null && temp.length > 0)
+			{
+				temp[0].style.display = "none";
+			}
+			id = "Adder" + "_" + i + "_" + j;
+			temp = document.getElementsByName(id);
+			if (temp != null && temp.length > 0)
+			{
+				temp[0].style.display = "none";
+			}
+			id = "Subtractor" + "_" + i + "_" + j;
+			temp = document.getElementsByName(id);
+			if (temp != null && temp.length > 0)
+			{
+				temp[0].style.display = "none";
+			}
+			id = "Register" + "_" + i + "_" + j;
+			temp = document.getElementsByName(id);
+			if (temp != null && temp.length > 0)
+			{
+				temp[0].style.display = "none";
+			}
+			id = "RAM" + "_" + i + "_" + j;
+			temp = document.getElementsByName(id);
+			if (temp != null && temp.length > 0)
+			{
+				temp[0].style.display = "none";
+			}
+			id = "Multiplexer" + "_" + i + "_" + j;
+			temp = document.getElementsByName(id);
+			if (temp != null && temp.length > 0)
+			{
+				temp[0].style.display = "none";
+			}
+		}
+	}
+	var collapsibles = document.getElementsByName('collapsible');
+	for (i = 0; i < collapsibles.length; i++)
+	{
+		collapsibles[i].innerHTML = '<span style="font-family:monospace">[+]</span>';
+	}
+}
+// -->
+</script>
+<script>
+<!--
+function hdlTableExpandAll(o, numNtks, numComps)
+{
+	var id = "";
+	for (i = 1; i <= numNtks; i++)
+	{
+		for (j = 1; j <= numComps; j++)
+		{
+			id = "Multiply" + "_" + i + "_" + j;
+			var temp = document.getElementsByName(id);
+			if (temp != null && temp.length > 0)
+			{
+				temp[0].style.display = "";
+			}
+			id = "Adder" + "_" + i + "_" + j;
+			temp = document.getElementsByName(id);
+			if (temp != null && temp.length > 0)
+			{
+				temp[0].style.display = "";
+			}
+			id = "Subtractor" + "_" + i + "_" + j;
+			temp = document.getElementsByName(id);
+			if (temp != null && temp.length > 0)
+			{
+				temp[0].style.display = "";
+			}
+			id = "Register" + "_" + i + "_" + j;
+			temp = document.getElementsByName(id);
+			if (temp != null && temp.length > 0)
+			{
+				temp[0].style.display = "";
+			}
+			id = "RAM" + "_" + i + "_" + j;
+			temp = document.getElementsByName(id);
+			if (temp != null && temp.length > 0)
+			{
+				temp[0].style.display = "";
+			}
+			id = "Multiplexer" + "_" + i + "_" + j;
+			temp = document.getElementsByName(id);
+			if (temp != null && temp.length > 0)
+			{
+				temp[0].style.display = "";
+			}
+		}
+	}
+	var collapsibles = document.getElementsByName('collapsible');
+	for (i = 0; i < collapsibles.length; i++)
+	{
+		collapsibles[i].innerHTML = '<span style="font-family:monospace">[-]</span>';
+	}
+}
+// -->
+</script>
+<font SIZE="+2" COLOR="#000066">
+Code Interface Report for commhdlQPSKTxRx
+</font>
+<h3>
+Input ports
+</h3>
+<table width="100%" border="1">
+<tr style="background-color: #eeeeff">
+<td align="left" valign="top" style="border-style: none">
+<b>Port Name</b>
+</td>
+<td align="center" valign="top" style="border-style: none">
+<b>Datatype</b>
+</td>
+<td align="center" valign="top" style="border-style: none">
+<b>Bits</b>
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td align="left" valign="top" style="border-style: none">
+clk
+</td>
+<td align="center" valign="top" style="border-style: none">
+boolean
+</td>
+<td align="center" valign="top" style="border-style: none">
+1
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td align="left" valign="top" style="border-style: none">
+reset
+</td>
+<td align="center" valign="top" style="border-style: none">
+boolean
+</td>
+<td align="center" valign="top" style="border-style: none">
+1
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td align="left" valign="top" style="border-style: none">
+clk_enable
+</td>
+<td align="center" valign="top" style="border-style: none">
+boolean
+</td>
+<td align="center" valign="top" style="border-style: none">
+1
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td align="left" valign="top" style="border-style: none">
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5837\')'})"  name="code2model" class="code2model">
+validIn
+</a>
+
+</td>
+<td align="center" valign="top" style="border-style: none">
+boolean
+</td>
+<td align="center" valign="top" style="border-style: none">
+1
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td align="left" valign="top" style="border-style: none">
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5838\')'})"  name="code2model" class="code2model">
+dataInI
+</a>
+
+</td>
+<td align="center" valign="top" style="border-style: none">
+int16
+</td>
+<td align="center" valign="top" style="border-style: none">
+16
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td align="left" valign="top" style="border-style: none">
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5963\')'})"  name="code2model" class="code2model">
+dataInQ
+</a>
+
+</td>
+<td align="center" valign="top" style="border-style: none">
+int16
+</td>
+<td align="center" valign="top" style="border-style: none">
+16
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td align="left" valign="top" style="border-style: none">
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5839\')'})"  name="code2model" class="code2model">
+rstCS
+</a>
+
+</td>
+<td align="center" valign="top" style="border-style: none">
+boolean
+</td>
+<td align="center" valign="top" style="border-style: none">
+1
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td align="left" valign="top" style="border-style: none">
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5957\')'})"  name="code2model" class="code2model">
+iq_debug_mux
+</a>
+
+</td>
+<td align="center" valign="top" style="border-style: none">
+uint32
+</td>
+<td align="center" valign="top" style="border-style: none">
+32
+</td>
+
+</tr>
+
+</table>
+<h3>
+Output ports
+</h3>
+<table width="100%" border="1">
+<tr style="background-color: #eeeeff">
+<td align="left" valign="top" style="border-style: none">
+<b>Port Name</b>
+</td>
+<td align="center" valign="top" style="border-style: none">
+<b>Datatype</b>
+</td>
+<td align="center" valign="top" style="border-style: none">
+<b>Bits</b>
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td align="left" valign="top" style="border-style: none">
+ce_out
+</td>
+<td align="center" valign="top" style="border-style: none">
+boolean
+</td>
+<td align="center" valign="top" style="border-style: none">
+1
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td align="left" valign="top" style="border-style: none">
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5840\')'})"  name="code2model" class="code2model">
+rxDiagBus_nSynced
+</a>
+
+</td>
+<td align="center" valign="top" style="border-style: none">
+boolean
+</td>
+<td align="center" valign="top" style="border-style: none">
+1
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td align="left" valign="top" style="border-style: none">
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5840\')'})"  name="code2model" class="code2model">
+rxDiagBus_normCoarseFreqEst
+</a>
+
+</td>
+<td align="center" valign="top" style="border-style: none">
+sfix21_En21
+</td>
+<td align="center" valign="top" style="border-style: none">
+21
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td align="left" valign="top" style="border-style: none">
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5865\')'})"  name="code2model" class="code2model">
+count_out
+</a>
+
+</td>
+<td align="center" valign="top" style="border-style: none">
+uint32
+</td>
+<td align="center" valign="top" style="border-style: none">
+32
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td align="left" valign="top" style="border-style: none">
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5866\')'})"  name="code2model" class="code2model">
+packets_out
+</a>
+
+</td>
+<td align="center" valign="top" style="border-style: none">
+uint32
+</td>
+<td align="center" valign="top" style="border-style: none">
+32
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td align="left" valign="top" style="border-style: none">
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5867\')'})"  name="code2model" class="code2model">
+bit_errors_out
+</a>
+
+</td>
+<td align="center" valign="top" style="border-style: none">
+uint32
+</td>
+<td align="center" valign="top" style="border-style: none">
+32
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td align="left" valign="top" style="border-style: none">
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5991\')'})"  name="code2model" class="code2model">
+debugI
+</a>
+
+</td>
+<td align="center" valign="top" style="border-style: none">
+int16
+</td>
+<td align="center" valign="top" style="border-style: none">
+16
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td align="left" valign="top" style="border-style: none">
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5992\')'})"  name="code2model" class="code2model">
+debugQ
+</a>
+
+</td>
+<td align="center" valign="top" style="border-style: none">
+int16
+</td>
+<td align="center" valign="top" style="border-style: none">
+16
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td align="left" valign="top" style="border-style: none">
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:6004\')'})"  name="code2model" class="code2model">
+debugValid
+</a>
+
+</td>
+<td align="center" valign="top" style="border-style: none">
+boolean
+</td>
+<td align="center" valign="top" style="border-style: none">
+1
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td align="left" valign="top" style="border-style: none">
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:6007\')'})"  name="code2model" class="code2model">
+debugI1
+</a>
+
+</td>
+<td align="center" valign="top" style="border-style: none">
+int16
+</td>
+<td align="center" valign="top" style="border-style: none">
+16
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td align="left" valign="top" style="border-style: none">
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:6008\')'})"  name="code2model" class="code2model">
+debugQ1
+</a>
+
+</td>
+<td align="center" valign="top" style="border-style: none">
+int16
+</td>
+<td align="center" valign="top" style="border-style: none">
+16
+</td>
+
+</tr>
+
+</table>
+
+<script>function postParentWindowMessage(message) {window.parent.postMessage(message, "*");}</script>
+</body>
+
+</html>

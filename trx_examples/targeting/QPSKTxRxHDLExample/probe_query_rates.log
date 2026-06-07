@@ -1,0 +1,26 @@
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2025 The MathWorks, Inc.
+             R2025b Update 5 (25.2.0.3177638) 64-bit (glnxa64)
+                             February 24, 2026
+
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+
+	Trial License -- for use to evaluate programs for possible purchase as an end-user only.
+
+=== ADRV9002 sample rates ===
+  tx.SamplingRate = 1.536e+07 Hz
+  rx.SamplingRate = 1.536e+07 Hz
+  HDL design rate = 15360000 Hz
+
+=== Tx attributes ===
+  CF        = 2.4e+09
+  Atten     = -30
+
+=== Rx attributes ===
+  CF        = 2.4e+09
+
+=== done ===

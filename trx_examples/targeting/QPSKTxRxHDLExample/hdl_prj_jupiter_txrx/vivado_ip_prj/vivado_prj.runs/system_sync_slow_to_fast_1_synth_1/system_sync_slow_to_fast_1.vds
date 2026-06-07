@@ -1,0 +1,30 @@
+#-----------------------------------------------------------
+# Vivado v2025.1 (64-bit)
+# SW Build 6140274 on Wed May 21 22:58:25 MDT 2025
+# IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+# SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+# Start of session at: Tue May 26 19:45:14 2026
+# Process ID         : 3536605
+# Current directory  : /home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.runs/system_sync_slow_to_fast_1_synth_1
+# Command line       : vivado -log system_sync_slow_to_fast_1.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source system_sync_slow_to_fast_1.tcl
+# Log file           : /home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.runs/system_sync_slow_to_fast_1_synth_1/system_sync_slow_to_fast_1.vds
+# Journal file       : /home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.runs/system_sync_slow_to_fast_1_synth_1/vivado.jou
+# Running On         : nemo
+# Platform           : Ubuntu
+# Operating System   : Ubuntu 24.04.4 LTS
+# Processor Detail   : Intel(R) Xeon(R) CPU E5-1650 0 @ 3.20GHz
+# CPU Frequency      : 3192.637 MHz
+# CPU Physical cores : 6
+# CPU Logical cores  : 12
+# Host memory        : 67381 MB
+# Swap memory        : 8589 MB
+# Total Virtual      : 75970 MB
+# Available Virtual  : 47572 MB
+#-----------------------------------------------------------
+source system_sync_slow_to_fast_1.tcl -notrace
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/ipcore'.
+INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/library'.
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/tools/Xilinx/2025.1/Vivado/data/ip'.
+INFO: [IP_Flow 19-4838] Using cached IP synthesis design for IP system_sync_slow_to_fast_1, cache-ID = 3a820602141e1074.
+INFO: [Common 17-206] Exiting Vivado at Tue May 26 19:45:24 2026...

@@ -1,0 +1,2 @@
+tap,name,absMean,absStd,dcI,dcQ,clipping,evm,phaseRateRadPerSym,gainErr_dB,bestShift,bestRot,impliedBERpct,hardwareBERpct
+0,postAGC,0.250186,0.436761,-0.088831,-0.132618,0,0.374674,-5.101545e-03,0.0065,17,1,28.1250,0.3892

@@ -1,0 +1,24 @@
+#-----------------------------------------------------------
+# Vivado v2025.1 (64-bit)
+# SW Build 6140274 on Wed May 21 22:58:25 MDT 2025
+# IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+# SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+# Start of session at: Tue May 26 19:36:47 2026
+# Process ID         : 3523278
+# Current directory  : /home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.runs/system_Receiver_ip_0_0_synth_1
+# Command line       : vivado -log system_Receiver_ip_0_0.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source system_Receiver_ip_0_0.tcl
+# Log file           : /home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.runs/system_Receiver_ip_0_0_synth_1/system_Receiver_ip_0_0.vds
+# Journal file       : /home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.runs/system_Receiver_ip_0_0_synth_1/vivado.jou
+# Running On         : nemo
+# Platform           : Ubuntu
+# Operating System   : Ubuntu 24.04.4 LTS
+# Processor Detail   : Intel(R) Xeon(R) CPU E5-1650 0 @ 3.20GHz
+# CPU Frequency      : 3192.095 MHz
+# CPU Physical cores : 6
+# CPU Logical cores  : 12
+# Host memory        : 67381 MB
+# Swap memory        : 8589 MB
+# Total Virtual      : 75970 MB
+# Available Virtual  : 47559 MB
+#-----------------------------------------------------------
+source system_Receiver_ip_0_0.tcl -notrace

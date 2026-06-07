@@ -1,0 +1,54 @@
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2025 The MathWorks, Inc.
+             R2025b Update 5 (25.2.0.3177638) 64-bit (glnxa64)
+                             February 24, 2026
+
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+
+	Trial License -- for use to evaluate programs for possible purchase as an end-user only.
+
+SSH_ASKPASS=/tmp/BistRegisters_askpass_1776103.sh SSH_ASKPASS_REQUIRE=force DISPLAY=:0 setsid -w ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=8 -o NumberOfPasswordPrompts=1 root@10.0.0.146 "true" 2>/dev/null: Signal 127
+SSH_ASKPASS=/tmp/BistRegisters_askpass_1776103.sh SSH_ASKPASS_REQUIRE=force DISPLAY=:0 setsid -w ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=8 -o NumberOfPasswordPrompts=1 root@10.0.0.146 "true" 2>/dev/null: Signal 127
+SSH_ASKPASS=/tmp/BistRegisters_askpass_1776103.sh SSH_ASKPASS_REQUIRE=force DISPLAY=:0 setsid -w ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=8 -o NumberOfPasswordPrompts=1 root@10.0.0.146 "true" 2>/dev/null: Signal 127
+board up
+
+--- 30×1s windows with rstCS pulse between each ---
+  t= 1s  packets+=12755 errors+=389714 BER=1.3640%
+  t= 2s  packets+=17152 errors+=528074 BER=1.3745%
+  t= 3s  packets+=17421 errors+=532344 BER=1.3642%
+  t= 4s  packets+=17408 errors+=533550 BER=1.3683%
+  t= 5s  packets+=17226 errors+=529648 BER=1.3726%
+  t= 6s  packets+=17496 errors+=531092 BER=1.3551%
+  t= 7s  packets+=17172 errors+=529100 BER=1.3755%
+  t= 8s  packets+=17478 errors+=536948 BER=1.3715%
+  t= 9s  packets+=17400 errors+=535250 BER=1.3733%
+  t=10s  packets+=17582 errors+=530848 BER=1.3479%
+  t=11s  packets+=17027 errors+=519414 BER=1.3618%
+  t=12s  packets+=17098 errors+=524852 BER=1.3704%
+  t=13s  packets+=16977 errors+=519894 BER=1.3671%
+  t=14s  packets+=17240 errors+=531938 BER=1.3774%
+  t=15s  packets+=17492 errors+=536318 BER=1.3688%
+  t=16s  packets+=17533 errors+=535858 BER=1.3644%
+  t=17s  packets+=17339 errors+=533700 BER=1.3741%
+  t=18s  packets+=17428 errors+=530654 BER=1.3593%
+  t=19s  packets+=17203 errors+=530976 BER=1.3779%
+  t=20s  packets+=17376 errors+=526152 BER=1.3518%
+  t=21s  packets+=17371 errors+=533602 BER=1.3713%
+  t=22s  packets+=17448 errors+=529744 BER=1.3554%
+  t=23s  packets+=16993 errors+=521428 BER=1.3699%
+  t=24s  packets+=17281 errors+=530392 BER=1.3702%
+  t=25s  packets+=17234 errors+=529052 BER=1.3705%
+  t=26s  packets+=17296 errors+=529208 BER=1.3659%
+  t=27s  packets+=17526 errors+=538308 BER=1.3712%
+  t=28s  packets+=17339 errors+=528336 BER=1.3603%
+  t=29s  packets+=17575 errors+=540990 BER=1.3742%
+  t=30s  packets+=17424 errors+=529608 BER=1.3569%
+
+CUMULATIVE: packets=515290 errors=15776992 BER=1.3669%
+Best 1s window: t=10s, BER=1.3479% (17582 pkts)
+
+=== done ===

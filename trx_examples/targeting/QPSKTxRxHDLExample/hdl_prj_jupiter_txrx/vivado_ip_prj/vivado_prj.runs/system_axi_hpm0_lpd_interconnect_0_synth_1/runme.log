@@ -1,0 +1,962 @@
+
+*** Running vivado
+    with args -log system_axi_hpm0_lpd_interconnect_0.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source system_axi_hpm0_lpd_interconnect_0.tcl
+
+
+****** Vivado v2025.1 (64-bit)
+  **** SW Build 6140274 on Wed May 21 22:58:25 MDT 2025
+  **** IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+  **** SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+  **** Start of session at: Tue May 26 19:27:14 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source system_axi_hpm0_lpd_interconnect_0.tcl -notrace
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/ipcore'.
+INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/library'.
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/tools/Xilinx/2025.1/Vivado/data/ip'.
+Command: synth_design -top system_axi_hpm0_lpd_interconnect_0 -part xczu3eg-sfva625-2-e -incremental_mode off -mode out_of_context
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xczu3eg'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xczu3eg'
+INFO: [Device 21-403] Loading part xczu3eg-sfva625-2-e
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 7 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 3510024
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 2608.465 ; gain = 142.688 ; free physical = 7936 ; free virtual = 43672
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_9/synth/bd_e725_aroutsw_0.sv:94]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_9/synth/bd_e725_aroutsw_0.sv:95]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_9/synth/bd_e725_aroutsw_0.sv:96]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_9/synth/bd_e725_aroutsw_0.sv:97]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_9/synth/bd_e725_aroutsw_0.sv:98]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_9/synth/bd_e725_aroutsw_0.sv:99]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_9/synth/bd_e725_aroutsw_0.sv:100]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_10/synth/bd_e725_routsw_0.sv:83]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_PARAMETER' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_10/synth/bd_e725_routsw_0.sv:84]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_10/synth/bd_e725_routsw_0.sv:85]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_PARAMETER' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_10/synth/bd_e725_routsw_0.sv:86]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_10/synth/bd_e725_routsw_0.sv:87]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_PARAMETER' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_10/synth/bd_e725_routsw_0.sv:88]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_10/synth/bd_e725_routsw_0.sv:89]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_PARAMETER' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_10/synth/bd_e725_routsw_0.sv:90]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_10/synth/bd_e725_routsw_0.sv:91]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_PARAMETER' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_10/synth/bd_e725_routsw_0.sv:92]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_10/synth/bd_e725_routsw_0.sv:93]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_PARAMETER' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_10/synth/bd_e725_routsw_0.sv:94]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_10/synth/bd_e725_routsw_0.sv:95]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_PARAMETER' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_10/synth/bd_e725_routsw_0.sv:96]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_11/synth/bd_e725_awoutsw_0.sv:94]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_11/synth/bd_e725_awoutsw_0.sv:95]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_11/synth/bd_e725_awoutsw_0.sv:96]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_11/synth/bd_e725_awoutsw_0.sv:97]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_11/synth/bd_e725_awoutsw_0.sv:98]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_11/synth/bd_e725_awoutsw_0.sv:99]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_11/synth/bd_e725_awoutsw_0.sv:100]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_12/synth/bd_e725_woutsw_0.sv:94]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_12/synth/bd_e725_woutsw_0.sv:95]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_12/synth/bd_e725_woutsw_0.sv:96]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_12/synth/bd_e725_woutsw_0.sv:97]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_12/synth/bd_e725_woutsw_0.sv:98]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_12/synth/bd_e725_woutsw_0.sv:99]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_12/synth/bd_e725_woutsw_0.sv:100]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_13/synth/bd_e725_boutsw_0.sv:83]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_PARAMETER' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_13/synth/bd_e725_boutsw_0.sv:84]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_13/synth/bd_e725_boutsw_0.sv:85]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_PARAMETER' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_13/synth/bd_e725_boutsw_0.sv:86]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_13/synth/bd_e725_boutsw_0.sv:87]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_PARAMETER' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_13/synth/bd_e725_boutsw_0.sv:88]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_13/synth/bd_e725_boutsw_0.sv:89]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_PARAMETER' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_13/synth/bd_e725_boutsw_0.sv:90]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_13/synth/bd_e725_boutsw_0.sv:91]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_PARAMETER' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_13/synth/bd_e725_boutsw_0.sv:92]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_13/synth/bd_e725_boutsw_0.sv:93]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_PARAMETER' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_13/synth/bd_e725_boutsw_0.sv:94]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_MODE' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_13/synth/bd_e725_boutsw_0.sv:95]
+WARNING: [Synth 8-10507] attribute 'X_INTERFACE_PARAMETER' is already specified; last one will take precedence [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_13/synth/bd_e725_boutsw_0.sv:96]
+INFO: [Synth 8-6157] synthesizing module 'system_axi_hpm0_lpd_interconnect_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/synth/system_axi_hpm0_lpd_interconnect_0.v:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:10]
+INFO: [Synth 8-6157] synthesizing module 'clk_map_imp_1GMLHCC' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:3306]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_one_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_0/synth/bd_e725_one_0.v:53]
+INFO: [Synth 8-6157] synthesizing module 'xlconstant_v1_1_10_xlconstant' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ipshared/a165/hdl/xlconstant_v1_1_vl_rfs.v:68]
+INFO: [Synth 8-6155] done synthesizing module 'xlconstant_v1_1_10_xlconstant' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ipshared/a165/hdl/xlconstant_v1_1_vl_rfs.v:68]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_one_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_0/synth/bd_e725_one_0.v:53]
+INFO: [Synth 8-638] synthesizing module 'bd_e725_psr0_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_1/synth/bd_e725_psr0_0.vhd:74]
+	Parameter C_FAMILY bound to: zynquplus - type: string 
+	Parameter C_EXT_RST_WIDTH bound to: 4 - type: integer 
+	Parameter C_AUX_RST_WIDTH bound to: 1 - type: integer 
+	Parameter C_EXT_RESET_HIGH bound to: 1'b0 
+	Parameter C_AUX_RESET_HIGH bound to: 1'b0 
+	Parameter C_NUM_BUS_RST bound to: 1 - type: integer 
+	Parameter C_NUM_PERP_RST bound to: 1 - type: integer 
+	Parameter C_NUM_INTERCONNECT_ARESETN bound to: 1 - type: integer 
+	Parameter C_NUM_PERP_ARESETN bound to: 1 - type: integer 
+INFO: [Synth 8-3491] module 'proc_sys_reset' declared at '/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ipshared/9438/hdl/proc_sys_reset_v5_0_vh_rfs.vhd:1243' bound to instance 'U0' of component 'proc_sys_reset' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_1/synth/bd_e725_psr0_0.vhd:139]
+INFO: [Synth 8-638] synthesizing module 'proc_sys_reset' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ipshared/9438/hdl/proc_sys_reset_v5_0_vh_rfs.vhd:1302]
+	Parameter INIT bound to: 1'b1 
+INFO: [Synth 8-113] binding component instance 'FDRE_inst' to cell 'FDRE' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ipshared/9438/hdl/proc_sys_reset_v5_0_vh_rfs.vhd:1371]
+	Parameter INIT bound to: 1'b1 
+INFO: [Synth 8-113] binding component instance 'FDRE_BSR' to cell 'FDRE' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ipshared/9438/hdl/proc_sys_reset_v5_0_vh_rfs.vhd:1387]
+	Parameter INIT bound to: 1'b0 
+INFO: [Synth 8-113] binding component instance 'FDRE_BSR_N' to cell 'FDRE' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ipshared/9438/hdl/proc_sys_reset_v5_0_vh_rfs.vhd:1413]
+	Parameter INIT bound to: 1'b1 
+INFO: [Synth 8-113] binding component instance 'FDRE_PER' to cell 'FDRE' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ipshared/9438/hdl/proc_sys_reset_v5_0_vh_rfs.vhd:1436]
+	Parameter INIT bound to: 1'b0 
+INFO: [Synth 8-113] binding component instance 'FDRE_PER_N' to cell 'FDRE' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ipshared/9438/hdl/proc_sys_reset_v5_0_vh_rfs.vhd:1460]
+INFO: [Synth 8-638] synthesizing module 'lpf' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ipshared/9438/hdl/proc_sys_reset_v5_0_vh_rfs.vhd:821]
+INFO: [Synth 8-3491] module 'SRL16' declared at '/tools/Xilinx/2025.1/Vivado/scripts/rt/data/unisim_comp.v:158596' bound to instance 'POR_SRL_I' of component 'SRL16' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ipshared/9438/hdl/proc_sys_reset_v5_0_vh_rfs.vhd:873]
+INFO: [Synth 8-6157] synthesizing module 'SRL16' [/tools/Xilinx/2025.1/Vivado/scripts/rt/data/unisim_comp.v:158596]
+INFO: [Synth 8-6155] done synthesizing module 'SRL16' (0#1) [/tools/Xilinx/2025.1/Vivado/scripts/rt/data/unisim_comp.v:158596]
+	Parameter DEST_SYNC_FF bound to: 4 - type: integer 
+	Parameter INIT_SYNC_FF bound to: 0 - type: integer 
+	Parameter SIM_ASSERT_CHK bound to: 0 - type: integer 
+	Parameter SRC_INPUT_REG bound to: 0 - type: integer 
+INFO: [Synth 8-3491] module 'xpm_cdc_single' declared at '/tools/Xilinx/2025.1/Vivado/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv:152' bound to instance 'ACT_LO_EXT' of component 'xpm_cdc_single' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ipshared/9438/hdl/proc_sys_reset_v5_0_vh_rfs.vhd:968]
+INFO: [Synth 8-6157] synthesizing module 'xpm_cdc_single' [/tools/Xilinx/2025.1/Vivado/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv:152]
+INFO: [Synth 8-6155] done synthesizing module 'xpm_cdc_single' (0#1) [/tools/Xilinx/2025.1/Vivado/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv:152]
+	Parameter DEST_SYNC_FF bound to: 4 - type: integer 
+	Parameter INIT_SYNC_FF bound to: 0 - type: integer 
+	Parameter SIM_ASSERT_CHK bound to: 0 - type: integer 
+	Parameter SRC_INPUT_REG bound to: 0 - type: integer 
+INFO: [Synth 8-3491] module 'xpm_cdc_single' declared at '/tools/Xilinx/2025.1/Vivado/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv:152' bound to instance 'ACT_LO_AUX' of component 'xpm_cdc_single' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ipshared/9438/hdl/proc_sys_reset_v5_0_vh_rfs.vhd:1015]
+INFO: [Synth 8-256] done synthesizing module 'lpf' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ipshared/9438/hdl/proc_sys_reset_v5_0_vh_rfs.vhd:821]
+INFO: [Synth 8-638] synthesizing module 'sequence_psr' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ipshared/9438/hdl/proc_sys_reset_v5_0_vh_rfs.vhd:304]
+INFO: [Synth 8-638] synthesizing module 'upcnt_n' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ipshared/9438/hdl/proc_sys_reset_v5_0_vh_rfs.vhd:126]
+INFO: [Synth 8-256] done synthesizing module 'upcnt_n' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ipshared/9438/hdl/proc_sys_reset_v5_0_vh_rfs.vhd:126]
+INFO: [Synth 8-256] done synthesizing module 'sequence_psr' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ipshared/9438/hdl/proc_sys_reset_v5_0_vh_rfs.vhd:304]
+INFO: [Synth 8-256] done synthesizing module 'proc_sys_reset' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ipshared/9438/hdl/proc_sys_reset_v5_0_vh_rfs.vhd:1302]
+INFO: [Synth 8-256] done synthesizing module 'bd_e725_psr0_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_1/synth/bd_e725_psr0_0.vhd:74]
+WARNING: [Synth 8-7071] port 'mb_reset' of module 'bd_e725_psr0_0' is unconnected for instance 'psr0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:3384]
+WARNING: [Synth 8-7071] port 'bus_struct_reset' of module 'bd_e725_psr0_0' is unconnected for instance 'psr0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:3384]
+WARNING: [Synth 8-7071] port 'peripheral_reset' of module 'bd_e725_psr0_0' is unconnected for instance 'psr0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:3384]
+WARNING: [Synth 8-7071] port 'peripheral_aresetn' of module 'bd_e725_psr0_0' is unconnected for instance 'psr0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:3384]
+WARNING: [Synth 8-7023] instance 'psr0' of module 'bd_e725_psr0_0' has 10 connections declared, but only 6 given [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:3384]
+INFO: [Synth 8-638] synthesizing module 'bd_e725_psr_aclk_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_2/synth/bd_e725_psr_aclk_0.vhd:74]
+	Parameter C_FAMILY bound to: zynquplus - type: string 
+	Parameter C_EXT_RST_WIDTH bound to: 4 - type: integer 
+	Parameter C_AUX_RST_WIDTH bound to: 1 - type: integer 
+	Parameter C_EXT_RESET_HIGH bound to: 1'b0 
+	Parameter C_AUX_RESET_HIGH bound to: 1'b0 
+	Parameter C_NUM_BUS_RST bound to: 1 - type: integer 
+	Parameter C_NUM_PERP_RST bound to: 1 - type: integer 
+	Parameter C_NUM_INTERCONNECT_ARESETN bound to: 1 - type: integer 
+	Parameter C_NUM_PERP_ARESETN bound to: 1 - type: integer 
+INFO: [Synth 8-3491] module 'proc_sys_reset' declared at '/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ipshared/9438/hdl/proc_sys_reset_v5_0_vh_rfs.vhd:1243' bound to instance 'U0' of component 'proc_sys_reset' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_2/synth/bd_e725_psr_aclk_0.vhd:139]
+INFO: [Synth 8-256] done synthesizing module 'bd_e725_psr_aclk_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_2/synth/bd_e725_psr_aclk_0.vhd:74]
+WARNING: [Synth 8-7071] port 'mb_reset' of module 'bd_e725_psr_aclk_0' is unconnected for instance 'psr_aclk' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:3391]
+WARNING: [Synth 8-7071] port 'bus_struct_reset' of module 'bd_e725_psr_aclk_0' is unconnected for instance 'psr_aclk' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:3391]
+WARNING: [Synth 8-7071] port 'peripheral_reset' of module 'bd_e725_psr_aclk_0' is unconnected for instance 'psr_aclk' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:3391]
+WARNING: [Synth 8-7071] port 'peripheral_aresetn' of module 'bd_e725_psr_aclk_0' is unconnected for instance 'psr_aclk' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:3391]
+WARNING: [Synth 8-7023] instance 'psr_aclk' of module 'bd_e725_psr_aclk_0' has 10 connections declared, but only 6 given [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:3391]
+INFO: [Synth 8-638] synthesizing module 'bd_e725_psr_aclk1_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_3/synth/bd_e725_psr_aclk1_0.vhd:74]
+	Parameter C_FAMILY bound to: zynquplus - type: string 
+	Parameter C_EXT_RST_WIDTH bound to: 4 - type: integer 
+	Parameter C_AUX_RST_WIDTH bound to: 1 - type: integer 
+	Parameter C_EXT_RESET_HIGH bound to: 1'b0 
+	Parameter C_AUX_RESET_HIGH bound to: 1'b0 
+	Parameter C_NUM_BUS_RST bound to: 1 - type: integer 
+	Parameter C_NUM_PERP_RST bound to: 1 - type: integer 
+	Parameter C_NUM_INTERCONNECT_ARESETN bound to: 1 - type: integer 
+	Parameter C_NUM_PERP_ARESETN bound to: 1 - type: integer 
+INFO: [Synth 8-3491] module 'proc_sys_reset' declared at '/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ipshared/9438/hdl/proc_sys_reset_v5_0_vh_rfs.vhd:1243' bound to instance 'U0' of component 'proc_sys_reset' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_3/synth/bd_e725_psr_aclk1_0.vhd:139]
+INFO: [Synth 8-256] done synthesizing module 'bd_e725_psr_aclk1_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_3/synth/bd_e725_psr_aclk1_0.vhd:74]
+WARNING: [Synth 8-7071] port 'mb_reset' of module 'bd_e725_psr_aclk1_0' is unconnected for instance 'psr_aclk1' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:3398]
+WARNING: [Synth 8-7071] port 'bus_struct_reset' of module 'bd_e725_psr_aclk1_0' is unconnected for instance 'psr_aclk1' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:3398]
+WARNING: [Synth 8-7071] port 'peripheral_reset' of module 'bd_e725_psr_aclk1_0' is unconnected for instance 'psr_aclk1' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:3398]
+WARNING: [Synth 8-7071] port 'peripheral_aresetn' of module 'bd_e725_psr_aclk1_0' is unconnected for instance 'psr_aclk1' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:3398]
+WARNING: [Synth 8-7023] instance 'psr_aclk1' of module 'bd_e725_psr_aclk1_0' has 10 connections declared, but only 6 given [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:3398]
+INFO: [Synth 8-6155] done synthesizing module 'clk_map_imp_1GMLHCC' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:3306]
+INFO: [Synth 8-6157] synthesizing module 'm00_exit_pipeline_imp_J5CP1Z' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:3649]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m00e_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_34/synth/bd_e725_m00e_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'xpm_cdc_async_rst' [/tools/Xilinx/2025.1/Vivado/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv:1175]
+INFO: [Synth 8-6155] done synthesizing module 'xpm_cdc_async_rst' (0#1) [/tools/Xilinx/2025.1/Vivado/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv:1175]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m00e_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_34/synth/bd_e725_m00e_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'm00_exit_pipeline_imp_J5CP1Z' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:3649]
+INFO: [Synth 8-6157] synthesizing module 'm00_nodes_imp_5VVOCB' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:3891]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m00arn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_29/synth/bd_e725_m00arn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m00arn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_29/synth/bd_e725_m00arn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m00awn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_31/synth/bd_e725_m00awn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m00awn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_31/synth/bd_e725_m00awn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m00bn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_33/synth/bd_e725_m00bn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m00bn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_33/synth/bd_e725_m00bn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m00rn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_30/synth/bd_e725_m00rn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m00rn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_30/synth/bd_e725_m00rn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m00wn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_32/synth/bd_e725_m00wn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m00wn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_32/synth/bd_e725_m00wn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'm00_nodes_imp_5VVOCB' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:3891]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m00s2a_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_28/synth/bd_e725_m00s2a_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m00s2a_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_28/synth/bd_e725_m00s2a_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'm01_exit_pipeline_imp_MSRG2F' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:4133]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m01e_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_41/synth/bd_e725_m01e_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m01e_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_41/synth/bd_e725_m01e_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'm01_exit_pipeline_imp_MSRG2F' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:4133]
+INFO: [Synth 8-6157] synthesizing module 'm01_nodes_imp_11SQ2DP' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:4375]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m01arn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_36/synth/bd_e725_m01arn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m01arn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_36/synth/bd_e725_m01arn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m01awn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_38/synth/bd_e725_m01awn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m01awn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_38/synth/bd_e725_m01awn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m01bn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_40/synth/bd_e725_m01bn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m01bn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_40/synth/bd_e725_m01bn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m01rn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_37/synth/bd_e725_m01rn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m01rn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_37/synth/bd_e725_m01rn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m01wn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_39/synth/bd_e725_m01wn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m01wn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_39/synth/bd_e725_m01wn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'm01_nodes_imp_11SQ2DP' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:4375]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m01s2a_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_35/synth/bd_e725_m01s2a_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m01s2a_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_35/synth/bd_e725_m01s2a_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'm02_exit_pipeline_imp_TS1Y6V' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:4617]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m02e_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_48/synth/bd_e725_m02e_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m02e_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_48/synth/bd_e725_m02e_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'm02_exit_pipeline_imp_TS1Y6V' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:4617]
+INFO: [Synth 8-6157] synthesizing module 'm02_nodes_imp_1VSPX06' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:4859]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m02arn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_43/synth/bd_e725_m02arn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m02arn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_43/synth/bd_e725_m02arn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m02awn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_45/synth/bd_e725_m02awn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m02awn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_45/synth/bd_e725_m02awn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m02bn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_47/synth/bd_e725_m02bn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m02bn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_47/synth/bd_e725_m02bn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m02rn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_44/synth/bd_e725_m02rn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m02rn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_44/synth/bd_e725_m02rn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m02wn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_46/synth/bd_e725_m02wn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m02wn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_46/synth/bd_e725_m02wn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'm02_nodes_imp_1VSPX06' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:4859]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m02s2a_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_42/synth/bd_e725_m02s2a_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m02s2a_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_42/synth/bd_e725_m02s2a_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'm03_exit_pipeline_imp_YJFS7R' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:5101]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m03e_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_55/synth/bd_e725_m03e_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m03e_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_55/synth/bd_e725_m03e_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'm03_exit_pipeline_imp_YJFS7R' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:5101]
+INFO: [Synth 8-6157] synthesizing module 'm03_nodes_imp_T87PR4' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:5343]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m03arn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_50/synth/bd_e725_m03arn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m03arn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_50/synth/bd_e725_m03arn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m03awn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_52/synth/bd_e725_m03awn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m03awn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_52/synth/bd_e725_m03awn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m03bn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_54/synth/bd_e725_m03bn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m03bn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_54/synth/bd_e725_m03bn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m03rn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_51/synth/bd_e725_m03rn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m03rn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_51/synth/bd_e725_m03rn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m03wn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_53/synth/bd_e725_m03wn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m03wn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_53/synth/bd_e725_m03wn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'm03_nodes_imp_T87PR4' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:5343]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m03s2a_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_49/synth/bd_e725_m03s2a_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m03s2a_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_49/synth/bd_e725_m03s2a_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'm04_exit_pipeline_imp_742IFR' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:5585]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m04e_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_62/synth/bd_e725_m04e_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m04e_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_62/synth/bd_e725_m04e_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'm04_exit_pipeline_imp_742IFR' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:5585]
+INFO: [Synth 8-6157] synthesizing module 'm04_nodes_imp_3HWEZK' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:5827]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m04arn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_57/synth/bd_e725_m04arn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m04arn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_57/synth/bd_e725_m04arn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m04awn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_59/synth/bd_e725_m04awn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m04awn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_59/synth/bd_e725_m04awn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m04bn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_61/synth/bd_e725_m04bn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m04bn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_61/synth/bd_e725_m04bn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m04rn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_58/synth/bd_e725_m04rn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m04rn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_58/synth/bd_e725_m04rn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m04wn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_60/synth/bd_e725_m04wn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m04wn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_60/synth/bd_e725_m04wn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'm04_nodes_imp_3HWEZK' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:5827]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m04s2a_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_56/synth/bd_e725_m04s2a_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m04s2a_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_56/synth/bd_e725_m04s2a_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'm05_exit_pipeline_imp_4193X3' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:6069]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m05e_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_69/synth/bd_e725_m05e_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m05e_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_69/synth/bd_e725_m05e_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'm05_exit_pipeline_imp_4193X3' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:6069]
+INFO: [Synth 8-6157] synthesizing module 'm05_nodes_imp_14E6V86' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:6311]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m05arn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_64/synth/bd_e725_m05arn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m05arn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_64/synth/bd_e725_m05arn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m05awn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_66/synth/bd_e725_m05awn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m05awn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_66/synth/bd_e725_m05awn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m05bn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_68/synth/bd_e725_m05bn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m05bn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_68/synth/bd_e725_m05bn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m05rn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_65/synth/bd_e725_m05rn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m05rn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_65/synth/bd_e725_m05rn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m05wn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_67/synth/bd_e725_m05wn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m05wn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_67/synth/bd_e725_m05wn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'm05_nodes_imp_14E6V86' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:6311]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m05s2a_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_63/synth/bd_e725_m05s2a_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m05s2a_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_63/synth/bd_e725_m05s2a_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'm06_exit_pipeline_imp_FITLJR' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:6553]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m06e_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_76/synth/bd_e725_m06e_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m06e_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_76/synth/bd_e725_m06e_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'm06_exit_pipeline_imp_FITLJR' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:6553]
+INFO: [Synth 8-6157] synthesizing module 'm06_nodes_imp_1U0V58T' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:6795]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m06arn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_71/synth/bd_e725_m06arn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m06arn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_71/synth/bd_e725_m06arn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m06awn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_73/synth/bd_e725_m06awn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m06awn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_73/synth/bd_e725_m06awn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m06bn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_75/synth/bd_e725_m06bn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m06bn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_75/synth/bd_e725_m06bn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m06rn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_72/synth/bd_e725_m06rn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m06rn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_72/synth/bd_e725_m06rn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m06wn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_74/synth/bd_e725_m06wn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m06wn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_74/synth/bd_e725_m06wn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'm06_nodes_imp_1U0V58T' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:6795]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m06s2a_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_70/synth/bd_e725_m06s2a_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m06s2a_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_70/synth/bd_e725_m06s2a_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'm07_exit_pipeline_imp_945RX3' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:7037]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m07e_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_83/synth/bd_e725_m07e_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m07e_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_83/synth/bd_e725_m07e_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'm07_exit_pipeline_imp_945RX3' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:7037]
+INFO: [Synth 8-6157] synthesizing module 'm07_nodes_imp_VCJWVV' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:7279]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m07arn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_78/synth/bd_e725_m07arn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'xpm_cdc_handshake' [/tools/Xilinx/2025.1/Vivado/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv:468]
+INFO: [Synth 8-6157] synthesizing module 'xpm_cdc_single__parameterized1' [/tools/Xilinx/2025.1/Vivado/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv:152]
+INFO: [Synth 8-6155] done synthesizing module 'xpm_cdc_single__parameterized1' (0#1) [/tools/Xilinx/2025.1/Vivado/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv:152]
+INFO: [Synth 8-6155] done synthesizing module 'xpm_cdc_handshake' (0#1) [/tools/Xilinx/2025.1/Vivado/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv:468]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m07arn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_78/synth/bd_e725_m07arn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m07awn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_80/synth/bd_e725_m07awn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m07awn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_80/synth/bd_e725_m07awn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m07bn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_82/synth/bd_e725_m07bn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'xpm_cdc_handshake__parameterized0' [/tools/Xilinx/2025.1/Vivado/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv:468]
+INFO: [Synth 8-6155] done synthesizing module 'xpm_cdc_handshake__parameterized0' (0#1) [/tools/Xilinx/2025.1/Vivado/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv:468]
+INFO: [Synth 8-6157] synthesizing module 'xpm_cdc_handshake__parameterized1' [/tools/Xilinx/2025.1/Vivado/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv:468]
+INFO: [Synth 8-6155] done synthesizing module 'xpm_cdc_handshake__parameterized1' (0#1) [/tools/Xilinx/2025.1/Vivado/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv:468]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m07bn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_82/synth/bd_e725_m07bn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m07rn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_79/synth/bd_e725_m07rn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'xpm_cdc_handshake__parameterized2' [/tools/Xilinx/2025.1/Vivado/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv:468]
+INFO: [Synth 8-6155] done synthesizing module 'xpm_cdc_handshake__parameterized2' (0#1) [/tools/Xilinx/2025.1/Vivado/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv:468]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m07rn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_79/synth/bd_e725_m07rn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m07wn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_81/synth/bd_e725_m07wn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'xpm_cdc_handshake__parameterized3' [/tools/Xilinx/2025.1/Vivado/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv:468]
+INFO: [Synth 8-6155] done synthesizing module 'xpm_cdc_handshake__parameterized3' (0#1) [/tools/Xilinx/2025.1/Vivado/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv:468]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m07wn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_81/synth/bd_e725_m07wn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'm07_nodes_imp_VCJWVV' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:7279]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_m07s2a_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_77/synth/bd_e725_m07s2a_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_m07s2a_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_77/synth/bd_e725_m07s2a_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_s00a2s_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_22/synth/bd_e725_s00a2s_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_s00a2s_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_22/synth/bd_e725_s00a2s_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 's00_entry_pipeline_imp_1IZFMJ8' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:7521]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_s00mmu_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_19/synth/bd_e725_s00mmu_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_s00mmu_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_19/synth/bd_e725_s00mmu_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_s00sic_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_21/synth/bd_e725_s00sic_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_s00sic_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_21/synth/bd_e725_s00sic_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_s00tr_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_20/synth/bd_e725_s00tr_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_s00tr_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_20/synth/bd_e725_s00tr_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 's00_entry_pipeline_imp_1IZFMJ8' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:7521]
+INFO: [Synth 8-6157] synthesizing module 's00_nodes_imp_1MPE66M' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:8101]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_sarn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_23/synth/bd_e725_sarn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_sarn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_23/synth/bd_e725_sarn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_sawn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_25/synth/bd_e725_sawn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_sawn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_25/synth/bd_e725_sawn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_sbn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_27/synth/bd_e725_sbn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_sbn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_27/synth/bd_e725_sbn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_srn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_24/synth/bd_e725_srn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_srn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_24/synth/bd_e725_srn_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_swn_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_26/synth/bd_e725_swn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_swn_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_26/synth/bd_e725_swn_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 's00_nodes_imp_1MPE66M' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:8101]
+INFO: [Synth 8-6157] synthesizing module 'switchboards_imp_1F5UFH6' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:8343]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_arinsw_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_4/synth/bd_e725_arinsw_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_arinsw_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_4/synth/bd_e725_arinsw_0.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'bd_e725_aroutsw_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_9/synth/bd_e725_aroutsw_0.sv:53]
+INFO: [Common 17-14] Message 'Synth 8-6157' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_aroutsw_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_9/synth/bd_e725_aroutsw_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_awinsw_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_6/synth/bd_e725_awinsw_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_awoutsw_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_11/synth/bd_e725_awoutsw_0.sv:53]
+INFO: [Synth 8-6155] done synthesizing module 'bd_e725_binsw_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_8/synth/bd_e725_binsw_0.sv:53]
+INFO: [Common 17-14] Message 'Synth 8-6155' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+WARNING: [Synth 8-3301] Unused top level parameter/generic USE_RX_CLK_FOR_TX1
+WARNING: [Synth 8-3301] Unused top level parameter/generic USE_RX_CLK_FOR_TX2
+WARNING: [Synth 8-3848] Net aresetn_out in module/entity clk_map_imp_1GMLHCC does not have driver. [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/bd_e725.v:3352]
+WARNING: [Synth 8-6014] Unused sequential element dest_req_ext_ff_reg was removed.  [/tools/Xilinx/2025.1/Vivado/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv:623]
+WARNING: [Synth 8-6014] Unused sequential element dest_req_ext_ff_reg was removed.  [/tools/Xilinx/2025.1/Vivado/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv:623]
+INFO: [Synth 8-4490] FSM extraction disabled for register 'gen_AB_reg_slice.state_reg' through user attribute
+WARNING: [Synth 8-6014] Unused sequential element dest_req_ext_ff_reg was removed.  [/tools/Xilinx/2025.1/Vivado/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv:623]
+WARNING: [Synth 8-6014] Unused sequential element dest_req_ext_ff_reg was removed.  [/tools/Xilinx/2025.1/Vivado/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv:623]
+WARNING: [Synth 8-6014] Unused sequential element dest_req_ext_ff_reg was removed.  [/tools/Xilinx/2025.1/Vivado/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv:623]
+WARNING: [Synth 8-7129] Port aclk in module sc_util_v1_0_4_pipeline__parameterized4 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port aclken in module sc_util_v1_0_4_pipeline__parameterized4 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port areset in module sc_util_v1_0_4_pipeline__parameterized4 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port aclk in module sc_util_v1_0_4_pipeline__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port aclken in module sc_util_v1_0_4_pipeline__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port areset in module sc_util_v1_0_4_pipeline__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port din[0] in module sc_util_v1_0_4_onehot_to_binary__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port connectivity[7] in module sc_switchboard_v1_0_8_top__parameterized6 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port connectivity[6] in module sc_switchboard_v1_0_8_top__parameterized6 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port connectivity[5] in module sc_switchboard_v1_0_8_top__parameterized6 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port connectivity[4] in module sc_switchboard_v1_0_8_top__parameterized6 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port connectivity[3] in module sc_switchboard_v1_0_8_top__parameterized6 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port connectivity[2] in module sc_switchboard_v1_0_8_top__parameterized6 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port connectivity[1] in module sc_switchboard_v1_0_8_top__parameterized6 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port connectivity[0] in module sc_switchboard_v1_0_8_top__parameterized6 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port connectivity[0] in module sc_switchboard_v1_0_8_top__parameterized5 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port aclk in module sc_util_v1_0_4_pipeline__parameterized3 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port aclken in module sc_util_v1_0_4_pipeline__parameterized3 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port areset in module sc_util_v1_0_4_pipeline__parameterized3 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port aclk in module sc_util_v1_0_4_pipeline__parameterized11 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port aclken in module sc_util_v1_0_4_pipeline__parameterized11 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port areset in module sc_util_v1_0_4_pipeline__parameterized11 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port din[0] in module sc_util_v1_0_4_onehot_to_binary__parameterized1 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port connectivity[7] in module sc_switchboard_v1_0_8_top__parameterized4 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port connectivity[6] in module sc_switchboard_v1_0_8_top__parameterized4 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port connectivity[5] in module sc_switchboard_v1_0_8_top__parameterized4 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port connectivity[4] in module sc_switchboard_v1_0_8_top__parameterized4 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port connectivity[3] in module sc_switchboard_v1_0_8_top__parameterized4 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port connectivity[2] in module sc_switchboard_v1_0_8_top__parameterized4 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port connectivity[1] in module sc_switchboard_v1_0_8_top__parameterized4 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port connectivity[0] in module sc_switchboard_v1_0_8_top__parameterized4 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port connectivity[0] in module sc_switchboard_v1_0_8_top__parameterized3 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port din[0] in module sc_util_v1_0_4_onehot_to_binary is either unconnected or has no load
+WARNING: [Synth 8-7129] Port slow_clk in module sc_util_v1_0_4_sample_cycle_ratio is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fast_clk in module sc_util_v1_0_4_sample_cycle_ratio is either unconnected or has no load
+WARNING: [Synth 8-7129] Port aclk in module sc_util_v1_0_4_pipeline__parameterized16 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port aclken in module sc_util_v1_0_4_pipeline__parameterized16 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port areset in module sc_util_v1_0_4_pipeline__parameterized16 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port aclk in module sc_node_v1_0_18_reg_slice3__parameterized1 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port aclken in module sc_node_v1_0_18_reg_slice3__parameterized1 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port areset in module sc_node_v1_0_18_reg_slice3__parameterized1 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port aclk in module sc_node_v1_0_18_si_handler__parameterized8 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port aclken in module sc_node_v1_0_18_si_handler__parameterized8 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port areset in module sc_node_v1_0_18_si_handler__parameterized8 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_sc_req[0] in module sc_node_v1_0_18_si_handler__parameterized8 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_sc_info[0] in module sc_node_v1_0_18_si_handler__parameterized8 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axis_arb_tvalid in module sc_node_v1_0_18_si_handler__parameterized8 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axis_arb_tdata[15] in module sc_node_v1_0_18_si_handler__parameterized8 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axis_arb_tdata[14] in module sc_node_v1_0_18_si_handler__parameterized8 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axis_arb_tdata[13] in module sc_node_v1_0_18_si_handler__parameterized8 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axis_arb_tdata[12] in module sc_node_v1_0_18_si_handler__parameterized8 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axis_arb_tdata[11] in module sc_node_v1_0_18_si_handler__parameterized8 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axis_arb_tdata[10] in module sc_node_v1_0_18_si_handler__parameterized8 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axis_arb_tdata[9] in module sc_node_v1_0_18_si_handler__parameterized8 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axis_arb_tdata[8] in module sc_node_v1_0_18_si_handler__parameterized8 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axis_arb_tdata[7] in module sc_node_v1_0_18_si_handler__parameterized8 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axis_arb_tdata[6] in module sc_node_v1_0_18_si_handler__parameterized8 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axis_arb_tdata[5] in module sc_node_v1_0_18_si_handler__parameterized8 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axis_arb_tdata[4] in module sc_node_v1_0_18_si_handler__parameterized8 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axis_arb_tdata[3] in module sc_node_v1_0_18_si_handler__parameterized8 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axis_arb_tdata[2] in module sc_node_v1_0_18_si_handler__parameterized8 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axis_arb_tdata[1] in module sc_node_v1_0_18_si_handler__parameterized8 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axis_arb_tdata[0] in module sc_node_v1_0_18_si_handler__parameterized8 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m_axis_arb_tready in module sc_node_v1_0_18_si_handler__parameterized8 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port aclk in module sc_util_v1_0_4_axic_register_slice is either unconnected or has no load
+WARNING: [Synth 8-7129] Port areset in module sc_util_v1_0_4_axic_register_slice is either unconnected or has no load
+WARNING: [Synth 8-7129] Port aclken in module sc_util_v1_0_4_axic_register_slice is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m_sc_aclken in module sc_node_v1_0_18_top__parameterized18 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port din[0] in module sc_util_v1_0_4_onehot_to_binary__parameterized2 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port aclk in module sc_util_v1_0_4_pipeline__parameterized13 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port aclken in module sc_util_v1_0_4_pipeline__parameterized13 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port areset in module sc_util_v1_0_4_pipeline__parameterized13 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_sc_payld[54] in module sc_node_v1_0_18_ingress__parameterized7 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_sc_payld[53] in module sc_node_v1_0_18_ingress__parameterized7 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port aclk in module sc_util_v1_0_4_pipeline__parameterized15 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port aclken in module sc_util_v1_0_4_pipeline__parameterized15 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port areset in module sc_util_v1_0_4_pipeline__parameterized15 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port aclk in module sc_node_v1_0_18_reg_slice3 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port aclken in module sc_node_v1_0_18_reg_slice3 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port areset in module sc_node_v1_0_18_reg_slice3 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port areset in module sc_node_v1_0_18_fi_regulator is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_sc_info[7] in module sc_node_v1_0_18_si_handler__parameterized10 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_sc_info[6] in module sc_node_v1_0_18_si_handler__parameterized10 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_sc_info[5] in module sc_node_v1_0_18_si_handler__parameterized10 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_sc_info[4] in module sc_node_v1_0_18_si_handler__parameterized10 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_sc_info[3] in module sc_node_v1_0_18_si_handler__parameterized10 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_sc_info[2] in module sc_node_v1_0_18_si_handler__parameterized10 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_sc_info[1] in module sc_node_v1_0_18_si_handler__parameterized10 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_sc_info[0] in module sc_node_v1_0_18_si_handler__parameterized10 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axis_arb_tvalid in module sc_node_v1_0_18_si_handler__parameterized10 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axis_arb_tdata[15] in module sc_node_v1_0_18_si_handler__parameterized10 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axis_arb_tdata[14] in module sc_node_v1_0_18_si_handler__parameterized10 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axis_arb_tdata[13] in module sc_node_v1_0_18_si_handler__parameterized10 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axis_arb_tdata[12] in module sc_node_v1_0_18_si_handler__parameterized10 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axis_arb_tdata[11] in module sc_node_v1_0_18_si_handler__parameterized10 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axis_arb_tdata[10] in module sc_node_v1_0_18_si_handler__parameterized10 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axis_arb_tdata[9] in module sc_node_v1_0_18_si_handler__parameterized10 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axis_arb_tdata[8] in module sc_node_v1_0_18_si_handler__parameterized10 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axis_arb_tdata[7] in module sc_node_v1_0_18_si_handler__parameterized10 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axis_arb_tdata[6] in module sc_node_v1_0_18_si_handler__parameterized10 is either unconnected or has no load
+INFO: [Common 17-14] Message 'Synth 8-7129' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:32 ; elapsed = 00:00:34 . Memory (MB): peak = 2854.973 ; gain = 389.195 ; free physical = 7720 ; free virtual = 43463
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:32 ; elapsed = 00:00:34 . Memory (MB): peak = 2854.973 ; gain = 389.195 ; free physical = 7721 ; free virtual = 43463
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:33 ; elapsed = 00:00:34 . Memory (MB): peak = 2854.973 ; gain = 389.195 ; free physical = 7721 ; free virtual = 43463
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 3005.027 ; gain = 6.000 ; free physical = 7593 ; free virtual = 43337
+INFO: [Netlist 29-17] Analyzing 3 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/ooc.xdc] for cell 'inst'
+create_clock: Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 3394.316 ; gain = 25.898 ; free physical = 7370 ; free virtual = 43113
+Finished Parsing XDC File [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/ooc.xdc] for cell 'inst'
+Parsing XDC File [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_1/bd_e725_psr0_0_board.xdc] for cell 'inst/clk_map/psr0/U0'
+Finished Parsing XDC File [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_1/bd_e725_psr0_0_board.xdc] for cell 'inst/clk_map/psr0/U0'
+Parsing XDC File [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_2/bd_e725_psr_aclk_0_board.xdc] for cell 'inst/clk_map/psr_aclk/U0'
+Finished Parsing XDC File [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_2/bd_e725_psr_aclk_0_board.xdc] for cell 'inst/clk_map/psr_aclk/U0'
+Parsing XDC File [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_3/bd_e725_psr_aclk1_0_board.xdc] for cell 'inst/clk_map/psr_aclk1/U0'
+Finished Parsing XDC File [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/ip/ip_3/bd_e725_psr_aclk1_0_board.xdc] for cell 'inst/clk_map/psr_aclk1/U0'
+Parsing XDC File [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/smartconnect.xdc] for cell 'inst'
+Finished Parsing XDC File [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/smartconnect.xdc] for cell 'inst'
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/smartconnect.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/system_axi_hpm0_lpd_interconnect_0_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/system_axi_hpm0_lpd_interconnect_0_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+Parsing XDC File [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.runs/system_axi_hpm0_lpd_interconnect_0_synth_1/dont_touch.xdc]
+Finished Parsing XDC File [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.runs/system_axi_hpm0_lpd_interconnect_0_synth_1/dont_touch.xdc]
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [/tools/Xilinx/2025.1/Vivado/data/ip/xpm/xpm_cdc/tcl/xpm_cdc_handshake.tcl]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/system_axi_hpm0_lpd_interconnect_0_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/system_axi_hpm0_lpd_interconnect_0_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [/tools/Xilinx/2025.1/Vivado/data/ip/xpm/xpm_cdc/tcl/xpm_cdc_single.tcl]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/system_axi_hpm0_lpd_interconnect_0_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/system_axi_hpm0_lpd_interconnect_0_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+INFO: [Project 1-1714] 138 XPM XDC files have been applied to the design.
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.02 . Memory (MB): peak = 3394.316 ; gain = 0.000 ; free physical = 7377 ; free virtual = 43121
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 3 instances were transformed.
+  SRL16 => SRL16E: 3 instances
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00.38 ; elapsed = 00:00:00.33 . Memory (MB): peak = 3402.254 ; gain = 7.902 ; free physical = 7372 ; free virtual = 43116
+INFO: [Designutils 20-5008] Incremental synthesis strategy off
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:01:23 ; elapsed = 00:01:26 . Memory (MB): peak = 3402.254 ; gain = 936.477 ; free physical = 7367 ; free virtual = 43111
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xczu3eg-sfva625-2-e
+INFO: [Synth 8-6742] Reading net delay rules and data
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:01:23 ; elapsed = 00:01:26 . Memory (MB): peak = 3414.465 ; gain = 948.688 ; free physical = 7368 ; free virtual = 43112
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:01:24 ; elapsed = 00:01:27 . Memory (MB): peak = 3414.465 ; gain = 948.688 ; free physical = 7367 ; free virtual = 43112
+---------------------------------------------------------------------------------
+INFO: [Synth 8-802] inferred FSM for state register 'wr_state_reg' in module 'sc_node_v1_0_18_reg_fifo_async__xdcDup__1'
+INFO: [Synth 8-802] inferred FSM for state register 'rd_state_reg' in module 'sc_node_v1_0_18_reg_fifo_async__xdcDup__1'
+INFO: [Synth 8-802] inferred FSM for state register 'wr_state_reg' in module 'sc_node_v1_0_18_reg_fifo_async'
+INFO: [Synth 8-802] inferred FSM for state register 'rd_state_reg' in module 'sc_node_v1_0_18_reg_fifo_async'
+INFO: [Synth 8-802] inferred FSM for state register 'wr_state_reg' in module 'sc_node_v1_0_18_reg_fifo_async__parameterized0__xdcDup__1'
+INFO: [Synth 8-802] inferred FSM for state register 'rd_state_reg' in module 'sc_node_v1_0_18_reg_fifo_async__parameterized0__xdcDup__1'
+INFO: [Synth 8-4490] FSM extraction disabled for register 'gen_AB_reg_slice.state_reg' through user attribute
+INFO: [Synth 8-4490] FSM extraction disabled for register 'gen_AB_reg_slice.state_reg' through user attribute
+INFO: [Synth 8-802] inferred FSM for state register 'wr_state_reg' in module 'sc_node_v1_0_18_reg_fifo_async__parameterized1'
+INFO: [Synth 8-802] inferred FSM for state register 'rd_state_reg' in module 'sc_node_v1_0_18_reg_fifo_async__parameterized1'
+INFO: [Synth 8-802] inferred FSM for state register 'wr_state_reg' in module 'sc_node_v1_0_18_reg_fifo_async__parameterized0'
+INFO: [Synth 8-802] inferred FSM for state register 'rd_state_reg' in module 'sc_node_v1_0_18_reg_fifo_async__parameterized0'
+INFO: [Synth 8-802] inferred FSM for state register 'wr_state_reg' in module 'sc_node_v1_0_18_reg_fifo_async__parameterized2'
+INFO: [Synth 8-802] inferred FSM for state register 'rd_state_reg' in module 'sc_node_v1_0_18_reg_fifo_async__parameterized2'
+INFO: [Synth 8-802] inferred FSM for state register 'wr_state_reg' in module 'sc_node_v1_0_18_reg_fifo_async__parameterized3'
+INFO: [Synth 8-802] inferred FSM for state register 'rd_state_reg' in module 'sc_node_v1_0_18_reg_fifo_async__parameterized3'
+INFO: [Synth 8-802] inferred FSM for state register 'gen_axi.gen_write.write_cs_reg' in module 'sc_mmu_v1_0_15_decerr_slave'
+INFO: [Synth 8-802] inferred FSM for state register 'gen_endpoint.w_state_reg' in module 'sc_mmu_v1_0_15_top'
+INFO: [Synth 8-802] inferred FSM for state register 'gen_endpoint.r_state_reg' in module 'sc_mmu_v1_0_15_top'
+INFO: [Synth 8-802] inferred FSM for state register 'w_state_reg' in module 'sc_si_converter_v1_0_15_axilite_conv'
+INFO: [Synth 8-802] inferred FSM for state register 'r_state_reg' in module 'sc_si_converter_v1_0_15_axilite_conv'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                  iSTATE |                             0001 |                              110
+*
+              SM_WR_IDLE |                             0010 |                              000
+              SM_WR_FULL |                             0100 |                              011
+              SM_WR_WAIT |                             1000 |                              010
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'wr_state_reg' using encoding 'one-hot' in module 'sc_node_v1_0_18_reg_fifo_async__xdcDup__1'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+              SM_RD_IDLE |                              001 |                               10
+             SM_RD_VALID |                              010 |                               00
+              SM_RD_WAIT |                              100 |                               11
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'rd_state_reg' using encoding 'one-hot' in module 'sc_node_v1_0_18_reg_fifo_async__xdcDup__1'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                  iSTATE |                             0001 |                              110
+*
+              SM_WR_IDLE |                             0010 |                              000
+              SM_WR_FULL |                             0100 |                              011
+              SM_WR_WAIT |                             1000 |                              010
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'wr_state_reg' using encoding 'one-hot' in module 'sc_node_v1_0_18_reg_fifo_async'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+              SM_RD_IDLE |                              001 |                               10
+             SM_RD_VALID |                              010 |                               00
+              SM_RD_WAIT |                              100 |                               11
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'rd_state_reg' using encoding 'one-hot' in module 'sc_node_v1_0_18_reg_fifo_async'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                  iSTATE |                             0001 |                              110
+*
+              SM_WR_IDLE |                             0010 |                              000
+              SM_WR_FULL |                             0100 |                              011
+              SM_WR_WAIT |                             1000 |                              010
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'wr_state_reg' using encoding 'one-hot' in module 'sc_node_v1_0_18_reg_fifo_async__parameterized0__xdcDup__1'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+              SM_RD_IDLE |                              001 |                               10
+             SM_RD_VALID |                              010 |                               00
+              SM_RD_WAIT |                              100 |                               11
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'rd_state_reg' using encoding 'one-hot' in module 'sc_node_v1_0_18_reg_fifo_async__parameterized0__xdcDup__1'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                  iSTATE |                             0001 |                              110
+*
+              SM_WR_IDLE |                             0010 |                              000
+              SM_WR_FULL |                             0100 |                              011
+              SM_WR_WAIT |                             1000 |                              010
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'wr_state_reg' using encoding 'one-hot' in module 'sc_node_v1_0_18_reg_fifo_async__parameterized1'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+              SM_RD_IDLE |                              001 |                               10
+             SM_RD_VALID |                              010 |                               00
+              SM_RD_WAIT |                              100 |                               11
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'rd_state_reg' using encoding 'one-hot' in module 'sc_node_v1_0_18_reg_fifo_async__parameterized1'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                  iSTATE |                             0001 |                              110
+*
+              SM_WR_IDLE |                             0010 |                              000
+              SM_WR_FULL |                             0100 |                              011
+              SM_WR_WAIT |                             1000 |                              010
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'wr_state_reg' using encoding 'one-hot' in module 'sc_node_v1_0_18_reg_fifo_async__parameterized0'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+              SM_RD_IDLE |                              001 |                               10
+             SM_RD_VALID |                              010 |                               00
+              SM_RD_WAIT |                              100 |                               11
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'rd_state_reg' using encoding 'one-hot' in module 'sc_node_v1_0_18_reg_fifo_async__parameterized0'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                  iSTATE |                             0001 |                              110
+*
+              SM_WR_IDLE |                             0010 |                              000
+              SM_WR_FULL |                             0100 |                              011
+              SM_WR_WAIT |                             1000 |                              010
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'wr_state_reg' using encoding 'one-hot' in module 'sc_node_v1_0_18_reg_fifo_async__parameterized2'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+              SM_RD_IDLE |                              001 |                               10
+             SM_RD_VALID |                              010 |                               00
+              SM_RD_WAIT |                              100 |                               11
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'rd_state_reg' using encoding 'one-hot' in module 'sc_node_v1_0_18_reg_fifo_async__parameterized2'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                  iSTATE |                             0001 |                              110
+*
+              SM_WR_IDLE |                             0010 |                              000
+              SM_WR_FULL |                             0100 |                              011
+              SM_WR_WAIT |                             1000 |                              010
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'wr_state_reg' using encoding 'one-hot' in module 'sc_node_v1_0_18_reg_fifo_async__parameterized3'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+              SM_RD_IDLE |                              001 |                               10
+             SM_RD_VALID |                              010 |                               00
+              SM_RD_WAIT |                              100 |                               11
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'rd_state_reg' using encoding 'one-hot' in module 'sc_node_v1_0_18_reg_fifo_async__parameterized3'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+            P_WRITE_IDLE |                              001 |                               00
+            P_WRITE_DATA |                              010 |                               01
+            P_WRITE_RESP |                              100 |                               10
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'gen_axi.gen_write.write_cs_reg' using encoding 'one-hot' in module 'sc_mmu_v1_0_15_decerr_slave'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                  iSTATE |                               00 | 00000000000000000000000000000000
+*
+                 W_STALL |                               01 | 00000000000000000000000000000001
+               W_PENDING |                               10 | 00000000000000000000000000000010
+                W_DECERR |                               11 | 00000000000000000000000000000011
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'gen_endpoint.w_state_reg' using encoding 'sequential' in module 'sc_mmu_v1_0_15_top'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                  iSTATE |                               00 | 00000000000000000000000000000000
+*
+                 R_STALL |                               01 | 00000000000000000000000000000001
+               R_PENDING |                               10 | 00000000000000000000000000000010
+                R_DECERR |                               11 | 00000000000000000000000000000011
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'gen_endpoint.r_state_reg' using encoding 'sequential' in module 'sc_mmu_v1_0_15_top'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                  W_IDLE |                              000 | 00000000000000000000000000000000
+                    W_RX |                              001 | 00000000000000000000000000000001
+                    W_TX |                              010 | 00000000000000000000000000000010
+              W_COMPLETE |                              011 | 00000000000000000000000000000100
+               W_RECOVER |                              100 | 00000000000000000000000000000011
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'w_state_reg' using encoding 'sequential' in module 'sc_si_converter_v1_0_15_axilite_conv'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                  R_IDLE |                             0001 | 00000000000000000000000000000000
+               R_PENDING |                             0010 | 00000000000000000000000000000001
+                    R_RX |                             0100 | 00000000000000000000000000000010
+                    R_TX |                             1000 | 00000000000000000000000000000011
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'r_state_reg' using encoding 'one-hot' in module 'sc_si_converter_v1_0_15_axilite_conv'
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:01:32 ; elapsed = 00:01:35 . Memory (MB): peak = 3414.465 ; gain = 948.688 ; free physical = 7360 ; free virtual = 43114
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input   12 Bit       Adders := 4     
+	   2 Input   10 Bit       Adders := 1     
+	   2 Input    9 Bit       Adders := 5     
+	   2 Input    8 Bit       Adders := 4     
+	   3 Input    8 Bit       Adders := 1     
+	   2 Input    7 Bit       Adders := 2     
+	   2 Input    6 Bit       Adders := 3     
+	   2 Input    4 Bit       Adders := 50    
+	   2 Input    3 Bit       Adders := 1     
+	   2 Input    2 Bit       Adders := 17    
+	   3 Input    2 Bit       Adders := 1     
+	   3 Input    1 Bit       Adders := 20    
+	   2 Input    1 Bit       Adders := 5     
++---XORs : 
+	   2 Input     12 Bit         XORs := 2     
+	   2 Input      1 Bit         XORs := 194   
++---Registers : 
+	             2178 Bit    Registers := 4     
+	              512 Bit    Registers := 4     
+	              195 Bit    Registers := 2     
+	              188 Bit    Registers := 4     
+	               86 Bit    Registers := 1     
+	               79 Bit    Registers := 2     
+	               73 Bit    Registers := 1     
+	               64 Bit    Registers := 4     
+	               53 Bit    Registers := 2     
+	               47 Bit    Registers := 8     
+	               40 Bit    Registers := 1     
+	               33 Bit    Registers := 8     
+	               32 Bit    Registers := 3     
+	               27 Bit    Registers := 1     
+	               18 Bit    Registers := 4     
+	               16 Bit    Registers := 4     
+	               12 Bit    Registers := 2     
+	               11 Bit    Registers := 1     
+	               10 Bit    Registers := 1     
+	                9 Bit    Registers := 4     
+	                8 Bit    Registers := 10    
+	                7 Bit    Registers := 5     
+	                6 Bit    Registers := 3     
+	                5 Bit    Registers := 3     
+	                4 Bit    Registers := 59    
+	                3 Bit    Registers := 145   
+	                2 Bit    Registers := 50    
+	                1 Bit    Registers := 649   
++---Muxes : 
+	   2 Input 2178 Bit        Muxes := 2     
+	   2 Input  174 Bit        Muxes := 18    
+	   2 Input   61 Bit        Muxes := 9     
+	   2 Input   55 Bit        Muxes := 1     
+	   2 Input   40 Bit        Muxes := 4     
+	   4 Input   40 Bit        Muxes := 1     
+	   2 Input   32 Bit        Muxes := 1     
+	   4 Input   32 Bit        Muxes := 1     
+	   2 Input   16 Bit        Muxes := 2     
+	   2 Input   12 Bit        Muxes := 11    
+	   5 Input   12 Bit        Muxes := 1     
+	   5 Input    9 Bit        Muxes := 1     
+	   2 Input    9 Bit        Muxes := 6     
+	   2 Input    8 Bit        Muxes := 9     
+	   4 Input    8 Bit        Muxes := 1     
+	   4 Input    7 Bit        Muxes := 1     
+	   2 Input    7 Bit        Muxes := 8     
+	   2 Input    6 Bit        Muxes := 3     
+	   4 Input    4 Bit        Muxes := 8     
+	   2 Input    4 Bit        Muxes := 11    
+	   2 Input    3 Bit        Muxes := 31    
+	   5 Input    3 Bit        Muxes := 1     
+	   4 Input    3 Bit        Muxes := 7     
+	   3 Input    3 Bit        Muxes := 7     
+	   2 Input    2 Bit        Muxes := 79    
+	   4 Input    2 Bit        Muxes := 6     
+	   5 Input    2 Bit        Muxes := 2     
+	   3 Input    2 Bit        Muxes := 7     
+	   7 Input    2 Bit        Muxes := 2     
+	   2 Input    1 Bit        Muxes := 221   
+	   3 Input    1 Bit        Muxes := 15    
+	   6 Input    1 Bit        Muxes := 8     
+	   4 Input    1 Bit        Muxes := 37    
+	   7 Input    1 Bit        Muxes := 4     
+	   5 Input    1 Bit        Muxes := 17    
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 360 (col length:72)
+BRAMs: 432 (col length: RAMB18 72 RAMB36 36)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:02:19 ; elapsed = 00:02:25 . Memory (MB): peak = 3414.465 ; gain = 948.688 ; free physical = 7369 ; free virtual = 43122
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:02:32 ; elapsed = 00:02:40 . Memory (MB): peak = 3621.426 ; gain = 1155.648 ; free physical = 7112 ; free virtual = 42866
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:02:37 ; elapsed = 00:02:44 . Memory (MB): peak = 3678.043 ; gain = 1212.266 ; free physical = 7064 ; free virtual = 42818
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:02:41 ; elapsed = 00:02:49 . Memory (MB): peak = 3694.059 ; gain = 1228.281 ; free physical = 7040 ; free virtual = 42794
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:02:47 ; elapsed = 00:02:55 . Memory (MB): peak = 3811.871 ; gain = 1346.094 ; free physical = 6972 ; free virtual = 42726
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:02:47 ; elapsed = 00:02:55 . Memory (MB): peak = 3811.871 ; gain = 1346.094 ; free physical = 6972 ; free virtual = 42726
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:02:48 ; elapsed = 00:02:56 . Memory (MB): peak = 3811.871 ; gain = 1346.094 ; free physical = 6970 ; free virtual = 42724
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:02:48 ; elapsed = 00:02:56 . Memory (MB): peak = 3811.871 ; gain = 1346.094 ; free physical = 6969 ; free virtual = 42723
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:02:48 ; elapsed = 00:02:56 . Memory (MB): peak = 3811.871 ; gain = 1346.094 ; free physical = 6962 ; free virtual = 42716
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:02:48 ; elapsed = 00:02:56 . Memory (MB): peak = 3811.871 ; gain = 1346.094 ; free physical = 6963 ; free virtual = 42717
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+-------+------+
+|      |Cell   |Count |
++------+-------+------+
+|1     |CARRY8 |     5|
+|2     |LUT1   |   330|
+|3     |LUT2   |   251|
+|4     |LUT3   |   414|
+|5     |LUT4   |   202|
+|6     |LUT5   |   200|
+|7     |LUT6   |   353|
+|8     |MUXF7  |    38|
+|9     |SRL16  |     3|
+|10    |FDCE   |   333|
+|11    |FDRE   |  2370|
+|12    |FDSE   |   105|
++------+-------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:02:48 ; elapsed = 00:02:56 . Memory (MB): peak = 3811.871 ; gain = 1346.094 ; free physical = 6964 ; free virtual = 42719
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 2063 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:02:08 ; elapsed = 00:02:15 . Memory (MB): peak = 3811.871 ; gain = 798.812 ; free physical = 6964 ; free virtual = 42717
+Synthesis Optimization Complete : Time (s): cpu = 00:02:49 ; elapsed = 00:02:57 . Memory (MB): peak = 3811.871 ; gain = 1346.094 ; free physical = 6964 ; free virtual = 42717
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00.4 ; elapsed = 00:00:00.41 . Memory (MB): peak = 3811.871 ; gain = 0.000 ; free physical = 7083 ; free virtual = 42837
+INFO: [Netlist 29-17] Analyzing 46 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 3823.660 ; gain = 0.000 ; free physical = 7120 ; free virtual = 42874
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 3 instances were transformed.
+  SRL16 => SRL16E: 3 instances
+
+Synth Design complete | Checksum: cd263c49
+INFO: [Common 17-83] Releasing license: Synthesis
+295 Infos, 173 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:03:06 ; elapsed = 00:03:10 . Memory (MB): peak = 3823.695 ; gain = 2222.559 ; free physical = 7114 ; free virtual = 42868
+INFO: [Common 17-2834] synth_design peak Physical Memory [PSS] (MB): overall = 3002.212; main = 2862.156; forked = 273.374
+INFO: [Common 17-2834] synth_design peak Virtual Memory [VSS] (MB): overall = 4692.770; main = 3823.664; forked = 997.707
+Write ShapeDB Complete: Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.01 . Memory (MB): peak = 3860.293 ; gain = 0.000 ; free physical = 7111 ; free virtual = 42865
+INFO: [Common 17-1381] The checkpoint '/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.runs/system_axi_hpm0_lpd_interconnect_0_synth_1/system_axi_hpm0_lpd_interconnect_0.dcp' has been generated.
+INFO: [Coretcl 2-1648] Added synthesis output to IP cache for IP system_axi_hpm0_lpd_interconnect_0, cache-ID = 7a166179381861ed
+INFO: [Coretcl 2-1174] Renamed 453 cell refs.
+Write ShapeDB Complete: Time (s): cpu = 00:00:00.03 ; elapsed = 00:00:00.01 . Memory (MB): peak = 3860.293 ; gain = 0.000 ; free physical = 7090 ; free virtual = 42861
+INFO: [Common 17-1381] The checkpoint '/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.runs/system_axi_hpm0_lpd_interconnect_0_synth_1/system_axi_hpm0_lpd_interconnect_0.dcp' has been generated.
+INFO: [Vivado 12-24828] Executing command : report_utilization -file system_axi_hpm0_lpd_interconnect_0_utilization_synth.rpt -pb system_axi_hpm0_lpd_interconnect_0_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Tue May 26 19:30:50 2026...

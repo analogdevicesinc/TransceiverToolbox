@@ -1,0 +1,641 @@
+#-----------------------------------------------------------
+# Vivado v2025.1 (64-bit)
+# SW Build 6140274 on Wed May 21 22:58:25 MDT 2025
+# IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+# SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+# Start of session at: Tue May 26 18:52:02 2026
+# Process ID         : 3453622
+# Current directory  : /home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj
+# Command line       : vivado -mode batch -notrace -source vivado_create_prj.tcl
+# Log file           : /home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado.log
+# Journal file       : /home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado.jou
+# Running On         : nemo
+# Platform           : Ubuntu
+# Operating System   : Ubuntu 24.04.4 LTS
+# Processor Detail   : Intel(R) Xeon(R) CPU E5-1650 0 @ 3.20GHz
+# CPU Frequency      : 3192.198 MHz
+# CPU Physical cores : 6
+# CPU Logical cores  : 12
+# Host memory        : 67381 MB
+# Swap memory        : 8589 MB
+# Total Virtual      : 75970 MB
+# Available Virtual  : 48401 MB
+#-----------------------------------------------------------
+source vivado_create_prj.tcl -notrace
+WARNING: [Board 49-91] Board repository path '/home/tcollins/.Xilinx/Vivado/2025.1/xhub/board_store/xilinx_board_store' does not exist, it will not be used to search board files.
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/ipcore'.
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/tools/Xilinx/2025.1/Vivado/data/ip'.
+INFO: [IP_Flow 19-1839] IP Catalog is up to date.
+Starting Transceiver Toolbox HDL build
+Building:
+- axi_adrv9001
+- axi_dmac
+- axi_sysid
+- sysid_rom
+- util_pack/util_cpack2
+- util_pack/util_upack2
+Please wait, this might take a few minutes
+- Done building util_cdc
+- Done building axi_adrv9001
+- Done building util_axis_fifo
+- Done building axi_dmac/interfaces
+- Done building axi_dmac
+- Done building axi_sysid
+- Done building sysid_rom
+- Done building util_pack/util_cpack2
+- Done building util_pack/util_upack2
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/ipcore'.
+INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/library'.
+Wrote  : </home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.srcs/sources_1/bd/system/system.bd> 
+create_bd_cell: Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 1783.898 ; gain = 150.664 ; free physical = 9968 ; free virtual = 45566
+INFO: [PSU-1]  DP_AUDIO clock source: RPLL is also being used by other peripheral clocks. Their outputs may get impacted if any driver changes DP_AUDIO PLL source to support runtime audio change 
+WARNING: [PSU-2]  DP_VIDEO clock source: VPLL is also being used by other peripheral clocks. Their outputs may get impacted if any driver changes DP_VIDEO PLL source to support runtime resolution change 
+INFO: [PSU-1]  DP_AUDIO clock source: RPLL is also being used by other peripheral clocks. Their outputs may get impacted if any driver changes DP_AUDIO PLL source to support runtime audio change 
+WARNING: [PSU-2]  DP_VIDEO clock source: VPLL is also being used by other peripheral clocks. Their outputs may get impacted if any driver changes DP_VIDEO PLL source to support runtime resolution change 
+INFO: [PSU-1]  DP_AUDIO clock source: RPLL is also being used by other peripheral clocks. Their outputs may get impacted if any driver changes DP_AUDIO PLL source to support runtime audio change 
+WARNING: [PSU-2]  DP_VIDEO clock source: VPLL is also being used by other peripheral clocks. Their outputs may get impacted if any driver changes DP_VIDEO PLL source to support runtime resolution change 
+INFO: [PSU-1]  DP_AUDIO clock source: RPLL is also being used by other peripheral clocks. Their outputs may get impacted if any driver changes DP_AUDIO PLL source to support runtime audio change 
+WARNING: [PSU-2]  DP_VIDEO clock source: VPLL is also being used by other peripheral clocks. Their outputs may get impacted if any driver changes DP_VIDEO PLL source to support runtime resolution change 
+INFO: [PSU-1]  DP_AUDIO clock source: RPLL is also being used by other peripheral clocks. Their outputs may get impacted if any driver changes DP_AUDIO PLL source to support runtime audio change 
+WARNING: [PSU-2]  DP_VIDEO clock source: VPLL is also being used by other peripheral clocks. Their outputs may get impacted if any driver changes DP_VIDEO PLL source to support runtime resolution change 
+INFO: [PSU-1]  DP_AUDIO clock source: RPLL is also being used by other peripheral clocks. Their outputs may get impacted if any driver changes DP_AUDIO PLL source to support runtime audio change 
+WARNING: [PSU-2]  DP_VIDEO clock source: VPLL is also being used by other peripheral clocks. Their outputs may get impacted if any driver changes DP_VIDEO PLL source to support runtime resolution change 
+INFO: [PSU-1]  DP_AUDIO clock source: RPLL is also being used by other peripheral clocks. Their outputs may get impacted if any driver changes DP_AUDIO PLL source to support runtime audio change 
+WARNING: [PSU-2]  DP_VIDEO clock source: VPLL is also being used by other peripheral clocks. Their outputs may get impacted if any driver changes DP_VIDEO PLL source to support runtime resolution change 
+INFO: [PSU-1]  DP_AUDIO clock source: RPLL is also being used by other peripheral clocks. Their outputs may get impacted if any driver changes DP_AUDIO PLL source to support runtime audio change 
+WARNING: [PSU-2]  DP_VIDEO clock source: VPLL is also being used by other peripheral clocks. Their outputs may get impacted if any driver changes DP_VIDEO PLL source to support runtime resolution change 
+INFO: [PSU-1]  DP_AUDIO clock source: RPLL is also being used by other peripheral clocks. Their outputs may get impacted if any driver changes DP_AUDIO PLL source to support runtime audio change 
+WARNING: [PSU-2]  DP_VIDEO clock source: VPLL is also being used by other peripheral clocks. Their outputs may get impacted if any driver changes DP_VIDEO PLL source to support runtime resolution change 
+INFO: [PSU-1]  DP_AUDIO clock source: RPLL is also being used by other peripheral clocks. Their outputs may get impacted if any driver changes DP_AUDIO PLL source to support runtime audio change 
+INFO: [PSU-1]  DP_AUDIO clock source: RPLL is also being used by other peripheral clocks. Their outputs may get impacted if any driver changes DP_AUDIO PLL source to support runtime audio change 
+INFO: [PSU-1]  DP_AUDIO clock source: RPLL is also being used by other peripheral clocks. Their outputs may get impacted if any driver changes DP_AUDIO PLL source to support runtime audio change 
+connect_bd_net -net sys_cpu_clk /sys_ps8/pl_clk0
+connect_bd_net -net sys_250m_clk /sys_ps8/pl_clk1
+connect_bd_net -net sys_500m_clk /sys_ps8/pl_clk2
+connect_bd_net /sys_ps8/pl_resetn0 /sys_rstgen/ext_reset_in
+connect_bd_net -net /sys_cpu_clk /sys_rstgen/slowest_sync_clk
+connect_bd_net /sys_ps8/pl_resetn0 /sys_250m_rstgen/ext_reset_in
+connect_bd_net -net /sys_250m_clk /sys_250m_rstgen/slowest_sync_clk
+connect_bd_net /sys_ps8/pl_resetn0 /sys_500m_rstgen/ext_reset_in
+connect_bd_net -net /sys_500m_clk /sys_500m_rstgen/slowest_sync_clk
+connect_bd_net -net sys_cpu_reset /sys_rstgen/peripheral_reset
+connect_bd_net -net sys_cpu_resetn /sys_rstgen/peripheral_aresetn
+connect_bd_net -net sys_250m_reset /sys_250m_rstgen/peripheral_reset
+connect_bd_net -net sys_250m_resetn /sys_250m_rstgen/peripheral_aresetn
+connect_bd_net -net sys_500m_reset /sys_500m_rstgen/peripheral_reset
+connect_bd_net -net sys_500m_resetn /sys_500m_rstgen/peripheral_aresetn
+WARNING: [BD 41-1306] The connection to interface pin </sys_ps8/emio_gpio_i> is being overridden by the user with net <gpio_i_1>. This pin will not be connected as a part of interface connection <GPIO_0>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+connect_bd_net /gpio_i /sys_ps8/emio_gpio_i
+WARNING: [BD 41-1306] The connection to interface pin </sys_ps8/emio_gpio_o> is being overridden by the user with net <sys_ps8_emio_gpio_o>. This pin will not be connected as a part of interface connection <GPIO_0>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+connect_bd_net /gpio_o /sys_ps8/emio_gpio_o
+WARNING: [BD 41-1306] The connection to interface pin </sys_ps8/emio_gpio_t> is being overridden by the user with net <sys_ps8_emio_gpio_t>. This pin will not be connected as a part of interface connection <GPIO_0>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+connect_bd_net /gpio_t /sys_ps8/emio_gpio_t
+WARNING: [BD 41-1306] The connection to interface pin </sys_ps8/emio_spi0_ss_o_n> is being overridden by the user with net <sys_ps8_emio_spi0_ss_o_n>. This pin will not be connected as a part of interface connection <SPI_0>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+connect_bd_net /sys_ps8/emio_spi0_ss_o_n /spi0_csn
+WARNING: [BD 41-1306] The connection to interface pin </sys_ps8/emio_spi0_sclk_o> is being overridden by the user with net <sys_ps8_emio_spi0_sclk_o>. This pin will not be connected as a part of interface connection <SPI_0>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+connect_bd_net /sys_ps8/emio_spi0_sclk_o /spi0_sclk
+WARNING: [BD 41-1306] The connection to interface pin </sys_ps8/emio_spi0_m_o> is being overridden by the user with net <sys_ps8_emio_spi0_m_o>. This pin will not be connected as a part of interface connection <SPI_0>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+connect_bd_net /sys_ps8/emio_spi0_m_o /spi0_mosi
+WARNING: [BD 41-1306] The connection to interface pin </sys_ps8/emio_spi0_m_i> is being overridden by the user with net <spi0_miso_1>. This pin will not be connected as a part of interface connection <SPI_0>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+connect_bd_net /sys_ps8/emio_spi0_m_i /spi0_miso
+WARNING: [BD 41-1306] The connection to interface pin </sys_ps8/emio_spi0_ss_i_n> is being overridden by the user with net <VCC_1_dout>. This pin will not be connected as a part of interface connection <SPI_0>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+connect_bd_net /VCC_1/dout /sys_ps8/emio_spi0_ss_i_n
+WARNING: [BD 41-1306] The connection to interface pin </sys_ps8/emio_spi0_sclk_i> is being overridden by the user with net <GND_1_dout>. This pin will not be connected as a part of interface connection <SPI_0>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+connect_bd_net /GND_1/dout /sys_ps8/emio_spi0_sclk_i
+WARNING: [BD 41-1306] The connection to interface pin </sys_ps8/emio_spi0_s_i> is being overridden by the user with net </GND_1_dout>. This pin will not be connected as a part of interface connection <SPI_0>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+connect_bd_net /GND_1/dout /sys_ps8/emio_spi0_s_i
+connect_bd_net /axi_sysid_0/rom_addr /rom_sys_0/rom_addr
+connect_bd_net /axi_sysid_0/sys_rom_data /rom_sys_0/rom_data
+connect_bd_net -net /sys_cpu_clk /rom_sys_0/clk
+connect_bd_net /sys_concat_intc_0/dout /sys_ps8/pl_ps_irq0
+connect_bd_net /sys_concat_intc_1/dout /sys_ps8/pl_ps_irq1
+connect_bd_net /GND_1/dout /sys_concat_intc_0/In7
+connect_bd_net /GND_1/dout /sys_concat_intc_0/In6
+connect_bd_net /GND_1/dout /sys_concat_intc_0/In5
+connect_bd_net /GND_1/dout /sys_concat_intc_0/In4
+connect_bd_net /GND_1/dout /sys_concat_intc_0/In3
+connect_bd_net /GND_1/dout /sys_concat_intc_0/In2
+connect_bd_net /GND_1/dout /sys_concat_intc_0/In1
+connect_bd_net /GND_1/dout /sys_concat_intc_0/In0
+connect_bd_net /GND_1/dout /sys_concat_intc_1/In7
+connect_bd_net /GND_1/dout /sys_concat_intc_1/In6
+connect_bd_net /GND_1/dout /sys_concat_intc_1/In5
+connect_bd_net /GND_1/dout /sys_concat_intc_1/In4
+connect_bd_net /GND_1/dout /sys_concat_intc_1/In3
+connect_bd_net /GND_1/dout /sys_concat_intc_1/In2
+connect_bd_net /GND_1/dout /sys_concat_intc_1/In1
+connect_bd_net /GND_1/dout /sys_concat_intc_1/In0
+connect_bd_net -net /sys_500m_clk /axi_adrv9001/delay_clk
+connect_bd_net /axi_adrv9001/adc_1_clk /axi_adrv9001_rx1_dma/fifo_wr_clk
+connect_bd_net /axi_adrv9001/adc_1_clk /util_adc_1_pack/clk
+connect_bd_net /axi_adrv9001/adc_2_clk /axi_adrv9001_rx2_dma/fifo_wr_clk
+connect_bd_net /axi_adrv9001/adc_2_clk /util_adc_2_pack/clk
+connect_bd_net /axi_adrv9001/dac_1_clk /axi_adrv9001_tx1_dma/m_axis_aclk
+connect_bd_net /axi_adrv9001/dac_1_clk /util_dac_1_upack/clk
+connect_bd_net /axi_adrv9001/dac_2_clk /axi_adrv9001_tx2_dma/m_axis_aclk
+connect_bd_net /axi_adrv9001/dac_2_clk /util_dac_2_upack/clk
+connect_bd_net /ref_clk /axi_adrv9001/ref_clk
+connect_bd_net /mcs_in /axi_adrv9001/mcs_in
+connect_bd_net /mcs_out /axi_adrv9001/mcs_out
+connect_bd_net /mcs_src /axi_adrv9001/mcs_src
+connect_bd_net /mssi_sync /axi_adrv9001/mssi_sync_in
+connect_bd_net /tx_output_enable /axi_adrv9001/tx_output_enable
+connect_bd_net /rx1_dclk_in_n /axi_adrv9001/rx1_dclk_in_n_NC
+connect_bd_net /rx1_dclk_in_p /axi_adrv9001/rx1_dclk_in_p_dclk_in
+connect_bd_net /rx1_idata_in_n /axi_adrv9001/rx1_idata_in_n_idata0
+connect_bd_net /rx1_idata_in_p /axi_adrv9001/rx1_idata_in_p_idata1
+connect_bd_net /rx1_qdata_in_n /axi_adrv9001/rx1_qdata_in_n_qdata2
+connect_bd_net /rx1_qdata_in_p /axi_adrv9001/rx1_qdata_in_p_qdata3
+connect_bd_net /rx1_strobe_in_n /axi_adrv9001/rx1_strobe_in_n_NC
+connect_bd_net /rx1_strobe_in_p /axi_adrv9001/rx1_strobe_in_p_strobe_in
+connect_bd_net /rx2_dclk_in_n /axi_adrv9001/rx2_dclk_in_n_NC
+connect_bd_net /rx2_dclk_in_p /axi_adrv9001/rx2_dclk_in_p_dclk_in
+connect_bd_net /rx2_idata_in_n /axi_adrv9001/rx2_idata_in_n_idata0
+connect_bd_net /rx2_idata_in_p /axi_adrv9001/rx2_idata_in_p_idata1
+connect_bd_net /rx2_qdata_in_n /axi_adrv9001/rx2_qdata_in_n_qdata2
+connect_bd_net /rx2_qdata_in_p /axi_adrv9001/rx2_qdata_in_p_qdata3
+connect_bd_net /rx2_strobe_in_n /axi_adrv9001/rx2_strobe_in_n_NC
+connect_bd_net /rx2_strobe_in_p /axi_adrv9001/rx2_strobe_in_p_strobe_in
+connect_bd_net /tx1_dclk_out_n /axi_adrv9001/tx1_dclk_out_n_NC
+connect_bd_net /tx1_dclk_out_p /axi_adrv9001/tx1_dclk_out_p_dclk_out
+connect_bd_net /tx1_dclk_in_n /axi_adrv9001/tx1_dclk_in_n_NC
+connect_bd_net /tx1_dclk_in_p /axi_adrv9001/tx1_dclk_in_p_dclk_in
+connect_bd_net /tx1_idata_out_n /axi_adrv9001/tx1_idata_out_n_idata0
+connect_bd_net /tx1_idata_out_p /axi_adrv9001/tx1_idata_out_p_idata1
+connect_bd_net /tx1_qdata_out_n /axi_adrv9001/tx1_qdata_out_n_qdata2
+connect_bd_net /tx1_qdata_out_p /axi_adrv9001/tx1_qdata_out_p_qdata3
+connect_bd_net /tx1_strobe_out_n /axi_adrv9001/tx1_strobe_out_n_NC
+connect_bd_net /tx1_strobe_out_p /axi_adrv9001/tx1_strobe_out_p_strobe_out
+connect_bd_net /tx2_dclk_out_n /axi_adrv9001/tx2_dclk_out_n_NC
+connect_bd_net /tx2_dclk_out_p /axi_adrv9001/tx2_dclk_out_p_dclk_out
+connect_bd_net /tx2_dclk_in_n /axi_adrv9001/tx2_dclk_in_n_NC
+connect_bd_net /tx2_dclk_in_p /axi_adrv9001/tx2_dclk_in_p_dclk_in
+connect_bd_net /tx2_idata_out_n /axi_adrv9001/tx2_idata_out_n_idata0
+connect_bd_net /tx2_idata_out_p /axi_adrv9001/tx2_idata_out_p_idata1
+connect_bd_net /tx2_qdata_out_n /axi_adrv9001/tx2_qdata_out_n_qdata2
+connect_bd_net /tx2_qdata_out_p /axi_adrv9001/tx2_qdata_out_p_qdata3
+connect_bd_net /tx2_strobe_out_n /axi_adrv9001/tx2_strobe_out_n_NC
+connect_bd_net /tx2_strobe_out_p /axi_adrv9001/tx2_strobe_out_p_strobe_out
+connect_bd_net /axi_adrv9001/adc_1_rst /util_adc_1_pack/reset
+connect_bd_net /axi_adrv9001/adc_1_valid_i0 /util_adc_1_pack/fifo_wr_en
+connect_bd_net /axi_adrv9001/adc_1_enable_i0 /util_adc_1_pack/enable_0
+connect_bd_net /axi_adrv9001/adc_1_data_i0 /util_adc_1_pack/fifo_wr_data_0
+connect_bd_net /axi_adrv9001/adc_1_enable_q0 /util_adc_1_pack/enable_1
+connect_bd_net /axi_adrv9001/adc_1_data_q0 /util_adc_1_pack/fifo_wr_data_1
+connect_bd_net /axi_adrv9001/adc_1_enable_i1 /util_adc_1_pack/enable_2
+connect_bd_net /axi_adrv9001/adc_1_data_i1 /util_adc_1_pack/fifo_wr_data_2
+connect_bd_net /axi_adrv9001/adc_1_enable_q1 /util_adc_1_pack/enable_3
+connect_bd_net /axi_adrv9001/adc_1_data_q1 /util_adc_1_pack/fifo_wr_data_3
+connect_bd_net /axi_adrv9001/adc_1_dovf /util_adc_1_pack/fifo_wr_overflow
+connect_bd_intf_net /util_adc_1_pack/packed_fifo_wr /axi_adrv9001_rx1_dma/fifo_wr
+connect_bd_net /axi_adrv9001/adc_1_start_sync /axi_adrv9001_rx1_dma/sync
+connect_bd_net /axi_adrv9001/adc_2_rst /util_adc_2_pack/reset
+connect_bd_net /axi_adrv9001/adc_2_valid_i0 /util_adc_2_pack/fifo_wr_en
+connect_bd_net /axi_adrv9001/adc_2_enable_i0 /util_adc_2_pack/enable_0
+connect_bd_net /axi_adrv9001/adc_2_data_i0 /util_adc_2_pack/fifo_wr_data_0
+connect_bd_net /axi_adrv9001/adc_2_enable_q0 /util_adc_2_pack/enable_1
+connect_bd_net /axi_adrv9001/adc_2_data_q0 /util_adc_2_pack/fifo_wr_data_1
+connect_bd_net /GND_1/dout /util_adc_2_pack/enable_2
+connect_bd_net /GND_16/dout /util_adc_2_pack/fifo_wr_data_2
+connect_bd_net /GND_1/dout /util_adc_2_pack/enable_3
+connect_bd_net /GND_16/dout /util_adc_2_pack/fifo_wr_data_3
+connect_bd_net /axi_adrv9001/adc_2_dovf /util_adc_2_pack/fifo_wr_overflow
+connect_bd_intf_net /util_adc_2_pack/packed_fifo_wr /axi_adrv9001_rx2_dma/fifo_wr
+connect_bd_net /axi_adrv9001/adc_2_start_sync /axi_adrv9001_rx2_dma/sync
+connect_bd_net /axi_adrv9001/dac_1_rst /util_dac_1_upack/reset
+connect_bd_net /axi_adrv9001/dac_1_valid_i0 /util_dac_1_upack/fifo_rd_en
+connect_bd_net /axi_adrv9001/dac_1_enable_i0 /util_dac_1_upack/enable_0
+connect_bd_net /axi_adrv9001/dac_1_data_i0 /util_dac_1_upack/fifo_rd_data_0
+connect_bd_net /axi_adrv9001/dac_1_enable_q0 /util_dac_1_upack/enable_1
+connect_bd_net /axi_adrv9001/dac_1_data_q0 /util_dac_1_upack/fifo_rd_data_1
+connect_bd_net /axi_adrv9001/dac_1_enable_i1 /util_dac_1_upack/enable_2
+connect_bd_net /axi_adrv9001/dac_1_data_i1 /util_dac_1_upack/fifo_rd_data_2
+connect_bd_net /axi_adrv9001/dac_1_enable_q1 /util_dac_1_upack/enable_3
+connect_bd_net /axi_adrv9001/dac_1_data_q1 /util_dac_1_upack/fifo_rd_data_3
+connect_bd_intf_net /axi_adrv9001_tx1_dma/m_axis /util_dac_1_upack/s_axis
+connect_bd_net /axi_adrv9001/dac_1_dunf /util_dac_1_upack/fifo_rd_underflow
+connect_bd_net /axi_adrv9001/dac_2_rst /util_dac_2_upack/reset
+connect_bd_net /axi_adrv9001/dac_2_valid_i0 /util_dac_2_upack/fifo_rd_en
+connect_bd_net /axi_adrv9001/dac_2_enable_i0 /util_dac_2_upack/enable_0
+connect_bd_net /axi_adrv9001/dac_2_data_i0 /util_dac_2_upack/fifo_rd_data_0
+connect_bd_net /axi_adrv9001/dac_2_enable_q0 /util_dac_2_upack/enable_1
+connect_bd_net /axi_adrv9001/dac_2_data_q0 /util_dac_2_upack/fifo_rd_data_1
+connect_bd_intf_net /axi_adrv9001_tx2_dma/m_axis /util_dac_2_upack/s_axis
+connect_bd_net /axi_adrv9001/dac_2_dunf /util_dac_2_upack/fifo_rd_underflow
+connect_bd_net /gpio_rx1_enable_in /axi_adrv9001/gpio_rx1_enable_in
+connect_bd_net /gpio_rx2_enable_in /axi_adrv9001/gpio_rx2_enable_in
+connect_bd_net /gpio_tx1_enable_in /axi_adrv9001/gpio_tx1_enable_in
+connect_bd_net /gpio_tx2_enable_in /axi_adrv9001/gpio_tx2_enable_in
+connect_bd_net /rx1_enable /axi_adrv9001/rx1_enable
+connect_bd_net /rx2_enable /axi_adrv9001/rx2_enable
+connect_bd_net /tx1_enable /axi_adrv9001/tx1_enable
+connect_bd_net /tx2_enable /axi_adrv9001/tx2_enable
+connect_bd_net /GND_1/dout /axi_adrv9001/tdd_sync
+INFO: [Device 21-403] Loading part xczu3eg-sfva625-2-e
+create_bd_cell: Time (s): cpu = 00:00:06 ; elapsed = 00:00:07 . Memory (MB): peak = 2679.906 ; gain = 896.008 ; free physical = 9019 ; free virtual = 44618
+WARNING: [IP_Flow 19-3374] An attempt to modify the value of disabled parameter 'UNDER_TEMP_ALARM' from 'false' to 'true' has been ignored for IP 'pl_sysmon'
+WARNING: [IP_Flow 19-3374] An attempt to modify the value of disabled parameter 'COMMON_N_SOURCE' from 'Vaux10' to 'Vaux6' has been ignored for IP 'pl_sysmon'
+WARNING: [BD 41-1306] The connection to interface pin </pl_sysmon/vauxp0> is being overridden by the user with net <s_1v2_ps_ddr4_sns_p_1>. This pin will not be connected as a part of interface connection <Vaux0>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+connect_bd_net /pl_sysmon/vauxp0 /s_1v2_ps_ddr4_sns_p
+WARNING: [BD 41-1306] The connection to interface pin </pl_sysmon/vauxn0> is being overridden by the user with net <s_1v2_ps_ddr4_sns_n_1>. This pin will not be connected as a part of interface connection <Vaux0>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+connect_bd_net /pl_sysmon/vauxn0 /s_1v2_ps_ddr4_sns_n
+WARNING: [BD 41-1306] The connection to interface pin </pl_sysmon/vauxp1> is being overridden by the user with net <s_2v5_sns_p_1>. This pin will not be connected as a part of interface connection <Vaux1>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+connect_bd_net /pl_sysmon/vauxp1 /s_2v5_sns_p
+WARNING: [BD 41-1306] The connection to interface pin </pl_sysmon/vauxn1> is being overridden by the user with net <s_2v5_sns_n_1>. This pin will not be connected as a part of interface connection <Vaux1>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+connect_bd_net /pl_sysmon/vauxn1 /s_2v5_sns_n
+WARNING: [BD 41-1306] The connection to interface pin </pl_sysmon/vauxp2> is being overridden by the user with net <s_1p3_rf_sns_p_1>. This pin will not be connected as a part of interface connection <Vaux2>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+connect_bd_net /pl_sysmon/vauxp2 /s_1p3_rf_sns_p
+WARNING: [BD 41-1306] The connection to interface pin </pl_sysmon/vauxn2> is being overridden by the user with net <s_1p3_rf_sns_n_1>. This pin will not be connected as a part of interface connection <Vaux2>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+connect_bd_net /pl_sysmon/vauxn2 /s_1p3_rf_sns_n
+WARNING: [BD 41-1306] The connection to interface pin </pl_sysmon/vauxp3> is being overridden by the user with net <s_1p0_rf_sns_p_1>. This pin will not be connected as a part of interface connection <Vaux3>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+connect_bd_net /pl_sysmon/vauxp3 /s_1p0_rf_sns_p
+WARNING: [BD 41-1306] The connection to interface pin </pl_sysmon/vauxn3> is being overridden by the user with net <s_1p0_rf_sns_n_1>. This pin will not be connected as a part of interface connection <Vaux3>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+connect_bd_net /pl_sysmon/vauxn3 /s_1p0_rf_sns_n
+WARNING: [BD 41-1306] The connection to interface pin </pl_sysmon/vauxp4> is being overridden by the user with net <s_1v8_mgtravtt_sns_p_1>. This pin will not be connected as a part of interface connection <Vaux4>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+connect_bd_net /pl_sysmon/vauxp4 /s_1v8_mgtravtt_sns_p
+WARNING: [BD 41-1306] The connection to interface pin </pl_sysmon/vauxn4> is being overridden by the user with net <s_1v8_mgtravtt_sns_n_1>. This pin will not be connected as a part of interface connection <Vaux4>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+connect_bd_net /pl_sysmon/vauxn4 /s_1v8_mgtravtt_sns_n
+WARNING: [BD 41-1306] The connection to interface pin </pl_sysmon/vauxp5> is being overridden by the user with net <s_1v2_sns_p_1>. This pin will not be connected as a part of interface connection <Vaux5>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+connect_bd_net /pl_sysmon/vauxp5 /s_1v2_sns_p
+WARNING: [BD 41-1306] The connection to interface pin </pl_sysmon/vauxn5> is being overridden by the user with net <s_1v2_sns_n_1>. This pin will not be connected as a part of interface connection <Vaux5>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+connect_bd_net /pl_sysmon/vauxn5 /s_1v2_sns_n
+WARNING: [BD 41-1306] The connection to interface pin </pl_sysmon/vauxp6> is being overridden by the user with net <s_5v0_sns_p_1>. This pin will not be connected as a part of interface connection <Vaux6>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+connect_bd_net /pl_sysmon/vauxp6 /s_5v0_sns_p
+WARNING: [BD 41-1306] The connection to interface pin </pl_sysmon/vauxn6> is being overridden by the user with net <s_5v0_sns_n_1>. This pin will not be connected as a part of interface connection <Vaux6>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+connect_bd_net /pl_sysmon/vauxn6 /s_5v0_sns_n
+WARNING: [BD 41-1306] The connection to interface pin </pl_sysmon/vauxp7> is being overridden by the user with net <s_0v85_mgtravcc_sns_p_1>. This pin will not be connected as a part of interface connection <Vaux7>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+connect_bd_net /pl_sysmon/vauxp7 /s_0v85_mgtravcc_sns_p
+WARNING: [BD 41-1306] The connection to interface pin </pl_sysmon/vauxn7> is being overridden by the user with net <s_0v85_mgtravcc_sns_n_1>. This pin will not be connected as a part of interface connection <Vaux7>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+connect_bd_net /pl_sysmon/vauxn7 /s_0v85_mgtravcc_sns_n
+WARNING: [BD 41-1306] The connection to interface pin </pl_sysmon/vauxp8> is being overridden by the user with net <s_vtt_ps_ddr4_sns_p_1>. This pin will not be connected as a part of interface connection <Vaux8>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+connect_bd_net /pl_sysmon/vauxp8 /s_vtt_ps_ddr4_sns_p
+WARNING: [BD 41-1306] The connection to interface pin </pl_sysmon/vauxn8> is being overridden by the user with net <s_vtt_ps_ddr4_sns_n_1>. This pin will not be connected as a part of interface connection <Vaux8>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+connect_bd_net /pl_sysmon/vauxn8 /s_vtt_ps_ddr4_sns_n
+WARNING: [BD 41-1306] The connection to interface pin </pl_sysmon/vauxp9> is being overridden by the user with net <s_5v0_rf_sns_p_1>. This pin will not be connected as a part of interface connection <Vaux9>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+connect_bd_net /pl_sysmon/vauxp9 /s_5v0_rf_sns_p
+WARNING: [BD 41-1306] The connection to interface pin </pl_sysmon/vauxn9> is being overridden by the user with net <s_5v0_rf_sns_n_1>. This pin will not be connected as a part of interface connection <Vaux9>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+connect_bd_net /pl_sysmon/vauxn9 /s_5v0_rf_sns_n
+WARNING: [BD 41-1306] The connection to interface pin </pl_sysmon/vauxp10> is being overridden by the user with net <s_1p8_rf_sns_p_1>. This pin will not be connected as a part of interface connection <Vaux10>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+connect_bd_net /pl_sysmon/vauxp10 /s_1p8_rf_sns_p
+WARNING: [BD 41-1306] The connection to interface pin </pl_sysmon/vauxn10> is being overridden by the user with net <s_1p8_rf_sns_n_1>. This pin will not be connected as a part of interface connection <Vaux10>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+connect_bd_net /pl_sysmon/vauxn10 /s_1p8_rf_sns_n
+connect_bd_net -net /sys_cpu_clk /pl_sysmon/s_axi_aclk
+connect_bd_net -net /sys_cpu_resetn /pl_sysmon/s_axi_aresetn
+WARNING: [BD 5-230] No cells matched 'get_bd_cells axi_hpm0_lpd_interconnect'
+connect_bd_net -net /sys_cpu_clk /axi_hpm0_lpd_interconnect/aclk
+connect_bd_net -net /sys_cpu_resetn /axi_hpm0_lpd_interconnect/aresetn
+connect_bd_net -net /sys_cpu_clk /sys_ps8/maxihpm0_lpd_aclk
+connect_bd_intf_net /axi_hpm0_lpd_interconnect/S00_AXI /sys_ps8/M_AXI_HPM0_LPD
+connect_bd_net -net /sys_cpu_clk /axi_adrv9001/s_axi_aclk
+connect_bd_net -net /sys_cpu_resetn /axi_adrv9001/s_axi_aresetn
+connect_bd_intf_net /axi_hpm0_lpd_interconnect/M00_AXI /axi_adrv9001/s_axi
+create_bd_addr_seg -range 0x00010000 -offset 2225078272 /sys_ps8/Data /axi_adrv9001/s_axi/axi_lite SEG_data_axi_adrv9001
+connect_bd_net -net /sys_cpu_clk /axi_adrv9001_rx1_dma/s_axi_aclk
+connect_bd_net -net /sys_cpu_resetn /axi_adrv9001_rx1_dma/s_axi_aresetn
+connect_bd_intf_net /axi_hpm0_lpd_interconnect/M01_AXI /axi_adrv9001_rx1_dma/s_axi
+create_bd_addr_seg -range 0x1000 -offset 2225274880 /sys_ps8/Data /axi_adrv9001_rx1_dma/s_axi/axi_lite SEG_data_axi_adrv9001_rx1_dma
+connect_bd_net -net /sys_cpu_clk /axi_adrv9001_rx2_dma/s_axi_aclk
+connect_bd_net -net /sys_cpu_resetn /axi_adrv9001_rx2_dma/s_axi_aresetn
+connect_bd_intf_net /axi_hpm0_lpd_interconnect/M02_AXI /axi_adrv9001_rx2_dma/s_axi
+create_bd_addr_seg -range 0x1000 -offset 2225340416 /sys_ps8/Data /axi_adrv9001_rx2_dma/s_axi/axi_lite SEG_data_axi_adrv9001_rx2_dma
+connect_bd_net -net /sys_cpu_clk /axi_adrv9001_tx1_dma/s_axi_aclk
+connect_bd_net -net /sys_cpu_resetn /axi_adrv9001_tx1_dma/s_axi_aresetn
+connect_bd_intf_net /axi_hpm0_lpd_interconnect/M03_AXI /axi_adrv9001_tx1_dma/s_axi
+create_bd_addr_seg -range 0x1000 -offset 2225405952 /sys_ps8/Data /axi_adrv9001_tx1_dma/s_axi/axi_lite SEG_data_axi_adrv9001_tx1_dma
+connect_bd_net -net /sys_cpu_clk /axi_adrv9001_tx2_dma/s_axi_aclk
+connect_bd_net -net /sys_cpu_resetn /axi_adrv9001_tx2_dma/s_axi_aresetn
+connect_bd_intf_net /axi_hpm0_lpd_interconnect/M04_AXI /axi_adrv9001_tx2_dma/s_axi
+create_bd_addr_seg -range 0x1000 -offset 2225471488 /sys_ps8/Data /axi_adrv9001_tx2_dma/s_axi/axi_lite SEG_data_axi_adrv9001_tx2_dma
+connect_bd_net -net /sys_cpu_clk /axi_sysid_0/s_axi_aclk
+connect_bd_net -net /sys_cpu_resetn /axi_sysid_0/s_axi_aresetn
+connect_bd_intf_net /axi_hpm0_lpd_interconnect/M05_AXI /axi_sysid_0/s_axi
+create_bd_addr_seg -range 0x00010000 -offset 2231369728 /sys_ps8/Data /axi_sysid_0/s_axi/axi_lite SEG_data_axi_sysid_0
+connect_bd_intf_net /axi_hpm0_lpd_interconnect/M06_AXI /pl_sysmon/S_AXI_LITE
+create_bd_addr_seg -range 0x00002000 -offset 2225537024 /sys_ps8/Data /pl_sysmon/S_AXI_LITE/Reg SEG_data_pl_sysmon
+INFO: [PSU-1]  DP_AUDIO clock source: RPLL is also being used by other peripheral clocks. Their outputs may get impacted if any driver changes DP_AUDIO PLL source to support runtime audio change 
+INFO: [PSU-1]  DP_AUDIO clock source: RPLL is also being used by other peripheral clocks. Their outputs may get impacted if any driver changes DP_AUDIO PLL source to support runtime audio change 
+connect_bd_net -net /sys_250m_resetn /axi_hpc0_interconnect/aresetn
+connect_bd_net -net /sys_250m_clk /axi_hpc0_interconnect/aclk
+connect_bd_intf_net /axi_hpc0_interconnect/M00_AXI /sys_ps8/S_AXI_HPC0_FPD
+connect_bd_net -net /sys_250m_clk /sys_ps8/saxihpc0_fpd_aclk
+connect_bd_intf_net /axi_hpc0_interconnect/S00_AXI /axi_adrv9001_rx1_dma/m_dest_axi
+connect_bd_net -net /sys_250m_clk /axi_adrv9001_rx1_dma/m_dest_axi_aclk
+Slave segment '/sys_ps8/SAXIGP0/HPC0_DDR_LOW' is being assigned into address space '/axi_adrv9001_rx1_dma/m_dest_axi' at <0x0000_0000 [ 2G ]>.
+connect_bd_intf_net /axi_hpc0_interconnect/S01_AXI /axi_adrv9001_rx2_dma/m_dest_axi
+connect_bd_net -net /sys_250m_clk /axi_adrv9001_rx2_dma/m_dest_axi_aclk
+Slave segment '/sys_ps8/SAXIGP0/HPC0_DDR_LOW' is being assigned into address space '/axi_adrv9001_rx2_dma/m_dest_axi' at <0x0000_0000 [ 2G ]>.
+connect_bd_intf_net /axi_hpc0_interconnect/S02_AXI /axi_adrv9001_tx1_dma/m_src_axi
+connect_bd_net -net /sys_250m_clk /axi_adrv9001_tx1_dma/m_src_axi_aclk
+Slave segment '/sys_ps8/SAXIGP0/HPC0_DDR_LOW' is being assigned into address space '/axi_adrv9001_tx1_dma/m_src_axi' at <0x0000_0000 [ 2G ]>.
+connect_bd_intf_net /axi_hpc0_interconnect/S03_AXI /axi_adrv9001_tx2_dma/m_src_axi
+connect_bd_net -net /sys_250m_clk /axi_adrv9001_tx2_dma/m_src_axi_aclk
+Slave segment '/sys_ps8/SAXIGP0/HPC0_DDR_LOW' is being assigned into address space '/axi_adrv9001_tx2_dma/m_src_axi' at <0x0000_0000 [ 2G ]>.
+connect_bd_net -net /sys_250m_resetn /axi_adrv9001_rx1_dma/m_dest_axi_aresetn
+connect_bd_net -net /sys_250m_resetn /axi_adrv9001_rx2_dma/m_dest_axi_aresetn
+connect_bd_net -net /sys_250m_resetn /axi_adrv9001_tx1_dma/m_src_axi_aresetn
+connect_bd_net -net /sys_250m_resetn /axi_adrv9001_tx2_dma/m_src_axi_aresetn
+disconnect_bd_net /GND_1_dout /sys_concat_intc_1/In5
+connect_bd_net /sys_concat_intc_1/In5 /axi_adrv9001_rx1_dma/irq
+disconnect_bd_net /GND_1_dout /sys_concat_intc_1/In4
+connect_bd_net /sys_concat_intc_1/In4 /axi_adrv9001_rx2_dma/irq
+disconnect_bd_net /GND_1_dout /sys_concat_intc_1/In3
+connect_bd_net /sys_concat_intc_1/In3 /axi_adrv9001_tx1_dma/irq
+disconnect_bd_net /GND_1_dout /sys_concat_intc_1/In2
+connect_bd_net /sys_concat_intc_1/In2 /axi_adrv9001_tx2_dma/irq
+disconnect_bd_net /GND_1_dout /sys_concat_intc_1/In1
+connect_bd_net /sys_concat_intc_1/In1 /pl_sysmon/ip2intc_irpt
+project_name: vivado_prj
+gitsha_string: c5f5c1841f55443fe6070e4f4a7111d838b30b77
+gitsha_hex: 3566356334383163353566316633343437303665663465303137613438643131336238333737623000000000
+git_clean_string: f
+git_clean_hex: 00000066
+gitbranch_string: tfcollins/qpsk-2025.1
+git_branch_hex: 6f6366746e696c6c70712f73322d6b732e3532300000003100000000
+vadj_check_string: vadj
+vadj_check_hex: 6a646176
+thetime: 1779836282
+timedate_hex: 393737313236333800003238
+boardname_string: prj
+boardname_hex: 006a727000000000000000000000000000000000000000000000000000000000
+projname_string: vivado
+projname_hex: 6176697600006f64000000000000000000000000000000000000000000000000
+custom_string: USE_RX_CLK_FOR_TX1=0, USE_RX_CLK_FOR_TX2=0
+custom_hex: 5f455355435f5852465f4b4c545f524f303d31585355202c58525f454b4c435f524f465f3258545f0000303d0000000000000000000000000000000000000000
+Wrote  : </home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.srcs/sources_1/bd/system/system.bd> 
+WARNING: [BD 41-3281] Instance '/axi_adrv9001_tx1_dma' is connected on both sides by SmartConnects and cannot automatically configure itself to match the endpoints. Please manually configure its AXI interfaces as required for the design.
+WARNING: [BD 41-3281] Instance '/axi_adrv9001_tx2_dma' is connected on both sides by SmartConnects and cannot automatically configure itself to match the endpoints. Please manually configure its AXI interfaces as required for the design.
+WARNING: [BD 41-3281] Instance '/axi_adrv9001_rx1_dma' is connected on both sides by SmartConnects and cannot automatically configure itself to match the endpoints. Please manually configure its AXI interfaces as required for the design.
+WARNING: [BD 41-3281] Instance '/axi_adrv9001_rx2_dma' is connected on both sides by SmartConnects and cannot automatically configure itself to match the endpoints. Please manually configure its AXI interfaces as required for the design.
+WARNING: [BD 41-3281] Instance '/sys_ps8' is connected on both sides by SmartConnects and cannot automatically configure itself to match the endpoints. Please manually configure its AXI interfaces as required for the design.
+INFO: [PSU-1]  DP_AUDIO clock source: RPLL is also being used by other peripheral clocks. Their outputs may get impacted if any driver changes DP_AUDIO PLL source to support runtime audio change 
+WARNING: [BD 41-702] Propagation TCL tries to overwrite USER strength parameter AXI_AXCACHE(0b1111) on '/axi_adrv9001_rx1_dma' with propagated value(15). Command ignored
+WARNING: [BD 41-702] Propagation TCL tries to overwrite USER strength parameter AXI_AXPROT(0b010) on '/axi_adrv9001_rx1_dma' with propagated value(2). Command ignored
+WARNING: [BD 41-702] Propagation TCL tries to overwrite USER strength parameter AXI_AXCACHE(0b1111) on '/axi_adrv9001_rx2_dma' with propagated value(15). Command ignored
+WARNING: [BD 41-702] Propagation TCL tries to overwrite USER strength parameter AXI_AXPROT(0b010) on '/axi_adrv9001_rx2_dma' with propagated value(2). Command ignored
+WARNING: [BD 41-702] Propagation TCL tries to overwrite USER strength parameter AXI_AXCACHE(0b1111) on '/axi_adrv9001_tx1_dma' with propagated value(15). Command ignored
+WARNING: [BD 41-702] Propagation TCL tries to overwrite USER strength parameter AXI_AXPROT(0b010) on '/axi_adrv9001_tx1_dma' with propagated value(2). Command ignored
+WARNING: [BD 41-702] Propagation TCL tries to overwrite USER strength parameter AXI_AXCACHE(0b1111) on '/axi_adrv9001_tx2_dma' with propagated value(15). Command ignored
+WARNING: [BD 41-702] Propagation TCL tries to overwrite USER strength parameter AXI_AXPROT(0b010) on '/axi_adrv9001_tx2_dma' with propagated value(2). Command ignored
+INFO: [BD 5-943] Reserving offset range <0x84A0_0000 [ 64K ]> from slave interface '/axi_hpm0_lpd_interconnect/S00_AXI' to master interface '/axi_hpm0_lpd_interconnect/M00_AXI'. This will be used by smartconnect on path for routing.
+INFO: [BD 5-943] Reserving offset range <0x84A3_0000 [ 4K ]> from slave interface '/axi_hpm0_lpd_interconnect/S00_AXI' to master interface '/axi_hpm0_lpd_interconnect/M01_AXI'. This will be used by smartconnect on path for routing.
+INFO: [BD 5-943] Reserving offset range <0x84A4_0000 [ 4K ]> from slave interface '/axi_hpm0_lpd_interconnect/S00_AXI' to master interface '/axi_hpm0_lpd_interconnect/M02_AXI'. This will be used by smartconnect on path for routing.
+INFO: [BD 5-943] Reserving offset range <0x84A5_0000 [ 4K ]> from slave interface '/axi_hpm0_lpd_interconnect/S00_AXI' to master interface '/axi_hpm0_lpd_interconnect/M03_AXI'. This will be used by smartconnect on path for routing.
+INFO: [BD 5-943] Reserving offset range <0x84A6_0000 [ 4K ]> from slave interface '/axi_hpm0_lpd_interconnect/S00_AXI' to master interface '/axi_hpm0_lpd_interconnect/M04_AXI'. This will be used by smartconnect on path for routing.
+INFO: [BD 5-943] Reserving offset range <0x8500_0000 [ 64K ]> from slave interface '/axi_hpm0_lpd_interconnect/S00_AXI' to master interface '/axi_hpm0_lpd_interconnect/M05_AXI'. This will be used by smartconnect on path for routing.
+INFO: [BD 5-943] Reserving offset range <0x84A7_0000 [ 8K ]> from slave interface '/axi_hpm0_lpd_interconnect/S00_AXI' to master interface '/axi_hpm0_lpd_interconnect/M06_AXI'. This will be used by smartconnect on path for routing.
+INFO: [xilinx.com:ip:smartconnect:1.0-1] system_axi_hpm0_lpd_interconnect_0: SmartConnect system_axi_hpm0_lpd_interconnect_0 is in Low-Area Mode.
+xit::source_ipfile: Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 2679.906 ; gain = 0.000 ; free physical = 9061 ; free virtual = 44670
+INFO: [BD 5-943] Reserving offset range <0x0000_0000 [ 2G ]> from slave interface '/axi_hpc0_interconnect/S00_AXI' to master interface '/axi_hpc0_interconnect/M00_AXI'. This will be used by smartconnect on path for routing.
+INFO: [BD 5-943] Reserving offset range <0x0000_0000 [ 2G ]> from slave interface '/axi_hpc0_interconnect/S01_AXI' to master interface '/axi_hpc0_interconnect/M00_AXI'. This will be used by smartconnect on path for routing.
+INFO: [BD 5-943] Reserving offset range <0x0000_0000 [ 2G ]> from slave interface '/axi_hpc0_interconnect/S02_AXI' to master interface '/axi_hpc0_interconnect/M00_AXI'. This will be used by smartconnect on path for routing.
+INFO: [BD 5-943] Reserving offset range <0x0000_0000 [ 2G ]> from slave interface '/axi_hpc0_interconnect/S03_AXI' to master interface '/axi_hpc0_interconnect/M00_AXI'. This will be used by smartconnect on path for routing.
+INFO: [xilinx.com:ip:smartconnect:1.0-1] system_axi_hpc0_interconnect_0: SmartConnect system_axi_hpc0_interconnect_0 is in High-performance Mode.
+WARNING: [BD 41-237] Bus Interface property AWUSER_WIDTH does not match between /sys_ps8/S_AXI_HPC0_FPD(1) and /axi_hpc0_interconnect/M00_AXI(0)
+WARNING: [BD 41-237] Bus Interface property ARUSER_WIDTH does not match between /sys_ps8/S_AXI_HPC0_FPD(1) and /axi_hpc0_interconnect/M00_AXI(0)
+validate_bd_design: Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 2679.906 ; gain = 0.000 ; free physical = 9050 ; free virtual = 44658
+INFO: [BD 41-1662] The design 'system.bd' is already validated. Therefore parameter propagation will not be re-run.
+Wrote  : </home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.srcs/sources_1/bd/system/system.bd> 
+Verilog Output written to : /home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/synth/system.v
+Verilog Output written to : /home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/sim/system.v
+Verilog Output written to : /home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/hdl/system_wrapper.v
+INFO: [xilinx.com:ip:zynq_ultra_ps_e:3.5-0] system_sys_ps8_0: 
+Changes in your design (including the PCW configuration settings) are not automatically exported from Vivado to Amd's SDK, Petalinux or Yocto.
+This is by design to avoid disrupting existing embedded development efforts. To have any changes of your design taking effect in the embedded software flow please export your
+design by going through Vivado's main menu, click on File, then Export finally select Export Hardware, please ensure you click on the Include BitStream option.
+The auto-generated HDF file is all you need to import in Amd's SDK, Petalinux or Yocto for your changes to be reflected in the Embedded Software Flow.
+For more information, please consult PG201, section: Exporting PCW Settings to Embedded Software Flows
+INFO: [PSU-0] Address Range of DDR (0x7ff00000 to 0x7fffffff) is reserved by PMU for internal purpose.
+INFO: [BD 41-1029] Generation completed for the IP Integrator block sys_ps8 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block sys_rstgen .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block sys_250m_rstgen .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block sys_500m_rstgen .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block axi_sysid_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rom_sys_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block axi_adrv9001 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block axi_adrv9001_rx1_dma .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block util_adc_1_pack .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block axi_adrv9001_rx2_dma .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block util_adc_2_pack .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block axi_adrv9001_tx1_dma .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block util_dac_1_upack .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block axi_adrv9001_tx2_dma .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block util_dac_2_upack .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block pl_sysmon .
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/s00_nodes/s00_ar_node/s_sc_payld'(173) to pin: '/s00_nodes/S_SC_AR_payld'(169) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/s00_nodes/s00_aw_node/s_sc_payld'(173) to pin: '/s00_nodes/S_SC_AW_payld'(169) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m00_nodes/m00_r_node/s_sc_payld'(55) to pin: '/m00_nodes/S_SC_R_payld'(53) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m00_nodes/m00_b_node/s_sc_payld'(9) to pin: '/m00_nodes/S_SC_B_payld'(7) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m01_nodes/m01_r_node/s_sc_payld'(55) to pin: '/m01_nodes/S_SC_R_payld'(53) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m01_nodes/m01_b_node/s_sc_payld'(9) to pin: '/m01_nodes/S_SC_B_payld'(7) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m02_nodes/m02_r_node/s_sc_payld'(55) to pin: '/m02_nodes/S_SC_R_payld'(53) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m02_nodes/m02_b_node/s_sc_payld'(9) to pin: '/m02_nodes/S_SC_B_payld'(7) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m03_nodes/m03_r_node/s_sc_payld'(55) to pin: '/m03_nodes/S_SC_R_payld'(53) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m03_nodes/m03_b_node/s_sc_payld'(9) to pin: '/m03_nodes/S_SC_B_payld'(7) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m04_nodes/m04_r_node/s_sc_payld'(55) to pin: '/m04_nodes/S_SC_R_payld'(53) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m04_nodes/m04_b_node/s_sc_payld'(9) to pin: '/m04_nodes/S_SC_B_payld'(7) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m05_nodes/m05_r_node/s_sc_payld'(55) to pin: '/m05_nodes/S_SC_R_payld'(53) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m05_nodes/m05_b_node/s_sc_payld'(9) to pin: '/m05_nodes/S_SC_B_payld'(7) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m06_nodes/m06_r_node/s_sc_payld'(55) to pin: '/m06_nodes/S_SC_R_payld'(53) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m06_nodes/m06_b_node/s_sc_payld'(9) to pin: '/m06_nodes/S_SC_B_payld'(7) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/s00_axi2sc/s_sc_r_payld'(53) to pin: '/s00_nodes/M_SC_R_payld'(55) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/s00_axi2sc/s_sc_b_payld'(7) to pin: '/s00_nodes/M_SC_B_payld'(9) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m00_sc2axi/s_sc_ar_payld'(169) to pin: '/m00_nodes/M_SC_AR_payld'(173) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m00_sc2axi/s_sc_aw_payld'(169) to pin: '/m00_nodes/M_SC_AW_payld'(173) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m01_sc2axi/s_sc_ar_payld'(169) to pin: '/m01_nodes/M_SC_AR_payld'(173) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m01_sc2axi/s_sc_aw_payld'(169) to pin: '/m01_nodes/M_SC_AW_payld'(173) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m02_sc2axi/s_sc_ar_payld'(169) to pin: '/m02_nodes/M_SC_AR_payld'(173) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m02_sc2axi/s_sc_aw_payld'(169) to pin: '/m02_nodes/M_SC_AW_payld'(173) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m03_sc2axi/s_sc_ar_payld'(169) to pin: '/m03_nodes/M_SC_AR_payld'(173) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m03_sc2axi/s_sc_aw_payld'(169) to pin: '/m03_nodes/M_SC_AW_payld'(173) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m04_sc2axi/s_sc_ar_payld'(169) to pin: '/m04_nodes/M_SC_AR_payld'(173) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m04_sc2axi/s_sc_aw_payld'(169) to pin: '/m04_nodes/M_SC_AW_payld'(173) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m05_sc2axi/s_sc_ar_payld'(169) to pin: '/m05_nodes/M_SC_AR_payld'(173) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m05_sc2axi/s_sc_aw_payld'(169) to pin: '/m05_nodes/M_SC_AW_payld'(173) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m06_sc2axi/s_sc_ar_payld'(169) to pin: '/m06_nodes/M_SC_AR_payld'(173) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m06_sc2axi/s_sc_aw_payld'(169) to pin: '/m06_nodes/M_SC_AW_payld'(173) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/s00_nodes/s00_ar_node/s_sc_payld'(173) to pin: '/s00_nodes/S_SC_AR_payld'(169) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/s00_nodes/s00_aw_node/s_sc_payld'(173) to pin: '/s00_nodes/S_SC_AW_payld'(169) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m00_nodes/m00_r_node/s_sc_payld'(55) to pin: '/m00_nodes/S_SC_R_payld'(53) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m00_nodes/m00_b_node/s_sc_payld'(9) to pin: '/m00_nodes/S_SC_B_payld'(7) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m01_nodes/m01_r_node/s_sc_payld'(55) to pin: '/m01_nodes/S_SC_R_payld'(53) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m01_nodes/m01_b_node/s_sc_payld'(9) to pin: '/m01_nodes/S_SC_B_payld'(7) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m02_nodes/m02_r_node/s_sc_payld'(55) to pin: '/m02_nodes/S_SC_R_payld'(53) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m02_nodes/m02_b_node/s_sc_payld'(9) to pin: '/m02_nodes/S_SC_B_payld'(7) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m03_nodes/m03_r_node/s_sc_payld'(55) to pin: '/m03_nodes/S_SC_R_payld'(53) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m03_nodes/m03_b_node/s_sc_payld'(9) to pin: '/m03_nodes/S_SC_B_payld'(7) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m04_nodes/m04_r_node/s_sc_payld'(55) to pin: '/m04_nodes/S_SC_R_payld'(53) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m04_nodes/m04_b_node/s_sc_payld'(9) to pin: '/m04_nodes/S_SC_B_payld'(7) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m05_nodes/m05_r_node/s_sc_payld'(55) to pin: '/m05_nodes/S_SC_R_payld'(53) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m05_nodes/m05_b_node/s_sc_payld'(9) to pin: '/m05_nodes/S_SC_B_payld'(7) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m06_nodes/m06_r_node/s_sc_payld'(55) to pin: '/m06_nodes/S_SC_R_payld'(53) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m06_nodes/m06_b_node/s_sc_payld'(9) to pin: '/m06_nodes/S_SC_B_payld'(7) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/s00_axi2sc/s_sc_r_payld'(53) to pin: '/s00_nodes/M_SC_R_payld'(55) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/s00_axi2sc/s_sc_b_payld'(7) to pin: '/s00_nodes/M_SC_B_payld'(9) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m00_sc2axi/s_sc_ar_payld'(169) to pin: '/m00_nodes/M_SC_AR_payld'(173) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m00_sc2axi/s_sc_aw_payld'(169) to pin: '/m00_nodes/M_SC_AW_payld'(173) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m01_sc2axi/s_sc_ar_payld'(169) to pin: '/m01_nodes/M_SC_AR_payld'(173) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m01_sc2axi/s_sc_aw_payld'(169) to pin: '/m01_nodes/M_SC_AW_payld'(173) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m02_sc2axi/s_sc_ar_payld'(169) to pin: '/m02_nodes/M_SC_AR_payld'(173) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m02_sc2axi/s_sc_aw_payld'(169) to pin: '/m02_nodes/M_SC_AW_payld'(173) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m03_sc2axi/s_sc_ar_payld'(169) to pin: '/m03_nodes/M_SC_AR_payld'(173) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m03_sc2axi/s_sc_aw_payld'(169) to pin: '/m03_nodes/M_SC_AW_payld'(173) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m04_sc2axi/s_sc_ar_payld'(169) to pin: '/m04_nodes/M_SC_AR_payld'(173) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m04_sc2axi/s_sc_aw_payld'(169) to pin: '/m04_nodes/M_SC_AW_payld'(173) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m05_sc2axi/s_sc_ar_payld'(169) to pin: '/m05_nodes/M_SC_AR_payld'(173) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m05_sc2axi/s_sc_aw_payld'(169) to pin: '/m05_nodes/M_SC_AW_payld'(173) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m06_sc2axi/s_sc_ar_payld'(169) to pin: '/m06_nodes/M_SC_AR_payld'(173) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m06_sc2axi/s_sc_aw_payld'(169) to pin: '/m06_nodes/M_SC_AW_payld'(173) - Only lower order bits will be connected.
+Exporting to file /home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/hw_handoff/system_axi_hpm0_lpd_interconnect_0.hwh
+Generated Hardware Definition File /home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpm0_lpd_interconnect_0/bd_0/synth/system_axi_hpm0_lpd_interconnect_0.hwdef
+INFO: [BD 41-1029] Generation completed for the IP Integrator block axi_hpm0_lpd_interconnect .
+Exporting to file /home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpc0_interconnect_0/bd_0/hw_handoff/system_axi_hpc0_interconnect_0.hwh
+Generated Hardware Definition File /home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_axi_hpc0_interconnect_0/bd_0/synth/system_axi_hpc0_interconnect_0.hwdef
+INFO: [BD 41-1029] Generation completed for the IP Integrator block axi_hpc0_interconnect .
+Exporting to file /home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/hw_handoff/system.hwh
+Generated Hardware Definition File /home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/synth/system.hwdef
+generate_target: Time (s): cpu = 00:00:45 ; elapsed = 00:00:48 . Memory (MB): peak = 2679.906 ; gain = 0.000 ; free physical = 9018 ; free virtual = 44671
+INFO: [Project 1-1716] Could not find the wrapper file /home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.srcs/sources_1/bd/system/hdl/system_wrapper.v, checking in project .gen location instead.
+INFO: [Vivado 12-12391] Found file /home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/hdl/system_wrapper.v, importing it to Project
+Skipping synthesis
+Preprocessing jupiter_sdr  txrx
+CRITICAL WARNING: [Coretcl 2-2367] Cannot update IP catalog while a BD design is open. Please close BD design 'system' and try again.
+INFO: [BD 5-1043] It is recommended to use inline hdl version xilinx.com:inline_hdl:ilconcat:1.0 for the IP type xilinx.com:ip:xlconcat:2.1 for improved performance and reduced disk space. IPs with VLNV xilinx.com:ip:xlconcat:2.1 will not be supported from release 2025.2. More information on inline hdl IP is available in UG994 
+connect_bd_net /sync_input/sync_slow_to_fast/in_data /sync_input/bit_concatenator_sync/dout
+INFO: [BD 5-1043] It is recommended to use inline hdl version xilinx.com:inline_hdl:ilconcat:1.0 for the IP type xilinx.com:ip:xlconcat:2.1 for improved performance and reduced disk space. IPs with VLNV xilinx.com:ip:xlconcat:2.1 will not be supported from release 2025.2. More information on inline hdl IP is available in UG994 
+connect_bd_net /sync_input/util_delay/din /sync_input/bit_concatenator_shifter/dout
+connect_bd_net /sync_input/util_delay/clk /sync_input/tx_clk
+connect_bd_net /sync_input/util_delay/rstn /sync_input/tx_rstn
+INFO: [BD 5-1043] It is recommended to use inline hdl version xilinx.com:inline_hdl:ilslice:1.0 for the IP type xilinx.com:ip:xlslice:1.0 for improved performance and reduced disk space. IPs with VLNV xilinx.com:ip:xlslice:1.0 will not be supported from release 2025.2. More information on inline hdl IP is available in UG994 
+INFO: [BD 5-1043] It is recommended to use inline hdl version xilinx.com:inline_hdl:ilslice:1.0 for the IP type xilinx.com:ip:xlslice:1.0 for improved performance and reduced disk space. IPs with VLNV xilinx.com:ip:xlslice:1.0 will not be supported from release 2025.2. More information on inline hdl IP is available in UG994 
+connect_bd_net /sync_input/sync_slow_to_fast/out_data /sync_input/bit_slicer_rx_0/Din
+connect_bd_net /sync_input/bit_concatenator_sync/In0 /sync_input/data_in_rx_0
+connect_bd_net /sync_input/bit_slicer_rx_0/Dout /sync_input/data_out_rx_0
+connect_bd_net /sync_input/util_delay/dout /sync_input/bit_slicer_tx_0/Din
+connect_bd_net /sync_input/bit_concatenator_shifter/In0 /sync_input/data_in_tx_0
+connect_bd_net /sync_input/bit_slicer_tx_0/Dout /sync_input/data_out_tx_0
+INFO: [BD 5-1043] It is recommended to use inline hdl version xilinx.com:inline_hdl:ilslice:1.0 for the IP type xilinx.com:ip:xlslice:1.0 for improved performance and reduced disk space. IPs with VLNV xilinx.com:ip:xlslice:1.0 will not be supported from release 2025.2. More information on inline hdl IP is available in UG994 
+INFO: [BD 5-1043] It is recommended to use inline hdl version xilinx.com:inline_hdl:ilslice:1.0 for the IP type xilinx.com:ip:xlslice:1.0 for improved performance and reduced disk space. IPs with VLNV xilinx.com:ip:xlslice:1.0 will not be supported from release 2025.2. More information on inline hdl IP is available in UG994 
+connect_bd_net /sync_input/sync_slow_to_fast/out_data /sync_input/bit_slicer_rx_1/Din
+connect_bd_net /sync_input/bit_concatenator_sync/In1 /sync_input/data_in_rx_1
+connect_bd_net /sync_input/bit_slicer_rx_1/Dout /sync_input/data_out_rx_1
+connect_bd_net /sync_input/util_delay/dout /sync_input/bit_slicer_tx_1/Din
+connect_bd_net /sync_input/bit_concatenator_shifter/In1 /sync_input/data_in_tx_1
+connect_bd_net /sync_input/bit_slicer_tx_1/Dout /sync_input/data_out_tx_1
+INFO: [BD 5-1043] It is recommended to use inline hdl version xilinx.com:inline_hdl:ilslice:1.0 for the IP type xilinx.com:ip:xlslice:1.0 for improved performance and reduced disk space. IPs with VLNV xilinx.com:ip:xlslice:1.0 will not be supported from release 2025.2. More information on inline hdl IP is available in UG994 
+INFO: [BD 5-1043] It is recommended to use inline hdl version xilinx.com:inline_hdl:ilslice:1.0 for the IP type xilinx.com:ip:xlslice:1.0 for improved performance and reduced disk space. IPs with VLNV xilinx.com:ip:xlslice:1.0 will not be supported from release 2025.2. More information on inline hdl IP is available in UG994 
+connect_bd_net /sync_input/sync_slow_to_fast/out_data /sync_input/bit_slicer_rx_2/Din
+connect_bd_net /sync_input/bit_concatenator_sync/In2 /sync_input/data_in_rx_2
+connect_bd_net /sync_input/bit_slicer_rx_2/Dout /sync_input/data_out_rx_2
+connect_bd_net /sync_input/util_delay/dout /sync_input/bit_slicer_tx_2/Din
+connect_bd_net /sync_input/bit_concatenator_shifter/In2 /sync_input/data_in_tx_2
+connect_bd_net /sync_input/bit_slicer_tx_2/Dout /sync_input/data_out_tx_2
+INFO: [BD 5-1043] It is recommended to use inline hdl version xilinx.com:inline_hdl:ilslice:1.0 for the IP type xilinx.com:ip:xlslice:1.0 for improved performance and reduced disk space. IPs with VLNV xilinx.com:ip:xlslice:1.0 will not be supported from release 2025.2. More information on inline hdl IP is available in UG994 
+INFO: [BD 5-1043] It is recommended to use inline hdl version xilinx.com:inline_hdl:ilslice:1.0 for the IP type xilinx.com:ip:xlslice:1.0 for improved performance and reduced disk space. IPs with VLNV xilinx.com:ip:xlslice:1.0 will not be supported from release 2025.2. More information on inline hdl IP is available in UG994 
+connect_bd_net /sync_input/sync_slow_to_fast/out_data /sync_input/bit_slicer_rx_3/Din
+connect_bd_net /sync_input/bit_concatenator_sync/In3 /sync_input/data_in_rx_3
+connect_bd_net /sync_input/bit_slicer_rx_3/Dout /sync_input/data_out_rx_3
+connect_bd_net /sync_input/util_delay/dout /sync_input/bit_slicer_tx_3/Din
+connect_bd_net /sync_input/bit_concatenator_shifter/In3 /sync_input/data_in_tx_3
+connect_bd_net /sync_input/bit_slicer_tx_3/Dout /sync_input/data_out_tx_3
+INFO: [BD 5-1043] It is recommended to use inline hdl version xilinx.com:inline_hdl:ilslice:1.0 for the IP type xilinx.com:ip:xlslice:1.0 for improved performance and reduced disk space. IPs with VLNV xilinx.com:ip:xlslice:1.0 will not be supported from release 2025.2. More information on inline hdl IP is available in UG994 
+INFO: [BD 5-1043] It is recommended to use inline hdl version xilinx.com:inline_hdl:ilslice:1.0 for the IP type xilinx.com:ip:xlslice:1.0 for improved performance and reduced disk space. IPs with VLNV xilinx.com:ip:xlslice:1.0 will not be supported from release 2025.2. More information on inline hdl IP is available in UG994 
+connect_bd_net /sync_input/sync_slow_to_fast/out_data /sync_input/bit_slicer_valid_rx_0/Din
+connect_bd_net /sync_input/bit_concatenator_sync/In4 /sync_input/data_valid_in_rx_0
+connect_bd_net /sync_input/bit_slicer_valid_rx_0/Dout /sync_input/data_valid_out_rx_0
+connect_bd_net /sync_input/util_delay/dout /sync_input/bit_slicer_valid_tx_0/Din
+connect_bd_net /sync_input/bit_concatenator_shifter/In4 /sync_input/data_valid_in_tx_0
+connect_bd_net /sync_input/bit_slicer_valid_tx_0/Dout /sync_input/data_valid_out_tx_0
+connect_bd_net /sync_input/sync_slow_to_fast/in_clk /sync_input/rx_clk
+connect_bd_net /sync_input/sync_slow_to_fast/out_clk /sync_input/tx_clk
+connect_bd_net /sync_input/sync_slow_to_fast/in_resetn /sync_input/rx_rstn
+connect_bd_net /sync_input/sync_slow_to_fast/out_resetn /sync_input/tx_rstn
+INFO: [BD 5-1043] It is recommended to use inline hdl version xilinx.com:inline_hdl:ilconcat:1.0 for the IP type xilinx.com:ip:xlconcat:2.1 for improved performance and reduced disk space. IPs with VLNV xilinx.com:ip:xlconcat:2.1 will not be supported from release 2025.2. More information on inline hdl IP is available in UG994 
+connect_bd_net /sync_output/sync_slow_to_fast/in_data /sync_output/bit_concatenator_sync/dout
+INFO: [BD 5-1043] It is recommended to use inline hdl version xilinx.com:inline_hdl:ilconcat:1.0 for the IP type xilinx.com:ip:xlconcat:2.1 for improved performance and reduced disk space. IPs with VLNV xilinx.com:ip:xlconcat:2.1 will not be supported from release 2025.2. More information on inline hdl IP is available in UG994 
+connect_bd_net /sync_output/util_delay/din /sync_output/bit_concatenator_shifter/dout
+connect_bd_net /sync_output/util_delay/clk /sync_output/tx_clk
+connect_bd_net /sync_output/util_delay/rstn /sync_output/tx_rstn
+INFO: [BD 5-1043] It is recommended to use inline hdl version xilinx.com:inline_hdl:ilslice:1.0 for the IP type xilinx.com:ip:xlslice:1.0 for improved performance and reduced disk space. IPs with VLNV xilinx.com:ip:xlslice:1.0 will not be supported from release 2025.2. More information on inline hdl IP is available in UG994 
+INFO: [BD 5-1043] It is recommended to use inline hdl version xilinx.com:inline_hdl:ilslice:1.0 for the IP type xilinx.com:ip:xlslice:1.0 for improved performance and reduced disk space. IPs with VLNV xilinx.com:ip:xlslice:1.0 will not be supported from release 2025.2. More information on inline hdl IP is available in UG994 
+connect_bd_net /sync_output/sync_slow_to_fast/out_data /sync_output/bit_slicer_rx_0/Din
+connect_bd_net /sync_output/bit_concatenator_sync/In0 /sync_output/data_in_rx_0
+connect_bd_net /sync_output/bit_slicer_rx_0/Dout /sync_output/data_out_rx_0
+connect_bd_net /sync_output/util_delay/dout /sync_output/bit_slicer_tx_0/Din
+connect_bd_net /sync_output/bit_concatenator_shifter/In0 /sync_output/data_in_tx_0
+connect_bd_net /sync_output/bit_slicer_tx_0/Dout /sync_output/data_out_tx_0
+INFO: [BD 5-1043] It is recommended to use inline hdl version xilinx.com:inline_hdl:ilslice:1.0 for the IP type xilinx.com:ip:xlslice:1.0 for improved performance and reduced disk space. IPs with VLNV xilinx.com:ip:xlslice:1.0 will not be supported from release 2025.2. More information on inline hdl IP is available in UG994 
+INFO: [BD 5-1043] It is recommended to use inline hdl version xilinx.com:inline_hdl:ilslice:1.0 for the IP type xilinx.com:ip:xlslice:1.0 for improved performance and reduced disk space. IPs with VLNV xilinx.com:ip:xlslice:1.0 will not be supported from release 2025.2. More information on inline hdl IP is available in UG994 
+connect_bd_net /sync_output/sync_slow_to_fast/out_data /sync_output/bit_slicer_rx_1/Din
+connect_bd_net /sync_output/bit_concatenator_sync/In1 /sync_output/data_in_rx_1
+connect_bd_net /sync_output/bit_slicer_rx_1/Dout /sync_output/data_out_rx_1
+connect_bd_net /sync_output/util_delay/dout /sync_output/bit_slicer_tx_1/Din
+connect_bd_net /sync_output/bit_concatenator_shifter/In1 /sync_output/data_in_tx_1
+connect_bd_net /sync_output/bit_slicer_tx_1/Dout /sync_output/data_out_tx_1
+INFO: [BD 5-1043] It is recommended to use inline hdl version xilinx.com:inline_hdl:ilslice:1.0 for the IP type xilinx.com:ip:xlslice:1.0 for improved performance and reduced disk space. IPs with VLNV xilinx.com:ip:xlslice:1.0 will not be supported from release 2025.2. More information on inline hdl IP is available in UG994 
+INFO: [BD 5-1043] It is recommended to use inline hdl version xilinx.com:inline_hdl:ilslice:1.0 for the IP type xilinx.com:ip:xlslice:1.0 for improved performance and reduced disk space. IPs with VLNV xilinx.com:ip:xlslice:1.0 will not be supported from release 2025.2. More information on inline hdl IP is available in UG994 
+connect_bd_net /sync_output/sync_slow_to_fast/out_data /sync_output/bit_slicer_rx_2/Din
+connect_bd_net /sync_output/bit_concatenator_sync/In2 /sync_output/data_in_rx_2
+connect_bd_net /sync_output/bit_slicer_rx_2/Dout /sync_output/data_out_rx_2
+connect_bd_net /sync_output/util_delay/dout /sync_output/bit_slicer_tx_2/Din
+connect_bd_net /sync_output/bit_concatenator_shifter/In2 /sync_output/data_in_tx_2
+connect_bd_net /sync_output/bit_slicer_tx_2/Dout /sync_output/data_out_tx_2
+INFO: [BD 5-1043] It is recommended to use inline hdl version xilinx.com:inline_hdl:ilslice:1.0 for the IP type xilinx.com:ip:xlslice:1.0 for improved performance and reduced disk space. IPs with VLNV xilinx.com:ip:xlslice:1.0 will not be supported from release 2025.2. More information on inline hdl IP is available in UG994 
+INFO: [BD 5-1043] It is recommended to use inline hdl version xilinx.com:inline_hdl:ilslice:1.0 for the IP type xilinx.com:ip:xlslice:1.0 for improved performance and reduced disk space. IPs with VLNV xilinx.com:ip:xlslice:1.0 will not be supported from release 2025.2. More information on inline hdl IP is available in UG994 
+connect_bd_net /sync_output/sync_slow_to_fast/out_data /sync_output/bit_slicer_rx_3/Din
+connect_bd_net /sync_output/bit_concatenator_sync/In3 /sync_output/data_in_rx_3
+connect_bd_net /sync_output/bit_slicer_rx_3/Dout /sync_output/data_out_rx_3
+connect_bd_net /sync_output/util_delay/dout /sync_output/bit_slicer_tx_3/Din
+connect_bd_net /sync_output/bit_concatenator_shifter/In3 /sync_output/data_in_tx_3
+connect_bd_net /sync_output/bit_slicer_tx_3/Dout /sync_output/data_out_tx_3
+INFO: [BD 5-1043] It is recommended to use inline hdl version xilinx.com:inline_hdl:ilslice:1.0 for the IP type xilinx.com:ip:xlslice:1.0 for improved performance and reduced disk space. IPs with VLNV xilinx.com:ip:xlslice:1.0 will not be supported from release 2025.2. More information on inline hdl IP is available in UG994 
+INFO: [BD 5-1043] It is recommended to use inline hdl version xilinx.com:inline_hdl:ilslice:1.0 for the IP type xilinx.com:ip:xlslice:1.0 for improved performance and reduced disk space. IPs with VLNV xilinx.com:ip:xlslice:1.0 will not be supported from release 2025.2. More information on inline hdl IP is available in UG994 
+connect_bd_net /sync_output/sync_slow_to_fast/out_data /sync_output/bit_slicer_valid_rx_0/Din
+connect_bd_net /sync_output/bit_concatenator_sync/In4 /sync_output/data_valid_in_rx_0
+connect_bd_net /sync_output/bit_slicer_valid_rx_0/Dout /sync_output/data_valid_out_rx_0
+connect_bd_net /sync_output/util_delay/dout /sync_output/bit_slicer_valid_tx_0/Din
+connect_bd_net /sync_output/bit_concatenator_shifter/In4 /sync_output/data_valid_in_tx_0
+connect_bd_net /sync_output/bit_slicer_valid_tx_0/Dout /sync_output/data_valid_out_tx_0
+connect_bd_net /sync_output/sync_slow_to_fast/in_clk /sync_output/tx_clk
+connect_bd_net /sync_output/sync_slow_to_fast/out_clk /sync_output/rx_clk
+connect_bd_net /sync_output/sync_slow_to_fast/in_resetn /sync_output/tx_rstn
+connect_bd_net /sync_output/sync_slow_to_fast/out_resetn /sync_output/rx_rstn
+INFO: [BD 5-1043] It is recommended to use inline hdl version xilinx.com:inline_hdl:ilvector_logic:1.0 for the IP type xilinx.com:ip:util_vector_logic:2.0 for improved performance and reduced disk space. IPs with VLNV xilinx.com:ip:util_vector_logic:2.0 will not be supported from release 2025.2. More information on inline hdl IP is available in UG994 
+connect_bd_net /axi_adrv9001/adc_1_rst /rx_rstn_inverter/Op1
+INFO: [BD 5-1043] It is recommended to use inline hdl version xilinx.com:inline_hdl:ilvector_logic:1.0 for the IP type xilinx.com:ip:util_vector_logic:2.0 for improved performance and reduced disk space. IPs with VLNV xilinx.com:ip:util_vector_logic:2.0 will not be supported from release 2025.2. More information on inline hdl IP is available in UG994 
+connect_bd_net /axi_adrv9001/dac_1_rst /tx_rstn_inverter/Op1
+Wrote  : </home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.srcs/sources_1/bd/system/system.bd> 
+WARNING: [BD 41-2670] Found an incomplete address path from address space '/sys_ps8/Data' to master interface '/axi_hpm0_lpd_interconnect/M07_AXI'. Please either complete or remove this path to resolve.
+WARNING: [BD 41-3281] Instance '/axi_adrv9001_tx1_dma' is connected on both sides by SmartConnects and cannot automatically configure itself to match the endpoints. Please manually configure its AXI interfaces as required for the design.
+WARNING: [BD 41-3281] Instance '/axi_adrv9001_tx2_dma' is connected on both sides by SmartConnects and cannot automatically configure itself to match the endpoints. Please manually configure its AXI interfaces as required for the design.
+WARNING: [BD 41-3281] Instance '/axi_adrv9001_rx1_dma' is connected on both sides by SmartConnects and cannot automatically configure itself to match the endpoints. Please manually configure its AXI interfaces as required for the design.
+WARNING: [BD 41-3281] Instance '/axi_adrv9001_rx2_dma' is connected on both sides by SmartConnects and cannot automatically configure itself to match the endpoints. Please manually configure its AXI interfaces as required for the design.
+WARNING: [BD 41-3281] Instance '/sys_ps8' is connected on both sides by SmartConnects and cannot automatically configure itself to match the endpoints. Please manually configure its AXI interfaces as required for the design.
+WARNING: [BD 41-702] Propagation TCL tries to overwrite USER strength parameter AXI_AXCACHE(0b1111) on '/axi_adrv9001_rx1_dma' with propagated value(15). Command ignored
+WARNING: [BD 41-702] Propagation TCL tries to overwrite USER strength parameter AXI_AXPROT(0b010) on '/axi_adrv9001_rx1_dma' with propagated value(2). Command ignored
+WARNING: [BD 41-702] Propagation TCL tries to overwrite USER strength parameter AXI_AXCACHE(0b1111) on '/axi_adrv9001_rx2_dma' with propagated value(15). Command ignored
+WARNING: [BD 41-702] Propagation TCL tries to overwrite USER strength parameter AXI_AXPROT(0b010) on '/axi_adrv9001_rx2_dma' with propagated value(2). Command ignored
+WARNING: [BD 41-702] Propagation TCL tries to overwrite USER strength parameter AXI_AXCACHE(0b1111) on '/axi_adrv9001_tx1_dma' with propagated value(15). Command ignored
+WARNING: [BD 41-702] Propagation TCL tries to overwrite USER strength parameter AXI_AXPROT(0b010) on '/axi_adrv9001_tx1_dma' with propagated value(2). Command ignored
+WARNING: [BD 41-702] Propagation TCL tries to overwrite USER strength parameter AXI_AXCACHE(0b1111) on '/axi_adrv9001_tx2_dma' with propagated value(15). Command ignored
+WARNING: [BD 41-702] Propagation TCL tries to overwrite USER strength parameter AXI_AXPROT(0b010) on '/axi_adrv9001_tx2_dma' with propagated value(2). Command ignored
+INFO: [BD 5-943] Reserving offset range <0x84A0_0000 [ 64K ]> from slave interface '/axi_hpm0_lpd_interconnect/S00_AXI' to master interface '/axi_hpm0_lpd_interconnect/M00_AXI'. This will be used by smartconnect on path for routing.
+INFO: [BD 5-943] Reserving offset range <0x84A3_0000 [ 4K ]> from slave interface '/axi_hpm0_lpd_interconnect/S00_AXI' to master interface '/axi_hpm0_lpd_interconnect/M01_AXI'. This will be used by smartconnect on path for routing.
+INFO: [BD 5-943] Reserving offset range <0x84A4_0000 [ 4K ]> from slave interface '/axi_hpm0_lpd_interconnect/S00_AXI' to master interface '/axi_hpm0_lpd_interconnect/M02_AXI'. This will be used by smartconnect on path for routing.
+INFO: [BD 5-943] Reserving offset range <0x84A5_0000 [ 4K ]> from slave interface '/axi_hpm0_lpd_interconnect/S00_AXI' to master interface '/axi_hpm0_lpd_interconnect/M03_AXI'. This will be used by smartconnect on path for routing.
+INFO: [BD 5-943] Reserving offset range <0x84A6_0000 [ 4K ]> from slave interface '/axi_hpm0_lpd_interconnect/S00_AXI' to master interface '/axi_hpm0_lpd_interconnect/M04_AXI'. This will be used by smartconnect on path for routing.
+INFO: [BD 5-943] Reserving offset range <0x8500_0000 [ 64K ]> from slave interface '/axi_hpm0_lpd_interconnect/S00_AXI' to master interface '/axi_hpm0_lpd_interconnect/M05_AXI'. This will be used by smartconnect on path for routing.
+INFO: [BD 5-943] Reserving offset range <0x84A7_0000 [ 8K ]> from slave interface '/axi_hpm0_lpd_interconnect/S00_AXI' to master interface '/axi_hpm0_lpd_interconnect/M06_AXI'. This will be used by smartconnect on path for routing.
+INFO: [xilinx.com:ip:smartconnect:1.0-1] system_axi_hpm0_lpd_interconnect_0: SmartConnect system_axi_hpm0_lpd_interconnect_0 is in Low-Area Mode.
+xit::source_ipfile: Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 2679.906 ; gain = 0.000 ; free physical = 9023 ; free virtual = 44662
+INFO: [BD 5-943] Reserving offset range <0x0000_0000 [ 2G ]> from slave interface '/axi_hpc0_interconnect/S00_AXI' to master interface '/axi_hpc0_interconnect/M00_AXI'. This will be used by smartconnect on path for routing.
+INFO: [BD 5-943] Reserving offset range <0x0000_0000 [ 2G ]> from slave interface '/axi_hpc0_interconnect/S01_AXI' to master interface '/axi_hpc0_interconnect/M00_AXI'. This will be used by smartconnect on path for routing.
+INFO: [BD 5-943] Reserving offset range <0x0000_0000 [ 2G ]> from slave interface '/axi_hpc0_interconnect/S02_AXI' to master interface '/axi_hpc0_interconnect/M00_AXI'. This will be used by smartconnect on path for routing.
+INFO: [BD 5-943] Reserving offset range <0x0000_0000 [ 2G ]> from slave interface '/axi_hpc0_interconnect/S03_AXI' to master interface '/axi_hpc0_interconnect/M00_AXI'. This will be used by smartconnect on path for routing.
+INFO: [xilinx.com:ip:smartconnect:1.0-1] system_axi_hpc0_interconnect_0: SmartConnect system_axi_hpc0_interconnect_0 is in High-performance Mode.
+WARNING: [BD 41-237] Bus Interface property AWUSER_WIDTH does not match between /sys_ps8/S_AXI_HPC0_FPD(1) and /axi_hpc0_interconnect/M00_AXI(0)
+WARNING: [BD 41-237] Bus Interface property ARUSER_WIDTH does not match between /sys_ps8/S_AXI_HPC0_FPD(1) and /axi_hpc0_interconnect/M00_AXI(0)
+validate_bd_design: Time (s): cpu = 00:00:17 ; elapsed = 00:00:18 . Memory (MB): peak = 2679.906 ; gain = 0.000 ; free physical = 9081 ; free virtual = 44707
+Wrote  : </home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.srcs/sources_1/bd/system/system.bd> 
+INFO: [Common 17-206] Exiting Vivado at Tue May 26 18:59:34 2026...

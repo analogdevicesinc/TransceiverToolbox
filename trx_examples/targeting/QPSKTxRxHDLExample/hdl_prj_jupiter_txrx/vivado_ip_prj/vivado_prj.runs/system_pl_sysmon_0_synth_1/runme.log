@@ -1,0 +1,789 @@
+
+*** Running vivado
+    with args -log system_pl_sysmon_0.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source system_pl_sysmon_0.tcl
+
+
+****** Vivado v2025.1 (64-bit)
+  **** SW Build 6140274 on Wed May 21 22:58:25 MDT 2025
+  **** IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+  **** SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+  **** Start of session at: Tue May 26 19:19:35 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source system_pl_sysmon_0.tcl -notrace
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/ipcore'.
+INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/library'.
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/tools/Xilinx/2025.1/Vivado/data/ip'.
+Command: synth_design -top system_pl_sysmon_0 -part xczu3eg-sfva625-2-e -incremental_mode off -mode out_of_context
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xczu3eg'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xczu3eg'
+INFO: [Device 21-403] Loading part xczu3eg-sfva625-2-e
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 7 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 3497519
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 2578.043 ; gain = 134.688 ; free physical = 7998 ; free virtual = 43714
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'system_pl_sysmon_0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0.v:49]
+INFO: [Synth 8-638] synthesizing module 'system_pl_sysmon_0_axi_xadc' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0_axi_xadc.vhd:259]
+	Parameter C_INSTANCE bound to: system_pl_sysmon_0_axi_xadc - type: string 
+	Parameter C_FAMILY bound to: virtex7 - type: string 
+	Parameter C_S_AXI_ADDR_WIDTH bound to: 13 - type: integer 
+	Parameter C_S_AXI_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_INCLUDE_INTR bound to: 1 - type: integer 
+	Parameter C_SIM_MONITOR_FILE bound to: design.txt - type: string 
+INFO: [Synth 8-638] synthesizing module 'system_pl_sysmon_0_axi_lite_ipif' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/axi_lite_ipif_v1_31_a/hdl/src/vhdl/system_pl_sysmon_0_axi_lite_ipif.vhd:241]
+	Parameter C_S_AXI_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_S_AXI_ADDR_WIDTH bound to: 13 - type: integer 
+	Parameter C_S_AXI_MIN_SIZE bound to: 32'b00000000000000000000011111111111 
+	Parameter C_USE_WSTRB bound to: 1 - type: integer 
+	Parameter C_DPHASE_TIMEOUT bound to: 64 - type: integer 
+	Parameter C_ARD_ADDR_RANGE_ARRAY bound to: 384'b000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000111110000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000111111100000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000001111111111111 
+	Parameter C_ARD_NUM_CE_ARRAY bound to: 96'b000000000000000000000000000010000000000000000000000000000001000000000000000000000000000000000001 
+	Parameter C_FAMILY bound to: virtex7 - type: string 
+INFO: [Synth 8-638] synthesizing module 'system_pl_sysmon_0_slave_attachment' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/axi_lite_ipif_v1_31_a/hdl/src/vhdl/system_pl_sysmon_0_slave_attachment.vhd:227]
+	Parameter C_ARD_ADDR_RANGE_ARRAY bound to: 384'b000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000111110000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000111111100000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000001111111111111 
+	Parameter C_ARD_NUM_CE_ARRAY bound to: 96'b000000000000000000000000000010000000000000000000000000000001000000000000000000000000000000000001 
+	Parameter C_IPIF_ABUS_WIDTH bound to: 13 - type: integer 
+	Parameter C_IPIF_DBUS_WIDTH bound to: 32 - type: integer 
+	Parameter C_S_AXI_MIN_SIZE bound to: 32'b00000000000000000000011111111111 
+	Parameter C_USE_WSTRB bound to: 1 - type: integer 
+	Parameter C_DPHASE_TIMEOUT bound to: 64 - type: integer 
+	Parameter C_FAMILY bound to: virtex7 - type: string 
+INFO: [Synth 8-638] synthesizing module 'system_pl_sysmon_0_address_decoder' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/axi_lite_ipif_v1_31_a/hdl/src/vhdl/system_pl_sysmon_0_address_decoder.vhd:176]
+	Parameter C_BUS_AWIDTH bound to: 11 - type: integer 
+	Parameter C_S_AXI_MIN_SIZE bound to: 32'b00000000000000000000011111111111 
+	Parameter C_ARD_ADDR_RANGE_ARRAY bound to: 384'b000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000111110000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000111111100000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000001111111111111 
+	Parameter C_ARD_NUM_CE_ARRAY bound to: 96'b000000000000000000000000000010000000000000000000000000000001000000000000000000000000000000000001 
+	Parameter C_FAMILY bound to: nofamily - type: string 
+INFO: [Synth 8-638] synthesizing module 'system_pl_sysmon_0_pselect_f' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+	Parameter C_AB bound to: 6 - type: integer 
+	Parameter C_AW bound to: 11 - type: integer 
+	Parameter C_BAR bound to: 11'b00000000000 
+	Parameter C_FAMILY bound to: nofamily - type: string 
+INFO: [Synth 8-256] done synthesizing module 'system_pl_sysmon_0_pselect_f' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+INFO: [Synth 8-638] synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized0' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+	Parameter C_AB bound to: 3 - type: integer 
+	Parameter C_AW bound to: 3 - type: integer 
+	Parameter C_BAR bound to: 3'b000 
+	Parameter C_FAMILY bound to: nofamily - type: string 
+INFO: [Synth 8-256] done synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+INFO: [Synth 8-638] synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized1' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+	Parameter C_AB bound to: 3 - type: integer 
+	Parameter C_AW bound to: 3 - type: integer 
+	Parameter C_BAR bound to: 3'b001 
+	Parameter C_FAMILY bound to: nofamily - type: string 
+INFO: [Synth 8-256] done synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized1' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+INFO: [Synth 8-638] synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized2' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+	Parameter C_AB bound to: 3 - type: integer 
+	Parameter C_AW bound to: 3 - type: integer 
+	Parameter C_BAR bound to: 3'b010 
+	Parameter C_FAMILY bound to: nofamily - type: string 
+INFO: [Synth 8-256] done synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized2' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+INFO: [Synth 8-638] synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized3' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+	Parameter C_AB bound to: 3 - type: integer 
+	Parameter C_AW bound to: 3 - type: integer 
+	Parameter C_BAR bound to: 3'b011 
+	Parameter C_FAMILY bound to: nofamily - type: string 
+INFO: [Synth 8-256] done synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized3' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+INFO: [Synth 8-638] synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized4' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+	Parameter C_AB bound to: 3 - type: integer 
+	Parameter C_AW bound to: 3 - type: integer 
+	Parameter C_BAR bound to: 3'b100 
+	Parameter C_FAMILY bound to: nofamily - type: string 
+INFO: [Synth 8-256] done synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized4' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+INFO: [Synth 8-638] synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized5' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+	Parameter C_AB bound to: 3 - type: integer 
+	Parameter C_AW bound to: 3 - type: integer 
+	Parameter C_BAR bound to: 3'b101 
+	Parameter C_FAMILY bound to: nofamily - type: string 
+INFO: [Synth 8-256] done synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized5' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+INFO: [Synth 8-638] synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized6' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+	Parameter C_AB bound to: 3 - type: integer 
+	Parameter C_AW bound to: 3 - type: integer 
+	Parameter C_BAR bound to: 3'b110 
+	Parameter C_FAMILY bound to: nofamily - type: string 
+INFO: [Synth 8-256] done synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized6' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+INFO: [Synth 8-638] synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized7' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+	Parameter C_AB bound to: 3 - type: integer 
+	Parameter C_AW bound to: 3 - type: integer 
+	Parameter C_BAR bound to: 3'b111 
+	Parameter C_FAMILY bound to: nofamily - type: string 
+INFO: [Synth 8-256] done synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized7' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+INFO: [Synth 8-638] synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized8' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+	Parameter C_AB bound to: 5 - type: integer 
+	Parameter C_AW bound to: 11 - type: integer 
+	Parameter C_BAR bound to: 11'b00001000000 
+	Parameter C_FAMILY bound to: nofamily - type: string 
+INFO: [Synth 8-256] done synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized8' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+INFO: [Synth 8-638] synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized9' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+	Parameter C_AB bound to: 4 - type: integer 
+	Parameter C_AW bound to: 4 - type: integer 
+	Parameter C_BAR bound to: 4'b0000 
+	Parameter C_FAMILY bound to: nofamily - type: string 
+INFO: [Synth 8-256] done synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized9' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+INFO: [Synth 8-638] synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized10' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+	Parameter C_AB bound to: 4 - type: integer 
+	Parameter C_AW bound to: 4 - type: integer 
+	Parameter C_BAR bound to: 4'b0001 
+	Parameter C_FAMILY bound to: nofamily - type: string 
+INFO: [Synth 8-256] done synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized10' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+INFO: [Synth 8-638] synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized11' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+	Parameter C_AB bound to: 4 - type: integer 
+	Parameter C_AW bound to: 4 - type: integer 
+	Parameter C_BAR bound to: 4'b0010 
+	Parameter C_FAMILY bound to: nofamily - type: string 
+INFO: [Synth 8-256] done synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized11' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+INFO: [Synth 8-638] synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized12' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+	Parameter C_AB bound to: 4 - type: integer 
+	Parameter C_AW bound to: 4 - type: integer 
+	Parameter C_BAR bound to: 4'b0011 
+	Parameter C_FAMILY bound to: nofamily - type: string 
+INFO: [Synth 8-256] done synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized12' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+INFO: [Synth 8-638] synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized13' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+	Parameter C_AB bound to: 4 - type: integer 
+	Parameter C_AW bound to: 4 - type: integer 
+	Parameter C_BAR bound to: 4'b0100 
+	Parameter C_FAMILY bound to: nofamily - type: string 
+INFO: [Synth 8-256] done synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized13' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+INFO: [Synth 8-638] synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized14' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+	Parameter C_AB bound to: 4 - type: integer 
+	Parameter C_AW bound to: 4 - type: integer 
+	Parameter C_BAR bound to: 4'b0101 
+	Parameter C_FAMILY bound to: nofamily - type: string 
+INFO: [Synth 8-256] done synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized14' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+INFO: [Synth 8-638] synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized15' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+	Parameter C_AB bound to: 4 - type: integer 
+	Parameter C_AW bound to: 4 - type: integer 
+	Parameter C_BAR bound to: 4'b0110 
+	Parameter C_FAMILY bound to: nofamily - type: string 
+INFO: [Synth 8-256] done synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized15' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+INFO: [Synth 8-638] synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized16' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+	Parameter C_AB bound to: 4 - type: integer 
+	Parameter C_AW bound to: 4 - type: integer 
+	Parameter C_BAR bound to: 4'b0111 
+	Parameter C_FAMILY bound to: nofamily - type: string 
+INFO: [Synth 8-256] done synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized16' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+INFO: [Synth 8-638] synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized17' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+	Parameter C_AB bound to: 4 - type: integer 
+	Parameter C_AW bound to: 4 - type: integer 
+	Parameter C_BAR bound to: 4'b1000 
+	Parameter C_FAMILY bound to: nofamily - type: string 
+INFO: [Synth 8-256] done synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized17' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+INFO: [Synth 8-638] synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized18' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+	Parameter C_AB bound to: 4 - type: integer 
+	Parameter C_AW bound to: 4 - type: integer 
+	Parameter C_BAR bound to: 4'b1001 
+	Parameter C_FAMILY bound to: nofamily - type: string 
+INFO: [Synth 8-256] done synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized18' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+INFO: [Synth 8-638] synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized19' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+	Parameter C_AB bound to: 4 - type: integer 
+	Parameter C_AW bound to: 4 - type: integer 
+	Parameter C_BAR bound to: 4'b1010 
+	Parameter C_FAMILY bound to: nofamily - type: string 
+INFO: [Synth 8-256] done synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized19' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+INFO: [Synth 8-638] synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized20' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+	Parameter C_AB bound to: 4 - type: integer 
+	Parameter C_AW bound to: 4 - type: integer 
+	Parameter C_BAR bound to: 4'b1011 
+	Parameter C_FAMILY bound to: nofamily - type: string 
+INFO: [Synth 8-256] done synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized20' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+INFO: [Synth 8-638] synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized21' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+	Parameter C_AB bound to: 4 - type: integer 
+	Parameter C_AW bound to: 4 - type: integer 
+	Parameter C_BAR bound to: 4'b1100 
+	Parameter C_FAMILY bound to: nofamily - type: string 
+INFO: [Synth 8-256] done synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized21' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+INFO: [Synth 8-638] synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized22' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+	Parameter C_AB bound to: 4 - type: integer 
+	Parameter C_AW bound to: 4 - type: integer 
+	Parameter C_BAR bound to: 4'b1101 
+	Parameter C_FAMILY bound to: nofamily - type: string 
+INFO: [Synth 8-256] done synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized22' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+INFO: [Synth 8-638] synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized23' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+	Parameter C_AB bound to: 4 - type: integer 
+	Parameter C_AW bound to: 4 - type: integer 
+	Parameter C_BAR bound to: 4'b1110 
+	Parameter C_FAMILY bound to: nofamily - type: string 
+INFO: [Synth 8-256] done synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized23' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+INFO: [Synth 8-638] synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized24' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+	Parameter C_AB bound to: 4 - type: integer 
+	Parameter C_AW bound to: 4 - type: integer 
+	Parameter C_BAR bound to: 4'b1111 
+	Parameter C_FAMILY bound to: nofamily - type: string 
+INFO: [Synth 8-256] done synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized24' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+INFO: [Synth 8-638] synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized25' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+	Parameter C_AB bound to: 1 - type: integer 
+	Parameter C_AW bound to: 11 - type: integer 
+	Parameter C_BAR bound to: 11'b10000000000 
+	Parameter C_FAMILY bound to: nofamily - type: string 
+INFO: [Synth 8-256] done synthesizing module 'system_pl_sysmon_0_pselect_f__parameterized25' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_pselect_f.vhd:167]
+INFO: [Synth 8-256] done synthesizing module 'system_pl_sysmon_0_address_decoder' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/axi_lite_ipif_v1_31_a/hdl/src/vhdl/system_pl_sysmon_0_address_decoder.vhd:176]
+INFO: [Synth 8-226] default block is never used [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/axi_lite_ipif_v1_31_a/hdl/src/vhdl/system_pl_sysmon_0_slave_attachment.vhd:424]
+INFO: [Synth 8-256] done synthesizing module 'system_pl_sysmon_0_slave_attachment' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/axi_lite_ipif_v1_31_a/hdl/src/vhdl/system_pl_sysmon_0_slave_attachment.vhd:227]
+INFO: [Synth 8-256] done synthesizing module 'system_pl_sysmon_0_axi_lite_ipif' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/axi_lite_ipif_v1_31_a/hdl/src/vhdl/system_pl_sysmon_0_axi_lite_ipif.vhd:241]
+	Parameter C_S_AXI_ADDR_WIDTH bound to: 13 - type: integer 
+	Parameter C_S_AXI_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_FAMILY bound to: virtex7 - type: string 
+	Parameter CE_NUMBERS bound to: 9 - type: integer 
+	Parameter IP_INTR_NUM bound to: 18 - type: integer 
+	Parameter C_SIM_MONITOR_FILE bound to: design.txt - type: string 
+	Parameter MUX_ADDR_NO bound to: 5 - type: integer 
+INFO: [Synth 8-3491] module 'system_pl_sysmon_0_xadc_core_drp' declared at '/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0_xadc_core_drp.vhd:140' bound to instance 'AXI_SYSMON_CORE_I' of component 'system_pl_sysmon_0_xadc_core_drp' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0_axi_xadc.vhd:736]
+INFO: [Synth 8-638] synthesizing module 'system_pl_sysmon_0_xadc_core_drp' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0_xadc_core_drp.vhd:207]
+	Parameter C_S_AXI_ADDR_WIDTH bound to: 13 - type: integer 
+	Parameter C_S_AXI_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_FAMILY bound to: virtex7 - type: string 
+	Parameter CE_NUMBERS bound to: 9 - type: integer 
+	Parameter IP_INTR_NUM bound to: 18 - type: integer 
+	Parameter C_SIM_MONITOR_FILE bound to: design.txt - type: string 
+	Parameter MUX_ADDR_NO bound to: 5 - type: integer 
+INFO: [Synth 8-113] binding component instance 'ibuf_an_vauxp0' to cell 'IBUF_ANALOG' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0_xadc_core_drp.vhd:1098]
+INFO: [Synth 8-113] binding component instance 'ibuf_an_vauxn0' to cell 'IBUF_ANALOG' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0_xadc_core_drp.vhd:1101]
+INFO: [Synth 8-113] binding component instance 'ibuf_an_vauxp1' to cell 'IBUF_ANALOG' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0_xadc_core_drp.vhd:1105]
+INFO: [Synth 8-113] binding component instance 'ibuf_an_vauxn1' to cell 'IBUF_ANALOG' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0_xadc_core_drp.vhd:1108]
+INFO: [Synth 8-113] binding component instance 'ibuf_an_vauxp2' to cell 'IBUF_ANALOG' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0_xadc_core_drp.vhd:1112]
+INFO: [Synth 8-113] binding component instance 'ibuf_an_vauxn2' to cell 'IBUF_ANALOG' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0_xadc_core_drp.vhd:1115]
+INFO: [Synth 8-113] binding component instance 'ibuf_an_vauxp3' to cell 'IBUF_ANALOG' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0_xadc_core_drp.vhd:1119]
+INFO: [Synth 8-113] binding component instance 'ibuf_an_vauxn3' to cell 'IBUF_ANALOG' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0_xadc_core_drp.vhd:1122]
+INFO: [Synth 8-113] binding component instance 'ibuf_an_vauxp4' to cell 'IBUF_ANALOG' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0_xadc_core_drp.vhd:1126]
+INFO: [Synth 8-113] binding component instance 'ibuf_an_vauxn4' to cell 'IBUF_ANALOG' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0_xadc_core_drp.vhd:1129]
+INFO: [Synth 8-113] binding component instance 'ibuf_an_vauxp5' to cell 'IBUF_ANALOG' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0_xadc_core_drp.vhd:1133]
+INFO: [Synth 8-113] binding component instance 'ibuf_an_vauxn5' to cell 'IBUF_ANALOG' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0_xadc_core_drp.vhd:1136]
+INFO: [Synth 8-113] binding component instance 'ibuf_an_vauxp6' to cell 'IBUF_ANALOG' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0_xadc_core_drp.vhd:1140]
+INFO: [Synth 8-113] binding component instance 'ibuf_an_vauxn6' to cell 'IBUF_ANALOG' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0_xadc_core_drp.vhd:1143]
+INFO: [Synth 8-113] binding component instance 'ibuf_an_vauxp7' to cell 'IBUF_ANALOG' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0_xadc_core_drp.vhd:1147]
+INFO: [Synth 8-113] binding component instance 'ibuf_an_vauxn7' to cell 'IBUF_ANALOG' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0_xadc_core_drp.vhd:1150]
+INFO: [Synth 8-113] binding component instance 'ibuf_an_vauxp8' to cell 'IBUF_ANALOG' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0_xadc_core_drp.vhd:1154]
+INFO: [Synth 8-113] binding component instance 'ibuf_an_vauxn8' to cell 'IBUF_ANALOG' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0_xadc_core_drp.vhd:1157]
+INFO: [Synth 8-113] binding component instance 'ibuf_an_vauxp9' to cell 'IBUF_ANALOG' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0_xadc_core_drp.vhd:1161]
+INFO: [Synth 8-113] binding component instance 'ibuf_an_vauxn9' to cell 'IBUF_ANALOG' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0_xadc_core_drp.vhd:1164]
+INFO: [Synth 8-113] binding component instance 'ibuf_an_vauxp10' to cell 'IBUF_ANALOG' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0_xadc_core_drp.vhd:1168]
+INFO: [Synth 8-113] binding component instance 'ibuf_an_vauxn10' to cell 'IBUF_ANALOG' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0_xadc_core_drp.vhd:1171]
+	Parameter COMMON_N_SOURCE bound to: 16'b1111111111111111 
+	Parameter INIT_40 bound to: 16'b0000000000000000 
+	Parameter INIT_41 bound to: 16'b0010111110011110 
+	Parameter INIT_42 bound to: 16'b0001010000000000 
+	Parameter INIT_43 bound to: 16'b0010000000001111 
+	Parameter INIT_44 bound to: 16'b0000000000000010 
+	Parameter INIT_45 bound to: 16'b1010111011001010 
+	Parameter INIT_46 bound to: 16'b0000000000000011 
+	Parameter INIT_47 bound to: 16'b0000000000000000 
+	Parameter INIT_48 bound to: 16'b0000011100000001 
+	Parameter INIT_49 bound to: 16'b0000011111111111 
+	Parameter INIT_4A bound to: 16'b0000000000000000 
+	Parameter INIT_4B bound to: 16'b0000000000000000 
+	Parameter INIT_4C bound to: 16'b0000000000000000 
+	Parameter INIT_4D bound to: 16'b0000000000000000 
+	Parameter INIT_4E bound to: 16'b0000000000000000 
+	Parameter INIT_4F bound to: 16'b0000000000000000 
+	Parameter INIT_50 bound to: 16'b1011011110010100 
+	Parameter INIT_51 bound to: 16'b0100111010000001 
+	Parameter INIT_52 bound to: 16'b1010000101000111 
+	Parameter INIT_53 bound to: 16'b1100101110100011 
+	Parameter INIT_54 bound to: 16'b1010101100000010 
+	Parameter INIT_55 bound to: 16'b0100100101100011 
+	Parameter INIT_56 bound to: 16'b1001010101010101 
+	Parameter INIT_57 bound to: 16'b1011000000001010 
+	Parameter INIT_58 bound to: 16'b0100111010000001 
+	Parameter INIT_59 bound to: 16'b0100100101100011 
+	Parameter INIT_5A bound to: 16'b0100100101100011 
+	Parameter INIT_5B bound to: 16'b1001101001110100 
+	Parameter INIT_5C bound to: 16'b0100100101100011 
+	Parameter INIT_5D bound to: 16'b0100010100011110 
+	Parameter INIT_5E bound to: 16'b0100010100011110 
+	Parameter INIT_5F bound to: 16'b1001000111101011 
+	Parameter INIT_60 bound to: 16'b1001101001110100 
+	Parameter INIT_61 bound to: 16'b0011001110011111 
+	Parameter INIT_62 bound to: 16'b1001101001110100 
+	Parameter INIT_63 bound to: 16'b1001101001110100 
+	Parameter INIT_68 bound to: 16'b1001100010111111 
+	Parameter INIT_69 bound to: 16'b0011001011000101 
+	Parameter INIT_6A bound to: 16'b1001100010111111 
+	Parameter INIT_6B bound to: 16'b1001100010111111 
+	Parameter INIT_7A bound to: 16'b0000000000000000 
+	Parameter INIT_7B bound to: 16'b0000000000000000 
+	Parameter INIT_7C bound to: 16'b0000000000000000 
+	Parameter INIT_7D bound to: 16'b0000000000000000 
+	Parameter SIM_DEVICE bound to: ZYNQ_ULTRASCALE - type: string 
+	Parameter SIM_MONITOR_FILE bound to: design.dat - type: string 
+	Parameter SYSMON_VUSER0_BANK bound to: 66 - type: integer 
+	Parameter SYSMON_VUSER0_MONITOR bound to: VCCO - type: string 
+	Parameter SYSMON_VUSER1_BANK bound to: 26 - type: integer 
+	Parameter SYSMON_VUSER1_MONITOR bound to: VCCO - type: string 
+INFO: [Synth 8-113] binding component instance 'inst_sysmon' to cell 'SYSMONE4' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0_xadc_core_drp.vhd:1186]
+INFO: [Synth 8-256] done synthesizing module 'system_pl_sysmon_0_xadc_core_drp' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0_xadc_core_drp.vhd:207]
+INFO: [Synth 8-638] synthesizing module 'system_pl_sysmon_0_soft_reset' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_soft_reset.vhd:142]
+	Parameter C_SIPIF_DWIDTH bound to: 32 - type: integer 
+	Parameter C_RESET_WIDTH bound to: 16 - type: integer 
+INFO: [Synth 8-113] binding component instance 'RST_FLOPS' to cell 'FDRSE' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_soft_reset.vhd:273]
+INFO: [Synth 8-113] binding component instance 'RST_FLOPS' to cell 'FDRSE' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_soft_reset.vhd:273]
+INFO: [Synth 8-113] binding component instance 'RST_FLOPS' to cell 'FDRSE' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_soft_reset.vhd:273]
+INFO: [Synth 8-113] binding component instance 'RST_FLOPS' to cell 'FDRSE' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_soft_reset.vhd:273]
+INFO: [Synth 8-113] binding component instance 'RST_FLOPS' to cell 'FDRSE' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_soft_reset.vhd:273]
+INFO: [Synth 8-113] binding component instance 'RST_FLOPS' to cell 'FDRSE' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_soft_reset.vhd:273]
+INFO: [Synth 8-113] binding component instance 'RST_FLOPS' to cell 'FDRSE' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_soft_reset.vhd:273]
+INFO: [Synth 8-113] binding component instance 'RST_FLOPS' to cell 'FDRSE' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_soft_reset.vhd:273]
+INFO: [Synth 8-113] binding component instance 'RST_FLOPS' to cell 'FDRSE' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_soft_reset.vhd:273]
+INFO: [Synth 8-113] binding component instance 'RST_FLOPS' to cell 'FDRSE' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_soft_reset.vhd:273]
+INFO: [Synth 8-113] binding component instance 'RST_FLOPS' to cell 'FDRSE' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_soft_reset.vhd:273]
+INFO: [Synth 8-113] binding component instance 'RST_FLOPS' to cell 'FDRSE' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_soft_reset.vhd:273]
+INFO: [Synth 8-113] binding component instance 'RST_FLOPS' to cell 'FDRSE' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_soft_reset.vhd:273]
+INFO: [Synth 8-113] binding component instance 'RST_FLOPS' to cell 'FDRSE' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_soft_reset.vhd:273]
+INFO: [Synth 8-113] binding component instance 'RST_FLOPS' to cell 'FDRSE' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_soft_reset.vhd:273]
+INFO: [Synth 8-113] binding component instance 'RST_FLOPS' to cell 'FDRSE' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_soft_reset.vhd:273]
+INFO: [Synth 8-113] binding component instance 'FF_WRACK' to cell 'FDRSE' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_soft_reset.vhd:296]
+INFO: [Synth 8-256] done synthesizing module 'system_pl_sysmon_0_soft_reset' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/proc_common_v3_00_a/hdl/src/vhdl/system_pl_sysmon_0_soft_reset.vhd:142]
+INFO: [Synth 8-638] synthesizing module 'system_pl_sysmon_0_interrupt_control' [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/interrupt_control_v2_01_a/hdl/src/vhdl/system_pl_sysmon_0_interrupt_control.vhd:240]
+	Parameter C_NUM_CE bound to: 16 - type: integer 
+	Parameter C_NUM_IPIF_IRPT_SRC bound to: 1 - type: integer 
+	Parameter C_IP_INTR_MODE_ARRAY bound to: 576'b000000000000000000000000000001010000000000000000000000000000010100000000000000000000000000000101000000000000000000000000000001010000000000000000000000000000010100000000000000000000000000000101000000000000000000000000000001010000000000000000000000000000010100000000000000000000000000000101000000000000000000000000000001010000000000000000000000000000010100000000000000000000000000000101000000000000000000000000000001010000000000000000000000000000010100000000000000000000000000000101000000000000000000000000000001010000000000000000000000000000010100000000000000000000000000000101 
+	Parameter C_INCLUDE_DEV_PENCODER bound to: 0 - type: bool 
+	Parameter C_INCLUDE_DEV_ISC bound to: 0 - type: bool 
+	Parameter C_IPIF_DWIDTH bound to: 32 - type: integer 
+INFO: [Synth 8-256] done synthesizing module 'system_pl_sysmon_0_interrupt_control' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/interrupt_control_v2_01_a/hdl/src/vhdl/system_pl_sysmon_0_interrupt_control.vhd:240]
+INFO: [Synth 8-256] done synthesizing module 'system_pl_sysmon_0_axi_xadc' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0_axi_xadc.vhd:259]
+INFO: [Synth 8-6155] done synthesizing module 'system_pl_sysmon_0' (0#1) [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0.v:49]
+WARNING: [Synth 8-3301] Unused top level parameter/generic USE_RX_CLK_FOR_TX1
+WARNING: [Synth 8-3301] Unused top level parameter/generic USE_RX_CLK_FOR_TX2
+WARNING: [Synth 8-6014] Unused sequential element convst_reg_input_reg was removed.  [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0_xadc_core_drp.vhd:667]
+WARNING: [Synth 8-7129] Port Bus2IP_Data[1] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[2] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[3] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[4] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[5] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[6] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[7] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[8] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[9] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[10] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[11] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[12] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[13] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_BE[1] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_BE[2] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_BE[3] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Interrupt_RdCE[0] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Interrupt_RdCE[1] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Interrupt_RdCE[2] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Interrupt_RdCE[3] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Interrupt_RdCE[4] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Interrupt_RdCE[5] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Interrupt_RdCE[6] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Interrupt_RdCE[9] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Interrupt_RdCE[11] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Interrupt_RdCE[12] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Interrupt_RdCE[13] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Interrupt_RdCE[14] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Interrupt_RdCE[15] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Interrupt_WrCE[0] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Interrupt_WrCE[1] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Interrupt_WrCE[2] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Interrupt_WrCE[3] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Interrupt_WrCE[4] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Interrupt_WrCE[5] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Interrupt_WrCE[6] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Interrupt_WrCE[9] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Interrupt_WrCE[11] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Interrupt_WrCE[12] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Interrupt_WrCE[13] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Interrupt_WrCE[14] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Interrupt_WrCE[15] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port IPIF_Reg_Interrupts[0] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port IPIF_Reg_Interrupts[1] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port IPIF_Lvl_Interrupts[0] in module system_pl_sysmon_0_interrupt_control is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[0] in module system_pl_sysmon_0_soft_reset is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[1] in module system_pl_sysmon_0_soft_reset is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[2] in module system_pl_sysmon_0_soft_reset is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[3] in module system_pl_sysmon_0_soft_reset is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[4] in module system_pl_sysmon_0_soft_reset is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[5] in module system_pl_sysmon_0_soft_reset is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[6] in module system_pl_sysmon_0_soft_reset is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[7] in module system_pl_sysmon_0_soft_reset is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[8] in module system_pl_sysmon_0_soft_reset is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[9] in module system_pl_sysmon_0_soft_reset is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[10] in module system_pl_sysmon_0_soft_reset is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[11] in module system_pl_sysmon_0_soft_reset is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[12] in module system_pl_sysmon_0_soft_reset is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[13] in module system_pl_sysmon_0_soft_reset is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[14] in module system_pl_sysmon_0_soft_reset is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[15] in module system_pl_sysmon_0_soft_reset is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[16] in module system_pl_sysmon_0_soft_reset is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[17] in module system_pl_sysmon_0_soft_reset is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[18] in module system_pl_sysmon_0_soft_reset is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[19] in module system_pl_sysmon_0_soft_reset is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[20] in module system_pl_sysmon_0_soft_reset is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[21] in module system_pl_sysmon_0_soft_reset is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[22] in module system_pl_sysmon_0_soft_reset is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[23] in module system_pl_sysmon_0_soft_reset is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[24] in module system_pl_sysmon_0_soft_reset is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[25] in module system_pl_sysmon_0_soft_reset is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[26] in module system_pl_sysmon_0_soft_reset is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[27] in module system_pl_sysmon_0_soft_reset is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_BE[0] in module system_pl_sysmon_0_soft_reset is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_BE[1] in module system_pl_sysmon_0_soft_reset is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_BE[2] in module system_pl_sysmon_0_soft_reset is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_RdCE[0] in module system_pl_sysmon_0_xadc_core_drp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_RdCE[5] in module system_pl_sysmon_0_xadc_core_drp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_RdCE[6] in module system_pl_sysmon_0_xadc_core_drp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_RdCE[7] in module system_pl_sysmon_0_xadc_core_drp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_WrCE[0] in module system_pl_sysmon_0_xadc_core_drp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_WrCE[5] in module system_pl_sysmon_0_xadc_core_drp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_WrCE[6] in module system_pl_sysmon_0_xadc_core_drp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_WrCE[7] in module system_pl_sysmon_0_xadc_core_drp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Addr[0] in module system_pl_sysmon_0_xadc_core_drp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Addr[1] in module system_pl_sysmon_0_xadc_core_drp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Addr[2] in module system_pl_sysmon_0_xadc_core_drp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Addr[11] in module system_pl_sysmon_0_xadc_core_drp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Addr[12] in module system_pl_sysmon_0_xadc_core_drp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[0] in module system_pl_sysmon_0_xadc_core_drp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[1] in module system_pl_sysmon_0_xadc_core_drp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[2] in module system_pl_sysmon_0_xadc_core_drp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[3] in module system_pl_sysmon_0_xadc_core_drp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[4] in module system_pl_sysmon_0_xadc_core_drp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[5] in module system_pl_sysmon_0_xadc_core_drp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[6] in module system_pl_sysmon_0_xadc_core_drp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[7] in module system_pl_sysmon_0_xadc_core_drp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[8] in module system_pl_sysmon_0_xadc_core_drp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[9] in module system_pl_sysmon_0_xadc_core_drp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Bus2IP_Data[10] in module system_pl_sysmon_0_xadc_core_drp is either unconnected or has no load
+INFO: [Common 17-14] Message 'Synth 8-7129' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:11 ; elapsed = 00:00:11 . Memory (MB): peak = 2693.012 ; gain = 249.656 ; free physical = 7878 ; free virtual = 43595
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:11 ; elapsed = 00:00:11 . Memory (MB): peak = 2693.012 ; gain = 249.656 ; free physical = 7877 ; free virtual = 43594
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:11 ; elapsed = 00:00:11 . Memory (MB): peak = 2693.012 ; gain = 249.656 ; free physical = 7877 ; free virtual = 43594
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2693.012 ; gain = 0.000 ; free physical = 7876 ; free virtual = 43593
+INFO: [Netlist 29-17] Analyzing 17 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0_ooc.xdc] for cell 'inst'
+create_clock: Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 2806.090 ; gain = 0.000 ; free physical = 7892 ; free virtual = 43610
+Finished Parsing XDC File [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0_ooc.xdc] for cell 'inst'
+Parsing XDC File [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0_board.xdc] for cell 'inst'
+Finished Parsing XDC File [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0_board.xdc] for cell 'inst'
+Parsing XDC File [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0.xdc] for cell 'inst'
+Finished Parsing XDC File [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0.xdc] for cell 'inst'
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.gen/sources_1/bd/system/ip/system_pl_sysmon_0/system_pl_sysmon_0.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/system_pl_sysmon_0_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/system_pl_sysmon_0_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+Parsing XDC File [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.runs/system_pl_sysmon_0_synth_1/dont_touch.xdc]
+Finished Parsing XDC File [/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.runs/system_pl_sysmon_0_synth_1/dont_touch.xdc]
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2806.090 ; gain = 0.000 ; free physical = 7892 ; free virtual = 43610
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 17 instances were transformed.
+  FDRSE => FDRSE (FDRE, LUT4, VCC): 17 instances
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00.04 ; elapsed = 00:00:00.03 . Memory (MB): peak = 2806.125 ; gain = 0.000 ; free physical = 7895 ; free virtual = 43613
+INFO: [Designutils 20-5008] Incremental synthesis strategy off
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:29 ; elapsed = 00:00:31 . Memory (MB): peak = 2806.125 ; gain = 362.770 ; free physical = 7924 ; free virtual = 43643
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xczu3eg-sfva625-2-e
+INFO: [Synth 8-6742] Reading net delay rules and data
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:30 ; elapsed = 00:00:31 . Memory (MB): peak = 2818.301 ; gain = 374.945 ; free physical = 7924 ; free virtual = 43643
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:30 ; elapsed = 00:00:31 . Memory (MB): peak = 2818.301 ; gain = 374.945 ; free physical = 7917 ; free virtual = 43635
+---------------------------------------------------------------------------------
+INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'system_pl_sysmon_0_slave_attachment'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                 iSTATE2 |                             0001 |                               00
+                  iSTATE |                             0010 |                               01
+                 iSTATE0 |                             0100 |                               10
+                 iSTATE1 |                             1000 |                               11
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'state_reg' using encoding 'one-hot' in module 'system_pl_sysmon_0_slave_attachment'
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:30 ; elapsed = 00:00:32 . Memory (MB): peak = 2818.301 ; gain = 374.945 ; free physical = 7928 ; free virtual = 43648
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input    7 Bit       Adders := 1     
++---XORs : 
+	   2 Input      1 Bit         XORs := 18    
++---Registers : 
+	               32 Bit    Registers := 2     
+	               18 Bit    Registers := 1     
+	               16 Bit    Registers := 2     
+	               13 Bit    Registers := 1     
+	               12 Bit    Registers := 1     
+	                7 Bit    Registers := 1     
+	                2 Bit    Registers := 3     
+	                1 Bit    Registers := 128   
++---Muxes : 
+	   2 Input   32 Bit        Muxes := 3     
+	   4 Input   18 Bit        Muxes := 1     
+	   2 Input   13 Bit        Muxes := 1     
+	   4 Input    4 Bit        Muxes := 1     
+	   2 Input    4 Bit        Muxes := 6     
+	   2 Input    2 Bit        Muxes := 3     
+	   3 Input    2 Bit        Muxes := 1     
+	   4 Input    2 Bit        Muxes := 1     
+	   2 Input    1 Bit        Muxes := 54    
+	   3 Input    1 Bit        Muxes := 1     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 360 (col length:72)
+BRAMs: 432 (col length: RAMB18 72 RAMB36 36)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:35 ; elapsed = 00:00:36 . Memory (MB): peak = 2818.301 ; gain = 374.945 ; free physical = 7912 ; free virtual = 43631
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:47 ; elapsed = 00:00:49 . Memory (MB): peak = 3416.191 ; gain = 972.836 ; free physical = 7412 ; free virtual = 43131
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:48 ; elapsed = 00:00:51 . Memory (MB): peak = 3491.254 ; gain = 1047.898 ; free physical = 7309 ; free virtual = 43030
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:48 ; elapsed = 00:00:51 . Memory (MB): peak = 3491.254 ; gain = 1047.898 ; free physical = 7305 ; free virtual = 43024
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/daddr_C_master_reg_inferred:in0[7] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/daddr_C_master_reg_inferred:in0[6] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/daddr_C_master_reg_inferred:in0[5] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/daddr_C_master_reg_inferred:in0[4] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/daddr_C_master_reg_inferred:in0[3] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/daddr_C_master_reg_inferred:in0[2] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/daddr_C_master_reg_inferred:in0[1] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/daddr_C_master_reg_inferred:in0[0] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_master_reg_inferred:in0[15] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_master_reg_inferred:in0[14] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_master_reg_inferred:in0[13] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_master_reg_inferred:in0[12] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_master_reg_inferred:in0[11] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_master_reg_inferred:in0[10] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_master_reg_inferred:in0[9] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_master_reg_inferred:in0[8] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_master_reg_inferred:in0[7] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_master_reg_inferred:in0[6] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_master_reg_inferred:in0[5] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_master_reg_inferred:in0[4] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_master_reg_inferred:in0[3] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_master_reg_inferred:in0[2] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_master_reg_inferred:in0[1] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_master_reg_inferred:in0[0] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/dwe_C_master_reg_inferred:in0 to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/daddr_C_slave0_reg_inferred:in0[7] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/daddr_C_slave0_reg_inferred:in0[6] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/daddr_C_slave0_reg_inferred:in0[5] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/daddr_C_slave0_reg_inferred:in0[4] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/daddr_C_slave0_reg_inferred:in0[3] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/daddr_C_slave0_reg_inferred:in0[2] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/daddr_C_slave0_reg_inferred:in0[1] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/daddr_C_slave0_reg_inferred:in0[0] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_slave0_reg_inferred:in0[15] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_slave0_reg_inferred:in0[14] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_slave0_reg_inferred:in0[13] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_slave0_reg_inferred:in0[12] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_slave0_reg_inferred:in0[11] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_slave0_reg_inferred:in0[10] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_slave0_reg_inferred:in0[9] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_slave0_reg_inferred:in0[8] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_slave0_reg_inferred:in0[7] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_slave0_reg_inferred:in0[6] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_slave0_reg_inferred:in0[5] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_slave0_reg_inferred:in0[4] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_slave0_reg_inferred:in0[3] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_slave0_reg_inferred:in0[2] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_slave0_reg_inferred:in0[1] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_slave0_reg_inferred:in0[0] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/dwe_C_slave0_reg_inferred:in0 to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/daddr_C_slave1_reg_inferred:in0[7] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/daddr_C_slave1_reg_inferred:in0[6] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/daddr_C_slave1_reg_inferred:in0[5] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/daddr_C_slave1_reg_inferred:in0[4] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/daddr_C_slave1_reg_inferred:in0[3] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/daddr_C_slave1_reg_inferred:in0[2] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/daddr_C_slave1_reg_inferred:in0[1] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/daddr_C_slave1_reg_inferred:in0[0] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_slave1_reg_inferred:in0[15] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_slave1_reg_inferred:in0[14] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_slave1_reg_inferred:in0[13] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_slave1_reg_inferred:in0[12] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_slave1_reg_inferred:in0[11] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_slave1_reg_inferred:in0[10] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_slave1_reg_inferred:in0[9] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_slave1_reg_inferred:in0[8] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_slave1_reg_inferred:in0[7] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_slave1_reg_inferred:in0[6] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_slave1_reg_inferred:in0[5] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_slave1_reg_inferred:in0[4] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_slave1_reg_inferred:in0[3] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_slave1_reg_inferred:in0[2] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_slave1_reg_inferred:in0[1] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_slave1_reg_inferred:in0[0] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/dwe_C_slave1_reg_inferred:in0 to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/daddr_C_master_reg2_inferred:in0[7] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/daddr_C_master_reg2_inferred:in0[6] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/daddr_C_master_reg2_inferred:in0[5] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/daddr_C_master_reg2_inferred:in0[4] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/daddr_C_master_reg2_inferred:in0[3] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/daddr_C_master_reg2_inferred:in0[2] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/daddr_C_master_reg2_inferred:in0[1] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/daddr_C_master_reg2_inferred:in0[0] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_master_reg2_inferred:in0[15] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_master_reg2_inferred:in0[14] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_master_reg2_inferred:in0[13] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_master_reg2_inferred:in0[12] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_master_reg2_inferred:in0[11] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_master_reg2_inferred:in0[10] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_master_reg2_inferred:in0[9] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_master_reg2_inferred:in0[8] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_master_reg2_inferred:in0[7] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_master_reg2_inferred:in0[6] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_master_reg2_inferred:in0[5] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_master_reg2_inferred:in0[4] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_master_reg2_inferred:in0[3] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_master_reg2_inferred:in0[2] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_master_reg2_inferred:in0[1] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/di_C_master_reg2_inferred:in0[0] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin AXI_SYSMON_CORE_I/dwe_C_master_reg2_inferred:in0 to constant 0
+INFO: [Common 17-14] Message 'Synth 8-3295' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:53 ; elapsed = 00:00:57 . Memory (MB): peak = 3615.066 ; gain = 1171.711 ; free physical = 7208 ; free virtual = 42927
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:53 ; elapsed = 00:00:57 . Memory (MB): peak = 3615.066 ; gain = 1171.711 ; free physical = 7208 ; free virtual = 42927
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:54 ; elapsed = 00:00:57 . Memory (MB): peak = 3615.066 ; gain = 1171.711 ; free physical = 7208 ; free virtual = 42927
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:54 ; elapsed = 00:00:57 . Memory (MB): peak = 3615.066 ; gain = 1171.711 ; free physical = 7208 ; free virtual = 42927
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:54 ; elapsed = 00:00:57 . Memory (MB): peak = 3615.066 ; gain = 1171.711 ; free physical = 7208 ; free virtual = 42927
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:54 ; elapsed = 00:00:57 . Memory (MB): peak = 3615.066 ; gain = 1171.711 ; free physical = 7208 ; free virtual = 42927
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+------------+------+
+|      |Cell        |Count |
++------+------------+------+
+|1     |LUT1        |   152|
+|2     |LUT2        |    36|
+|3     |LUT3        |    26|
+|4     |LUT4        |    23|
+|5     |LUT5        |    69|
+|6     |LUT6        |    46|
+|7     |SYSMONE4    |     1|
+|8     |FDRE        |   227|
+|9     |FDSE        |    37|
+|10    |IBUF_ANALOG |    22|
++------+------------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:54 ; elapsed = 00:00:57 . Memory (MB): peak = 3615.066 ; gain = 1171.711 ; free physical = 7208 ; free virtual = 42927
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 164 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:43 ; elapsed = 00:00:46 . Memory (MB): peak = 3615.066 ; gain = 1058.598 ; free physical = 7208 ; free virtual = 42928
+Synthesis Optimization Complete : Time (s): cpu = 00:00:54 ; elapsed = 00:00:57 . Memory (MB): peak = 3615.066 ; gain = 1171.711 ; free physical = 7209 ; free virtual = 42928
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 3615.066 ; gain = 0.000 ; free physical = 7209 ; free virtual = 42928
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 3626.855 ; gain = 0.000 ; free physical = 7350 ; free virtual = 43069
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Synth Design complete | Checksum: d15c6ae2
+INFO: [Common 17-83] Releasing license: Synthesis
+137 Infos, 204 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:01:05 ; elapsed = 00:01:05 . Memory (MB): peak = 3626.891 ; gain = 2041.121 ; free physical = 7352 ; free virtual = 43071
+INFO: [Common 17-2834] synth_design peak Physical Memory [PSS] (MB): overall = 2791.416; main = 2654.991; forked = 273.396
+INFO: [Common 17-2834] synth_design peak Virtual Memory [VSS] (MB): overall = 4488.965; main = 3626.859; forked = 997.707
+Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 3663.488 ; gain = 0.000 ; free physical = 7350 ; free virtual = 43070
+INFO: [Common 17-1381] The checkpoint '/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.runs/system_pl_sysmon_0_synth_1/system_pl_sysmon_0.dcp' has been generated.
+INFO: [Coretcl 2-1648] Added synthesis output to IP cache for IP system_pl_sysmon_0, cache-ID = 8274a1ae7dea4110
+Write ShapeDB Complete: Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 3663.488 ; gain = 0.000 ; free physical = 7324 ; free virtual = 43044
+INFO: [Common 17-1381] The checkpoint '/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/vivado_prj.runs/system_pl_sysmon_0_synth_1/system_pl_sysmon_0.dcp' has been generated.
+INFO: [Vivado 12-24828] Executing command : report_utilization -file system_pl_sysmon_0_utilization_synth.rpt -pb system_pl_sysmon_0_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Tue May 26 19:20:51 2026...

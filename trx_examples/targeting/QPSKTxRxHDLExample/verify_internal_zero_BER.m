@@ -22,7 +22,9 @@ SSH         = 8;
 AxiPackets  = '0x9D000104';
 AxiErrors   = '0x9D000108';
 AxiRxSel    = '0x9D000114';
-BitsPerPkt  = 2240;
+BitsPerPkt  = 2240;  % frame size; total bits/packet
+ChkBitsPerPkt = 120; % bits actually checked by BIST counter (the 120-bit "ADI Hello World" payload)
+                     % per TxRxCompo_ip_src_MATLAB_Function.v: errors are counted only for count<=120.
 WindowSec   = 60;
 SettleSec   = 5;
 MinBits     = 50000;
@@ -43,14 +45,18 @@ fprintf('  measuring %d s window...\n', WindowSec);
 pause(WindowSec);
 p1 = double(BistRegisters.read(AxiPackets, SSH));
 e1 = double(BistRegisters.read(AxiErrors,  SSH));
-dp_int = p1 - p0; de_int = e1 - e0; bits_int = dp_int * BitsPerPkt;
-if bits_int > 0
-    ber_int = 100 * de_int / bits_int;
+dp_int = p1 - p0; de_int = e1 - e0;
+bits_int_frame   = dp_int * BitsPerPkt;     % frame-rate normalization (legacy host calc)
+bits_int_checked = dp_int * ChkBitsPerPkt;  % actual checked-bits denominator
+if bits_int_frame > 0
+    ber_int_frame   = 100 * de_int / bits_int_frame;
+    ber_int_checked = 100 * de_int / bits_int_checked;
 else
-    ber_int = NaN;
+    ber_int_frame = NaN; ber_int_checked = NaN;
 end
-fprintf('  delta:     packets=%d errors=%d bits=%d  BER=%.6f%%\n', dp_int, de_int, bits_int, ber_int);
-pass_int = (de_int == 0) && (bits_int >= MinBits);
+fprintf('  delta: packets=%d errors=%d\n', dp_int, de_int);
+fprintf('  BER (legacy /2240) = %.6f%%   |   BER (true /120) = %.6f%%\n', ber_int_frame, ber_int_checked);
+pass_int = (de_int == 0) && (bits_int_checked >= MinBits);
 fprintf('  INTERNAL %s\n\n', cond(pass_int, 'PASS', 'FAIL'));
 
 % --- cable-loopback regression ---
@@ -81,14 +87,18 @@ fprintf('  measuring %d s window...\n', WindowSec);
 pause(WindowSec);
 p3 = double(BistRegisters.read(AxiPackets, SSH));
 e3 = double(BistRegisters.read(AxiErrors,  SSH));
-dp_cab = p3 - p2; de_cab = e3 - e2; bits_cab = dp_cab * BitsPerPkt;
-if bits_cab > 0
-    ber_cab = 100 * de_cab / bits_cab;
+dp_cab = p3 - p2; de_cab = e3 - e2;
+bits_cab_frame   = dp_cab * BitsPerPkt;
+bits_cab_checked = dp_cab * ChkBitsPerPkt;
+if bits_cab_frame > 0
+    ber_cab_frame   = 100 * de_cab / bits_cab_frame;
+    ber_cab_checked = 100 * de_cab / bits_cab_checked;
 else
-    ber_cab = NaN;
+    ber_cab_frame = NaN; ber_cab_checked = NaN;
 end
-fprintf('  delta:     packets=%d errors=%d bits=%d  BER=%.4f%%\n', dp_cab, de_cab, bits_cab, ber_cab);
-pass_cab = (~isnan(ber_cab)) && (ber_cab >= CableBerLo) && (ber_cab <= CableBerHi);
+fprintf('  delta: packets=%d errors=%d\n', dp_cab, de_cab);
+fprintf('  BER (legacy /2240) = %.4f%%   |   BER (true /120) = %.4f%%\n', ber_cab_frame, ber_cab_checked);
+pass_cab = (~isnan(ber_cab_frame)) && (ber_cab_frame >= CableBerLo) && (ber_cab_frame <= CableBerHi);
 fprintf('  CABLE %s (must be in [%.1f%%, %.1f%%])\n\n', cond(pass_cab, 'PASS', 'FAIL'), CableBerLo, CableBerHi);
 
 % restore internal mode (the operating default for this branch)
@@ -106,8 +116,10 @@ fprintf('================================================\n');
 outDir = fullfile(fileparts(mfilename('fullpath')), 'test-results');
 if ~exist(outDir, 'dir'), mkdir(outDir); end
 out = struct();
-out.internal = struct('rxInputSelect',0,'deltaPackets',dp_int,'deltaErrors',de_int,'deltaBits',bits_int,'berPct',ber_int,'pass',pass_int);
-out.cable    = struct('rxInputSelect',1,'deltaPackets',dp_cab,'deltaErrors',de_cab,'deltaBits',bits_cab,'berPct',ber_cab,'pass',pass_cab);
+out.internal = struct('rxInputSelect',0,'deltaPackets',dp_int,'deltaErrors',de_int, ...
+    'deltaCheckedBits',bits_int_checked,'berPct_legacy',ber_int_frame,'berPct_checked',ber_int_checked,'pass',pass_int);
+out.cable    = struct('rxInputSelect',1,'deltaPackets',dp_cab,'deltaErrors',de_cab, ...
+    'deltaCheckedBits',bits_cab_checked,'berPct_legacy',ber_cab_frame,'berPct_checked',ber_cab_checked,'pass',pass_cab);
 out.windowSec = WindowSec;
 out.overallPass = verdict;
 fid = fopen(fullfile(outDir,'verify_internal_zero_BER.json'),'w');

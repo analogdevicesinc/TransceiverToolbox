@@ -1,0 +1,2073 @@
+
+	Trial License -- for use to evaluate programs for possible purchase as an end-user only.
+
+### Workflow begin.
+### Loading settings from model.
+[Warning: Unable to calculate synthesis tool version number.
+Please make sure command "/tools/Xilinx/2025.1/Vitis/bin/echo 2024.1" is
+available and executable.
+Synthesis tool log:
+zsh:1: no such file or directory: /tools/Xilinx/2025.1/Vitis/bin/echo
+
+] 
+[> In downstream.AvailableTool.queryToolVersion
+In downstream/AvailableTool/checkToolVersion
+In downstream/AvailableTool/loadToolPathInfo
+In downstream/AvailableTool/loadToolOnSystemPath
+In downstream/AvailableToolList/loadAllToolsOnSystemPath
+In downstream/AvailableToolList/buildAvailableToolList
+In downstream.AvailableToolList.refreshToolList
+In downstream.integration
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: Defaulting to synthesis tool version 2024.1.] 
+[> In downstream/AvailableTool/checkToolVersion
+In downstream/AvailableTool/loadToolPathInfo
+In downstream/AvailableTool/loadToolOnSystemPath
+In downstream/AvailableToolList/loadAllToolsOnSystemPath
+In downstream/AvailableToolList/buildAvailableToolList
+In downstream.AvailableToolList.refreshToolList
+In downstream.integration
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: Version 2025.1 of tool Xilinx Vivado is not supported in HDL Workflow
+Advisor. Using incompatible tool version, HDL Workflow Advisor may not be able
+to run further tasks. Attempting to continue using this tool version.] 
+[> In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+### Model compilation and PIR creation begin.
+### Working on the model <a href="matlab:open_system('commhdlQPSKTxRxLoopback')">commhdlQPSKTxRxLoopback</a>
+### Generating HDL for <a href="matlab:open_system('commhdlQPSKTxRxLoopback/TxRxComposite')">commhdlQPSKTxRxLoopback/TxRxComposite</a>
+### Using the config set for model <a href="matlab:configset.showParameterGroup('commhdlQPSKTxRxLoopback', { 'HDL Code Generation' } )">commhdlQPSKTxRxLoopback</a> for HDL code generation parameters.
+### Running HDL checks on the model 'commhdlQPSKTxRxLoopback'.
+### Begin compilation of the model 'commhdlQPSKTxRxLoopback'...
+[Warning: 'Output Port 8' of block 'commhdlQPSKTxRxLoopback/Receiver' is not
+connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 9' of block 'commhdlQPSKTxRxLoopback/Receiver' is not
+connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Input Port 1' of block 'commhdlQPSKTxRxLoopback/TxRxComposite' is not
+connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Input Port 2' of block 'commhdlQPSKTxRxLoopback/TxRxComposite' is not
+connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Input Port 3' of block 'commhdlQPSKTxRxLoopback/TxRxComposite' is not
+connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Input Port 4' of block 'commhdlQPSKTxRxLoopback/TxRxComposite' is not
+connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Input Port 5' of block 'commhdlQPSKTxRxLoopback/TxRxComposite' is not
+connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Input Port 6' of block 'commhdlQPSKTxRxLoopback/TxRxComposite' is not
+connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 1' of block 'commhdlQPSKTxRxLoopback/TxRxComposite' is
+not connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 2' of block 'commhdlQPSKTxRxLoopback/TxRxComposite' is
+not connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 3' of block 'commhdlQPSKTxRxLoopback/TxRxComposite' is
+not connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 4' of block 'commhdlQPSKTxRxLoopback/TxRxComposite' is
+not connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 5' of block 'commhdlQPSKTxRxLoopback/TxRxComposite' is
+not connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 6' of block 'commhdlQPSKTxRxLoopback/TxRxComposite' is
+not connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 7' of block 'commhdlQPSKTxRxLoopback/TxRxComposite' is
+not connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 8' of block 'commhdlQPSKTxRxLoopback/TxRxComposite' is
+not connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 9' of block 'commhdlQPSKTxRxLoopback/TxRxComposite' is
+not connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 10' of block 'commhdlQPSKTxRxLoopback/TxRxComposite' is
+not connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 11' of block 'commhdlQPSKTxRxLoopback/TxRxComposite' is
+not connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 1' of block
+'commhdlQPSKTxRxLoopback/TxRxComposite/Receiver' is not connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 3' of block
+'commhdlQPSKTxRxLoopback/TxRxComposite/Transmitter' is not connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 5' of block
+'commhdlQPSKTxRxLoopback/TxRxComposite/Transmitter' is not connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 6' of block
+'commhdlQPSKTxRxLoopback/TxRxComposite/Transmitter' is not connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 7' of block
+'commhdlQPSKTxRxLoopback/TxRxComposite/Transmitter' is not connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 8' of block
+'commhdlQPSKTxRxLoopback/TxRxComposite/Transmitter' is not connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: Unconnected output line found on
+'commhdlQPSKTxRxLoopback/TxRxComposite/Receiver/Capture Data Bits/dataOut'
+(output port: 1)] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: Unconnected output line found on
+'commhdlQPSKTxRxLoopback/TxRxComposite/Receiver/Capture Data Bits/dataSrt'
+(output port: 1)] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: Unconnected output line found on
+'commhdlQPSKTxRxLoopback/TxRxComposite/Receiver/Capture Data Bits/dataEnd'
+(output port: 1)] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: Unconnected output line found on
+'commhdlQPSKTxRxLoopback/TxRxComposite/Receiver/QPSK Rx/Frequency and Time
+Synchronizer/No HDL/Unit Delay Enabled Synchronous1' (output port: 1)] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: Unconnected output line found on
+'commhdlQPSKTxRxLoopback/TxRxComposite/Receiver/QPSK Rx/Frequency and Time
+Synchronizer/No HDL/Unit Delay Enabled Synchronous' (output port: 1)] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: Unconnected output line found on
+'commhdlQPSKTxRxLoopback/TxRxComposite/Receiver/QPSK Rx/Frequency and Time
+Synchronizer/No HDL/Subsystem/In1' (output port: 1)] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: Unconnected output line found on
+'commhdlQPSKTxRxLoopback/TxRxComposite/Receiver/QPSK Rx/Frequency and Time
+Synchronizer/Packet Controller/Logical Operator' (output port: 1)] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: Unconnected output line found on
+'commhdlQPSKTxRxLoopback/TxRxComposite/Receiver/QPSK Rx/Frequency and Time
+Synchronizer/Packet Controller/End Generator' (output port: 1)] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: Unconnected output line found on
+'commhdlQPSKTxRxLoopback/TxRxComposite/Receiver/QPSK Rx/Frequency and Time
+Synchronizer/Preamble Detector/No HDL/Data Type Conversion1' (output port: 1)] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: Unconnected output line found on
+'commhdlQPSKTxRxLoopback/TxRxComposite/Receiver/QPSK Rx/Frequency and Time
+Synchronizer/Preamble Detector/No HDL/Data Type Conversion' (output port: 1)] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: Unconnected output line found on
+'commhdlQPSKTxRxLoopback/TxRxComposite/Receiver/QPSK Rx/Frequency and Time
+Synchronizer/Preamble Detector/No HDL/Data Type Conversion' (output port: 1)] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: Unconnected output line found on
+'commhdlQPSKTxRxLoopback/TxRxComposite/Receiver/QPSK Rx/Frequency and Time
+Synchronizer/Preamble Detector/Timing Adjust/No HDL/No HDL/Data Type
+Conversion' (output port: 1)] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: Unconnected output line found on
+'commhdlQPSKTxRxLoopback/TxRxComposite/Receiver/QPSK Rx/Frequency and Time
+Synchronizer/Preamble Detector/Timing Adjust/No HDL/No HDL1/Data Type
+Conversion' (output port: 1)] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: Unconnected output line found on
+'commhdlQPSKTxRxLoopback/TxRxComposite/Receiver/QPSK Rx/Frequency and Time
+Synchronizer/Symbol Synchronizer/No HDL/No HDL/Data Type Conversion' (output
+port: 1)] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: Unconnected output line found on
+'commhdlQPSKTxRxLoopback/TxRxComposite/Receiver/QPSK Rx/Frequency and Time
+Synchronizer/Symbol Synchronizer/No HDL/No HDL/Data Type Conversion' (output
+port: 1)] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+### Begin compilation of the model 'commhdlQPSKTxRxLoopback'...
+[Warning: 'Output Port 8' of block 'commhdlQPSKTxRxLoopback/Receiver' is not
+connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 9' of block 'commhdlQPSKTxRxLoopback/Receiver' is not
+connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Input Port 1' of block 'commhdlQPSKTxRxLoopback/TxRxComposite' is not
+connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Input Port 2' of block 'commhdlQPSKTxRxLoopback/TxRxComposite' is not
+connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Input Port 3' of block 'commhdlQPSKTxRxLoopback/TxRxComposite' is not
+connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Input Port 4' of block 'commhdlQPSKTxRxLoopback/TxRxComposite' is not
+connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Input Port 5' of block 'commhdlQPSKTxRxLoopback/TxRxComposite' is not
+connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Input Port 6' of block 'commhdlQPSKTxRxLoopback/TxRxComposite' is not
+connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 1' of block 'commhdlQPSKTxRxLoopback/TxRxComposite' is
+not connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 2' of block 'commhdlQPSKTxRxLoopback/TxRxComposite' is
+not connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 3' of block 'commhdlQPSKTxRxLoopback/TxRxComposite' is
+not connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 4' of block 'commhdlQPSKTxRxLoopback/TxRxComposite' is
+not connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 5' of block 'commhdlQPSKTxRxLoopback/TxRxComposite' is
+not connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 6' of block 'commhdlQPSKTxRxLoopback/TxRxComposite' is
+not connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 7' of block 'commhdlQPSKTxRxLoopback/TxRxComposite' is
+not connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 8' of block 'commhdlQPSKTxRxLoopback/TxRxComposite' is
+not connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 9' of block 'commhdlQPSKTxRxLoopback/TxRxComposite' is
+not connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 10' of block 'commhdlQPSKTxRxLoopback/TxRxComposite' is
+not connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 11' of block 'commhdlQPSKTxRxLoopback/TxRxComposite' is
+not connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 1' of block
+'commhdlQPSKTxRxLoopback/TxRxComposite/Receiver' is not connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 3' of block
+'commhdlQPSKTxRxLoopback/TxRxComposite/Transmitter' is not connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 5' of block
+'commhdlQPSKTxRxLoopback/TxRxComposite/Transmitter' is not connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 6' of block
+'commhdlQPSKTxRxLoopback/TxRxComposite/Transmitter' is not connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 7' of block
+'commhdlQPSKTxRxLoopback/TxRxComposite/Transmitter' is not connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: 'Output Port 8' of block
+'commhdlQPSKTxRxLoopback/TxRxComposite/Transmitter' is not connected.] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: Unconnected output line found on
+'commhdlQPSKTxRxLoopback/TxRxComposite/Receiver/Capture Data Bits/dataOut'
+(output port: 1)] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: Unconnected output line found on
+'commhdlQPSKTxRxLoopback/TxRxComposite/Receiver/Capture Data Bits/dataSrt'
+(output port: 1)] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: Unconnected output line found on
+'commhdlQPSKTxRxLoopback/TxRxComposite/Receiver/Capture Data Bits/dataEnd'
+(output port: 1)] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: Unconnected output line found on
+'commhdlQPSKTxRxLoopback/TxRxComposite/Receiver/QPSK Rx/Frequency and Time
+Synchronizer/No HDL/Unit Delay Enabled Synchronous1' (output port: 1)] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: Unconnected output line found on
+'commhdlQPSKTxRxLoopback/TxRxComposite/Receiver/QPSK Rx/Frequency and Time
+Synchronizer/No HDL/Unit Delay Enabled Synchronous' (output port: 1)] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: Unconnected output line found on
+'commhdlQPSKTxRxLoopback/TxRxComposite/Receiver/QPSK Rx/Frequency and Time
+Synchronizer/No HDL/Subsystem/In1' (output port: 1)] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: Unconnected output line found on
+'commhdlQPSKTxRxLoopback/TxRxComposite/Receiver/QPSK Rx/Frequency and Time
+Synchronizer/Packet Controller/Logical Operator' (output port: 1)] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: Unconnected output line found on
+'commhdlQPSKTxRxLoopback/TxRxComposite/Receiver/QPSK Rx/Frequency and Time
+Synchronizer/Packet Controller/End Generator' (output port: 1)] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: Unconnected output line found on
+'commhdlQPSKTxRxLoopback/TxRxComposite/Receiver/QPSK Rx/Frequency and Time
+Synchronizer/Preamble Detector/No HDL/Data Type Conversion1' (output port: 1)] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: Unconnected output line found on
+'commhdlQPSKTxRxLoopback/TxRxComposite/Receiver/QPSK Rx/Frequency and Time
+Synchronizer/Preamble Detector/No HDL/Data Type Conversion' (output port: 1)] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: Unconnected output line found on
+'commhdlQPSKTxRxLoopback/TxRxComposite/Receiver/QPSK Rx/Frequency and Time
+Synchronizer/Preamble Detector/No HDL/Data Type Conversion' (output port: 1)] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: Unconnected output line found on
+'commhdlQPSKTxRxLoopback/TxRxComposite/Receiver/QPSK Rx/Frequency and Time
+Synchronizer/Preamble Detector/Timing Adjust/No HDL/No HDL/Data Type
+Conversion' (output port: 1)] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: Unconnected output line found on
+'commhdlQPSKTxRxLoopback/TxRxComposite/Receiver/QPSK Rx/Frequency and Time
+Synchronizer/Preamble Detector/Timing Adjust/No HDL/No HDL1/Data Type
+Conversion' (output port: 1)] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: Unconnected output line found on
+'commhdlQPSKTxRxLoopback/TxRxComposite/Receiver/QPSK Rx/Frequency and Time
+Synchronizer/Symbol Synchronizer/No HDL/No HDL/Data Type Conversion' (output
+port: 1)] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+[Warning: Unconnected output line found on
+'commhdlQPSKTxRxLoopback/TxRxComposite/Receiver/QPSK Rx/Frequency and Time
+Synchronizer/Symbol Synchronizer/No HDL/No HDL/Data Type Conversion' (output
+port: 1)] 
+[> In slhdlcoder.SimulinkConnection/initModel
+In slhdlcoder.HDLCoder/createPir>setupInitAndCleanupModel
+In slhdlcoder.HDLCoder/createPir
+In slhdlcoder.HDLCoder/checkhdl
+In slhdlcoder.HDLCoder/runCheckHdlAndPirFrontEnd
+In slhdlcoder.HDLCoder/compileModelAndCreatePIR
+In hdlipcore.design/PIRBasedBuilder/runPirFrontEnd
+In hdlipcore.design/PIRBasedBuilder/buildIOPortList
+In hdlipcore.design/DUT/buildIOPortList
+In hdlipcore.view/IPCoreInterfaceTable/buildIOPortList
+In hdlturnkey.table/TargetInterfaceTableBase/buildInterfaceTable
+In hdlturnkey.table/TargetInterfaceTableBase/populateInterfaceTable
+In hdlipcore.design/IPCoreInterfaceMap/loadFromModel
+In hdlipcore.design/MappingArchitecture/loadInterfaceMappingFromModel
+In hdlipcore.design/MappingArchitecture/loadFromSource
+In hdlipcore.design/IPCore/loadFromSource
+In hdlturnkey.ip/IPDriver/loadIPCoreSettings
+In downstream.DownstreamIntegrationDriver/loadDUTLevelSettings
+In hwcli.runWorkflow
+In hdlcoder.runWorkflow (line 27)
+In hdlworkflow_loopback (line 328)
+In run (line 112)] 
+### Creating HDL Code Generation Check Report file:///home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_composite/hdlsrc/commhdlQPSKTxRxLoopback/TxRxCompo_ip_src_TxRxComposite_report.html
+### HDL check for 'commhdlQPSKTxRxLoopback' complete with 2 errors, 0 warnings, and 1 messages.
+{Error using hwcli.runWorkflow
+Could not apply model's setting to the Target Interface Table for the following
+reason:
+
+
+For the block 'commhdlQPSKTxRxLoopback/TxRxComposite/Receiver/Downsample4'
+   The input rate of Downsample block cannot be zero or Inf.
+
+Default or last valid setting is applied instead.
+
+
+Error in hwcli.runWorkflow
+
+Error in hdlcoder.runWorkflow (line 27)
+    hwcli.runWorkflow( varargin{:} );
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in hdlworkflow_loopback (line 328)
+hdlcoder.runWorkflow('commhdlQPSKTxRxLoopback/TxRxComposite', hWC, 'Verbosity', 'on');
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in run (line 112)
+evalin('caller', strcat(scriptStem, ';'));
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 
+null
+java.awt.HeadlessException
+	at java.awt.GraphicsEnvironment.checkHeadless(GraphicsEnvironment.java:204)
+	at java.awt.Window.<init>(Window.java:536)
+	at java.awt.Frame.<init>(Frame.java:420)
+	at javax.swing.JFrame.<init>(JFrame.java:233)
+	at com.mathworks.mwswing.MJFrame.<init>(MJFrame.java:108)
+	at com.mathworks.widgets.desk.DTFrame.<init>(DTFrame.java:163)
+	at com.mathworks.widgets.desk.DTMultipleClientFrame.<init>(DTMultipleClientFrame.java:106)
+	at com.mathworks.mde.desk.MLMultipleClientFrame.<init>(MLMultipleClientFrame.java:43)
+	at com.mathworks.mde.desk.MLDesktop.createUndockedFrame(MLDesktop.java:1803)
+	at com.mathworks.widgets.desk.Desktop.setClientShowing(Desktop.java:7288)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at com.mathworks.widgets.desk.Desktop$DeferredFacadeProxy.invoke(Desktop.java:8564)
+	at com.sun.proxy.$Proxy6.setClientShowing(Unknown Source)
+	at com.mathworks.widgets.desk.Desktop.showClient(Desktop.java:7171)
+	at com.mathworks.widgets.desk.Desktop.showClientHelper(Desktop.java:1095)
+	at com.mathworks.widgets.desk.Desktop.showClient(Desktop.java:1071)
+	at com.mathworks.mde.desk.MLDesktop.showClient(MLDesktop.java:1366)
+	at com.mathworks.mde.webbrowser.WebBrowser.finishBuildingEdt(WebBrowser.java:161)
+	at com.mathworks.mde.webbrowser.WebBrowser.access$000(WebBrowser.java:46)
+	at com.mathworks.mde.webbrowser.WebBrowser$2.run(WebBrowser.java:116)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:311)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+Exception in thread "AWT-EventQueue-0" java.awt.HeadlessException
+	at java.awt.GraphicsEnvironment.checkHeadless(GraphicsEnvironment.java:204)
+	at java.awt.Window.<init>(Window.java:536)
+	at java.awt.Frame.<init>(Frame.java:420)
+	at javax.swing.JFrame.<init>(JFrame.java:233)
+	at com.mathworks.mwswing.MJFrame.<init>(MJFrame.java:108)
+	at com.mathworks.widgets.desk.DTFrame.<init>(DTFrame.java:163)
+	at com.mathworks.widgets.desk.DTMultipleClientFrame.<init>(DTMultipleClientFrame.java:106)
+	at com.mathworks.mde.desk.MLMultipleClientFrame.<init>(MLMultipleClientFrame.java:43)
+	at com.mathworks.mde.desk.MLDesktop.createUndockedFrame(MLDesktop.java:1803)
+	at com.mathworks.widgets.desk.Desktop.setClientShowing(Desktop.java:7288)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at com.mathworks.widgets.desk.Desktop$DeferredFacadeProxy.invoke(Desktop.java:8564)
+	at com.sun.proxy.$Proxy6.setClientShowing(Unknown Source)
+	at com.mathworks.widgets.desk.Desktop.showClient(Desktop.java:7171)
+	at com.mathworks.widgets.desk.Desktop.showClientHelper(Desktop.java:1095)
+	at com.mathworks.widgets.desk.Desktop.showClient(Desktop.java:1071)
+	at com.mathworks.mde.desk.MLDesktop.showClient(MLDesktop.java:1366)
+	at com.mathworks.mde.webbrowser.WebBrowser.finishBuildingEdt(WebBrowser.java:161)
+	at com.mathworks.mde.webbrowser.WebBrowser.access$000(WebBrowser.java:46)
+	at com.mathworks.mde.webbrowser.WebBrowser$2.run(WebBrowser.java:116)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:311)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+[Warning: Unable to close the model 'commhdlQPSKTxRxLoopback' because it has
+been changed. To save changes, use close_system('commhdlQPSKTxRxLoopback',1).
+To discard changes, use close_system('commhdlQPSKTxRxLoopback',0).] 

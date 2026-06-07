@@ -1,0 +1,46 @@
+=== composite-α BOOT.BIN ===
+-rw-rw-r-- 1 tcollins tcollins 7203552 May 27 22:31 /home/tcollins/dev/qpsk_ai/TransceiverToolbox/hdl_prj_jupiter_composite/vivado_ip_prj/boot/BOOT.BIN
+1a7774cfa4b6aa12f596b9c658d5fefc  /home/tcollins/dev/qpsk_ai/TransceiverToolbox/hdl_prj_jupiter_composite/vivado_ip_prj/boot/BOOT.BIN
+
+=== scp BOOT.BIN ===
+
+=== sync + reboot ===
+1a7774cfa4b6aa12f596b9c658d5fefc  /boot/BOOT.BIN
+(board down)
+ping up @ 18s
+ssh ready @ 1 polls
+
+=== FPGA state + BOOT.BIN md5 on board ===
+operating
+1a7774cfa4b6aa12f596b9c658d5fefc  /boot/BOOT.BIN
+
+=== AXI register defaults at boot ===
+count=131 packets=78532 bit_errors=682673
+iq_debug_mux=0 rstCS=0 rx_input_select=0
+
+=== TEST 1: BIST over 20s with default rx_input_select ===
+  t= 0s packets=83224      (+83224) bit_errors=726143     (+726143) BER=0.390%
+  t= 5s packets=99996      (+16772) bit_errors=870459     (+144316) BER=0.389%
+  t=10s packets=116757     (+16761) bit_errors=1020437    (+149978) BER=0.390%
+  t=15s packets=133523     (+16766) bit_errors=1164720    (+144283) BER=0.389%
+  t=20s packets=150287     (+16764) bit_errors=1314564    (+149844) BER=0.390%
+
+=== TEST 2: set rx_input_select=1 (external ADC, cable loopback) ===
+rx_input_select=0
+(settle 3s)
+  t= 0s packets+=0        bit_errors+=0        delta-BER=N/A%
+  t= 5s packets+=0        bit_errors+=0        delta-BER=N/A%
+  t=10s packets+=0        bit_errors+=0        delta-BER=N/A%
+  t=15s packets+=0        bit_errors+=0        delta-BER=N/A%
+  t=20s packets+=0        bit_errors+=0        delta-BER=N/A%
+
+=== TEST 3: set rx_input_select=0 (internal Tx-loopback regression) ===
+rx_input_select=0
+(settle 3s)
+  t= 0s packets+=0        bit_errors+=0        delta-BER=N/A%
+  t= 5s packets+=0        bit_errors+=0        delta-BER=N/A%
+  t=10s packets+=0        bit_errors+=0        delta-BER=N/A%
+  t=15s packets+=0        bit_errors+=0        delta-BER=N/A%
+  t=20s packets+=0        bit_errors+=0        delta-BER=N/A%
+
+=== composite-α deploy + BIST snapshot complete ===

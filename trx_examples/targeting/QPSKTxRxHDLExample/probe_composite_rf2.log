@@ -1,0 +1,49 @@
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2025 The MathWorks, Inc.
+             R2025b Update 5 (25.2.0.3177638) 64-bit (glnxa64)
+                             February 24, 2026
+
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+
+	Trial License -- for use to evaluate programs for possible purchase as an end-user only.
+
+=== probe_composite_rf2 ===
+
+--- reboot board for clean state ---
+waiting for board...
+SSH_ASKPASS=/tmp/BistRegisters_askpass_735478.sh SSH_ASKPASS_REQUIRE=force DISPLAY=:0 setsid -w ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=8 -o NumberOfPasswordPrompts=1 root@10.0.0.146 "true" 2>/dev/null: Signal 127
+SSH_ASKPASS=/tmp/BistRegisters_askpass_735478.sh SSH_ASKPASS_REQUIRE=force DISPLAY=:0 setsid -w ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=8 -o NumberOfPasswordPrompts=1 root@10.0.0.146 "true" 2>/dev/null: Signal 127
+SSH_ASKPASS=/tmp/BistRegisters_askpass_735478.sh SSH_ASKPASS_REQUIRE=force DISPLAY=:0 setsid -w ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=8 -o NumberOfPasswordPrompts=1 root@10.0.0.146 "true" 2>/dev/null: Signal 127
+board back up at 49s
+
+--- ADRV9002 Tx setup ---
+Tx DMA armed.
+
+--- ADRV9002 Rx setup ---
+Rx setup complete.
+
+--- BIST baseline @ rx_input_select=0 (5s) ---
+  packets+=25870 errors+=231583  BER=0.400%
+
+--- flip rx_input_select 0 -> 1 + pulse rstCS ---
+
+--- BER window 4×5s @ rx_input_select=1, after rstCS pulse ---
+  t= 5s packets+=4       errors+=245     BER=2.7344%
+  t=10s packets+=4       errors+=179     BER=1.9978%
+  t=15s packets+=1       errors+=176     BER=7.8571%
+  t=20s packets+=5       errors+=171     BER=1.5268%
+
+--- retry with Tx CF offset by 1 MHz ---
+Tx re-armed at 2.401 GHz.
+  t= 5s packets+=4       errors+=243     BER=2.7121%
+  t=10s packets+=3       errors+=245     BER=3.6458%
+  t=15s packets+=3       errors+=126     BER=1.8750%
+  t=20s packets+=4       errors+=304     BER=3.3929%
+
+--- restore ---
+
+=== probe complete ===

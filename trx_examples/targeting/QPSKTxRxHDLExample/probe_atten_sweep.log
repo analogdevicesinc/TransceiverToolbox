@@ -1,0 +1,32 @@
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2025 The MathWorks, Inc.
+             R2025b Update 5 (25.2.0.3177638) 64-bit (glnxa64)
+                             February 24, 2026
+
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+
+	Trial License -- for use to evaluate programs for possible purchase as an end-user only.
+
+rebooting...
+SSH_ASKPASS=/tmp/BistRegisters_askpass_752980.sh SSH_ASKPASS_REQUIRE=force DISPLAY=:0 setsid -w ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=8 -o NumberOfPasswordPrompts=1 root@10.0.0.146 "true" 2>/dev/null: Signal 127
+SSH_ASKPASS=/tmp/BistRegisters_askpass_752980.sh SSH_ASKPASS_REQUIRE=force DISPLAY=:0 setsid -w ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=8 -o NumberOfPasswordPrompts=1 root@10.0.0.146 "true" 2>/dev/null: Signal 127
+SSH_ASKPASS=/tmp/BistRegisters_askpass_752980.sh SSH_ASKPASS_REQUIRE=force DISPLAY=:0 setsid -w ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=8 -o NumberOfPasswordPrompts=1 root@10.0.0.146 "true" 2>/dev/null: Signal 127
+SSH_ASKPASS=/tmp/BistRegisters_askpass_752980.sh SSH_ASKPASS_REQUIRE=force DISPLAY=:0 setsid -w ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=8 -o NumberOfPasswordPrompts=1 root@10.0.0.146 "true" 2>/dev/null: Signal 127
+board back up.
+atten=0     packets=0       errors=0        BER=NaN%
+atten=-3    packets=0       errors=0        BER=NaN%
+atten=-6    packets=0       errors=0        BER=NaN%
+atten=-10   packets=0       errors=0        BER=NaN%
+atten=-15   packets=0       errors=0        BER=NaN%
+atten=-20   packets=0       errors=0        BER=NaN%
+atten=-25   packets=0       errors=0        BER=NaN%
+atten=-30   packets=0       errors=0        BER=NaN%
+
+=== sweep summary ===
+best: atten=0 dB -> BER=NaN% over 0 packets
+
+=== done ===

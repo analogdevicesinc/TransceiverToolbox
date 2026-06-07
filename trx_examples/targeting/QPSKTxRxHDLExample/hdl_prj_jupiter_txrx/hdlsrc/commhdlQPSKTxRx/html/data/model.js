@@ -1,0 +1,1 @@
+var modelInfo = {model:"Receiver"};var modelHierarchy=[{model:"Receiver",relativePath:"_internal.html",parent:"null"},];var AddCode = true;

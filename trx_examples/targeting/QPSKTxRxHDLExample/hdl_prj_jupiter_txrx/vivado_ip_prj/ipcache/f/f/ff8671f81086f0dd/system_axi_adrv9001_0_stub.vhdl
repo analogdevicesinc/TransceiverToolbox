@@ -1,0 +1,217 @@
+-- Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+-- Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+-- --------------------------------------------------------------------------------
+-- Tool Version: Vivado v.2025.1 (lin64) Build 6140274 Wed May 21 22:58:25 MDT 2025
+-- Date        : Tue May 26 19:14:46 2026
+-- Host        : nemo running 64-bit Ubuntu 24.04.4 LTS
+-- Command     : write_vhdl -force -mode synth_stub -rename_top decalper_eb_ot_sdeen_pot_pi_dehcac_xnilix -prefix
+--               decalper_eb_ot_sdeen_pot_pi_dehcac_xnilix_ system_axi_adrv9001_0_stub.vhdl
+-- Design      : system_axi_adrv9001_0
+-- Purpose     : Stub declaration of top-level module interface
+-- Device      : xczu3eg-sfva625-2-e
+-- --------------------------------------------------------------------------------
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity decalper_eb_ot_sdeen_pot_pi_dehcac_xnilix is
+  Port ( 
+    mssi_sync_in : in STD_LOGIC;
+    ref_clk : in STD_LOGIC;
+    mcs_in : in STD_LOGIC;
+    mcs_out : out STD_LOGIC;
+    mcs_src : out STD_LOGIC;
+    tx_output_enable : in STD_LOGIC;
+    rx1_dclk_in_n_NC : in STD_LOGIC;
+    rx1_dclk_in_p_dclk_in : in STD_LOGIC;
+    rx1_idata_in_n_idata0 : in STD_LOGIC;
+    rx1_idata_in_p_idata1 : in STD_LOGIC;
+    rx1_qdata_in_n_qdata2 : in STD_LOGIC;
+    rx1_qdata_in_p_qdata3 : in STD_LOGIC;
+    rx1_strobe_in_n_NC : in STD_LOGIC;
+    rx1_strobe_in_p_strobe_in : in STD_LOGIC;
+    rx2_dclk_in_n_NC : in STD_LOGIC;
+    rx2_dclk_in_p_dclk_in : in STD_LOGIC;
+    rx2_idata_in_n_idata0 : in STD_LOGIC;
+    rx2_idata_in_p_idata1 : in STD_LOGIC;
+    rx2_qdata_in_n_qdata2 : in STD_LOGIC;
+    rx2_qdata_in_p_qdata3 : in STD_LOGIC;
+    rx2_strobe_in_n_NC : in STD_LOGIC;
+    rx2_strobe_in_p_strobe_in : in STD_LOGIC;
+    tx1_dclk_out_n_NC : out STD_LOGIC;
+    tx1_dclk_out_p_dclk_out : out STD_LOGIC;
+    tx1_dclk_in_n_NC : in STD_LOGIC;
+    tx1_dclk_in_p_dclk_in : in STD_LOGIC;
+    tx1_idata_out_n_idata0 : out STD_LOGIC;
+    tx1_idata_out_p_idata1 : out STD_LOGIC;
+    tx1_qdata_out_n_qdata2 : out STD_LOGIC;
+    tx1_qdata_out_p_qdata3 : out STD_LOGIC;
+    tx1_strobe_out_n_NC : out STD_LOGIC;
+    tx1_strobe_out_p_strobe_out : out STD_LOGIC;
+    tx2_dclk_out_n_NC : out STD_LOGIC;
+    tx2_dclk_out_p_dclk_out : out STD_LOGIC;
+    tx2_dclk_in_n_NC : in STD_LOGIC;
+    tx2_dclk_in_p_dclk_in : in STD_LOGIC;
+    tx2_idata_out_n_idata0 : out STD_LOGIC;
+    tx2_idata_out_p_idata1 : out STD_LOGIC;
+    tx2_qdata_out_n_qdata2 : out STD_LOGIC;
+    tx2_qdata_out_p_qdata3 : out STD_LOGIC;
+    tx2_strobe_out_n_NC : out STD_LOGIC;
+    tx2_strobe_out_p_strobe_out : out STD_LOGIC;
+    rx1_enable : out STD_LOGIC;
+    rx2_enable : out STD_LOGIC;
+    tx1_enable : out STD_LOGIC;
+    tx2_enable : out STD_LOGIC;
+    delay_clk : in STD_LOGIC;
+    adc_1_clk : out STD_LOGIC;
+    adc_1_rst : out STD_LOGIC;
+    adc_1_valid_i0 : out STD_LOGIC;
+    adc_1_enable_i0 : out STD_LOGIC;
+    adc_1_data_i0 : out STD_LOGIC_VECTOR ( 15 downto 0 );
+    adc_1_valid_q0 : out STD_LOGIC;
+    adc_1_enable_q0 : out STD_LOGIC;
+    adc_1_data_q0 : out STD_LOGIC_VECTOR ( 15 downto 0 );
+    adc_1_valid_i1 : out STD_LOGIC;
+    adc_1_enable_i1 : out STD_LOGIC;
+    adc_1_data_i1 : out STD_LOGIC_VECTOR ( 15 downto 0 );
+    adc_1_valid_q1 : out STD_LOGIC;
+    adc_1_enable_q1 : out STD_LOGIC;
+    adc_1_data_q1 : out STD_LOGIC_VECTOR ( 15 downto 0 );
+    adc_1_dovf : in STD_LOGIC;
+    adc_1_start_sync : out STD_LOGIC;
+    adc_2_clk : out STD_LOGIC;
+    adc_2_rst : out STD_LOGIC;
+    adc_2_valid_i0 : out STD_LOGIC;
+    adc_2_enable_i0 : out STD_LOGIC;
+    adc_2_data_i0 : out STD_LOGIC_VECTOR ( 15 downto 0 );
+    adc_2_valid_q0 : out STD_LOGIC;
+    adc_2_enable_q0 : out STD_LOGIC;
+    adc_2_data_q0 : out STD_LOGIC_VECTOR ( 15 downto 0 );
+    adc_2_dovf : in STD_LOGIC;
+    adc_2_start_sync : out STD_LOGIC;
+    dac_1_clk : out STD_LOGIC;
+    dac_1_rst : out STD_LOGIC;
+    dac_1_valid_i0 : out STD_LOGIC;
+    dac_1_enable_i0 : out STD_LOGIC;
+    dac_1_data_i0 : in STD_LOGIC_VECTOR ( 15 downto 0 );
+    dac_1_valid_q0 : out STD_LOGIC;
+    dac_1_enable_q0 : out STD_LOGIC;
+    dac_1_data_q0 : in STD_LOGIC_VECTOR ( 15 downto 0 );
+    dac_1_valid_i1 : out STD_LOGIC;
+    dac_1_enable_i1 : out STD_LOGIC;
+    dac_1_data_i1 : in STD_LOGIC_VECTOR ( 15 downto 0 );
+    dac_1_valid_q1 : out STD_LOGIC;
+    dac_1_enable_q1 : out STD_LOGIC;
+    dac_1_data_q1 : in STD_LOGIC_VECTOR ( 15 downto 0 );
+    dac_1_dunf : in STD_LOGIC;
+    dac_2_clk : out STD_LOGIC;
+    dac_2_rst : out STD_LOGIC;
+    dac_2_valid_i0 : out STD_LOGIC;
+    dac_2_enable_i0 : out STD_LOGIC;
+    dac_2_data_i0 : in STD_LOGIC_VECTOR ( 15 downto 0 );
+    dac_2_valid_q0 : out STD_LOGIC;
+    dac_2_enable_q0 : out STD_LOGIC;
+    dac_2_data_q0 : in STD_LOGIC_VECTOR ( 15 downto 0 );
+    dac_2_dunf : in STD_LOGIC;
+    tdd_sync : in STD_LOGIC;
+    tdd_sync_cntr : out STD_LOGIC;
+    gpio_rx1_enable_in : in STD_LOGIC;
+    gpio_rx2_enable_in : in STD_LOGIC;
+    gpio_tx1_enable_in : in STD_LOGIC;
+    gpio_tx2_enable_in : in STD_LOGIC;
+    s_axi_aclk : in STD_LOGIC;
+    s_axi_aresetn : in STD_LOGIC;
+    s_axi_awvalid : in STD_LOGIC;
+    s_axi_awaddr : in STD_LOGIC_VECTOR ( 15 downto 0 );
+    s_axi_awready : out STD_LOGIC;
+    s_axi_wvalid : in STD_LOGIC;
+    s_axi_wdata : in STD_LOGIC_VECTOR ( 31 downto 0 );
+    s_axi_wstrb : in STD_LOGIC_VECTOR ( 3 downto 0 );
+    s_axi_wready : out STD_LOGIC;
+    s_axi_bvalid : out STD_LOGIC;
+    s_axi_bresp : out STD_LOGIC_VECTOR ( 1 downto 0 );
+    s_axi_bready : in STD_LOGIC;
+    s_axi_arvalid : in STD_LOGIC;
+    s_axi_araddr : in STD_LOGIC_VECTOR ( 15 downto 0 );
+    s_axi_arready : out STD_LOGIC;
+    s_axi_rvalid : out STD_LOGIC;
+    s_axi_rresp : out STD_LOGIC_VECTOR ( 1 downto 0 );
+    s_axi_rdata : out STD_LOGIC_VECTOR ( 31 downto 0 );
+    s_axi_rready : in STD_LOGIC;
+    s_axi_awprot : in STD_LOGIC_VECTOR ( 2 downto 0 );
+    s_axi_arprot : in STD_LOGIC_VECTOR ( 2 downto 0 )
+  );
+
+  attribute CHECK_LICENSE_TYPE : string;
+  attribute CHECK_LICENSE_TYPE of decalper_eb_ot_sdeen_pot_pi_dehcac_xnilix : entity is "system_axi_adrv9001_0,axi_adrv9001,{}";
+  attribute DowngradeIPIdentifiedWarnings : string;
+  attribute DowngradeIPIdentifiedWarnings of decalper_eb_ot_sdeen_pot_pi_dehcac_xnilix : entity is "yes";
+  attribute IP_DEFINITION_SOURCE : string;
+  attribute IP_DEFINITION_SOURCE of decalper_eb_ot_sdeen_pot_pi_dehcac_xnilix : entity is "package_project";
+end decalper_eb_ot_sdeen_pot_pi_dehcac_xnilix;
+
+architecture stub of decalper_eb_ot_sdeen_pot_pi_dehcac_xnilix is
+  attribute syn_black_box : boolean;
+  attribute black_box_pad_pin : string;
+  attribute syn_black_box of stub : architecture is true;
+  attribute black_box_pad_pin of stub : architecture is "mssi_sync_in,ref_clk,mcs_in,mcs_out,mcs_src,tx_output_enable,rx1_dclk_in_n_NC,rx1_dclk_in_p_dclk_in,rx1_idata_in_n_idata0,rx1_idata_in_p_idata1,rx1_qdata_in_n_qdata2,rx1_qdata_in_p_qdata3,rx1_strobe_in_n_NC,rx1_strobe_in_p_strobe_in,rx2_dclk_in_n_NC,rx2_dclk_in_p_dclk_in,rx2_idata_in_n_idata0,rx2_idata_in_p_idata1,rx2_qdata_in_n_qdata2,rx2_qdata_in_p_qdata3,rx2_strobe_in_n_NC,rx2_strobe_in_p_strobe_in,tx1_dclk_out_n_NC,tx1_dclk_out_p_dclk_out,tx1_dclk_in_n_NC,tx1_dclk_in_p_dclk_in,tx1_idata_out_n_idata0,tx1_idata_out_p_idata1,tx1_qdata_out_n_qdata2,tx1_qdata_out_p_qdata3,tx1_strobe_out_n_NC,tx1_strobe_out_p_strobe_out,tx2_dclk_out_n_NC,tx2_dclk_out_p_dclk_out,tx2_dclk_in_n_NC,tx2_dclk_in_p_dclk_in,tx2_idata_out_n_idata0,tx2_idata_out_p_idata1,tx2_qdata_out_n_qdata2,tx2_qdata_out_p_qdata3,tx2_strobe_out_n_NC,tx2_strobe_out_p_strobe_out,rx1_enable,rx2_enable,tx1_enable,tx2_enable,delay_clk,adc_1_clk,adc_1_rst,adc_1_valid_i0,adc_1_enable_i0,adc_1_data_i0[15:0],adc_1_valid_q0,adc_1_enable_q0,adc_1_data_q0[15:0],adc_1_valid_i1,adc_1_enable_i1,adc_1_data_i1[15:0],adc_1_valid_q1,adc_1_enable_q1,adc_1_data_q1[15:0],adc_1_dovf,adc_1_start_sync,adc_2_clk,adc_2_rst,adc_2_valid_i0,adc_2_enable_i0,adc_2_data_i0[15:0],adc_2_valid_q0,adc_2_enable_q0,adc_2_data_q0[15:0],adc_2_dovf,adc_2_start_sync,dac_1_clk,dac_1_rst,dac_1_valid_i0,dac_1_enable_i0,dac_1_data_i0[15:0],dac_1_valid_q0,dac_1_enable_q0,dac_1_data_q0[15:0],dac_1_valid_i1,dac_1_enable_i1,dac_1_data_i1[15:0],dac_1_valid_q1,dac_1_enable_q1,dac_1_data_q1[15:0],dac_1_dunf,dac_2_clk,dac_2_rst,dac_2_valid_i0,dac_2_enable_i0,dac_2_data_i0[15:0],dac_2_valid_q0,dac_2_enable_q0,dac_2_data_q0[15:0],dac_2_dunf,tdd_sync,tdd_sync_cntr,gpio_rx1_enable_in,gpio_rx2_enable_in,gpio_tx1_enable_in,gpio_tx2_enable_in,s_axi_aclk,s_axi_aresetn,s_axi_awvalid,s_axi_awaddr[15:0],s_axi_awready,s_axi_wvalid,s_axi_wdata[31:0],s_axi_wstrb[3:0],s_axi_wready,s_axi_bvalid,s_axi_bresp[1:0],s_axi_bready,s_axi_arvalid,s_axi_araddr[15:0],s_axi_arready,s_axi_rvalid,s_axi_rresp[1:0],s_axi_rdata[31:0],s_axi_rready,s_axi_awprot[2:0],s_axi_arprot[2:0]";
+  attribute X_INTERFACE_INFO : string;
+  attribute X_INTERFACE_INFO of delay_clk : signal is "xilinx.com:signal:clock:1.0 delay_clk CLK";
+  attribute X_INTERFACE_MODE : string;
+  attribute X_INTERFACE_MODE of delay_clk : signal is "slave";
+  attribute X_INTERFACE_PARAMETER : string;
+  attribute X_INTERFACE_PARAMETER of delay_clk : signal is "XIL_INTERFACENAME delay_clk, FREQ_HZ 499994995, FREQ_TOLERANCE_HZ 0, PHASE 0.0, CLK_DOMAIN system_sys_ps8_0_pl_clk2, INSERT_VIP 0";
+  attribute X_INTERFACE_INFO of adc_1_clk : signal is "xilinx.com:signal:clock:1.0 adc_1_clk CLK";
+  attribute X_INTERFACE_MODE of adc_1_clk : signal is "master";
+  attribute X_INTERFACE_PARAMETER of adc_1_clk : signal is "XIL_INTERFACENAME adc_1_clk, ASSOCIATED_RESET adc_1_rst, FREQ_HZ 100000000, FREQ_TOLERANCE_HZ 0, PHASE 0.0, CLK_DOMAIN system_axi_adrv9001_0_adc_1_clk, INSERT_VIP 0";
+  attribute X_INTERFACE_INFO of adc_1_rst : signal is "xilinx.com:signal:reset:1.0 adc_1_rst RST";
+  attribute X_INTERFACE_MODE of adc_1_rst : signal is "master";
+  attribute X_INTERFACE_PARAMETER of adc_1_rst : signal is "XIL_INTERFACENAME adc_1_rst, INSERT_VIP 0";
+  attribute X_INTERFACE_INFO of adc_2_clk : signal is "xilinx.com:signal:clock:1.0 adc_2_clk CLK";
+  attribute X_INTERFACE_MODE of adc_2_clk : signal is "master";
+  attribute X_INTERFACE_PARAMETER of adc_2_clk : signal is "XIL_INTERFACENAME adc_2_clk, ASSOCIATED_RESET adc_2_rst, FREQ_HZ 100000000, FREQ_TOLERANCE_HZ 0, PHASE 0.0, CLK_DOMAIN system_axi_adrv9001_0_adc_2_clk, INSERT_VIP 0";
+  attribute X_INTERFACE_INFO of adc_2_rst : signal is "xilinx.com:signal:reset:1.0 adc_2_rst RST";
+  attribute X_INTERFACE_MODE of adc_2_rst : signal is "master";
+  attribute X_INTERFACE_PARAMETER of adc_2_rst : signal is "XIL_INTERFACENAME adc_2_rst, INSERT_VIP 0";
+  attribute X_INTERFACE_INFO of dac_1_clk : signal is "xilinx.com:signal:clock:1.0 dac_1_clk CLK";
+  attribute X_INTERFACE_MODE of dac_1_clk : signal is "master";
+  attribute X_INTERFACE_PARAMETER of dac_1_clk : signal is "XIL_INTERFACENAME dac_1_clk, ASSOCIATED_RESET dac_1_rst, FREQ_HZ 100000000, FREQ_TOLERANCE_HZ 0, PHASE 0.0, CLK_DOMAIN system_axi_adrv9001_0_dac_1_clk, INSERT_VIP 0";
+  attribute X_INTERFACE_INFO of dac_1_rst : signal is "xilinx.com:signal:reset:1.0 dac_1_rst RST";
+  attribute X_INTERFACE_MODE of dac_1_rst : signal is "master";
+  attribute X_INTERFACE_PARAMETER of dac_1_rst : signal is "XIL_INTERFACENAME dac_1_rst, INSERT_VIP 0";
+  attribute X_INTERFACE_INFO of dac_2_clk : signal is "xilinx.com:signal:clock:1.0 dac_2_clk CLK";
+  attribute X_INTERFACE_MODE of dac_2_clk : signal is "master";
+  attribute X_INTERFACE_PARAMETER of dac_2_clk : signal is "XIL_INTERFACENAME dac_2_clk, ASSOCIATED_RESET dac_2_rst, FREQ_HZ 100000000, FREQ_TOLERANCE_HZ 0, PHASE 0.0, CLK_DOMAIN system_axi_adrv9001_0_dac_2_clk, INSERT_VIP 0";
+  attribute X_INTERFACE_INFO of dac_2_rst : signal is "xilinx.com:signal:reset:1.0 dac_2_rst RST";
+  attribute X_INTERFACE_MODE of dac_2_rst : signal is "master";
+  attribute X_INTERFACE_PARAMETER of dac_2_rst : signal is "XIL_INTERFACENAME dac_2_rst, INSERT_VIP 0";
+  attribute X_INTERFACE_INFO of s_axi_aclk : signal is "xilinx.com:signal:clock:1.0 s_axi_aclk CLK";
+  attribute X_INTERFACE_MODE of s_axi_aclk : signal is "slave";
+  attribute X_INTERFACE_PARAMETER of s_axi_aclk : signal is "XIL_INTERFACENAME s_axi_aclk, ASSOCIATED_BUSIF s_axi, ASSOCIATED_RESET s_axi_aresetn, FREQ_HZ 99999001, FREQ_TOLERANCE_HZ 0, PHASE 0.0, CLK_DOMAIN system_sys_ps8_0_pl_clk0, INSERT_VIP 0";
+  attribute X_INTERFACE_INFO of s_axi_aresetn : signal is "xilinx.com:signal:reset:1.0 s_axi_aresetn RST";
+  attribute X_INTERFACE_MODE of s_axi_aresetn : signal is "slave";
+  attribute X_INTERFACE_PARAMETER of s_axi_aresetn : signal is "XIL_INTERFACENAME s_axi_aresetn, POLARITY ACTIVE_LOW, INSERT_VIP 0";
+  attribute X_INTERFACE_INFO of s_axi_awvalid : signal is "xilinx.com:interface:aximm:1.0 s_axi AWVALID";
+  attribute X_INTERFACE_MODE of s_axi_awvalid : signal is "slave";
+  attribute X_INTERFACE_PARAMETER of s_axi_awvalid : signal is "XIL_INTERFACENAME s_axi, DATA_WIDTH 32, PROTOCOL AXI4LITE, FREQ_HZ 99999001, ID_WIDTH 0, ADDR_WIDTH 16, AWUSER_WIDTH 0, ARUSER_WIDTH 0, WUSER_WIDTH 0, RUSER_WIDTH 0, BUSER_WIDTH 0, READ_WRITE_MODE READ_WRITE, HAS_BURST 0, HAS_LOCK 0, HAS_PROT 1, HAS_CACHE 0, HAS_QOS 0, HAS_REGION 0, HAS_WSTRB 1, HAS_BRESP 1, HAS_RRESP 1, SUPPORTS_NARROW_BURST 0, NUM_READ_OUTSTANDING 1, NUM_WRITE_OUTSTANDING 1, MAX_BURST_LENGTH 1, PHASE 0.0, CLK_DOMAIN system_sys_ps8_0_pl_clk0, NUM_READ_THREADS 1, NUM_WRITE_THREADS 1, RUSER_BITS_PER_BYTE 0, WUSER_BITS_PER_BYTE 0, INSERT_VIP 0";
+  attribute X_INTERFACE_INFO of s_axi_awaddr : signal is "xilinx.com:interface:aximm:1.0 s_axi AWADDR";
+  attribute X_INTERFACE_INFO of s_axi_awready : signal is "xilinx.com:interface:aximm:1.0 s_axi AWREADY";
+  attribute X_INTERFACE_INFO of s_axi_wvalid : signal is "xilinx.com:interface:aximm:1.0 s_axi WVALID";
+  attribute X_INTERFACE_INFO of s_axi_wdata : signal is "xilinx.com:interface:aximm:1.0 s_axi WDATA";
+  attribute X_INTERFACE_INFO of s_axi_wstrb : signal is "xilinx.com:interface:aximm:1.0 s_axi WSTRB";
+  attribute X_INTERFACE_INFO of s_axi_wready : signal is "xilinx.com:interface:aximm:1.0 s_axi WREADY";
+  attribute X_INTERFACE_INFO of s_axi_bvalid : signal is "xilinx.com:interface:aximm:1.0 s_axi BVALID";
+  attribute X_INTERFACE_INFO of s_axi_bresp : signal is "xilinx.com:interface:aximm:1.0 s_axi BRESP";
+  attribute X_INTERFACE_INFO of s_axi_bready : signal is "xilinx.com:interface:aximm:1.0 s_axi BREADY";
+  attribute X_INTERFACE_INFO of s_axi_arvalid : signal is "xilinx.com:interface:aximm:1.0 s_axi ARVALID";
+  attribute X_INTERFACE_INFO of s_axi_araddr : signal is "xilinx.com:interface:aximm:1.0 s_axi ARADDR";
+  attribute X_INTERFACE_INFO of s_axi_arready : signal is "xilinx.com:interface:aximm:1.0 s_axi ARREADY";
+  attribute X_INTERFACE_INFO of s_axi_rvalid : signal is "xilinx.com:interface:aximm:1.0 s_axi RVALID";
+  attribute X_INTERFACE_INFO of s_axi_rresp : signal is "xilinx.com:interface:aximm:1.0 s_axi RRESP";
+  attribute X_INTERFACE_INFO of s_axi_rdata : signal is "xilinx.com:interface:aximm:1.0 s_axi RDATA";
+  attribute X_INTERFACE_INFO of s_axi_rready : signal is "xilinx.com:interface:aximm:1.0 s_axi RREADY";
+  attribute X_INTERFACE_INFO of s_axi_awprot : signal is "xilinx.com:interface:aximm:1.0 s_axi AWPROT";
+  attribute X_INTERFACE_INFO of s_axi_arprot : signal is "xilinx.com:interface:aximm:1.0 s_axi ARPROT";
+  attribute X_CORE_INFO : string;
+  attribute X_CORE_INFO of stub : architecture is "axi_adrv9001,Vivado 2025.1";
+begin
+end;

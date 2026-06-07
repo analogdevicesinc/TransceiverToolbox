@@ -1,0 +1,37 @@
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2025 The MathWorks, Inc.
+             R2025b Update 5 (25.2.0.3177638) 64-bit (glnxa64)
+                             February 24, 2026
+
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+
+	Trial License -- for use to evaluate programs for possible purchase as an end-user only.
+
+=== probe_cfoffset: Tx CF = 2.4 GHz + 1000000 Hz, Rx CF = 2.4 GHz ===
+SSH_ASKPASS=/tmp/BistRegisters_askpass_1758699.sh SSH_ASKPASS_REQUIRE=force DISPLAY=:0 setsid -w ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=8 -o NumberOfPasswordPrompts=1 root@10.0.0.146 "true" 2>/dev/null: Signal 127
+SSH_ASKPASS=/tmp/BistRegisters_askpass_1758699.sh SSH_ASKPASS_REQUIRE=force DISPLAY=:0 setsid -w ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=8 -o NumberOfPasswordPrompts=1 root@10.0.0.146 "true" 2>/dev/null: Signal 127
+SSH_ASKPASS=/tmp/BistRegisters_askpass_1758699.sh SSH_ASKPASS_REQUIRE=force DISPLAY=:0 setsid -w ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=8 -o NumberOfPasswordPrompts=1 root@10.0.0.146 "true" 2>/dev/null: Signal 127
+SSH_ASKPASS=/tmp/BistRegisters_askpass_1758699.sh SSH_ASKPASS_REQUIRE=force DISPLAY=:0 setsid -w ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=8 -o NumberOfPasswordPrompts=1 root@10.0.0.146 "true" 2>/dev/null: Signal 127
+SSH_ASKPASS=/tmp/BistRegisters_askpass_1758699.sh SSH_ASKPASS_REQUIRE=force DISPLAY=:0 setsid -w ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=8 -o NumberOfPasswordPrompts=1 root@10.0.0.146 "true" 2>/dev/null: Signal 127
+SSH_ASKPASS=/tmp/BistRegisters_askpass_1758699.sh SSH_ASKPASS_REQUIRE=force DISPLAY=:0 setsid -w ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=8 -o NumberOfPasswordPrompts=1 root@10.0.0.146 "true" 2>/dev/null: Signal 127
+SSH_ASKPASS=/tmp/BistRegisters_askpass_1758699.sh SSH_ASKPASS_REQUIRE=force DISPLAY=:0 setsid -w ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=8 -o NumberOfPasswordPrompts=1 root@10.0.0.146 "true" 2>/dev/null: Signal 127
+SSH_ASKPASS=/tmp/BistRegisters_askpass_1758699.sh SSH_ASKPASS_REQUIRE=force DISPLAY=:0 setsid -w ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=8 -o NumberOfPasswordPrompts=1 root@10.0.0.146 "true" 2>/dev/null: Signal 127
+board up at 68s
+  tx.CF=2.401e+09 Hz, rx.CF=2.4e+09 Hz, tx.Atten=0 dB
+baseline (rx_sel=0): packets+=19272 BER=0.392%
+
+--- cable loopback 60s, Tx CF offset=1000000 Hz ---
+  t=10s packets+=43132   errors+=1323576  BER=1.3699%
+  t=20s packets+=43144   errors+=1321848  BER=1.3678%
+  t=30s packets+=43111   errors+=1317558  BER=1.3644%
+  t=40s packets+=42857   errors+=1305388  BER=1.3598%
+  t=50s packets+=42613   errors+=1307664  BER=1.3700%
+  t=60s packets+=42881   errors+=1314874  BER=1.3689%
+
+CUMULATIVE: packets=257738 errors=7890908 BER=1.3668%
+
+=== done ===

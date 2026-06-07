@@ -1,0 +1,14 @@
+cs.HiliteType = 'user1';
+cs.ForegroundColor = 'black';
+cs.BackgroundColor = 'red';
+set_param(0, 'HiliteAncestorsData', cs);
+hilite_system('commhdlQPSKTxRx/Receiver/QPSK Rx/Automatic Gain Control/Data Type Duplicate','user1');
+hilite_system('commhdlQPSKTxRx/Receiver/QPSK Rx/Automatic Gain Control/Error Detector/Data Type Duplicate','user1');
+hilite_system('commhdlQPSKTxRx/Receiver/QPSK Rx/Frequency and Time Synchronizer/No HDL','user1');
+hilite_system('commhdlQPSKTxRx/Receiver/QPSK Rx/Frequency and Time Synchronizer/Preamble Detector/FIFO/Validate Input Push Pop/No HDL','user1');
+hilite_system('commhdlQPSKTxRx/Receiver/QPSK Rx/Frequency and Time Synchronizer/Preamble Detector/No HDL','user1');
+hilite_system('commhdlQPSKTxRx/Receiver/QPSK Rx/Frequency and Time Synchronizer/Preamble Detector/Peak Search/Unit Delay Enabled Synchronous1','user1');
+hilite_system('commhdlQPSKTxRx/Receiver/QPSK Rx/Frequency and Time Synchronizer/Preamble Detector/Peak Search/timing Reference Long','user1');
+hilite_system('commhdlQPSKTxRx/Receiver/QPSK Rx/Frequency and Time Synchronizer/Preamble Detector/Timing Adjust/No HDL','user1');
+hilite_system('commhdlQPSKTxRx/Receiver/QPSK Rx/Frequency and Time Synchronizer/Symbol Synchronizer/No HDL','user1');
+hilite_system('commhdlQPSKTxRx/Receiver/QPSK Rx/Frequency and Time Synchronizer/Symbol Synchronizer/Rate Handle/FIFO/Validate Input Push Pop/No HDL','user1');

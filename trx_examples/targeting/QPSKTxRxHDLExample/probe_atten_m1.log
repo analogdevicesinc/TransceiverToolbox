@@ -1,0 +1,33 @@
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2025 The MathWorks, Inc.
+             R2025b Update 5 (25.2.0.3177638) 64-bit (glnxa64)
+                             February 24, 2026
+
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+
+	Trial License -- for use to evaluate programs for possible purchase as an end-user only.
+
+=== probe_cfoffset: Tx CF = 2.4 GHz + 0 Hz, Tx atten=-1 dB, Rx CF = 2.4 GHz ===
+SSH_ASKPASS=/tmp/BistRegisters_askpass_1783208.sh SSH_ASKPASS_REQUIRE=force DISPLAY=:0 setsid -w ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=8 -o NumberOfPasswordPrompts=1 root@10.0.0.146 "true" 2>/dev/null: Signal 127
+SSH_ASKPASS=/tmp/BistRegisters_askpass_1783208.sh SSH_ASKPASS_REQUIRE=force DISPLAY=:0 setsid -w ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=8 -o NumberOfPasswordPrompts=1 root@10.0.0.146 "true" 2>/dev/null: Signal 127
+SSH_ASKPASS=/tmp/BistRegisters_askpass_1783208.sh SSH_ASKPASS_REQUIRE=force DISPLAY=:0 setsid -w ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=8 -o NumberOfPasswordPrompts=1 root@10.0.0.146 "true" 2>/dev/null: Signal 127
+SSH_ASKPASS=/tmp/BistRegisters_askpass_1783208.sh SSH_ASKPASS_REQUIRE=force DISPLAY=:0 setsid -w ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=8 -o NumberOfPasswordPrompts=1 root@10.0.0.146 "true" 2>/dev/null: Signal 127
+board up at 53s
+  tx.CF=2.4e+09 Hz, rx.CF=2.4e+09 Hz, tx.Atten=-1 dB, rx.IFGain=0dB, rx.Atten=3
+baseline (rx_sel=0): packets+=19387 BER=0.394%
+
+--- cable loopback 60s, Tx CF offset=0 Hz ---
+  t=10s packets+=0       errors+=0        BER=NaN%
+  t=20s packets+=0       errors+=0        BER=NaN%
+  t=30s packets+=0       errors+=0        BER=NaN%
+  t=40s packets+=0       errors+=0        BER=NaN%
+  t=50s packets+=0       errors+=0        BER=NaN%
+  t=60s packets+=0       errors+=0        BER=NaN%
+
+CUMULATIVE: packets=0 errors=0 BER=NaN%
+
+=== done ===

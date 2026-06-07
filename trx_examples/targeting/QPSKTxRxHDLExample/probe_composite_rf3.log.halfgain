@@ -1,0 +1,37 @@
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2025 The MathWorks, Inc.
+             R2025b Update 5 (25.2.0.3177638) 64-bit (glnxa64)
+                             February 24, 2026
+
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+
+	Trial License -- for use to evaluate programs for possible purchase as an end-user only.
+
+rebooting...
+SSH_ASKPASS=/tmp/BistRegisters_askpass_1909011.sh SSH_ASKPASS_REQUIRE=force DISPLAY=:0 setsid -w ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=8 -o NumberOfPasswordPrompts=1 root@10.0.0.146 "true" 2>/dev/null: Signal 127
+SSH_ASKPASS=/tmp/BistRegisters_askpass_1909011.sh SSH_ASKPASS_REQUIRE=force DISPLAY=:0 setsid -w ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=8 -o NumberOfPasswordPrompts=1 root@10.0.0.146 "true" 2>/dev/null: Signal 127
+SSH_ASKPASS=/tmp/BistRegisters_askpass_1909011.sh SSH_ASKPASS_REQUIRE=force DISPLAY=:0 setsid -w ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=8 -o NumberOfPasswordPrompts=1 root@10.0.0.146 "true" 2>/dev/null: Signal 127
+SSH_ASKPASS=/tmp/BistRegisters_askpass_1909011.sh SSH_ASKPASS_REQUIRE=force DISPLAY=:0 setsid -w ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=8 -o NumberOfPasswordPrompts=1 root@10.0.0.146 "true" 2>/dev/null: Signal 127
+SSH_ASKPASS=/tmp/BistRegisters_askpass_1909011.sh SSH_ASKPASS_REQUIRE=force DISPLAY=:0 setsid -w ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=8 -o NumberOfPasswordPrompts=1 root@10.0.0.146 "true" 2>/dev/null: Signal 127
+board back up at 58s
+Tx armed @ 2.4 GHz atten=0 dB.
+Rx setup.
+  tx.SamplingRate = 1.536e+07, Atten readback = 0 dB
+  rx.SamplingRate = 1.536e+07
+
+--- baseline 5s @ rx_input_select=0 ---
+  packets+=26166 errors+=231141 BER=0.394%
+
+--- rx_input_select=1, settle 5s, measure 60s ---
+  t=10s packets+=38085   errors+=1241313 BER=1.4551%
+  t=20s packets+=38622   errors+=1249923 BER=1.4448%
+  t=30s packets+=38464   errors+=1240496 BER=1.4398%
+  t=40s packets+=38325   errors+=1241440 BER=1.4461%
+  t=50s packets+=38228   errors+=1234919 BER=1.4421%
+  t=60s packets+=38000   errors+=1234962 BER=1.4508%
+
+=== done ===

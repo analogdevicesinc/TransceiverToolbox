@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="expires" content="-1">
+    <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>Code Generation Report</title>
+
+    <link rel="stylesheet" href="../_htmllib/index-css.css" type="text/css" /> 
+	
+</head>
+<body class="tundra reportV2">
+    <script src="data/data.js"></script>
+    <script src="data/pages.js"></script>
+    <script src="data/model.js"></script>
+    <script src="../_htmllib/slcoderRpt/dojoConfig-release-global.js"></script>
+
+    <div class="reportPage_root_container" data-dojo-type="dijit/layout/BorderContainer"
+         data-dojo-props="design: 'headline'">
+	  
+      <div id="centerArea" class="centerPanel" data-dojo-type="dijit/layout/BorderContainer"
+           data-dojo-props="region: 'center'">
+		  
+	<div id="contentArea" class="contentPanel" data-dojo-type="dijit/layout/ContentPane"
+	     data-dojo-props="region: 'top', splitter: true">
+	</div>
+		  
+	<div id="webviewArea" class="webviewPanel" data-dojo-type="dijit/layout/ContentPane"
+	     data-dojo-props="region: 'center'">
+	  <iframe id="rtw_webview" height="100%" width="100%" src="" style="display: none;"></iframe>
+	</div>
+		  
+      </div>
+
+      <div id="leftPanel" class="edgePanel" data-dojo-type="dijit/layout/ContentPane"
+           data-dojo-props="region: 'left', splitter: true">
+      </div>
+	
+    </div>
+
+    <script type="text/javascript">
+      dojoConfig.isDebug = false;
+      dojoConfig.async = true;
+      dojoConfig.cacheBust = false;
+    </script>
+    <!-- identifier used in main_application -->
+    <div id="internalHTML"></div>
+    <script src="../_htmllib/bundle.index.js"></script>
+</body>
+</html>
+
+<!-- LocalWords:  async
+-->

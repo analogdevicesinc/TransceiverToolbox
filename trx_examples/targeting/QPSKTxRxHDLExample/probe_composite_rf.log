@@ -1,0 +1,43 @@
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2025 The MathWorks, Inc.
+             R2025b Update 5 (25.2.0.3177638) 64-bit (glnxa64)
+                             February 24, 2026
+
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+
+	Trial License -- for use to evaluate programs for possible purchase as an end-user only.
+
+=== probe_composite_rf ===
+Jupiter reachable.
+
+[Baseline @ rx_input_select=0, no ADRV9002 host config yet]
+  packets=173655 errors=1515024
+
+--- ADRV9002 Tx setup ---
+Tx DMA armed with zero buffer.
+
+--- ADRV9002 Rx setup ---
+Rx setup complete.
+
+--- flip rx_input_select 0 -> 1 ---
+write rx_input_select=1: rc=0
+
+--- BER window 20s @ rx_input_select=1 ---
+  t= 5s  packets+=0        errors+=0        BER=NaN%
+  t=10s  packets+=0        errors+=0        BER=NaN%
+  t=15s  packets+=0        errors+=0        BER=NaN%
+  t=20s  packets+=0        errors+=0        BER=NaN%
+elapsed: 31.2 s
+
+=== TOTALS since baseline ===
+  packets : 0  (need >= 50000)
+  errors  : 0 / 0 bits
+  BER     : NaN%
+
+--- restore rx_input_select=0 ---
+
+=== probe complete ===

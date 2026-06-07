@@ -1,0 +1,643 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="rtwreport.css" /><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>
+Hierarchy Flattening Report for commhdlQPSKTxRx
+</title>
+
+</head>
+<body bgcolor="#ffffff" link="0033CC" vlink="#666666" onload="try {if (top) {if (top.rtwPageOnLoad) top.rtwPageOnLoad('rtwIdFlattenHierarchy'); else local_onload();}} catch(err) {};">
+<font SIZE="+2" COLOR="#000066">
+Hierarchy Flattening Report for commhdlQPSKTxRx
+</font>
+<br /><br /><br /><script>
+<!--
+function hdlTableShrink(o,tagNameStr)
+{
+var temp = document.getElementsByName(tagNameStr);
+if (temp[0].style.display == "")
+{
+	temp[0].style.display = "none";
+	o.innerHTML = '<span style="font-family:monospace">[+]</span>';
+}
+else
+{
+	temp[0].style.display = "";
+	o.innerHTML = '<span style="font-family:monospace">[-]</span>';
+}
+}
+// -->
+</script>
+<script>
+<!--
+function hdlTableCollapseAll(o, numNtks, numComps)
+{
+	var id = "";
+	for (i = 1; i <= numNtks; i++)
+	{
+		for (j = 1; j <= numComps; j++)
+		{
+			id = "Multiply" + "_" + i + "_" + j;
+			var temp = document.getElementsByName(id);
+			if (temp != null && temp.length > 0)
+			{
+				temp[0].style.display = "none";
+			}
+			id = "Adder" + "_" + i + "_" + j;
+			temp = document.getElementsByName(id);
+			if (temp != null && temp.length > 0)
+			{
+				temp[0].style.display = "none";
+			}
+			id = "Subtractor" + "_" + i + "_" + j;
+			temp = document.getElementsByName(id);
+			if (temp != null && temp.length > 0)
+			{
+				temp[0].style.display = "none";
+			}
+			id = "Register" + "_" + i + "_" + j;
+			temp = document.getElementsByName(id);
+			if (temp != null && temp.length > 0)
+			{
+				temp[0].style.display = "none";
+			}
+			id = "RAM" + "_" + i + "_" + j;
+			temp = document.getElementsByName(id);
+			if (temp != null && temp.length > 0)
+			{
+				temp[0].style.display = "none";
+			}
+			id = "Multiplexer" + "_" + i + "_" + j;
+			temp = document.getElementsByName(id);
+			if (temp != null && temp.length > 0)
+			{
+				temp[0].style.display = "none";
+			}
+		}
+	}
+	var collapsibles = document.getElementsByName('collapsible');
+	for (i = 0; i < collapsibles.length; i++)
+	{
+		collapsibles[i].innerHTML = '<span style="font-family:monospace">[+]</span>';
+	}
+}
+// -->
+</script>
+<script>
+<!--
+function hdlTableExpandAll(o, numNtks, numComps)
+{
+	var id = "";
+	for (i = 1; i <= numNtks; i++)
+	{
+		for (j = 1; j <= numComps; j++)
+		{
+			id = "Multiply" + "_" + i + "_" + j;
+			var temp = document.getElementsByName(id);
+			if (temp != null && temp.length > 0)
+			{
+				temp[0].style.display = "";
+			}
+			id = "Adder" + "_" + i + "_" + j;
+			temp = document.getElementsByName(id);
+			if (temp != null && temp.length > 0)
+			{
+				temp[0].style.display = "";
+			}
+			id = "Subtractor" + "_" + i + "_" + j;
+			temp = document.getElementsByName(id);
+			if (temp != null && temp.length > 0)
+			{
+				temp[0].style.display = "";
+			}
+			id = "Register" + "_" + i + "_" + j;
+			temp = document.getElementsByName(id);
+			if (temp != null && temp.length > 0)
+			{
+				temp[0].style.display = "";
+			}
+			id = "RAM" + "_" + i + "_" + j;
+			temp = document.getElementsByName(id);
+			if (temp != null && temp.length > 0)
+			{
+				temp[0].style.display = "";
+			}
+			id = "Multiplexer" + "_" + i + "_" + j;
+			temp = document.getElementsByName(id);
+			if (temp != null && temp.length > 0)
+			{
+				temp[0].style.display = "";
+			}
+		}
+	}
+	var collapsibles = document.getElementsByName('collapsible');
+	for (i = 0; i < collapsibles.length; i++)
+	{
+		collapsibles[i].innerHTML = '<span style="font-family:monospace">[-]</span>';
+	}
+}
+// -->
+</script>
+<a name="List of subsystems:">
+<font size="+1" color="#000066">
+<b class="midprod">
+List of subsystems:
+</b>
+
+</font>
+
+</a>
+<br /><br /><b>
+<li>'FlattenHierarchy' turned 'on':</li>
+</b>
+<span name="collapsible" id="collapsible" style="font-family:monospace" onclick="hdlTableShrink(this, 'onList')" onmouseover="this.style.cursor = 'pointer'">
+[+]
+</span>
+<span name="onList" id="onList" style="display: none;">
+<ul class="SystemdefinedCollapse" id="a8555869-6a13-4744-b235-e31dfd151bc8" dataCollapse="off">
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:4925\')'})"  name="code2model" class="code2model">
+HDL Counter
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5008\')'})"  name="code2model" class="code2model">
+HDL Counter
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5136\')'})"  name="code2model" class="code2model">
+HDL Counter
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5233\')'})"  name="code2model" class="code2model">
+Pop Counter
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5234\')'})"  name="code2model" class="code2model">
+Push Counter
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5290\')'})"  name="code2model" class="code2model">
+timing Reference
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5291\')'})"  name="code2model" class="code2model">
+timing Reference Long
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5337\')'})"  name="code2model" class="code2model">
+timing Reference
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5520\')'})"  name="code2model" class="code2model">
+HDL Counter
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5485\')'})"  name="code2model" class="code2model">
+Pop Counter
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5486\')'})"  name="code2model" class="code2model">
+Push Counter
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5588\')'})"  name="code2model" class="code2model">
+HDL Counter
+</a>
+
+</li>
+
+</ul>
+<span class="SDCollapseControl" onclick="collapseSD(this, 'a8555869-6a13-4744-b235-e31dfd151bc8')" onmouseover="this.style.cursor = 'pointer'">
+&#8743; Less
+</span>
+<br />
+</span>
+<br /><br /><b>
+<li>'FlattenHierarchy' turned 'off':</li>
+</b>
+<span name="collapsible" id="collapsible" style="font-family:monospace" onclick="hdlTableShrink(this, 'offList')" onmouseover="this.style.cursor = 'pointer'">
+[+]
+</span>
+<span name="offList" id="offList" style="display: none;">
+<ul class="SystemdefinedCollapse" id="1988ea64-c05e-4c3f-9c3a-aa5f1cceb765" dataCollapse="off">
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5506\')'})"  name="code2model" class="code2model">
+MATLAB Function
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5391\')'})"  name="code2model" class="code2model">
+Interpolation Control
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5254\')'})"  name="code2model" class="code2model">
+MATLAB Function
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5209\')'})"  name="code2model" class="code2model">
+ThresholdLimiter
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5013\')'})"  name="code2model" class="code2model">
+sample discard controller
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5012\')'})"  name="code2model" class="code2model">
+MATLAB Function
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5844\')'})"  name="code2model" class="code2model">
+MATLAB Function
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5582\')'})"  name="code2model" class="code2model">
+Serializer
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5562\')'})"  name="code2model" class="code2model">
+QPSK Demodulator
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5533\')'})"  name="code2model" class="code2model">
+HDL Data Descrambler
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5493\')'})"  name="code2model" class="code2model">
+Compare
+To Constant1
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5492\')'})"  name="code2model" class="code2model">
+Compare
+To Constant
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5488\')'})"  name="code2model" class="code2model">
+Validate Input Push Pop
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5479\')'})"  name="code2model" class="code2model">
+FIFO
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5473\')'})"  name="code2model" class="code2model">
+Rate Handle
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5445\')'})"  name="code2model" class="code2model">
+Loop Filter
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5392\')'})"  name="code2model" class="code2model">
+Interpolation Filter
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5362\')'})"  name="code2model" class="code2model">
+GTED
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5357\')'})"  name="code2model" class="code2model">
+Gardner TED
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5344\')'})"  name="code2model" class="code2model">
+Symbol Synchronizer
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5299\')'})"  name="code2model" class="code2model">
+Timing Adjust
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5277\')'})"  name="code2model" class="code2model">
+Peak Search
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5241\')'})"  name="code2model" class="code2model">
+Compare
+To Constant1
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5240\')'})"  name="code2model" class="code2model">
+Compare
+To Constant
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5236\')'})"  name="code2model" class="code2model">
+Validate Input Push Pop
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5227\')'})"  name="code2model" class="code2model">
+FIFO
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5185\')'})"  name="code2model" class="code2model">
+Magnitude Squared and Moving Sum
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5177\')'})"  name="code2model" class="code2model">
+Magnitude Squared
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5164\')'})"  name="code2model" class="code2model">
+Correlator
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5160\')'})"  name="code2model" class="code2model">
+Preamble Detector
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5148\')'})"  name="code2model" class="code2model">
+Subsystem1
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5140\')'})"  name="code2model" class="code2model">
+Subsystem
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5119\')'})"  name="code2model" class="code2model">
+Phase Ambiguity Estimator
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5099\')'})"  name="code2model" class="code2model">
+Function Impl
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5089\')'})"  name="code2model" class="code2model">
+Reciprocal
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5052\')'})"  name="code2model" class="code2model">
+Phase Ambiguity Corrector
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5022\')'})"  name="code2model" class="code2model">
+Average Estimates
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5018\')'})"  name="code2model" class="code2model">
+Phase Ambiguity Estimation and Correction
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5003\')'})"  name="code2model" class="code2model">
+End Generator
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:4996\')'})"  name="code2model" class="code2model">
+Packet Controller
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:4958\')'})"  name="code2model" class="code2model">
+Raise Power to 4
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:4920\')'})"  name="code2model" class="code2model">
+Reset Generator
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:4912\')'})"  name="code2model" class="code2model">
+Integrator
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:4900\')'})"  name="code2model" class="code2model">
+Extract Frequency
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:4885\')'})"  name="code2model" class="code2model">
+Coarse Frequency Estimator
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:4875\')'})"  name="code2model" class="code2model">
+CFO step change detector
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:4872\')'})"  name="code2model" class="code2model">
+Coarse Frequency Compensator
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:4846\')'})"  name="code2model" class="code2model">
+Phase Error Detector
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:4814\')'})"  name="code2model" class="code2model">
+Loop Filter
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:4803\')'})"  name="code2model" class="code2model">
+Direct Digital Synthesis
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:4781\')'})"  name="code2model" class="code2model">
+Carrier Synchronizer
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:4777\')'})"  name="code2model" class="code2model">
+Frequency and Time Synchronizer
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:4776\')'})"  name="code2model" class="code2model">
+Delay
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:4762\')'})"  name="code2model" class="code2model">
+Loop Filter
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:4750\')'})"  name="code2model" class="code2model">
+Error Detector
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:4740\')'})"  name="code2model" class="code2model">
+Automatic Gain Control
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:1886\')'})"  name="code2model" class="code2model">
+QPSK Rx
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:1008\')'})"  name="code2model" class="code2model">
+Capture Data Bits
+</a>
+
+</li>
+<li>
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'coder.internal.code2model(\'commhdlQPSKTxRx:5836\')'})"  name="code2model" class="code2model">
+Receiver
+</a>
+
+</li>
+
+</ul>
+<span class="SDCollapseControl" onclick="collapseSD(this, '1988ea64-c05e-4c3f-9c3a-aa5f1cceb765')" onmouseover="this.style.cursor = 'pointer'">
+&#8743; Less
+</span>
+<br />
+</span>
+<br /><br /><a name="Flattening Status:">
+<font size="+1" color="#000066">
+<b class="midprod">
+Flattening Status:
+</b>
+
+</font>
+
+</a>
+<br /><br />'Hierarchical flattening' was successful.<br /><br /><a name="Generated Model">
+<font size="+1" color="#000066">
+<b class="midprod">
+Generated Model
+</b>
+
+</font>
+
+</a>
+<br /><br /><table width="100%" border="1">
+<tr style="background-color: #eeeeff">
+<td align="left" valign="top" style="border-style: none">
+Generated model after the transformation
+</td>
+<td align="left" valign="top" style="border-style: none">
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'open_system(\'/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/hdlsrc/commhdlQPSKTxRx/gm_commhdlQPSKTxRx\')'})"  class="callMATLAB" name="callMATLAB">gm_commhdlQPSKTxRx</a>
+</td>
+
+</tr>
+
+</table>
+<br />
+<script>function postParentWindowMessage(message) {window.parent.postMessage(message, "*");}</script>
+</body>
+
+</html>

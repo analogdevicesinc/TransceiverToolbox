@@ -1,0 +1,32 @@
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2025 The MathWorks, Inc.
+             R2025b Update 5 (25.2.0.3177638) 64-bit (glnxa64)
+                             February 24, 2026
+
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+
+	Trial License -- for use to evaluate programs for possible purchase as an end-user only.
+
+=== probe_cfoffset: Tx CF = 2.4 GHz + 0 Hz, Tx atten=0 dB, Rx CF = 2.4 GHz ===
+SSH_ASKPASS=/tmp/BistRegisters_askpass_1770225.sh SSH_ASKPASS_REQUIRE=force DISPLAY=:0 setsid -w ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=8 -o NumberOfPasswordPrompts=1 root@10.0.0.146 "true" 2>/dev/null: Signal 127
+SSH_ASKPASS=/tmp/BistRegisters_askpass_1770225.sh SSH_ASKPASS_REQUIRE=force DISPLAY=:0 setsid -w ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=8 -o NumberOfPasswordPrompts=1 root@10.0.0.146 "true" 2>/dev/null: Signal 127
+SSH_ASKPASS=/tmp/BistRegisters_askpass_1770225.sh SSH_ASKPASS_REQUIRE=force DISPLAY=:0 setsid -w ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=8 -o NumberOfPasswordPrompts=1 root@10.0.0.146 "true" 2>/dev/null: Signal 127
+board up at 49s
+  tx.CF=2.4e+09 Hz, rx.CF=2.4e+09 Hz, tx.Atten=0 dB, rx.IFGain=18dB, rx.Atten=0
+baseline (rx_sel=0): packets+=19225 BER=0.392%
+
+--- cable loopback 60s, Tx CF offset=0 Hz ---
+  t=10s packets+=42963   errors+=1313022  BER=1.3644%
+  t=20s packets+=42951   errors+=1313778  BER=1.3655%
+  t=30s packets+=42920   errors+=1315656  BER=1.3685%
+  t=40s packets+=42835   errors+=1312316  BER=1.3677%
+  t=50s packets+=42984   errors+=1315764  BER=1.3665%
+  t=60s packets+=42995   errors+=1313802  BER=1.3642%
+
+CUMULATIVE: packets=257648 errors=7884338 BER=1.3661%
+
+=== done ===

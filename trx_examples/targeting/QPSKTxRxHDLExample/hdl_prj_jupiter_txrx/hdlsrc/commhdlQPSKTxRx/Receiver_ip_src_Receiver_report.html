@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" itemscope itemtype="https://www.mathworks.com/help/schema/MathWorksDocPage">
+<head>
+<title>HDL Check Report for 'commhdlQPSKTxRx/Receiver'</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<script type="text/javascript" src="file:///mnt/onetb/MATLAB/R2025b/toolbox/hdlcoder/hdlcommon/js_css/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="file:///mnt/onetb/MATLAB/R2025b/toolbox/hdlcoder/hdlcommon/js_css/docscripts.js"></script>
+        
+        <link href="html/pages/ice_960.css" rel="stylesheet" type="text/css">
+        <link href="html/pages/HDLsite5.css" rel="stylesheet" type="text/css">
+        <link href="html/pages/ice_doc_center.css" rel="stylesheet" type="text/css">
+        <link href="html/pages/ice_doc_center_installed.css" rel="stylesheet" type="text/css">
+        <link href="html/pages/ice_doc_center_print.css" rel="stylesheet" type="text/css" media="print">
+        <script type="text/javascript">
+            if (navigator.appName != "ICEbrowser") {
+            var cssStyleSheets = $("link").filter(function(){
+            var href = $(this).attr('href');
+            return href.indexOf("ice_doc_center_print.css") == -1});
+            var hrefElements = $.map(cssStyleSheets, function(elem) {
+            var href = $(elem).attr('href');
+            var hrefArray = href.split("/");
+            hrefArray[hrefArray.length - 1] = hrefArray[hrefArray.length - 1].replace("ice_", "");
+            return {
+            href: hrefArray.join("/"),
+            media: $(elem).attr('media')
+            };
+            });
+            cssStyleSheets.remove();
+            for (var i = 0; i < hrefElements.length; i++) {
+            if ($.browser.msie && $.browser.version <= 8) {
+            document.createStyleSheet(hrefElements[i].href);
+            } else {
+            var link = $('<link rel="stylesheet" href=' + hrefElements[i].href + ' type="text/css" />');
+            if (hrefElements[i].media) {
+            link.attr('media', hrefElements[i].media);
+            }
+            $('head').append(link);
+            }
+            }
+            }
+    </script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+<div class="container_192">
+<div class="grid_192">
+ <div class="page_container"><div class="content_frame">
+<h1>HDL Code Generation Check Report for 'commhdlQPSKTxRx/Receiver'
+<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'open_system(\'commhdlQPSKTxRx/Receiver\');'})" >open model 'commhdlQPSKTxRx/Receiver'</a><BR>
+Generated on 2026-05-26 18:50:55</h1>
+<H2>HDL check for 'commhdlQPSKTxRx' complete with 0 errors, 0 warnings, and 2 messages.</H2><BR>
+<H3>The following table describes blocks for which errors, warnings or messages were reported.</H3><BR>
+<TABLE style="border: 2px solid; border-collapse: collapse;">
+<TR><TD style="border: 2px solid; border-collapse: collapse;"> <B>Simulink Blocks and resources</B> </TD><TD style="border: 2px solid; border-collapse: collapse;"> <B>Level</B> </TD><TD style="border: 2px solid; border-collapse: collapse;"> <B>Description</B> </TD></TR><TR><TD style="border: 2px solid; border-collapse: collapse;">
+<a alt="hdlcoder:validate:ScalarizePortsVerilogCheck" href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'hilite(get_param(char([99 111 109 109 104 100 108 81 80 83 75 84 120 82 120]),\'object\'),\'none\');open_system(char([99 111 109 109 104 100 108 81 80 83 75 84 120 82 120]))'})" >commhdlQPSKTxRx</a>
+</TD>
+<TD style="border: 2px solid; border-collapse: collapse">Message</TD>
+<TD style="border: 2px solid; border-collapse: collapse">When 'TargetLanguage' is 'Verilog', 'ScalarizePorts' setting does not have any effect because HDL Coder flattens the vector signals to scalars by default. To apply 'ScalarizePorts' setting, change 'TargetLanguage' to 'SystemVerilog'.</TD>
+</TR>
+<TR><TD style="border: 2px solid; border-collapse: collapse;">
+<a alt="hdlcoder:hdldisp:GeneratingDCEHighlightingScript" href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'hilite(get_param(char([99 111 109 109 104 100 108 81 80 83 75 84 120 82 120]),\'object\'),\'none\');open_system(char([99 111 109 109 104 100 108 81 80 83 75 84 120 82 120]))'})" >commhdlQPSKTxRx</a>
+</TD>
+<TD style="border: 2px solid; border-collapse: collapse">Message</TD>
+<TD style="border: 2px solid; border-collapse: collapse">Unused logic removed during HDL code generation. To highlight the logic removed, click the following MATLAB script: hdl_prj_jupiter_txrx/hdlsrc/commhdlQPSKTxRx/highlightRemovedDeadBlocks.m</TD>
+</TR>
+</TABLE>
+<BR><BR> </div></div></div></div>
+                    <div class="grid_192">
+                        <div class="footer_container">
+                            <div class="footer">
+                                
+                                <div class="copyright">&copy; 1994-2026 The MathWorks, Inc.</div>
+                            </div>
+                        </div>
+                    </div>
+
+        <script type="text/javascript">
+
+$(document).ready( setTimeout( function () {
+                   $(".expandAllLink").trigger('click');
+            }, 50 ) );
+
+        </script>
+        
+<script>function postParentWindowMessage(message) {window.parent.postMessage(message, "*");}</script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+{
+  "schema": "xilinx.com:schema:json_instance:1.0",
+  "ip_inst": {
+    "xci_name": "system_sync_slow_to_fast_0",
+    "cell_name": "sync_input/sync_slow_to_fast",
+    "component_reference": "analog.com:user:sync_slow_to_fast:1.0",
+    "ip_revision": "1",
+    "gen_directory": "../../../../../../vivado_prj.gen/sources_1/bd/system/ip/system_sync_slow_to_fast_0",
+    "parameters": {
+      "component_parameters": {
+        "DEPTH": [ { "value": "6", "value_src": "user", "resolve_type": "user", "format": "long", "usage": "all" } ],
+        "WIDTH": [ { "value": "65", "value_src": "user", "resolve_type": "user", "format": "long", "usage": "all" } ],
+        "CONTINUOUS": [ { "value": "true", "resolve_type": "user", "format": "bool", "usage": "all" } ],
+        "Component_Name": [ { "value": "system_sync_slow_to_fast_0", "resolve_type": "user", "usage": "all" } ]
+      },
+      "model_parameters": {
+        "DEPTH": [ { "value": "6", "resolve_type": "generated", "format": "long", "usage": "all" } ],
+        "WIDTH": [ { "value": "65", "resolve_type": "generated", "format": "long", "usage": "all" } ],
+        "CONTINUOUS": [ { "value": "true", "resolve_type": "generated", "format": "bool", "usage": "all" } ]
+      },
+      "project_parameters": {
+        "ARCHITECTURE": [ { "value": "zynquplus" } ],
+        "BASE_BOARD_PART": [ { "value": "" } ],
+        "BOARD_CONNECTIONS": [ { "value": "" } ],
+        "DEVICE": [ { "value": "xczu3eg" } ],
+        "PACKAGE": [ { "value": "sfva625" } ],
+        "PREFHDL": [ { "value": "VERILOG" } ],
+        "SILICON_REVISION": [ { "value": "" } ],
+        "SIMULATOR_LANGUAGE": [ { "value": "MIXED" } ],
+        "SPEEDGRADE": [ { "value": "-2" } ],
+        "STATIC_POWER": [ { "value": "" } ],
+        "TEMPERATURE_GRADE": [ { "value": "E" } ]
+      },
+      "runtime_parameters": {
+        "IPCONTEXT": [ { "value": "IP_Integrator" } ],
+        "IPREVISION": [ { "value": "1" } ],
+        "MANAGED": [ { "value": "TRUE" } ],
+        "OUTPUTDIR": [ { "value": "../../../../../../vivado_prj.gen/sources_1/bd/system/ip/system_sync_slow_to_fast_0" } ],
+        "SELECTEDSIMMODEL": [ { "value": "" } ],
+        "SHAREDDIR": [ { "value": "../../ipshared" } ],
+        "SWVERSION": [ { "value": "2025.1" } ],
+        "SYNTHESISFLOW": [ { "value": "OUT_OF_CONTEXT" } ]
+      }
+    },
+    "boundary": {
+      "ports": {
+        "in_data": [ { "direction": "in", "size_left": "64", "size_right": "0", "driver_value": "0" } ],
+        "in_resetn": [ { "direction": "in" } ],
+        "in_clk": [ { "direction": "in" } ],
+        "out_data": [ { "direction": "out", "size_left": "64", "size_right": "0" } ],
+        "out_resetn": [ { "direction": "in" } ],
+        "out_clk": [ { "direction": "in" } ]
+      }
+    }
+  }
+}

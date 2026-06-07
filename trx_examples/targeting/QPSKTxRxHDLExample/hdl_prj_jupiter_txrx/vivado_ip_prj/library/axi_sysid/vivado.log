@@ -1,0 +1,781 @@
+#-----------------------------------------------------------
+# Vivado v2025.1 (64-bit)
+# SW Build 6140274 on Wed May 21 22:58:25 MDT 2025
+# IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+# SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+# Start of session at: Tue May 26 18:55:13 2026
+# Process ID         : 3458682
+# Current directory  : /home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/library/axi_sysid
+# Command line       : vivado -mode batch -source /home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/library/axi_sysid/axi_sysid_ip.tcl
+# Log file           : /home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/library/axi_sysid/vivado.log
+# Journal file       : /home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/library/axi_sysid/vivado.jou
+# Running On         : nemo
+# Platform           : Ubuntu
+# Operating System   : Ubuntu 24.04.4 LTS
+# Processor Detail   : Intel(R) Xeon(R) CPU E5-1650 0 @ 3.20GHz
+# CPU Frequency      : 3192.090 MHz
+# CPU Physical cores : 6
+# CPU Logical cores  : 12
+# Host memory        : 67381 MB
+# Swap memory        : 8589 MB
+# Total Virtual      : 75970 MB
+# Available Virtual  : 47865 MB
+#-----------------------------------------------------------
+source /home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/library/axi_sysid/axi_sysid_ip.tcl
+# source ../../scripts/adi_env.tcl
+## set ad_hdl_dir [file normalize [file join [file dirname [info script]] "../"]]
+## if [info exists ::env(ADI_HDL_DIR)] {
+##   set ad_hdl_dir [file normalize $::env(ADI_HDL_DIR)]
+## } else {
+##   set env(ADI_HDL_DIR) $ad_hdl_dir
+## }
+## if [info exists ::env(ADI_GHDL_DIR)] {
+##   set ad_ghdl_dir [file normalize $::env(ADI_GHDL_DIR)]
+## }
+## set required_vivado_version "2025.1"
+## if {[info exists ::env(REQUIRED_VIVADO_VERSION)]} {
+##   set required_vivado_version $::env(REQUIRED_VIVADO_VERSION)
+## } elseif {[info exists REQUIRED_VIVADO_VERSION]} {
+##   set required_vivado_version $REQUIRED_VIVADO_VERSION
+## }
+## if {[info exists ::env(ADI_IGNORE_VERSION_CHECK)]} {
+##   set IGNORE_VERSION_CHECK 1
+## } elseif {![info exists IGNORE_VERSION_CHECK]} {
+##   set IGNORE_VERSION_CHECK 0
+## }
+## set quartus_pro_isused 1
+## if {[info exists ::env(QUARTUS_PRO_ISUSED)]} {
+##   set quartus_pro_isused $::env(QUARTUS_PRO_ISUSED)
+## } elseif {[info exists QUARTUS_PRO_ISUSED]} {
+##   set quartus_pro_isused $QUARTUS_PRO_ISUSED
+## } else {
+##   set quartus_std_carriers {de10nano c5soc}
+## 
+##   foreach _carrier_iter $quartus_std_carriers {
+##     if {[string match "*$_carrier_iter*" [pwd]]} {
+##       set quartus_pro_isused 0
+##       break
+##     }
+##   }
+## }
+## set required_quartus_version "25.3.0"
+## set required_quartus_std_version "24.1std.0"
+## if {[info exists ::env(REQUIRED_QUARTUS_VERSION)]} {
+##   set required_quartus_version $::env(REQUIRED_QUARTUS_VERSION)
+## } elseif {[info exists REQUIRED_QUARTUS_VERSION]} {
+##   set required_quartus_version $REQUIRED_QUARTUS_VERSION
+## } elseif {$quartus_pro_isused == 0} {
+##   set required_quartus_version $required_quartus_std_version
+## }
+## set required_lattice_version "2025.2"
+## if {[info exists ::env(REQUIRED_LATTICE_VERSION)]} {
+##   set required_lattice_version $::env(REQUIRED_LATTICE_VERSION)
+## } elseif {[info exists REQUIRED_LATTICE_VERSION]} {
+##   set required_lattice_version $REQUIRED_LATTICE_VERSION
+## }
+## proc get_env_param {name default_value} {
+##   if [info exists ::env($name)] {
+##     puts "Getting from environment the parameter: $name=$::env($name) "
+##     return $::env($name)
+##   } else {
+##     return $default_value
+##   }
+## }
+# source $ad_hdl_dir/library/scripts/adi_ip_xilinx.tcl
+## source $ad_hdl_dir/library/scripts/adi_xilinx_device_info_enc.tcl
+### variable auto_set_param_list
+### variable auto_set_param_list_overwritable
+### variable fpga_series_list
+### variable fpga_family_list
+### variable speed_grade_list
+### variable dev_package_list
+### variable xcvr_type_list
+### variable fpga_voltage_list
+### set auto_set_param_list { \
+###           DEV_PACKAGE \
+###           SPEED_GRADE \
+###           FPGA_FAMILY \
+###           FPGA_TECHNOLOGY }
+### set auto_set_param_list_overwritable { \
+###           FPGA_VOLTAGE \
+###           XCVR_TYPE }
+### set fpga_technology_list { \
+###         { Unknown     0 } \
+###         { 7series     1 } \
+###         { ultrascale  2 } \
+###         { ultrascale+ 3 } \
+###         { versal      4 }}
+### set fpga_family_list { \
+###         { Unknown       0 } \
+###         { artix         1 } \
+###         { kintex        2 } \
+###         { virtex        3 } \
+###         { zynq          4 } \
+###         { versalprime   5 } \
+###         { versalaicore  6 } \
+###         { versalpremium 7 }}
+### set speed_grade_list { \
+###         { Unknown 0  } \
+###         { -1      10 } \
+###         { -1L     11 } \
+###         { -1H     12 } \
+###         { -1HV    13 } \
+###         { -1LV    14 } \
+###         { -2      20 } \
+###         { -2L     21 } \
+###         { -2LV    22 } \
+###         { -2MP    23 } \
+###         { -2LVC   24 } \
+###         { -2LVI   25 } \
+###         { -3      30 }}
+### set dev_package_list { \
+###         { Unknown 0  } \
+###         { rf      1  } \
+###         { fl      2  } \
+###         { ff      3  } \
+###         { fb      4  } \
+###         { hc      5  } \
+###         { fh      6  } \
+###         { cs      7  } \
+###         { cp      8  } \
+###         { ft      9  } \
+###         { fg      10 } \
+###         { sb      11 } \
+###         { rb      12 } \
+###         { rs      13 } \
+###         { cl      14 } \
+###         { sf      15 } \
+###         { ba      16 } \
+###         { fa      17 } \
+###         { fs      18 } \
+###         { fi      19 } \
+###         { vs      20 } \
+###         { ls      21 }}
+### set xcvr_type_list { \
+###         { Unknown             0 } \
+###         { GTPE2_NOT_SUPPORTED 1 } \
+###         { GTXE2               2 } \
+###         { GTHE2_NOT_SUPPORTED 3 } \
+###         { GTZE2_NOT_SUPPORTED 4 } \
+###         { GTHE3               5 } \
+###         { GTYE3_NOT_SUPPORTED 6 } \
+###         { GTRE4_NOT_SUPPORTED 7 } \
+###         { GTHE4               8 } \
+###         { GTYE4               9 } \
+###         { GTME4_NOT_SUPPORTED 10}}
+### set fpga_voltage_list {0 5000} 
+### proc adi_device_spec {cellpath param} {
+### 
+###   set list_pointer [string tolower $param]
+###   set list_pointer [append list_pointer "_list"]
+### 
+###   upvar 1 $list_pointer $list_pointer
+### 
+###   set ip [get_bd_cells $cellpath]
+###   set part [get_property PART [current_project]]
+### 
+###   switch -regexp -- $param {
+###       FPGA_TECHNOLOGY {
+###           switch  -regexp -- $part {
+###              ^xc7          {set series_name 7series}
+###              ^xczu         {set series_name ultrascale+}
+###              ^xcvu.?.p     {set series_name ultrascale+}
+###              ^x.zu..?p     {set series_name ultrascale+}
+###              ^xck26        {set series_name ultrascale+}
+###              ^xc.u         {set series_name ultrascale }
+###              ^xcv[ecmph]   {set series_name versal}
+###              default {
+###                  puts "Undefined fpga technology for \"$part\"!"
+###                  exit -1
+###              }
+###           }
+###           return "$series_name"
+###       }
+###       FPGA_FAMILY {
+###           set fpga_family [get_property FAMILY $part]
+###           foreach i $fpga_family_list {
+###               regexp ^[lindex $i 0] $fpga_family matched
+###           }
+###           return "$matched"
+###       }
+###       SPEED_GRADE {
+###           set speed_grade [get_property SPEED $part]
+###           return "$speed_grade"
+###       }
+###       DEV_PACKAGE {
+###           set dev_package [get_property PACKAGE $part]
+###           foreach i $dev_package_list {
+###               regexp ^[lindex $i 0] $dev_package matched
+###           }
+###           return "$matched"
+###       }
+###       XCVR_TYPE {
+###           set matched ""
+###           set dev_transcivers "none"
+###           foreach x [list_property $part] {
+###               regexp ^GT..._TRANSCEIVERS $x dev_transcivers
+###           }
+###           foreach i $xcvr_type_list {
+###               regexp ^[lindex $i 0] $dev_transcivers matched
+###           }
+###           if { $matched eq "" } {
+###                puts "CRITICAL WARNING: \"$dev_transcivers\" TYPE IS NOT SUPPORTED BY ADI!"
+###           }
+###           return "$matched"
+###       }
+###       FPGA_VOLTAGE {
+###           set fpga_voltage [get_property REF_OPERATING_VOLTAGE $part]
+### 	  set fpga_voltage [expr int([expr $fpga_voltage * 1000])] ;# // V to mV conversion(integer val)
+### 
+###           return "$fpga_voltage"
+###       }
+###       default {
+###           puts "WARNING: UNDEFINED PARAMETER \"$param\" (adi_device_spec)!"
+###       }
+###   }
+### }
+## if {[info exists ::env(ADI_VIVADO_IP_LIBRARY)]} {
+##   set VIVADO_IP_LIBRARY $::env(ADI_VIVADO_IP_LIBRARY)
+## } else {
+##   set VIVADO_IP_LIBRARY user
+## }
+## proc adi_ip_ttcl {ip_name ip_constr_files} {
+## 
+##   set proj_filegroup [ipx::get_file_groups -of_objects [ipx::current_core] -filter {NAME =~ *synthesis*}]
+##   set f [ipx::add_file $ip_constr_files $proj_filegroup]
+##   set_property -dict [list \
+##     type ttcl \
+##   ] $f
+##   ipx::reorder_files -front $ip_constr_files $proj_filegroup
+## }
+## proc adi_ip_sim_ttcl {ip_name ip_files} {
+## 
+##   set proj_filegroup [ipx::get_file_groups -of_objects [ipx::current_core] -filter {NAME =~ *simulation*}]
+##   set f [ipx::add_file $ip_files $proj_filegroup]
+##   set_property -dict [list \
+##     type ttcl \
+##   ] $f
+##   ipx::reorder_files -front $ip_files $proj_filegroup
+## }
+## proc adi_ip_bd {ip_name ip_bd_files} {
+##   set proj_filegroup [ipx::get_file_groups xilinx_blockdiagram -of_objects [ipx::current_core]]
+##   if {$proj_filegroup == {}} {
+##     set proj_filegroup [ipx::add_file_group -type xilinx_blockdiagram "" [ipx::current_core]]
+##   }
+## 
+##   foreach file $ip_bd_files {
+##     set f [ipx::add_file $file $proj_filegroup]
+##     set_property -dict [list \
+##       type tclSource \
+##     ] $f
+##   }
+## }
+## proc adi_ip_infer_streaming_interfaces {ip_name} {
+## 
+##   ipx::infer_bus_interfaces xilinx.com:interface:axis_rtl:1.0 [ipx::current_core]
+## 
+## }
+## proc adi_ip_infer_mm_interfaces {ip_name} {
+## 
+##   ipx::infer_bus_interfaces xilinx.com:interface:aximm_rtl:1.0 [ipx::current_core]
+## 
+## }
+## proc adi_set_ports_dependency {port_prefix dependency {driver_value {}}} {
+##   foreach port [ipx::get_ports [format "%s%s" $port_prefix "*"]] {
+##     set_property ENABLEMENT_DEPENDENCY $dependency $port
+##     if {$driver_value != {}} {
+##       set_property DRIVER_VALUE $driver_value $port
+##     }
+##   }
+## }
+## proc adi_set_bus_dependency {bus prefix dependency} {
+##   set_property ENABLEMENT_DEPENDENCY $dependency [ipx::get_bus_interfaces $bus -of_objects [ipx::current_core]]
+##   adi_set_ports_dependency $prefix $dependency 0
+## }
+## proc adi_add_port_map {bus phys logic} {
+##   set map [ipx::add_port_map $phys $bus]
+##   set_property "PHYSICAL_NAME" $phys $map
+##   set_property "LOGICAL_NAME" $logic $map
+## }
+## proc adi_add_bus {bus_name mode abs_type bus_type port_maps} {
+##   set bus [ipx::add_bus_interface $bus_name [ipx::current_core]]
+## 
+##   set_property "ABSTRACTION_TYPE_VLNV" $abs_type $bus
+##   set_property "BUS_TYPE_VLNV" $bus_type $bus
+##   set_property "INTERFACE_MODE" $mode $bus
+## 
+##   foreach port_map $port_maps {
+##     adi_add_port_map $bus {*}$port_map
+##   }
+## }
+## proc adi_add_multi_bus {num bus_name_prefix mode abs_type bus_type port_maps dependency} {
+##   for {set i 0} {$i < $num} {incr i} {
+##     set bus_name [format "%s%d" $bus_name_prefix $i]
+##     set bus [ipx::add_bus_interface $bus_name [ipx::current_core]]
+## 
+##     set_property "ABSTRACTION_TYPE_VLNV" $abs_type $bus
+##     set_property "BUS_TYPE_VLNV" $bus_type $bus
+##     set_property "INTERFACE_MODE" $mode $bus
+## 
+##     if {$dependency ne ""} {
+##       set bus_dependency [string map [list "{i}" $i] $dependency]
+##       set_property ENABLEMENT_DEPENDENCY $bus_dependency $bus
+##     }
+## 
+##     foreach port_map $port_maps {
+##       lassign $port_map phys logic width width_dep
+##       set map [ipx::add_port_map $phys $bus]
+##       set_property "PHYSICAL_NAME" $phys $map
+##       set_property "LOGICAL_NAME" $logic $map
+##       set_property "PHYSICAL_RIGHT" [expr $i*$width] $map
+##       set_property "PHYSICAL_LEFT" [expr ($i+1)*$width-1] $map
+##       if {$width_dep ne ""} {
+##         set_property "PHYSICAL_RIGHT_RESOLVE_TYPE" "dependent" $map
+##         set_property "PHYSICAL_LEFT_RESOLVE_TYPE" "dependent" $map
+##         set width_dep_r "(($width_dep) * $i)"
+##         set width_dep_l "(($width_dep) * ($i + 1)-1)"
+##         set_property "PHYSICAL_RIGHT_DEPENDENCY" $width_dep_r $map
+##         set_property "PHYSICAL_LEFT_DEPENDENCY" $width_dep_l $map
+##       }
+##     }
+##   }
+## }
+## proc adi_add_bus_clock {clock_signal_name bus_inf_name {reset_signal_name ""} {reset_signal_mode "slave"} {clock_signal_mode "slave"}} {
+##   set bus_inf_name_clean [string map {":" "_"} $bus_inf_name]
+##   set clock_inf_name [format "%s%s" $bus_inf_name_clean "_signal_clock"]
+##   set clock_inf [ipx::add_bus_interface $clock_inf_name [ipx::current_core]]
+##   set_property abstraction_type_vlnv "xilinx.com:signal:clock_rtl:1.0" $clock_inf
+##   set_property bus_type_vlnv "xilinx.com:signal:clock:1.0" $clock_inf
+##   set_property display_name $clock_inf_name $clock_inf
+##   set_property interface_mode $clock_signal_mode $clock_inf
+##   set clock_map [ipx::add_port_map "CLK" $clock_inf]
+##   set_property physical_name $clock_signal_name $clock_map
+## 
+##   set assoc_busif [ipx::add_bus_parameter "ASSOCIATED_BUSIF" $clock_inf]
+##   set_property value $bus_inf_name $assoc_busif
+## 
+##   if { $reset_signal_name != "" } {
+##     set assoc_reset [ipx::add_bus_parameter "ASSOCIATED_RESET" $clock_inf]
+##     set_property value $reset_signal_name $assoc_reset
+## 
+##     set reset_inf_name [format "%s%s" $bus_inf_name_clean "_signal_reset"]
+##     set reset_inf [ipx::add_bus_interface $reset_inf_name [ipx::current_core]]
+##     set_property abstraction_type_vlnv "xilinx.com:signal:reset_rtl:1.0" $reset_inf
+##     set_property bus_type_vlnv "xilinx.com:signal:reset:1.0" $reset_inf
+##     set_property display_name $reset_inf_name $reset_inf
+##     set_property interface_mode $reset_signal_mode $reset_inf
+##     set reset_map [ipx::add_port_map "RST" $reset_inf]
+##     set_property physical_name $reset_signal_name $reset_map
+## 
+##     set reset_polarity [ipx::add_bus_parameter "POLARITY" $reset_inf]
+##     if {[string match {*[Nn]} $reset_signal_name] == 1} {
+##       set_property value "ACTIVE_LOW" $reset_polarity
+##     } else {
+##       set_property value "ACTIVE_HIGH" $reset_polarity
+##     }
+##   }
+## }
+## proc adi_ip_add_core_dependencies {vlnvs} {
+##   foreach file_group [ipx::get_file_groups * -of_objects [ipx::current_core]] {
+##     foreach vlnv $vlnvs {
+##       ipx::add_subcore $vlnv $file_group
+##     }
+##   }
+## }
+## proc adi_ip_create {ip_name} {
+## 
+##   global ad_hdl_dir
+##   global ad_ghdl_dir
+##   global required_vivado_version
+##   global IGNORE_VERSION_CHECK
+## 
+##   set VIVADO_VERSION [version -short]
+##   if {$IGNORE_VERSION_CHECK} {
+##     if {[string compare $VIVADO_VERSION $required_vivado_version] != 0} {
+##       puts -nonewline "CRITICAL WARNING: vivado version mismatch; "
+##       puts -nonewline "expected $required_vivado_version, "
+##       puts -nonewline "got $VIVADO_VERSION.\n"
+##     }
+##   } else {
+##     if {[string compare $VIVADO_VERSION $required_vivado_version] != 0} {
+##       puts -nonewline "ERROR: vivado version mismatch; "
+##       puts -nonewline "expected $required_vivado_version, "
+##       puts -nonewline "got $VIVADO_VERSION.\n"
+##       puts -nonewline "This ERROR message can be down-graded to CRITICAL WARNING by setting ADI_IGNORE_VERSION_CHECK environment variable to 1. Be aware that ADI will not support you, if you are using a different tool version.\n"
+##       exit 2
+##     }
+##   }
+## 
+##   create_project $ip_name . -force
+## 
+## 
+##   ## Load custom message severity definitions
+## 
+##   if {![info exists ::env(ADI_DISABLE_MESSAGE_SUPPRESION)]} {
+##     source $ad_hdl_dir/projects/scripts/adi_xilinx_msg.tcl
+##   }
+## 
+##   set lib_dirs $ad_hdl_dir/library
+##   if {[info exists ::env(ADI_GHDL_DIR)]} {
+##     if {$ad_hdl_dir ne $ad_ghdl_dir} {
+##       lappend lib_dirs $ad_ghdl_dir/library
+##     }
+##   } else {
+##     # puts -nonew-line "INFO: ADI_GHDL_DIR not defined.\n"
+##   }
+## 
+##   set_property ip_repo_paths $lib_dirs [current_fileset]
+##   update_ip_catalog
+## }
+## proc adi_ip_files {ip_name ip_files} {
+##   set proj_fileset [get_filesets sources_1]
+##   set design_source_files [list]
+##   set constraint_files [list]
+##   foreach m_file $ip_files {
+##     if {[file extension $m_file] eq ".xdc"} {
+##       lappend constraint_files $m_file
+##     } else {
+##       lappend design_source_files $m_file
+##     }
+##   }
+##   if {$design_source_files != {}} {
+##     add_files -norecurse -scan_for_includes -fileset $proj_fileset $design_source_files
+##   }
+##   if {$constraint_files != {}} {
+##     add_files -norecurse -fileset constrs_1 $constraint_files
+##   }
+##   set_property "top" "$ip_name" $proj_fileset
+## }
+## proc adi_ip_properties_lite {ip_name} {
+## 
+##   global ad_hdl_dir
+##   global VIVADO_IP_LIBRARY
+## 
+##   ipx::package_project -root_dir . -vendor analog.com -library $VIVADO_IP_LIBRARY -taxonomy /Analog_Devices
+## 
+##   set_property name $ip_name [ipx::current_core]
+## 
+##   set_property vendor_display_name {Analog Devices} [ipx::current_core]
+##   set_property company_url {http://www.analog.com} [ipx::current_core]
+## 
+##   set_property AUTO_FAMILY_SUPPORT_LEVEL level_2 [ipx::current_core]
+## 
+##   ipx::save_core [ipx::current_core]
+## 
+##   ipx::remove_all_bus_interface [ipx::current_core]
+##   set memory_maps [ipx::get_memory_maps * -of_objects [ipx::current_core]]
+##   foreach map $memory_maps {
+##     ipx::remove_memory_map [lindex $map 2] [ipx::current_core]
+##   }
+## 
+##   ipx::update_checksums [ipx::current_core]
+##   ipx::save_core [ipx::current_core]
+## }
+## proc adi_ip_properties {ip_name} {
+## 
+##   adi_ip_properties_lite $ip_name
+## 
+##   ipx::infer_bus_interface {\
+##     s_axi_awvalid \
+##     s_axi_awaddr \
+##     s_axi_awprot \
+##     s_axi_awready \
+##     s_axi_wvalid \
+##     s_axi_wdata \
+##     s_axi_wstrb \
+##     s_axi_wready \
+##     s_axi_bvalid \
+##     s_axi_bresp \
+## 
+##     s_axi_bready \
+##     s_axi_arvalid \
+##     s_axi_araddr \
+##     s_axi_arprot \
+##     s_axi_arready \
+##     s_axi_rvalid \
+##     s_axi_rdata \
+##     s_axi_rresp \
+##     s_axi_rready} \
+##   xilinx.com:interface:aximm_rtl:1.0 [ipx::current_core]
+## 
+##   ipx::infer_bus_interface s_axi_aclk xilinx.com:signal:clock_rtl:1.0 [ipx::current_core]
+##   ipx::infer_bus_interface s_axi_aresetn xilinx.com:signal:reset_rtl:1.0 [ipx::current_core]
+## 
+##   set raddr_width [expr [get_property SIZE_LEFT [ipx::get_ports -nocase true s_axi_araddr -of_objects [ipx::current_core]]] + 1]
+##   set waddr_width [expr [get_property SIZE_LEFT [ipx::get_ports -nocase true s_axi_awaddr -of_objects [ipx::current_core]]] + 1]
+## 
+##   if {$raddr_width != $waddr_width} {
+##     puts [format "WARNING: AXI address width mismatch for %s (r=%d, w=%d)" $ip_name $raddr_width, $waddr_width]
+##     set range 65536
+##   } else {
+##     if {$raddr_width >= 16} {
+##       set range 65536
+##     } else {
+##       set range [expr 1 << $raddr_width]
+##     }
+##   }
+## 
+##   ipx::add_memory_map {s_axi} [ipx::current_core]
+##   set_property slave_memory_map_ref {s_axi} [ipx::get_bus_interfaces s_axi -of_objects [ipx::current_core]]
+##   ipx::add_address_block {axi_lite} [ipx::get_memory_maps s_axi -of_objects [ipx::current_core]]
+##   set_property range $range [ipx::get_address_blocks axi_lite \
+##     -of_objects [ipx::get_memory_maps s_axi -of_objects [ipx::current_core]]]
+##   ipx::associate_bus_interfaces -clock s_axi_aclk -reset s_axi_aresetn [ipx::current_core]
+##   ipx::save_core
+## }
+## proc adi_init_bd_tcl {} {
+## 
+##   global auto_set_param_list
+##   global auto_set_param_list_overwritable
+##   set cc [ipx::current_core]
+## 
+##   if { [file exists bd] } {
+##     file delete -force bd
+##   }
+##   file mkdir bd
+## 
+##   set bd_tcl [open "bd/bd.tcl" w]
+## 
+##   puts $bd_tcl "# SCRIPT AUTO-GENERATED AT BUILD, DO NOT MODIFY!"
+##   puts $bd_tcl "proc init {cellpath otherInfo} {"
+##   puts $bd_tcl "  set ip \[get_bd_cells \$cellpath\]"
+##   puts $bd_tcl ""
+##   set auto_set_param ""
+##   foreach i $auto_set_param_list {
+##     if { [ipx::get_user_parameters $i -of_objects $cc -quiet] ne "" } {
+##       append auto_set_param "    $i \\\n"
+##       set j $i
+##     }
+##   }
+##   if { $auto_set_param ne "" } {
+##     puts $bd_tcl "  bd::mark_propagate_only \$ip \" \\"
+##     regsub "${j} \\\\" $auto_set_param "$j\"" auto_set_param
+##     puts $bd_tcl $auto_set_param
+##   }
+## 
+##   set auto_set_overwritable_param ""
+##   foreach i $auto_set_param_list_overwritable {
+##     if { [ipx::get_user_parameters $i -of_objects $cc -quiet] ne "" } {
+##       append auto_set_overwritable_param "    $i \\\n"
+##       set j $i
+##     }
+##   }
+##   if { $auto_set_overwritable_param ne "" } {
+##     puts $bd_tcl "  bd::mark_propagate_override \$ip \" \\"
+##     regsub "${j} \\\\" $auto_set_overwritable_param "$j\"" auto_set_overwritable_param
+##     puts $bd_tcl $auto_set_overwritable_param
+##   }
+##   puts $bd_tcl "  adi_auto_assign_device_spec \$cellpath"
+##   puts $bd_tcl "}"
+##   puts $bd_tcl ""
+##   puts $bd_tcl "# auto set parameters defined in auto_set_param_list (adi_xilinx_device_info_enc.tcl)"
+##   puts $bd_tcl "proc adi_auto_assign_device_spec {cellpath} {"
+##   puts $bd_tcl ""
+##   puts $bd_tcl "  set ip \[get_bd_cells \$cellpath\]"
+##   puts $bd_tcl "  set ip_param_list \[list_property \$ip\]"
+##   puts $bd_tcl "  set ip_path \[bd::get_vlnv_dir \[get_property VLNV \$ip\]\]"
+##   puts $bd_tcl ""
+##   puts $bd_tcl "  set parent_dir \"../\""
+##   puts $bd_tcl "  for {set x 1} {\$x<=4} {incr x} {"
+##   puts $bd_tcl "    set linkname \${ip_path}\${parent_dir}scripts/adi_xilinx_device_info_enc.tcl"
+##   puts $bd_tcl "    if { \[file exists \$linkname\] } {"
+##   puts $bd_tcl "      source \${ip_path}\${parent_dir}/scripts/adi_xilinx_device_info_enc.tcl"
+##   puts $bd_tcl "      break"
+##   puts $bd_tcl "    }"
+##   puts $bd_tcl "    append parent_dir \"../\""
+##   puts $bd_tcl "  }"
+##   puts $bd_tcl ""
+##   puts $bd_tcl "  # Find predefindes auto assignable parameters"
+##   puts $bd_tcl "  foreach i \$auto_set_param_list {"
+##   puts $bd_tcl "    if { \[lsearch \$ip_param_list \"CONFIG.\$i\"\] > 0 } {"
+##   puts $bd_tcl "      set val \[adi_device_spec \$cellpath \$i\]"
+##   puts $bd_tcl "      set_property CONFIG.\$i \$val \$ip"
+##   puts $bd_tcl "    }"
+##   puts $bd_tcl "  }"
+##   puts $bd_tcl ""
+##   puts $bd_tcl "  # Find predefindes auto assignable/overwritable parameters"
+##   puts $bd_tcl "  foreach i \$auto_set_param_list_overwritable {"
+##   puts $bd_tcl "    if { \[lsearch \$ip_param_list \"CONFIG.\$i\"\] > 0 } {"
+##   puts $bd_tcl "      set val \[adi_device_spec \$cellpath \$i\]"
+##   puts $bd_tcl "      set_property CONFIG.\$i \$val \$ip"
+##   puts $bd_tcl "    }"
+##   puts $bd_tcl "  }"
+##   puts $bd_tcl "}"
+##   puts $bd_tcl ""
+##   close $bd_tcl
+## 
+##   set proj_fileset [get_filesets sources_1]
+##   add_files -norecurse -scan_for_includes -fileset $proj_fileset "bd/bd.tcl"
+## 
+##   set local_mk [open "temporary_case_dependencies.mk" w]
+##   seek $local_mk 0 start
+##   puts $local_mk "CLEAN_TARGET += bd"
+##   puts $local_mk "CLEAN_TARGET += temporary_case_dependencies.mk"
+##   close $local_mk
+## }
+## proc adi_add_auto_fpga_spec_params {} {
+## 
+##   global auto_set_param_list
+##   global auto_set_param_list_overwritable
+##   set cc [ipx::current_core]
+## 
+##   foreach i $auto_set_param_list {
+##     if { [ipx::get_user_parameters $i -of_objects $cc -quiet] ne ""} {
+##       adi_add_device_spec_param $i
+##     }
+##   }
+##   foreach i $auto_set_param_list_overwritable {
+##     if { [ipx::get_user_parameters $i -of_objects $cc -quiet] ne ""} {
+##       adi_add_device_spec_param $i
+##     }
+##   }
+## }
+## proc adi_add_device_spec_param {ip_param} {
+## 
+##   set cc [ipx::current_core]
+## 
+##   set list_pointer [string tolower $ip_param]
+##   set list_pointer [append list_pointer "_list"]
+## 
+##   global $list_pointer
+## 
+##   # set j 1D list from the original list
+##   foreach i [subst $$list_pointer] {lappend j [lindex $i 0] [lindex $i 1]}
+## 
+##   # set ranges or validation pairs (show x in GUI assign the corresponding y to HDL)
+##   if { [llength [subst $$list_pointer]] == 2 && [llength $j] == 4} {
+##     set_property -dict [list \
+##       "value_validation_type" "range_long" \
+##       "value_validation_range_minimum" [lindex [subst $$list_pointer] 0] \
+##       "value_validation_range_maximum" [lindex [subst $$list_pointer] 1] ] \
+##     [ipx::get_user_parameters $ip_param -of_objects $cc]
+##   } else {
+##     set_property -dict [list \
+##       "value_validation_type" "pairs" \
+##       "value_validation_pairs" $j ] \
+##     [ipx::get_user_parameters $ip_param -of_objects $cc]
+##   }
+## 
+##   # FPGA info grup
+##   set info_group_name "FPGA info"
+##   set info_group [ipgui::get_groupspec -name $info_group_name -component $cc -quiet]
+##   if { [string trim $info_group] eq "" } {
+##     set page0 [ipgui::get_pagespec -name "Page 0" -component $cc]
+##     set info_group [ipgui::add_group -name $info_group_name -component $cc \
+##         -parent $page0 -display_name $info_group_name]
+##   }
+## 
+##   set p [ipgui::get_guiparamspec -name $ip_param -component $cc]
+##   set_property -dict [list "widget" "comboBox" ] $p
+##   ipgui::move_param -component $cc -order 0 $p -parent $info_group
+## }
+## proc adi_if_define {name} {
+## 
+##   ipx::create_abstraction_definition analog.com interface ${name}_rtl 1.0
+##   ipx::create_bus_definition analog.com interface $name 1.0
+## 
+##   set_property xml_file_name ${name}_rtl.xml [ipx::current_busabs]
+##   set_property xml_file_name ${name}.xml [ipx::current_busdef]
+##   set_property bus_type_vlnv analog.com:interface:${name}:1.0 [ipx::current_busabs]
+## 
+##   ipx::save_abstraction_definition [ipx::current_busabs]
+##   ipx::save_bus_definition [ipx::current_busdef]
+## }
+## proc adi_if_ports {dir width name {type none} {default_value none}} {
+## 
+##   ipx::add_bus_abstraction_port $name [ipx::current_busabs]
+##   set m_intf [ipx::get_bus_abstraction_ports $name -of_objects [ipx::current_busabs]]
+##   set_property master_presence optional $m_intf
+##   set_property slave_presence  optional $m_intf
+##   set_property master_width $width $m_intf
+##   set_property slave_width  $width $m_intf
+## 
+##   set m_dir "in"
+##   set s_dir "out"
+##   if {$dir eq "output"} {
+##     set m_dir "out"
+##     set s_dir "in"
+##   }
+## 
+##   set_property master_direction $m_dir $m_intf
+##   set_property slave_direction  $s_dir $m_intf
+## 
+##   if {$type ne "none"} {
+##     set_property is_${type} true $m_intf
+##   }
+## 
+##   if {$default_value ne "none"} {
+##     set_property default_value $default_value $m_intf
+##   }
+## 
+##   ipx::save_bus_definition [ipx::current_busdef]
+##   ipx::save_abstraction_definition [ipx::current_busabs]
+## }
+## proc adi_if_infer_bus {if_name mode name maps} {
+## 
+##   ipx::add_bus_interface $name [ipx::current_core]
+##   set m_bus_if [ipx::get_bus_interfaces $name -of_objects [ipx::current_core]]
+##   set_property abstraction_type_vlnv ${if_name}_rtl:1.0 $m_bus_if
+##   set_property bus_type_vlnv ${if_name}:1.0 $m_bus_if
+##   set_property interface_mode $mode $m_bus_if
+## 
+##   foreach map $maps  {
+##     set m_maps [regexp -all -inline {\S+} $map]
+##     lassign $m_maps p_name p_map
+##     ipx::add_port_map $p_name $m_bus_if
+##     set_property physical_name $p_map [ipx::get_port_maps $p_name -of_objects $m_bus_if]
+##   }
+## }
+# adi_ip_create axi_sysid
+## set_msg_config -id {Vivado 12-1790} -string "Evaluation features should NOT be used in production systems." -new_severity WARNING
+## set_msg_config -id {BD 41-1343} -new_severity WARNING
+## set_msg_config -id {BD 41-1306} -new_severity WARNING
+## set_msg_config -severity {CRITICAL WARNING} -quiet -id {BD 41-1276} -new_severity ERROR
+## set_msg_config -id {IP_Flow 19-3656} -new_severity INFO
+## set_msg_config -id {IP_Flow 19-4623} -new_severity INFO
+## set_msg_config -id {IP_Flow 19-459} -new_severity INFO
+## set_msg_config -id {Synth 8-3331} -new_severity INFO
+## set_msg_config -id {Synth 8-2490} -new_severity WARNING
+## set_msg_config -id {Designutils 20-3303} -string "HDPYFinalizeIO" -new_severity INFO
+## set_msg_config -id {Place 30-73} -string "axi_spi" -new_severity WARNING
+## set_msg_config -string "PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY" -new_severity WARNING
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/library'.
+INFO: [IP_Flow 19-3656] If you move the project, the path for repository '/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/library' may become invalid. A better location for the repository would be in a path adjacent to the project. (Current project location is '/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/library/axi_sysid'.)
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/tools/Xilinx/2025.1/Vivado/data/ip'.
+# adi_ip_files axi_sysid [list \
+#   "$ad_hdl_dir/library/common/up_axi.v" \
+#   "axi_sysid.v"]
+# adi_ip_properties axi_sysid
+INFO: [IP_Flow 19-459] IP file '/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/library/common/up_axi.v' appears to be outside of the project area '/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/library/axi_sysid'. You can use the ipx::package_project -import_files option to copy remote files into the IP directory.
+INFO: [IP_Flow 19-459] IP file '/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/library/common/up_axi.v' appears to be outside of the project area '/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample/hdl_prj_jupiter_txrx/vivado_ip_prj/library/axi_sysid'. You can use the ipx::package_project -import_files option to copy remote files into the IP directory.
+WARNING: [IP_Flow 19-5150] The Range '(ROM_WIDTH - 1):0' is present in all ports of the interface 'pr_rom'. It is assumed that this is meant to declare an array of interface. However, the IP Packager does not currently support Interface Arrays of variable length (based on a parameter). Please change the range to be a constant if you want IP Packager to infer this as an interface array.
+WARNING: [IP_Flow 19-5150] The Range '(ROM_WIDTH - 1):0' is present in all ports of the interface 'sys_rom'. It is assumed that this is meant to declare an array of interface. However, the IP Packager does not currently support Interface Arrays of variable length (based on a parameter). Please change the range to be a constant if you want IP Packager to infer this as an interface array.
+INFO: [IP_Flow 19-5107] Inferred bus interface 'pr_rom' of definition 'analog.com:interface:fifo_rd:1.0' (from User Repositories).
+INFO: [IP_Flow 19-5107] Inferred bus interface 'sys_rom' of definition 'analog.com:interface:fifo_rd:1.0' (from User Repositories).
+WARNING: [IP_Flow 19-5150] The Range '(ROM_WIDTH - 1):0' is present in all ports of the interface 'pr_rom'. It is assumed that this is meant to declare an array of interface. However, the IP Packager does not currently support Interface Arrays of variable length (based on a parameter). Please change the range to be a constant if you want IP Packager to infer this as an interface array.
+WARNING: [IP_Flow 19-5150] The Range '(ROM_WIDTH - 1):0' is present in all ports of the interface 'sys_rom'. It is assumed that this is meant to declare an array of interface. However, the IP Packager does not currently support Interface Arrays of variable length (based on a parameter). Please change the range to be a constant if you want IP Packager to infer this as an interface array.
+INFO: [IP_Flow 19-5107] Inferred bus interface 's_axi' of definition 'xilinx.com:interface:aximm:1.0' (from Xilinx Repository).
+INFO: [IP_Flow 19-5107] Inferred bus interface 's_axi_aresetn' of definition 'xilinx.com:signal:reset:1.0' (from Xilinx Repository).
+INFO: [IP_Flow 19-5107] Inferred bus interface 's_axi_aclk' of definition 'xilinx.com:signal:clock:1.0' (from Xilinx Repository).
+INFO: [IP_Flow 19-4728] Bus Interface 's_axi_aresetn': Added interface parameter 'POLARITY' with value 'ACTIVE_LOW'.
+INFO: [IP_Flow 19-4728] Bus Interface 's_axi_aclk': Added interface parameter 'ASSOCIATED_BUSIF' with value 's_axi'.
+INFO: [IP_Flow 19-4728] Bus Interface 's_axi_aclk': Added interface parameter 'ASSOCIATED_RESET' with value 's_axi_aresetn'.
+WARNING: [IP_Flow 19-11888] Component Definition 'analog.com:user:axi_sysid:1.0 (axi_sysid_v1_0)': IP description "axi_sysid_v1_0" is not meaningful: same as name or display name
+WARNING: [IP_Flow 19-5905] All packaged files should be located below the IP definition file (xml)
+WARNING: [IP_Flow 19-5905] All packaged files should be located below the IP definition file (xml)
+WARNING: [IP_Flow 19-11886] Bus Interface 'pr_rom' is not associated with any clock interface
+WARNING: [IP_Flow 19-11886] Bus Interface 'sys_rom' is not associated with any clock interface
+WARNING: [IP_Flow 19-11770] Clock interface 's_axi_aclk' has no FREQ_HZ parameter.
+INFO: [IP_Flow 19-2181] Payment is not required for this core.
+WARNING: [IP_Flow 19-2187] The Product Guide file is missing.
+INFO: [IP_Flow 19-5107] Inferred bus interface 's_axi' of definition 'xilinx.com:interface:aximm:1.0' (from TCL Argument).
+INFO: [IP_Flow 19-5107] Inferred bus interface 's_axi_aclk' of definition 'xilinx.com:signal:clock:1.0' (from TCL Argument).
+INFO: [IP_Flow 19-4728] Bus Interface 's_axi_aclk': Added interface parameter 'ASSOCIATED_BUSIF' with value 's_axi'.
+INFO: [IP_Flow 19-5107] Inferred bus interface 's_axi_aresetn' of definition 'xilinx.com:signal:reset:1.0' (from TCL Argument).
+INFO: [IP_Flow 19-4728] Bus Interface 's_axi_aresetn': Added interface parameter 'POLARITY' with value 'ACTIVE_LOW'.
+INFO: [IP_Flow 19-4728] Bus Interface 's_axi_aclk': Added interface parameter 'ASSOCIATED_RESET' with value 's_axi_aresetn'.
+# set_property company_url {https://wiki.analog.com/resources/fpga/docs/axi_sysid} [ipx::current_core]
+# set cc [ipx::current_core]
+# ipx::save_core $cc
+INFO: [Common 17-206] Exiting Vivado at Tue May 26 18:55:26 2026...
