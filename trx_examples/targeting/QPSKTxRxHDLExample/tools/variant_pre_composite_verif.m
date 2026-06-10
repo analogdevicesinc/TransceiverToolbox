@@ -16,11 +16,12 @@ try, set_param([sys '/RxCaptureFromHW'], 'Commented', 'on'); catch, end
 
 % --- (0) interface ports at the FULL clock rate (30.72 MHz) ---
 % The ref-design bus delivers one word per IPCORE_CLK cycle: data completes on
-% valid-high beats and is half-shifted/stale on off-beats. Sampling it on the
-% DUT's free-phase /2 enable is a per-bitstream phase lottery (the capture path,
-% paced by valid, can never witness the bad beats). Take the ports at 1/30.72e6
-% and valid-qualify below.
-for pn = {'adc_validIn','adc_dataInI','adc_dataInQ'}
+% valid-high beats and is half-shifted/stale on off-beats. Take the ADC ports at
+% 1/30.72e6 and run the entire Rx subtree at that single rate, natively gated by
+% adc_validIn (section 1c). rx_input_select/iq_debug_mux/rstCS feed that subtree
+% and move with it.
+for pn = {'adc_validIn','adc_dataInI','adc_dataInQ', ...
+          'rx_input_select','iq_debug_mux','rstCS'}
     set_param([loop '/' pn{1}], 'SampleTime', '1/30.72e6');
 end
 
@@ -73,39 +74,51 @@ add_line(loop, 'host_txValid/1', 'tx_validOut/1', 'autorouting','on');
 add_block('built-in/Terminator', [loop '/T_repValid'], 'Position',[700 990 720 1010]);
 add_line(loop, 'REP_TxValid/1', 'T_repValid/1', 'autorouting','on');
 
-% --- (1c) phase-robust cable valid: the DUT samples adc_validIn (gap-2 strobe
-% @30.72) on its /2 clock enable; at the wrong reset phase it reads constant 0
-% and the valid-gated Receiver consumes nothing (the historical cable-lock
-% lottery). For a continuous full-rate stream the valid carries no information:
-% drive the cable branch of MUX_RxValid with constant true instead. The data
-% registers deliver each ADC sample exactly once at either phase.
-delete_line(loop, 'adc_validIn/1', 'MUX_RxValid/1');
-add_block('built-in/Constant', [loop '/RxValidConst'], 'Value','true', ...
-    'OutDataTypeStr','boolean', 'SampleTime','1/15.36e6', 'Position',[470 300 500 320]);
-add_line(loop, 'RxValidConst/1', 'MUX_RxValid/1', 'autorouting','on');
-% valid-qualified capture at 30.72: register data only on valid-high beats,
-% then deterministic rate transition of the held-clean stream down to 15.36.
+% --- (1c) single-rate valid-gated Rx front-end ---
+% The silicon timing DISTRIBUTION of adc_validIn beats is unobservable from the
+% host (every capture path is paced by the valid itself), and behavioral RTL +
+% post-synthesis netlist sims both decode this design with a regular gap-2
+% valid while silicon decodes 0 packets: the only untested degree of freedom is
+% the valid's beat placement (CDC FIFOs upstream of the TPL can clump beats).
+% Any fixed-phase /2 resampler drops/duplicates samples under bursty valid.
+% Eliminate the assumption instead of modeling it: run the whole Rx subtree at
+% the full 30.72 MHz rate with the Receiver natively gated by adc_validIn --
+% one consume per valid beat, no resampling, immune to any valid distribution.
+%
+% Cable branch: the base wiring (adc_dataInI/Q -> MUX_Rx u1, adc_validIn ->
+% MUX_RxValid u1) is already correct at the re-rated 30.72 ports. The base
+% RT_Rx pass-throughs between MUX and Receiver just move to the same rate.
+for rt = {'RT_RxI','RT_RxQ','RT_RxValid'}
+    set_param([loop '/' rt{1}], 'OutPortSampleTime', '1/30.72e6');
+end
+% Internal branch to 30.72: Repeat x2 the 15.36 REP_Tx stream (each Tx sample
+% now held 4 clocks) and gate with a 1-in-2 toggle so the Receiver consumes
+% each Tx sample exactly twice -- the same sample flow as the original
+% 15.36-rate internal loop.
 for dd = {{'I'},{'Q'}}
     d=dd{1}{1};
-    delete_line(loop, ['adc_dataIn' d '/1'], ['MUX_Rx' d '/1']);
-    add_block('built-in/Delay', [loop '/AdcCap' d], 'DelayLength','1', ...
-        'ShowEnablePort','on', 'Position',[300+60*(d=='Q') 540 340+60*(d=='Q') 580]);
-    add_line(loop, ['adc_dataIn' d '/1'], ['AdcCap' d '/1'], 'autorouting','on');
-    add_line(loop, 'adc_validIn/1',       ['AdcCap' d '/2'], 'autorouting','on');
-    add_block('built-in/RateTransition', [loop '/AdcRT' d], ...
-        'OutPortSampleTime','1/15.36e6', 'Position',[420+60*(d=='Q') 540 460+60*(d=='Q') 580]);
-    add_line(loop, ['AdcCap' d '/1'], ['AdcRT' d '/1'], 'autorouting','on');
-    % full-period stabilization register: the RT/cap outputs are combinational
-    % muxes that toggle between two delayed copies within each 15.36 period;
-    % Receiver input registers use BOTH enable phases on silicon and would
-    % sample a mixed/stuttered stream (invisible to Simulink sim AND to the
-    % valid-paced capture). A plain registered Delay pins the value for the
-    % whole period.
-    add_block('built-in/Delay', [loop '/AdcStab' d], 'DelayLength','1', ...
-        'Position',[500+60*(d=='Q') 540 540+60*(d=='Q') 580]);
-    add_line(loop, ['AdcRT' d '/1'], ['AdcStab' d '/1'], 'autorouting','on');
-    add_line(loop, ['AdcStab' d '/1'], ['MUX_Rx' d '/1'], 'autorouting','on');
+    delete_line(loop, ['REP_Tx' d '/1'], ['MUX_Rx' d '/3']);
+    add_block('dspsigops/Repeat', [loop '/REP_Rx' d], 'N','2', ...
+        'Position',[440+60*(d=='Q') 480 480+60*(d=='Q') 520]);
+    add_line(loop, ['REP_Tx' d '/1'], ['REP_Rx' d '/1'], 'autorouting','on');
+    add_line(loop, ['REP_Rx' d '/1'], ['MUX_Rx' d '/3'], 'autorouting','on');
 end
+delete_line(loop, 'REP_TxValid/1', 'MUX_RxValid/3');
+add_block('dspsigops/Repeat', [loop '/REP_RxV'], 'N','2', ...
+    'Position',[440 600 480 640]);
+add_line(loop, 'REP_TxValid/1', 'REP_RxV/1', 'autorouting','on');
+% 1-in-2 toggle at 30.72: NOT-feedback Delay
+add_block('built-in/Delay', [loop '/TogReg'], 'DelayLength','1', ...
+    'InitialCondition','0', 'SampleTime','1/30.72e6', 'Position',[380 660 420 700]);
+add_block('built-in/Logic', [loop '/TogNot'], 'Operator','NOT', 'Inputs','1', ...
+    'AllPortsSameDT','off', 'OutDataTypeStr','boolean', 'Position',[440 660 470 700]);
+add_line(loop, 'TogReg/1', 'TogNot/1', 'autorouting','on');
+add_line(loop, 'TogNot/1', 'TogReg/1', 'autorouting','on');
+add_block('built-in/Logic', [loop '/IntValidAnd'], 'Operator','AND', 'Inputs','2', ...
+    'AllPortsSameDT','off', 'OutDataTypeStr','boolean', 'Position',[510 610 540 650]);
+add_line(loop, 'REP_RxV/1', 'IntValidAnd/1', 'autorouting','on');
+add_line(loop, 'TogNot/1',  'IntValidAnd/2', 'autorouting','on');
+add_line(loop, 'IntValidAnd/1', 'MUX_RxValid/3', 'autorouting','on');
 
 % --- (2) raw-ADC passthrough on debugI/Q/Valid (Receiver taps stay on I1/Q1) ---
 for pp = {{'debugI','adc_dataInI'},{'debugQ','adc_dataInQ'},{'debugValid','adc_validIn'}}
