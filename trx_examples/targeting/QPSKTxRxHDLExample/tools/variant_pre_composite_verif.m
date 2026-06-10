@@ -25,13 +25,13 @@ for pn = {'adc_validIn','adc_dataInI','adc_dataInQ'}
 end
 
 % --- (1a) new inports 7..10 ---
-in_new = { 'host_txI','int16'; 'host_txQ','int16'; ...
-           'host_txValid','boolean'; 'tx_source_select','uint32' };
+in_new = { 'host_txI','int16','1/30.72e6'; 'host_txQ','int16','1/30.72e6'; ...
+           'host_txValid','boolean','1/30.72e6'; 'tx_source_select','uint32','1/15.36e6' };
 for k = 1:size(in_new,1)
     blk = [loop '/' in_new{k,1}];
     add_block('built-in/Inport', blk, 'Port', num2str(6+k), ...
         'Position', [40 820+40*k 70 840+40*k]);
-    set_param(blk, 'OutDataTypeStr', in_new{k,2}, 'SampleTime', '1/30.72e6');
+    set_param(blk, 'OutDataTypeStr', in_new{k,2}, 'SampleTime', in_new{k,3});
 end
 
 % --- (1b) DAC MUX: re-route REP_TxI/Q -> tx_dataOutI/Q through switches ---
