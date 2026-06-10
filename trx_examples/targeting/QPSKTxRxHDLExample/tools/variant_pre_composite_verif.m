@@ -10,6 +10,10 @@ sys  = 'commhdlQPSKTxRxLoopback';
 load_system(sys);
 loop = [sys '/TxRxComposite'];
 
+% Root-level sim-harness remnant references a .mat absent from build kits and
+% breaks Update Diagram (now required by the multirate DUT). Comment it out.
+try, set_param([sys '/RxCaptureFromHW'], 'Commented', 'on'); catch, end
+
 % --- (0) interface ports at the FULL clock rate (30.72 MHz) ---
 % The ref-design bus delivers one word per IPCORE_CLK cycle: data completes on
 % valid-high beats and is half-shifted/stale on off-beats. Sampling it on the
