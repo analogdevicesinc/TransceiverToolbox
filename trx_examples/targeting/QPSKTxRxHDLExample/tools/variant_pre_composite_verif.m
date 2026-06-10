@@ -56,6 +56,17 @@ add_line(loop, 'host_txValid/1', 'tx_validOut/1', 'autorouting','on');
 add_block('built-in/Terminator', [loop '/T_repValid'], 'Position',[700 990 720 1010]);
 add_line(loop, 'REP_TxValid/1', 'T_repValid/1', 'autorouting','on');
 
+% --- (1c) phase-robust cable valid: the DUT samples adc_validIn (gap-2 strobe
+% @30.72) on its /2 clock enable; at the wrong reset phase it reads constant 0
+% and the valid-gated Receiver consumes nothing (the historical cable-lock
+% lottery). For a continuous full-rate stream the valid carries no information:
+% drive the cable branch of MUX_RxValid with constant true instead. The data
+% registers deliver each ADC sample exactly once at either phase.
+delete_line(loop, 'adc_validIn/1', 'MUX_RxValid/1');
+add_block('built-in/Constant', [loop '/RxValidConst'], 'Value','true', ...
+    'OutDataTypeStr','boolean', 'SampleTime','1/15.36e6', 'Position',[470 300 500 320]);
+add_line(loop, 'RxValidConst/1', 'MUX_RxValid/1', 'autorouting','on');
+
 % --- (2) raw-ADC passthrough on debugI/Q/Valid (Receiver taps stay on I1/Q1) ---
 for pp = {{'debugI','adc_dataInI'},{'debugQ','adc_dataInQ'},{'debugValid','adc_validIn'}}
     dst = pp{1}{1}; src = pp{1}{2};
