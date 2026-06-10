@@ -1,0 +1,13 @@
+here=fileparts(mfilename('fullpath')); addpath(here); addpath(fileparts(fileparts(fileparts(here))));
+uri='ip:10.0.0.146';
+rd=@(a) double(BistRegisters.read(a,8));
+wr=@(a,v) BistRegisters.sshExec(sprintf('busybox devmem %s 32 %d',a,v),8);
+wr('0x9D000114',0); wr('0x9D000118',0);
+tx=adi.ADRV9002.Tx('uri',uri); tx.EnabledChannels=1; tx.CenterFrequencyChannel0=2.4e9;
+tx.AttenuationChannel0=-10; tx.DataSource='DMA'; tx.EnableCyclicBuffers=true;
+tx(complex(zeros(4096,1,'int16'),zeros(4096,1,'int16')));
+rx=adi.ADRV9002.Rx('uri',uri); rx.EnabledChannels=1; rx.CenterFrequencyChannel0=2.4e9;
+rx.SamplesPerFrame=2^14; [y,~]=rx(); pause(2);
+a=rd('0x9D000104'); e0=rd('0x9D000108'); pause(5); b=rd('0x9D000104'); e1=rd('0x9D000108');
+fprintf('INTERNAL current bitstream: pkts/5s=%d errs=%d BER=%.3f%%\n', b-a, e1-e0, 100*(e1-e0)/max(1,(b-a)*120));
+release(tx); release(rx);
