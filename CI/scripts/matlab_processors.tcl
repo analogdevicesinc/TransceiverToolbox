@@ -834,8 +834,8 @@ proc preprocess_bd {project carrier rxtx number_of_inputs number_of_bits number_
 				connect_bd_net [get_bd_pins rx_rstn_inverter/Res] [get_bd_pins sync_output/rx_rstn]
 				# sync input connections
 				connect_bd_net [get_bd_pins sync_input/data_in_rx_0] [get_bd_pins axi_adrv9001/adc_1_data_i0]
-				connect_bd_net [get_bd_pins sync_input/data_in_rx_1] [get_bd_pins axi_adrv9001/adc_1_data_i1]
-				connect_bd_net [get_bd_pins sync_input/data_in_rx_2] [get_bd_pins axi_adrv9001/adc_1_data_q0]
+				connect_bd_net [get_bd_pins sync_input/data_in_rx_1] [get_bd_pins axi_adrv9001/adc_1_data_q0]
+				connect_bd_net [get_bd_pins sync_input/data_in_rx_2] [get_bd_pins axi_adrv9001/adc_1_data_i1]
 				connect_bd_net [get_bd_pins sync_input/data_in_rx_3] [get_bd_pins axi_adrv9001/adc_1_data_q1]
 				connect_bd_net [get_bd_pins sync_input/data_valid_in_rx_0] [get_bd_pins axi_adrv9001/adc_1_valid_i0]
 				# sync ouput connections
@@ -859,8 +859,8 @@ proc preprocess_bd {project carrier rxtx number_of_inputs number_of_bits number_
 				connect_bd_net [get_bd_pins sync_input/data_valid_in_tx_0] [get_bd_pins axi_adrv9001/dac_1_valid_i0]
 				# sync ouput connections
 				connect_bd_net [get_bd_pins sync_output/data_out_tx_0] [get_bd_pins axi_adrv9001/dac_1_data_i0]
-				connect_bd_net [get_bd_pins sync_output/data_out_tx_1] [get_bd_pins axi_adrv9001/dac_1_data_i1]
-				connect_bd_net [get_bd_pins sync_output/data_out_tx_2] [get_bd_pins axi_adrv9001/dac_1_data_q0]
+				connect_bd_net [get_bd_pins sync_output/data_out_tx_1] [get_bd_pins axi_adrv9001/dac_1_data_q0]
+				connect_bd_net [get_bd_pins sync_output/data_out_tx_2] [get_bd_pins axi_adrv9001/dac_1_data_i1]
 				connect_bd_net [get_bd_pins sync_output/data_out_tx_3] [get_bd_pins axi_adrv9001/dac_1_data_q1]
 				connect_bd_net [get_bd_pins sync_output/data_valid_out_tx_0] [get_bd_pins util_dac_1_upack/fifo_rd_en]
 			}
