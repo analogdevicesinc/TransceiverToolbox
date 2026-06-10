@@ -166,5 +166,59 @@ classdef QPSKDeployedLinkTests < HardwareTests
             [ber, pkts] = testCase.measureCableBer(testCase.LO, -10, [], true);
             testCase.verifyLink(ber, pkts, 'AGC mode');
         end
+        function testSustainedBER15Min(testCase)
+            % robustness soak: 15 minutes of continuous decode in 30 s
+            % windows. Every window must hold packet sync (catches mid-run
+            % dropouts that a single cumulative number would average away)
+            % and the cumulative BER must stay under the gate (~100M
+            % checked bits at the nominal packet rate).
+            tx = adi.ADRV9002.Tx('uri', testCase.uri);
+            tx.EnabledChannels = 1;
+            tx.CenterFrequencyChannel0 = testCase.LO;
+            tx.AttenuationChannel0 = -10;
+            tx.DataSource = 'DMA'; tx.EnableCyclicBuffers = true;
+            tx.SamplesPerFrame = numel(testCase.golden);
+            tx(testCase.golden);
+            rx = adi.ADRV9002.Rx('uri', testCase.uri);
+            rx.EnabledChannels = 1;
+            rx.CenterFrequencyChannel0 = testCase.LO;
+            rx.SamplesPerFrame = 2^14;
+            try, rx.GainControlMode = 'spi'; catch, end
+            try, rx.GainChannel0 = 30; catch, end
+            rx(); pause(2);
+            cleanup = onCleanup(@() cellfun(@release, {tx, rx}));
+            testCase.regWrite(testCase.RegBase, 1); pause(1);
+            testCase.regWrite(testCase.RegTxSelect, 1);
+            testCase.regWrite(testCase.RegRxSelect, 1); pause(2);
+
+            nWin = 30; winSec = 30;          % 15 minutes
+            p0 = testCase.regRead(testCase.RegPackets);
+            e0 = testCase.regRead(testCase.RegBitErrors);
+            pPrev = p0; t0 = tic;
+            for w = 1:nWin
+                pause(winSec);
+                p1 = testCase.regRead(testCase.RegPackets);
+                e1 = testCase.regRead(testCase.RegBitErrors);
+                wPkts = p1 - pPrev; pPrev = p1;
+                cumBits = (p1 - p0)*120;
+                cumBer  = (e1 - e0)/max(1, cumBits);
+                fprintf('soak %5.0fs: window pkts=%d cum pkts=%d cum BER=%.6f%%\n', ...
+                    toc(t0), wPkts, p1-p0, 100*cumBer);
+                testCase.verifyGreaterThan(wPkts, testCase.MinPackets, ...
+                    sprintf('soak window %d (t=%.0fs): packet sync lost (%d pkts)', ...
+                    w, toc(t0), wPkts));
+            end
+            p1 = testCase.regRead(testCase.RegPackets);
+            e1 = testCase.regRead(testCase.RegBitErrors);
+            cumBits = (p1 - p0)*120;
+            cumBer  = (e1 - e0)/max(1, cumBits);
+            testCase.verifyGreaterThan(cumBits, 1e6, ...
+                'soak: fewer than 1M checked bits');
+            testCase.verifyLessThan(cumBer, testCase.BERGate, ...
+                sprintf('soak: cumulative BER %.6f%% over %d bits exceeds gate', ...
+                100*cumBer, cumBits));
+            fprintf('soak FINAL: %d packets, %d checked bits, %d errors, BER=%.6f%%\n', ...
+                p1-p0, cumBits, e1-e0, 100*cumBer);
+        end
     end
 end
