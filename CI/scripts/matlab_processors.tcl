@@ -835,7 +835,16 @@ proc preprocess_bd {project carrier rxtx number_of_inputs number_of_bits number_
 				# Valid-timing regularizer between the transceiver core and the
 				# user IP: re-emits the adc stream on a perfectly regular 1-in-2
 				# valid so generated DUTs never see burst/jittered beat placement.
-				add_files -norecurse [file join [file dirname [info script]] util_valid_regularizer.v]
+				set vr_src ""
+				foreach vr_cand [list \
+					[file join [file dirname [info script]] util_valid_regularizer.v] \
+					"../scripts/util_valid_regularizer.v" \
+					"../../scripts/util_valid_regularizer.v" \
+					"../../../scripts/util_valid_regularizer.v"] {
+					if {[file exists $vr_cand]} { set vr_src $vr_cand; break }
+				}
+				if {$vr_src eq ""} { error "util_valid_regularizer.v not found near matlab_processors.tcl" }
+				add_files -norecurse $vr_src
 				create_bd_cell -type module -reference util_valid_regularizer valid_regularizer
 				connect_bd_net [get_bd_pins axi_adrv9001/adc_1_clk] [get_bd_pins valid_regularizer/clk]
 				connect_bd_net [get_bd_pins rx_rstn_inverter/Res] [get_bd_pins valid_regularizer/rstn]
