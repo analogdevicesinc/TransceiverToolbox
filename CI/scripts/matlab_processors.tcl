@@ -832,12 +832,24 @@ proc preprocess_bd {project carrier rxtx number_of_inputs number_of_bits number_
 				connect_bd_net [get_bd_pins rx_rstn_inverter/Res] [get_bd_pins sync_input/rx_rstn]
 				connect_bd_net [get_bd_pins axi_adrv9001/adc_1_clk] [get_bd_pins sync_output/rx_clk]
 				connect_bd_net [get_bd_pins rx_rstn_inverter/Res] [get_bd_pins sync_output/rx_rstn]
-				# sync input connections
-				connect_bd_net [get_bd_pins sync_input/data_in_rx_0] [get_bd_pins axi_adrv9001/adc_1_data_i0]
-				connect_bd_net [get_bd_pins sync_input/data_in_rx_1] [get_bd_pins axi_adrv9001/adc_1_data_q0]
-				connect_bd_net [get_bd_pins sync_input/data_in_rx_2] [get_bd_pins axi_adrv9001/adc_1_data_i1]
-				connect_bd_net [get_bd_pins sync_input/data_in_rx_3] [get_bd_pins axi_adrv9001/adc_1_data_q1]
-				connect_bd_net [get_bd_pins sync_input/data_valid_in_rx_0] [get_bd_pins axi_adrv9001/adc_1_valid_i0]
+				# Valid-timing regularizer between the transceiver core and the
+				# user IP: re-emits the adc stream on a perfectly regular 1-in-2
+				# valid so generated DUTs never see burst/jittered beat placement.
+				add_files -norecurse [file join [file dirname [info script]] util_valid_regularizer.v]
+				create_bd_cell -type module -reference util_valid_regularizer valid_regularizer
+				connect_bd_net [get_bd_pins axi_adrv9001/adc_1_clk] [get_bd_pins valid_regularizer/clk]
+				connect_bd_net [get_bd_pins rx_rstn_inverter/Res] [get_bd_pins valid_regularizer/rstn]
+				connect_bd_net [get_bd_pins valid_regularizer/in_data_0] [get_bd_pins axi_adrv9001/adc_1_data_i0]
+				connect_bd_net [get_bd_pins valid_regularizer/in_data_1] [get_bd_pins axi_adrv9001/adc_1_data_q0]
+				connect_bd_net [get_bd_pins valid_regularizer/in_data_2] [get_bd_pins axi_adrv9001/adc_1_data_i1]
+				connect_bd_net [get_bd_pins valid_regularizer/in_data_3] [get_bd_pins axi_adrv9001/adc_1_data_q1]
+				connect_bd_net [get_bd_pins valid_regularizer/in_valid] [get_bd_pins axi_adrv9001/adc_1_valid_i0]
+				# sync input connections (fed from the regularizer)
+				connect_bd_net [get_bd_pins sync_input/data_in_rx_0] [get_bd_pins valid_regularizer/out_data_0]
+				connect_bd_net [get_bd_pins sync_input/data_in_rx_1] [get_bd_pins valid_regularizer/out_data_1]
+				connect_bd_net [get_bd_pins sync_input/data_in_rx_2] [get_bd_pins valid_regularizer/out_data_2]
+				connect_bd_net [get_bd_pins sync_input/data_in_rx_3] [get_bd_pins valid_regularizer/out_data_3]
+				connect_bd_net [get_bd_pins sync_input/data_valid_in_rx_0] [get_bd_pins valid_regularizer/out_valid]
 				# sync ouput connections
 				connect_bd_net [get_bd_pins sync_output/data_out_rx_0] [get_bd_pins util_adc_1_pack/fifo_wr_data_0]
 				connect_bd_net [get_bd_pins sync_output/data_out_rx_1] [get_bd_pins util_adc_1_pack/fifo_wr_data_1]

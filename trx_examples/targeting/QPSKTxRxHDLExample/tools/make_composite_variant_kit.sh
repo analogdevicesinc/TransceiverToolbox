@@ -33,6 +33,16 @@ done
 # variant_pre.m: copy the named overlay from tools/.
 cp -f "$SRC/tools/${PRE_BASENAME}.m" "$DST/variant_pre.m"
 
+# Sync the reference-design scripts the build ACTUALLY sources (the vendor
+# copy, not CI/scripts) -- builds silently use stale BD wiring otherwise.
+REPO=/home/tcollins/dev/qpsk_ai/TransceiverToolbox
+VENDOR_SCRIPTS=$REPO/hdl/vendor/AnalogDevices/vivado/projects/scripts
+if [ -d "$VENDOR_SCRIPTS" ]; then
+  cp -f "$REPO/CI/scripts/matlab_processors.tcl" "$VENDOR_SCRIPTS/matlab_processors.tcl"
+  cp -f "$REPO/CI/scripts/util_valid_regularizer.v" "$VENDOR_SCRIPTS/util_valid_regularizer.v" 2>/dev/null || true
+  echo "  vendor ref-design scripts synced from CI/scripts"
+fi
+
 # build_composite_local.m: composite construction script with cwd-local file paths.
 # Translates the absolute paths in build_composite.m to cwd-relative.
 cat > "$DST/build_composite_local.m" <<'EOF'
