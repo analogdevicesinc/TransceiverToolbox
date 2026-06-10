@@ -95,7 +95,16 @@ for dd = {{'I'},{'Q'}}
     add_block('built-in/RateTransition', [loop '/AdcRT' d], ...
         'OutPortSampleTime','1/15.36e6', 'Position',[420+60*(d=='Q') 540 460+60*(d=='Q') 580]);
     add_line(loop, ['AdcCap' d '/1'], ['AdcRT' d '/1'], 'autorouting','on');
-    add_line(loop, ['AdcRT' d '/1'], ['MUX_Rx' d '/1'], 'autorouting','on');
+    % full-period stabilization register: the RT/cap outputs are combinational
+    % muxes that toggle between two delayed copies within each 15.36 period;
+    % Receiver input registers use BOTH enable phases on silicon and would
+    % sample a mixed/stuttered stream (invisible to Simulink sim AND to the
+    % valid-paced capture). A plain registered Delay pins the value for the
+    % whole period.
+    add_block('built-in/Delay', [loop '/AdcStab' d], 'DelayLength','1', ...
+        'Position',[500+60*(d=='Q') 540 540+60*(d=='Q') 580]);
+    add_line(loop, ['AdcRT' d '/1'], ['AdcStab' d '/1'], 'autorouting','on');
+    add_line(loop, ['AdcStab' d '/1'], ['MUX_Rx' d '/1'], 'autorouting','on');
 end
 
 % --- (2) raw-ADC passthrough on debugI/Q/Valid (Receiver taps stay on I1/Q1) ---
