@@ -24,6 +24,33 @@ for pn = {'adc_validIn','adc_dataInI','adc_dataInQ'}
     set_param([loop '/' pn{1}], 'SampleTime', '1/30.72e6');
 end
 
+% --- (0b) proper Tx interpolation: the base composite upsamples the 7.68M
+% Transmitter output to 15.36M with Repeat (zero-order hold). The stair-step
+% waveform carries images at +/-3.84 MHz that distort the Rx timing
+% detector's S-curve, causing episodic re-lock bursts (the residual BIST
+% artifact: deterministic ~6-7%% on internal AND FPGA-Tx-over-cable, while
+% the properly interpolated host golden measures 0.000000%%). Replace the
+% data Repeats with a 2x halfband-style interpolating FIR. The interpolated
+% stream is continuous, so the internal MUX branch valid becomes constant
+% true (REP_TxValid stays only as the legacy wire, terminated in 1b).
+for dd = {{'I'},{'Q'}}
+    d=dd{1}{1};
+    delete_block([loop '/REP_Tx' d]);
+    add_block('dspmlti4/FIR Interpolation', [loop '/REP_Tx' d], ...
+        'InterpolationFactor','2', ...
+        'Numerator','2*fir1(22,0.45)', ...
+        'Position',[470 220+40*(d=='Q') 510 240+40*(d=='Q')]);
+    add_line(loop, sprintf('Transmitter/%d', 1+(d=='Q')), ['REP_Tx' d '/1'], 'autorouting','on');
+    add_line(loop, ['REP_Tx' d '/1'], ['MUX_Rx' d '/3'], 'autorouting','on');
+    % restore the base REP_Tx -> tx_dataOut line; section (1b) re-routes it
+    % through the DAC MUX exactly as it does for the original Repeat blocks
+    add_line(loop, ['REP_Tx' d '/1'], ['tx_dataOut' d '/1'], 'autorouting','on');
+end
+delete_line(loop, 'REP_TxValid/1', 'MUX_RxValid/3');
+add_block('built-in/Constant', [loop '/IntValidConst'], 'Value','true', ...
+    'OutDataTypeStr','boolean', 'SampleTime','1/15.36e6', 'Position',[470 340 500 360]);
+add_line(loop, 'IntValidConst/1', 'MUX_RxValid/3', 'autorouting','on');
+
 % --- (1a) new inports 7..10 ---
 in_new = { 'host_txI','int16','1/30.72e6'; 'host_txQ','int16','1/30.72e6'; ...
            'host_txValid','boolean','1/30.72e6'; 'tx_source_select','uint32','1/15.36e6' };
