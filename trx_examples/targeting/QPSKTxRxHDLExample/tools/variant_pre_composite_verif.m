@@ -36,11 +36,15 @@ add_line(loop, 'tx_source_select/1',  'MUX_DacQ/2', 'autorouting','on');
 add_line(loop, 'REP_TxQ/1',           'MUX_DacQ/3', 'autorouting','on');
 add_line(loop, 'MUX_DacI/1', 'tx_dataOutI/1', 'autorouting','on');
 add_line(loop, 'MUX_DacQ/1', 'tx_dataOutQ/1', 'autorouting','on');
-% tx_validOut stays driven by REP_TxValid (constant DAC-rate strobe; it is the
-% upack fifo_rd_en via 'IP Load Tx Data OUT' and must run in BOTH modes).
-% host_txValid is consumed (terminated) to keep the interface mapped.
-add_block('built-in/Terminator', [loop '/T_hostValid'], 'Position',[700 990 720 1010]);
-add_line(loop, 'host_txValid/1', 'T_hostValid/1', 'autorouting','on');
+% tx_validOut must be paced by the DAC's own request: host_txValid is
+% 'IP Valid Tx Data IN' = dac_1_valid_i0. Driving 'IP Load Tx Data OUT'
+% (= upack fifo_rd_en) from it recreates the stock rd_en=dac_valid loop, so
+% DAC data updates exactly when the DAC latches. A free-running model strobe
+% (REP_TxValid) here causes duplicated/dropped DAC samples (EVM ~0.6).
+delete_line(loop, 'REP_TxValid/1', 'tx_validOut/1');
+add_line(loop, 'host_txValid/1', 'tx_validOut/1', 'autorouting','on');
+add_block('built-in/Terminator', [loop '/T_repValid'], 'Position',[700 990 720 1010]);
+add_line(loop, 'REP_TxValid/1', 'T_repValid/1', 'autorouting','on');
 
 % --- (2) raw-ADC passthrough on debugI/Q/Valid (Receiver taps stay on I1/Q1) ---
 for pp = {{'debugI','adc_dataInI'},{'debugQ','adc_dataInQ'},{'debugValid','adc_validIn'}}
