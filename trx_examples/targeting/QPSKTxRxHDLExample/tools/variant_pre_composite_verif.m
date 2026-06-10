@@ -10,6 +10,16 @@ sys  = 'commhdlQPSKTxRxLoopback';
 load_system(sys);
 loop = [sys '/TxRxComposite'];
 
+% --- (0) interface ports at the FULL clock rate (30.72 MHz) ---
+% The ref-design bus delivers one word per IPCORE_CLK cycle: data completes on
+% valid-high beats and is half-shifted/stale on off-beats. Sampling it on the
+% DUT's free-phase /2 enable is a per-bitstream phase lottery (the capture path,
+% paced by valid, can never witness the bad beats). Take the ports at 1/30.72e6
+% and valid-qualify below.
+for pn = {'adc_validIn','adc_dataInI','adc_dataInQ'}
+    set_param([loop '/' pn{1}], 'SampleTime', '1/30.72e6');
+end
+
 % --- (1a) new inports 7..10 ---
 in_new = { 'host_txI','int16'; 'host_txQ','int16'; ...
            'host_txValid','boolean'; 'tx_source_select','uint32' };
@@ -17,7 +27,7 @@ for k = 1:size(in_new,1)
     blk = [loop '/' in_new{k,1}];
     add_block('built-in/Inport', blk, 'Port', num2str(6+k), ...
         'Position', [40 820+40*k 70 840+40*k]);
-    set_param(blk, 'OutDataTypeStr', in_new{k,2}, 'SampleTime', '1/15.36e6');
+    set_param(blk, 'OutDataTypeStr', in_new{k,2}, 'SampleTime', '1/30.72e6');
 end
 
 % --- (1b) DAC MUX: re-route REP_TxI/Q -> tx_dataOutI/Q through switches ---
@@ -28,30 +38,33 @@ add_block('built-in/Switch', [loop '/MUX_DacI'], 'Criteria','u2 ~= 0', ...
 add_block('built-in/Switch', [loop '/MUX_DacQ'], 'Criteria','u2 ~= 0', ...
     'Position',[700 910 730 940]);
 % u1 = host (selected when tx_source_select ~= 0), u3 = in-FPGA Tx
-add_line(loop, 'host_txI/1',          'MUX_DacI/1', 'autorouting','on');
+for dd = {{'I'},{'Q'}}
+    d=dd{1}{1};
+    add_block('built-in/Delay', [loop '/HostCap' d], 'DelayLength','1', ...
+        'ShowEnablePort','on', 'Position',[560+60*(d=='Q') 760 600+60*(d=='Q') 800]);
+    add_line(loop, ['host_tx' d '/1'],  ['HostCap' d '/1'], 'autorouting','on');
+    add_line(loop, 'host_txValid/1',    ['HostCap' d '/2'], 'autorouting','on');
+    add_block('built-in/RateTransition', [loop '/HostRT' d], ...
+        'OutPortSampleTime','1/15.36e6', 'Position',[630+60*(d=='Q') 760 670+60*(d=='Q') 800]);
+    add_line(loop, ['HostCap' d '/1'], ['HostRT' d '/1'], 'autorouting','on');
+end
+add_line(loop, 'HostRTI/1',           'MUX_DacI/1', 'autorouting','on');
 add_line(loop, 'tx_source_select/1',  'MUX_DacI/2', 'autorouting','on');
 add_line(loop, 'REP_TxI/1',           'MUX_DacI/3', 'autorouting','on');
-add_line(loop, 'host_txQ/1',          'MUX_DacQ/1', 'autorouting','on');
+add_line(loop, 'HostRTQ/1',           'MUX_DacQ/1', 'autorouting','on');
 add_line(loop, 'tx_source_select/1',  'MUX_DacQ/2', 'autorouting','on');
 add_line(loop, 'REP_TxQ/1',           'MUX_DacQ/3', 'autorouting','on');
-% Sample the DAC-facing data on the DAC's own request (host_txValid =
-% dac_1_valid_i0) so the pins update only at the DAC's latch instants for
-% BOTH sources. Without this, the in-FPGA Tx branch (REP_Tx, model-rate
-% strobe) is latched mid-update by the DAC -> EVM ~0.6.
-for dd = {'I','Q'}
-    reg = [loop '/DacReg' dd{1}];
-    add_block('built-in/Delay', reg, 'DelayLength','1', ...
-        'ShowEnablePort','on', 'Position',[760 860+50*(dd{1}=='Q') 800 900+50*(dd{1}=='Q')]);
-    add_line(loop, ['MUX_Dac' dd{1} '/1'], ['DacReg' dd{1} '/1'], 'autorouting','on');
-    add_line(loop, 'host_txValid/1', ['DacReg' dd{1} '/2'], 'autorouting','on');
-    add_line(loop, ['DacReg' dd{1} '/1'], ['tx_dataOut' dd{1} '/1'], 'autorouting','on');
-end
+add_line(loop, 'MUX_DacI/1', 'tx_dataOutI/1', 'autorouting','on');
+add_line(loop, 'MUX_DacQ/1', 'tx_dataOutQ/1', 'autorouting','on');
+
 % tx_validOut must be paced by the DAC's own request: host_txValid is
 % 'IP Valid Tx Data IN' = dac_1_valid_i0. Driving 'IP Load Tx Data OUT'
 % (= upack fifo_rd_en) from it recreates the stock rd_en=dac_valid loop, so
 % DAC data updates exactly when the DAC latches. A free-running model strobe
 % (REP_TxValid) here causes duplicated/dropped DAC samples (EVM ~0.6).
 delete_line(loop, 'REP_TxValid/1', 'tx_validOut/1');
+% upack rd_en pacing: forward the dac request; tx_validOut stays at 30.72 rate
+% (one wire word per clock toward 'IP Load Tx Data OUT').
 add_line(loop, 'host_txValid/1', 'tx_validOut/1', 'autorouting','on');
 add_block('built-in/Terminator', [loop '/T_repValid'], 'Position',[700 990 720 1010]);
 add_line(loop, 'REP_TxValid/1', 'T_repValid/1', 'autorouting','on');
@@ -66,6 +79,20 @@ delete_line(loop, 'adc_validIn/1', 'MUX_RxValid/1');
 add_block('built-in/Constant', [loop '/RxValidConst'], 'Value','true', ...
     'OutDataTypeStr','boolean', 'SampleTime','1/15.36e6', 'Position',[470 300 500 320]);
 add_line(loop, 'RxValidConst/1', 'MUX_RxValid/1', 'autorouting','on');
+% valid-qualified capture at 30.72: register data only on valid-high beats,
+% then deterministic rate transition of the held-clean stream down to 15.36.
+for dd = {{'I'},{'Q'}}
+    d=dd{1}{1};
+    delete_line(loop, ['adc_dataIn' d '/1'], ['MUX_Rx' d '/1']);
+    add_block('built-in/Delay', [loop '/AdcCap' d], 'DelayLength','1', ...
+        'ShowEnablePort','on', 'Position',[300+60*(d=='Q') 540 340+60*(d=='Q') 580]);
+    add_line(loop, ['adc_dataIn' d '/1'], ['AdcCap' d '/1'], 'autorouting','on');
+    add_line(loop, 'adc_validIn/1',       ['AdcCap' d '/2'], 'autorouting','on');
+    add_block('built-in/RateTransition', [loop '/AdcRT' d], ...
+        'OutPortSampleTime','1/15.36e6', 'Position',[420+60*(d=='Q') 540 460+60*(d=='Q') 580]);
+    add_line(loop, ['AdcCap' d '/1'], ['AdcRT' d '/1'], 'autorouting','on');
+    add_line(loop, ['AdcRT' d '/1'], ['MUX_Rx' d '/1'], 'autorouting','on');
+end
 
 % --- (2) raw-ADC passthrough on debugI/Q/Valid (Receiver taps stay on I1/Q1) ---
 for pp = {{'debugI','adc_dataInI'},{'debugQ','adc_dataInQ'},{'debugValid','adc_validIn'}}
