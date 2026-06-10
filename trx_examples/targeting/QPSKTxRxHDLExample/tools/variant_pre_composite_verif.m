@@ -34,8 +34,18 @@ add_line(loop, 'REP_TxI/1',           'MUX_DacI/3', 'autorouting','on');
 add_line(loop, 'host_txQ/1',          'MUX_DacQ/1', 'autorouting','on');
 add_line(loop, 'tx_source_select/1',  'MUX_DacQ/2', 'autorouting','on');
 add_line(loop, 'REP_TxQ/1',           'MUX_DacQ/3', 'autorouting','on');
-add_line(loop, 'MUX_DacI/1', 'tx_dataOutI/1', 'autorouting','on');
-add_line(loop, 'MUX_DacQ/1', 'tx_dataOutQ/1', 'autorouting','on');
+% Sample the DAC-facing data on the DAC's own request (host_txValid =
+% dac_1_valid_i0) so the pins update only at the DAC's latch instants for
+% BOTH sources. Without this, the in-FPGA Tx branch (REP_Tx, model-rate
+% strobe) is latched mid-update by the DAC -> EVM ~0.6.
+for dd = {'I','Q'}
+    reg = [loop '/DacReg' dd{1}];
+    add_block('built-in/Delay', reg, 'DelayLength','1', ...
+        'ShowEnablePort','on', 'Position',[760 860+50*(dd{1}=='Q') 800 900+50*(dd{1}=='Q')]);
+    add_line(loop, ['MUX_Dac' dd{1} '/1'], ['DacReg' dd{1} '/1'], 'autorouting','on');
+    add_line(loop, 'host_txValid/1', ['DacReg' dd{1} '/2'], 'autorouting','on');
+    add_line(loop, ['DacReg' dd{1} '/1'], ['tx_dataOut' dd{1} '/1'], 'autorouting','on');
+end
 % tx_validOut must be paced by the DAC's own request: host_txValid is
 % 'IP Valid Tx Data IN' = dac_1_valid_i0. Driving 'IP Load Tx Data OUT'
 % (= upack fifo_rd_en) from it recreates the stock rd_en=dac_valid loop, so
