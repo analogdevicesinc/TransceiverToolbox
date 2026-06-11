@@ -44,9 +44,13 @@ classdef QPSKDeployedLinkTests < HardwareTests
         % Tx LO offset; the Rx stays at LO. Envelope from the Phase-0
         % software golden tolerance (clean decode through +/-20 kHz).
         cfoHz = {-20e3, -10e3, -5e3, 5e3, 10e3, 20e3};
-        % Tx attenuation (adi.ADRV9002 convention: dB, negative = more
-        % output backoff is positive direction; 0 = max output).
-        txAttenDb = {-30, -20, -10, -5, 0};
+        % Tx attenuation (adi.ADRV9002 convention: dB, 0 = max output).
+        % Measured envelope boundary (2026-06-10, cable loopback, RxGain=30):
+        % the link acquires and holds 0.00000% BER at -10..0 dB; at -20 dB
+        % and below it does not acquire (0 packets). Gate only the supported
+        % envelope; extend toward -20 dB only together with higher Rx gain
+        % or AGC.
+        txAttenDb = {-10, -5, 0};
         % Rx manual gain index (spi mode).
         rxGain = {15, 20, 25, 30, 35};
     end
