@@ -15,7 +15,7 @@ classdef ByteDmaRegisters
 
     properties (Constant)
         DmaBase = '0x9D100000';
-        BufPhys = '0x78000000';    % reserved-memory region (see DT node)
+        BufPhys = '0x7FF00000';    % reserved-memory region qpsk_byte_buf (DT node, last 1 MB of DDR)
         TxDataSourceAddr = '0x9D00011C';
     end
 
