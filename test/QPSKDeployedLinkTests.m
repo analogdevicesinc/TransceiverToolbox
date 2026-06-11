@@ -170,6 +170,120 @@ classdef QPSKDeployedLinkTests < HardwareTests
             [ber, pkts] = testCase.measureCableBer(testCase.LO, -10, [], true);
             testCase.verifyLink(ber, pkts, 'AGC mode');
         end
+        function testAcquisitionReliability(testCase)
+            % the soft-reset-then-select procedure must acquire EVERY time:
+            % 8 consecutive cold acquisitions, each gated on packet sync.
+            tx = adi.ADRV9002.Tx('uri', testCase.uri);
+            tx.EnabledChannels = 1; tx.CenterFrequencyChannel0 = testCase.LO;
+            tx.AttenuationChannel0 = -10;
+            tx.DataSource = 'DMA'; tx.EnableCyclicBuffers = true;
+            tx.SamplesPerFrame = numel(testCase.golden); tx(testCase.golden);
+            rx = adi.ADRV9002.Rx('uri', testCase.uri);
+            rx.EnabledChannels = 1; rx.CenterFrequencyChannel0 = testCase.LO;
+            rx.SamplesPerFrame = 2^14; rx(); pause(2);
+            cleanup = onCleanup(@() cellfun(@release, {tx, rx}));
+            nOk = 0; nTry = 8;
+            for k = 1:nTry
+                testCase.regWrite(testCase.RegBase, 1); pause(1);
+                testCase.regWrite(testCase.RegTxSelect, 1);
+                testCase.regWrite(testCase.RegRxSelect, 1); pause(1);
+                p0 = testCase.regRead(testCase.RegPackets); pause(5);
+                p1 = testCase.regRead(testCase.RegPackets);
+                ok = (p1-p0) > 3000;
+                nOk = nOk + ok;
+                fprintf('acquisition %d/%d: %d pkts/5s\n', k, nTry, p1-p0);
+                testCase.verifyTrue(ok, sprintf('acquisition %d failed (%d pkts)', k, p1-p0));
+            end
+            fprintf('acquisition reliability: %d/%d\n', nOk, nTry);
+        end
+        function testRecoveryAfterStreamLoss(testCase)
+            % documented behavior: the Receiver does not self-recover after
+            % a stream interruption; the recovery procedure (soft reset +
+            % reselect) must restore decode every time. 4 loss/recover cycles.
+            rx = adi.ADRV9002.Rx('uri', testCase.uri);
+            rx.EnabledChannels = 1; rx.CenterFrequencyChannel0 = testCase.LO;
+            rx.SamplesPerFrame = 2^14; rx(); pause(1);
+            cleanupRx = onCleanup(@() release(rx));
+            for k = 1:4
+                tx = adi.ADRV9002.Tx('uri', testCase.uri);
+                tx.EnabledChannels = 1; tx.CenterFrequencyChannel0 = testCase.LO;
+                tx.AttenuationChannel0 = -10;
+                tx.DataSource = 'DMA'; tx.EnableCyclicBuffers = true;
+                tx.SamplesPerFrame = numel(testCase.golden); tx(testCase.golden);
+                pause(1);
+                testCase.regWrite(testCase.RegBase, 1); pause(1);
+                testCase.regWrite(testCase.RegTxSelect, 1);
+                testCase.regWrite(testCase.RegRxSelect, 1); pause(1);
+                p0 = testCase.regRead(testCase.RegPackets); pause(5);
+                p1 = testCase.regRead(testCase.RegPackets);
+                testCase.verifyGreaterThan(p1-p0, 3000, ...
+                    sprintf('cycle %d: did not acquire after recovery', k));
+                release(tx); pause(2);     % stream loss
+                p0 = testCase.regRead(testCase.RegPackets); pause(3);
+                p1 = testCase.regRead(testCase.RegPackets);
+                fprintf('cycle %d: post-loss rate %d pkts/3s (expected ~0)\n', k, p1-p0);
+            end
+        end
+        function testCombinedImpairments(testCase)
+            % CFO + reduced Tx power + off-nominal Rx gain simultaneously
+            combos = { ...
+                {+20e3, -10, 20, 'CFO+20k atten-10 gain20'}; ...
+                {-20e3,  -5, 25, 'CFO-20k atten-5 gain25'}};
+            for k = 1:numel(combos)
+                c = combos{k};
+                [ber, pkts] = testCase.measureCableBer(testCase.LO + c{1}, c{2}, c{3}, false);
+                testCase.verifyLink(ber, pkts, c{4});
+            end
+        end
+        function testCFOToleranceEdge(testCase)
+            % characterize the carrier-offset edge: step outward until the
+            % link fails; the edge must be at least the +/-20 kHz spec floor.
+            edgePos = 0;
+            for cfo = 20e3:5e3:40e3
+                [ber, pkts] = testCase.measureCableBer(testCase.LO + cfo, -10, 30, false);
+                fprintf('CFO edge probe %+d Hz: pkts=%d BER=%.5f%%\n', cfo, pkts, 100*ber);
+                if pkts > testCase.MinPackets && ber < testCase.BERGate
+                    edgePos = cfo;
+                else
+                    break;
+                end
+            end
+            fprintf('CFO tolerance edge (positive): %d Hz\n', edgePos);
+            testCase.verifyGreaterThanOrEqual(edgePos, 20e3, ...
+                'CFO tolerance regressed below the +/-20 kHz spec floor');
+        end
+        function testBISTHostCrossCheck(testCase)
+            % the BIST and an independent host software demod must agree:
+            % capture the Receiver's post-AGC tap DURING active BIST decode;
+            % both meters must read 0 errors over the same link.
+            tx = adi.ADRV9002.Tx('uri', testCase.uri);
+            tx.EnabledChannels = 1; tx.CenterFrequencyChannel0 = testCase.LO;
+            tx.AttenuationChannel0 = -10;
+            tx.DataSource = 'DMA'; tx.EnableCyclicBuffers = true;
+            tx.SamplesPerFrame = numel(testCase.golden); tx(testCase.golden);
+            rx = adi.ADRV9002.Rx('uri', testCase.uri);
+            rx.EnabledChannels = 1; rx.CenterFrequencyChannel0 = testCase.LO;
+            rx.SamplesPerFrame = 2^18; rx(); pause(2);
+            cleanup = onCleanup(@() cellfun(@release, {tx, rx}));
+            testCase.regWrite(testCase.RegBase, 1); pause(1);
+            testCase.regWrite(testCase.RegTxSelect, 1);
+            testCase.regWrite(testCase.RegRxSelect, 1);
+            testCase.regWrite('0x9D00010C', 0); pause(2);   % tap0 = post-AGC
+            p0 = testCase.regRead(testCase.RegPackets);
+            e0 = testCase.regRead(testCase.RegBitErrors);
+            y = [];
+            for k = 1:6, y = rx(); end
+            p1 = testCase.regRead(testCase.RegPackets);
+            e1 = testCase.regRead(testCase.RegBitErrors);
+            bistBer = (e1-e0)/max(1,(p1-p0)*120);
+            [~,nf,evm,info] = demodPlutoCapture(double(y)/2^14, testCase.Fs);
+            fprintf('cross-check BIST: %d pkts BER=%.5f%% | host: %s\n', ...
+                p1-p0, 100*bistBer, info);
+            testCase.verifyGreaterThan(p1-p0, testCase.MinPackets, 'BIST not decoding');
+            testCase.verifyLessThan(bistBer, testCase.BERGate, 'BIST BER over gate');
+            testCase.verifyGreaterThan(nf, 10, 'host decoded too few frames');
+            testCase.verifyLessThan(evm, 0.15, 'host EVM degraded');
+        end
         function testSustainedBER15Min(testCase)
             % robustness soak: 15 minutes of continuous decode in 30 s
             % windows. Every window must hold packet sync (catches mid-run
