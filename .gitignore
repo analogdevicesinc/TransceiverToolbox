@@ -4,3 +4,15 @@
 AD9361_Filter_Wizard/*TestFiltWiz*.m
 AD9361_Filter_Wizard/.previous_ip_addr
 _generated/*
+# local build / session artifacts (QPSK composite workflow)
+*.slxc
+hdl_prj_jupiter_composite/
+hdl/vendor/AnalogDevices/vivado/
+agenticToolkitInstaller.mltbx
+/end_gen.mat
+/CI/ports.json
+/init_data.mat
+/reset.mat
+/test/hdl/
+CLAUDE.md
+.claude/
