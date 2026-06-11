@@ -1,49 +1,89 @@
-% variant_pre_composite_verif -- the Verifiable Composite:
-%  (1) DAC-source MUX: tx_source_select (AXI x"118") picks in-FPGA Tx (0) or
-%      host TX DMA (1) as the DAC driver. Host samples arrive via the ref
-%      design's 'IP Data 0/1 IN' (util_dac_1_upack stream into the DUT).
-%  (2) Raw-ADC passthrough: debugI/Q/Valid carry adc_dataInI/Q/validIn to the
-%      Rx DMA ('IP Data 0/1 OUT') for trustworthy host capture. debugI1/Q1
-%      keep the Receiver's iq_debug_mux taps (-> 'IP Data 2/3 OUT').
-% Requires the I/Q lane-order fix in CI/scripts/matlab_processors.tcl.
+% variant_pre_composite_verif -- the Verifiable Composite overlay.
+%
+% Applied on top of build_composite (which clones Transmitter + Receiver into
+% TxRxComposite), this overlay turns the composite into a staged-verification
+% modem on the jupiter_sdr 'rxtx' reference design. Validated end to end on
+% hardware: host->HDL-Rx over the RF cable at BER 0.000000% sustained
+% (200M+ checked bits), HDL-Tx->host at 0.000% every frame.
+%
+% Architecture added by this overlay:
+%   * DAC source MUX  -- tx_source_select (AXI x"118") picks the in-FPGA Tx
+%     (0) or the host Tx DMA stream (1) as the DAC driver. Host samples
+%     arrive via 'IP Data 0/1 IN' (util_dac_1_upack); the upack read enable
+%     ('IP Load Tx Data OUT') is paced by the DAC's own request so DAC data
+%     updates exactly when the DAC latches.
+%   * Rx source MUX   -- rx_input_select (AXI x"114") picks internal
+%     loopback (0) or the cable/ADC stream (1) into the Receiver.
+%   * Valid-qualified Rx front-end -- ADC ports run at the full 30.72 MHz
+%     bus rate; data is registered on valid beats, rate-transitioned to
+%     15.36 MHz, and pinned for the full period before the Receiver. The
+%     reference design additionally re-times the valid through the BD-level
+%     util_valid_regularizer (see CI/scripts/matlab_processors.tcl), so the
+%     DUT always sees a regular 1-in-2 valid.
+%   * 2x interpolating FIR on the Tx output (replaces the base ZOH Repeat)
+%     for a properly band-limited DAC waveform.
+%   * Debug taps -- debugI1/Q1 ('IP Data 0/1 OUT') carry the Receiver's
+%     iq_debug_mux-selected internal taps; debugI/Q ('IP Data 2/3 OUT')
+%     carry the raw ADC stream; debugValid paces the capture DMA.
+%
+% AXI map (byte offsets from the IP base, e.g. 0x9D000000 on jupiter_sdr):
+%   0x000 soft reset (bit0 strobe -- resets the datapath AND the register
+%         file: rx_input_select/tx_source_select revert to 0)
+%   0x100 count_out   0x104 packets_out   0x108 bit_errors_out
+%   0x10C iq_debug_mux   0x110 rstCS
+%   0x114 rx_input_select   0x118 tx_source_select
+%
+% MEASUREMENT PROCEDURE (load-bearing): arm the host Tx/Rx buffers, pulse
+% the soft reset, THEN write x118/x114. The Receiver only acquires when its
+% input mux is selected early after reset; switching live on a long-running
+% chain does not acquire, and a stream interruption requires another reset.
+% See test/QPSKDeployedLinkTests.m for the reference implementation.
+%
+% Requires the I/Q lane-order fix + valid regularizer in
+% CI/scripts/matlab_processors.tcl (synced to the vendor scripts copy by
+% tools/make_composite_variant_kit.sh).
 sys  = 'commhdlQPSKTxRxLoopback';
 load_system(sys);
 loop = [sys '/TxRxComposite'];
 
 % Root-level sim-harness remnant references a .mat absent from build kits and
-% breaks Update Diagram (now required by the multirate DUT). Comment it out.
+% breaks Update Diagram. Comment it out.
 try, set_param([sys '/RxCaptureFromHW'], 'Commented', 'on'); catch, end
 
-% --- (0) interface ports at the FULL clock rate (30.72 MHz) ---
-% The ref-design bus delivers one word per IPCORE_CLK cycle: data completes on
-% valid-high beats and is half-shifted/stale on off-beats. Sampling it on the
-% DUT's free-phase /2 enable is a per-bitstream phase lottery (the capture path,
-% paced by valid, can never witness the bad beats). Take the ports at 1/30.72e6
-% and valid-qualify below.
+% --- (0) ADC interface ports at the full bus rate (30.72 MHz) ---
+% The ref-design bus delivers one word per IPCORE_CLK cycle; data is only
+% guaranteed complete on valid-high beats. Take the ports at 1/30.72e6 and
+% valid-qualify in section (1c).
 for pn = {'adc_validIn','adc_dataInI','adc_dataInQ'}
     set_param([loop '/' pn{1}], 'SampleTime', '1/30.72e6');
 end
 
-% --- (0b) proper Tx interpolation: the base composite upsamples the 7.68M
-% Transmitter output to 15.36M with Repeat (zero-order hold). The stair-step
-% waveform carries images at +/-3.84 MHz that distort the Rx timing
-% detector's S-curve, causing episodic re-lock bursts (the residual BIST
-% artifact: deterministic ~6-7%% on internal AND FPGA-Tx-over-cable, while
-% the properly interpolated host golden measures 0.000000%%). Replace the
-% data Repeats with a 2x halfband-style interpolating FIR. The interpolated
-% stream is continuous, so the internal MUX branch valid becomes constant
-% true (REP_TxValid stays only as the legacy wire, terminated in 1b).
+% --- (0b) 2x interpolating FIR on the Tx output ---
+% The base composite upsamples the 7.68M Transmitter output with Repeat
+% (zero-order hold), leaving images at +/-3.84 MHz. Replace with a proper
+% interpolation filter. The interpolated stream is continuous, so the
+% internal MUX branch valid becomes constant true (REP_TxValid remains only
+% as the legacy wire, terminated in 1b).
 for dd = {{'I'},{'Q'}}
     d=dd{1}{1};
+    % delete the old lines first: delete_block leaves them dangling and a
+    % same-position replacement block auto-captures them
+    delete_line(loop, sprintf('Transmitter/%d', 1+(d=='Q')), ['REP_Tx' d '/1']);
+    delete_line(loop, ['REP_Tx' d '/1'], ['MUX_Rx' d '/3']);
+    delete_line(loop, ['REP_Tx' d '/1'], ['tx_dataOut' d '/1']);
     delete_block([loop '/REP_Tx' d]);
     add_block('dspmlti4/FIR Interpolation', [loop '/REP_Tx' d], ...
-        'InterpolationFactor','2', ...
-        'Numerator','2*fir1(22,0.45)', ...
+        'FilterSource','Dialog parameters', ...
+        'h','2*fir1(22,0.45)', 'L','2', ...
+        'InputProcessing','Elements as channels (sample based)', ...
+        'framing','Allow multirate processing', ...
+        'roundingMode','Nearest', 'overflowMode','on', ...
+        'outputMode','Same as input', ...
         'Position',[470 220+40*(d=='Q') 510 240+40*(d=='Q')]);
     add_line(loop, sprintf('Transmitter/%d', 1+(d=='Q')), ['REP_Tx' d '/1'], 'autorouting','on');
     add_line(loop, ['REP_Tx' d '/1'], ['MUX_Rx' d '/3'], 'autorouting','on');
     % restore the base REP_Tx -> tx_dataOut line; section (1b) re-routes it
-    % through the DAC MUX exactly as it does for the original Repeat blocks
+    % through the DAC MUX
     add_line(loop, ['REP_Tx' d '/1'], ['tx_dataOut' d '/1'], 'autorouting','on');
 end
 delete_line(loop, 'REP_TxValid/1', 'MUX_RxValid/3');
@@ -51,7 +91,7 @@ add_block('built-in/Constant', [loop '/IntValidConst'], 'Value','true', ...
     'OutDataTypeStr','boolean', 'SampleTime','1/15.36e6', 'Position',[470 340 500 360]);
 add_line(loop, 'IntValidConst/1', 'MUX_RxValid/3', 'autorouting','on');
 
-% --- (1a) new inports 7..10 ---
+% --- (1a) host-Tx and control inports 7..10 ---
 in_new = { 'host_txI','int16','1/30.72e6'; 'host_txQ','int16','1/30.72e6'; ...
            'host_txValid','boolean','1/30.72e6'; 'tx_source_select','uint32','1/15.36e6' };
 for k = 1:size(in_new,1)
@@ -61,14 +101,15 @@ for k = 1:size(in_new,1)
     set_param(blk, 'OutDataTypeStr', in_new{k,2}, 'SampleTime', in_new{k,3});
 end
 
-% --- (1b) DAC MUX: re-route REP_TxI/Q -> tx_dataOutI/Q through switches ---
+% --- (1b) DAC source MUX ---
+% u1 = host stream (tx_source_select ~= 0), u3 = in-FPGA Tx. Host samples
+% are valid-qualified at 30.72 then rate-transitioned to the DAC rate.
 delete_line(loop, 'REP_TxI/1', 'tx_dataOutI/1');
 delete_line(loop, 'REP_TxQ/1', 'tx_dataOutQ/1');
 add_block('built-in/Switch', [loop '/MUX_DacI'], 'Criteria','u2 ~= 0', ...
     'Position',[700 860 730 890]);
 add_block('built-in/Switch', [loop '/MUX_DacQ'], 'Criteria','u2 ~= 0', ...
     'Position',[700 910 730 940]);
-% u1 = host (selected when tx_source_select ~= 0), u3 = in-FPGA Tx
 for dd = {{'I'},{'Q'}}
     d=dd{1}{1};
     add_block('built-in/Delay', [loop '/HostCap' d], 'DelayLength','1', ...
@@ -88,30 +129,27 @@ add_line(loop, 'REP_TxQ/1',           'MUX_DacQ/3', 'autorouting','on');
 add_line(loop, 'MUX_DacI/1', 'tx_dataOutI/1', 'autorouting','on');
 add_line(loop, 'MUX_DacQ/1', 'tx_dataOutQ/1', 'autorouting','on');
 
-% tx_validOut must be paced by the DAC's own request: host_txValid is
-% 'IP Valid Tx Data IN' = dac_1_valid_i0. Driving 'IP Load Tx Data OUT'
-% (= upack fifo_rd_en) from it recreates the stock rd_en=dac_valid loop, so
-% DAC data updates exactly when the DAC latches. A free-running model strobe
-% (REP_TxValid) here causes duplicated/dropped DAC samples (EVM ~0.6).
+% tx_validOut drives 'IP Load Tx Data OUT' (= upack fifo_rd_en). Pacing it
+% with host_txValid (= 'IP Valid Tx Data IN' = the DAC's own request)
+% recreates the stock rd_en=dac_valid loop, so DAC data updates exactly when
+% the DAC latches. A free-running model strobe here duplicates/drops DAC
+% samples (measured EVM ~0.6).
 delete_line(loop, 'REP_TxValid/1', 'tx_validOut/1');
-% upack rd_en pacing: forward the dac request; tx_validOut stays at 30.72 rate
-% (one wire word per clock toward 'IP Load Tx Data OUT').
 add_line(loop, 'host_txValid/1', 'tx_validOut/1', 'autorouting','on');
 add_block('built-in/Terminator', [loop '/T_repValid'], 'Position',[700 990 720 1010]);
 add_line(loop, 'REP_TxValid/1', 'T_repValid/1', 'autorouting','on');
 
-% --- (1c) phase-robust cable valid: the DUT samples adc_validIn (gap-2 strobe
-% @30.72) on its /2 clock enable; at the wrong reset phase it reads constant 0
-% and the valid-gated Receiver consumes nothing (the historical cable-lock
-% lottery). For a continuous full-rate stream the valid carries no information:
-% drive the cable branch of MUX_RxValid with constant true instead. The data
-% registers deliver each ADC sample exactly once at either phase.
+% --- (1c) valid-qualified Rx front-end ---
+% The cable branch of MUX_RxValid is constant true: the regularized ADC
+% stream is continuous at 15.36 Msps, and the data path below delivers each
+% sample exactly once per period regardless of the bus valid phase.
 delete_line(loop, 'adc_validIn/1', 'MUX_RxValid/1');
 add_block('built-in/Constant', [loop '/RxValidConst'], 'Value','true', ...
     'OutDataTypeStr','boolean', 'SampleTime','1/15.36e6', 'Position',[470 300 500 320]);
 add_line(loop, 'RxValidConst/1', 'MUX_RxValid/1', 'autorouting','on');
-% valid-qualified capture at 30.72: register data only on valid-high beats,
-% then deterministic rate transition of the held-clean stream down to 15.36.
+% AdcCap registers data on valid-high beats at 30.72; AdcRT moves the held
+% stream to 15.36; AdcStab pins the value for the whole period so the
+% Receiver's input registers see one stable word per sample.
 for dd = {{'I'},{'Q'}}
     d=dd{1}{1};
     delete_line(loop, ['adc_dataIn' d '/1'], ['MUX_Rx' d '/1']);
@@ -122,12 +160,6 @@ for dd = {{'I'},{'Q'}}
     add_block('built-in/RateTransition', [loop '/AdcRT' d], ...
         'OutPortSampleTime','1/15.36e6', 'Position',[420+60*(d=='Q') 540 460+60*(d=='Q') 580]);
     add_line(loop, ['AdcCap' d '/1'], ['AdcRT' d '/1'], 'autorouting','on');
-    % full-period stabilization register: the RT/cap outputs are combinational
-    % muxes that toggle between two delayed copies within each 15.36 period;
-    % Receiver input registers use BOTH enable phases on silicon and would
-    % sample a mixed/stuttered stream (invisible to Simulink sim AND to the
-    % valid-paced capture). A plain registered Delay pins the value for the
-    % whole period.
     add_block('built-in/Delay', [loop '/AdcStab' d], 'DelayLength','1', ...
         'Position',[500+60*(d=='Q') 540 540+60*(d=='Q') 580]);
     add_line(loop, ['AdcRT' d '/1'], ['AdcStab' d '/1'], 'autorouting','on');

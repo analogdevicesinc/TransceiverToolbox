@@ -1,2 +1,8 @@
-hdl_prj_jupiter_prbs/
-build_prbs_bitstream.log
+# build / simulation artifacts
+*.slxc
+*.mat
+hdl_prj*/
+slprj/
+boot/
+*.log
+*.jou
