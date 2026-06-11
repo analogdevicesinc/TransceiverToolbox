@@ -40,6 +40,7 @@ VENDOR_SCRIPTS=$REPO/hdl/vendor/AnalogDevices/vivado/projects/scripts
 if [ -d "$VENDOR_SCRIPTS" ]; then
   cp -f "$REPO/CI/scripts/matlab_processors.tcl" "$VENDOR_SCRIPTS/matlab_processors.tcl"
   cp -f "$REPO/CI/scripts/util_valid_regularizer.v" "$VENDOR_SCRIPTS/util_valid_regularizer.v" 2>/dev/null || true
+  cp -f "$REPO/CI/scripts/util_axis_byte_breakout.v" "$VENDOR_SCRIPTS/util_axis_byte_breakout.v" 2>/dev/null || true
   echo "  vendor ref-design scripts synced from CI/scripts"
 fi
 

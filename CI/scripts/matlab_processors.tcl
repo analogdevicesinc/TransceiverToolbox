@@ -809,7 +809,45 @@ proc preprocess_bd {project carrier rxtx number_of_inputs number_of_bits number_
             # Add 1 extra AXI master ports to the interconnect
             set_property -dict [list CONFIG.NUM_MI {8}] [get_bd_cells axi_hpm0_lpd_interconnect]
 			set_property -dict [list CONFIG.NUM_CLKS {2}] [get_bd_cells axi_hpm0_lpd_interconnect]
-			
+
+			# --- byte-stream DMA into the DUT (JUPITER byte reference design
+			# variant only: plugin_rd_rxtx_byte's byte_dma parameter surfaces
+			# here as a tcl variable; the stock designs never define it) ---
+			if {[info exists ::byte_dma] && $::byte_dma eq "on"} {
+				ad_ip_instance axi_dmac tx_byte_dma
+				ad_ip_parameter tx_byte_dma CONFIG.DMA_TYPE_SRC 0
+				ad_ip_parameter tx_byte_dma CONFIG.DMA_TYPE_DEST 1
+				ad_ip_parameter tx_byte_dma CONFIG.CYCLIC 1
+				ad_ip_parameter tx_byte_dma CONFIG.SYNC_TRANSFER_START 0
+				ad_ip_parameter tx_byte_dma CONFIG.AXI_SLICE_SRC 0
+				ad_ip_parameter tx_byte_dma CONFIG.AXI_SLICE_DEST 0
+				ad_ip_parameter tx_byte_dma CONFIG.DMA_2D_TRANSFER 0
+				ad_ip_parameter tx_byte_dma CONFIG.DMA_DATA_WIDTH_SRC 64
+				ad_ip_parameter tx_byte_dma CONFIG.DMA_DATA_WIDTH_DEST 64
+				ad_ip_parameter tx_byte_dma CONFIG.CACHE_COHERENT 1
+				ad_ip_parameter tx_byte_dma CONFIG.AXI_AXCACHE 0b1111
+				ad_ip_parameter tx_byte_dma CONFIG.AXI_AXPROT 0b010
+				# AXIS member-signal breakout toward the DUT's byte interfaces
+				set bb_src ""
+				foreach bb_cand [list \
+					[file join [file dirname [info script]] util_axis_byte_breakout.v] \
+					"../scripts/util_axis_byte_breakout.v" \
+					"../../scripts/util_axis_byte_breakout.v" \
+					"../../../scripts/util_axis_byte_breakout.v"] {
+					if {[file exists $bb_cand]} { set bb_src $bb_cand; break }
+				}
+				if {$bb_src eq ""} { error "util_axis_byte_breakout.v not found near matlab_processors.tcl" }
+				add_files -norecurse $bb_src
+				create_bd_cell -type module -reference util_axis_byte_breakout byte_breakout
+				connect_bd_net [get_bd_pins axi_adrv9001/adc_1_clk] [get_bd_pins tx_byte_dma/m_axis_aclk]
+				connect_bd_net [get_bd_pins axi_adrv9001/adc_1_clk] [get_bd_pins byte_breakout/s_axis_aclk]
+				ad_connect tx_byte_dma/m_axis byte_breakout/s_axis
+				# AXI-Lite control on the CPU interconnect + DDR read master
+				ad_cpu_interconnect 0x9D100000 tx_byte_dma
+				ad_mem_hpc0_interconnect [get_bd_nets sys_250m_clk] tx_byte_dma/m_src_axi
+				ad_connect [get_bd_nets sys_250m_resetn] tx_byte_dma/m_src_axi_aresetn
+			}
+
 			create_bd_cell -type ip -vlnv xilinx.com:ip:util_vector_logic:2.0 rx_rstn_inverter
 			set_property -dict [list CONFIG.C_SIZE {1} CONFIG.C_OPERATION {not} CONFIG.LOGO_FILE {data/sym_notgate.png}] [get_bd_cells rx_rstn_inverter]
 			
