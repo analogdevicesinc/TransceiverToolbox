@@ -146,6 +146,17 @@ classdef QPSKDeployedLinkTests < HardwareTests
                 sprintf('%s: BER %.5f%% exceeds gate', label, 100*ber));
             fprintf('%s: pkts=%d BER=%.5f%%\n', label, pkts, 100*ber);
         end
+        function assumeByteDesign(testCase)
+            % skip byte tests unless the byte-DMA bitstream is deployed
+            % (the DMAC version register reads back nonzero at 0x9D100000)
+            try
+                v = testCase.regRead('0x9D100000');
+            catch
+                v = 0;
+            end
+            testCase.assumeTrue(v > 0, ...
+                'byte-DMA bitstream not deployed (DMAC version register unreadable)');
+        end
     end
 
     methods (Test)
@@ -299,6 +310,111 @@ classdef QPSKDeployedLinkTests < HardwareTests
             testCase.verifyLessThan(bistBer, testCase.BERGate, 'BIST BER over gate');
             testCase.verifyGreaterThan(nf, 10, 'host decoded too few frames');
             testCase.verifyLessThan(evm, 0.15, 'host EVM degraded');
+        end
+        function testByteDmaBistMatch(testCase)
+            % byte path end-to-end: DMA the BIST-reference payload, select
+            % byte mode, BIST must read zero errors -- internal loopback
+            % first, then over the RF cable
+            testCase.assumeByteDesign();
+            payload = zeros(280,1,'uint8'); payload(1:15) = uint8('ADI Hello World');
+            ByteDmaRegisters.fill(payload);
+            ByteDmaRegisters.start(280);
+            cleanupDma = onCleanup(@() ByteDmaRegisters.stop());
+            tx = adi.ADRV9002.Tx('uri', testCase.uri);
+            tx.EnabledChannels = 1; tx.CenterFrequencyChannel0 = testCase.LO;
+            tx.AttenuationChannel0 = -10;
+            tx.DataSource = 'DMA'; tx.EnableCyclicBuffers = true;
+            tx(complex(zeros(4096,1,'int16'),zeros(4096,1,'int16')));
+            rx = adi.ADRV9002.Rx('uri', testCase.uri);
+            rx.EnabledChannels = 1; rx.CenterFrequencyChannel0 = testCase.LO;
+            rx.SamplesPerFrame = 2^14; rx(); pause(2);
+            cleanup = onCleanup(@() cellfun(@release, {tx, rx}));
+            for mode = {{0,'internal'},{1,'cable'}}
+                rxSel = mode{1}{1}; label = mode{1}{2};
+                testCase.regWrite(testCase.RegBase, 1); pause(1);
+                testCase.regWrite('0x9D00011C', 1);          % byte mode
+                testCase.regWrite(testCase.RegTxSelect, 0);  % FPGA Tx -> DAC
+                testCase.regWrite(testCase.RegRxSelect, rxSel); pause(2);
+                p0 = testCase.regRead(testCase.RegPackets);
+                e0 = testCase.regRead(testCase.RegBitErrors);
+                pause(10);
+                p1 = testCase.regRead(testCase.RegPackets);
+                e1 = testCase.regRead(testCase.RegBitErrors);
+                testCase.verifyGreaterThan(p1-p0, testCase.MinPackets, ...
+                    sprintf('byte/%s: no packet sync', label));
+                testCase.verifyEqual(e1-e0, 0, ...
+                    sprintf('byte/%s: BIST errors on reference bytes', label));
+                fprintf('byteDma %s: pkts=%d errors=%d\n', label, p1-p0, e1-e0);
+            end
+        end
+        function testByteDmaModeSwitching(testCase)
+            % BIST<->byte mode alternation via reset-then-select; both modes
+            % must measure correctly after every switch (x11C reset semantics)
+            testCase.assumeByteDesign();
+            payload = zeros(280,1,'uint8'); payload(1:15) = uint8('ADI Hello World');
+            ByteDmaRegisters.fill(payload);
+            ByteDmaRegisters.start(280);
+            cleanupDma = onCleanup(@() ByteDmaRegisters.stop());
+            tx = adi.ADRV9002.Tx('uri', testCase.uri);
+            tx.EnabledChannels = 1; tx.CenterFrequencyChannel0 = testCase.LO;
+            tx.AttenuationChannel0 = -10;
+            tx.DataSource = 'DMA'; tx.EnableCyclicBuffers = true;
+            tx(complex(zeros(4096,1,'int16'),zeros(4096,1,'int16')));
+            rx = adi.ADRV9002.Rx('uri', testCase.uri);
+            rx.EnabledChannels = 1; rx.CenterFrequencyChannel0 = testCase.LO;
+            rx.SamplesPerFrame = 2^14; rx(); pause(2);
+            cleanup = onCleanup(@() cellfun(@release, {tx, rx}));
+            for k = 1:4
+                byteMode = mod(k,2);
+                testCase.regWrite(testCase.RegBase, 1); pause(1);
+                testCase.regWrite('0x9D00011C', byteMode);
+                testCase.regWrite(testCase.RegTxSelect, 0);
+                testCase.regWrite(testCase.RegRxSelect, 0); pause(2);
+                p0 = testCase.regRead(testCase.RegPackets);
+                e0 = testCase.regRead(testCase.RegBitErrors);
+                pause(5);
+                p1 = testCase.regRead(testCase.RegPackets);
+                e1 = testCase.regRead(testCase.RegBitErrors);
+                testCase.verifyGreaterThan(p1-p0, 3000, ...
+                    sprintf('switch %d (byteMode=%d): no sync', k, byteMode));
+                if byteMode
+                    testCase.verifyEqual(e1-e0, 0, ...
+                        sprintf('switch %d: byte-mode errors', k));
+                end
+                fprintf('modeSwitch %d byteMode=%d: pkts=%d errs=%d\n', ...
+                    k, byteMode, p1-p0, e1-e0);
+            end
+        end
+        function testByteDmaThroughput(testCase)
+            % sustained byte streaming for 60 s at the line rate
+            testCase.assumeByteDesign();
+            payload = zeros(280,1,'uint8'); payload(1:15) = uint8('ADI Hello World');
+            ByteDmaRegisters.fill(payload);
+            ByteDmaRegisters.start(280);
+            cleanupDma = onCleanup(@() ByteDmaRegisters.stop());
+            tx = adi.ADRV9002.Tx('uri', testCase.uri);
+            tx.EnabledChannels = 1; tx.CenterFrequencyChannel0 = testCase.LO;
+            tx.AttenuationChannel0 = -10;
+            tx.DataSource = 'DMA'; tx.EnableCyclicBuffers = true;
+            tx(complex(zeros(4096,1,'int16'),zeros(4096,1,'int16')));
+            rx = adi.ADRV9002.Rx('uri', testCase.uri);
+            rx.EnabledChannels = 1; rx.CenterFrequencyChannel0 = testCase.LO;
+            rx.SamplesPerFrame = 2^14; rx(); pause(2);
+            cleanup = onCleanup(@() cellfun(@release, {tx, rx}));
+            testCase.regWrite(testCase.RegBase, 1); pause(1);
+            testCase.regWrite('0x9D00011C', 1);
+            testCase.regWrite(testCase.RegTxSelect, 0);
+            testCase.regWrite(testCase.RegRxSelect, 1); pause(2);
+            p0 = testCase.regRead(testCase.RegPackets);
+            e0 = testCase.regRead(testCase.RegBitErrors);
+            pause(60);
+            p1 = testCase.regRead(testCase.RegPackets);
+            e1 = testCase.regRead(testCase.RegBitErrors);
+            rate = (p1-p0)/60;
+            fprintf('byteDma throughput: %.0f pkts/s (%.0f B/s payload) errs=%d\n', ...
+                rate, rate*280, e1-e0);
+            testCase.verifyGreaterThan(rate, 1500, 'byte throughput below line rate');
+            testCase.verifyEqual(e1-e0, 0, 'errors during sustained byte streaming');
         end
         function testSustainedBER15Min(testCase)
             % robustness soak: 15 minutes of continuous decode in 30 s
