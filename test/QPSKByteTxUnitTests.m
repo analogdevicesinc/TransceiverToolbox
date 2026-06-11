@@ -160,25 +160,30 @@ classdef QPSKByteTxUnitTests < matlab.unittest.TestCase
 
         function testPluginInterfaces(testCase)
             % the byte reference design variant must expose the three byte
-            % interfaces with the right widths and BD connections
+            % interfaces with the right widths and BD connections, and a
+            % distinct ReferenceDesignName
             hRD = AnalogDevices.jupiter.plugin_rd_rxtx_byte();
-            intf = hRD.InternalIOInterfaces;
-            ids = cellfun(@(x) x.InterfaceID, ...
-                num2cell(intf), 'UniformOutput', false);
+            testCase.verifySubstring(upper(hRD.ReferenceDesignName), 'BYTE');
+            w = warning('off','all'); cleanup = onCleanup(@() warning(w));
+            s = struct(hRD);
+            il = struct(s.hRAWInterfaceList);
+            ids = il.InterfaceIDList;
             need = {'Byte Data IN [0:63]','Byte Valid IN','Byte Ready OUT'};
             for k = 1:numel(need)
-                idx = find(strcmp(ids, need{k}), 1);
-                testCase.verifyNotEmpty(idx, ...
+                testCase.verifyTrue(any(strcmp(ids, need{k})), ...
                     sprintf('missing interface %s', need{k}));
             end
-            iData = intf(strcmp(ids,'Byte Data IN [0:63]'));
-            testCase.verifyEqual(iData.PortWidth, 64);
-            testCase.verifySubstring(iData.InterfaceConnection, 'byte_breakout/byte_data');
+            iData = il.InterfaceIDMap('Byte Data IN [0:63]');
+            testCase.verifyEqual(double(iData.PortWidth), 64);
+            testCase.verifySubstring(char(iData.InterfaceConnection), ...
+                'byte_breakout/byte_data');
             % the variant must carry the byte_dma parameter for the BD tcl
-            prm = hRD.ParameterList;
-            pids = arrayfun(@(p) p.ParameterID, prm, 'UniformOutput', false);
-            testCase.verifyTrue(any(strcmp(pids,'byte_dma')), ...
+            pl = struct(s.hParameterList);
+            testCase.verifyTrue(any(strcmp(pl.ParameterIDList,'byte_dma')), ...
                 'byte_dma parameter missing from reference design');
+            % and stock tcl branching must still see ref_design = rxtx
+            prm = pl.ParameterIDMap('ref_design');
+            testCase.verifyEqual(char(prm.DefaultValue), 'rxtx');
         end
     end
 end
