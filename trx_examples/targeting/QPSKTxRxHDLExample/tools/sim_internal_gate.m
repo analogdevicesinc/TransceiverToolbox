@@ -22,6 +22,15 @@ inSpec={'adc_validIn','boolean','1/30.72e6'; 'adc_dataInI','int16','1/30.72e6'; 
         'iq_debug_mux','uint32','1/15.36e6';'rx_input_select','boolean','1/15.36e6'; ...
         'host_txI','int16','1/30.72e6';     'host_txQ','int16','1/30.72e6'; ...
         'host_txValid','boolean','1/30.72e6'; 'tx_source_select','uint32','1/15.36e6'};
+% bytetx-overlay models grow byte ports (in 11..13, out 12 byte_ready);
+% tie them off here (byte_data=0, byte_valid=false, tx_data_source=0 =
+% generator mode) so this gate keeps enforcing generator-mode behavior.
+ph=get_param([h '/DUT'],'PortHandles');
+nIn=numel(ph.Inport); nOut=numel(ph.Outport);
+if nIn>=13
+  inSpec=[inSpec; {'byte_data','uint64','1/30.72e6'; ...
+    'byte_valid','boolean','1/30.72e6'; 'tx_data_source','uint32','1/15.36e6'}];
+end
 for k=1:size(inSpec,1)
   blk=[h '/' inSpec{k,1}];
   add_block('built-in/Inport',blk,'Port',num2str(k),'Position',[100 40*k 130 40*k+20]);
@@ -33,7 +42,7 @@ for k=1:numel(outNames)
   add_block('built-in/Outport',[h '/' outNames{k}],'Port',num2str(k),'Position',[800 40*k 830 40*k+20]);
   add_line(h,sprintf('DUT/%d',k),[outNames{k} '/1'],'autorouting','on');
 end
-for k=numel(outNames)+1:11
+for k=numel(outNames)+1:nOut
   add_block('built-in/Terminator',sprintf('%s/T%d',h,k),'Position',[800 40*k+200 820 40*k+220]);
   add_line(h,sprintf('DUT/%d',k),sprintf('T%d/1',k),'autorouting','on');
 end
@@ -52,6 +61,11 @@ ds=ds.addElement(timeseries(int16(zeros(Nf,1)),t),'host_txI');
 ds=ds.addElement(timeseries(int16(zeros(Nf,1)),t),'host_txQ');
 ds=ds.addElement(timeseries(true(Nf,1),t),'host_txValid');
 ds=ds.addElement(timeseries(uint32(zeros(n15,1)),ts15),'tx_source_select');
+if nIn>=13
+  ds=ds.addElement(timeseries(uint64(zeros(Nf,1)),t),'byte_data');
+  ds=ds.addElement(timeseries(false(Nf,1),t),'byte_valid');
+  ds=ds.addElement(timeseries(uint32(zeros(n15,1)),ts15),'tx_data_source');  % GENERATOR
+end
 assignin('base','ds_ext',ds);
 so=sim(h);
 y=so.yout;

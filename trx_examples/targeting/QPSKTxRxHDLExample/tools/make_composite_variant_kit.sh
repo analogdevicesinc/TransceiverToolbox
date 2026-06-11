@@ -108,6 +108,19 @@ add_line(loop, 'c_dataI/1',     'Transmitter/2');
 add_line(loop, 'c_dataQ/1',     'Transmitter/3');
 add_line(loop, 'DS_TxValid/1',  'Transmitter/4');
 
+% Byte-TX path tie-offs (generator-mode defaults; bytetx overlay replaces).
+add_block('built-in/Constant', [loop '/c_extWord'], 'Value','0', ...
+   'OutDataTypeStr','uint64', 'SampleTime','1/7.68e6', 'Position',[150 310 180 330]);
+add_block('built-in/Constant', [loop '/c_extAvail'], 'Value','false', ...
+   'OutDataTypeStr','boolean', 'SampleTime','1/7.68e6', 'Position',[150 340 180 360]);
+add_block('built-in/Constant', [loop '/c_extSel'], 'Value','false', ...
+   'OutDataTypeStr','boolean', 'SampleTime','1/7.68e6', 'Position',[150 370 180 390]);
+add_line(loop, 'c_extWord/1',  'Transmitter/5');
+add_line(loop, 'c_extAvail/1', 'Transmitter/6');
+add_line(loop, 'c_extSel/1',   'Transmitter/7');
+add_block('built-in/Terminator', [loop '/T_extPop'], 'Position',[450 380 470 400]);
+add_line(loop, 'Transmitter/9', 'T_extPop/1');
+
 add_block('dspsigops/Repeat', [loop '/REP_TxI'], ...
     'FactorSource','Dialog parameter','N','2','Nmax','16', ...
     'InputProcessing','Elements as channels (sample based)', ...

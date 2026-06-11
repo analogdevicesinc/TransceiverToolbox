@@ -104,6 +104,22 @@ add_line(loop, 'c_dataI/1',     'Transmitter/2');
 add_line(loop, 'c_dataQ/1',     'Transmitter/3');
 add_line(loop, 'DS_TxValid/1',  'Transmitter/4');     % Tx.validIn at 1/7.68e6
 
+% Byte-TX path tie-offs (generator-mode defaults). The Transmitter's byte
+% ports (5..7 in, 9 out -- see tools/add_byte_tx_path.m) are inert here so
+% EXISTING variants build unchanged; the bytetx overlay replaces these
+% constants/terminator with the real ByteWordBuffer plumbing.
+add_block('built-in/Constant', [loop '/c_extWord'], 'Value','0', ...
+   'OutDataTypeStr','uint64', 'SampleTime','1/7.68e6', 'Position',[150 310 180 330]);
+add_block('built-in/Constant', [loop '/c_extAvail'], 'Value','false', ...
+   'OutDataTypeStr','boolean', 'SampleTime','1/7.68e6', 'Position',[150 340 180 360]);
+add_block('built-in/Constant', [loop '/c_extSel'], 'Value','false', ...
+   'OutDataTypeStr','boolean', 'SampleTime','1/7.68e6', 'Position',[150 370 180 390]);
+add_line(loop, 'c_extWord/1',  'Transmitter/5');
+add_line(loop, 'c_extAvail/1', 'Transmitter/6');
+add_line(loop, 'c_extSel/1',   'Transmitter/7');
+add_block('built-in/Terminator', [loop '/T_extPop'], 'Position',[450 380 470 400]);
+add_line(loop, 'Transmitter/9', 'T_extPop/1');
+
 % ----- Tx output bridge to 1/15.36e6 (for DAC outputs AND for internal loopback MUX input) -----
 % Use Repeat (N=2) blocks: 1/7.68e6 -> 1/15.36e6.
 add_block('dspsigops/Repeat', [loop '/REP_TxI'], ...
