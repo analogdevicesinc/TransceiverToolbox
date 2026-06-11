@@ -168,12 +168,12 @@ classdef QPSKByteTxUnitTests < matlab.unittest.TestCase
             s = struct(hRD);
             il = struct(s.hRAWInterfaceList);
             ids = il.InterfaceIDList;
-            need = {'Byte Data IN [0:63]','Byte Valid IN','Byte Ready OUT'};
+            need = {'Byte Data IN','Byte Valid IN','Byte Ready OUT'};
             for k = 1:numel(need)
                 testCase.verifyTrue(any(strcmp(ids, need{k})), ...
                     sprintf('missing interface %s', need{k}));
             end
-            iData = il.InterfaceIDMap('Byte Data IN [0:63]');
+            iData = il.InterfaceIDMap('Byte Data IN');
             testCase.verifyEqual(double(iData.PortWidth), 64);
             testCase.verifySubstring(char(iData.InterfaceConnection), ...
                 'byte_breakout/byte_data');
