@@ -6,9 +6,12 @@ classdef QPSKByteTxUnitTests < matlab.unittest.TestCase
     % blocks, so passing here means the modeled logic is correct):
     %   qpskByteBitShifter  -- 64-bit word -> payload bit deserializer
     %                          (byte-0-first, MSB-first per byte; resyncs
-    %                          its bit index on the packet start flag)
+    %                          its bit index on the packet start flag and
+    %                          WORD-ALIGNS to the in-band first-word marker
+    %                          so a rotated cyclic-DMA stream converges)
     %   qpskByteWordBuffer  -- 2-deep AXIS-side word FIFO with registered
-    %                          ready backpressure
+    %                          ready backpressure; carries a first-word
+    %                          flag alongside each word
     %   ByteDmaRegisters.pack -- host-side byte->uint64 word packer (the
     %                          exact inverse ordering of the shifter)
     %   AnalogDevices.jupiter.plugin_rd_rxtx_byte -- reference design
@@ -32,19 +35,29 @@ classdef QPSKByteTxUnitTests < matlab.unittest.TestCase
 
     methods
         function bits = shiftWords(testCase, words, nBits)
-            % run the shifter over a word stream, continuous enable, one
-            % start pulse at bit 1 (packet boundary), collecting nBits
+            % run the shifter over an ALIGNED word stream (firstIn true on
+            % every 35th word starting at word 1), continuous enable, one
+            % start pulse at each packet boundary, collecting nBits
             bits = false(nBits,1);
             state = qpskByteBitShifter();          % reset/init call
             wi = 1;
             for k = 1:nBits
                 start = (mod(k-1, testCase.DBPP) == 0);
+                wf = (mod(wi-1, testCase.WordsPerPacket) == 0);
                 [b, pop, state] = qpskByteBitShifter(state, true, start, ...
-                    words(min(wi,numel(words))), true);
+                    words(min(wi,numel(words))), true, wf);
                 bits(k) = b;
                 if pop
                     wi = wi + 1;
                 end
+            end
+        end
+
+        function bytes = bitsToBytes(testCase, bits)
+            % inverse of the shifter ordering: 8 bits MSB-first per byte
+            bytes = uint8(zeros(testCase.BytesPerPacket,1));
+            for b = 1:testCase.BytesPerPacket
+                bytes(b) = uint8(bin2dec(char('0' + bits((b-1)*8+1:b*8).')));
             end
         end
     end
@@ -75,11 +88,7 @@ classdef QPSKByteTxUnitTests < matlab.unittest.TestCase
                 payload = uint8(randi([0 255], testCase.BytesPerPacket, 1));
                 words = ByteDmaRegisters.pack(payload);
                 bits = testCase.shiftWords(words, testCase.DBPP);
-                back = uint8(zeros(testCase.BytesPerPacket,1));
-                for b = 1:testCase.BytesPerPacket
-                    back(b) = uint8(bin2dec(char('0' + ...
-                        bits((b-1)*8+1 : b*8).')));
-                end
+                back = testCase.bitsToBytes(bits);
                 testCase.verifyEqual(back, payload, ...
                     sprintf('roundtrip mismatch at fuzz iteration %d', it));
             end
@@ -91,31 +100,33 @@ classdef QPSKByteTxUnitTests < matlab.unittest.TestCase
             payload = uint8(randi([0 255], testCase.BytesPerPacket, 1));
             words = ByteDmaRegisters.pack(payload);
             state = qpskByteBitShifter();
-            % desync deliberately: consume 13 bits with no start
+            % desync deliberately: consume 13 bits with no start. The head
+            % word is first-marked, so the unaligned shifter HOLDS on it
+            % (no pops) until the start arrives.
             for k = 1:13
-                [~, ~, state] = qpskByteBitShifter(state, true, false, words(1), true);
+                [~, ~, state] = qpskByteBitShifter(state, true, false, ...
+                    words(1), true, true);
             end
             % now a packet start: the next 2240 bits must decode payload
             bits = false(testCase.DBPP,1);
             wi = 1;
             for k = 1:testCase.DBPP
+                wf = (mod(wi-1, testCase.WordsPerPacket) == 0);
                 [b, pop, state] = qpskByteBitShifter(state, true, k==1, ...
-                    words(min(wi,end)), true);
+                    words(min(wi,end)), true, wf);
                 bits(k) = b;
                 if pop, wi = wi + 1; end
             end
-            back = uint8(zeros(testCase.BytesPerPacket,1));
-            for b = 1:testCase.BytesPerPacket
-                back(b) = uint8(bin2dec(char('0' + bits((b-1)*8+1:b*8).')));
-            end
+            back = testCase.bitsToBytes(bits);
             testCase.verifyEqual(back, payload, 'post-resync packet corrupt');
             % 35 words consumed per packet, invariant over 10 packets
             state = qpskByteBitShifter();
             pops = 0;
             for pkt = 1:10
                 for k = 1:testCase.DBPP
+                    wf = (mod(pops, testCase.WordsPerPacket) == 0);
                     [~, pop, state] = qpskByteBitShifter(state, true, k==1, ...
-                        uint64(pkt), true);
+                        uint64(pkt), true, wf);
                     pops = pops + pop;
                 end
             end
@@ -123,24 +134,100 @@ classdef QPSKByteTxUnitTests < matlab.unittest.TestCase
                 'word consumption must be exactly 35 per packet');
         end
 
+        function testRotationRealignment(testCase)
+            % the cyclic DMA's word phase vs the packet boundary is
+            % arbitrary: the stream may start at ANY of the 35 rotations.
+            % The shifter must converge via the first-word marker: discard
+            % unmarked words, hold on the marked word, latch it on the next
+            % start. From the SECOND packet onward decode must be
+            % byte-exact, and stay byte-exact for the following packets.
+            rng(23);
+            payload = uint8(randi([0 255], testCase.BytesPerPacket, 1));
+            words = ByteDmaRegisters.pack(payload);
+            W = testCase.WordsPerPacket;
+            for offset = [1 7 17 34]
+                state = qpskByteBitShifter();
+                p = offset + 1;             % stream head starts rotated
+                nPkts = 8;                  % 1 garbage + 7 checked
+                bits = false(nPkts*testCase.DBPP,1);
+                for k = 1:nPkts*testCase.DBPP
+                    start = (mod(k-1, testCase.DBPP) == 0);
+                    wIdx = mod(p-1, W) + 1;
+                    [b, pop, state] = qpskByteBitShifter(state, true, ...
+                        start, words(wIdx), true, wIdx == 1);
+                    bits(k) = b;
+                    if pop, p = p + 1; end
+                end
+                for pkt = 2:nPkts
+                    pb = bits((pkt-1)*testCase.DBPP + (1:testCase.DBPP));
+                    back = testCase.bitsToBytes(pb);
+                    testCase.verifyEqual(back, payload, sprintf( ...
+                        'rotation offset %d: packet %d not byte-exact', ...
+                        offset, pkt));
+                end
+            end
+        end
+
+        function testUnderflowRealign(testCase)
+            % after alignment, a 100-step wordAvail starvation mid-packet
+            % must drop alignment (zeros emitted) and the shifter must
+            % re-converge within 2 packets once the (rotated) stream resumes
+            rng(31);
+            payload = uint8(randi([0 255], testCase.BytesPerPacket, 1));
+            words = ByteDmaRegisters.pack(payload);
+            W = testCase.WordsPerPacket;
+            offset = 17;
+            state = qpskByteBitShifter();
+            p = offset + 1;
+            nPkts = 7;
+            % starve 100 steps starting mid-packet-3
+            starve0 = 2*testCase.DBPP + 1000;
+            starve1 = starve0 + 99;
+            bits = false(nPkts*testCase.DBPP,1);
+            for k = 1:nPkts*testCase.DBPP
+                start = (mod(k-1, testCase.DBPP) == 0);
+                avail = ~(k >= starve0 && k <= starve1);
+                wIdx = mod(p-1, W) + 1;
+                [b, pop, state] = qpskByteBitShifter(state, true, ...
+                    start, words(wIdx), avail, wIdx == 1);
+                bits(k) = b;
+                if pop, p = p + 1; end
+            end
+            % packet 2: aligned before the starve -- must be byte-exact
+            pb = bits(testCase.DBPP + (1:testCase.DBPP));
+            testCase.verifyEqual(testCase.bitsToBytes(pb), payload, ...
+                'packet 2 (pre-starve, aligned) not byte-exact');
+            % packets 5..7: re-converged within 2 packets of the starve
+            for pkt = 5:nPkts
+                pb = bits((pkt-1)*testCase.DBPP + (1:testCase.DBPP));
+                testCase.verifyEqual(testCase.bitsToBytes(pb), payload, ...
+                    sprintf('packet %d after underflow not byte-exact', pkt));
+            end
+        end
+
         function testWordBufferHandshake(testCase)
             % 2-deep FIFO: ready deasserts at occupancy 2; accepts only on
-            % valid&ready; pops in order; no drop/duplicate under fuzz
+            % valid&ready; pops in order; no drop/duplicate under fuzz; the
+            % first-word flag travels with its word
             rng(11);
             state = qpskByteWordBuffer();
             pushed = uint64([]); popped = uint64([]);
+            pushedF = false(0,1); poppedF = false(0,1);
             nextVal = uint64(1);
             for k = 1:1000
                 vIn  = rand < 0.6;
                 pReq = rand < 0.35;
-                [word, avail, ready, state] = qpskByteWordBuffer( ...
-                    state, nextVal, vIn, pReq);
+                fIn  = rand < 0.2;
+                [word, avail, ready, wordFirst, state] = qpskByteWordBuffer( ...
+                    state, nextVal, vIn, pReq, fIn);
                 if vIn && ready
                     pushed(end+1) = nextVal; %#ok<AGROW>
+                    pushedF(end+1,1) = fIn;
                     nextVal = nextVal + 1;
                 end
                 if pReq && avail
                     popped(end+1) = word; %#ok<AGROW>
+                    poppedF(end+1,1) = logical(wordFirst);
                 end
                 occ = numel(pushed) - numel(popped);
                 testCase.verifyGreaterThanOrEqual(occ, 0);
@@ -148,18 +235,20 @@ classdef QPSKByteTxUnitTests < matlab.unittest.TestCase
                     'occupancy exceeded FIFO depth');
                 if occ >= 2
                     % ready must be deasserted on the NEXT cycle (registered)
-                    [~, ~, readyNext, state] = qpskByteWordBuffer( ...
-                        state, nextVal, false, false);
+                    [~, ~, readyNext, ~, state] = qpskByteWordBuffer( ...
+                        state, nextVal, false, false, false);
                     testCase.verifyFalse(logical(readyNext), ...
                         'ready asserted while full');
                 end
             end
             testCase.verifyEqual(popped.', pushed(1:numel(popped)).', ...
                 'FIFO order/drop/duplicate violation');
+            testCase.verifyEqual(poppedF, pushedF(1:numel(poppedF)), ...
+                'first-word flag did not travel with its word');
         end
 
         function testPluginInterfaces(testCase)
-            % the byte reference design variant must expose the three byte
+            % the byte reference design variant must expose the four byte
             % interfaces with the right widths and BD connections, and a
             % distinct ReferenceDesignName
             hRD = AnalogDevices.jupiter.plugin_rd_rxtx_byte();
@@ -168,7 +257,8 @@ classdef QPSKByteTxUnitTests < matlab.unittest.TestCase
             s = struct(hRD);
             il = struct(s.hRAWInterfaceList);
             ids = il.InterfaceIDList;
-            need = {'Byte Data IN','Byte Valid IN','Byte Ready OUT'};
+            need = {'Byte Data IN','Byte Valid IN','Byte Ready OUT', ...
+                    'Byte First IN'};
             for k = 1:numel(need)
                 testCase.verifyTrue(any(strcmp(ids, need{k})), ...
                     sprintf('missing interface %s', need{k}));
@@ -177,6 +267,10 @@ classdef QPSKByteTxUnitTests < matlab.unittest.TestCase
             testCase.verifyEqual(double(iData.PortWidth), 64);
             testCase.verifySubstring(char(iData.InterfaceConnection), ...
                 'byte_breakout/byte_data');
+            iFirst = il.InterfaceIDMap('Byte First IN');
+            testCase.verifyEqual(double(iFirst.PortWidth), 1);
+            testCase.verifySubstring(char(iFirst.InterfaceConnection), ...
+                'byte_breakout/byte_first');
             % the variant must carry the byte_dma parameter for the BD tcl
             pl = struct(s.hParameterList);
             testCase.verifyTrue(any(strcmp(pl.ParameterIDList,'byte_dma')), ...
