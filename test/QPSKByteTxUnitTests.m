@@ -89,7 +89,47 @@ classdef QPSKByteTxUnitTests < matlab.unittest.TestCase
         end
     end
 
+    properties (TestParameter)
+        % configurable packet size: payload bits must be a multiple of 64
+        % (whole words) and >= 128 (BIST checks the first 120 bits)
+        packetBits = {1280, 2240, 4480};
+    end
+
     methods (Test)
+        function testConfigurablePacketSize(testCase, packetBits)
+            % the byte path must work at any whole-word packet size: the
+            % serializer marks wordLast on the (packetBits/64)th word and
+            % the full pack -> shift -> serialize roundtrip is byte-exact
+            nWords = packetBits/64; nBytes = packetBits/8;
+            rng(packetBits);
+            payload = uint8(randi([0 255], nBytes, 1));
+            words = ByteDmaRegisters.pack(payload);
+            testCase.verifyEqual(numel(words), nWords);
+            % shift bits out (start every packetBits), feed the serializer
+            sh = qpskByteBitShifter(); se = qpskByteSerializer();
+            wi = 1; got = uint64([]); lastFlags = [];
+            for k = 1:2*packetBits          % two packets
+                start = (mod(k-1, packetBits) == 0);
+                [b, pop, sh] = qpskByteBitShifter(sh, true, start, ...
+                    words(mod(wi-1, nWords)+1), true, mod(wi-1, nWords)==0);
+                if pop, wi = wi + 1; end
+                [w, wv, wl, ~, se] = qpskByteSerializer(se, b, true, start, ...
+                    true, nWords);
+                if wv
+                    got(end+1) = w; lastFlags(end+1) = wl; %#ok<AGROW>
+                end
+            end
+            testCase.verifyGreaterThanOrEqual(numel(got), 2*nWords - 1, ...
+                'serializer under-produced words');
+            % wordLast must fire exactly every nWords words
+            li = find(lastFlags);
+            testCase.verifyEqual(diff(li), repmat(nWords, 1, numel(li)-1), ...
+                'wordLast period wrong for this packet size');
+            % first complete packet is byte-exact
+            testCase.verifyEqual(got(1:nWords).', words, ...
+                'roundtrip not byte-exact at this packet size');
+        end
+
         function testBitOrdering(testCase)
             % shifting the packed BIST-reference payload must reproduce the
             % BIST reference bit order exactly: dec2bin(...,8) row-reshape
