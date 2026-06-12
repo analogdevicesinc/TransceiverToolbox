@@ -100,9 +100,11 @@ up() {
 
     # forward nsA->10.66.0.2 rides RF (qpsk0 peer route, present already);
     # reverse nsB->10.66.0.1 returns over the ret pair, NOT qpsk1
-    ip -n nsB route replace 10.66.0.1 via 10.77.0.1 dev ret1
-    # keep TCP segments inside one QPSK frame
-    ip -n nsA route replace 10.66.0.2 dev qpsk0 advmss 200
+    # rto_min: link RTT is ~5 ms; the default 200 ms RTO turns each
+    # residual ARQ loss into a long stall (measured 0.98 vs 1.21 Mbit/s
+    # short-run TCP). advmss keeps TCP segments inside one QPSK frame.
+    ip -n nsB route replace 10.66.0.1 via 10.77.0.1 dev ret1 rto_min 25ms
+    ip -n nsA route replace 10.66.0.2 dev qpsk0 advmss 200 rto_min 25ms
     ip netns exec nsA sysctl -qw net.ipv4.conf.all.rp_filter=0 \
         net.ipv4.conf.default.rp_filter=0 net.ipv4.conf.qpsk0.rp_filter=0 \
         net.ipv4.conf.ret0.rp_filter=0
