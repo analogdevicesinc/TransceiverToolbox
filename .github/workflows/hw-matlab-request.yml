@@ -1,4 +1,4 @@
-name: Hardware Tests (matlab-hw-request v3.3)
+name: Hardware Tests (matlab-hw-request v3.4)
 
 # Successor to the bespoke hw-matlab.yml, running side-by-side during the
 # migration window (staggered cron). Discovery intersects
@@ -26,7 +26,7 @@ jobs:
     if: >-
       github.event_name != 'pull_request' ||
       contains(github.event.pull_request.labels.*.name, 'hw-test')
-    uses: tfcollins/labgrid-plugins/.github/workflows/matlab-hw-request.yml@v3.3
+    uses: tfcollins/labgrid-plugins/.github/workflows/matlab-hw-request.yml@v3.4
     with:
       coordinator: ${{ vars.LG_COORDINATOR }}     # gRPC :20408, NOT :8000
       board-map: "test/hw_ci/board_map.yaml"
