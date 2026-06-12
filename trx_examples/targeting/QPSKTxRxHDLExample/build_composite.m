@@ -114,9 +114,12 @@ add_block('built-in/Constant', [loop '/c_extAvail'], 'Value','false', ...
    'OutDataTypeStr','boolean', 'SampleTime','1/7.68e6', 'Position',[150 340 180 360]);
 add_block('built-in/Constant', [loop '/c_extSel'], 'Value','false', ...
    'OutDataTypeStr','boolean', 'SampleTime','1/7.68e6', 'Position',[150 370 180 390]);
+add_block('built-in/Constant', [loop '/c_extFirst'], 'Value','false', ...
+   'OutDataTypeStr','boolean', 'SampleTime','1/7.68e6', 'Position',[150 400 180 420]);
 add_line(loop, 'c_extWord/1',  'Transmitter/5');
 add_line(loop, 'c_extAvail/1', 'Transmitter/6');
 add_line(loop, 'c_extSel/1',   'Transmitter/7');
+add_line(loop, 'c_extFirst/1', 'Transmitter/8');
 add_block('built-in/Terminator', [loop '/T_extPop'], 'Position',[450 380 470 400]);
 add_line(loop, 'Transmitter/9', 'T_extPop/1');
 

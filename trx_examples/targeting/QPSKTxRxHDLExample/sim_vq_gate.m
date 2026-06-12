@@ -19,14 +19,18 @@ inSpec={'adc_validIn','boolean','logical','1/30.72e6'; 'adc_dataInI','int16','in
         'iq_debug_mux','uint32','uint32','1/15.36e6'; 'rx_input_select','boolean','logical','1/15.36e6'; ...
         'host_txI','int16','int16','1/30.72e6';       'host_txQ','int16','int16','1/30.72e6'; ...
         'host_txValid','boolean','logical','1/30.72e6'; 'tx_source_select','uint32','uint32','1/15.36e6'};
-% bytetx-overlay models grow byte ports (in 11..13, out 12 byte_ready);
-% tie them off (generator mode) so this gate still checks the stock path.
+% bytetx-overlay models grow byte ports (in 11..14, out 12 byte_ready);
+% tie them off (generator mode, byte_first=false) so this gate still
+% checks the stock path.
 ph=get_param([h '/DUT'],'PortHandles');
 nIn=numel(ph.Inport); nOut=numel(ph.Outport);
 if nIn>=13
   inSpec=[inSpec; {'byte_data','uint64','uint64','1/30.72e6'; ...
     'byte_valid','boolean','logical','1/30.72e6'; ...
     'tx_data_source','uint32','uint32','1/15.36e6'}];
+end
+if nIn>=14
+  inSpec=[inSpec; {'byte_first','boolean','logical','1/30.72e6'}];
 end
 for k=1:size(inSpec,1)
   blk=[h '/' inSpec{k,1}];
@@ -62,6 +66,9 @@ if nIn>=13
   ds=ds.addElement(timeseries(uint64(zeros(Nf,1)),t),'byte_data');
   ds=ds.addElement(timeseries(false(Nf,1),t),'byte_valid');
   ds=ds.addElement(timeseries(uint32(zeros(ceil(Nf/2),1)),(0:ceil(Nf/2)-1)'*(1/15.36e6)),'tx_data_source');
+end
+if nIn>=14
+  ds=ds.addElement(timeseries(false(Nf,1),t),'byte_first');
 end
 assignin('base','ds_ext',ds);
 so=sim(h);
