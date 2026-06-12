@@ -852,7 +852,7 @@ proc preprocess_bd {project carrier rxtx number_of_inputs number_of_bits number_
 				ad_ip_parameter rx_byte_dma CONFIG.DMA_TYPE_SRC 1
 				ad_ip_parameter rx_byte_dma CONFIG.DMA_TYPE_DEST 0
 				ad_ip_parameter rx_byte_dma CONFIG.CYCLIC 0
-				ad_ip_parameter rx_byte_dma CONFIG.SYNC_TRANSFER_START 0
+				ad_ip_parameter rx_byte_dma CONFIG.SYNC_TRANSFER_START 1
 				ad_ip_parameter rx_byte_dma CONFIG.AXI_SLICE_SRC 0
 				ad_ip_parameter rx_byte_dma CONFIG.AXI_SLICE_DEST 0
 				ad_ip_parameter rx_byte_dma CONFIG.DMA_2D_TRANSFER 0

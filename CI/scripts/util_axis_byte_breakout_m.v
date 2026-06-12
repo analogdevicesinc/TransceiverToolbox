@@ -24,16 +24,20 @@ module util_axis_byte_breakout_m (
   input  wire        m_axis_tready,
   (* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 m_axis TLAST" *)
   output wire        m_axis_tlast,
+  (* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 m_axis TUSER" *)
+  output wire        m_axis_tuser,
 
   input  wire [63:0] byte_data,
   input  wire        byte_valid,
   input  wire        byte_last,
+  input  wire        byte_user,
   output wire        byte_ready
 );
 
   assign m_axis_tdata  = byte_data;
   assign m_axis_tvalid = byte_valid;
   assign m_axis_tlast  = byte_last;
+  assign m_axis_tuser  = byte_user;
   assign byte_ready    = m_axis_tready;
 
 endmodule

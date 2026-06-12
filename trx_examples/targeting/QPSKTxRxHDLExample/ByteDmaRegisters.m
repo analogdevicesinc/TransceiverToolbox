@@ -89,17 +89,23 @@ classdef ByteDmaRegisters
                 clr = [clr sprintf('busybox devmem 0x%X 32 0; ', A+4*(k-1))]; %#ok<AGROW>
             end
             BistRegisters.sshExec(clr, 30);
+            % SYNC_TRANSFER_START is enabled on the rx DMA: the capture begins
+            % at the first beat carrying tuser[0]=1 (the serializer's
+            % first-word-of-packet marker), so every transfer is
+            % packet-aligned by construction.
             cmd = sprintf([ ...
                 'busybox devmem 0x%X 32 0; sleep 1; ' ... % CONTROL: engine reset
                 'busybox devmem 0x%X 32 3; ' ...          % IRQ_MASK: mask all
                 'busybox devmem 0x%X 32 1; ' ...          % CONTROL: enable
                 'busybox devmem 0x%X 32 0; ' ...          % FLAGS: one-shot
+                'busybox devmem 0x%X 32 0; ' ...          % TRANSFER_ID = 0
                 'busybox devmem 0x%X 32 %d; ' ...         % DEST_ADDRESS
                 'busybox devmem 0x%X 32 %d; ' ...         % X_LENGTH = bytes-1
                 'busybox devmem 0x%X 32 1'], ...          % TRANSFER_SUBMIT
-                B+1024, B+128, B+1024, B+1036, B+1040, A, B+1048, lenBytes-1, B+1032);
+                B+1024, B+128, B+1024, B+1036, B+1028, ...
+                B+1040, A, B+1048, lenBytes-1, B+1032);
             BistRegisters.sshExec(cmd, 10);
-            % poll completion (TRANSFER_DONE bit for id 0)
+            % poll completion (TRANSFER_DONE bit 0)
             done = false;
             for k = 1:20
                 v = double(BistRegisters.read(sprintf('0x%X', B+1064), 8));
