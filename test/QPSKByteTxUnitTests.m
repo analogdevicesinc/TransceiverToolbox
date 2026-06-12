@@ -12,6 +12,10 @@ classdef QPSKByteTxUnitTests < matlab.unittest.TestCase
     %   qpskByteWordBuffer  -- 2-deep AXIS-side word FIFO with registered
     %                          ready backpressure; carries a first-word
     %                          flag alongside each word
+    %   qpskByteSerializer  -- Rx mirror: recovered payload bit ->
+    %                          64-bit word serializer (EXACT inverse of
+    %                          qpskByteBitShifter; drop-on-stall, never
+    %                          stalls the Receiver)
     %   ByteDmaRegisters.pack -- host-side byte->uint64 word packer (the
     %                          exact inverse ordering of the shifter)
     %   AnalogDevices.jupiter.plugin_rd_rxtx_byte -- reference design
@@ -58,6 +62,29 @@ classdef QPSKByteTxUnitTests < matlab.unittest.TestCase
             bytes = uint8(zeros(testCase.BytesPerPacket,1));
             for b = 1:testCase.BytesPerPacket
                 bytes(b) = uint8(bin2dec(char('0' + bits((b-1)*8+1:b*8).')));
+            end
+        end
+
+        function [words, lasts, drops, state] = serializeBits( ...
+                testCase, bits, state, readyFcn, startFcn)
+            % run the serializer over a bit stream (bitValid=true every
+            % step); readyFcn(k)/startFcn(k) parameterize the drive.
+            % Returns emitted words, their wordLast flags, and the number
+            % of dropped words.
+            if isempty(state), state = qpskByteSerializer(); end
+            if isempty(readyFcn), readyFcn = @(k) true; end
+            if isempty(startFcn)
+                startFcn = @(k) mod(k-1, testCase.DBPP) == 0;
+            end
+            words = uint64([]); lasts = false(0,1); drops = 0;
+            for k = 1:numel(bits)
+                [w, wv, wl, dp, state] = qpskByteSerializer(state, ...
+                    bits(k), true, startFcn(k), readyFcn(k));
+                if wv
+                    words(end+1,1) = w; %#ok<AGROW>
+                    lasts(end+1,1) = logical(wl); %#ok<AGROW>
+                end
+                drops = drops + double(dp);
             end
         end
     end
@@ -247,6 +274,92 @@ classdef QPSKByteTxUnitTests < matlab.unittest.TestCase
                 'first-word flag did not travel with its word');
         end
 
+        function testSerializerRoundtrip(testCase)
+            % ROUNDTRIP LAW: shifter(pack(bytes)) bits fed into the
+            % serializer must reproduce pack(bytes) words exactly, for 50
+            % random payloads (the serializer is the exact inverse of the
+            % shifter: byte-0-first, MSB-first per byte)
+            rng(41);
+            for it = 1:50
+                payload = uint8(randi([0 255], testCase.BytesPerPacket, 1));
+                words = ByteDmaRegisters.pack(payload);
+                bits = testCase.shiftWords(words, testCase.DBPP);
+                [got, lasts] = testCase.serializeBits(bits, [], [], []);
+                testCase.verifyEqual(got, words, sprintf( ...
+                    'roundtrip mismatch at fuzz iteration %d', it));
+                testCase.verifyEqual(numel(got), testCase.WordsPerPacket);
+                testCase.verifyTrue(lasts(end), ...
+                    'wordLast missing on the packet''s final word');
+                testCase.verifyFalse(any(lasts(1:end-1)), ...
+                    'wordLast asserted before word 35');
+            end
+        end
+
+        function testSerializerWordLast(testCase)
+            % wordLast exactly on every 35th word, 35 words per packet,
+            % over 10 back-to-back packets (start pulse at each boundary)
+            rng(43);
+            payload = uint8(randi([0 255], testCase.BytesPerPacket, 1));
+            words = ByteDmaRegisters.pack(payload);
+            bits1 = testCase.shiftWords(words, testCase.DBPP);
+            bits = repmat(bits1, 10, 1);
+            [got, lasts, drops] = testCase.serializeBits(bits, [], [], []);
+            testCase.verifyEqual(numel(got), 10*testCase.WordsPerPacket, ...
+                'word count must be exactly 35 per packet');
+            testCase.verifyEqual(drops, 0);
+            expLast = false(numel(got),1);
+            expLast(testCase.WordsPerPacket:testCase.WordsPerPacket:end) = true;
+            testCase.verifyEqual(lasts, expLast, ...
+                'wordLast must fire exactly on every 35th word');
+            testCase.verifyEqual(got, repmat(words,10,1));
+        end
+
+        function testSerializerDropOnStall(testCase)
+            % ready=false while words 5 and 6 complete -> exactly those two
+            % words dropped (flagged via drop, no wordValid), the stream
+            % resumes correctly and NO later word is corrupted; packet 2 is
+            % complete. The serializer must never stall.
+            rng(47);
+            payload = uint8(randi([0 255], testCase.BytesPerPacket, 1));
+            words = ByteDmaRegisters.pack(payload);
+            bits1 = testCase.shiftWords(words, testCase.DBPP);
+            bits = repmat(bits1, 2, 1);
+            % words 5 and 6 of packet 1 complete at bit steps 320 and 384;
+            % hold ready low across their whole collection window
+            readyFcn = @(k) ~(k >= 257 && k <= 384);
+            [got, lasts, drops] = testCase.serializeBits(bits, [], readyFcn, []);
+            testCase.verifyEqual(drops, 2, 'exactly 2 words must be dropped');
+            exp = [words([1:4 7:end]); words];
+            testCase.verifyEqual(got, exp, ...
+                'post-stall stream corrupt (later words must be intact)');
+            % wordLast still lands on the words completing the packets
+            % (word positions count dropped words too)
+            expLast = false(numel(exp),1);
+            expLast(testCase.WordsPerPacket-2) = true;   % packet 1 (2 dropped)
+            expLast(end) = true;                          % packet 2
+            testCase.verifyEqual(lasts, expLast, ...
+                'wordLast misplaced around the dropped words');
+        end
+
+        function testSerializerMidWordStart(testCase)
+            % a start arriving mid-word must discard the partial word: 13
+            % garbage bits with no start, then a full packet with start on
+            % its first bit -> exactly the 35 payload words, byte-exact
+            rng(53);
+            payload = uint8(randi([0 255], testCase.BytesPerPacket, 1));
+            words = ByteDmaRegisters.pack(payload);
+            bits1 = testCase.shiftWords(words, testCase.DBPP);
+            garbage = rand(13,1) > 0.5;
+            bits = [garbage; bits1];
+            startFcn = @(k) k == numel(garbage) + 1;
+            [got, lasts, drops] = testCase.serializeBits(bits, [], [], startFcn);
+            testCase.verifyEqual(drops, 0);
+            testCase.verifyEqual(numel(got), testCase.WordsPerPacket, ...
+                'partial word must be discarded, not emitted');
+            testCase.verifyEqual(got, words, 'post-start packet corrupt');
+            testCase.verifyTrue(lasts(end));
+        end
+
         function testPluginInterfaces(testCase)
             % the byte reference design variant must expose the four byte
             % interfaces with the right widths and BD connections, and a
@@ -271,6 +384,30 @@ classdef QPSKByteTxUnitTests < matlab.unittest.TestCase
             testCase.verifyEqual(double(iFirst.PortWidth), 1);
             testCase.verifySubstring(char(iFirst.InterfaceConnection), ...
                 'byte_breakout/byte_first');
+            % --- Rx-side byte path (DUT -> rx_byte_dma -> DDR) ---
+            needRx = {'Byte Data OUT','Byte Valid OUT','Byte Last OUT', ...
+                      'Byte Ready IN'};
+            for k = 1:numel(needRx)
+                testCase.verifyTrue(any(strcmp(ids, needRx{k})), ...
+                    sprintf('missing Rx interface %s', needRx{k}));
+            end
+            rxSpec = { ...
+              'Byte Data OUT',  64, 'OUT', 'dut_byte_data_out',  'rx_byte_breakout/byte_data'; ...
+              'Byte Valid OUT',  1, 'OUT', 'dut_byte_valid_out', 'rx_byte_breakout/byte_valid'; ...
+              'Byte Last OUT',   1, 'OUT', 'dut_byte_last_out',  'rx_byte_breakout/byte_last'; ...
+              'Byte Ready IN',   1, 'IN',  'dut_byte_ready_in',  'rx_byte_breakout/byte_ready'};
+            for k = 1:size(rxSpec,1)
+                if ~any(strcmp(ids, rxSpec{k,1})), continue; end
+                ifc = il.InterfaceIDMap(rxSpec{k,1});
+                testCase.verifyEqual(double(ifc.PortWidth), rxSpec{k,2}, ...
+                    sprintf('%s: wrong width', rxSpec{k,1}));
+                testCase.verifyEqual(upper(char(ifc.InterfaceType)), ...
+                    rxSpec{k,3}, sprintf('%s: wrong direction', rxSpec{k,1}));
+                testCase.verifyEqual(char(ifc.PortName), rxSpec{k,4}, ...
+                    sprintf('%s: wrong port name', rxSpec{k,1}));
+                testCase.verifySubstring(char(ifc.InterfaceConnection), ...
+                    rxSpec{k,5});
+            end
             % the variant must carry the byte_dma parameter for the BD tcl
             pl = struct(s.hParameterList);
             testCase.verifyTrue(any(strcmp(pl.ParameterIDList,'byte_dma')), ...
