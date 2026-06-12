@@ -33,6 +33,13 @@ done
 # variant_pre.m: copy the named overlay from tools/.
 cp -f "$SRC/tools/${PRE_BASENAME}.m" "$DST/variant_pre.m"
 
+# sim gates: copied INTO the kit because MATLAB's run() cds to the script's
+# own folder -- a gate run from tools/ would not find build_composite_local.m.
+for g in sim_byte_gate sim_internal_gate sim_byte_rx_gate; do
+  cp -f "$SRC/tools/$g.m" "$DST/$g.m" 2>/dev/null || true
+done
+cp -f "$SRC/sim_vq_gate.m" "$DST/sim_vq_gate.m" 2>/dev/null || true
+
 # Sync the reference-design scripts the build ACTUALLY sources (the vendor
 # copy, not CI/scripts) -- builds silently use stale BD wiring otherwise.
 REPO=/home/tcollins/dev/qpsk_ai/TransceiverToolbox
@@ -41,6 +48,7 @@ if [ -d "$VENDOR_SCRIPTS" ]; then
   cp -f "$REPO/CI/scripts/matlab_processors.tcl" "$VENDOR_SCRIPTS/matlab_processors.tcl"
   cp -f "$REPO/CI/scripts/util_valid_regularizer.v" "$VENDOR_SCRIPTS/util_valid_regularizer.v" 2>/dev/null || true
   cp -f "$REPO/CI/scripts/util_axis_byte_breakout.v" "$VENDOR_SCRIPTS/util_axis_byte_breakout.v" 2>/dev/null || true
+  cp -f "$REPO/CI/scripts/util_axis_byte_breakout_m.v" "$VENDOR_SCRIPTS/util_axis_byte_breakout_m.v" 2>/dev/null || true
   echo "  vendor ref-design scripts synced from CI/scripts"
 fi
 
@@ -185,6 +193,15 @@ add_line(loop, 'Receiver/6', 'debugQ/1');
 add_line(loop, 'Receiver/7', 'debugValid/1');
 add_line(loop, 'Receiver/8', 'debugI1/1');
 add_line(loop, 'Receiver/9', 'debugQ1/1');
+
+% Byte-RX tap tie-offs: Receiver outports 10..12 (recBit/recBitValid/
+% recStart -- tools/add_byte_rx_path.m). Terminated by default; the bytetx
+% overlay rewires them into the ByteSerializer.
+for k = 10:12
+  add_block('built-in/Terminator', sprintf('%s/T_rec%d', loop, k), ...
+      'Position', [770 130+30*k 790 150+30*k]);
+  add_line(loop, sprintf('Receiver/%d', k), sprintf('T_rec%d/1', k));
+end
 
 killtypes = {'ToFile','ToWorkspace','Scope','XYGraph','SpectrumAnalyzer','ConstellationDiagram'};
 nkilled = 0;

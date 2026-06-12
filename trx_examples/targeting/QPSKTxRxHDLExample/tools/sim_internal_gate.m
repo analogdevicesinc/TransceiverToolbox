@@ -35,6 +35,9 @@ end
 if nIn>=14
   inSpec=[inSpec; {'byte_first','boolean','1/30.72e6'}];
 end
+if nIn>=15
+  inSpec=[inSpec; {'byte_rx_ready','boolean','1/30.72e6'}];
+end
 for k=1:size(inSpec,1)
   blk=[h '/' inSpec{k,1}];
   add_block('built-in/Inport',blk,'Port',num2str(k),'Position',[100 40*k 130 40*k+20]);
@@ -72,6 +75,9 @@ if nIn>=13
 end
 if nIn>=14
   ds=ds.addElement(timeseries(false(Nf,1),t),'byte_first');
+end
+if nIn>=15
+  ds=ds.addElement(timeseries(true(Nf,1),t),'byte_rx_ready');
 end
 assignin('base','ds_ext',ds);
 so=sim(h);

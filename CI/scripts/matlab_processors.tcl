@@ -846,6 +846,40 @@ proc preprocess_bd {project carrier rxtx number_of_inputs number_of_bits number_
 				ad_cpu_interconnect 0x9D100000 tx_byte_dma
 				ad_mem_hpc0_interconnect [get_bd_nets sys_250m_clk] tx_byte_dma/m_src_axi
 				ad_connect [get_bd_nets sys_250m_resetn] tx_byte_dma/m_src_axi_aresetn
+
+				# --- Rx mirror: DUT byte words -> rx_byte_dma -> DDR ---
+				ad_ip_instance axi_dmac rx_byte_dma
+				ad_ip_parameter rx_byte_dma CONFIG.DMA_TYPE_SRC 1
+				ad_ip_parameter rx_byte_dma CONFIG.DMA_TYPE_DEST 0
+				ad_ip_parameter rx_byte_dma CONFIG.CYCLIC 0
+				ad_ip_parameter rx_byte_dma CONFIG.SYNC_TRANSFER_START 0
+				ad_ip_parameter rx_byte_dma CONFIG.AXI_SLICE_SRC 0
+				ad_ip_parameter rx_byte_dma CONFIG.AXI_SLICE_DEST 0
+				ad_ip_parameter rx_byte_dma CONFIG.DMA_2D_TRANSFER 0
+				ad_ip_parameter rx_byte_dma CONFIG.DMA_DATA_WIDTH_SRC 64
+				ad_ip_parameter rx_byte_dma CONFIG.DMA_DATA_WIDTH_DEST 64
+				ad_ip_parameter rx_byte_dma CONFIG.CACHE_COHERENT 1
+				ad_ip_parameter rx_byte_dma CONFIG.AXI_AXCACHE 0b1111
+				ad_ip_parameter rx_byte_dma CONFIG.AXI_AXPROT 0b010
+				# AXIS MASTER member-signal breakout driven by the DUT
+				set bbm_src ""
+				foreach bbm_cand [list \
+					[file join [file dirname [info script]] util_axis_byte_breakout_m.v] \
+					"../scripts/util_axis_byte_breakout_m.v" \
+					"../../scripts/util_axis_byte_breakout_m.v" \
+					"../../../scripts/util_axis_byte_breakout_m.v"] {
+					if {[file exists $bbm_cand]} { set bbm_src $bbm_cand; break }
+				}
+				if {$bbm_src eq ""} { error "util_axis_byte_breakout_m.v not found near matlab_processors.tcl" }
+				add_files -norecurse $bbm_src
+				create_bd_cell -type module -reference util_axis_byte_breakout_m rx_byte_breakout
+				connect_bd_net [get_bd_pins axi_adrv9001/adc_1_clk] [get_bd_pins rx_byte_dma/s_axis_aclk]
+				connect_bd_net [get_bd_pins axi_adrv9001/adc_1_clk] [get_bd_pins rx_byte_breakout/m_axis_aclk]
+				ad_connect rx_byte_breakout/m_axis rx_byte_dma/s_axis
+				# AXI-Lite control on the CPU interconnect + DDR write master
+				ad_cpu_interconnect 0x9D200000 rx_byte_dma
+				ad_mem_hpc0_interconnect [get_bd_nets sys_250m_clk] rx_byte_dma/m_dest_axi
+				ad_connect [get_bd_nets sys_250m_resetn] rx_byte_dma/m_dest_axi_aresetn
 			}
 
 			create_bd_cell -type ip -vlnv xilinx.com:ip:util_vector_logic:2.0 rx_rstn_inverter

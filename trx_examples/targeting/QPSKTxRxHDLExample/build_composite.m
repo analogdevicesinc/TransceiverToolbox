@@ -204,6 +204,16 @@ add_line(loop, 'Receiver/7', 'debugValid/1');
 add_line(loop, 'Receiver/8', 'debugI1/1');
 add_line(loop, 'Receiver/9', 'debugQ1/1');
 
+% Byte-RX tap tie-offs: Receiver outports 10..12 (recBit/recBitValid/
+% recStart -- see tools/add_byte_rx_path.m) are terminated here so existing
+% variants build unchanged; the bytetx overlay rewires them into the
+% ByteSerializer.
+for k = 10:12
+  add_block('built-in/Terminator', sprintf('%s/T_rec%d', loop, k), ...
+      'Position', [770 130+30*k 790 150+30*k]);
+  add_line(loop, sprintf('Receiver/%d', k), sprintf('T_rec%d/1', k));
+end
+
 % Delete sim-only logging blocks inside the COPIED Tx/Rx so they don't
 % clash with the originals on the top level.
 killtypes = {'ToFile','ToWorkspace','Scope','XYGraph','SpectrumAnalyzer','ConstellationDiagram'};
