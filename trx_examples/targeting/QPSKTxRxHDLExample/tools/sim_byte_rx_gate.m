@@ -71,10 +71,15 @@ add_line(h, 'WordsConst/1', 'ByteSrc/2');
 add_block('built-in/Constant', [h '/StartIdxConst'], 'Value','byte_start_idx', ...
     'OutDataTypeStr','uint32', 'Position',[60 580 100 600]);
 add_line(h, 'StartIdxConst/1', 'ByteSrc/3');
-% Rx-side ready: always true (drop path is unit-tested; this gate checks
-% the byte-exact stream)
-add_block('built-in/Constant', [h '/byte_rx_ready'], 'Value','true', ...
-    'OutDataTypeStr','boolean', 'SampleTime','1/30.72e6', 'Position',[100 640 130 660]);
+% Rx-side ready: models the DMA's acceptance window -- TRUE for the first
+% 40%% of the run, FALSE for a long stall (no transfer active), TRUE again.
+% This is the silicon scenario that froze the presented beat before the
+% presentation/acceptance decoupling: during the stall the offered word /
+% last / user must KEEP refreshing so a later sync'd capture can begin on
+% a genuine first-word beat.
+add_block('built-in/Inport', [h '/byte_rx_ready'], 'Port','12', ...
+    'Position',[100 640 130 660]);
+set_param([h '/byte_rx_ready'],'OutDataTypeStr','boolean','SampleTime','1/30.72e6');
 % DUT wiring
 add_line(h,'adc_validIn/1','DUT/1'); add_line(h,'adc_dataInI/1','DUT/2');
 add_line(h,'adc_dataInQ/1','DUT/3'); add_line(h,'rstCS/1','DUT/4');
@@ -89,7 +94,8 @@ add_line(h,'byte_rx_ready/1','DUT/15');
 add_line(h,'DUT/12','ByteSrc/1');                 % byte_ready feedback
 % outports: BIST counters + the three byte_rx streams
 outMap={'count_out',1; 'packets_out',2; 'bit_errors_out',3; ...
-        'byte_rx_data',13; 'byte_rx_valid',14; 'byte_rx_last',15};
+        'byte_rx_data',13; 'byte_rx_valid',14; 'byte_rx_last',15; ...
+        'byte_rx_user',16};
 for k=1:size(outMap,1)
   add_block('built-in/Outport',[h '/' outMap{k,1}],'Port',num2str(k),'Position',[800 40*k 830 40*k+20]);
   add_line(h,sprintf('DUT/%d',outMap{k,2}),[outMap{k,1} '/1'],'autorouting','on');
@@ -116,6 +122,10 @@ ds=ds.addElement(timeseries(int16(zeros(Nf,1)),t),'host_txQ');
 ds=ds.addElement(timeseries(true(Nf,1),t),'host_txValid');
 ds=ds.addElement(timeseries(uint32(zeros(n15,1)),ts15),'tx_source_select');
 ds=ds.addElement(timeseries(uint32(ones(n15,1)),ts15),'tx_data_source');  % BYTE MODE
+rdy=true(Nf,1);
+stallA=round(0.40*Nf); stallB=round(0.70*Nf);   % ~14 packets of stall
+rdy(stallA:stallB)=false;
+ds=ds.addElement(timeseries(rdy,t),'byte_rx_ready');
 assignin('base','ds_ext',ds);
 
 so=sim(h);
@@ -124,7 +134,24 @@ pk=double(y{2}.Values.Data(end));
 wData=uint64(y{4}.Values.Data(:));
 wVal =logical(y{5}.Values.Data(:));
 wLast=logical(y{6}.Values.Data(:));
-rxWords=wData(wVal); rxLast=wLast(wVal);
+wUser=logical(y{7}.Values.Data(:));
+% silicon-scenario checks ------------------------------------------------
+% (a) the offered beat stream must keep refreshing during the stall: valid
+%     pulses continue while ready is low
+nStall=nnz(wVal(stallA:stallB));
+fprintf('BYTE-RX-GATE: beats during stall window = %d\n', nStall);
+assert(nStall > 200, 'presented beats froze during the stall window');
+% (b) a sync''d capture beginning at the first user=1 beat after the stall
+%     yields one byte-exact 35-word packet (what SYNC_TRANSFER_START does)
+post=find(wVal); post=post(post>stallB);
+pu=post(wUser(post)); assert(~isempty(pu), 'no user-marked beat after stall');
+k0=find(post==pu(1));
+cap=wData(post(k0:k0+34));
+assert(isequal(cap(:),words), 'post-stall sync''d capture not byte-exact');
+fprintf('BYTE-RX-GATE: post-stall sync capture byte-exact\n');
+% (c) original continuous check over the pre-stall region
+preIdx=find(wVal); preIdx=preIdx(preIdx<stallA);
+rxWords=wData(preIdx); rxLast=wLast(preIdx);
 fprintf('BYTE-RX-GATE: packets_out=%d, accepted words=%d (last flags=%d)\n', ...
     pk, numel(rxWords), nnz(rxLast));
 assert(pk>3, 'Rx never synced packets');
