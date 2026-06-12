@@ -23,6 +23,25 @@ cd "$(dirname "$0")"
 MODEM=0x9D000000
 DEVMEM="busybox devmem"
 
+# Packet size / capture mode. byte_ctrl_gpio (0x9D300000) only exists on
+# the TLAST-gated bitstreams, which are also the 4480-bit builds -- probe
+# it to pick defaults; override with QPSK_PKT_BYTES / QPSK_RX_MULTI.
+PKT=${QPSK_PKT_BYTES:-auto}
+MULTI=${QPSK_RX_MULTI:-16}
+DFLAGS=""
+detect() {
+    if $DEVMEM 0x9D300000 32 >/dev/null 2>&1; then
+        [ "$PKT" = auto ] && PKT=560
+        DFLAGS="-p $PKT -M $MULTI"
+    else
+        [ "$PKT" = auto ] && PKT=280
+        DFLAGS="-p $PKT"
+    fi
+    MTU=$((PKT - 12))
+    ADVMSS=$((MTU - 60))
+    echo "link: pkt=$PKT bytes, daemon flags '$DFLAGS', mtu=$MTU"
+}
+
 # Enable the ADRV9002 front-end: Tx attenuation 0 dB + Rx AGC (echo-mode
 # sweep 2026-06-12: 83% frame survival on cable, equal to internal --
 # only the parked Tx artifact's episodes remain; -10 dB or manual Rx gain
@@ -72,8 +91,9 @@ up() {
     regs "$1"
     [ -x ./qpsk_tun ] || { echo "build qpsk_tun first"; exit 1; }
 
-    nohup ./qpsk_tun -i qpsk0 -i qpsk1 -s 60 >/tmp/qpsk_tun.log 2>&1 &
-    nohup ./qpsk_tun -l -i ret0 -i ret1 >/tmp/qpsk_ret.log 2>&1 &
+    detect
+    nohup ./qpsk_tun -i qpsk0 -i qpsk1 -s 60 $DFLAGS >/tmp/qpsk_tun.log 2>&1 &
+    nohup ./qpsk_tun -l -i ret0 -i ret1 -p $PKT >/tmp/qpsk_ret.log 2>&1 &
     for i in $(seq 50); do
         ip link show qpsk0 >/dev/null 2>&1 && ip link show ret1 >/dev/null 2>&1 && break
         sleep 0.1
@@ -91,10 +111,10 @@ up() {
     ip -n nsB addr add 10.66.0.2 peer 10.66.0.1 dev qpsk1
     ip -n nsA addr add 10.77.0.1 peer 10.77.0.2 dev ret0
     ip -n nsB addr add 10.77.0.2 peer 10.77.0.1 dev ret1
-    ip -n nsA link set qpsk0 up mtu 268
-    ip -n nsB link set qpsk1 up mtu 268
-    ip -n nsA link set ret0 up mtu 268
-    ip -n nsB link set ret1 up mtu 268
+    ip -n nsA link set qpsk0 up mtu $MTU
+    ip -n nsB link set qpsk1 up mtu $MTU
+    ip -n nsA link set ret0 up mtu $MTU
+    ip -n nsB link set ret1 up mtu $MTU
     ip -n nsA link set lo up
     ip -n nsB link set lo up
 
@@ -104,7 +124,7 @@ up() {
     # residual ARQ loss into a long stall (measured 0.98 vs 1.21 Mbit/s
     # short-run TCP). advmss keeps TCP segments inside one QPSK frame.
     ip -n nsB route replace 10.66.0.1 via 10.77.0.1 dev ret1 rto_min 25ms
-    ip -n nsA route replace 10.66.0.2 dev qpsk0 advmss 200 rto_min 25ms
+    ip -n nsA route replace 10.66.0.2 dev qpsk0 advmss $ADVMSS rto_min 25ms
     ip netns exec nsA sysctl -qw net.ipv4.conf.all.rp_filter=0 \
         net.ipv4.conf.default.rp_filter=0 net.ipv4.conf.qpsk0.rp_filter=0 \
         net.ipv4.conf.ret0.rp_filter=0

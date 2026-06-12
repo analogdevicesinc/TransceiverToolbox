@@ -1,5 +1,9 @@
 #!/bin/bash
-# make_composite_variant_kit.sh <variant_name> <variant_pre_basename>
+# make_composite_variant_kit.sh <variant_name> <variant_pre_basename> [dbpp]
+#
+# Optional 3rd arg: DataBitsPerPacket for the build (multiple of 64, >=128;
+# default = the model's 2240). Baked into build_variant.m as a QPSK_DBPP
+# setappdata so Parameters/overlay/serializer all derive from it.
 #
 # Creates an isolated build dir under /mnt/onetb/scratch/qpsk_variants/<name>/
 # for building a CUSTOM COMPOSITE variant. The kit contains:
@@ -18,6 +22,7 @@ set -euo pipefail
 
 NAME=${1:?variant name}
 PRE_BASENAME=${2:?variant_pre script basename (without .m)}
+DBPP=${3:-}
 SRC=/home/tcollins/dev/qpsk_ai/TransceiverToolbox/trx_examples/targeting/QPSKTxRxHDLExample
 DST=/mnt/onetb/scratch/qpsk_variants/$NAME
 
@@ -230,6 +235,7 @@ catch err
     fprintf('hdlsetuptoolpath warning: %s\n', err.message);
 end
 
+$( [ -n "$DBPP" ] && printf "%% Build-time packet size (kit arg 3).\nsetappdata(0,'QPSK_DBPP',%s);\n" "$DBPP" )
 % Wipe stale project so HDL Coder smart-build doesn't skip steps.
 try; rmdir(fullfile(pwd,'hdl_prj_jupiter_composite'),'s'); catch; end
 try; rmdir(fullfile(pwd,'slprj'),'s'); catch; end

@@ -27,6 +27,12 @@ module util_axis_byte_breakout_m (
   (* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 m_axis TUSER" *)
   output wire        m_axis_tuser,
 
+  // quasi-static control: 1 = per-packet TLAST (280 B one-shot captures,
+  // legacy behavior), 0 = no TLAST so the DMA can run multi-packet
+  // transfers bounded by X_LENGTH only (TUSER still marks packet starts
+  // for SYNC_TRANSFER_START alignment). Driven by byte_ctrl_gpio bit 0.
+  input  wire        tlast_en,
+
   input  wire [63:0] byte_data,
   input  wire        byte_valid,
   input  wire        byte_last,
@@ -36,7 +42,7 @@ module util_axis_byte_breakout_m (
 
   assign m_axis_tdata  = byte_data;
   assign m_axis_tvalid = byte_valid;
-  assign m_axis_tlast  = byte_last;
+  assign m_axis_tlast  = byte_last & tlast_en;
   assign m_axis_tuser  = byte_user;
   assign byte_ready    = m_axis_tready;
 

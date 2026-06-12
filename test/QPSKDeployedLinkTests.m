@@ -67,6 +67,11 @@ classdef QPSKDeployedLinkTests < HardwareTests
                 'trx_examples','targeting','QPSKTxRxHDLExample'));
         end
         function buildGolden(testCase)
+            % honor a deployed non-default packet size (see PktBytes note)
+            envDbpp = str2double(getenv('QPSK_DBPP'));
+            if ~isnan(envDbpp) && envDbpp > 0
+                setappdata(0, 'QPSK_DBPP', envDbpp);
+            end
             C = commhdlQPSKTxRxParameters;
             sps = C.SamplesPerSymbol; DBPP = C.DataBitsPerPacket;
             sA = dec2bin(double('ADI Hello World'),8);
@@ -145,6 +150,15 @@ classdef QPSKDeployedLinkTests < HardwareTests
             testCase.verifyLessThan(ber, testCase.BERGate, ...
                 sprintf('%s: BER %.5f%% exceeds gate', label, 100*ber));
             fprintf('%s: pkts=%d BER=%.5f%%\n', label, pkts, 100*ber);
+        end
+        function b = pktBytes(testCase) %#ok<MANU>
+            % bytes per QPSK packet of the DEPLOYED bitstream. Non-default
+            % builds are tested by exporting QPSK_DBPP (e.g. 4480 -> 560)
+            % before runtests; buildGolden seeds the appdata from it so
+            % the golden waveform and byte-DMA lengths stay consistent.
+            d = getappdata(0, 'QPSK_DBPP');
+            if isempty(d), d = 2240; end
+            b = d / 8;
         end
         function assumeByteDesign(testCase)
             % skip byte tests unless the byte-DMA bitstream is deployed
@@ -316,7 +330,7 @@ classdef QPSKDeployedLinkTests < HardwareTests
             % byte mode, BIST must read zero errors -- internal loopback
             % first, then over the RF cable
             testCase.assumeByteDesign();
-            payload = zeros(280,1,'uint8'); payload(1:15) = uint8('ADI Hello World');
+            payload = zeros(testCase.pktBytes(),1,'uint8'); payload(1:15) = uint8('ADI Hello World');
             ByteDmaRegisters.fill(payload);
             cleanupDma = onCleanup(@() ByteDmaRegisters.stop());
             tx = adi.ADRV9002.Tx('uri', testCase.uri);
@@ -341,7 +355,7 @@ classdef QPSKDeployedLinkTests < HardwareTests
                     testCase.regWrite(testCase.RegTxSelect, 0);
                     testCase.regWrite(testCase.RegRxSelect, rxSel); pause(1);
                     if src == 1
-                        ByteDmaRegisters.start(280);
+                        ByteDmaRegisters.start(testCase.pktBytes());
                     end
                     pause(2);
                     p0 = testCase.regRead(testCase.RegPackets);
@@ -363,7 +377,7 @@ classdef QPSKDeployedLinkTests < HardwareTests
             % BIST<->byte mode alternation via reset-then-select; both modes
             % must measure correctly after every switch (x11C reset semantics)
             testCase.assumeByteDesign();
-            payload = zeros(280,1,'uint8'); payload(1:15) = uint8('ADI Hello World');
+            payload = zeros(testCase.pktBytes(),1,'uint8'); payload(1:15) = uint8('ADI Hello World');
             ByteDmaRegisters.fill(payload);
             cleanupDma = onCleanup(@() ByteDmaRegisters.stop());
             tx = adi.ADRV9002.Tx('uri', testCase.uri);
@@ -381,7 +395,7 @@ classdef QPSKDeployedLinkTests < HardwareTests
                 testCase.regWrite('0x9D00011C', byteMode);
                 testCase.regWrite(testCase.RegTxSelect, 0);
                 testCase.regWrite(testCase.RegRxSelect, 0); pause(1);
-                if byteMode, ByteDmaRegisters.start(280); end
+                if byteMode, ByteDmaRegisters.start(testCase.pktBytes()); end
                 pause(2);
                 p0 = testCase.regRead(testCase.RegPackets);
                 e0 = testCase.regRead(testCase.RegBitErrors);
@@ -403,7 +417,7 @@ classdef QPSKDeployedLinkTests < HardwareTests
         function testByteDmaThroughput(testCase)
             % sustained byte streaming for 60 s at the line rate
             testCase.assumeByteDesign();
-            payload = zeros(280,1,'uint8'); payload(1:15) = uint8('ADI Hello World');
+            payload = zeros(testCase.pktBytes(),1,'uint8'); payload(1:15) = uint8('ADI Hello World');
             ByteDmaRegisters.fill(payload);
             cleanupDma = onCleanup(@() ByteDmaRegisters.stop());
             tx = adi.ADRV9002.Tx('uri', testCase.uri);
@@ -430,7 +444,7 @@ classdef QPSKDeployedLinkTests < HardwareTests
             testCase.regWrite('0x9D00011C', 1);
             testCase.regWrite(testCase.RegTxSelect, 0);
             testCase.regWrite(testCase.RegRxSelect, 1); pause(1);
-            ByteDmaRegisters.start(280); pause(2);
+            ByteDmaRegisters.start(testCase.pktBytes()); pause(2);
             p0 = testCase.regRead(testCase.RegPackets);
             e0 = testCase.regRead(testCase.RegBitErrors);
             pause(60);
@@ -439,7 +453,7 @@ classdef QPSKDeployedLinkTests < HardwareTests
             rate = (p1-p0)/60;
             byteBer = (e1-e0)/max(1,(p1-p0)*120);
             fprintf('byteDma throughput: %.0f pkts/s (%.0f B/s payload) gen=%.4f%% byte=%.4f%%\n', ...
-                rate, rate*280, 100*genBer, 100*byteBer);
+                rate, rate*testCase.pktBytes(), 100*genBer, 100*byteBer);
             testCase.verifyGreaterThan(rate, 1500, 'byte throughput below line rate');
             testCase.verifyLessThan(byteBer-genBer, 0.002, ...
                 'sustained byte streaming adds errors over the generator baseline');
@@ -460,7 +474,7 @@ classdef QPSKDeployedLinkTests < HardwareTests
             end
             testCase.assumeTrue(v > 0, 'rx byte DMA not in this bitstream');
             rng(42);
-            payload = uint8(randi([0 255], 280, 1));
+            payload = uint8(randi([0 255], testCase.pktBytes(), 1));
             ByteDmaRegisters.fill(payload);
             cleanupDma = onCleanup(@() ByteDmaRegisters.stop());
             tx = adi.ADRV9002.Tx('uri', testCase.uri);
@@ -482,7 +496,7 @@ classdef QPSKDeployedLinkTests < HardwareTests
                 testCase.regWrite('0x9D00011C', 1);
                 testCase.regWrite(testCase.RegTxSelect, 0);
                 testCase.regWrite(testCase.RegRxSelect, rxSel); pause(1);
-                ByteDmaRegisters.start(280); pause(2);
+                ByteDmaRegisters.start(testCase.pktBytes()); pause(2);
                 % Per-capture outcomes sample the known BURSTY in-FPGA-Tx
                 % artifact (most packets clean, episodic ~50%%-error packets
                 % -- see project notes): a captured packet is either
@@ -492,10 +506,10 @@ classdef QPSKDeployedLinkTests < HardwareTests
                 nCap = 5 + 3*rxSel;          % 5 internal, 8 cable
                 bad = zeros(nCap,1); bitAccAll = zeros(nCap,1);
                 for cap = 1:nCap
-                    got = ByteDmaRegisters.rxCapture(280);
+                    got = ByteDmaRegisters.rxCapture(testCase.pktBytes());
                     bad(cap) = nnz(got ~= payload);
-                    bitAccAll(cap) = 1 - sum(sum(dec2bin(bitxor(got, payload), 8) == '1'))/2240;
-                    fprintf('endToEnd %s cap %d: %d/280 bytes differ (bitAcc=%.3f)\n', ...
+                    bitAccAll(cap) = 1 - sum(sum(dec2bin(bitxor(got, payload), 8) == '1'))/(8*testCase.pktBytes());
+                    fprintf('endToEnd %s cap %d: %d/%d bytes differ (bitAcc=%.3f)\n', ...
                         label, cap, bad(cap), bitAccAll(cap));
                 end
                 fprintf('endToEnd %s: clean(<=8B)=%d typical(<=130B)=%d of %d\n', ...

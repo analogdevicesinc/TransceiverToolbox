@@ -4,23 +4,32 @@
  * interface are framed (qpsk_frame) and pushed into the Tx byte DMA; the
  * modem carries them over RF; recovered packets from the Rx byte DMA are
  * validated and written to the B-side interface. The reverse direction is
- * expected to be routed over a veth pair by qpsk_net_setup.sh (single-board
- * topology); B-side reads are counted and dropped in DMA mode. On a future
- * two-radio link each board runs one daemon with a single interface.
+ * expected to be routed over a second loopback-mode instance by
+ * qpsk_net_setup.sh (single-board topology); B-side reads are counted and
+ * dropped in DMA mode. On a future two-radio link each board runs one
+ * daemon with a single interface.
  *
  * DMA register sequences follow ByteDmaRegisters.m (the proven recipes):
  * engine reset = CONTROL 0 then 1 before use; Tx one-shots use FLAGS=2
- * (TLAST only -- the in-FPGA word aligner needs per-transfer tlast); Rx
- * one-shots rely on the IP's SYNC_TRANSFER_START to align each 280-byte
- * transfer to a packet boundary. The modem register file at 0x9D000000
- * (soft reset, tx_data_source, selects) is owned by qpsk_net_setup.sh.
+ * (TLAST only -- the in-FPGA word aligner needs per-transfer tlast). The
+ * modem register file at 0x9D000000 is owned by qpsk_net_setup.sh.
+ *
+ * Rx capture has two modes (HW constraints measured on silicon: the S2MM
+ * engine never chains a second transfer without an engine reset, and an
+ * incoming TLAST terminates a transfer early):
+ *   legacy (default): per-packet TLAST is on (byte_ctrl_gpio=1), so each
+ *     transfer captures exactly one packet; the loop spins to make the
+ *     ~18 us rearm window between packets. One core pegged.
+ *   multi (-M K, byte-DMA bitstreams with byte_ctrl_gpio @0x9D300000):
+ *     TLAST is gated off, one transfer spans K packets (SYNC_TRANSFER_
+ *     START still aligns the start). Frames are consumed eagerly as their
+ *     CRCs validate in the landing buffer; the loop sleeps except for the
+ *     last-packet window, dropping CPU from 100% to a few %.
  *
  * Modes:
  *   default      DMA bridge between -i A and -i B (board only)
- *   -l           loopback: A<->B in-process through encode/decode (no DMA;
- *                host-testable plumbing check)
- *   -e           echo: no tun; generate/check frames over the DMA path and
- *                report CRC-drop/seq-gap rates (link baseline)
+ *   -l           loopback: A<->B in-process through encode/decode (no DMA)
+ *   -e           echo: no tun; generate/check frames over the DMA path
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -40,12 +49,13 @@
 
 #define TX_DMA_BASE  0x9D100000u
 #define RX_DMA_BASE  0x9D200000u
+#define GPIO_BASE    0x9D300000u
 #define TX_BUF_PHYS  0x7FF00000u
 #define RX_BUF_PHYS  0x7FF40000u
-#define SLOT_BYTES   512u
+#define SLOT_BYTES   1024u          /* >= QPSK_PKT_BYTES_MAX */
 #define TX_SLOTS     8u
-#define RX_SLOTS     8u
 #define MAX_INFLIGHT 2
+#define RX_MULTI_MAX 64
 
 /* axi_dmac register map (byte offsets) */
 #define DMAC_IRQ_MASK      0x080
@@ -70,6 +80,9 @@ static struct {
     uint64_t oversize, tx_stalls, b_side_drops;
     uint64_t retx, dups, recovered;
 } st;
+
+static int pkt_bytes = QPSK_PKT_BYTES_DEFAULT;
+static int rx_multi = 0;        /* packets per transfer; 0 = legacy */
 
 static volatile sig_atomic_t running = 1;
 static volatile sig_atomic_t dump_req = 0;
@@ -152,10 +165,10 @@ static int tx_send(const unsigned char *pkt)
         usleep(100);
     }
     unsigned char *slot = txbuf + (tx_slot % TX_SLOTS) * SLOT_BYTES;
-    memcpy(slot, pkt, QPSK_PKT_BYTES);
+    memcpy(slot, pkt, (size_t)pkt_bytes);
     uint32_t id = dmac_rd(&txd, DMAC_TRANSFER_ID);
     dmac_wr(&txd, DMAC_SRC_ADDRESS, TX_BUF_PHYS + (tx_slot % TX_SLOTS) * SLOT_BYTES);
-    dmac_wr(&txd, DMAC_X_LENGTH, QPSK_PKT_BYTES - 1);
+    dmac_wr(&txd, DMAC_X_LENGTH, (uint32_t)pkt_bytes - 1);
     dmac_wr(&txd, DMAC_FLAGS, DMAC_FLAG_TLAST);
     dmac_wr(&txd, DMAC_SUBMIT, 1);
     tx_ids[tx_inflight++] = id;
@@ -164,56 +177,107 @@ static int tx_send(const unsigned char *pkt)
     return 0;
 }
 
-/* ---- Rx side ----
- * Hardware-measured constraints (devmem probes, bitstream 6cb464e3): the
- * per-packet TLAST terminates every transfer at 280 bytes regardless of
- * X_LENGTH, and the engine never starts a second transfer without an
- * engine reset (matching ByteDmaRegisters.rxCapture's reset-per-capture).
- * So: one outstanding 280-byte transfer, and on completion copy out,
- * reset, resubmit immediately. The gap between a packet's last data beat
- * and the next packet's sync beat is ~18 us; mmap'd register turnaround
- * is ~1 us, so a spinning main loop captures every packet. */
+/* ---- Rx side ---- */
 static struct dmac rxd;
-static unsigned char *rxbuf;
+static volatile uint32_t *gpio_regs;   /* byte_ctrl_gpio (multi mode only) */
+static unsigned char *rxbuf;           /* legacy: 1 slot; multi: 2 areas */
 static int rx_active = 0;
+static unsigned rx_area = 0;           /* multi: buffer being DMA'd (0/1) */
+static int rx_scan = 0;                /* multi: next slice to consume */
+
+static uint32_t rx_area_phys(unsigned area)
+{
+    return RX_BUF_PHYS + area * (uint32_t)(RX_MULTI_MAX * SLOT_BYTES);
+}
+
+static unsigned char *rx_area_virt(unsigned area)
+{
+    return rxbuf + area * (RX_MULTI_MAX * SLOT_BYTES);
+}
 
 static void rx_start(void)
 {
-    memset(rxbuf, 0, QPSK_PKT_BYTES);
+    int span = rx_multi ? rx_multi : 1;
+    memset(rx_area_virt(rx_area), 0, (size_t)(span * pkt_bytes));
     dmac_wr(&rxd, DMAC_CONTROL, 0);
     dmac_wr(&rxd, DMAC_CONTROL, 1);
     dmac_wr(&rxd, DMAC_IRQ_MASK, 3);
     /* TRANSFER_ID is 0 after reset; completion is TRANSFER_DONE bit0 */
-    dmac_wr(&rxd, DMAC_DEST_ADDRESS, RX_BUF_PHYS);
-    dmac_wr(&rxd, DMAC_X_LENGTH, QPSK_PKT_BYTES - 1);
+    dmac_wr(&rxd, DMAC_DEST_ADDRESS, rx_area_phys(rx_area));
+    dmac_wr(&rxd, DMAC_X_LENGTH, (uint32_t)(span * pkt_bytes) - 1);
     dmac_wr(&rxd, DMAC_FLAGS, 0);
     dmac_wr(&rxd, DMAC_SUBMIT, 1);
     rx_active = 1;
+    rx_scan = 0;
 }
 
-/* copies a completed packet into out and rearms; returns 1 if a packet
- * was delivered */
-static int rx_pump(unsigned char *out)
+static int rx_done(void)
+{
+    return dmac_rd(&rxd, DMAC_TRANSFER_DONE) & 1;
+}
+
+/* true when the loop should spin rather than sleep: legacy mode always
+ * (per-packet 18 us rearm window); multi mode only inside the last-packet
+ * window before the rearm */
+static int rx_want_spin(void)
+{
+    if (!rx_multi)
+        return 1;
+    return rx_scan >= rx_multi - 1;
+}
+
+/* Delivers at most one validated frame per call (payload copied to out,
+ * length returned, seq set); returns 0 when nothing is deliverable yet.
+ * CRC failures are counted internally.
+ *
+ * Multi mode consumes slices of the landing buffer eagerly: the DMA
+ * writes in order, so a slice whose CRC validates is complete and
+ * deliverable while the transfer is still filling later slices. A
+ * corrupt slice (artifact episode) blocks eager consumption until the
+ * transfer completes, then the remainder is finalized slice by slice. */
+static int rx_pump_frame(unsigned char *out, uint32_t *seq)
 {
     if (!rx_active) {
         rx_start();
         return 0;
     }
-    if (!(dmac_rd(&rxd, DMAC_TRANSFER_DONE) & 1))
-        return 0;
-    memcpy(out, rxbuf, QPSK_PKT_BYTES);
+    if (!rx_multi) {
+        if (!rx_done())
+            return 0;
+        unsigned char pkt[QPSK_PKT_BYTES_MAX];
+        memcpy(pkt, rx_area_virt(0), (size_t)pkt_bytes);
+        rx_start();
+        int m = qpsk_frame_decode(pkt, pkt_bytes, out, seq);
+        if (m < 0) { st.crc_drops++; return 0; }
+        return m;
+    }
+    /* multi-packet transfer */
+    int done = rx_done();
+    while (rx_scan < rx_multi) {
+        unsigned char *slice = rx_area_virt(rx_area) + (size_t)rx_scan * (size_t)pkt_bytes;
+        int m = qpsk_frame_decode(slice, pkt_bytes, out, seq);
+        if (m >= 0) {
+            rx_scan++;
+            return m;
+        }
+        if (!done)
+            return 0;   /* not landed yet, or corrupt: resolve at done */
+        st.crc_drops++; /* transfer complete: this slice is final */
+        rx_scan++;
+    }
+    /* all slices consumed; swap areas and rearm */
+    rx_area ^= 1;
     rx_start();
-    return 1;
+    return 0;
 }
 
 /* ---- link-layer ARQ (DMA tun mode) ----
- * The parked in-FPGA-Tx artifact corrupts frames in bursts (~8 frames,
- * ~34 episodes/s -> ~17% loss), which collapses TCP cubic to ~0.2 Mbit/s.
- * Both RF endpoints terminate in this process, so recovery is local: keep
- * the last HIST_SZ transmitted frames; when a validated frame's seq jumps
- * past the expected value, resubmit the missing seqs from history (each
- * lands ~one RF round later, almost always outside the episode). Delivery
- * is deduplicated; IP tolerates the reordering this introduces. */
+ * The parked in-FPGA-Tx artifact corrupts frames in bursts, which
+ * collapses TCP cubic. Both RF endpoints terminate in this process, so
+ * recovery is local: keep the last HIST_SZ transmitted frames; when a
+ * validated frame's seq jumps past the expected value, resubmit the
+ * missing seqs from history. Delivery is deduplicated; IP tolerates the
+ * reordering this introduces. */
 #define HIST_SZ    256u   /* power of two; > frames per episode + RTT */
 #define RETX_MAX   3      /* per-seq resubmission cap */
 #define RETXQ_SZ   512u
@@ -221,7 +285,7 @@ static int rx_pump(unsigned char *out)
 
 struct hist_ent {
     uint32_t seq;
-    unsigned char pkt[QPSK_PKT_BYTES];
+    unsigned char pkt[QPSK_PKT_BYTES_MAX];
     unsigned char retries;
     unsigned char valid;
 };
@@ -234,9 +298,9 @@ static int arq_on = 1;
 
 /* second-copy scheduler: a retransmit lost inside another corruption
  * episode is invisible to gap detection, so every first retransmit gets a
- * second copy ~RETX2_DELAY rx-frames (~10 ms) later -- beyond an episode
- * length, decorrelating the two copies. rx_tick advances on every
- * validated rx frame (the link's natural clock). */
+ * second copy ~RETX2_DELAY rx-frames later -- beyond an episode length,
+ * decorrelating the two copies. rx_tick advances on every validated rx
+ * frame (the link's natural clock). */
 #define RETX2_DELAY 16
 static struct { uint32_t seq; uint64_t due; } retx2q[RETXQ_SZ];
 static unsigned retx2_head = 0, retx2_tail = 0;
@@ -246,7 +310,7 @@ static void hist_store(uint32_t seq, const unsigned char *pkt)
 {
     struct hist_ent *h = &tx_hist[seq % HIST_SZ];
     h->seq = seq;
-    memcpy(h->pkt, pkt, QPSK_PKT_BYTES);
+    memcpy(h->pkt, pkt, (size_t)pkt_bytes);
     h->retries = 0;
     h->valid = 1;
 }
@@ -258,7 +322,18 @@ static void retx_request(uint32_t seq)
     retxq[retxq_tail++ % RETXQ_SZ] = seq;
 }
 
-static int dedup_seen(uint32_t seq);
+static int dedup_seen(uint32_t seq)
+{
+    for (unsigned i = 0; i < DEDUP_SZ; i++)
+        if (dedup_ring[i] == seq)
+            return 1;
+    return 0;
+}
+
+static void dedup_mark(uint32_t seq)
+{
+    dedup_ring[dedup_pos++ % DEDUP_SZ] = seq;
+}
 
 /* resubmit queued seqs while the Tx DMA has capacity */
 static void retx_pump(void)
@@ -288,19 +363,6 @@ static void retx_pump(void)
     }
 }
 
-static int dedup_seen(uint32_t seq)
-{
-    for (unsigned i = 0; i < DEDUP_SZ; i++)
-        if (dedup_ring[i] == seq)
-            return 1;
-    return 0;
-}
-
-static void dedup_mark(uint32_t seq)
-{
-    dedup_ring[dedup_pos++ % DEDUP_SZ] = seq;
-}
-
 /* ---- TUN/TAP ---- */
 static int tun_alloc(const char *name, int tap)
 {
@@ -320,16 +382,21 @@ static int tun_alloc(const char *name, int tap)
 static void usage(const char *argv0)
 {
     fprintf(stderr,
-        "usage: %s -i ifA [-i ifB] [-t] [-l | -e] [-m mtu] [-s secs] [-d secs]\n"
+        "usage: %s -i ifA [-i ifB] [-t] [-l | -e] [-p bytes] [-M pkts]\n"
+        "          [-m mtu] [-s secs] [-d secs] [-R]\n"
         "  -i name   interface name (give twice: A-side then B-side)\n"
-        "  -t        TAP instead of TUN (set iface MTU <= %d - 14)\n"
+        "  -t        TAP instead of TUN (set iface MTU <= payload - 14)\n"
         "  -l        loopback mode: A<->B in-process, no DMA (host test)\n"
         "  -e        echo mode: no tun; frame generator/checker over DMA\n"
+        "  -p bytes  QPSK packet payload size (default %d; 560 for the\n"
+        "            4480-bit build)\n"
+        "  -M pkts   multi-packet Rx capture (needs byte_ctrl_gpio in the\n"
+        "            bitstream); 0 = legacy per-packet spin (default)\n"
         "  -R        disable the link-layer ARQ (gap-driven retransmit)\n"
-        "  -m mtu    max payload accepted (default %d)\n"
+        "  -m mtu    max payload accepted (default pkt - %d)\n"
         "  -s secs   periodic stats dump interval (default off)\n"
         "  -d secs   echo-mode duration (default 60)\n",
-        argv0, QPSK_FRAME_MAX_PAYLOAD, QPSK_FRAME_MAX_PAYLOAD);
+        argv0, QPSK_PKT_BYTES_DEFAULT, QPSK_FRAME_HDR_BYTES);
     exit(2);
 }
 
@@ -347,16 +414,21 @@ static void dma_open(void)
     txd.regs = map_phys(memfd, TX_DMA_BASE, 0x1000);
     rxd.regs = map_phys(memfd, RX_DMA_BASE, 0x1000);
     txbuf = map_phys(memfd, TX_BUF_PHYS, TX_SLOTS * SLOT_BYTES);
-    rxbuf = map_phys(memfd, RX_BUF_PHYS, RX_SLOTS * SLOT_BYTES);
+    rxbuf = map_phys(memfd, RX_BUF_PHYS, 2u * RX_MULTI_MAX * SLOT_BYTES);
+    if (rx_multi) {
+        gpio_regs = map_phys(memfd, GPIO_BASE, 0x1000);
+        gpio_regs[0] = 0;   /* TLAST off: transfers bounded by X_LENGTH */
+    }
     dmac_init(&txd);
     rx_start();
 }
 
 static void echo_mode(int duration)
 {
-    unsigned char pkt[QPSK_PKT_BYTES];
-    unsigned char payload[QPSK_FRAME_MAX_PAYLOAD];
-    unsigned char out[QPSK_FRAME_MAX_PAYLOAD];
+    unsigned char pkt[QPSK_PKT_BYTES_MAX];
+    unsigned char payload[QPSK_PKT_BYTES_MAX];
+    unsigned char out[QPSK_PKT_BYTES_MAX];
+    int maxp = QPSK_FRAME_MAX_PAYLOAD(pkt_bytes);
     uint32_t tx_seq = 0, last_rx_seq = 0;
     int have_rx = 0;
     double t0 = now_s(), tlast = t0;
@@ -364,25 +436,20 @@ static void echo_mode(int duration)
     dma_open();
     while (running && now_s() - t0 < duration) {
         if (tx_capacity()) {
-            for (int i = 0; i < QPSK_FRAME_MAX_PAYLOAD; i++)
+            for (int i = 0; i < maxp; i++)
                 payload[i] = (unsigned char)(tx_seq + (uint32_t)i);
-            qpsk_frame_encode(pkt, payload, QPSK_FRAME_MAX_PAYLOAD, tx_seq);
+            qpsk_frame_encode(pkt, pkt_bytes, payload, maxp, tx_seq);
             if (tx_send(pkt) == 0)
                 tx_seq++;
         }
-        unsigned char rpkt[QPSK_PKT_BYTES];
-        if (rx_pump(rpkt)) {
-            uint32_t seq;
-            int n = qpsk_frame_decode(rpkt, out, &seq);
-            if (n < 0) {
-                st.crc_drops++;
-            } else {
-                st.frames_rx_ok++;
-                if (have_rx && seq != last_rx_seq + 1)
-                    st.seq_gaps++;
-                last_rx_seq = seq;
-                have_rx = 1;
-            }
+        uint32_t seq;
+        int n;
+        while ((n = rx_pump_frame(out, &seq)) > 0) {
+            st.frames_rx_ok++;
+            if (have_rx && seq != last_rx_seq + 1)
+                st.seq_gaps++;
+            last_rx_seq = seq;
+            have_rx = 1;
         }
         if (now_s() - tlast >= 5.0) {
             tlast = now_s();
@@ -392,7 +459,8 @@ static void echo_mode(int duration)
                 (unsigned long long)st.crc_drops,
                 (unsigned long long)st.seq_gaps);
         }
-        /* no sleep: spinning keeps the rx rearm gap ~1 us (<18 us budget) */
+        if (!rx_want_spin())
+            usleep(200);
     }
     printf("ECHO: dur=%.1f tx=%llu rx_ok=%llu crc_drop=%llu gaps=%llu\n",
         now_s() - t0, (unsigned long long)st.frames_tx,
@@ -404,10 +472,10 @@ int main(int argc, char **argv)
 {
     const char *ifnames[2] = {NULL, NULL};
     int nif = 0, tap = 0, loopback = 0, echo = 0;
-    int mtu = QPSK_FRAME_MAX_PAYLOAD, stats_int = 0, duration = 60;
+    int mtu = 0, stats_int = 0, duration = 60;
     int opt;
 
-    while ((opt = getopt(argc, argv, "i:tleRm:s:d:h")) != -1) {
+    while ((opt = getopt(argc, argv, "i:tleRp:M:m:s:d:h")) != -1) {
         switch (opt) {
         case 'i':
             if (nif < 2) ifnames[nif++] = optarg;
@@ -416,14 +484,30 @@ int main(int argc, char **argv)
         case 'l': loopback = 1; break;
         case 'e': echo = 1; break;
         case 'R': arq_on = 0; break;
+        case 'p': pkt_bytes = atoi(optarg); break;
+        case 'M': rx_multi = atoi(optarg); break;
         case 'm': mtu = atoi(optarg); break;
         case 's': stats_int = atoi(optarg); break;
         case 'd': duration = atoi(optarg); break;
         default: usage(argv[0]);
         }
     }
-    if (mtu < 1 || mtu > QPSK_FRAME_MAX_PAYLOAD) {
-        fprintf(stderr, "mtu must be 1..%d\n", QPSK_FRAME_MAX_PAYLOAD);
+    if (pkt_bytes < QPSK_FRAME_HDR_BYTES + 1 || pkt_bytes > QPSK_PKT_BYTES_MAX ||
+        pkt_bytes % 8 != 0) {
+        fprintf(stderr, "bad -p (need multiple of 8, %d..%d)\n",
+            QPSK_FRAME_HDR_BYTES + 8, QPSK_PKT_BYTES_MAX);
+        return 2;
+    }
+    if (rx_multi < 0 || rx_multi > RX_MULTI_MAX ||
+        (rx_multi > 0 && rx_multi * pkt_bytes > RX_MULTI_MAX * (int)SLOT_BYTES)) {
+        fprintf(stderr, "bad -M (0..%d, K*pkt <= %u bytes)\n",
+            RX_MULTI_MAX, RX_MULTI_MAX * SLOT_BYTES);
+        return 2;
+    }
+    if (mtu == 0)
+        mtu = QPSK_FRAME_MAX_PAYLOAD(pkt_bytes);
+    if (mtu < 1 || mtu > QPSK_FRAME_MAX_PAYLOAD(pkt_bytes)) {
+        fprintf(stderr, "mtu must be 1..%d\n", QPSK_FRAME_MAX_PAYLOAD(pkt_bytes));
         return 2;
     }
 
@@ -451,12 +535,12 @@ int main(int argc, char **argv)
 
     /* TAP frames carry a 14-byte ethernet header on top of the payload MTU */
     int max_read = mtu + (tap ? 14 : 0);
-    if (max_read > QPSK_FRAME_MAX_PAYLOAD)
-        max_read = QPSK_FRAME_MAX_PAYLOAD;
+    if (max_read > QPSK_FRAME_MAX_PAYLOAD(pkt_bytes))
+        max_read = QPSK_FRAME_MAX_PAYLOAD(pkt_bytes);
 
-    unsigned char buf[QPSK_FRAME_MAX_PAYLOAD + 64];
-    unsigned char pkt[QPSK_PKT_BYTES];
-    unsigned char out[QPSK_FRAME_MAX_PAYLOAD];
+    unsigned char buf[QPSK_PKT_BYTES_MAX + 64];
+    unsigned char pkt[QPSK_PKT_BYTES_MAX];
+    unsigned char out[QPSK_PKT_BYTES_MAX];
     uint32_t tx_seq = 0, last_rx_seq = 0;
     int have_rx = 0;
     double tlast = now_s();
@@ -469,10 +553,11 @@ int main(int argc, char **argv)
     while (running) {
         if (dump_req) { dump_req = 0; stats_dump(); }
 
-        /* only read the A side when the Tx DMA can take a frame; in DMA
-         * mode spin (timeout 0) so the rx rearm gap stays in-budget */
+        /* only read the A side when the Tx DMA can take a frame; spin
+         * only when the rx rearm window demands it */
         pfds[0].events = (short)((loopback || tx_capacity()) ? POLLIN : 0);
-        int pr = poll(pfds, 2, loopback ? 50 : 0);
+        int timeout = loopback ? 50 : (rx_want_spin() ? 0 : 1);
+        int pr = poll(pfds, 2, timeout);
         if (pr < 0 && errno != EINTR)
             break;
 
@@ -483,10 +568,10 @@ int main(int argc, char **argv)
                 if ((int)n > max_read) {
                     st.oversize++;
                 } else {
-                    qpsk_frame_encode(pkt, buf, (int)n, tx_seq);
+                    qpsk_frame_encode(pkt, pkt_bytes, buf, (int)n, tx_seq);
                     if (loopback) {
                         uint32_t seq;
-                        int m = qpsk_frame_decode(pkt, out, &seq);
+                        int m = qpsk_frame_decode(pkt, pkt_bytes, out, &seq);
                         if (m > 0 && write(fdb, out, (size_t)m) == m)
                             st.tun_b_tx++;
                         st.frames_tx++;
@@ -507,58 +592,55 @@ int main(int argc, char **argv)
                 st.tun_b_rx++;
                 if (loopback) {
                     if ((int)n <= max_read) {
-                        qpsk_frame_encode(pkt, buf, (int)n, tx_seq++);
+                        qpsk_frame_encode(pkt, pkt_bytes, buf, (int)n, tx_seq++);
                         uint32_t seq;
-                        int m = qpsk_frame_decode(pkt, out, &seq);
+                        int m = qpsk_frame_decode(pkt, pkt_bytes, out, &seq);
                         if (m > 0 && write(fda, out, (size_t)m) == m)
                             st.tun_a_tx++;
                     }
                 } else {
-                    /* reverse path is routed over veth; RF is one-way here */
+                    /* reverse path is routed externally; RF is one-way here */
                     st.b_side_drops++;
                 }
             }
         }
 
         if (!loopback) {
-            unsigned char rpkt[QPSK_PKT_BYTES];
-            if (rx_pump(rpkt)) {
-                uint32_t seq;
-                int m = qpsk_frame_decode(rpkt, out, &seq);
-                if (m < 0) {
-                    st.crc_drops++;
-                } else {
-                    st.frames_rx_ok++;
-                    rx_tick++;
-                    if (arq_on) {
-                        if (dedup_seen(seq)) {
-                            st.dups++;
-                        } else {
-                            dedup_mark(seq);
-                            if (have_rx && seq < last_rx_seq)
-                                st.recovered++; /* a retransmit filled a gap */
-                            if (have_rx && seq > last_rx_seq + 1) {
-                                st.seq_gaps++;
-                                uint32_t miss = seq - last_rx_seq - 1;
-                                if (miss > HIST_SZ / 2)
-                                    miss = HIST_SZ / 2;
-                                for (uint32_t k = 1; k <= miss; k++)
-                                    retx_request(seq - k);
-                            }
-                            if (!have_rx || seq > last_rx_seq)
-                                last_rx_seq = seq;
-                            have_rx = 1;
-                            if (write(fdb, out, (size_t)m) == m)
-                                st.tun_b_tx++;
-                        }
+            uint32_t seq;
+            int m;
+            /* drain everything deliverable this iteration (the poll may
+             * sleep ~1 ms in multi mode) */
+            while ((m = rx_pump_frame(out, &seq)) > 0) {
+                st.frames_rx_ok++;
+                rx_tick++;
+                if (arq_on) {
+                    if (dedup_seen(seq)) {
+                        st.dups++;
                     } else {
-                        if (have_rx && seq != last_rx_seq + 1)
+                        dedup_mark(seq);
+                        if (have_rx && seq < last_rx_seq)
+                            st.recovered++; /* a retransmit filled a gap */
+                        if (have_rx && seq > last_rx_seq + 1) {
                             st.seq_gaps++;
-                        last_rx_seq = seq;
+                            uint32_t miss = seq - last_rx_seq - 1;
+                            if (miss > HIST_SZ / 2)
+                                miss = HIST_SZ / 2;
+                            for (uint32_t k = 1; k <= miss; k++)
+                                retx_request(seq - k);
+                        }
+                        if (!have_rx || seq > last_rx_seq)
+                            last_rx_seq = seq;
                         have_rx = 1;
                         if (write(fdb, out, (size_t)m) == m)
                             st.tun_b_tx++;
                     }
+                } else {
+                    if (have_rx && seq != last_rx_seq + 1)
+                        st.seq_gaps++;
+                    last_rx_seq = seq;
+                    have_rx = 1;
+                    if (write(fdb, out, (size_t)m) == m)
+                        st.tun_b_tx++;
                 }
             }
             if (arq_on)

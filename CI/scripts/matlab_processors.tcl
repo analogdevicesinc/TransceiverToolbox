@@ -876,6 +876,16 @@ proc preprocess_bd {project carrier rxtx number_of_inputs number_of_bits number_
 				connect_bd_net [get_bd_pins axi_adrv9001/adc_1_clk] [get_bd_pins rx_byte_dma/s_axis_aclk]
 				connect_bd_net [get_bd_pins axi_adrv9001/adc_1_clk] [get_bd_pins rx_byte_breakout/m_axis_aclk]
 				ad_connect rx_byte_breakout/m_axis rx_byte_dma/s_axis
+				# byte_ctrl_gpio bit 0 -> tlast_en (quasi-static, CDC
+				# don't-care). DOUT default 1 keeps the legacy per-packet
+				# TLAST behavior until software clears it for multi-packet
+				# captures. DATA reg at 0x9D300000.
+				ad_ip_instance axi_gpio byte_ctrl_gpio
+				ad_ip_parameter byte_ctrl_gpio CONFIG.C_GPIO_WIDTH 1
+				ad_ip_parameter byte_ctrl_gpio CONFIG.C_ALL_OUTPUTS 1
+				ad_ip_parameter byte_ctrl_gpio CONFIG.C_DOUT_DEFAULT 0x00000001
+				connect_bd_net [get_bd_pins byte_ctrl_gpio/gpio_io_o] [get_bd_pins rx_byte_breakout/tlast_en]
+				ad_cpu_interconnect 0x9D300000 byte_ctrl_gpio
 				# AXI-Lite control on the CPU interconnect + DDR write master
 				ad_cpu_interconnect 0x9D200000 rx_byte_dma
 				ad_mem_hpc0_interconnect [get_bd_nets sys_250m_clk] rx_byte_dma/m_dest_axi

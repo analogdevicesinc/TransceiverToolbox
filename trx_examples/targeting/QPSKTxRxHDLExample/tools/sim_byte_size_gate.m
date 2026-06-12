@@ -4,7 +4,11 @@
 % BIST syncs packets with zero errors (the generator's reference window is
 % unchanged) AND the byte-rx stream reproduces the packed payload
 % byte-exactly with wordLast every 20 words.
-setappdata(0, 'QPSK_DBPP', 1280);
+% size override: env QPSK_SIZE_GATE_DBPP (default 1280)
+gateDbpp = str2double(getenv('QPSK_SIZE_GATE_DBPP'));
+if isnan(gateDbpp) || isempty(gateDbpp), gateDbpp = 1280; end
+fprintf('size gate DBPP=%d\n', gateDbpp);
+setappdata(0, 'QPSK_DBPP', gateDbpp);
 cleanupSize = onCleanup(@() rmappdata(0, 'QPSK_DBPP'));
 addpath(pwd);
 addpath('/home/tcollins/dev/qpsk_ai/TransceiverToolbox');
@@ -14,18 +18,19 @@ run('variant_pre.m');
 sys='commhdlQPSKTxRxLoopback'; load_system(sys);
 evalin('base', get_param(sys,'InitFcn'));
 set_param(sys,'SimulationCommand','update');
-fprintf('UPDATE_OK (DBPP=1280)\n');
+fprintf('UPDATE_OK (DBPP=%d)\n', gateDbpp);
 
 C = commhdlQPSKTxRxParameters;
-assert(C.DataBitsPerPacket == 1280, 'override did not take');
-nBytes = 1280/8; nWords = 1280/64;
+assert(C.DataBitsPerPacket == gateDbpp, 'override did not take');
+nBytes = gateDbpp/8; nWords = gateDbpp/64;
 payload = zeros(nBytes,1,'uint8'); payload(1:15) = uint8('ADI Hello World');
 words = ByteDmaRegisters.pack(payload);
 assert(numel(words) == nWords);
 assignin('base','byte_words', words);
 assignin('base','byte_start_idx', uint32(1));
 
-Nf=2*220000; Tsf=1/30.72e6; t=(0:Nf-1)'*Tsf;   % ~84 packets at 1280 bits
+% sized for ~80 packets at DBPP=1280; scale with packet length
+Nf=ceil(2*220000*gateDbpp/1280); Tsf=1/30.72e6; t=(0:Nf-1)'*Tsf;
 v=false(Nf,1); v(1:2:end)=true;
 h='size_harness'; if bdIsLoaded(h), close_system(h,0); end
 new_system(h);
@@ -109,12 +114,12 @@ pk=double(y{2}.Values.Data(end)); er=double(y{3}.Values.Data(end));
 wData=uint64(y{4}.Values.Data(:)); wVal=logical(y{5}.Values.Data(:)); wLast=logical(y{6}.Values.Data(:));
 rxWords=wData(wVal); rxLast=wLast(wVal);
 fprintf('SIZE-GATE: packets=%d errors=%d rxWords=%d lasts=%d\n', pk, er, numel(rxWords), nnz(rxLast));
-assert(pk>3 && er==0, 'BIST failed at DBPP=1280');
+assert(pk>3 && er==0, sprintf('BIST failed at DBPP=%d', gateDbpp));
 ends=find(rxLast); s0=1; nx=0;
 for e=ends'
   p1=rxWords(s0:e); s0=e+1;
   if numel(p1)==nWords && isequal(p1(:),words), nx=nx+1; end
 end
-assert(nx>=3, 'fewer than 3 byte-exact packets at DBPP=1280');
-fprintf('SIZE GATE PASS (%d byte-exact %d-word packets at DBPP=1280)\n', nx, nWords);
+assert(nx>=3, sprintf('fewer than 3 byte-exact packets at DBPP=%d', gateDbpp));
+fprintf('SIZE GATE PASS (%d byte-exact %d-word packets at DBPP=%d)\n', nx, nWords, gateDbpp);
 close_system(h,0);
