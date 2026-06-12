@@ -56,13 +56,14 @@ classdef ByteDmaRegisters
             B = double(sscanf(ByteDmaRegisters.DmaBase, '0x%x'));
             A = double(sscanf(ByteDmaRegisters.BufPhys, '0x%x'));
             cmd = sprintf([ ...
+                'busybox devmem 0x%X 32 0; sleep 1; ' ... % CONTROL: disable (engine reset -- a stale/wedged engine ignores new transfers)
                 'busybox devmem 0x%X 32 3; ' ...     % IRQ_MASK: mask all
                 'busybox devmem 0x%X 32 1; ' ...     % CONTROL: enable
-                'busybox devmem 0x%X 32 1; ' ...     % FLAGS: CYCLIC
+                'busybox devmem 0x%X 32 3; ' ...     % FLAGS: CYCLIC | TLAST (tlast per loop marks word 1 for the aligner)
                 'busybox devmem 0x%X 32 %d; ' ...    % SRC_ADDRESS
                 'busybox devmem 0x%X 32 %d; ' ...    % X_LENGTH = bytes-1
                 'busybox devmem 0x%X 32 1'], ...     % TRANSFER_SUBMIT
-                B+128, B+1024, B+1036, B+1044, A, B+1048, lenBytes-1, B+1032);
+                B+1024, B+128, B+1024, B+1036, B+1044, A, B+1048, lenBytes-1, B+1032);
             BistRegisters.sshExec(cmd, 10);
         end
 
