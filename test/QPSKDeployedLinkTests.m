@@ -465,7 +465,11 @@ classdef QPSKDeployedLinkTests < HardwareTests
             cleanupDma = onCleanup(@() ByteDmaRegisters.stop());
             tx = adi.ADRV9002.Tx('uri', testCase.uri);
             tx.EnabledChannels = 1; tx.CenterFrequencyChannel0 = testCase.LO;
-            tx.AttenuationChannel0 = -10;
+            % byte path drives the DAC from the in-FPGA Tx, whose digital
+            % amplitude is lower than the host golden waveform: atten 0 is
+            % the measured operating point (echo-mode sweep 2026-06-12:
+            % 83% cable frame survival at 0/-5 dB, collapse at -10)
+            tx.AttenuationChannel0 = 0;
             tx.DataSource = 'DMA'; tx.EnableCyclicBuffers = true;
             tx(complex(zeros(4096,1,'int16'),zeros(4096,1,'int16')));
             rx = adi.ADRV9002.Rx('uri', testCase.uri);
