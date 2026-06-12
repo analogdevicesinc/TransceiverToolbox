@@ -1,4 +1,4 @@
-function [word, wordValid, wordLast, drop, state] = qpskByteSerializer(state, bitIn, bitValid, start, ready)
+function [word, wordValid, wordLast, drop, state] = qpskByteSerializer(state, bitIn, bitValid, start, ready, wordsPerPacket)
 % qpskByteSerializer -- recovered payload bit -> 64-bit word serializer for
 % the byte-RX path (the EXACT inverse of qpskByteBitShifter: byte-0-first,
 % MSB-first within each byte, so shifter(pack(bytes)) bits fed in here
@@ -24,6 +24,9 @@ function [word, wordValid, wordLast, drop, state] = qpskByteSerializer(state, bi
 % This function is the unit-tested single source of truth for the logic
 % inside the composite overlay's ByteSerializer MATLAB Function block.
 
+if nargin >= 1 && nargin < 6
+    wordsPerPacket = uint8(35);
+end
 if nargin == 0
     word = struct('acc', uint64(0), 'bitIdx', uint8(0), 'wordCnt', uint8(0));
     return
@@ -56,11 +59,11 @@ if bitValid
         if ready
             word      = state.acc;
             wordValid = true;
-            wordLast  = state.wordCnt >= 35;
+            wordLast  = state.wordCnt >= uint8(wordsPerPacket);
         else
             drop = true;
         end
-        if state.wordCnt >= 35
+        if state.wordCnt >= uint8(wordsPerPacket)
             state.wordCnt = uint8(0);
         end
         state.acc    = uint64(0);

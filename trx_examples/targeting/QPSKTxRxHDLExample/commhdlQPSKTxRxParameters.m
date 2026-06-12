@@ -12,7 +12,15 @@ function Params = commhdlQPSKTxRxParameters()
    
    Params.Preamble                 = generatePreamble();
    Params.QPSKConstellation        = double(fi(QPSKModulate([0 0 1 0 1 1 0 1].'),1,16,15));
-   Params.DataBitsPerPacket        = 2240;
+   % packet payload size (bits): default 2240; override for size-variant
+   % builds via setappdata(0,'QPSK_DBPP',N) BEFORE model load/build.
+   % Constraints: multiple of 64 (whole 64-bit words for the byte DMA
+   % path) and >= 128 (the BIST checks the first 120 bits).
+   dbpp = getappdata(0, 'QPSK_DBPP');
+   if isempty(dbpp), dbpp = 2240; end
+   validateattributes(dbpp, {'numeric'}, {'scalar','positive','>=',128});
+   assert(mod(dbpp, 64) == 0, 'QPSK_DBPP must be a multiple of 64');
+   Params.DataBitsPerPacket        = dbpp;
    Params.SamplesPerSymbol         = 4;
    Params.RRCFilterSpanInSymbols   = 4;
    rollOffFactor                   = 0.5;

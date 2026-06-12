@@ -21,6 +21,8 @@ validateattributes(dataBits,{'double'},{'binary','column','finite'},'','dataBits
 validateattributes(Rsym,{'double'},{'finite','scalar','positive'},'','Rsym');
 
 Config = commhdlQPSKTxRxParameters;
+% chart parameter for the Tx Message Generator (configurable packet size)
+dataBitsPerPacket = Config.DataBitsPerPacket;
 
 Nframes             = length(dataBits)/Config.DataBitsPerPacket;
 if (Nframes - floor(Nframes)) ~= 0
