@@ -26,7 +26,15 @@ dataBitsPerPacket = Config.DataBitsPerPacket;
 
 Nframes             = length(dataBits)/Config.DataBitsPerPacket;
 if (Nframes - floor(Nframes)) ~= 0
-    error('Number of dataBits must be integer multiple of 2240');
+    % the stored sim stimulus was authored for the default packet size;
+    % for size-variant builds trim it to the largest whole-packet multiple
+    % (repeat first if it is shorter than one packet)
+    if length(dataBits) < Config.DataBitsPerPacket
+        dataBits = repmat(dataBits, ceil(Config.DataBitsPerPacket/length(dataBits)), 1);
+    end
+    Nframes  = floor(length(dataBits)/Config.DataBitsPerPacket);
+    assert(Nframes >= 1, 'dataBits shorter than one packet');
+    dataBits = dataBits(1:Nframes*Config.DataBitsPerPacket);
 end
 
 dataIn              = dataBits;
