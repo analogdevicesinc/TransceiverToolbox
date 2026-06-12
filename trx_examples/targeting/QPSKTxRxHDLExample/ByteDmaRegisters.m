@@ -15,7 +15,9 @@ classdef ByteDmaRegisters
 
     properties (Constant)
         DmaBase = '0x9D100000';
+        RxDmaBase = '0x9D200000';
         BufPhys = '0x7FF00000';    % reserved-memory region qpsk_byte_buf (DT node, last 1 MB of DDR)
+        RxBufPhys = '0x7FF80000';  % second half of the reserved region: S2MM capture buffer
         TxDataSourceAddr = '0x9D00011C';
     end
 
@@ -70,6 +72,54 @@ classdef ByteDmaRegisters
         function stop()
             B = double(sscanf(ByteDmaRegisters.DmaBase, '0x%x'));
             BistRegisters.sshExec(sprintf('busybox devmem 0x%X 32 0', B+1024), 10);
+        end
+
+        function bytes = rxCapture(lenBytes)
+            % one-shot S2MM capture of the Receiver's recovered byte stream:
+            % program the rx DMA for lenBytes into the capture buffer, poll
+            % completion, read the buffer back. The Rx serializer asserts
+            % tlast on the 35th word of each packet, so 280-byte transfers
+            % complete on packet boundaries.
+            assert(mod(lenBytes, 8) == 0, 'length must be 8-byte aligned');
+            B = double(sscanf(ByteDmaRegisters.RxDmaBase, '0x%x'));
+            A = double(sscanf(ByteDmaRegisters.RxBufPhys, '0x%x'));
+            % clear the buffer first so stale data cannot fake a pass
+            clr = '';
+            for k = 1:lenBytes/4
+                clr = [clr sprintf('busybox devmem 0x%X 32 0; ', A+4*(k-1))]; %#ok<AGROW>
+            end
+            BistRegisters.sshExec(clr, 30);
+            cmd = sprintf([ ...
+                'busybox devmem 0x%X 32 0; sleep 1; ' ... % CONTROL: engine reset
+                'busybox devmem 0x%X 32 3; ' ...          % IRQ_MASK: mask all
+                'busybox devmem 0x%X 32 1; ' ...          % CONTROL: enable
+                'busybox devmem 0x%X 32 0; ' ...          % FLAGS: one-shot
+                'busybox devmem 0x%X 32 %d; ' ...         % DEST_ADDRESS
+                'busybox devmem 0x%X 32 %d; ' ...         % X_LENGTH = bytes-1
+                'busybox devmem 0x%X 32 1'], ...          % TRANSFER_SUBMIT
+                B+1024, B+128, B+1024, B+1036, B+1040, A, B+1048, lenBytes-1, B+1032);
+            BistRegisters.sshExec(cmd, 10);
+            % poll completion (TRANSFER_DONE bit for id 0)
+            done = false;
+            for k = 1:20
+                v = double(BistRegisters.read(sprintf('0x%X', B+1064), 8));
+                if bitand(uint32(v), uint32(1)) > 0, done = true; break; end
+                pause(0.2);
+            end
+            assert(done, 'rx byte DMA capture did not complete');
+            % read the buffer back (32-bit words, little-endian)
+            rdcmd = '';
+            for k = 1:lenBytes/4
+                rdcmd = [rdcmd sprintf('busybox devmem 0x%X; ', A+4*(k-1))]; %#ok<AGROW>
+            end
+            [~, out] = BistRegisters.sshExec(rdcmd, 30);
+            tok = regexp(out, '0x([0-9A-Fa-f]{8})', 'tokens');
+            words32 = cellfun(@(c) uint32(hex2dec(c{1})), tok).';
+            assert(numel(words32) == lenBytes/4, 'short buffer readback');
+            bytes = zeros(lenBytes, 1, 'uint8');
+            for k = 1:4
+                bytes(k:4:end) = uint8(bitand(bitshift(words32, -8*(k-1)), uint32(255)));
+            end
         end
     end
 end
