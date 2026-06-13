@@ -81,6 +81,12 @@ classdef ByteDmaRegisters
             % tlast on the 35th word of each packet, so 280-byte transfers
             % complete on packet boundaries.
             assert(mod(lenBytes, 8) == 0, 'length must be 8-byte aligned');
+            % per-packet TLAST must be ON for packet-aligned one-shot
+            % captures. On TLAST-gated bitstreams the qpsk_tun daemon can
+            % leave byte_ctrl_gpio (0x9D300000) cleared for its multi-packet
+            % mode; restore the legacy default here. Tolerant of bitstreams
+            % without the gpio (the write simply errors, hence || true).
+            BistRegisters.sshExec('busybox devmem 0x9D300000 32 1 2>/dev/null || true', 10);
             B = double(sscanf(ByteDmaRegisters.RxDmaBase, '0x%x'));
             A = double(sscanf(ByteDmaRegisters.RxBufPhys, '0x%x'));
             % clear the buffer first so stale data cannot fake a pass

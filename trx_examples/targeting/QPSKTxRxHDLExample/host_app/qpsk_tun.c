@@ -462,6 +462,8 @@ static void echo_mode(int duration)
         if (!rx_want_spin())
             usleep(200);
     }
+    if (rx_multi && gpio_regs)
+        gpio_regs[0] = 1;   /* restore legacy per-packet TLAST */
     printf("ECHO: dur=%.1f tx=%llu rx_ok=%llu crc_drop=%llu gaps=%llu\n",
         now_s() - t0, (unsigned long long)st.frames_tx,
         (unsigned long long)st.frames_rx_ok,
@@ -652,6 +654,11 @@ int main(int argc, char **argv)
             stats_dump();
         }
     }
+    /* leave the bitstream in legacy per-packet TLAST mode so the MATLAB
+     * ByteDmaRegisters path (and any later daemon in legacy mode) behaves
+     * -- gpio is not cleared by the modem soft reset */
+    if (rx_multi && gpio_regs)
+        gpio_regs[0] = 1;
     stats_dump();
     return 0;
 }
