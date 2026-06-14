@@ -177,13 +177,25 @@ static int tx_send(const unsigned char *pkt)
     return 0;
 }
 
-/* ---- Rx side ---- */
+/* ---- Rx side (double-buffered in multi mode) ----
+ * The single S2MM engine must be reset before each transfer, so whenever
+ * it is between transfers it captures nothing. In multi mode a transfer
+ * spans K packets; if the K decoded packets were drained BEFORE rearming,
+ * the engine would sit idle for the whole drain window and drop every
+ * packet that arrives during it (~30% loss under sustained load). So:
+ * the moment a transfer on the fill area completes, rearm the engine on
+ * the OTHER area immediately, THEN drain the just-completed area while the
+ * engine fills the new one. Legacy mode (-M 0) is single-packet: copy one
+ * packet out, rearm at once, decode -- the same "rearm before consume"
+ * principle, one packet at a time. */
 static struct dmac rxd;
 static volatile uint32_t *gpio_regs;   /* byte_ctrl_gpio (multi mode only) */
 static unsigned char *rxbuf;           /* legacy: 1 slot; multi: 2 areas */
 static int rx_active = 0;
-static unsigned rx_area = 0;           /* multi: buffer being DMA'd (0/1) */
-static int rx_scan = 0;                /* multi: next slice to consume */
+static unsigned rx_fill = 0;           /* area the engine is filling (0/1) */
+static int rx_fscan = 0;               /* next slice to eager-check in fill */
+static int rx_drain = -1;              /* completed area being drained, or -1 */
+static int rx_dscan = 0;               /* next slice in the drain area */
 
 static uint32_t rx_area_phys(unsigned area)
 {
@@ -195,20 +207,22 @@ static unsigned char *rx_area_virt(unsigned area)
     return rxbuf + area * (RX_MULTI_MAX * SLOT_BYTES);
 }
 
-static void rx_start(void)
+/* reset + submit a transfer on `area`; that area becomes the fill area */
+static void rx_arm(unsigned area)
 {
     int span = rx_multi ? rx_multi : 1;
-    memset(rx_area_virt(rx_area), 0, (size_t)(span * pkt_bytes));
+    memset(rx_area_virt(area), 0, (size_t)(span * pkt_bytes));
     dmac_wr(&rxd, DMAC_CONTROL, 0);
     dmac_wr(&rxd, DMAC_CONTROL, 1);
     dmac_wr(&rxd, DMAC_IRQ_MASK, 3);
     /* TRANSFER_ID is 0 after reset; completion is TRANSFER_DONE bit0 */
-    dmac_wr(&rxd, DMAC_DEST_ADDRESS, rx_area_phys(rx_area));
+    dmac_wr(&rxd, DMAC_DEST_ADDRESS, rx_area_phys(area));
     dmac_wr(&rxd, DMAC_X_LENGTH, (uint32_t)(span * pkt_bytes) - 1);
     dmac_wr(&rxd, DMAC_FLAGS, 0);
     dmac_wr(&rxd, DMAC_SUBMIT, 1);
+    rx_fill = area;
+    rx_fscan = 0;
     rx_active = 1;
-    rx_scan = 0;
 }
 
 static int rx_done(void)
@@ -216,29 +230,33 @@ static int rx_done(void)
     return dmac_rd(&rxd, DMAC_TRANSFER_DONE) & 1;
 }
 
-/* true when the loop should spin rather than sleep: legacy mode always
- * (per-packet 18 us rearm window); multi mode only inside the last-packet
- * window before the rearm */
+/* Spin (vs sleep) to keep the inter-transfer rearm window tiny. Legacy
+ * always spins (per-packet 18 us window). Multi spins while there is a
+ * completed area to drain, or a fill transfer has completed but is not yet
+ * rearmed; while the engine is busy filling it may nap. */
 static int rx_want_spin(void)
 {
     if (!rx_multi)
         return 1;
-    return rx_scan >= rx_multi - 1;
+    if (rx_drain >= 0)
+        return 1;
+    return rx_active && rx_done();
 }
 
-/* Delivers at most one validated frame per call (payload copied to out,
- * length returned, seq set); returns 0 when nothing is deliverable yet.
- * CRC failures are counted internally.
+/* Delivers at most one validated frame per call; returns 0 when nothing is
+ * deliverable yet. CRC failures are counted internally.
  *
- * Multi mode consumes slices of the landing buffer eagerly: the DMA
- * writes in order, so a slice whose CRC validates is complete and
- * deliverable while the transfer is still filling later slices. A
- * corrupt slice (artifact episode) blocks eager consumption until the
- * transfer completes, then the remainder is finalized slice by slice. */
+ * Multi mode is eager AND double-buffered: slices of the FILLING area are
+ * delivered as soon as their CRC validates (the DMA writes in order and a
+ * valid CRC means the slice is fully landed) -- low latency. The instant
+ * the K-packet transfer completes, the engine is rearmed on the OTHER area
+ * BEFORE the leftover slices are drained -- low loss (the single engine is
+ * never idle for a whole drain window). */
 static int rx_pump_frame(unsigned char *out, uint32_t *seq)
 {
     if (!rx_active) {
-        rx_start();
+        rx_arm(0);
+        rx_drain = -1;
         return 0;
     }
     if (!rx_multi) {
@@ -246,28 +264,48 @@ static int rx_pump_frame(unsigned char *out, uint32_t *seq)
             return 0;
         unsigned char pkt[QPSK_PKT_BYTES_MAX];
         memcpy(pkt, rx_area_virt(0), (size_t)pkt_bytes);
-        rx_start();
+        rx_arm(0);                 /* rearm before decoding */
         int m = qpsk_frame_decode(pkt, pkt_bytes, out, seq);
         if (m < 0) { st.crc_drops++; return 0; }
         return m;
     }
-    /* multi-packet transfer */
-    int done = rx_done();
-    while (rx_scan < rx_multi) {
-        unsigned char *slice = rx_area_virt(rx_area) + (size_t)rx_scan * (size_t)pkt_bytes;
+    /* 1. drain a completed area first (in-order delivery; its slices are
+     *    fully landed, so a failed decode is a genuine corrupt packet) */
+    if (rx_drain >= 0) {
+        while (rx_dscan < rx_multi) {
+            unsigned char *slice = rx_area_virt((unsigned)rx_drain)
+                + (size_t)rx_dscan * (size_t)pkt_bytes;
+            int m = qpsk_frame_decode(slice, pkt_bytes, out, seq);
+            rx_dscan++;
+            if (m >= 0)
+                return m;
+            st.crc_drops++;
+        }
+        rx_drain = -1;             /* fully drained */
+    }
+    /* 2. eager-deliver newly-landed slices of the filling area. A failed
+     *    decode here is ambiguous (not landed yet vs corrupt), so stop --
+     *    it is resolved when the transfer completes (moved to the drain). */
+    if (rx_fscan < rx_multi) {
+        unsigned char *slice = rx_area_virt(rx_fill)
+            + (size_t)rx_fscan * (size_t)pkt_bytes;
         int m = qpsk_frame_decode(slice, pkt_bytes, out, seq);
         if (m >= 0) {
-            rx_scan++;
+            rx_fscan++;
             return m;
         }
-        if (!done)
-            return 0;   /* not landed yet, or corrupt: resolve at done */
-        st.crc_drops++; /* transfer complete: this slice is final */
-        rx_scan++;
     }
-    /* all slices consumed; swap areas and rearm */
-    rx_area ^= 1;
-    rx_start();
+    /* 3. on completion, rearm the OTHER area at once and hand the leftover
+     *    slices [rx_fscan, K) of the completed area to the drainer */
+    if (rx_done()) {
+        unsigned completed = rx_fill;
+        int from = rx_fscan;
+        rx_arm(completed ^ 1u);    /* engine resumes immediately; rx_fscan=0 */
+        if (from < rx_multi) {
+            rx_drain = (int)completed;
+            rx_dscan = from;
+        }
+    }
     return 0;
 }
 
@@ -420,7 +458,8 @@ static void dma_open(void)
         gpio_regs[0] = 0;   /* TLAST off: transfers bounded by X_LENGTH */
     }
     dmac_init(&txd);
-    rx_start();
+    rx_arm(0);
+    rx_drain = -1;
 }
 
 static void echo_mode(int duration)
@@ -558,8 +597,7 @@ int main(int argc, char **argv)
         /* only read the A side when the Tx DMA can take a frame; spin
          * only when the rx rearm window demands it */
         pfds[0].events = (short)((loopback || tx_capacity()) ? POLLIN : 0);
-        int timeout = loopback ? 50 : (rx_want_spin() ? 0 : 1);
-        int pr = poll(pfds, 2, timeout);
+        int pr = poll(pfds, 2, loopback ? 50 : 0);
         if (pr < 0 && errno != EINTR)
             break;
 
@@ -653,6 +691,12 @@ int main(int argc, char **argv)
             tlast = now_s();
             stats_dump();
         }
+        /* While the K-packet transfer is filling (multi mode), nap briefly
+         * instead of spinning -- keeps CPU low but bounds the rearm latency
+         * when the transfer completes (a 1 ms poll would drop ~1.6 packets
+         * per transfer). Legacy and the drain/rearm windows spin. */
+        if (!loopback && !rx_want_spin())
+            usleep(150);
     }
     /* leave the bitstream in legacy per-packet TLAST mode so the MATLAB
      * ByteDmaRegisters path (and any later daemon in legacy mode) behaves
