@@ -21,6 +21,21 @@ classdef QPSKNetworkTests < matlab.unittest.TestCase
     properties (Constant)
         SoakSeconds = 900;       % 15-minute soaks
         BoardAppDir = '/root/host_app';
+        Uri = 'ip:10.0.0.146';
+        LO = 2.4e9;
+    end
+
+    properties (Hidden)
+        % The ADRV9002 is armed via MATLAB (full radio profile + channel
+        % enable) and HELD for the whole suite, instead of the board
+        % script's CLI rf(). Two reasons, both root-caused: (1) CLI
+        % iio_attr only sets gain, not the profile the cold cable path
+        % needs; (2) the CLI cyclic iio_writedev + its pkill on teardown
+        % can wedge the tx dmaengine channel ("Device or resource busy")
+        % across repeated runs. The daemon drives the independent byte
+        % DMA, so MATLAB holding the sample DMA does not conflict.
+        txRadio
+        rxRadio
     end
 
     methods (TestClassSetup)
@@ -64,7 +79,8 @@ classdef QPSKNetworkTests < matlab.unittest.TestCase
                 'frame unit tests failed on the board');
         end
         function netUp(testCase)
-            [rc, out] = testCase.netSetup('up cable');
+            testCase.armRadio();   % radio profiled + channels enabled first
+            [rc, out] = testCase.netSetup('up cable noRF');
             testCase.assertEqual(rc, 0, sprintf('net setup failed: %s', out));
             % iperf3 server resident in nsB for the whole class
             BistRegisters.sshExec('pkill -x iperf3; sleep 1; true', 15);
@@ -79,10 +95,34 @@ classdef QPSKNetworkTests < matlab.unittest.TestCase
         function netDown(testCase)
             BistRegisters.sshExec('pkill -x iperf3; true', 15);
             testCase.netSetup('down');
+            try, release(testCase.txRadio); catch, end
+            try, release(testCase.rxRadio); catch, end
         end
     end
 
     methods
+        function armRadio(testCase)
+            % Configure the ADRV9002 the way the byte e2e test does (full
+            % profile + channel enable) and KEEP it open for the suite; the
+            % board script is told to skip its CLI rf(). Tx atten 0 dB + Rx
+            % AGC is the measured cable operating point.
+            %
+            % NOTE: this is a PLAIN helper, NOT a TestClassSetup fixture --
+            % it must run exactly once (called by netUp). If it lived in the
+            % methods(TestClassSetup) block the framework would auto-run it
+            % AND netUp would call it again, double-arming the tx buffer
+            % ("Failed to create buffer for axi-adrv9002-tx-lpc").
+            tx = adi.ADRV9002.Tx('uri', testCase.Uri);
+            tx.EnabledChannels = 1; tx.CenterFrequencyChannel0 = testCase.LO;
+            tx.AttenuationChannel0 = 0;
+            tx.DataSource = 'DMA'; tx.EnableCyclicBuffers = true;
+            tx(complex(zeros(4096,1,'int16'), zeros(4096,1,'int16')));
+            rx = adi.ADRV9002.Rx('uri', testCase.Uri);
+            rx.EnabledChannels = 1; rx.CenterFrequencyChannel0 = testCase.LO;
+            rx.SamplesPerFrame = 2^14; rx();
+            testCase.txRadio = tx; testCase.rxRadio = rx;
+            pause(2);
+        end
         function scpToBoard(testCase, src)
             % BistRegisters-style scp (same askpass/setsid pattern)
             askpass = ['/tmp/qpsk_net_askpass_' num2str(feature('getpid')) '.sh'];

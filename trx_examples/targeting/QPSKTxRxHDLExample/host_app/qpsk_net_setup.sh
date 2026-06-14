@@ -23,18 +23,19 @@ cd "$(dirname "$0")"
 MODEM=0x9D000000
 DEVMEM="busybox devmem"
 
-# Packet size / capture mode. byte_ctrl_gpio (0x9D300000) only exists on
-# the TLAST-gated bitstreams, which are also the 4480-bit builds -- probe
-# it to pick defaults; override with QPSK_PKT_BYTES / QPSK_RX_MULTI.
-PKT=${QPSK_PKT_BYTES:-auto}
+# Packet size and capture mode are INDEPENDENT. Packet size = the deployed
+# bitstream's DataBitsPerPacket/8 (default build 2240 bits = 280 B; a
+# 4480-bit build is 560 B -- set QPSK_PKT_BYTES for that). byte_ctrl_gpio
+# (0x9D300000) presence means the rx DMA's per-packet TLAST can be gated
+# off, enabling multi-packet (-M) capture -- it does NOT imply a larger
+# packet. Probe the gpio only to add -M, not to change the size.
+PKT=${QPSK_PKT_BYTES:-280}
 MULTI=${QPSK_RX_MULTI:-16}
 DFLAGS=""
 detect() {
     if $DEVMEM 0x9D300000 32 >/dev/null 2>&1; then
-        [ "$PKT" = auto ] && PKT=560
-        DFLAGS="-p $PKT -M $MULTI"
+        DFLAGS="-p $PKT -M $MULTI"   # TLAST-gate present -> multi-packet RX
     else
-        [ "$PKT" = auto ] && PKT=280
         DFLAGS="-p $PKT"
     fi
     MTU=$((PKT - 12))
@@ -87,7 +88,14 @@ down() {
 
 up() {
     down >/dev/null
-    rf
+    # arg 2 == noRF: caller (e.g. QPSKNetworkTests) has armed the ADRV9002
+    # via MATLAB and holds it open -- skip the leak-prone CLI rf() (a
+    # killed cyclic iio_writedev wedges the tx dmaengine channel).
+    if [ "$2" != noRF ]; then
+        rf
+    else
+        echo "rf skipped (caller-armed radio)"
+    fi
     regs "$1"
     [ -x ./qpsk_tun ] || { echo "build qpsk_tun first"; exit 1; }
 
@@ -137,7 +145,7 @@ up() {
 case "$1" in
     rf)   rf ;;
     regs) regs "$2" ;;
-    up)   up "$2" ;;
+    up)   up "$2" "$3" ;;
     down) down ;;
-    *)    echo "usage: $0 {rf|regs|up|down} [internal|cable]"; exit 2 ;;
+    *)    echo "usage: $0 {rf|regs|up|down} [internal|cable] [noRF]"; exit 2 ;;
 esac
