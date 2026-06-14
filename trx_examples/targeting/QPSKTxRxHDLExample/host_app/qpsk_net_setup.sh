@@ -25,18 +25,24 @@ DEVMEM="busybox devmem"
 
 # Packet size and capture mode are INDEPENDENT. Packet size = the deployed
 # bitstream's DataBitsPerPacket/8 (default build 2240 bits = 280 B; a
-# 4480-bit build is 560 B -- set QPSK_PKT_BYTES for that). byte_ctrl_gpio
-# (0x9D300000) presence means the rx DMA's per-packet TLAST can be gated
-# off, enabling multi-packet (-M) capture -- it does NOT imply a larger
-# packet. Probe the gpio only to add -M, not to change the size.
+# 4480-bit build is 560 B -- set QPSK_PKT_BYTES for that).
+#
+# RX capture defaults to LEGACY single-packet (-M 0): it rearms the single
+# S2MM engine in every ~18 us inter-packet gap, so it captures essentially
+# every packet (~1% loss) -- best throughput, at the cost of one CPU core
+# pegged. Multi-packet (-M K, needs the byte_ctrl_gpio TLAST gate at
+# 0x9D300000) cuts CPU but loses ~1 packet per transfer at the engine
+# rearm (the SYNC_TRANSFER_START realign), trading loss for CPU on a
+# measured curve (W=spin window via QPSK_SPIN_W; see qpsk_tun.c). It is
+# therefore OPT-IN: set QPSK_RX_MULTI=K (e.g. 16) for CPU-constrained or
+# low-rate use. For a throughput link, legacy is the right default.
 PKT=${QPSK_PKT_BYTES:-280}
-MULTI=${QPSK_RX_MULTI:-16}
+MULTI=${QPSK_RX_MULTI:-0}
 DFLAGS=""
 detect() {
-    if $DEVMEM 0x9D300000 32 >/dev/null 2>&1; then
-        DFLAGS="-p $PKT -M $MULTI"   # TLAST-gate present -> multi-packet RX
-    else
-        DFLAGS="-p $PKT"
+    DFLAGS="-p $PKT"
+    if [ "$MULTI" -gt 0 ] && $DEVMEM 0x9D300000 32 >/dev/null 2>&1; then
+        DFLAGS="-p $PKT -M $MULTI"   # opt-in multi-packet (lower CPU, some loss)
     fi
     MTU=$((PKT - 12))
     ADVMSS=$((MTU - 60))

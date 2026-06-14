@@ -196,6 +196,13 @@ static unsigned rx_fill = 0;           /* area the engine is filling (0/1) */
 static int rx_fscan = 0;               /* next slice to eager-check in fill */
 static int rx_drain = -1;              /* completed area being drained, or -1 */
 static int rx_dscan = 0;               /* next slice in the drain area */
+static double rx_t0 = 0;               /* when the fill transfer started */
+static double rx_pkt_s = 632e-6;       /* est. seconds/packet (EWMA-tuned) */
+static int rx_spin_w = 6;              /* spin the last W packets (QPSK_SPIN_W);
+                                        * higher W -> lower loss, higher CPU */
+static int rx_nap_us = 60;             /* nap while filling (QPSK_NAP_US) */
+
+static double now_s(void);             /* defined below */
 
 static uint32_t rx_area_phys(unsigned area)
 {
@@ -223,6 +230,7 @@ static void rx_arm(unsigned area)
     rx_fill = area;
     rx_fscan = 0;
     rx_active = 1;
+    rx_t0 = now_s();
 }
 
 static int rx_done(void)
@@ -230,17 +238,21 @@ static int rx_done(void)
     return dmac_rd(&rxd, DMAC_TRANSFER_DONE) & 1;
 }
 
-/* Spin (vs sleep) to keep the inter-transfer rearm window tiny. Legacy
- * always spins (per-packet 18 us window). Multi spins while there is a
- * completed area to drain, or a fill transfer has completed but is not yet
- * rearmed; while the engine is busy filling it may nap. */
+/* Spin (vs nap) to keep the inter-transfer rearm window under the ~18 us
+ * packet gap -- napping past it makes the rearmed transfer miss the next
+ * packet's SYNC_TRANSFER_START tuser, skipping ~1 packet per transfer
+ * (~8% loss under load; verified). Legacy always spins (per-packet gap).
+ * Multi spins while draining, when the transfer is done-but-not-rearmed,
+ * and in the ~2-packet window before the K-packet transfer is expected to
+ * finish (rx_pkt_s self-calibrates to the packet rate). It naps only
+ * through the bulk of the fill, so CPU stays low. */
 static int rx_want_spin(void)
 {
     if (!rx_multi)
         return 1;
-    if (rx_drain >= 0)
+    if (rx_drain >= 0 || rx_done())
         return 1;
-    return rx_active && rx_done();
+    return (now_s() - rx_t0) >= (double)(rx_multi - rx_spin_w) * rx_pkt_s;
 }
 
 /* Delivers at most one validated frame per call; returns 0 when nothing is
@@ -300,6 +312,11 @@ static int rx_pump_frame(unsigned char *out, uint32_t *seq)
     if (rx_done()) {
         unsigned completed = rx_fill;
         int from = rx_fscan;
+        /* calibrate the per-packet period from this transfer's duration
+         * (guard against idle-stretched transfers under light load) */
+        double per = (now_s() - rx_t0) / (double)rx_multi;
+        if (per > 150e-6 && per < 3e-3)
+            rx_pkt_s = 0.85 * rx_pkt_s + 0.15 * per;
         rx_arm(completed ^ 1u);    /* engine resumes immediately; rx_fscan=0 */
         if (from < rx_multi) {
             rx_drain = (int)completed;
@@ -499,7 +516,7 @@ static void echo_mode(int duration)
                 (unsigned long long)st.seq_gaps);
         }
         if (!rx_want_spin())
-            usleep(200);
+            usleep((useconds_t)rx_nap_us);
     }
     if (rx_multi && gpio_regs)
         gpio_regs[0] = 1;   /* restore legacy per-packet TLAST */
@@ -545,6 +562,12 @@ int main(int argc, char **argv)
             RX_MULTI_MAX, RX_MULTI_MAX * SLOT_BYTES);
         return 2;
     }
+    { const char *e;
+      if ((e = getenv("QPSK_SPIN_W"))) rx_spin_w = atoi(e);
+      if ((e = getenv("QPSK_NAP_US"))) rx_nap_us = atoi(e);
+      if (rx_spin_w < 1) rx_spin_w = 1;
+      if (rx_spin_w > RX_MULTI_MAX) rx_spin_w = RX_MULTI_MAX;
+      if (rx_nap_us < 1) rx_nap_us = 1; }
     if (mtu == 0)
         mtu = QPSK_FRAME_MAX_PAYLOAD(pkt_bytes);
     if (mtu < 1 || mtu > QPSK_FRAME_MAX_PAYLOAD(pkt_bytes)) {
@@ -696,7 +719,7 @@ int main(int argc, char **argv)
          * when the transfer completes (a 1 ms poll would drop ~1.6 packets
          * per transfer). Legacy and the drain/rearm windows spin. */
         if (!loopback && !rx_want_spin())
-            usleep(150);
+            usleep((useconds_t)rx_nap_us);
     }
     /* leave the bitstream in legacy per-packet TLAST mode so the MATLAB
      * ByteDmaRegisters path (and any later daemon in legacy mode) behaves
