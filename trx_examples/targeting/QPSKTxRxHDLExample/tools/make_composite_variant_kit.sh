@@ -40,7 +40,7 @@ cp -f "$SRC/tools/${PRE_BASENAME}.m" "$DST/variant_pre.m"
 
 # sim gates: copied INTO the kit because MATLAB's run() cds to the script's
 # own folder -- a gate run from tools/ would not find build_composite_local.m.
-for g in sim_byte_gate sim_internal_gate sim_byte_rx_gate sim_byte_size_gate sim_vq_gate; do
+for g in sim_byte_gate sim_internal_gate sim_byte_rx_gate sim_byte_size_gate sim_vq_gate sim_slip_valid; do
   cp -f "$SRC/tools/$g.m" "$DST/$g.m" 2>/dev/null || true
 done
 cp -f "$SRC/sim_vq_gate.m" "$DST/sim_vq_gate.m" 2>/dev/null || true
