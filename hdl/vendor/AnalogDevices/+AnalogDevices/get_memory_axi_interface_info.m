@@ -9,7 +9,12 @@ switch project
     case 'adrv9002'
         switch fpga
             case {'ZCU102'}
-                InterfaceConnection = 'axi_cpu_interconnect/M06_AXI';
+                % ZCU102 is ZynqMP: the DUT AXI4-Lite attaches to the PS8
+                % low-power-domain master interconnect (axi_hpm0_lpd), not the
+                % Zynq-7000 axi_cpu_interconnect. M07 matches the JUPITER byte
+                % topology (NUM_MI 8; byte DMAs auto-assign to M08-M10), which
+                % the ADRV9002+ZCU102 byte composite reuses.
+                InterfaceConnection = 'axi_hpm0_lpd_interconnect/M07_AXI';
                 BaseAddress = '0x9D000000';
                 MasterAddressSpace = 'sys_ps8/Data';
             otherwise

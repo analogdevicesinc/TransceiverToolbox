@@ -319,6 +319,19 @@ proc preprocess_bd {project carrier rxtx number_of_inputs number_of_bits number_
 
     puts "Preprocessing $project $carrier $rxtx"
 
+    # Byte-composite designs (plugin_rd_rxtx_byte sets ::byte_dma) reuse the
+    # JUPITER composite+byte BD preprocessing verbatim. It is base-BD-agnostic
+    # within the ADRV9002/ZynqMP family (axi_adrv9001 + axi_hpm0_lpd_interconnect
+    # + util_adc_1_pack/util_dac_1_upack + sys_250m_clk), so a ZCU102
+    # (project=adrv9001) byte build assembles the same DUT-centric byte datapath
+    # as JUPITER. The base BD (xczu9eg + zcu102 SSI constraints) is already
+    # selected by this point -- only the switch routing below is affected. Stock
+    # adrv9001/zcu102 designs never set byte_dma, so they are unaffected.
+    if {[info exists ::byte_dma] && $::byte_dma eq "on" && $project eq "adrv9001"} {
+        puts "byte_dma build on adrv9001/$carrier -> using jupiter_sdr composite preprocessing"
+        set project jupiter_sdr
+    }
+
     switch $project {
         adrv9361z7035 {
             if {$rxtx == "rx" || $rxtx == "rxtx"} {
