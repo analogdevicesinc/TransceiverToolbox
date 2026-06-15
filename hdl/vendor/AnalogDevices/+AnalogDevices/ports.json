@@ -900,7 +900,8 @@
         "chip": "ADRV9002",
         "complex": "true",
         "fpga": [
-            "zcu102"
+            "zcu102",
+            "zed"
         ],
         "supported_rd": [
             "rx",

@@ -8,6 +8,17 @@ switch project
         MasterAddressSpace = 'sys_ps8/Data';
     case 'adrv9002'
         switch fpga
+            case {'ZED'}
+                % ZedBoard is Zynq-7000: DUT AXI4-Lite attaches to the PS7 GP0
+                % master interconnect, which the adrv9001/zed base BD names
+                % axi_gp0_interconnect (NOT axi_cpu_interconnect). At GP0 base
+                % 0x43C00000 (GP0 = 0x40000000-0x7FFFFFFF). Base masters occupy
+                % M00-M12, the 3 byte DMAs auto-assign M13-M15, so the AXI4-Lite
+                % takes M16 (the zed case in matlab_processors.tcl grows the
+                % interconnect by one to expose it).
+                InterfaceConnection = 'axi_gp0_interconnect/M16_AXI';
+                BaseAddress = '0x43C00000';
+                MasterAddressSpace = 'sys_ps7/Data';
             case {'ZCU102'}
                 % ZCU102 is ZynqMP: the DUT AXI4-Lite attaches to the PS8
                 % low-power-domain master interconnect (axi_hpm0_lpd), not the

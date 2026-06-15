@@ -29,6 +29,13 @@ switch lower(project)
             % 		hB.FPGADevice   = sprintf('xc7%s', 'z045');
             % 		hB.FPGAPackage  = 'ffg900';
             % 		hB.FPGASpeed    = '-2';
+            case 'ZED'
+                % 7-series uses separate device/package/speed fields (cf.
+                % adrv9361-z7035), not the combined ZynqMP string.
+                hB.FPGADevice   = 'xc7z020';
+                hB.FPGAPackage  = 'clg484';
+                hB.FPGASpeed    = '-1';
+                hB.FPGAFamily   = 'Zynq';
             case 'ZCU102'
                 hB.FPGADevice   = sprintf('xc%s', 'zu9eg-ffvb1156-2-e');
                 hB.FPGAPackage  = '';

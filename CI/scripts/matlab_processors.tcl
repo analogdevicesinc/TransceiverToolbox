@@ -327,7 +327,7 @@ proc preprocess_bd {project carrier rxtx number_of_inputs number_of_bits number_
     # as JUPITER. The base BD (xczu9eg + zcu102 SSI constraints) is already
     # selected by this point -- only the switch routing below is affected. Stock
     # adrv9001/zcu102 designs never set byte_dma, so they are unaffected.
-    if {[info exists ::byte_dma] && $::byte_dma eq "on" && $project eq "adrv9001"} {
+    if {[info exists ::byte_dma] && $::byte_dma eq "on" && $project eq "adrv9001" && $carrier eq "zcu102"} {
         puts "byte_dma build on adrv9001/$carrier -> using jupiter_sdr composite preprocessing"
         set project jupiter_sdr
     }
@@ -793,6 +793,180 @@ proc preprocess_bd {project carrier rxtx number_of_inputs number_of_bits number_
 						connect_bd_net [get_bd_pins sync_output/data_out_tx_3] [get_bd_pins axi_adrv9001/dac_1_data_q1]
 						connect_bd_net [get_bd_pins sync_output/data_valid_out_tx_0] [get_bd_pins util_dac_1_upack/fifo_rd_en]
 					}
+                }
+                zed {
+			# Create and connect synchronizers
+			data_synchronizer $rxtx $number_of_inputs $number_of_bits $number_of_valids $multiple
+			
+            # Add 1 extra AXI master ports to the interconnect
+
+			# --- byte-stream DMA into the DUT (JUPITER byte reference design
+			# variant only: plugin_rd_rxtx_byte's byte_dma parameter surfaces
+			# here as a tcl variable; the stock designs never define it) ---
+			if {[info exists ::byte_dma] && $::byte_dma eq "on"} {
+				ad_ip_instance axi_dmac tx_byte_dma
+				ad_ip_parameter tx_byte_dma CONFIG.DMA_TYPE_SRC 0
+				ad_ip_parameter tx_byte_dma CONFIG.DMA_TYPE_DEST 1
+				ad_ip_parameter tx_byte_dma CONFIG.CYCLIC 1
+				ad_ip_parameter tx_byte_dma CONFIG.SYNC_TRANSFER_START 0
+				ad_ip_parameter tx_byte_dma CONFIG.AXI_SLICE_SRC 0
+				ad_ip_parameter tx_byte_dma CONFIG.AXI_SLICE_DEST 0
+				ad_ip_parameter tx_byte_dma CONFIG.DMA_2D_TRANSFER 0
+				ad_ip_parameter tx_byte_dma CONFIG.DMA_DATA_WIDTH_SRC 64
+				ad_ip_parameter tx_byte_dma CONFIG.DMA_DATA_WIDTH_DEST 64
+				ad_ip_parameter tx_byte_dma CONFIG.CACHE_COHERENT 0
+				ad_ip_parameter tx_byte_dma CONFIG.AXI_AXCACHE 0b1111
+				ad_ip_parameter tx_byte_dma CONFIG.AXI_AXPROT 0b010
+				# AXIS member-signal breakout toward the DUT's byte interfaces
+				set bb_src ""
+				foreach bb_cand [list \
+					[file join [file dirname [info script]] util_axis_byte_breakout.v] \
+					"../scripts/util_axis_byte_breakout.v" \
+					"../../scripts/util_axis_byte_breakout.v" \
+					"../../../scripts/util_axis_byte_breakout.v"] {
+					if {[file exists $bb_cand]} { set bb_src $bb_cand; break }
+				}
+				if {$bb_src eq ""} { error "util_axis_byte_breakout.v not found near matlab_processors.tcl" }
+				add_files -norecurse $bb_src
+				create_bd_cell -type module -reference util_axis_byte_breakout byte_breakout
+				connect_bd_net [get_bd_pins axi_adrv9001/adc_1_clk] [get_bd_pins tx_byte_dma/m_axis_aclk]
+				connect_bd_net [get_bd_pins axi_adrv9001/adc_1_clk] [get_bd_pins byte_breakout/s_axis_aclk]
+				ad_connect tx_byte_dma/m_axis byte_breakout/s_axis
+				# AXI-Lite control on the CPU interconnect + DDR read master
+				ad_cpu_interconnect 0x43C10000 tx_byte_dma
+				ad_mem_hp1_interconnect [get_bd_nets sys_cpu_clk] tx_byte_dma/m_src_axi
+				ad_connect [get_bd_nets sys_cpu_resetn] tx_byte_dma/m_src_axi_aresetn
+
+				# --- Rx mirror: DUT byte words -> rx_byte_dma -> DDR ---
+				ad_ip_instance axi_dmac rx_byte_dma
+				ad_ip_parameter rx_byte_dma CONFIG.DMA_TYPE_SRC 1
+				ad_ip_parameter rx_byte_dma CONFIG.DMA_TYPE_DEST 0
+				ad_ip_parameter rx_byte_dma CONFIG.CYCLIC 0
+				ad_ip_parameter rx_byte_dma CONFIG.SYNC_TRANSFER_START 1
+				ad_ip_parameter rx_byte_dma CONFIG.AXI_SLICE_SRC 0
+				ad_ip_parameter rx_byte_dma CONFIG.AXI_SLICE_DEST 0
+				ad_ip_parameter rx_byte_dma CONFIG.DMA_2D_TRANSFER 0
+				ad_ip_parameter rx_byte_dma CONFIG.DMA_DATA_WIDTH_SRC 64
+				ad_ip_parameter rx_byte_dma CONFIG.DMA_DATA_WIDTH_DEST 64
+				ad_ip_parameter rx_byte_dma CONFIG.CACHE_COHERENT 0
+				ad_ip_parameter rx_byte_dma CONFIG.AXI_AXCACHE 0b1111
+				ad_ip_parameter rx_byte_dma CONFIG.AXI_AXPROT 0b010
+				# AXIS MASTER member-signal breakout driven by the DUT
+				set bbm_src ""
+				foreach bbm_cand [list \
+					[file join [file dirname [info script]] util_axis_byte_breakout_m.v] \
+					"../scripts/util_axis_byte_breakout_m.v" \
+					"../../scripts/util_axis_byte_breakout_m.v" \
+					"../../../scripts/util_axis_byte_breakout_m.v"] {
+					if {[file exists $bbm_cand]} { set bbm_src $bbm_cand; break }
+				}
+				if {$bbm_src eq ""} { error "util_axis_byte_breakout_m.v not found near matlab_processors.tcl" }
+				add_files -norecurse $bbm_src
+				create_bd_cell -type module -reference util_axis_byte_breakout_m rx_byte_breakout
+				connect_bd_net [get_bd_pins axi_adrv9001/adc_1_clk] [get_bd_pins rx_byte_dma/s_axis_aclk]
+				connect_bd_net [get_bd_pins axi_adrv9001/adc_1_clk] [get_bd_pins rx_byte_breakout/m_axis_aclk]
+				ad_connect rx_byte_breakout/m_axis rx_byte_dma/s_axis
+				# byte_ctrl_gpio bit 0 -> tlast_en (quasi-static, CDC
+				# don't-care). DOUT default 1 keeps the legacy per-packet
+				# TLAST behavior until software clears it for multi-packet
+				# captures. DATA reg at 0x43C30000.
+				ad_ip_instance axi_gpio byte_ctrl_gpio
+				ad_ip_parameter byte_ctrl_gpio CONFIG.C_GPIO_WIDTH 1
+				ad_ip_parameter byte_ctrl_gpio CONFIG.C_ALL_OUTPUTS 1
+				ad_ip_parameter byte_ctrl_gpio CONFIG.C_DOUT_DEFAULT 0x00000001
+				connect_bd_net [get_bd_pins byte_ctrl_gpio/gpio_io_o] [get_bd_pins rx_byte_breakout/tlast_en]
+				ad_cpu_interconnect 0x43C30000 byte_ctrl_gpio
+				# AXI-Lite control on the CPU interconnect + DDR write master
+				ad_cpu_interconnect 0x43C20000 rx_byte_dma
+				ad_mem_hp1_interconnect [get_bd_nets sys_cpu_clk] rx_byte_dma/m_dest_axi
+				ad_connect [get_bd_nets sys_cpu_resetn] rx_byte_dma/m_dest_axi_aresetn
+				# AXI4-Lite (DUT regs 0x43C00000) attaches one master beyond the
+				# auto-assigned byte DMAs (M13-M15); grow axi_gp0_interconnect to
+				# expose the next port (M16) for the HDL Coder IP.
+				set _cur_mi [get_property CONFIG.NUM_MI [get_bd_cells axi_gp0_interconnect]]
+				set_property CONFIG.NUM_MI [expr {$_cur_mi + 1}] [get_bd_cells axi_gp0_interconnect]
+				# The HDL Coder IP AXI4-Lite runs on the IPCORE clock (adc_1_clk),
+				# but the GP0 SmartConnect master ports default to FCLK_CLK0. Add
+				# adc_1_clk as an extra SmartConnect clock so M16 can cross to the
+				# DUT register interface (cf. the jupiter aclk1=adc_1_clk wiring).
+				set _nc [get_property CONFIG.NUM_CLKS [get_bd_cells axi_gp0_interconnect]]
+				set_property CONFIG.NUM_CLKS [expr {$_nc + 1}] [get_bd_cells axi_gp0_interconnect]
+				connect_bd_net [get_bd_pins axi_gp0_interconnect/aclk$_nc] [get_bd_pins axi_adrv9001/adc_1_clk]
+			}
+
+			create_bd_cell -type ip -vlnv xilinx.com:ip:util_vector_logic:2.0 rx_rstn_inverter
+			set_property -dict [list CONFIG.C_SIZE {1} CONFIG.C_OPERATION {not} CONFIG.LOGO_FILE {data/sym_notgate.png}] [get_bd_cells rx_rstn_inverter]
+			
+			ad_connect axi_adrv9001/adc_1_rst rx_rstn_inverter/Op1
+			
+			create_bd_cell -type ip -vlnv xilinx.com:ip:util_vector_logic:2.0 tx_rstn_inverter
+			set_property -dict [list CONFIG.C_SIZE {1} CONFIG.C_OPERATION {not} CONFIG.LOGO_FILE {data/sym_notgate.png}] [get_bd_cells tx_rstn_inverter]
+			
+			ad_connect axi_adrv9001/dac_1_rst tx_rstn_inverter/Op1
+			
+            # Connect clock and reset
+            if {$rxtx == "rx" || $rxtx == "rxtx"} {
+			} else {
+			}
+			if {$rxtx != "tx"} {
+				# clock and reset
+				connect_bd_net [get_bd_pins axi_adrv9001/adc_1_clk] [get_bd_pins sync_input/rx_clk]
+				connect_bd_net [get_bd_pins rx_rstn_inverter/Res] [get_bd_pins sync_input/rx_rstn]
+				connect_bd_net [get_bd_pins axi_adrv9001/adc_1_clk] [get_bd_pins sync_output/rx_clk]
+				connect_bd_net [get_bd_pins rx_rstn_inverter/Res] [get_bd_pins sync_output/rx_rstn]
+				# Valid-timing regularizer between the transceiver core and the
+				# user IP: re-emits the adc stream on a perfectly regular 1-in-2
+				# valid so generated DUTs never see burst/jittered beat placement.
+				set vr_src ""
+				foreach vr_cand [list \
+					[file join [file dirname [info script]] util_valid_regularizer.v] \
+					"../scripts/util_valid_regularizer.v" \
+					"../../scripts/util_valid_regularizer.v" \
+					"../../../scripts/util_valid_regularizer.v"] {
+					if {[file exists $vr_cand]} { set vr_src $vr_cand; break }
+				}
+				if {$vr_src eq ""} { error "util_valid_regularizer.v not found near matlab_processors.tcl" }
+				add_files -norecurse $vr_src
+				create_bd_cell -type module -reference util_valid_regularizer valid_regularizer
+				connect_bd_net [get_bd_pins axi_adrv9001/adc_1_clk] [get_bd_pins valid_regularizer/clk]
+				connect_bd_net [get_bd_pins rx_rstn_inverter/Res] [get_bd_pins valid_regularizer/rstn]
+				connect_bd_net [get_bd_pins valid_regularizer/in_data_0] [get_bd_pins axi_adrv9001/adc_1_data_i0]
+				connect_bd_net [get_bd_pins valid_regularizer/in_data_1] [get_bd_pins axi_adrv9001/adc_1_data_q0]
+				connect_bd_net [get_bd_pins valid_regularizer/in_data_2] [get_bd_pins axi_adrv9001/adc_1_data_i1]
+				connect_bd_net [get_bd_pins valid_regularizer/in_data_3] [get_bd_pins axi_adrv9001/adc_1_data_q1]
+				connect_bd_net [get_bd_pins valid_regularizer/in_valid] [get_bd_pins axi_adrv9001/adc_1_valid_i0]
+				# sync input connections (fed from the regularizer)
+				connect_bd_net [get_bd_pins sync_input/data_in_rx_0] [get_bd_pins valid_regularizer/out_data_0]
+				connect_bd_net [get_bd_pins sync_input/data_in_rx_1] [get_bd_pins valid_regularizer/out_data_1]
+				connect_bd_net [get_bd_pins sync_input/data_in_rx_2] [get_bd_pins valid_regularizer/out_data_2]
+				connect_bd_net [get_bd_pins sync_input/data_in_rx_3] [get_bd_pins valid_regularizer/out_data_3]
+				connect_bd_net [get_bd_pins sync_input/data_valid_in_rx_0] [get_bd_pins valid_regularizer/out_valid]
+				# sync ouput connections
+				connect_bd_net [get_bd_pins sync_output/data_out_rx_0] [get_bd_pins util_adc_1_pack/fifo_wr_data_0]
+				connect_bd_net [get_bd_pins sync_output/data_out_rx_1] [get_bd_pins util_adc_1_pack/fifo_wr_data_1]
+				connect_bd_net [get_bd_pins sync_output/data_out_rx_2] [get_bd_pins util_adc_1_pack/fifo_wr_data_2]
+				connect_bd_net [get_bd_pins sync_output/data_out_rx_3] [get_bd_pins util_adc_1_pack/fifo_wr_data_3]
+				connect_bd_net [get_bd_pins sync_output/data_valid_out_rx_0] [get_bd_pins util_adc_1_pack/fifo_wr_en]
+			}
+			if {$rxtx != "rx"} {
+				# clock and reset
+				connect_bd_net [get_bd_pins axi_adrv9001/dac_1_clk] [get_bd_pins sync_input/tx_clk]
+				connect_bd_net [get_bd_pins tx_rstn_inverter/Res] [get_bd_pins sync_input/tx_rstn]
+				connect_bd_net [get_bd_pins axi_adrv9001/dac_1_clk] [get_bd_pins sync_output/tx_clk]
+				connect_bd_net [get_bd_pins tx_rstn_inverter/Res] [get_bd_pins sync_output/tx_rstn]
+				# sync input connections
+				connect_bd_net [get_bd_pins sync_input/data_in_tx_0] [get_bd_pins util_dac_1_upack/fifo_rd_data_0]
+				connect_bd_net [get_bd_pins sync_input/data_in_tx_1] [get_bd_pins util_dac_1_upack/fifo_rd_data_1]
+				connect_bd_net [get_bd_pins sync_input/data_in_tx_2] [get_bd_pins util_dac_1_upack/fifo_rd_data_2]
+				connect_bd_net [get_bd_pins sync_input/data_in_tx_3] [get_bd_pins util_dac_1_upack/fifo_rd_data_3]
+				connect_bd_net [get_bd_pins sync_input/data_valid_in_tx_0] [get_bd_pins axi_adrv9001/dac_1_valid_i0]
+				# sync ouput connections
+				connect_bd_net [get_bd_pins sync_output/data_out_tx_0] [get_bd_pins axi_adrv9001/dac_1_data_i0]
+				connect_bd_net [get_bd_pins sync_output/data_out_tx_1] [get_bd_pins axi_adrv9001/dac_1_data_q0]
+				connect_bd_net [get_bd_pins sync_output/data_out_tx_2] [get_bd_pins axi_adrv9001/dac_1_data_i1]
+				connect_bd_net [get_bd_pins sync_output/data_out_tx_3] [get_bd_pins axi_adrv9001/dac_1_data_q1]
+				connect_bd_net [get_bd_pins sync_output/data_valid_out_tx_0] [get_bd_pins util_dac_1_upack/fifo_rd_en]
+			}
                 }
             }
         }
