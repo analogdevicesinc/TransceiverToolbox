@@ -34,16 +34,26 @@ in boot for a late overlay to take effect. It must be in the base `.dtb`.
 (The node mirrors Jupiter's `qpsk_byte_buf@7ff00000`, in Zynq-7000 single-cell
 form: `reg = <0x1ff00000 0x00100000>; no-map;`.)
 
-## 3. ADRV9002 SSI profile — HALF RATE  (REQUIRED)
-The ZedBoard's -1 speed grade can't close timing at the full 15.36 MHz sample
-rate, so the design was timing-closed at **10 MHz** by halving the SSI DCLK
-(`cmos_constr.xdc`: `rx*/tx*_dclk_out` 12.5 ns -> 25 ns = 80 -> 40 MHz, giving
-`adc_clk_div_s` = 10 MHz). **The ADRV9002 MUST be run with a matching half-rate
-profile (7.68 MHz sample rate / 40 MHz LVDS DCLK).** Generate it with ADI's
-Transceiver Evaluation Software (TES) — take the stock ADRV9002 profile and
-halve the sample rate — and load it via the driver's profile/stream path. A
-full-rate profile would drive the SSI at 80 MHz DCLK and violate timing on the
-fabric (the modem would not decode).
+## 3. ADRV9002 SSI profile — FULL RATE 15.36 MHz  (stock profile)
+The design now **closes timing at the full 15.36 MHz** sample rate on the slow
+xc7z020-**1** fabric, so **the stock ADRV9002 profile is used — no half-rate
+profile needed.** This was the limiter historically: the 12-cascaded-DSP48
+preamble-detector/CFC path failed at -1.354 ns at full rate. The fix, applied
+in `build_variant_zed.m` Phase 2c, is three layers:
+1. HDL Coder **AdaptivePipelining** on the model (delay-balanced, functionally
+   equivalent — verified 0% BER on Jupiter HW) → -0.836 ns.
+2. Targeted **`OutputPipeline=2` on the `REP_TxI`/`REP_TxQ`** interp-FIR blocks
+   (the feedforward Tx-upsampler that is the actual worst path; global
+   distributed pipelining missed it and made things worse) → the big lever.
+3. Vivado last-mile closure via **`ADI_PERF_TIMING=1`** (`adi_build.tcl`, commit
+   `154d608c`): synth retiming + Explore/AggressiveExplore + pre/post-route
+   phys_opt, which pulls the pipeline registers into the DSP cascade.
+
+Result: **post-route WNS = +0.458 ns, WHS = +0.010 ns, timing met**, bitstream
+generated. Utilization fits: LUT 77.97 %, FF 57.89 %, DSP 82.27 %, BRAM 15 %.
+`cmos_constr.xdc` is at the full-rate DCLK (12.5 ns / 80 MHz → `adc_clk_div_s`
+20 MHz / 15.36 MHz sample rate). Run `run_zed_build.sh` (it exports
+`ADI_PERF_TIMING=1`) to reproduce.
 
 ## 4. host_app — build on the board with BOARD=zed
 ```
@@ -55,7 +65,7 @@ from `qpsk_hw.h`. Builds `qpsk_tun` + `qpsk_capture`.
 
 ## 5. Bring up the modem network
 ```
-# on the ZedBoard, with the ADRV9002 half-rate profile loaded + RF/cable connected:
+# on the ZedBoard, with the stock ADRV9002 (15.36 MHz) profile + RF/cable connected:
 cd /root/host_app
 QPSK_BOARD=zed ./qpsk_net_setup.sh up cable     # modem regs at 0x43C00000, daemon @0x43C1/2/3
 ip netns exec nsA ping 10.66.0.2                # single-board loopback over the radio
@@ -65,17 +75,16 @@ ip netns exec nsA ping 10.66.0.2                # single-board loopback over the
 
 ## 6. Two-radio link (ZedBoard Tx -> Jupiter Rx)
 The composite Tx waveform is bit-identical to what the Jupiter Rx expects
-(same model), so the radios are PHY-compatible — **with one caveat: the sample
-rates must match.** The ZedBoard runs at **7.68 MHz** (half rate, per step 3),
-so the Jupiter must run a 7.68 MHz profile too for the link (its default is
-15.36 MHz). Either run both at 7.68 MHz, or, if a faster ZedBoard speed grade
-or pipelining of the preamble-detector MAC is done later, run both at 15.36.
+(same model), so the radios are PHY-compatible. With the preamble-detector MAC
+now pipelined for full rate (step 3), **the ZedBoard and Jupiter both run the
+stock 15.36 MHz profile** — they interoperate directly, no rate matching or
+custom profile required.
 
 ## Quick checklist
 | Artifact | Source | On SD card |
 |---|---|---|
 | BOOT.BIN | `run_zed_build.sh` | BOOT/ (replace) |
 | devicetree.dtb | base dts + `qpsk_byte_buf.dtsi` | BOOT/ |
-| ADRV9002 half-rate profile | ADI TES (7.68 MHz) | rootfs / loaded at runtime |
+| ADRV9002 profile | stock full-rate 15.36 MHz (no custom profile) | rootfs / driver default |
 | host_app (`BOARD=zed`) | `make BOARD=zed` on target | rootfs |
 | kernel + rootfs | ADI Kuiper (ADRV9002) | as-is |
