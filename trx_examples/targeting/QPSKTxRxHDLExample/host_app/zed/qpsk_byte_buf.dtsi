@@ -1,0 +1,29 @@
+/*
+ * qpsk_byte_buf.dtsi -- reserved-memory carve for the QPSK byte-DMA rings on
+ * ZedBoard (Zynq-7000, xc7z020). Add to the base ADI zynq-zed-adrv9002 device
+ * tree (e.g. #include this from the board .dts, or paste the node), then
+ * recompile the .dtb.
+ *
+ * CRITICAL: without this node Linux owns 0x1FF00000 and the qpsk_tun daemon's
+ * mmap of that physical address (via /dev/mem) corrupts kernel RAM. The address
+ * and size MUST match QPSK_DMA_BUF_BASE in host_app/qpsk_hw.h when host_app is
+ * built with BOARD=zed (0x1FF00000, 1 MB). `no-map` keeps the kernel out of the
+ * region entirely so the daemon's mmap is a clean, uncached carve.
+ *
+ * ZedBoard has 512 MB DDR (0x00000000-0x1FFFFFFF); this is the top 1 MB.
+ * (Mirror of the Jupiter/ZynqMP qpsk_byte_buf@7ff00000 node, in Zynq-7000
+ * single-cell #address-cells/#size-cells form.)
+ */
+
+/ {
+	reserved-memory {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+
+		qpsk_byte_buf: qpsk_byte_buf@1ff00000 {
+			reg = <0x1ff00000 0x00100000>;
+			no-map;
+		};
+	};
+};
