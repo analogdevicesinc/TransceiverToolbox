@@ -19,12 +19,13 @@
 #include <errno.h>
 #include <sys/mman.h>
 
-#define MODEM_BASE 0x9D000000u
-#define TX_DMA     0x9D100000u
-#define RX_DMA     0x9D200000u
-#define GPIO_BASE  0x9D300000u
-#define TX_BUF     0x7FF00000u
-#define RX_BUF     0x7FF80000u
+#include "qpsk_hw.h"     /* board-configurable base addresses (-DQPSK_BOARD_ZED) */
+#define MODEM_BASE QPSK_MODEM_BASE
+#define TX_DMA     QPSK_TX_DMA_BASE
+#define RX_DMA     QPSK_RX_DMA_BASE
+#define GPIO_BASE  QPSK_GPIO_BASE
+#define TX_BUF     QPSK_TX_BUF_PHYS
+#define RX_BUF     QPSK_CAPTURE_RX_BUF_PHYS
 
 /* modem regfile offsets */
 #define R_SOFTRST  0x000

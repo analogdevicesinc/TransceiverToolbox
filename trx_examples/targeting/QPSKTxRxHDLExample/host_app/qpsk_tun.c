@@ -47,11 +47,12 @@
 #include <linux/if_tun.h>
 #include "qpsk_frame.h"
 
-#define TX_DMA_BASE  0x9D100000u
-#define RX_DMA_BASE  0x9D200000u
-#define GPIO_BASE    0x9D300000u
-#define TX_BUF_PHYS  0x7FF00000u
-#define RX_BUF_PHYS  0x7FF40000u
+#include "qpsk_hw.h"     /* board-configurable base addresses (-DQPSK_BOARD_ZED) */
+#define TX_DMA_BASE  QPSK_TX_DMA_BASE
+#define RX_DMA_BASE  QPSK_RX_DMA_BASE
+#define GPIO_BASE    QPSK_GPIO_BASE
+#define TX_BUF_PHYS  QPSK_TX_BUF_PHYS
+#define RX_BUF_PHYS  QPSK_TUN_RX_BUF_PHYS
 #define SLOT_BYTES   1024u          /* >= QPSK_PKT_BYTES_MAX */
 #define TX_SLOTS     8u
 #define MAX_INFLIGHT 2

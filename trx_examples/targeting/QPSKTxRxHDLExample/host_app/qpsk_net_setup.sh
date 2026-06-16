@@ -20,7 +20,12 @@
 set -e
 cd "$(dirname "$0")"
 
-MODEM=0x9D000000
+# Modem regfile base. Default = ZynqMP byte bitstream (Jupiter / ADRV9002-ZCU102,
+# 0x9D000000). For the ZedBoard (Zynq-7000) byte design the regs live in the GP0
+# window: set QPSK_BOARD=zed, or override the base directly with QPSK_MODEM_BASE.
+# Must match how qpsk_tun was compiled (-DQPSK_BOARD_ZED -> 0x43C00000).
+MODEM=${QPSK_MODEM_BASE:-0x9D000000}
+[ "${QPSK_BOARD:-}" = zed ] && MODEM=${QPSK_MODEM_BASE:-0x43C00000}
 DEVMEM="busybox devmem"
 
 # Packet size and capture mode are INDEPENDENT. Packet size = the deployed
