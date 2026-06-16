@@ -31,6 +31,21 @@ update_compile_order -fileset sources_1
 reset_run impl_1
 reset_run synth_1
 set_property synth_checkpoint_mode Hierarchical [get_files $project_system_dir/system.bd]
+# Last-mile timing closure (opt-in via ADI_PERF_TIMING): synthesis retiming +
+# Explore directives + pre/post-route phys_opt. Moves pipeline registers into
+# the critical DSP path and works the last sub-ns. Slower impl; used for the
+# full-rate ZedBoard (xc7z020-1) where model pipelining alone leaves ~-0.8 ns.
+if {[info exists ::env(ADI_PERF_TIMING)]} {
+    puts "ADI_PERF_TIMING: synth retiming + Explore impl + pre/post-route phys_opt"
+    set_property STEPS.SYNTH_DESIGN.ARGS.RETIMING true [get_runs synth_1]
+    set_property STEPS.OPT_DESIGN.ARGS.DIRECTIVE Explore [get_runs impl_1]
+    set_property STEPS.PLACE_DESIGN.ARGS.DIRECTIVE Explore [get_runs impl_1]
+    set_property STEPS.PHYS_OPT_DESIGN.IS_ENABLED true [get_runs impl_1]
+    set_property STEPS.PHYS_OPT_DESIGN.ARGS.DIRECTIVE AggressiveExplore [get_runs impl_1]
+    set_property STEPS.ROUTE_DESIGN.ARGS.DIRECTIVE Explore [get_runs impl_1]
+    set_property STEPS.POST_ROUTE_PHYS_OPT_DESIGN.IS_ENABLED true [get_runs impl_1]
+    set_property STEPS.POST_ROUTE_PHYS_OPT_DESIGN.ARGS.DIRECTIVE AggressiveExplore [get_runs impl_1]
+}
 export_ip_user_files -of_objects [get_files $project_system_dir/system.bd] -no_script -sync -force -quiet
 # Parallel out-of-context IP synthesis (port of tfcollins/hdl
 # tfcollins/parallel-tcl): the ZedBoard/ZynqMP base BDs pull in ~40 IP cores
