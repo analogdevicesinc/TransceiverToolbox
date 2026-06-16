@@ -32,7 +32,19 @@ reset_run impl_1
 reset_run synth_1
 set_property synth_checkpoint_mode Hierarchical [get_files $project_system_dir/system.bd]
 export_ip_user_files -of_objects [get_files $project_system_dir/system.bd] -no_script -sync -force -quiet
-launch_runs synth_1
+# Parallel out-of-context IP synthesis (port of tfcollins/hdl
+# tfcollins/parallel-tcl): the ZedBoard/ZynqMP base BDs pull in ~40 IP cores
+# whose OOC synth runs dominate wall-clock. Launch them (and synth_1)
+# concurrently instead of one-at-a-time. ADI_MAX_OOC_JOBS env overrides.
+set ooc_jobs 8
+if {[info exists ::env(ADI_MAX_OOC_JOBS)]} { set ooc_jobs $::env(ADI_MAX_OOC_JOBS) }
+set ooc_runs [get_runs -quiet system_*_synth_1]
+if {[llength $ooc_runs] > 0} {
+    puts "Parallel OOC synth: [llength $ooc_runs] IP runs + synth_1, jobs=$ooc_jobs"
+    launch_runs -jobs $ooc_jobs {*}$ooc_runs synth_1
+} else {
+    launch_runs -jobs $ooc_jobs synth_1
+}
 wait_on_run synth_1
 launch_runs impl_1 -to_step write_bitstream
 wait_on_run impl_1

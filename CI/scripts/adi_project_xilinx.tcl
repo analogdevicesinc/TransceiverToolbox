@@ -226,12 +226,17 @@ proc adi_project_create {project_name mode parameter_list device {board "not-app
     # puts -nonew-line "INFO: ADI_GHDL_DIR not defined.\n"
   }
 
-  # Set a common IP cache for all projects
+  # Set a common, PERSISTENT IP cache so generated/synthesized IPs are reused
+  # ACROSS builds. The default $ad_hdl_dir/ipcache is project-local, which
+  # build_variant wipes (rmdir) every build -- so set ADI_IP_CACHE_DIR to a path
+  # outside the project and unchanged base IPs (HDMI/audio/PS7/ADI library) skip
+  # both regeneration and OOC synthesis on subsequent builds.
   if {$ADI_USE_OOC_SYNTHESIS == 1} {
-    if {[file exists $ad_hdl_dir/ipcache] == 0} {
-      file mkdir $ad_hdl_dir/ipcache
-    }
-    config_ip_cache -import_from_project -use_cache_location $ad_hdl_dir/ipcache
+    set ip_cache_loc $ad_hdl_dir/ipcache
+    if {[info exists ::env(ADI_IP_CACHE_DIR)]} { set ip_cache_loc $::env(ADI_IP_CACHE_DIR) }
+    if {[file exists $ip_cache_loc] == 0} { file mkdir $ip_cache_loc }
+    puts "IP cache location: $ip_cache_loc"
+    config_ip_cache -import_from_project -use_cache_location $ip_cache_loc
   }
 
   set_property ip_repo_paths $lib_dirs [current_fileset]
