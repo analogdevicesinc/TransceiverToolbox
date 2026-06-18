@@ -9,14 +9,18 @@ switch project
     case 'adrv9002'
         switch fpga
             case {'ZED'}
-                % ZedBoard is Zynq-7000: DUT AXI4-Lite attaches to the PS7 GP0
-                % master interconnect, which the adrv9001/zed base BD names
-                % axi_gp0_interconnect (NOT axi_cpu_interconnect). At GP0 base
-                % 0x43C00000 (GP0 = 0x40000000-0x7FFFFFFF). Base masters occupy
-                % M00-M12, the 3 byte DMAs auto-assign M13-M15, so the AXI4-Lite
-                % takes M16 (the zed case in matlab_processors.tcl grows the
-                % interconnect by one to expose it).
-                InterfaceConnection = 'axi_gp0_interconnect/M16_AXI';
+                % ZedBoard is Zynq-7000: the DUT AXI4-Lite runs on the IPCORE
+                % clock (adc_1_clk), which is DEAD on cold boot until the ADRV9002
+                % streams. The GP0 is ONE axi_smartconnect carrying every
+                % sys_ps7/Data peripheral; a SmartConnect clocked on a dead domain
+                % stalls its whole crossbar -> kernel cold-boot wedge. So the zed
+                % case in matlab_processors.tcl inserts an axi_clock_converter
+                % (modem_axi_cc) that crosses GP0/FCLK -> adc_1_clk on JUST the
+                % modem branch, keeping the SmartConnect single-clock. HDL Coder
+                % connects the DUT to the converter's adc_1_clk-side M_AXI; Vivado
+                % assigns 0x43C00000 through it (sys_ps7 GP0 -> SmartConnect M16 ->
+                % modem_axi_cc -> DUT).
+                InterfaceConnection = 'modem_axi_cc/M_AXI';
                 BaseAddress = '0x43C00000';
                 MasterAddressSpace = 'sys_ps7/Data';
             case {'ZCU102'}

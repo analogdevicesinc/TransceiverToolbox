@@ -882,16 +882,39 @@ proc preprocess_bd {project carrier rxtx number_of_inputs number_of_bits number_
 				ad_connect [get_bd_nets sys_cpu_resetn] rx_byte_dma/m_dest_axi_aresetn
 				# AXI4-Lite (DUT regs 0x43C00000) attaches one master beyond the
 				# auto-assigned byte DMAs (M13-M15); grow axi_gp0_interconnect to
-				# expose the next port (M16) for the HDL Coder IP.
+				# expose the next port (M16) for the modem clock-converter.
 				set _cur_mi [get_property CONFIG.NUM_MI [get_bd_cells axi_gp0_interconnect]]
 				set_property CONFIG.NUM_MI [expr {$_cur_mi + 1}] [get_bd_cells axi_gp0_interconnect]
-				# The HDL Coder IP AXI4-Lite runs on the IPCORE clock (adc_1_clk),
-				# but the GP0 SmartConnect master ports default to FCLK_CLK0. Add
-				# adc_1_clk as an extra SmartConnect clock so M16 can cross to the
-				# DUT register interface (cf. the jupiter aclk1=adc_1_clk wiring).
-				set _nc [get_property CONFIG.NUM_CLKS [get_bd_cells axi_gp0_interconnect]]
-				set_property CONFIG.NUM_CLKS [expr {$_nc + 1}] [get_bd_cells axi_gp0_interconnect]
-				connect_bd_net [get_bd_pins axi_gp0_interconnect/aclk$_nc] [get_bd_pins axi_adrv9001/adc_1_clk]
+				# The HDL Coder DUT runs on the IPCORE clock (adc_1_clk), which is
+				# DEAD on cold boot until the ADRV9002 streams. On Zynq-7000 the GP0
+				# is a single axi_smartconnect carrying EVERY sys_ps7/Data peripheral
+				# (DUT 0x43C..., stock adc cores 0x44A..., sysid 0x45..., byte DMAs).
+				# A SmartConnect with a dead clock DOMAIN stalls its ENTIRE crossbar,
+				# so adding adc_1_clk as a 2nd SmartConnect clock hangs ALL PL access
+				# on cold boot -> kernel boot wedge (cf_axi_adc probe never returns).
+				# FIX: keep axi_gp0_interconnect single-clock (FCLK) and cross
+				# FCLK->adc_1_clk with a dedicated axi_clock_converter on JUST the
+				# modem branch; get_memory_axi_interface_info points HDL Coder at
+				# modem_axi_cc/M_AXI. A dead adc_1_clk then can only stall a
+				# (forbidden) modem-register read, never the GP0 bus / kernel boot.
+				# (Jupiter/ZynqMP tolerates the 2-clock SmartConnect because its AXI
+				# infra errors on a dead clock instead of hanging like Zynq-7000.)
+				ad_ip_instance axi_clock_converter modem_axi_cc
+				ad_ip_parameter modem_axi_cc CONFIG.PROTOCOL AXI4LITE
+				ad_ip_parameter modem_axi_cc CONFIG.DATA_WIDTH 32
+				ad_ip_parameter modem_axi_cc CONFIG.ADDR_WIDTH 32
+				# S side = GP0 SmartConnect M-port on FCLK. Pin-join to the byte
+				# DMA's s_axi clock/reset (already on sys_cpu_clk / sys_cpu_resetn)
+				# rather than a get_bd_nets lookup, which resolves empty here.
+				ad_connect [format axi_gp0_interconnect/M%02d_AXI $_cur_mi] modem_axi_cc/S_AXI
+				connect_bd_net [get_bd_pins modem_axi_cc/s_axi_aclk] [get_bd_pins tx_byte_dma/s_axi_aclk]
+				connect_bd_net [get_bd_pins modem_axi_cc/s_axi_aresetn] [get_bd_pins tx_byte_dma/s_axi_aresetn]
+				# M side = adc_1_clk (the DUT IPCORE clock HDL Coder connects to)
+				connect_bd_net [get_bd_pins modem_axi_cc/m_axi_aclk] [get_bd_pins axi_adrv9001/adc_1_clk]
+				create_bd_cell -type ip -vlnv xilinx.com:ip:util_vector_logic:2.0 modem_cc_rstn_inv
+				set_property -dict [list CONFIG.C_SIZE {1} CONFIG.C_OPERATION {not}] [get_bd_cells modem_cc_rstn_inv]
+				connect_bd_net [get_bd_pins axi_adrv9001/adc_1_rst] [get_bd_pins modem_cc_rstn_inv/Op1]
+				connect_bd_net [get_bd_pins modem_cc_rstn_inv/Res] [get_bd_pins modem_axi_cc/m_axi_aresetn]
 			}
 
 			create_bd_cell -type ip -vlnv xilinx.com:ip:util_vector_logic:2.0 rx_rstn_inverter
