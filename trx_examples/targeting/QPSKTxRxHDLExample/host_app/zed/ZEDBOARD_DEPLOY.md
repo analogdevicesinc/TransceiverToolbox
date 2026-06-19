@@ -34,6 +34,23 @@ in boot for a late overlay to take effect. It must be in the base `.dtb`.
 (The node mirrors Jupiter's `qpsk_byte_buf@7ff00000`, in Zynq-7000 single-cell
 form: `reg = <0x1ff00000 0x00100000>; no-map;`.)
 
+## 2b. Device tree — DISABLE THE AUDIO  (REQUIRED, or no RF)
+The ZedBoard base design's I2S/SPDIF audio uses the **PS DMA (pl330)**; in this
+composite bitstream that audio DMA faults continuously
+(`dma-pl330 f8003000 Reset Channel CS-f FTC-20000`), which halts the pl330 and
+**starves the PS-SPI path to the ADRV9002 → "Failed to reset device and set SPI
+Config" → no RF on ~39/40 boots.** Stock has 0 such faults. Disable the audio
+nodes in `devicetree.dtb` and the ADRV9002 inits reliably every boot:
+```
+fdtput -t s devicetree.dtb /fpga-axi@0/spdif@75c00000 status disabled
+fdtput -t s devicetree.dtb /fpga-axi@0/i2s@77600000   status disabled
+fdtput -t s devicetree.dtb /adv7511_hdmi_snd          status disabled
+fdtput -t s devicetree.dtb /zed_sound                 status disabled
+```
+(Proper long-term fix = remove/repair the I2S/SPDIF audio peripheral in the zed
+composite BD so it doesn't fault the PS-DMA; the DT-disable is the rebuild-free
+fix. This is unrelated to the cold-boot hang fixed in step 3-equivalent.)
+
 ## 3. ADRV9002 SSI profile — FULL RATE 15.36 MHz  (stock profile)
 The design now **closes timing at the full 15.36 MHz** sample rate on the slow
 xc7z020-**1** fabric, so **the stock ADRV9002 profile is used — no half-rate
