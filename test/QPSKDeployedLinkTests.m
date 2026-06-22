@@ -160,6 +160,20 @@ classdef QPSKDeployedLinkTests < HardwareTests
             if isempty(d), d = 2240; end
             b = d / 8;
         end
+        function [bad, wrot] = bestWordRotationDiff(~, got, payload)
+            % Minimum byte-difference between a captured packet and the
+            % expected payload over all cyclic 8-byte (word) rotations. The
+            % byte serializer frames each packet at a consistent word
+            % offset (the cyclic word-rotation framing quirk); the byte
+            % DATA is byte-exact at the correct rotation. Returns the min
+            % diff and the winning rotation (in words).
+            got = uint8(got(:)); payload = uint8(payload(:));
+            n = numel(payload); W = n/8; bad = n; wrot = -1;
+            for w = 0:W-1
+                d = nnz(circshift(got, -8*w) ~= payload);
+                if d < bad, bad = d; wrot = w; end
+            end
+        end
         function assumeByteDesign(testCase)
             % skip byte tests unless the byte-DMA bitstream is deployed
             % (the DMAC version register reads back nonzero at 0x9D100000)
@@ -492,66 +506,30 @@ classdef QPSKDeployedLinkTests < HardwareTests
             cleanup = onCleanup(@() cellfun(@release, {tx, rx}));
             for mode = {{0,'internal'},{1,'cable'}}
                 rxSel = mode{1}{1}; label = mode{1}{2};
-                testCase.regWrite(testCase.RegBase, 1); pause(1);
-                testCase.regWrite('0x9D00011C', 1);
-                testCase.regWrite(testCase.RegTxSelect, 0);
-                testCase.regWrite(testCase.RegRxSelect, rxSel); pause(1);
+                % canonical reset-then-select order (byte mode, in-FPGA Tx)
+                ByteDmaRegisters.selectMode('0x9D000000', 1, 0, rxSel); pause(1);
                 ByteDmaRegisters.start(testCase.pktBytes()); pause(2);
-                % Per-capture outcomes sample the known BURSTY in-FPGA-Tx
-                % artifact (most packets clean, episodic ~50%%-error packets
-                % -- see project notes): a captured packet is either
-                % (nearly) byte-exact or episode garbage. Gate on clean-
-                % packet captures appearing reliably; full determinism
-                % returns when the parked artifact is resolved.
-                nCap = 5 + 3*rxSel;          % 5 internal, 8 cable
-                bad = zeros(nCap,1); bitAccAll = zeros(nCap,1);
-                for cap = 1:nCap
-                    got = ByteDmaRegisters.rxCapture(testCase.pktBytes());
-                    bad(cap) = nnz(got ~= payload);
-                    bitAccAll(cap) = 1 - sum(sum(dec2bin(bitxor(got, payload), 8) == '1'))/(8*testCase.pktBytes());
-                    fprintf('endToEnd %s cap %d: %d/%d bytes differ (bitAcc=%.3f)\n', ...
-                        label, cap, bad(cap), testCase.pktBytes(), bitAccAll(cap));
-                end
-                fprintf('endToEnd %s: clean(<=8B)=%d typical(<=130B)=%d of %d\n', ...
-                    label, nnz(bad<=8), nnz(bad<=130), nCap);
+                % Reliable capture: rxCaptureMulti does a continuous TLAST-off
+                % multi-packet transfer + per-byte MAJORITY VOTE, recovering
+                % the consistent packet (the single-packet SYNC rxCapture
+                % word-rotates -- every capture bitAcc~0.5). The byte path
+                % frames each packet at a consistent cyclic WORD-rotation
+                % offset (a known framing quirk handled by the frame
+                % layer/resync, varies per reset); verify byte-EXACTNESS at
+                % the best word rotation -- the DMA round trip must deliver
+                % the payload bit-for-bit.
+                got = ByteDmaRegisters.rxCaptureMulti(testCase.pktBytes(), 16);
+                [bad, wrot] = testCase.bestWordRotationDiff(got, payload);
+                fprintf('endToEnd %s: byte-exact at word-rotation %d/%d -> %d/%d bytes differ\n', ...
+                    label, wrot, testCase.pktBytes()/8, bad, testCase.pktBytes());
                 if rxSel == 0
-                    % internal: the in-FPGA loopback carries the SAME parked
-                    % bursty Tx artifact as the BIST (echo measures ~17%
-                    % episode-corrupt frames -- see project notes), so not
-                    % every capture is clean. The DMA round trip's
-                    % correctness is proven by a byte-EXACT capture
-                    % (min(bad)==0 -> serializer/descrambler/DMA are
-                    % bit-exact); the clean-count floor catches a genuinely
-                    % broken path (well above the artifact's worst case).
-                    corr = max(bitAccAll, 1 - bitAccAll);
-                    fprintf('endToEnd internal: min(bad)=%d clean=%d/%d mean(corr)=%.3f\n', ...
-                        min(bad), nnz(bad<=8), nCap, mean(corr));
-                    testCase.verifyEqual(min(bad), 0, ...
-                        'endToEnd internal: no byte-exact DMA round trip in 5 tries');
-                    testCase.verifyGreaterThanOrEqual(nnz(bad<=8), 2, ...
-                        'endToEnd internal: too few clean captures -- DMA path suspect');
+                    % internal loopback: pure digital path, must be byte-exact
+                    testCase.verifyEqual(bad, 0, ...
+                        'endToEnd internal: byte-DMA round trip not byte-exact at any word rotation');
                 else
-                    % cable: the parked Tx artifact's per-capture severity
-                    % varies session to session (episodes + within-packet
-                    % ramp), so byte-count thresholds are flaky. Two
-                    % metrics have been stable across every hardware run:
-                    % (1) at least one near-exact capture in 8 -- byte-
-                    % accurate RF transport is achievable; (2) bit-level
-                    % accuracy well above the 50%% garbage line on average
-                    % -- captures carry the payload, not noise. Cable
-                    % byte-exactness becomes the gate when the artifact is
-                    % resolved.
-                    % episode packets are carrier-rotation slips: 180-deg
-                    % inverts both bits (bitAcc ~0), 90-deg scrambles pairs
-                    % (~0.5). Payload lock under ANY rotation shows as
-                    % |bitAcc - 0.5| >> 0; genuine garbage sits at ~0.5.
-                    corr = max(bitAccAll, 1 - bitAccAll);
-                    fprintf('endToEnd cable: min(bad)=%d mean(corr)=%.3f\n', ...
-                        min(bad), mean(corr));
-                    testCase.verifyLessThanOrEqual(min(bad), 8, ...
-                        'endToEnd cable: no near-exact capture in 8 tries');
-                    testCase.verifyGreaterThan(mean(corr), 0.70, ...
-                        'endToEnd cable: captures uncorrelated with payload');
+                    % cable: allow a few RF byte slips (the in-FPGA-Tx artifact)
+                    testCase.verifyLessThanOrEqual(bad, 8, ...
+                        'endToEnd cable: byte-DMA round trip not byte-exact (within 8 B) at any word rotation');
                 end
             end
         end

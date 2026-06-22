@@ -65,7 +65,22 @@ int main(int argc, char **argv)
     const char *out = argv[3];
     unsigned seed = argc > 4 ? (unsigned)atoi(argv[4]) : 1;
     int rxsel = argc > 5 ? atoi(argv[5]) : 0;  /* 0=internal, 1=cable (needs RF) */
+    if (N <= 0 || pkt <= 0) { fprintf(stderr, "ERROR: N and pkt_bytes must be > 0\n"); return 2; }
     size_t total = (size_t)N * (size_t)pkt;
+
+    /* The RX capture buffer is the 512 KB half of the reserved region above
+     * RX_BUF (QPSK_DMA_BUF_BASE + 0x80000). A transfer larger than this
+     * overruns kernel RAM and WEDGES the board (silent corruption -> hang,
+     * recoverable only by a cold power-cycle). Refuse it up front. */
+#ifndef QPSK_RX_BUF_SIZE
+#  define QPSK_RX_BUF_SIZE (512u * 1024u)
+#endif
+    if (total > QPSK_RX_BUF_SIZE) {
+        fprintf(stderr, "ERROR: capture %zu B (%d x %d) exceeds the %u B RX buffer; "
+                "max N = %u for pkt=%d. Capture in smaller batches.\n",
+                total, N, pkt, QPSK_RX_BUF_SIZE, (unsigned)(QPSK_RX_BUF_SIZE / (size_t)pkt), pkt);
+        return 2;
+    }
 
     int fd = open("/dev/mem", O_RDWR|O_SYNC);
     if (fd < 0) { perror("/dev/mem"); return 1; }

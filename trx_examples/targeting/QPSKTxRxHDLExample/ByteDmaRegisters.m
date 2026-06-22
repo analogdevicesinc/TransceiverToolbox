@@ -74,6 +74,27 @@ classdef ByteDmaRegisters
             BistRegisters.sshExec(sprintf('busybox devmem 0x%X 32 0', B+1024), 10);
         end
 
+        function selectMode(modemBase, txDataSource, txSourceSelect, rxInputSelect, sshTimeoutSec)
+            % selectMode  Canonical modem mode-select sequence -- the single
+            %   source of truth for the LOAD-BEARING ORDER. Pulse the soft
+            %   reset FIRST (+0x000: clears the regfile, the byte-word
+            %   aligners, and the BIST counters), THEN write tx_data_source
+            %   (+0x11C), tx_source_select (+0x118), rx_input_select (+0x114).
+            %   Writing the selects before the reset leaves stale state /
+            %   mis-aligned byte words. host_app/qpsk_capture.c mirrors this
+            %   order in C. modemBase: '0x9D000000' (Jupiter) or '0x43C00000'
+            %   (ZedBoard). Targets BistRegisters.Host over ssh + /dev/mem.
+            if nargin < 5, sshTimeoutSec = 8; end
+            b = double(sscanf(modemBase, '0x%x'));
+            cmd = sprintf([ ...
+                'busybox devmem 0x%X 32 1; sleep 1; ' ...     % soft reset     +0x000
+                'busybox devmem 0x%X 32 %d; ' ...             % tx_data_source  +0x11C
+                'busybox devmem 0x%X 32 %d; ' ...             % tx_source_select+0x118
+                'busybox devmem 0x%X 32 %d'], ...             % rx_input_select +0x114
+                b, b+284, txDataSource, b+280, txSourceSelect, b+276, rxInputSelect);
+            BistRegisters.sshExec(cmd, sshTimeoutSec);
+        end
+
         function bytes = rxCapture(lenBytes)
             % one-shot S2MM capture of the Receiver's recovered byte stream:
             % program the rx DMA for lenBytes into the capture buffer, poll
@@ -132,6 +153,61 @@ classdef ByteDmaRegisters
             for k = 1:4
                 bytes(k:4:end) = uint8(bitand(bitshift(words32, -8*(k-1)), uint32(255)));
             end
+        end
+
+        function pkt = rxCaptureMulti(lenBytes, nPackets)
+            % Reliable multi-packet capture: TLAST OFF (gpio 0x9D300000=0),
+            % one continuous S2MM transfer of nPackets*lenBytes, then a
+            % per-byte MAJORITY VOTE across the packets to recover the
+            % word-aligned packet. The single-packet SYNC capture in
+            % rxCapture word-rotates on some bitstreams (every capture
+            % bitAcc~0.5); the continuous multi-packet transfer + vote is
+            % the method host_app/qpsk_capture uses (494/600 byte-exact),
+            % so the consensus is the true aligned payload.
+            if nargin < 2, nPackets = 16; end
+            assert(mod(lenBytes,8)==0, 'length must be 8-byte aligned');
+            total = lenBytes * nPackets;
+            % The S2MM capture buffer is the 512 KB half of the reserved region
+            % above RxBufPhys; a larger transfer overruns kernel RAM and WEDGES
+            % the board (cold power-cycle to recover). Refuse it.
+            assert(total <= 512*1024, sprintf(['rxCaptureMulti: %d B exceeds the ' ...
+                '512 KB RX buffer -- reduce nPackets to <= %d'], total, floor(512*1024/lenBytes)));
+            BistRegisters.sshExec('busybox devmem 0x9D300000 32 0 2>/dev/null || true', 10); % TLAST off
+            B = double(sscanf(ByteDmaRegisters.RxDmaBase,'0x%x'));
+            A = double(sscanf(ByteDmaRegisters.RxBufPhys,'0x%x'));
+            cmd = sprintf([ ...
+                'busybox devmem 0x%X 32 0; sleep 1; ' ... % CONTROL: engine reset
+                'busybox devmem 0x%X 32 3; ' ...          % IRQ_MASK
+                'busybox devmem 0x%X 32 1; ' ...          % CONTROL: enable
+                'busybox devmem 0x%X 32 0; ' ...          % FLAGS: one-shot
+                'busybox devmem 0x%X 32 0; ' ...          % TRANSFER_ID = 0
+                'busybox devmem 0x%X 32 %d; ' ...         % DEST_ADDRESS
+                'busybox devmem 0x%X 32 %d; ' ...         % X_LENGTH = total-1
+                'busybox devmem 0x%X 32 1'], ...          % TRANSFER_SUBMIT
+                B+1024, B+128, B+1024, B+1036, B+1028, B+1040, A, B+1048, total-1, B+1032);
+            BistRegisters.sshExec(cmd, 15);
+            done = false;
+            for k = 1:30
+                v = double(BistRegisters.read(sprintf('0x%X', B+1064), 8));
+                if bitand(uint32(v), uint32(1)) > 0, done = true; break; end
+                pause(0.2);
+            end
+            BistRegisters.sshExec('busybox devmem 0x9D300000 32 1 2>/dev/null || true', 10); % restore TLAST
+            assert(done, 'rxCaptureMulti: capture did not complete');
+            rdcmd = '';
+            for k = 1:total/4
+                rdcmd = [rdcmd sprintf('busybox devmem 0x%X; ', A+4*(k-1))]; %#ok<AGROW>
+            end
+            [~, out] = BistRegisters.sshExec(rdcmd, 60);
+            tok = regexp(out, '0x([0-9A-Fa-f]{8})', 'tokens');
+            words32 = cellfun(@(c) uint32(hex2dec(c{1})), tok).';
+            assert(numel(words32) == total/4, 'rxCaptureMulti: short readback');
+            raw = zeros(total, 1, 'uint8');
+            for k = 1:4
+                raw(k:4:end) = uint8(bitand(bitshift(words32, -8*(k-1)), uint32(255)));
+            end
+            M = reshape(raw, lenBytes, nPackets);  % columns = packets
+            pkt = uint8(mode(double(M), 2));        % per-byte majority vote -> aligned packet
         end
     end
 end
