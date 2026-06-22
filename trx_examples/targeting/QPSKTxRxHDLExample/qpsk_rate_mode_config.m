@@ -28,6 +28,25 @@ function cfg = qpsk_rate_mode_config(mode)
 %   SSBnXTsamp loop bandwidths, CFOChangeDetectThreshold, preamble threshold,
 %   SearchSamples) are symbol-rate-NORMALIZED or structural and are IDENTICAL
 %   in both modes -- they do not scale with the absolute rate.
+%
+%   SUPPORTING BOTH LVDS PROFILES (stock 15.36 MHz + a custom low-rate LVDS
+%   profile such as modem_profiles/lvds_1p92_mhz) IS THE SAME 'jupiter'
+%   BITSTREAM -- there is no separate variant to build, and that is the point:
+%   the Rx decode divider is a clock-ENABLE ratio, so when a profile lowers the
+%   ADRV9002 SSI clock the modem clock-enables down with it and decodes at the
+%   proportionally lower symbol rate (the ZedBoard runs this exact 240-ksym
+%   point at 0.00064% BER). The only rate-specific knob is integAvgLen, which
+%   stays at the baked 2^15: sufficient for a static single-clock link (the
+%   cable-loopback test), and ideally 2^12 for fast two-radio CFO tracking at
+%   the low rate -- an OPTIONAL refinement best done as a runtime AXI register
+%   (the only change that would be a true rebuilt "both-profile variant"; not
+%   needed for the static test, so deliberately not built).
+%
+%   PREREQUISITE: the custom profile must be generated for the board's ADRV9002
+%   reference clock. The shipped modem_profiles/*.json are built for 40 MHz but
+%   this Jupiter's reference is 38.4 MHz, so the driver rejects them on load --
+%   regenerate in ADI TES at deviceClock=38.4 MHz. The unit-test guard
+%   QPSKLvdsProfileTests/testLvdsProfileDeviceClockMatchesBoard enforces this.
 
 if nargin < 1 || isempty(mode)
     mode = getappdata(0, 'QPSK_RATE_MODE');
