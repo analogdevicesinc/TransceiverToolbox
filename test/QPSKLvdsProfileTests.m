@@ -99,6 +99,29 @@ classdef QPSKLvdsProfileTests < matlab.unittest.TestCase
                  'reference clock the board lacks.'], dc, mat2str(testCase.JupiterRefClkKHz)));
         end
 
+        function testJupiterLvdsRateModeConfig(testCase)
+            % BOARD-FREE: the rebuilt 'jupiter_lvds' VARIANT is correctly
+            % parameterized to support the custom low-rate LVDS profile -- same
+            % JUPITER reference design + 15.36 MHz synthesis IPCORE as stock
+            % 'jupiter' (so it is a valid, buildable bitstream, NOT a sub-7.68
+            % MHz IPCORE), differing ONLY in integAvgLen, scaled to 2^12 for the
+            % 240-ksym operating point. The two modes together support both the
+            % stock 15.36 MHz and custom 1.92 MHz LVDS profiles.
+            cfg = qpsk_rate_mode_config('jupiter_lvds');
+            testCase.verifyEqual(cfg.symbolRateHz, 240e3, 'jupiter_lvds symbol rate = 240 ksym');
+            testCase.verifyEqual(cfg.integAvgLen, 2^12, 'jupiter_lvds integAvgLen scales to 2^12');
+            testCase.verifyEqual(cfg.multiple, '1', 'LVDS is 1:1');
+            testCase.verifyEqual(cfg.ipcoreClockHz, 15.36e6, 'synthesize at 15.36 MHz (buildable, not sub-7.68)');
+            testCase.verifyTrue(contains(cfg.referenceDesign, 'JUPITER'), 'JUPITER reference design');
+            testCase.verifyEqual(cfg.project, 'jupiter_sdr');
+            j = qpsk_rate_mode_config('jupiter');
+            testCase.verifyEqual(j.integAvgLen, 2^15, 'stock jupiter keeps integAvgLen 2^15');
+            testCase.verifyEqual(j.ipcoreClockHz, cfg.ipcoreClockHz, ...
+                'jupiter and jupiter_lvds share the IPCORE/RD -> both are buildable bitstreams');
+            fprintf('jupiter_lvds VARIANT: IPCORE=%.2f MHz, multiple=%s, integAvgLen=2^%d (vs jupiter 2^%d)\n', ...
+                cfg.ipcoreClockHz/1e6, cfg.multiple, round(log2(cfg.integAvgLen)), round(log2(j.integAvgLen)));
+        end
+
         function testJupiterLvdsLink(testCase)
             % HW (Jupiter): with the LVDS 1.92 MHz profile DEPLOYED AT BOOT,
             % the existing composite design must still decode -- verified by

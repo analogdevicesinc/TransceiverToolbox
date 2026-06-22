@@ -30,17 +30,21 @@ function cfg = qpsk_rate_mode_config(mode)
 %   in both modes -- they do not scale with the absolute rate.
 %
 %   SUPPORTING BOTH LVDS PROFILES (stock 15.36 MHz + a custom low-rate LVDS
-%   profile such as modem_profiles/lvds_1p92_mhz) IS THE SAME 'jupiter'
-%   BITSTREAM -- there is no separate variant to build, and that is the point:
-%   the Rx decode divider is a clock-ENABLE ratio, so when a profile lowers the
-%   ADRV9002 SSI clock the modem clock-enables down with it and decodes at the
-%   proportionally lower symbol rate (the ZedBoard runs this exact 240-ksym
-%   point at 0.00064% BER). The only rate-specific knob is integAvgLen, which
-%   stays at the baked 2^15: sufficient for a static single-clock link (the
-%   cable-loopback test), and ideally 2^12 for fast two-radio CFO tracking at
-%   the low rate -- an OPTIONAL refinement best done as a runtime AXI register
-%   (the only change that would be a true rebuilt "both-profile variant"; not
-%   needed for the static test, so deliberately not built).
+%   profile such as modem_profiles/lvds_1p92_mhz):
+%     * The stock 'jupiter' bitstream ALREADY runs both -- the Rx decode divider
+%       is a clock-ENABLE ratio, so when a profile lowers the ADRV9002 SSI clock
+%       the modem clock-enables down and decodes the proportionally lower symbol
+%       rate (the ZedBoard runs this exact 240-ksym point at 0.00064% BER). Its
+%       integAvgLen is baked at 2^15: fine for a static single-clock link (the
+%       cable-loopback test), 8x-slow for two-radio CFO at the low rate.
+%     * 'jupiter_lvds' is the rebuilt VARIANT optimized for the low-rate profile:
+%       identical JUPITER reference design + 15.36 MHz IPCORE as 'jupiter' (the
+%       synthesis fabric clock; the modem clock-enables down to the runtime
+%       adc_1_clk the profile sets -- the same way 'cmos' synthesizes at 30.72
+%       MHz for its 8x-low profile), with integAvgLen scaled to 2^12 so the CS
+%       window averages a constant TIME at 240 ksym. This is a valid, buildable
+%       bitstream (NOT a sub-7.68 MHz IPCORE -- it synthesizes at 15.36 MHz),
+%       so the two modes together support both profiles optimally.
 %
 %   PREREQUISITE: the custom profile must be generated for the board's ADRV9002
 %   reference clock. The shipped modem_profiles/*.json are built for 40 MHz but
@@ -66,6 +70,24 @@ switch lower(mode)
         cfg.multiple        = '1';       % rx_clk == tx_clk (15.36 MHz), 1:1
         cfg.ipcoreClockHz   = 15.36e6;
         cfg.symbolRateHz    = designRsym;
+    case 'jupiter_lvds'                 % LVDS, custom LOW-RATE profile (1.92 MHz SSI)
+        % The "build a variant to support the custom LVDS profile" target. Same
+        % JUPITER reference design and IPCORE as 'jupiter' (synthesizes at the
+        % 15.36 MHz fabric clock, enb_1_2 decode divider) -- exactly like 'cmos'
+        % keeps its 30.72 MHz IPCORE for the 8x-low CMOS profile. At runtime the
+        % loaded 1.92 MHz LVDS profile lowers adc_1_clk and the modem
+        % clock-enables down to the 240-ksym operating point; the ONE difference
+        % from 'jupiter' is integAvgLen, which scales to 2^12 (below) so the CS
+        % phase-estimate averages a constant TIME at the lower symbol rate.
+        cfg.mode            = 'jupiter_lvds';
+        cfg.referenceDesign = 'JUPITER (RX & TX - RX IS FASTER OR HAS PRIORITY)';
+        cfg.project         = 'jupiter_sdr';
+        cfg.carrier         = '';
+        cfg.multiple        = '1';       % LVDS 1:1
+        cfg.ipcoreClockHz   = 15.36e6;
+        rsym = getappdata(0, 'QPSK_LVDS_RSYM');
+        if isempty(rsym), rsym = 240e3; end   % 1.92 MHz SSI / 8, like the CMOS 8x-low point
+        cfg.symbolRateHz    = rsym;
     case 'cmos'                          % ZedBoard ADRV9002, stock CMOS profile
         cfg.mode            = 'cmos';
         cfg.referenceDesign = 'ADRV9002 ZED (RX & TX, BYTE DMA)';
@@ -81,7 +103,7 @@ switch lower(mode)
         cfg.symbolRateHz    = rsym;
     otherwise
         error('qpsk_rate_mode_config:badMode', ...
-              'Unknown rate mode "%s" (use ''cmos'' or ''jupiter'')', mode);
+              'Unknown rate mode "%s" (use ''cmos'', ''jupiter'', or ''jupiter_lvds'')', mode);
 end
 
 % Rate-scaled CS phase-estimate window: keep the averaging TIME constant as the
