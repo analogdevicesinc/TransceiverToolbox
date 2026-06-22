@@ -2,7 +2,10 @@
 *.slxc
 *.mat
 hdl_prj*/
+hdlsrc/
 slprj/
 boot/
+test-results/
+debug/
 *.log
 *.jou

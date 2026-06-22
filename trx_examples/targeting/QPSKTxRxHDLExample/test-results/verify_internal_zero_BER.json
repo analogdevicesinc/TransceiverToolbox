@@ -1,1 +1,0 @@
-{"internal":{"rxInputSelect":0,"deltaPackets":210031,"deltaErrors":0,"deltaCheckedBits":2.520372E+7,"berPct_legacy":0,"berPct_checked":0,"pass":true},"cable":{"rxInputSelect":1,"deltaPackets":210156,"deltaErrors":6.435772E+6,"deltaCheckedBits":2.521872E+7,"berPct_legacy":1.3671332248424979,"berPct_checked":25.519820197059961,"pass":true},"windowSec":60,"overallPass":true}
