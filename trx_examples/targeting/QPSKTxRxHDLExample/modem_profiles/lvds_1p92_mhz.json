@@ -1,9 +1,9 @@
 {
   "clocks": {
-    "deviceClock_kHz": 40000,
-    "clkPllVcoFreq_daHz": 442368000,
+    "deviceClock_kHz": 38400,
+    "clkPllVcoFreq_daHz": 884736000,
     "clkPllHsDiv": 0,
-    "clkPllMode": 1,
+    "clkPllMode": 0,
     "clk1105Div": 2,
     "armClkDiv": 6,
     "armPowerSavingClkDiv": 1,
