@@ -17,17 +17,25 @@ classdef TestQPSKJupiterLink < matlab.unittest.TestCase
     % (1.92 Msym, 21650 pkts/10s) AND the 1.92 MHz LVDS SSI (240 ksym,
     % 4815 pkts/20s).
     %
-    % The in-FPGA-Tx SELF-loopback (tx_source_select=0: the modem's own Tx
-    % drives the DAC) is EXCLUDED from the PASS gate. On Jupiter at 1.92 MHz
-    % it is unreliable as a SINGLE-BOARD self-test artifact, NOT a design
-    % flaw: the Tx output crosses from dac_1_clk to adc_1_clk and Jupiter is
-    % a 1:1 design (it lacks the ZedBoard build's multiple=2 rate-matcher /
-    % regularizer / AdcCap). Over the cable (rx_input_select=1) that
-    % cross-clock straddle gives a ~50% random BER; internally
-    % (rx_input_select=0) it shows a STABLE ~9.77% ZOH sample-alignment
-    % degeneracy. Both are self-test artifacts of co-running Tx and Rx on one
-    % board off two unsynchronized clocks; testInternalLoopbackArtifact
-    % documents this informationally and does NOT gate a clean BER on it.
+    % The in-FPGA-Tx SELF-loopback (tx_source_select=0: the modem's own
+    % internal generator drives the DAC) is EXCLUDED from the PASS gate. On
+    % Jupiter at 1.92 MHz it is a SINGLE-BOARD self-test ARTIFACT, NOT a
+    % design flaw -- rigorously root-caused (5 fix builds + a ZedBoard-
+    % mechanism investigation): the ZedBoard's IDENTICAL modem self-decodes
+    % at 0% only because its profile drives TWO INDEPENDENT same-frequency
+    % recovered SSI clocks (rx1_dclk_out + tx1_dclk_out) into a
+    % sync_fast_to_slow elastic FIFO -- the continuous inter-clock phase
+    % drift gives the Gardner symbol-timing loop a TRACKABLE error. Jupiter's
+    % LVDS SSI runs Tx and Rx off ONE shared recovered clock, so the
+    % single-board self-loop sits at a Gardner timing degeneracy with no
+    % independent-clock drift to track. The residual is irreducible: even
+    % USE_RX_CLK_FOR_TX1 (which eliminates the dac_1_clk/adc_1_clk crossing
+    % entirely) still floors ~4%. Over the cable (rx_input_select=1) it shows
+    % ~50% bimodal/no-lock; internally (rx_input_select=0) a STABLE ~9.77%.
+    % Host-golden and the real two-board link supply the independent-clock
+    % drift Jupiter needs -> 0%. testInFpgaTxCableArtifact (cable) and
+    % testInternalLoopbackArtifact (internal) document these informationally
+    % and do NOT gate a clean BER on them.
     %
     % Requires (HW tests):
     %   * Verifiable composite BOOT.BIN deployed (TxRxCompo IP at 0x9D000000
@@ -131,13 +139,30 @@ classdef TestQPSKJupiterLink < matlab.unittest.TestCase
             BistRegisters.sshExec( ...
                 sprintf('busybox devmem %s 32 %d', addr, val), 8);
         end
-        function [ber, pkts] = measureCableBer(testCase, txLO, txAtten, rxGainIdx, agc, measSeconds)
-            % HOST-GOLDEN measurement (ported from
-            % QPSKDeployedLinkTests.measureCableBer): arm Tx cyclic golden +
-            % Rx live, soft-reset the IP, select tx_source/rx_input over the
-            % RF cable, then read the BIST packets/bit_errors deltas over
-            % measSeconds. Returns BER and packet count.
-            if nargin < 6 || isempty(measSeconds), measSeconds = 10; end
+        function [ber, pkts] = measureCableBer(testCase, txLO, txAtten, measSeconds, txSrcSel)
+            % Cable RF-loopback BER measurement (adapted from
+            % QPSKDeployedLinkTests.measureCableBer): arm the ADRV9002 Tx
+            % (cyclic golden, to keep the Tx channel/SSI active + set the LO)
+            % and Rx (live buffer) FIRST, soft-reset the IP, select the Tx
+            % data source + rx_input over the Tx1->Rx1 RF cable, then read the
+            % BIST packets/bit_errors deltas over measSeconds. Returns BER and
+            % packet count.
+            %
+            % txSrcSel (0x9D000118, default 1) chooses what drives the DAC:
+            %   1 = HOST-GOLDEN -- the host-streamed clean waveform drives the
+            %       DAC (independent host/ADC clocks = the real-link case);
+            %       the canonical clean PASS measurement.
+            %   0 = in-FPGA-Tx SELF-loopback -- the modem's own internal
+            %       generator drives the DAC (the host buffer is muxed out but
+            %       still streamed to keep the Tx channel active). On Jupiter
+            %       LVDS this is the single-board self-test ARTIFACT (see
+            %       testInFpgaTxCableArtifact); not a clean measurement.
+            %
+            % NB: no Rx gain is set -- adi.ADRV9002.Rx has no AD9361-style
+            % numeric GainChannel0/GainControlMode, and the Rx runs at its
+            % profile/AGC default gain (what the validated host-golden 0% used).
+            if nargin < 4 || isempty(measSeconds), measSeconds = 10; end
+            if nargin < 5 || isempty(txSrcSel), txSrcSel = 1; end
             tx = adi.ADRV9002.Tx('uri', testCase.uri);
             tx.EnabledChannels = 1;
             tx.CenterFrequencyChannel0 = txLO;
@@ -149,21 +174,14 @@ classdef TestQPSKJupiterLink < matlab.unittest.TestCase
             rx.EnabledChannels = 1;
             rx.CenterFrequencyChannel0 = testCase.LO;
             rx.SamplesPerFrame = 2^14;
-            if ~agc
-                try
-                    rx.GainControlMode = 'spi';
-                catch
-                end
-                try
-                    rx.GainChannel0 = rxGainIdx;
-                catch
-                end
-            end
             rx(); pause(2);
             cleanup = onCleanup(@() cellfun(@release, {tx, rx}));
-            % canonical reset-then-select: host golden over the RF cable
+            % canonical reset-then-select: pulse soft reset FIRST (clears the
+            % regfile to internal-loopback defaults), THEN select the Tx data
+            % source (txSrcSel) and the cable rx_input. The Receiver only
+            % acquires when the input mux is set early after reset.
             testCase.regWrite(testCase.RegBase, 1); pause(1);
-            testCase.regWrite(testCase.RegTxSelect, 1);
+            testCase.regWrite(testCase.RegTxSelect, txSrcSel);
             testCase.regWrite(testCase.RegRxSelect, 1); pause(2);
             p0 = testCase.regRead(testCase.RegPackets);
             e0 = testCase.regRead(testCase.RegBitErrors);
@@ -195,7 +213,7 @@ classdef TestQPSKJupiterLink < matlab.unittest.TestCase
             % HW (Jupiter, deployed/design SSI): host-golden over the RF
             % cable at the as-deployed rate. Verified 0.000000% this session
             % at 15.36 MHz SSI (1.92 Msym, ~21650 pkts/10s).
-            [ber, pkts] = testCase.measureCableBer(testCase.LO, -10, 30, false, 10);
+            [ber, pkts] = testCase.measureCableBer(testCase.LO, -10, 10);
             fprintf('Jupiter design-rate host-golden: %d pkts/10s, BIST BER = %.6f%%\n', ...
                 pkts, 100*ber);
             testCase.verifyGreaterThan(pkts, 5000, ...
@@ -221,7 +239,7 @@ classdef TestQPSKJupiterLink < matlab.unittest.TestCase
                  'reboot, then re-run -- do NOT load it at runtime (a runtime ' ...
                  'SSI change wedges the FPGA).'], ssi));
             % longer window at 240 ksym so the measurement clears >~2000 pkts
-            [ber, pkts] = testCase.measureCableBer(testCase.LO, -10, 30, false, 20);
+            [ber, pkts] = testCase.measureCableBer(testCase.LO, -10, 20);
             fprintf('Jupiter LVDS 1.92 MHz host-golden: %d pkts/20s, BIST BER = %.6f%%\n', ...
                 pkts, 100*ber);
             testCase.verifyGreaterThan(pkts, 1500, ...
@@ -237,22 +255,28 @@ classdef TestQPSKJupiterLink < matlab.unittest.TestCase
             % own internal generator drives the DAC) is a SINGLE-BOARD
             % self-test that exhibits a known artifact on Jupiter at 1.92 MHz
             % -- NOT a design flaw:
-            %   * over the RF cable (rx_input_select=1): ~50% random BER, a
-            %     dac_1_clk-vs-adc_1_clk Tx-output cross-clock straddle;
             %   * internal (rx_input_select=0): a STABLE ~9.77% ZOH
-            %     sample-alignment degeneracy.
-            % Jupiter is a 1:1 design and lacks the ZedBoard build's
-            % multiple=2 rate-matcher / regularizer / AdcCap, so its Tx
-            % output straddles the unsynchronized Tx/Rx clock domains. This
-            % is why HOST-GOLDEN (independent Tx/Rx clocks) is the canonical
-            % verification and gates PASS instead. We document it here, and
-            % (when the board is reachable) measure the INTERNAL self-loopback
-            % to confirm the degeneracy is STABLE/reproducible rather than
-            % random -- but we never verifyLessThan a clean BER on it.
+            %     sample-alignment degeneracy (measured here);
+            %   * over the RF cable (rx_input_select=1): ~50% bimodal/no-lock
+            %     (see testInFpgaTxCableArtifact).
+            % ROOT CAUSE (rigorously established): the ZedBoard's IDENTICAL
+            % modem self-decodes at 0% because its profile drives TWO
+            % INDEPENDENT same-frequency recovered SSI clocks into a
+            % sync_fast_to_slow elastic FIFO -- the continuous inter-clock
+            % drift gives the Gardner symbol-timing loop a trackable error.
+            % Jupiter's LVDS SSI runs Tx and Rx off ONE shared recovered
+            % clock, so the single-board self-loop sits at a Gardner timing
+            % degeneracy (the dac_1_clk/adc_1_clk crossing is NOT the cause --
+            % USE_RX_CLK_FOR_TX1 removed it entirely and the floor stayed
+            % ~4%). This is why HOST-GOLDEN (independent Tx/Rx clocks) is the
+            % canonical verification and gates PASS instead. We measure the
+            % INTERNAL self-loopback here to confirm the degeneracy is
+            % STABLE/reproducible -- but we never verifyLessThan a clean BER.
             fprintf(['NOTE: in-FPGA-Tx self-loopback (tx_source_select=0) on ' ...
                 'Jupiter @1.92 MHz is a known single-board self-test ' ...
-                'artifact (~50%% cable cross-clock straddle / stable ~9.77%% ' ...
-                'internal ZOH degeneracy), NOT a design flaw. Host-golden ' ...
+                'artifact (stable ~9.77%% internal ZOH degeneracy / ~50%% ' ...
+                'bimodal-no-lock over the cable -- a single-shared-SSI-clock ' ...
+                'Gardner timing degeneracy), NOT a design flaw. Host-golden ' ...
                 '(independent Tx/Rx clocks) is the canonical PASS gate ' ...
                 '(see testDesignRateLink / testLowRateLink).\n']);
             % measure the internal self-loopback twice and check it is
@@ -280,6 +304,103 @@ classdef TestQPSKJupiterLink < matlab.unittest.TestCase
                     'reproducible (%.4f%% vs %.4f%%); expected a STABLE ' ...
                     'degeneracy'], 100*b(1), 100*b(2)));
             end
+        end
+
+        function testInFpgaTxCableArtifact(testCase)
+            % INFORMATIONAL / diagnostic ONLY -- NO clean-BER PASS gate.
+            %
+            % The in-FPGA-Tx CABLE self-loopback: the modem's own internal
+            % generator drives the DAC (tx_source_select=0) and the signal is
+            % received back over the Tx1->Rx1 RF cable (rx_input_select=1).
+            % This is the single-board analog of the ZedBoard's
+            % TestQPSKZedBoardLink/testCableLinkClean -- which decodes 0.000%
+            % THERE, but on Jupiter LVDS at 1.92 MHz exhibits a ~50%
+            % bimodal / no-stable-lock BER. That is a documented single-board
+            % ARTIFACT, NOT a design flaw.
+            %
+            % ROOT CAUSE (rigorously established: 5 fix builds + a ZedBoard-
+            % mechanism investigation). The ZedBoard's clean self-loop rides
+            % on TWO INDEPENDENT same-frequency recovered SSI clocks
+            % (rx1_dclk_out + tx1_dclk_out) feeding a sync_fast_to_slow elastic
+            % FIFO; the continuous inter-clock phase drift gives the Gardner
+            % symbol-timing loop a TRACKABLE error -> clean lock. Jupiter's
+            % LVDS SSI runs Tx and Rx off ONE shared recovered clock, so the
+            % self-loop has near-zero fractional sample offset -> a Gardner
+            % timing degeneracy -> a residual BER floor that NO Tx-output fix
+            % removes (proven: USE_RX_CLK_FOR_TX1 eliminated the cross-clock
+            % domain entirely and still floored ~4%). Host-golden (independent
+            % host DAC clock) and the real two-board link both supply the
+            % independent-clock drift Jupiter needs -> 0%, which is why
+            % testDesignRateLink / testLowRateLink are the PASS gate.
+            %
+            % We arm the in-FPGA-Tx cable path here and verify only that it is
+            % LIVE (the modem frames end-to-end). The BIST packet counter is
+            % BIMODAL -- it reads 0 in ~half of short windows even on a healthy
+            % board (see TestQPSKZedBoardLink.testModemAlive) -- so a single
+            % before/after delta is unreliable: we sample it MANY times and
+            % qualify on "ever advanced", never on a clean BER.
+            ssi = testCase.readDeployedSsi();
+            fprintf(['NOTE: in-FPGA-Tx CABLE self-loopback ' ...
+                '(tx_source_select=0, rx_input_select=1) on Jupiter @%g Hz ' ...
+                'SSI is a known single-board artifact (~50%% bimodal/no-lock; ' ...
+                'a single-shared-SSI-clock Gardner timing degeneracy), NOT a ' ...
+                'design flaw -- the ZedBoard analog (testCableLinkClean) ' ...
+                'decodes 0%% only because it has two independent recovered ' ...
+                'SSI clocks. Host-golden is the canonical PASS gate.\n'], ssi);
+            % Arm the ADRV9002 Tx (cyclic buffer keeps the Tx channel/SSI
+            % active + sets the LO; the host buffer is muxed out by
+            % tx_source_select=0) and Rx, then reset-then-select the in-FPGA
+            % modulator (tx_source_select=0) over the cable (rx_input_select=1).
+            tx = adi.ADRV9002.Tx('uri', testCase.uri);
+            tx.EnabledChannels = 1;
+            tx.CenterFrequencyChannel0 = testCase.LO;
+            tx.AttenuationChannel0 = -10;
+            tx.DataSource = 'DMA'; tx.EnableCyclicBuffers = true;
+            tx.SamplesPerFrame = numel(testCase.golden);
+            tx(testCase.golden);
+            rx = adi.ADRV9002.Rx('uri', testCase.uri);
+            rx.EnabledChannels = 1;
+            rx.CenterFrequencyChannel0 = testCase.LO;
+            rx.SamplesPerFrame = 2^14;
+            rx(); pause(2);
+            cleanup = onCleanup(@() cellfun(@release, {tx, rx}));
+            testCase.regWrite(testCase.RegBase, 1); pause(1);
+            testCase.regWrite(testCase.RegTxSelect, 0);
+            testCase.regWrite(testCase.RegRxSelect, 1); pause(2);
+            % robustly sample the BIST packet counter (zero ~half the time at
+            % this bimodal operating point); drop unreachable (NaN) reads.
+            e0 = testCase.regRead(testCase.RegBitErrors);
+            vals = [];
+            for k = 1:14
+                v = testCase.regRead(testCase.RegPackets);
+                if ~isnan(v), vals(end+1) = v; end %#ok<AGROW>
+                pause(0.4);
+            end
+            e1 = testCase.regRead(testCase.RegBitErrors);
+            % distinct unreachable diagnostic vs. never-framed:
+            testCase.assertNotEmpty(vals, ...
+                ['no BIST packet-counter readings from Jupiter (0x9D000104) ' ...
+                 '-- board/modem unreachable over ssh']);
+            % informational BER over the sampled span (artifact, NOT gated):
+            span = max(vals) - min(vals);
+            if span > 0 && ~isnan(e0) && ~isnan(e1)
+                fprintf(['  in-FPGA-Tx cable self-loopback: counter spanned ' ...
+                    '%d pkts over %d samples, BIST BER ~= %.4f%%\n'], ...
+                    span, numel(vals), 100*(e1 - e0)/max(1, span*120));
+            else
+                fprintf(['  in-FPGA-Tx cable self-loopback: counter samples ' ...
+                    '%s (bimodal/no-lock window)\n'], mat2str(vals(:).'));
+            end
+            % LIVENESS only (robust, mirrors testModemAlive): the path framed
+            % end-to-end if the packet counter is ever non-zero or advances.
+            % NO clean-BER gate (the ~50%/~4% degeneracy is the documented
+            % artifact above; host-golden is the PASS gate).
+            advanced = (max(vals) > 0) || (numel(unique(vals)) > 1);
+            testCase.verifyTrue(advanced, sprintf( ...
+                ['in-FPGA-Tx cable self-loopback packet counter never ' ...
+                 'advanced over %d samples (all %s) -- modem not framing over ' ...
+                 'the cable (check Tx1->Rx1 cable + matched LO)'], ...
+                numel(vals), mat2str(vals(:).')));
         end
     end
 end
