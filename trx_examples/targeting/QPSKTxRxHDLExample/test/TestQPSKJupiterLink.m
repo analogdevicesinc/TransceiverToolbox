@@ -210,9 +210,21 @@ classdef TestQPSKJupiterLink < matlab.unittest.TestCase
 
     methods (Test)
         function testDesignRateLink(testCase)
-            % HW (Jupiter, deployed/design SSI): host-golden over the RF
-            % cable at the as-deployed rate. Verified 0.000000% this session
-            % at 15.36 MHz SSI (1.92 Msym, ~21650 pkts/10s).
+            % HW (Jupiter, DESIGN-rate SSI, e.g. the stock 15.36 MHz):
+            % host-golden over the RF cable. Verified 0.000000% at 15.36 MHz
+            % SSI (1.92 Msym, ~21650 pkts/10s). The >5000-pkt/10s gate is a
+            % DESIGN-rate throughput check, so SKIP (assume) at the 1.92 MHz
+            % low rate (~2700 pkts/10s) where testLowRateLink is the
+            % rate-appropriate host-golden test -- mirroring testLowRateLink's
+            % SSI guard so the full suite is clean at either deployed rate.
+            ssi = testCase.readDeployedSsi();
+            testCase.assumeFalse(isnan(ssi), ...
+                'Jupiter unreachable / SSI sysfs node not readable over ssh');
+            testCase.assumeGreaterThan(ssi, testCase.LvdsSsiHz, sprintf( ...
+                ['deployed SSI is %g Hz (the 1.92 MHz low rate); the ' ...
+                 'design-rate >5000-pkt/10s gate does not apply -- run ' ...
+                 'testLowRateLink, or boot the 15.36 MHz design-rate ' ...
+                 'profile.'], ssi));
             [ber, pkts] = testCase.measureCableBer(testCase.LO, -10, 10);
             fprintf('Jupiter design-rate host-golden: %d pkts/10s, BIST BER = %.6f%%\n', ...
                 pkts, 100*ber);
