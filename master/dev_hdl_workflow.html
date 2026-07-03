@@ -8,9 +8,9 @@
 
     <title>HDL Workflow &#8212; Analog Devices, Inc. Transceiver Toolbox v22.2.1</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8e8a900e" />
-    <link rel="stylesheet" type="text/css" href="_static/app.min.css?v=ac863bf0" />
+    <link rel="stylesheet" type="text/css" href="_static/app.min.css?v=d3f78147" />
     <link rel="stylesheet" type="text/css" href="_static/css/style.css?v=373103a6" />
-    <script async="async" src="_static/app.umd.js?v=09b0c6bc"></script>
+    <script async="async" src="_static/app.umd.js?v=26d0298f"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.2.0/dist/mermaid-layout-elk.esm.min.mjs"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.2.0/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
@@ -383,6 +383,7 @@ window.addEventListener("load", load);
    
   
   
+  
   <meta name="repository" content="Analog Devices, Inc. Transceiver Toolbox">
   <meta name="version" content="">
   
@@ -581,7 +582,7 @@ Content on this topic
 </pre></div>
 </div>
 <p>After the above command completes the HDL source will be in place with necessary changes.</p>
-<p>The changes primarily required of the HDL source are interceptions of the build functions (procs) to skip synthesis when building a project. This is done by inserting environmental variable checks into the <a class="icon link reference external" href="https://github.com/analogdevicesinc/TransceiverToolbox/blob/master/CI/scripts/adi_project_xilinx.tcl#L138" target="_blank">adi_project_xilinx.tcl</a> script. At build time these environmental variables are set and will prevent synthesis. This way an HDL project can be built, then handed off to HDL-Coder for IP insertion and eventual synthesis.</p>
+<p>The changes primarily required of the HDL source are interceptions of the build functions (procs) to skip synthesis when building a project. This is done by inserting environmental variable checks into the <a class="icon link reference external" href="https://github.com/analogdevicesinc/TransceiverToolbox/blob/master/CI/scripts/adi_project_xilinx.tcl" target="_blank">adi_project_xilinx.tcl</a> script. At build time these environmental variables are set and will prevent synthesis. This way an HDL project can be built, then handed off to HDL-Coder for IP insertion and eventual synthesis.</p>
 <p>HDL-Coder is limited to only interact with Vivado or Quartus. Therefore, it cannot leverage the makefiles as traditionally used to build HDL projects in the HDL repository. HDL-Coder and the authored scripts in the toolbox use the <a class="icon link reference external" href="https://wiki.analog.com/resources/fpga/docs/build#xilinx_auto_tcl_build" target="_blank">TCL flow</a> normally recommended for just Windows users. This is used on all platforms (Windows and Linux) to support HDL code-generation and integration with ADI toolboxes.</p>
 </section>
 <section id="hdl-coder-ip-core-generation-flow">

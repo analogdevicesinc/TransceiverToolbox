@@ -5,7 +5,7 @@
 This page outlines the HDL reference design integration for the *ADRV9371* reference design for the Analog Devices
 AD9371 component. The IP-Core Generation follow is available on the based on the following base HDL reference design for the following board and design variants: 
 
-- [Base reference design documentation](https://analogdevicesinc.github.io/hdl/projects/adrv9371/index.html)
+- [Base reference design documentation](https://analogdevicesinc.github.io/hdl/projects/adrv9371x/index.html)
 - Supported FPGA carriers:
     - ZC706
     - ZCU102
