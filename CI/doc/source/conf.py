@@ -111,3 +111,8 @@ html_theme_options = {
     "light_logo": os.path.join("logos", "logo_black_cropped.png"),
     "dark_logo": os.path.join("logos", "logo_white_cropped.png"),
 }
+
+# MathWorks blocks automated link checkers with HTTP 403 even though these
+# documentation pages are valid in a browser. Keep the user-facing links but
+# exclude them from Sphinx linkcheck so real stale links remain visible.
+linkcheck_ignore = [r"https://www\.mathworks\.com/.*"]

@@ -39,9 +39,11 @@ For more information on changing property values, see <a href="https://www.mathw
 
 
 {% for prop in obj.props %}
+{% if prop.prop_description | trim %}
 :::{collapsible} {{ prop.prop_name }}
 {{ prop.prop_description }}
 :::
+{% endif %}
 {% endfor -%}
 
 
