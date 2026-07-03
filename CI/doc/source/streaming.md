@@ -12,7 +12,7 @@ Since libIIO is cross-platform it can be used from Windows, Linux, or macOS base
 ## Connecting and Configuration
 
 <!-- vale Google.Quotes = NO -->
-Connecting to hardware is done by setting the **uri** property of the system object interface. The **uri** for libIIO always has the convention "*< backend >:< address >*", where *backend* can be ip,usb, or serial. *address* will be specific to the backend. This is documented in the [libIIO API](https://analogdevicesinc.github.io/libiio/master/libiio/group__Context.html#gafdcee40508700fa395370b6c636e16fe).
+Connecting to hardware is done by setting the **uri** property of the system object interface. The **uri** for libIIO always has the convention "*< backend >:< address >*", where *backend* can be ip,usb, or serial. *address* will be specific to the backend. This is documented in the [libIIO API](https://analogdevicesinc.github.io/libiio/main/libiio/group__Context.html).
 <!-- vale Google.Quotes = YES -->
 
 Below is a basic example of setting up an AD9361 receiver using an Ethernet/IP backend where the address of the target system is 192.168.2.1:
@@ -110,7 +110,7 @@ tx.step(tx_data); % Step method
 
 However, once the step or operator method is called the object becomes locked and future passed data vectors must be the same length. As with the receive classes, the size of the passed data must be [SomeFixedSize x EnabledChannels]. **EnabledChannels** has the same definition as the receive side, except applied to DACs.
 
-Unlike the receiver, transmit objects have the ability to utilize [cyclic buffers](https://analogdevicesinc.github.io/libiio/group__Buffer.html#ga6caadf077c112ae55a64276aa24ef832) which will continuously transmit a provided vector without gaps forever. To utilize cyclic buffers set the **EnableCyclicBuffers** property then pass the operator data as follows:
+Unlike the receiver, transmit objects have the ability to utilize [cyclic buffers](https://analogdevicesinc.github.io/libiio/main/libiio/group__Buffer.html) which will continuously transmit a provided vector without gaps forever. To utilize cyclic buffers set the **EnableCyclicBuffers** property then pass the operator data as follows:
 
 ```{code} matlab
 tx = adi.ADRV9009.Tx;
