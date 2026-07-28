@@ -71,7 +71,7 @@ switch board
         error('%s unsupported for HW test harness', board);
 end
 ats = {'AD9361Tests','AD9363Tests','AD9364Tests','FMComms5Tests',...
-        'AD9371Tests','ADRV9002Tests','ADRV9009Tests','FMComms8Tests'};
+        'AD9371Tests','ADRV9002Tests','ADRV9009Tests','FMComms8Tests','DeployedLoopbackTests'};
 
 if nargin == 0
     suite = testsuite(ats);
