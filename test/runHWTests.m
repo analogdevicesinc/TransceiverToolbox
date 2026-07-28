@@ -89,10 +89,10 @@ end
 try
     
     runner = matlab.unittest.TestRunner.withTextOutput('OutputDetail',1);
-    runner.addPlugin(DiagnosticsValidationPlugin)
+    runner.addPlugin(DiagnosticsValidationPlugin);
+    runner.addPlugin(LabgridHardwarePlugin());
     xmlFile = board+"_HWTestResults.xml";
     plugin = XMLPlugin.producingJUnitFormat(xmlFile);
-    
     runner.addPlugin(plugin);
     results = runner.run(suite);
     

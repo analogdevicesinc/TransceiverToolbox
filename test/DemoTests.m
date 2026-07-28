@@ -26,37 +26,37 @@ classdef DemoTests < TestAppGUI
     
     methods(Test)
         function buildHDLLoopbackDelayEstimation(testCase)
-            testCase.setupVivado('2022.2');
+            testCase.setupVivado(adi.Version.Vivado);
             cd(fullfile(testCase.root,'trx_examples/targeting/loopback-delay-estimation'));
             hdlworkflow;
             if ~isempty(out)
                 disp(out.message);
             end
-            % Check for system_top.bit
+            testCase.setupVivado('2025.1');
             if exist('hdl_prj/vivado_ip_prj/vivado_prj.runs/impl_1/system_top.bit', 'file') ~= 2
                 error('system_top.bit not found');
             end
         end
         function buildHDLFrequencyHopper(testCase)
-            testCase.setupVivado('2022.2');
+            testCase.setupVivado(adi.Version.Vivado);
             cd(fullfile(testCase.root,'trx_examples/targeting/frequency-hopping'));
             hdlworkflow;
             if ~isempty(out)
                 disp(out.message);
             end
-            % Check for BOOT.BIN
+            testCase.setupVivado('2025.1');
             if exist('hdl_prj/vivado_ip_prj/boot/BOOT.BIN', 'file') ~= 2
                 error('BOOT.BIN Failed');
             end
         end
         function buildHDLTuneAGC(testCase)
-            testCase.setupVivado('2022.2');
+            testCase.setupVivado(adi.Version.Vivado);
             cd(fullfile(testCase.root,'trx_examples/targeting/tuneAGC-ad9361'));
             % Get dependent scripts from example
             if ~usejava('desktop')
                 setenv('EDITOR', 'cat');
             end
-            here = pwd;
+            testCase.setupVivado('2025.1');
             matlab.internal.language.introspective.openExample('comm/WINNERVHTMUMIMOExample', 'helperNoiseEstimate');
             here = mfilename('fullpath');
             here = strsplit(here,filesep);
