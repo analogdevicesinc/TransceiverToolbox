@@ -8,17 +8,21 @@ classdef DeployedLoopbackTests < HardwareTests
         uri = 'ip:10.0.0.23'
     end
     
+    methods(TestClassSetup)
+        function CheckForHardware(testCase)
+            ip_str = testCase.uri;
+            if startsWith(ip_str, 'ip:')
+                ip_str = ip_str(4:end);
+            end
+            testCase.CheckDevice('ip', @()adi.AD9371.Rx('uri', testCase.uri), ip_str, false);
+        end
+    end
+    
     methods (Test)
         function testDeployedLoopbackAndScaling(testCase)
-            % Check device availability and initialize Tx/Rx System objects
-            try
-                rx = adi.AD9371.Rx('uri', testCase.uri);
-                tx = adi.AD9371.Tx('uri', testCase.uri);
-            catch ME
-                disp(['Skipping DeployedLoopbackTests: ', ME.message]);
-                assumeFail(testCase, 'Hardware target not available or unreachable.');
-                return;
-            end
+            % Initialize Tx/Rx System objects
+            rx = adi.AD9371.Rx('uri', testCase.uri);
+            tx = adi.AD9371.Tx('uri', testCase.uri);
             
             % Configure transceiver loopback and channel settings
             rx.LoopbackMode = 1; % Enable digital loopback
