@@ -7,20 +7,44 @@ classdef DeployedLoopbackTests < HardwareTests
         author = 'ADI'
         uri = 'ip:10.0.0.23'
         uri_adrv9009 = 'ip:10.0.0.67'
+        uri_adrv9002 = 'ip:10.0.0.148'
     end
     
     methods(TestClassSetup)
         function CheckForHardware(testCase)
-            ip_str = testCase.uri;
-            if startsWith(ip_str, 'ip:')
-                ip_str = ip_str(4:end);
+            % Proceed if at least one target hardware device is reachable
+            hw_found = false;
+            try
+                d1 = adi.AD9371.Rx('uri', testCase.uri);
+                d1();
+                hw_found = true;
+            catch
             end
-            testCase.CheckDevice('ip', @()adi.AD9371.Rx('uri', testCase.uri), ip_str, false);
+            if ~hw_found
+                try
+                    d2 = adi.ADRV9009.Rx('uri', testCase.uri_adrv9009);
+                    d2();
+                    hw_found = true;
+                catch
+                end
+            end
+            if ~hw_found
+                try
+                    d3 = adi.ADRV9002.Rx('uri', testCase.uri_adrv9002);
+                    d3();
+                    hw_found = true;
+                catch
+                end
+            end
+            testCase.assumeTrue(hw_found, 'Filtering test: No hardware targets reachable');
         end
     end
     
     methods (Test)
         function testDeployedLoopbackAndScalingAD9371(testCase)
+            ip_str = strrep(testCase.uri, 'ip:', '');
+            testCase.CheckDevice('ip', @()adi.AD9371.Rx('uri', testCase.uri), ip_str, false);
+            
             % Initialize AD9371 Tx/Rx System objects
             rx = adi.AD9371.Rx('uri', testCase.uri);
             tx = adi.AD9371.Tx('uri', testCase.uri);
@@ -79,6 +103,9 @@ classdef DeployedLoopbackTests < HardwareTests
         end
         
         function testDeployedLoopbackAndScalingADRV9009(testCase)
+            ip_str = strrep(testCase.uri_adrv9009, 'ip:', '');
+            testCase.CheckDevice('ip', @()adi.ADRV9009.Rx('uri', testCase.uri_adrv9009), ip_str, false);
+            
             % Initialize ADRV9009 Tx/Rx System objects
             rx = adi.ADRV9009.Rx('uri', testCase.uri_adrv9009);
             tx = adi.ADRV9009.Tx('uri', testCase.uri_adrv9009);
@@ -125,6 +152,28 @@ classdef DeployedLoopbackTests < HardwareTests
                 testCase.verifyEqual(current_amplitude, expected_amplitude, 'RelTol', 0.15, ...
                     sprintf('ADRV9009 runtime channel scaling mismatch for scale factor %d', scale));
             end
+            
+            rx.release();
+            tx.release();
+        end
+        
+        function testDeployedLoopbackAndScalingADRV9002(testCase)
+            ip_str = strrep(testCase.uri_adrv9002, 'ip:', '');
+            testCase.CheckDevice('ip', @()adi.ADRV9002.Rx('uri', testCase.uri_adrv9002), ip_str, false);
+            
+            % Initialize ADRV9002 Tx/Rx System objects
+            rx = adi.ADRV9002.Rx('uri', testCase.uri_adrv9002);
+            tx = adi.ADRV9002.Tx('uri', testCase.uri_adrv9002);
+            
+            rx.EnabledChannels = 1;
+            tx.EnabledChannels = 1;
+            
+            % Initial transmission & reception
+            [rx_base, valid1] = rx();
+            testCase.verifyTrue(valid1, 'ADRV9002 RX data capture invalid');
+            
+            base_amplitude = mean(abs(double(rx_base)));
+            testCase.verifyGreaterThan(base_amplitude, 0, 'Received zero amplitude data from ADRV9002');
             
             rx.release();
             tx.release();
