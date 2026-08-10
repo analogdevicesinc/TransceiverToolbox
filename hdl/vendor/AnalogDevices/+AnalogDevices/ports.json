@@ -6,8 +6,7 @@
             "ccbob_cmos",
             "ccbob_lvds",
             "ccbox_lvds",
-            "ccfmc_lvds",
-            "ccpackrf_lvds"
+            "ccfmc_lvds"
         ],
         "supported_rd": [
             "rx",
@@ -21,61 +20,71 @@
                         "input": "false",
                         "width": 1,
                         "name": "util_ad9361_adc_pack/fifo_wr_en",
-                        "type": "valid"
+                        "type": "valid",
+                        "m_name": "IP Data Valid OUT"
                     },
                     {
                         "input": "true",
                         "width": 1,
                         "name": "util_ad9361_adc_fifo/dout_valid_0",
-                        "type": "valid"
+                        "type": "valid",
+                        "m_name": "IP Valid Rx Data IN"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "util_ad9361_adc_pack/fifo_wr_data_0",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 0 OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "util_ad9361_adc_pack/fifo_wr_data_1",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 1 OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "util_ad9361_adc_pack/fifo_wr_data_2",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 2 OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "util_ad9361_adc_pack/fifo_wr_data_3",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 3 OUT"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_adc_fifo/dout_data_0",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 ADC Data I0"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_adc_fifo/dout_data_1",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 ADC Data Q0"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_adc_fifo/dout_data_2",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 ADC Data I1"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_adc_fifo/dout_data_3",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 ADC Data Q1"
                     }
                 ],
                 "tx": [
@@ -83,61 +92,71 @@
                         "input": "true",
                         "width": 1,
                         "name": "util_ad9361_dac_upack/fifo_rd_valid",
-                        "type": "valid"
+                        "type": "valid",
+                        "m_name": "IP Valid Tx Data IN"
                     },
                     {
                         "input": "false",
                         "width": 1,
                         "name": "axi_ad9361_dac_fifo/din_valid_in_0",
-                        "type": "valid"
+                        "type": "valid",
+                        "m_name": "IP Load Tx Data OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "axi_ad9361_dac_fifo/din_data_0",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 DAC Data I0"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "axi_ad9361_dac_fifo/din_data_1",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 DAC Data Q0"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "axi_ad9361_dac_fifo/din_data_2",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 DAC Data I1"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "axi_ad9361_dac_fifo/din_data_3",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 DAC Data Q1"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_dac_upack/fifo_rd_data_0",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 0 IN"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_dac_upack/fifo_rd_data_1",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 1 IN"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_dac_upack/fifo_rd_data_2",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 2 IN"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_dac_upack/fifo_rd_data_3",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 3 IN"
                     }
                 ]
             }
@@ -163,61 +182,71 @@
                         "input": "false",
                         "width": 1,
                         "name": "util_ad9361_adc_pack/fifo_wr_en",
-                        "type": "valid"
+                        "type": "valid",
+                        "m_name": "IP Data Valid OUT"
                     },
                     {
                         "input": "true",
                         "width": 1,
                         "name": "util_ad9361_adc_fifo/dout_valid_0",
-                        "type": "valid"
+                        "type": "valid",
+                        "m_name": "IP Valid Rx Data IN"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "util_ad9361_adc_pack/fifo_wr_data_0",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 0 OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "util_ad9361_adc_pack/fifo_wr_data_1",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 1 OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "util_ad9361_adc_pack/fifo_wr_data_2",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 2 OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "util_ad9361_adc_pack/fifo_wr_data_3",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 3 OUT"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_adc_fifo/dout_data_0",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9364 ADC Data I0"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_adc_fifo/dout_data_1",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9364 ADC Data Q0"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_adc_fifo/dout_data_2",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9364 ADC Data I1"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_adc_fifo/dout_data_3",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9364 ADC Data Q1"
                     }
                 ],
                 "tx": [
@@ -225,61 +254,71 @@
                         "input": "true",
                         "width": 1,
                         "name": "util_ad9361_dac_upack/fifo_rd_valid",
-                        "type": "valid"
+                        "type": "valid",
+                        "m_name": "IP Valid Tx Data IN"
                     },
                     {
                         "input": "false",
                         "width": 1,
                         "name": "axi_ad9361_dac_fifo/din_valid_in_0",
-                        "type": "valid"
+                        "type": "valid",
+                        "m_name": "IP Load Tx Data OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "axi_ad9361_dac_fifo/din_data_0",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9364 DAC Data I0"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "axi_ad9361_dac_fifo/din_data_1",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9364 DAC Data Q0"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "axi_ad9361_dac_fifo/din_data_2",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9364 DAC Data I1"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "axi_ad9361_dac_fifo/din_data_3",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9364 DAC Data Q1"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_dac_upack/fifo_rd_data_0",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 0 IN"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_dac_upack/fifo_rd_data_1",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 1 IN"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_dac_upack/fifo_rd_data_2",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 2 IN"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_dac_upack/fifo_rd_data_3",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 3 IN"
                     }
                 ]
             }
@@ -301,37 +340,43 @@
                         "input": "false",
                         "width": 1,
                         "name": "cpack/fifo_wr_en",
-                        "type": "valid"
+                        "type": "valid",
+                        "m_name": "IP Data Valid OUT"
                     },
                     {
                         "input": "true",
                         "width": 1,
                         "name": "axi_ad9361/adc_valid_i0",
-                        "type": "valid"
+                        "type": "valid",
+                        "m_name": "IP Valid Rx Data IN"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "cpack/fifo_wr_data_0",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 0 OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "cpack/fifo_wr_data_1",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 1 OUT"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "axi_ad9361/adc_data_i0",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 ADC Data I0"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "axi_ad9361/adc_data_q0",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 ADC Data Q0"
                     }
                 ],
                 "tx": [
@@ -339,37 +384,36 @@
                         "input": "true",
                         "width": 1,
                         "name": "tx_upack/fifo_rd_valid",
-                        "type": "valid"
-                    },
-                    {
-                        "input": "false",
-                        "width": 1,
-                        "name": "logic_or/Op1",
-                        "type": "valid"
+                        "type": "valid",
+                        "m_name": "IP Valid Tx Data IN"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "axi_ad9361/dac_data_i0",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 DAC Data I0"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "axi_ad9361/dac_data_q0",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 DAC Data Q0"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "tx_upack/fifo_rd_data_0",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 0 IN"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "tx_upack/fifo_rd_data_1",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 1 IN"
                     }
                 ]
             }
@@ -396,61 +440,71 @@
                         "input": "false",
                         "width": 1,
                         "name": "util_ad9361_adc_pack/fifo_wr_en",
-                        "type": "valid"
+                        "type": "valid",
+                        "m_name": "IP Data Valid OUT"
                     },
                     {
                         "input": "true",
                         "width": 1,
                         "name": "util_ad9361_adc_fifo/dout_valid_0",
-                        "type": "valid"
+                        "type": "valid",
+                        "m_name": "IP Valid Rx Data IN"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "util_ad9361_adc_pack/fifo_wr_data_0",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 0 OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "util_ad9361_adc_pack/fifo_wr_data_1",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 1 OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "util_ad9361_adc_pack/fifo_wr_data_2",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 2 OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "util_ad9361_adc_pack/fifo_wr_data_3",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 3 OUT"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_adc_fifo/dout_data_0",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 ADC Data I0"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_adc_fifo/dout_data_1",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 ADC Data Q0"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_adc_fifo/dout_data_2",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 ADC Data I1"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_adc_fifo/dout_data_3",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 ADC Data Q1"
                     }
                 ],
                 "tx": [
@@ -458,61 +512,71 @@
                         "input": "true",
                         "width": 1,
                         "name": "util_ad9361_dac_upack/fifo_rd_valid",
-                        "type": "valid"
+                        "type": "valid",
+                        "m_name": "IP Valid Tx Data IN"
                     },
                     {
                         "input": "false",
                         "width": 1,
                         "name": "axi_ad9361_dac_fifo/din_valid_in_0",
-                        "type": "valid"
+                        "type": "valid",
+                        "m_name": "IP Load Tx Data OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "axi_ad9361_dac_fifo/din_data_0",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 DAC Data I0"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "axi_ad9361_dac_fifo/din_data_1",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 DAC Data Q0"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "axi_ad9361_dac_fifo/din_data_2",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 DAC Data I1"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "axi_ad9361_dac_fifo/din_data_3",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 DAC Data Q1"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_dac_upack/fifo_rd_data_0",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 0 IN"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_dac_upack/fifo_rd_data_1",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 1 IN"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_dac_upack/fifo_rd_data_2",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 2 IN"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_dac_upack/fifo_rd_data_3",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 3 IN"
                     }
                 ]
             }
@@ -537,109 +601,127 @@
                         "input": "false",
                         "width": 1,
                         "name": "util_ad9361_adc_pack/fifo_wr_en",
-                        "type": "valid"
+                        "type": "valid",
+                        "m_name": "IP Data Valid OUT"
                     },
                     {
                         "input": "true",
                         "width": 1,
                         "name": "util_ad9361_adc_fifo/dout_valid_0",
-                        "type": "valid"
+                        "type": "valid",
+                        "m_name": "IP Valid Rx Data IN"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "util_ad9361_adc_pack/fifo_wr_data_0",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 0 OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "util_ad9361_adc_pack/fifo_wr_data_1",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 1 OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "util_ad9361_adc_pack/fifo_wr_data_2",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 2 OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "util_ad9361_adc_pack/fifo_wr_data_3",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 3 OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "util_ad9361_adc_pack/fifo_wr_data_4",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 4 OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "util_ad9361_adc_pack/fifo_wr_data_5",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 5 OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "util_ad9361_adc_pack/fifo_wr_data_6",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 6 OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "util_ad9361_adc_pack/fifo_wr_data_7",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 7 OUT"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_adc_fifo/dout_data_0",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 ADC Data I0"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_adc_fifo/dout_data_1",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 ADC Data Q0"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_adc_fifo/dout_data_2",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 ADC Data I1"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_adc_fifo/dout_data_3",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 ADC Data Q1"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_adc_fifo/dout_data_4",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 ADC Data I2"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_adc_fifo/dout_data_5",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 ADC Data Q2"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_adc_fifo/dout_data_6",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 ADC Data I3"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_adc_fifo/dout_data_7",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 ADC Data Q3"
                     }
                 ],
                 "tx": [
@@ -647,109 +729,127 @@
                         "input": "true",
                         "width": 1,
                         "name": "util_ad9361_dac_upack/fifo_rd_valid",
-                        "type": "valid"
+                        "type": "valid",
+                        "m_name": "IP Valid Tx Data IN"
                     },
                     {
                         "input": "false",
                         "width": 1,
                         "name": "axi_ad9361_dac_fifo/din_valid_in_0",
-                        "type": "valid"
+                        "type": "valid",
+                        "m_name": "IP Load Tx Data OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "axi_ad9361_dac_fifo/din_data_0",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 DAC Data I0"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "axi_ad9361_dac_fifo/din_data_1",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 DAC Data Q0"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "axi_ad9361_dac_fifo/din_data_2",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 DAC Data I1"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "axi_ad9361_dac_fifo/din_data_3",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 DAC Data Q1"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "axi_ad9361_axi_ad9361_dac_fifo/din_data_4",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 DAC Data I2"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "axi_ad9361_axi_ad9361_dac_fifo/din_data_5",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 DAC Data Q2"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "axi_ad9361_axi_ad9361_dac_fifo/din_data_6",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 DAC Data I3"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "axi_ad9361_axi_ad9361_dac_fifo/din_data_7",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9361 DAC Data Q3"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_dac_upack/fifo_rd_data_0",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 0 IN"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_dac_upack/fifo_rd_data_1",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 1 IN"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_dac_upack/fifo_rd_data_2",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 2 IN"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_dac_upack/fifo_rd_data_3",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 3 IN"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_dac_upack/fifo_rd_data_4",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 4 IN"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_dac_upack/fifo_rd_data_5",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 5 IN"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_dac_upack/fifo_rd_data_6",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 6 IN"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "util_ad9361_dac_upack/fifo_rd_data_7",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 7 IN"
                     }
                 ]
             }
@@ -774,61 +874,71 @@
                         "input": "false",
                         "width": 1,
                         "name": "util_ad9371_rx_cpack/fifo_wr_en",
-                        "type": "valid"
+                        "type": "valid",
+                        "m_name": "IP Data Valid OUT"
                     },
                     {
                         "input": "true",
                         "width": 1,
                         "name": "rx_ad9371_tpl_core/adc_valid_0",
-                        "type": "valid"
+                        "type": "valid",
+                        "m_name": "IP Valid Rx Data IN"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "util_ad9371_rx_cpack/fifo_wr_data_0",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 0 OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "util_ad9371_rx_cpack/fifo_wr_data_1",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 1 OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "util_ad9371_rx_cpack/fifo_wr_data_2",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 2 OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "util_ad9371_rx_cpack/fifo_wr_data_3",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 3 OUT"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "rx_ad9371_tpl_core/adc_data_0",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9371 ADC Data I0"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "rx_ad9371_tpl_core/adc_data_1",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9371 ADC Data Q0"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "rx_ad9371_tpl_core/adc_data_2",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9371 ADC Data I1"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "rx_ad9371_tpl_core/adc_data_3",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9371 ADC Data Q1"
                     }
                 ],
                 "tx": [
@@ -836,61 +946,71 @@
                         "input": "true",
                         "width": 1,
                         "name": "util_ad9371_tx_upack/fifo_rd_valid",
-                        "type": "valid"
+                        "type": "valid",
+                        "m_name": "IP Valid Tx Data IN"
                     },
                     {
                         "input": "false",
                         "width": 1,
                         "name": "util_ad9371_tx_upack/fifo_rd_en",
-                        "type": "valid"
+                        "type": "valid",
+                        "m_name": "IP Load Tx Data OUT"
                     },
                     {
                         "input": "false",
                         "width": 32,
                         "name": "tx_ad9371_tpl_core/dac_data_0",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9371 DAC Data I0"
                     },
                     {
                         "input": "false",
                         "width": 32,
                         "name": "tx_ad9371_tpl_core/dac_data_1",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9371 DAC Data Q0"
                     },
                     {
                         "input": "false",
                         "width": 32,
                         "name": "tx_ad9371_tpl_core/dac_data_2",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9371 DAC Data I1"
                     },
                     {
                         "input": "false",
                         "width": 32,
                         "name": "tx_ad9371_tpl_core/dac_data_3",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "AD9371 DAC Data Q1"
                     },
                     {
                         "input": "true",
                         "width": 32,
                         "name": "util_ad9371_tx_upack/fifo_rd_data_0",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 0 IN"
                     },
                     {
                         "input": "true",
                         "width": 32,
                         "name": "util_ad9371_tx_upack/fifo_rd_data_1",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 1 IN"
                     },
                     {
                         "input": "true",
                         "width": 32,
                         "name": "util_ad9371_tx_upack/fifo_rd_data_2",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 2 IN"
                     },
                     {
                         "input": "true",
                         "width": 32,
                         "name": "util_ad9371_tx_upack/fifo_rd_data_3",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 3 IN"
                     }
                 ]
             }
@@ -905,7 +1025,8 @@
         "supported_rd": [
             "rx",
             "tx",
-            "rx & tx"
+            "rx & tx",
+            "tx & rx"
         ],
         "ports": [
             {
@@ -913,124 +1034,144 @@
                     {
                         "input": "false",
                         "width": 1,
-                        "name": "util_adc_1_pack/fifo_wr_en",
-                        "type": "valid"
+                        "name": "sync_output/data_valid_in_rx_0",
+                        "type": "valid",
+                        "m_name": "IP Data Valid OUT"
                     },
                     {
                         "input": "true",
                         "width": 1,
-                        "name": "axi_adrv9001/adc_1_valid_i0",
-                        "type": "valid"
+                        "name": "sync_input/data_valid_out_rx_0",
+                        "type": "valid",
+                        "m_name": "IP Valid Rx Data IN"
                     },
                     {
                         "input": "false",
                         "width": 16,
-                        "name": "util_adc_1_pack/fifo_wr_data_0",
-                        "type": "data"
+                        "name": "sync_output/data_in_rx_0",
+                        "type": "data",
+                        "m_name": "IP Data 0 OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
-                        "name": "util_adc_1_pack/fifo_wr_data_1",
-                        "type": "data"
+                        "name": "sync_output/data_in_rx_1",
+                        "type": "data",
+                        "m_name": "IP Data 1 OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
-                        "name": "util_adc_1_pack/fifo_wr_data_2",
-                        "type": "data"
+                        "name": "sync_output/data_in_rx_2",
+                        "type": "data",
+                        "m_name": "IP Data 2 OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
-                        "name": "util_adc_1_pack/fifo_wr_data_3",
-                        "type": "data"
+                        "name": "sync_output/data_in_rx_3",
+                        "type": "data",
+                        "m_name": "IP Data 3 OUT"
                     },
                     {
                         "input": "true",
                         "width": 16,
-                        "name": "axi_adrv9001/adc_1_data_i0",
-                        "type": "data"
+                        "name": "sync_input/data_out_rx_0",
+                        "type": "data",
+                        "m_name": "ADRV9002 ADC Data I0"
                     },
                     {
                         "input": "true",
                         "width": 16,
-                        "name": "axi_adrv9001/adc_1_data_i1",
-                        "type": "data"
+                        "name": "sync_input/data_out_rx_1",
+                        "type": "data",
+                        "m_name": "ADRV9002 ADC Data Q0"
                     },
                     {
                         "input": "true",
                         "width": 16,
-                        "name": "axi_adrv9001/adc_1_data_q0",
-                        "type": "data"
+                        "name": "sync_input/data_out_rx_2",
+                        "type": "data",
+                        "m_name": "ADRV9002 ADC Data I1"
                     },
                     {
                         "input": "true",
                         "width": 16,
-                        "name": "axi_adrv9001/adc_1_data_q1",
-                        "type": "data"
+                        "name": "sync_input/data_out_rx_3",
+                        "type": "data",
+                        "m_name": "ADRV9002 ADC Data Q1"
                     }
                 ],
                 "tx": [
                     {
                         "input": "true",
                         "width": 1,
-                        "name": "util_dac_1_upack/fifo_rd_valid",
-                        "type": "valid"
+                        "name": "sync_input/data_valid_out_tx_0",
+                        "type": "valid",
+                        "m_name": "IP Valid Tx Data IN"
                     },
                     {
                         "input": "false",
                         "width": 1,
-                        "name": "util_dac_1_upack/fifo_rd_en",
-                        "type": "valid"
+                        "name": "sync_output/data_valid_in_tx_0",
+                        "type": "valid",
+                        "m_name": "IP Load Tx Data OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
-                        "name": "axi_adrv9001/dac_1_data_i0",
-                        "type": "data"
+                        "name": "sync_output/data_in_tx_0",
+                        "type": "data",
+                        "m_name": "ADRV9002 DAC Data I0"
                     },
                     {
                         "input": "false",
                         "width": 16,
-                        "name": "axi_adrv9001/dac_1_data_i1",
-                        "type": "data"
+                        "name": "sync_output/data_in_tx_1",
+                        "type": "data",
+                        "m_name": "ADRV9002 DAC Data Q0"
                     },
                     {
                         "input": "false",
                         "width": 16,
-                        "name": "axi_adrv9001/dac_1_data_q0",
-                        "type": "data"
+                        "name": "sync_output/data_in_tx_2",
+                        "type": "data",
+                        "m_name": "ADRV9002 DAC Data I1"
                     },
                     {
                         "input": "false",
                         "width": 16,
-                        "name": "axi_adrv9001/dac_1_data_q1",
-                        "type": "data"
+                        "name": "sync_output/data_in_tx_3",
+                        "type": "data",
+                        "m_name": "ADRV9002 DAC Data Q1"
                     },
                     {
                         "input": "true",
                         "width": 16,
-                        "name": "util_dac_1_upack/fifo_rd_data_0",
-                        "type": "data"
+                        "name": "sync_input/data_out_tx_0",
+                        "type": "data",
+                        "m_name": "IP Data 0 IN"
                     },
                     {
                         "input": "true",
                         "width": 16,
-                        "name": "util_dac_1_upack/fifo_rd_data_1",
-                        "type": "data"
+                        "name": "sync_input/data_out_tx_1",
+                        "type": "data",
+                        "m_name": "IP Data 1 IN"
                     },
                     {
                         "input": "true",
                         "width": 16,
-                        "name": "util_dac_1_upack/fifo_rd_data_2",
-                        "type": "data"
+                        "name": "sync_input/data_out_tx_2",
+                        "type": "data",
+                        "m_name": "IP Data 2 IN"
                     },
                     {
                         "input": "true",
                         "width": 16,
-                        "name": "util_dac_1_upack/fifo_rd_data_3",
-                        "type": "data"
+                        "name": "sync_input/data_out_tx_3",
+                        "type": "data",
+                        "m_name": "IP Data 3 IN"
                     }
                 ]
             }
@@ -1055,61 +1196,71 @@
                         "input": "false",
                         "width": 1,
                         "name": "util_adrv9009_rx_cpack/fifo_wr_en",
-                        "type": "valid"
+                        "type": "valid",
+                        "m_name": "IP Data Valid OUT"
                     },
                     {
                         "input": "true",
                         "width": 1,
                         "name": "rx_adrv9009_tpl_core/adc_valid_0",
-                        "type": "valid"
+                        "type": "valid",
+                        "m_name": "IP Valid Rx Data IN"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "util_adrv9009_rx_cpack/fifo_wr_data_0",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 0 OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "util_adrv9009_rx_cpack/fifo_wr_data_1",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 1 OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "util_adrv9009_rx_cpack/fifo_wr_data_2",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 2 OUT"
                     },
                     {
                         "input": "false",
                         "width": 16,
                         "name": "util_adrv9009_rx_cpack/fifo_wr_data_3",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 3 OUT"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "rx_adrv9009_tpl_core/adc_data_0",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "ADRV9009 ADC Data I0"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "rx_adrv9009_tpl_core/adc_data_1",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "ADRV9009 ADC Data Q0"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "rx_adrv9009_tpl_core/adc_data_2",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "ADRV9009 ADC Data I1"
                     },
                     {
                         "input": "true",
                         "width": 16,
                         "name": "rx_adrv9009_tpl_core/adc_data_3",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "ADRV9009 ADC Data Q1"
                     }
                 ],
                 "tx": [
@@ -1117,61 +1268,608 @@
                         "input": "true",
                         "width": 1,
                         "name": "util_adrv9009_tx_upack/fifo_rd_valid",
-                        "type": "valid"
+                        "type": "valid",
+                        "m_name": "IP Valid Tx Data IN"
                     },
                     {
                         "input": "false",
                         "width": 1,
                         "name": "util_adrv9009_tx_upack/fifo_rd_en",
-                        "type": "valid"
+                        "type": "valid",
+                        "m_name": "IP Load Tx Data OUT"
                     },
                     {
                         "input": "false",
                         "width": 32,
                         "name": "tx_adrv9009_tpl_core/dac_data_0",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "ADRV9009 DAC Data I0"
                     },
                     {
                         "input": "false",
                         "width": 32,
                         "name": "tx_adrv9009_tpl_core/dac_data_1",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "ADRV9009 DAC Data Q0"
                     },
                     {
                         "input": "false",
                         "width": 32,
                         "name": "tx_adrv9009_tpl_core/dac_data_2",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "ADRV9009 DAC Data I1"
                     },
                     {
                         "input": "false",
                         "width": 32,
                         "name": "tx_adrv9009_tpl_core/dac_data_3",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "ADRV9009 DAC Data Q1"
                     },
                     {
                         "input": "true",
                         "width": 32,
                         "name": "util_adrv9009_tx_upack/fifo_rd_data_0",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 0 IN"
                     },
                     {
                         "input": "true",
                         "width": 32,
                         "name": "util_adrv9009_tx_upack/fifo_rd_data_1",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 1 IN"
                     },
                     {
                         "input": "true",
                         "width": 32,
                         "name": "util_adrv9009_tx_upack/fifo_rd_data_2",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 2 IN"
                     },
                     {
                         "input": "true",
                         "width": 32,
                         "name": "util_adrv9009_tx_upack/fifo_rd_data_3",
-                        "type": "data"
+                        "type": "data",
+                        "m_name": "IP Data 3 IN"
+                    }
+                ]
+            }
+        ]
+    },
+    "fmcomms8": {
+        "chip": "ADRV9009",
+        "complex": "true",
+        "fpga": [
+            "zcu102"
+        ],
+        "supported_rd": [
+            "rx",
+            "tx",
+            "rx & tx"
+        ],
+        "ports": [
+            {
+                "rx": [
+                    {
+                        "input": "false",
+                        "width": 1,
+                        "name": "util_fmc_rx_cpack/fifo_wr_en",
+                        "type": "valid",
+                        "m_name": "IP Data Valid OUT"
+                    },
+                    {
+                        "input": "true",
+                        "width": 1,
+                        "name": "rx_adrv9009_fmc_tpl_core/adc_valid_0",
+                        "type": "valid",
+                        "m_name": "IP Valid Rx Data IN"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "util_fmc_rx_cpack/fifo_wr_data_0",
+                        "type": "data",
+                        "m_name": "IP Data 0 OUT"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "util_fmc_rx_cpack/fifo_wr_data_1",
+                        "type": "data",
+                        "m_name": "IP Data 1 OUT"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "util_fmc_rx_cpack/fifo_wr_data_2",
+                        "type": "data",
+                        "m_name": "IP Data 2 OUT"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "util_fmc_rx_cpack/fifo_wr_data_3",
+                        "type": "data",
+                        "m_name": "IP Data 3 OUT"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "util_fmc_rx_cpack/fifo_wr_data_4",
+                        "type": "data",
+                        "m_name": "IP Data 4 OUT"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "util_fmc_rx_cpack/fifo_wr_data_5",
+                        "type": "data",
+                        "m_name": "IP Data 5 OUT"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "util_fmc_rx_cpack/fifo_wr_data_6",
+                        "type": "data",
+                        "m_name": "IP Data 6 OUT"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "util_fmc_rx_cpack/fifo_wr_data_7",
+                        "type": "data",
+                        "m_name": "IP Data 7 OUT"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "rx_adrv9009_fmc_tpl_core/adc_data_0",
+                        "type": "data",
+                        "m_name": "ADRV9009 ADC Data I0"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "rx_adrv9009_fmc_tpl_core/adc_data_1",
+                        "type": "data",
+                        "m_name": "ADRV9009 ADC Data Q0"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "rx_adrv9009_fmc_tpl_core/adc_data_2",
+                        "type": "data",
+                        "m_name": "ADRV9009 ADC Data I1"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "rx_adrv9009_fmc_tpl_core/adc_data_3",
+                        "type": "data",
+                        "m_name": "ADRV9009 ADC Data Q1"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "rx_adrv9009_fmc_tpl_core/adc_data_4",
+                        "type": "data",
+                        "m_name": "ADRV9009 ADC Data I2"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "rx_adrv9009_fmc_tpl_core/adc_data_5",
+                        "type": "data",
+                        "m_name": "ADRV9009 ADC Data Q2"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "rx_adrv9009_fmc_tpl_core/adc_data_6",
+                        "type": "data",
+                        "m_name": "ADRV9009 ADC Data I3"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "rx_adrv9009_fmc_tpl_core/adc_data_7",
+                        "type": "data",
+                        "m_name": "ADRV9009 ADC Data Q3"
+                    }
+                ],
+                "tx": [
+                    {
+                        "input": "true",
+                        "width": 1,
+                        "name": "util_fmc_tx_upack/fifo_rd_valid",
+                        "type": "valid",
+                        "m_name": "IP Valid Tx Data IN"
+                    },
+                    {
+                        "input": "false",
+                        "width": 32,
+                        "name": "tx_adrv9009_fmc_tpl_core/dac_data_0",
+                        "type": "data",
+                        "m_name": "ADRV9009 DAC Data I0"
+                    },
+                    {
+                        "input": "false",
+                        "width": 32,
+                        "name": "tx_adrv9009_fmc_tpl_core/dac_data_1",
+                        "type": "data",
+                        "m_name": "ADRV9009 DAC Data Q0"
+                    },
+                    {
+                        "input": "false",
+                        "width": 32,
+                        "name": "tx_adrv9009_fmc_tpl_core/dac_data_2",
+                        "type": "data",
+                        "m_name": "ADRV9009 DAC Data I1"
+                    },
+                    {
+                        "input": "false",
+                        "width": 32,
+                        "name": "tx_adrv9009_fmc_tpl_core/dac_data_3",
+                        "type": "data",
+                        "m_name": "ADRV9009 DAC Data Q1"
+                    },
+                    {
+                        "input": "false",
+                        "width": 32,
+                        "name": "tx_adrv9009_fmc_tpl_core/dac_data_4",
+                        "type": "data",
+                        "m_name": "ADRV9009 DAC Data I2"
+                    },
+                    {
+                        "input": "false",
+                        "width": 32,
+                        "name": "tx_adrv9009_fmc_tpl_core/dac_data_5",
+                        "type": "data",
+                        "m_name": "ADRV9009 DAC Data Q2"
+                    },
+                    {
+                        "input": "false",
+                        "width": 32,
+                        "name": "tx_adrv9009_fmc_tpl_core/dac_data_6",
+                        "type": "data",
+                        "m_name": "ADRV9009 DAC Data I3"
+                    },
+                    {
+                        "input": "false",
+                        "width": 32,
+                        "name": "tx_adrv9009_fmc_tpl_core/dac_data_7",
+                        "type": "data",
+                        "m_name": "ADRV9009 DAC Data Q3"
+                    },
+                    {
+                        "input": "true",
+                        "width": 32,
+                        "name": "util_fmc_tx_upack/fifo_rd_data_0",
+                        "type": "data",
+                        "m_name": "IP Data 0 IN"
+                    },
+                    {
+                        "input": "true",
+                        "width": 32,
+                        "name": "util_fmc_tx_upack/fifo_rd_data_1",
+                        "type": "data",
+                        "m_name": "IP Data 1 IN"
+                    },
+                    {
+                        "input": "true",
+                        "width": 32,
+                        "name": "util_fmc_tx_upack/fifo_rd_data_2",
+                        "type": "data",
+                        "m_name": "IP Data 2 IN"
+                    },
+                    {
+                        "input": "true",
+                        "width": 32,
+                        "name": "util_fmc_tx_upack/fifo_rd_data_3",
+                        "type": "data",
+                        "m_name": "IP Data 3 IN"
+                    },
+                    {
+                        "input": "true",
+                        "width": 32,
+                        "name": "util_fmc_tx_upack/fifo_rd_data_4",
+                        "type": "data",
+                        "m_name": "IP Data 4 IN"
+                    },
+                    {
+                        "input": "true",
+                        "width": 32,
+                        "name": "util_fmc_tx_upack/fifo_rd_data_5",
+                        "type": "data",
+                        "m_name": "IP Data 5 IN"
+                    },
+                    {
+                        "input": "true",
+                        "width": 32,
+                        "name": "util_fmc_tx_upack/fifo_rd_data_6",
+                        "type": "data",
+                        "m_name": "IP Data 6 IN"
+                    },
+                    {
+                        "input": "true",
+                        "width": 32,
+                        "name": "util_fmc_tx_upack/fifo_rd_data_7",
+                        "type": "data",
+                        "m_name": "IP Data 7 IN"
+                    }
+                ]
+            }
+        ]
+    },
+    "adrv9009zu11eg": {
+        "chip": "ADRV9009",
+        "complex": "true",
+        "fpga": [
+            "adrv2crr_fmc"
+        ],
+        "supported_rd": [
+            "rx",
+            "tx",
+            "rx & tx"
+        ],
+        "ports": [
+            {
+                "rx": [
+                    {
+                        "input": "false",
+                        "width": 1,
+                        "name": "util_som_rx_cpack/fifo_wr_en",
+                        "type": "valid",
+                        "m_name": "IP Data Valid OUT"
+                    },
+                    {
+                        "input": "true",
+                        "width": 1,
+                        "name": "rx_adrv9009_som_tpl_core/adc_valid_0",
+                        "type": "valid",
+                        "m_name": "IP Valid Rx Data IN"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "util_som_rx_cpack/fifo_wr_data_0",
+                        "type": "data",
+                        "m_name": "IP Data 0 OUT"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "util_som_rx_cpack/fifo_wr_data_1",
+                        "type": "data",
+                        "m_name": "IP Data 1 OUT"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "util_som_rx_cpack/fifo_wr_data_2",
+                        "type": "data",
+                        "m_name": "IP Data 2 OUT"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "util_som_rx_cpack/fifo_wr_data_3",
+                        "type": "data",
+                        "m_name": "IP Data 3 OUT"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "util_som_rx_cpack/fifo_wr_data_4",
+                        "type": "data",
+                        "m_name": "IP Data 4 OUT"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "util_som_rx_cpack/fifo_wr_data_5",
+                        "type": "data",
+                        "m_name": "IP Data 5 OUT"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "util_som_rx_cpack/fifo_wr_data_6",
+                        "type": "data",
+                        "m_name": "IP Data 6 OUT"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "util_som_rx_cpack/fifo_wr_data_7",
+                        "type": "data",
+                        "m_name": "IP Data 7 OUT"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "rx_adrv9009_som_tpl_core/adc_data_0",
+                        "type": "data",
+                        "m_name": "ADRV9009 ADC Data I0"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "rx_adrv9009_som_tpl_core/adc_data_1",
+                        "type": "data",
+                        "m_name": "ADRV9009 ADC Data Q0"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "rx_adrv9009_som_tpl_core/adc_data_2",
+                        "type": "data",
+                        "m_name": "ADRV9009 ADC Data I1"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "rx_adrv9009_som_tpl_core/adc_data_3",
+                        "type": "data",
+                        "m_name": "ADRV9009 ADC Data Q1"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "rx_adrv9009_som_tpl_core/adc_data_4",
+                        "type": "data",
+                        "m_name": "ADRV9009 ADC Data I2"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "rx_adrv9009_som_tpl_core/adc_data_5",
+                        "type": "data",
+                        "m_name": "ADRV9009 ADC Data Q2"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "rx_adrv9009_som_tpl_core/adc_data_6",
+                        "type": "data",
+                        "m_name": "ADRV9009 ADC Data I3"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "rx_adrv9009_som_tpl_core/adc_data_7",
+                        "type": "data",
+                        "m_name": "ADRV9009 ADC Data Q3"
+                    }
+                ],
+                "tx": [
+                    {
+                        "input": "true",
+                        "width": 1,
+                        "name": "util_som_tx_upack/fifo_rd_valid",
+                        "type": "valid",
+                        "m_name": "IP Valid Tx Data IN"
+                    },
+                    {
+                        "input": "false",
+                        "width": 1,
+                        "name": "util_som_tx_upack/fifo_rd_en",
+                        "type": "valid",
+                        "m_name": "IP Load Tx Data OUT"
+                    },
+                    {
+                        "input": "false",
+                        "width": 32,
+                        "name": "tx_adrv9009_som_tpl_core/dac_data_0",
+                        "type": "data",
+                        "m_name": "ADRV9009 DAC Data I0"
+                    },
+                    {
+                        "input": "false",
+                        "width": 32,
+                        "name": "tx_adrv9009_som_tpl_core/dac_data_1",
+                        "type": "data",
+                        "m_name": "ADRV9009 DAC Data Q0"
+                    },
+                    {
+                        "input": "false",
+                        "width": 32,
+                        "name": "tx_adrv9009_som_tpl_core/dac_data_2",
+                        "type": "data",
+                        "m_name": "ADRV9009 DAC Data I1"
+                    },
+                    {
+                        "input": "false",
+                        "width": 32,
+                        "name": "tx_adrv9009_som_tpl_core/dac_data_3",
+                        "type": "data",
+                        "m_name": "ADRV9009 DAC Data Q1"
+                    },
+                    {
+                        "input": "false",
+                        "width": 32,
+                        "name": "tx_adrv9009_som_tpl_core/dac_data_4",
+                        "type": "data",
+                        "m_name": "ADRV9009 DAC Data I2"
+                    },
+                    {
+                        "input": "false",
+                        "width": 32,
+                        "name": "tx_adrv9009_som_tpl_core/dac_data_5",
+                        "type": "data",
+                        "m_name": "ADRV9009 DAC Data Q2"
+                    },
+                    {
+                        "input": "false",
+                        "width": 32,
+                        "name": "tx_adrv9009_som_tpl_core/dac_data_6",
+                        "type": "data",
+                        "m_name": "ADRV9009 DAC Data I3"
+                    },
+                    {
+                        "input": "false",
+                        "width": 32,
+                        "name": "tx_adrv9009_som_tpl_core/dac_data_7",
+                        "type": "data",
+                        "m_name": "ADRV9009 DAC Data Q3"
+                    },
+                    {
+                        "input": "true",
+                        "width": 32,
+                        "name": "util_som_tx_upack/fifo_rd_data_0",
+                        "type": "data",
+                        "m_name": "IP Data 0 IN"
+                    },
+                    {
+                        "input": "true",
+                        "width": 32,
+                        "name": "util_som_tx_upack/fifo_rd_data_1",
+                        "type": "data",
+                        "m_name": "IP Data 1 IN"
+                    },
+                    {
+                        "input": "true",
+                        "width": 32,
+                        "name": "util_som_tx_upack/fifo_rd_data_2",
+                        "type": "data",
+                        "m_name": "IP Data 2 IN"
+                    },
+                    {
+                        "input": "true",
+                        "width": 32,
+                        "name": "util_som_tx_upack/fifo_rd_data_3",
+                        "type": "data",
+                        "m_name": "IP Data 3 IN"
+                    },
+                    {
+                        "input": "true",
+                        "width": 32,
+                        "name": "util_som_tx_upack/fifo_rd_data_4",
+                        "type": "data",
+                        "m_name": "IP Data 4 IN"
+                    },
+                    {
+                        "input": "true",
+                        "width": 32,
+                        "name": "util_som_tx_upack/fifo_rd_data_5",
+                        "type": "data",
+                        "m_name": "IP Data 5 IN"
+                    },
+                    {
+                        "input": "true",
+                        "width": 32,
+                        "name": "util_som_tx_upack/fifo_rd_data_6",
+                        "type": "data",
+                        "m_name": "IP Data 6 IN"
+                    },
+                    {
+                        "input": "true",
+                        "width": 32,
+                        "name": "util_som_tx_upack/fifo_rd_data_7",
+                        "type": "data",
+                        "m_name": "IP Data 7 IN"
                     }
                 ]
             }

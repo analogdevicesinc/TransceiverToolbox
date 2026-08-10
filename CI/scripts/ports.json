@@ -6,8 +6,7 @@
             "ccbob_cmos",
             "ccbob_lvds",
             "ccbox_lvds",
-            "ccfmc_lvds",
-            "ccpackrf_lvds"
+            "ccfmc_lvds"
         ],
         "supported_rd": [
             "rx",
@@ -900,7 +899,7 @@
             "rx",
             "tx",
             "rx & tx",
-			"tx & rx"
+            "tx & rx"
         ],
         "ports": [
             {
@@ -1396,6 +1395,242 @@
                         "input": "true",
                         "width": 32,
                         "name": "util_fmc_tx_upack/fifo_rd_data_7",
+                        "type": "data"
+                    }
+                ]
+            }
+        ]
+    },
+    "adrv9009zu11eg": {
+        "chip": "ADRV9009",
+        "complex": "true",
+        "fpga": [
+            "adrv2crr_fmc"
+        ],
+        "supported_rd": [
+            "rx",
+            "tx",
+            "rx & tx"
+        ],
+        "ports": [
+            {
+                "rx": [
+                    {
+                        "input": "false",
+                        "width": 1,
+                        "name": "util_som_rx_cpack/fifo_wr_en",
+                        "type": "valid"
+                    },
+                    {
+                        "input": "true",
+                        "width": 1,
+                        "name": "rx_adrv9009_som_tpl_core/adc_valid_0",
+                        "type": "valid"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "util_som_rx_cpack/fifo_wr_data_0",
+                        "type": "data"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "util_som_rx_cpack/fifo_wr_data_1",
+                        "type": "data"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "util_som_rx_cpack/fifo_wr_data_2",
+                        "type": "data"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "util_som_rx_cpack/fifo_wr_data_3",
+                        "type": "data"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "util_som_rx_cpack/fifo_wr_data_4",
+                        "type": "data"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "util_som_rx_cpack/fifo_wr_data_5",
+                        "type": "data"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "util_som_rx_cpack/fifo_wr_data_6",
+                        "type": "data"
+                    },
+                    {
+                        "input": "false",
+                        "width": 16,
+                        "name": "util_som_rx_cpack/fifo_wr_data_7",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "rx_adrv9009_som_tpl_core/adc_data_0",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "rx_adrv9009_som_tpl_core/adc_data_1",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "rx_adrv9009_som_tpl_core/adc_data_2",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "rx_adrv9009_som_tpl_core/adc_data_3",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "rx_adrv9009_som_tpl_core/adc_data_4",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "rx_adrv9009_som_tpl_core/adc_data_5",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "rx_adrv9009_som_tpl_core/adc_data_6",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 16,
+                        "name": "rx_adrv9009_som_tpl_core/adc_data_7",
+                        "type": "data"
+                    }
+                ],
+                "tx": [
+                    {
+                        "input": "true",
+                        "width": 1,
+                        "name": "util_som_tx_upack/fifo_rd_valid",
+                        "type": "valid"
+                    },
+                    {
+                        "input": "false",
+                        "width": 1,
+                        "name": "util_som_tx_upack/fifo_rd_en",
+                        "type": "valid"
+                    },
+                    {
+                        "input": "false",
+                        "width": 32,
+                        "name": "tx_adrv9009_som_tpl_core/dac_data_0",
+                        "type": "data"
+                    },
+                    {
+                        "input": "false",
+                        "width": 32,
+                        "name": "tx_adrv9009_som_tpl_core/dac_data_1",
+                        "type": "data"
+                    },
+                    {
+                        "input": "false",
+                        "width": 32,
+                        "name": "tx_adrv9009_som_tpl_core/dac_data_2",
+                        "type": "data"
+                    },
+                    {
+                        "input": "false",
+                        "width": 32,
+                        "name": "tx_adrv9009_som_tpl_core/dac_data_3",
+                        "type": "data"
+                    },
+                    {
+                        "input": "false",
+                        "width": 32,
+                        "name": "tx_adrv9009_som_tpl_core/dac_data_4",
+                        "type": "data"
+                    },
+                    {
+                        "input": "false",
+                        "width": 32,
+                        "name": "tx_adrv9009_som_tpl_core/dac_data_5",
+                        "type": "data"
+                    },
+                    {
+                        "input": "false",
+                        "width": 32,
+                        "name": "tx_adrv9009_som_tpl_core/dac_data_6",
+                        "type": "data"
+                    },
+                    {
+                        "input": "false",
+                        "width": 32,
+                        "name": "tx_adrv9009_som_tpl_core/dac_data_7",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 32,
+                        "name": "util_som_tx_upack/fifo_rd_data_0",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 32,
+                        "name": "util_som_tx_upack/fifo_rd_data_1",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 32,
+                        "name": "util_som_tx_upack/fifo_rd_data_2",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 32,
+                        "name": "util_som_tx_upack/fifo_rd_data_3",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 32,
+                        "name": "util_som_tx_upack/fifo_rd_data_4",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 32,
+                        "name": "util_som_tx_upack/fifo_rd_data_5",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 32,
+                        "name": "util_som_tx_upack/fifo_rd_data_6",
+                        "type": "data"
+                    },
+                    {
+                        "input": "true",
+                        "width": 32,
+                        "name": "util_som_tx_upack/fifo_rd_data_7",
                         "type": "data"
                     }
                 ]

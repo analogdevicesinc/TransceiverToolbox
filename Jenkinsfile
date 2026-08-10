@@ -3,12 +3,12 @@
 flags = gitParseFlags()
 
 dockerConfig = getDockerConfig(['MATLAB','Vivado','Internal'], matlabHSPro=false)
-dockerConfig.add("-e MLRELEASE=R2023b")
+dockerConfig.add("-e MLRELEASE=R2025b")
 dockerHost = 'docker'
 
 ////////////////////////////
 
-hdlBranches = ['main','hdl_2022_r2']
+hdlBranches = ['main','hdl_2026_r1']
 
 stage("Build Toolbox") {
     dockerParallelBuild(hdlBranches, dockerHost, dockerConfig) { 
@@ -24,14 +24,14 @@ stage("Build Toolbox") {
 		    sh 'make -C ./CI/scripts gen_tlbx'
 		}
         } catch(Exception ex) {
-		if (branchName == 'hdl_2022_r2') {
+		if (branchName == 'hdl_2026_r1') {
 		    error('Production Toolbox Build Failed')
 		}
 		else {
 		    unstable('Development Build Failed')
 		}
         }
-        if (branchName == 'hdl_2022_r2') {
+        if (branchName == 'hdl_2026_r1') {
             local_stash('builtSources')
             archiveArtifacts artifacts: 'hdl/*', followSymlinks: false, allowEmptyArchive: true
         }
@@ -45,10 +45,10 @@ boardNames = [
     'fmcomms2_zc702','fmcomms5_zc702',
     'fmcomms2_zc706','fmcomms5_zc706','adrv9371x_zc706','adrv9009_zc706',
     'fmcomms2_zcu102','adrv9002_zcu102','adrv9009_zcu102','adrv9371x_zcu10','fmcomms8_zcu102',
-    'adrv9361z7035_ccbob_cmos','adrv9361z7035_ccbob_lvds','adrv9361z7035_ccfmc_lvds','adrv9361z7035_ccpackrf_lvds',
+    'adrv9361z7035_ccbob_cmos','adrv9361z7035_ccbob_lvds','adrv9361z7035_ccfmc_lvds',
     'adrv9364z7020_ccbob_cmos','adrv9364z7020_ccbob_lvds',
     'pluto']
-dockerConfig.add("-e HDLBRANCH=hdl_2022_r2")
+dockerConfig.add("-e HDLBRANCH=hdl_2026_r1")
 
 cstage("HDL Tests", "", flags) {
     dockerParallelBuild(boardNames, dockerHost, dockerConfig) { 
@@ -91,7 +91,7 @@ for (int i=0; i < demoNames.size(); i++) {
         nodeLabel = 'baremetal && high_memory';
     deployments[demo] = { node(nodeLabel) {
         stage("Demo Tests") {
-            withEnv(['DEMO='+demo,'MLRELEASE=R2023b','HDLBRANCH=hdl_2022_r2','LC_ALL=C.UTF-8','LANG=C.UTF-8']) {
+            withEnv(['DEMO='+demo,'MLRELEASE=R2025b','HDLBRANCH=hdl_2026_r1','LC_ALL=C.UTF-8','LANG=C.UTF-8']) {
                 try {
                     stage(demo) {
                         echo "Node: ${env.NODE_NAME}"

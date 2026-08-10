@@ -43,6 +43,23 @@ switch lower(project)
             otherwise
                 error('Unknown reference design');
         end
+    case 'adrv9009zu11eg'
+        % core_clk_a/core_clk_b are top-level BD ports (there is no clkgen in
+        % this design).  The DUT clock must match whatever preprocess_bd wires
+        % onto the CPU SmartConnect's aclk1, or ps8 reports a CLK_DOMAIN
+        % mismatch on the reserved master port.
+        switch(upper(design))
+            case {'RX','RX & TX'}
+                hRD.addClockInterface( ...
+                    'ClockConnection',   'core_clk_b', ...
+                    'ResetConnection',   'sys_rstgen/peripheral_aresetn');
+            case 'TX'
+                hRD.addClockInterface( ...
+                    'ClockConnection',   'core_clk_a', ...
+                    'ResetConnection',   'sys_rstgen/peripheral_aresetn');
+            otherwise
+                error('Unknown reference design');
+        end
     case 'fmcomms8'
         switch(upper(design))
             case 'RX'

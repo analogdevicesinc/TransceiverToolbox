@@ -40,6 +40,13 @@ switch lower(project)
                 hB.FPGASpeed    = '';
                 hB.FPGAFamily   = 'Zynq';
         end
+    case 'adrv9009-zu11eg'
+        % ADRV9009-ZU11EG SOM on the ADRV2CRR-FMC carrier.  Part matches
+        % projects/adrv9009zu11eg/adrv2crr_fmc/system_project.tcl.
+        hB.FPGADevice   = sprintf('xc%s', 'zu11eg-ffvf1517-2-i');
+        hB.FPGAPackage  = '';
+        hB.FPGASpeed    = '';
+        hB.FPGAFamily   = 'Zynq UltraScale+';
     case {'adrv9009','fmcomms8'}
         switch(upper(board))
         	case 'ZC706'

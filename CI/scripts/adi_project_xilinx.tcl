@@ -311,6 +311,163 @@ proc adi_project_files {project_name project_files} {
   set_property top system_top [current_fileset]
 }
 
+## Build the GT transceiver-wizard helper project and return the paths of the
+## generated config files.
+#
+# Grafted from upstream hdl_2026_r1 projects/scripts/adi_project_xilinx.tcl.
+# The JESD reference designs (adrv9009, adrv9371x) call this from their
+# system_project.tcl; without it they fail with `invalid command name
+# "adi_xcvr_project"`.
+#
+# Deviation from upstream: the `make` sub-build is launched with the MATLAB
+# build markers stripped from the environment. This proc shells out to a
+# *separate* Vivado run that sources this same script; if it inherits MATLAB
+# mode it skips create_project and dies with
+# "ERROR: [Coretcl 2-88] No projects are currently open".
+#
+# \param[parameters_for_make] - key/value list forwarded to the wizard makefile
+#
+proc adi_xcvr_project {parameters_for_make} {
+
+  global ad_hdl_dir
+
+  set project_name "xcvr_wizard"
+  set current_dir [pwd]
+  set carrier_name [file tail $current_dir]
+
+  switch $carrier_name {
+    "zc706" {
+      set xcvr_type GTXE2
+    }
+    "kc705" {
+      set xcvr_type GTXE2
+    }
+    "zed" {
+      set xcvr_type GTXE2
+    }
+    "vc707" {
+      set xcvr_type GTXE2
+    }
+    "kcu105" {
+      set xcvr_type GTHE3
+    }
+    "zcu102" {
+      set xcvr_type GTHE4
+    }
+    "vcu118" {
+      set xcvr_type GTYE4
+    }
+    "vcu128" {
+      set xcvr_type GTYE4
+    }
+    default {
+      puts "ERROR adi_project_make: Unsupported carrier (device)."
+      return 1
+    }
+  }
+
+  set make_command "make"
+  set adi_project_dir_path [file join $ad_hdl_dir/projects $project_name $carrier_name]
+  cd $adi_project_dir_path
+
+  set adi_dir_env ""
+  if {[info exists ::env(ADI_PROJECT_DIR)] && $::env(ADI_PROJECT_DIR) ne ""} {
+    set adi_dir_env [file tail [string trimright $::env(ADI_PROJECT_DIR) "/"]]
+  }
+
+  set gt_xcvr_file {}
+
+  if {[llength $parameters_for_make] > 0} {
+
+    set formatted_params {}
+
+    foreach {key value} $parameters_for_make {
+        lappend formatted_params "$key=$value"
+        set key_parsed [string map {"LANE_" "" "_" ""} $key]
+        set value_parrsed [string map {. _} $value]
+        set ad_project_make_params($key) $value_parrsed
+        set tok "${key_parsed}${value_parrsed}"
+
+        if {$adi_dir_env eq "" || ![regexp "(^|_)${tok}(_|$)" $adi_dir_env]} {
+          set gt_xcvr_file [linsert $gt_xcvr_file 0 "$tok"]
+        }
+    }
+
+    append make_command " " [join $formatted_params " "]
+    set gt_xcvr_file [join  $gt_xcvr_file "_"]
+    set config_parser_dir_name "${xcvr_type}_${ad_project_make_params(PLL_TYPE)}_${ad_project_make_params(LANE_RATE)}_${ad_project_make_params(REF_CLK)}"
+    set file_local_param [string tolower $config_parser_dir_name]
+    append file_local_param "_common.v"
+  }
+
+  # The wizard sub-project must build as a normal standalone project. Drop the
+  # MATLAB / skip-synthesis markers for the duration of the exec, then restore
+  # them so the outer HDL Coder build is unaffected.
+  set _saved_env [dict create]
+  foreach _v {MATLAB ADI_MATLAB SKIP_SYNTHESIS ADI_SKIP_SYNTHESIS} {
+    if {[info exists ::env($_v)]} {
+      dict set _saved_env $_v $::env($_v)
+      unset ::env($_v)
+    }
+  }
+  set _rc [catch {eval exec $make_command} _res _opts]
+  dict for {_v _val} $_saved_env {
+    set ::env($_v) $_val
+  }
+  if {$_rc} {
+    cd $current_dir
+    return -options $_opts $_res
+  }
+
+  cd $current_dir
+
+  # Upstream places the wizard project under a per-config subdirectory derived
+  # from ADI_PROJECT_DIR / the make parameters. This fork's adi_project_create
+  # does not implement ADI_PROJECT_DIR, so Vivado writes the project straight
+  # into the carrier folder instead. Probe for the upstream layout first and
+  # fall back to the flat one, so the proc works either way.
+  #
+  # The flat layout means differently-parameterised wizard builds would share
+  # one project directory. That is fine here: HDL Coder builds one design per
+  # run in a fresh temporary project folder.
+  set _candidates {}
+  if {$adi_dir_env ne ""} {
+      if {$gt_xcvr_file eq ""} {
+        lappend _candidates "${::env(ADI_PROJECT_DIR)}${project_name}_${carrier_name}.gen"
+      } else {
+        lappend _candidates "$gt_xcvr_file\_$::env(ADI_PROJECT_DIR)${project_name}_${carrier_name}.gen"
+      }
+  } elseif {$gt_xcvr_file ne ""} {
+      lappend _candidates "$gt_xcvr_file/${project_name}_${carrier_name}.gen"
+  }
+  lappend _candidates "${project_name}_${carrier_name}.gen"
+
+  set _base $adi_project_dir_path
+  set adi_project_dir_path ""
+  foreach _c $_candidates {
+    set _try "$_base/$_c/sources_1/ip/${xcvr_type}_cfng.txt"
+    if {[file exists $_try]} {
+      set adi_project_dir_path $_try
+      break
+    }
+  }
+  if {$adi_project_dir_path eq ""} {
+    # Nothing found; report the upstream-shaped path so the error names the
+    # location that was expected.
+    set adi_project_dir_path "$_base/[lindex $_candidates 0]/sources_1/ip/${xcvr_type}_cfng.txt"
+  }
+  puts "adi_xcvr_project: using cfng file $adi_project_dir_path"
+
+  set config_dir_path [file dirname $adi_project_dir_path]
+  set file_local_param_path ""
+
+  if {$xcvr_type == "GTXE2"} {
+    set file_local_param_path [file join $config_dir_path $config_parser_dir_name $file_local_param]
+  }
+
+  return [dict create "cfng_file_path" $adi_project_dir_path "param_file_path" $file_local_param_path]
+}
+
 ## Run an existing project (generate bit stream).
 #
 # \param[project_name] - name of the project

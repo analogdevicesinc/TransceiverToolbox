@@ -4,7 +4,9 @@ function hRD = plugin_rd(project, board, design)
 %   Copyright 2014-2015 The MathWorks, Inc.
 
 if (strcmpi(project, 'fmcomms2'))
-    pname = 'FMCOMMS2/3';    
+    pname = 'FMCOMMS2/3';
+elseif (strcmpi(project, 'adrv9009zu11eg'))
+    pname = 'ADRV9009-ZU11EG';
 else
     pname = upper(project);
 end
@@ -41,8 +43,8 @@ else
 end
 
 % Tool information
-%hRD.SupportedToolVersion = {adi.Version.Vivado}; % FIXME
-hRD.SupportedToolVersion = {'2022.2'};
+%hRD.SupportedToolVersion = {'2025.1'};
+hRD.SupportedToolVersion = {'2025.1'};
 
 % Get the root directory
 rootDir = fileparts(strtok(mfilename('fullpath'), '+'));
@@ -84,6 +86,13 @@ if contains(project, 'adrv936')
         fullfile('projects', lower(ppath), 'common', strcat(board_type{1}, '_constr.xdc')), ...
         fullfile('projects', lower(ppath), 'common', strcat(lower(ppath), '_constr.xdc')), ...
         fullfile('projects', lower(ppath), 'common', strcat(lower(ppath), '_constr_', board_type{2}, '.xdc')), ...
+        };
+elseif strcmpi(project, 'adrv9009zu11eg')
+    % The ZU11EG SOM keeps every constraint in projects/adrv9009zu11eg/common;
+    % there is no per-carrier system_constr.xdc and no projects/common/<carrier>.
+    hRD.CustomConstraints = {...
+        fullfile('projects', 'adrv9009zu11eg', 'common', 'adrv9009zu11eg_constr.xdc'), ...
+        fullfile('projects', 'adrv9009zu11eg', 'common', 'adrv2crr_fmc_constr.xdc'), ...
         };
 elseif contains(project, 'pluto')
     hRD.CustomConstraints = {...
