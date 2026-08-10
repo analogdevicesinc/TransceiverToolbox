@@ -1,0 +1,42 @@
+## TransceiverToolbox HW-CI env for ADRV9009 + ZC706 via the `nemo`
+## remote place on the labgrid coordinator.
+##
+## Run locally:
+##   labgrid-client -x 10.0.0.41:20408 -p nemo acquire
+##   LG_COORDINATOR=10.0.0.41:20408 LG_ENV=test/hw/env/nemo.yaml \
+##       HW_DAUGHTER=adrv9009 \
+##       pytest test/hw/ -v
+##   labgrid-client -x 10.0.0.41:20408 -p nemo release
+##
+## `adrv9009` is in features so `adi_lg_plugins.pytest_plugin` (auto-
+## registered) keeps tests whose `@pytest.mark.iio_hardware([...])`
+## includes that chip and skips the rest.
+##
+## Strategy: BootFPGASoCSSH. The board's SD carries a working Kuiper
+## image that auto-boots straight to Linux (root@analog:~#), so we
+## don't need to flash anything, JTAG-bootstrap U-Boot, or TFTP a
+## kernel — just power-cycle and wait for the Linux marker. The
+## conftest deliberately calls `transition("booted")` (NOT "shell")
+## so the strategy's SSH file-update path is skipped.
+
+targets:
+  main:
+    features:
+      - adrv9009
+      - zc706
+    resources:
+      RemotePlace:
+        name: nemo
+    drivers:
+      HomeAssistantPowerDriver: {}
+      SerialDriver: {}
+      ADIShellDriver:
+        prompt: 'root@.*'
+        login_prompt: 'analog login: '
+        username: 'root'
+        password: 'analog'
+      KuiperDLDriver: {}
+      SSHDriver: {}
+      BootFPGASoCSSH:
+        reached_linux_marker: 'analog'
+        wait_for_linux_prompt_timeout: 180

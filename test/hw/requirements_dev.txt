@@ -1,0 +1,18 @@
+# Hardware-CI Python dependencies for TransceiverToolbox.
+#
+# Installed by the hardware-test workflow into a uv-managed venv on
+# each `hw-<place>` runner. Used by `test/hw/conftest.py` (labgrid
+# boot lifecycle) and the per-board bridge tests (subprocess-launch
+# `runHWTests`).
+#
+# `[kuiper]` extra pulls in pytsk3 (manylinux wheels), which
+# KuiperDLDriver / ImageExtractor use to extract uImage + devicetree
+# from the cached Kuiper SD image during the `BootFPGASoCTFTP` boot.
+#
+# Pin to @v2: the same ref used by every other ADI HW-CI consumer.
+# Fast-forward `v2` from `main` when upstream labgrid-plugins changes
+# need to land in the lab.
+
+pytest>=7
+pyyaml
+adi-labgrid-plugins[kuiper] @ git+https://github.com/tfcollins/labgrid-plugins.git@v2

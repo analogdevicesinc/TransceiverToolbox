@@ -1,0 +1,34 @@
+## TransceiverToolbox HW-CI env for ADRV9371 + ZC706 via the `bq`
+## remote place on the labgrid coordinator.
+##
+## Run locally:
+##   labgrid-client -x 10.0.0.41:20408 -p bq acquire
+##   LG_COORDINATOR=10.0.0.41:20408 LG_ENV=test/hw/env/bq.yaml \
+##       HW_DAUGHTER=adrv9371 \
+##       pytest test/hw/ -v
+##   labgrid-client -x 10.0.0.41:20408 -p bq release
+##
+## Same shape as nemo.yaml — only the daughter board (features +
+## marker) and the RemotePlace name differ.
+
+targets:
+  main:
+    features:
+      - adrv9371
+      - zc706
+    resources:
+      RemotePlace:
+        name: bq
+    drivers:
+      HomeAssistantPowerDriver: {}
+      SerialDriver: {}
+      ADIShellDriver:
+        prompt: 'root@.*'
+        login_prompt: 'analog login: '
+        username: 'root'
+        password: 'analog'
+      KuiperDLDriver: {}
+      SSHDriver: {}
+      BootFPGASoCSSH:
+        reached_linux_marker: 'analog'
+        wait_for_linux_prompt_timeout: 180
