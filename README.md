@@ -43,29 +43,46 @@ and honor the `IIO_URI` environment variable. They assume the board is already
 powered, booted, and reachable.
 
 [adi-labgrid-plugins](https://github.com/analogdevicesinc/adi-labgrid-plugins)
-can provision that board automatically — power it, boot the FPGA/SoC, and hand
-MATLAB the booted board's URI — both locally and in GitHub Actions, via the
-`adi-lg-matlab` launcher.
+provisions that board automatically — power, boot the FPGA/SoC, verify iiod
+is up, hand MATLAB the URI — both locally and in GitHub Actions.
 
-The mapping from a labgrid place (tagged with `carrier` / `daughter-board`) to
-the MATLAB board reference name that `runHWTests` expects lives in
+### CI triggers
+
+Hardware CI runs via
+[`.github/workflows/hw-matlab-request.yml`](.github/workflows/hw-matlab-request.yml)
+(reusable `matlab-hw-request.yml@v3`):
+
+- **Nightly** — `0 5 * * *` UTC (offset from bespoke `hw-matlab.yml` at 08:00).
+- **Push to `master`**.
+- **`workflow_dispatch`** — manual trigger from the Actions UI.
+- **Pull request** — only when the PR carries the `hw-test` label (add it to
+  request a hardware run on your branch).
+
+Both `hw-matlab.yml` (legacy) and `hw-matlab-request.yml` (v3) run in parallel
+during the migration window.
+
+### Board map
+
+The mapping from a labgrid coordinator place (tagged `carrier` /
+`daughter-board` / `hdl-config`) to the MATLAB board string that
+`runHWTests(board)` expects lives in
 [`test/hw_ci/board_map.yaml`](test/hw_ci/board_map.yaml).
+The most-specific matching row wins; a row without `carrier` is a
+carrier-agnostic fallback. Keep this file in sync with the `switch` in
+`test/runHWTests.m` when adding boards.
 
-Run locally against a coordinator place:
+### Local repro
+
+Request a board from the coordinator, boot it, and run the tests locally:
 
 ```bash
-pip install "adi-labgrid-plugins @ git+https://github.com/tfcollins/labgrid-plugins.git@v2"
-
-adi-lg-matlab run \
-    --coord $LG_COORDINATOR --place mini2 \
-    --board-map test/hw_ci/board_map.yaml \
-    --repo-dir . --matlab /opt/MATLAB/R2025b/bin/matlab \
-    --junit junit-mini2.xml --acquire
+adi-lg request --part <part> --carrier <carrier> --wait 300 \
+  --run "matlab -batch \"addpath(genpath('hdl')); addpath(genpath('test')); runHWTests('<matlab_board>')\""
 ```
 
-This boots the board, sets `IIO_URI`, runs `runHWTests`, copies the JUnit
-results, and releases the place. The GitHub Actions equivalent is
-[`.github/workflows/hw-matlab.yml`](.github/workflows/hw-matlab.yml). See the
+Replace `<part>`, `<carrier>`, and `<matlab_board>` with values from
+`test/hw_ci/board_map.yaml` (e.g. `adrv9009`, `zcu102`,
+`zynqmp-zcu102-rev10-adrv9009`). See the
 [MATLAB Hardware CI guide](https://adi-labgrid-plugins.readthedocs.io/en/latest/user-guide/matlab-hw-ci.html)
-for details.
+for full coordinator setup details.
 

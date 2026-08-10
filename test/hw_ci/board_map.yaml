@@ -1,11 +1,11 @@
-# TransceiverToolbox board map for labgrid HW-CI (adi-lg-matlab).
+# TransceiverToolbox board map for labgrid HW-CI (matlab-hw-request.yml@v3 / adi-lg-hw-ci matlab-matrix).
 #
 # Maps a labgrid coordinator place's tags -> the MATLAB board reference
 # name that `runHWTests(board)` understands (the values in the `switch`
-# in test/runHWTests.m). adi-lg-matlab uses this to translate a booted
-# place into the right `board` argument.
+# in test/runHWTests.m). matlab-hw-request.yml@v3 uses this to translate
+# a booted place into the right `board` argument.
 #
-# Matching rules (see adi_lg_plugins.matlab_ci.board_map):
+# Matching rules (see adi_lg_plugins.hw_ci.board_map):
 #   * `daughter-board` is required and matched against the place's
 #     `daughter-board` tag.
 #   * `carrier` / `hdl-config`, when present, must also match the place's

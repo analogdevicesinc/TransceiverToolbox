@@ -1,0 +1,46 @@
+name: Hardware Tests (matlab-hw-request v3.5)
+
+# Successor to the bespoke hw-matlab.yml, running side-by-side during the
+# migration window (staggered cron). Discovery intersects
+# test/hw_ci/board_map.yaml with live coordinator places; each leg boots
+# via the place's boot-strategy tag (iiod-verified, bounded retry), runs
+# runHWTests(<matlab_board>) against $IIO_URI, and parses the JUnit for
+# pass/fail (MATLAB exit-code quirks tolerated, all-skipped = success).
+
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+  pull_request:
+    types: [labeled, opened, synchronize, reopened]
+  schedule:
+    - cron: "0 5 * * *"   # bespoke runs at 08:00; pyadi repos take 04:00/04:30
+
+jobs:
+  hw-matlab:
+    if: >-
+      github.event_name != 'pull_request' ||
+      contains(github.event.pull_request.labels.*.name, 'hw-test')
+    uses: tfcollins/labgrid-plugins/.github/workflows/matlab-hw-request.yml@v3.5
+    with:
+      coordinator: ${{ vars.LG_COORDINATOR }}     # gRPC :20408, NOT :8000
+      board-map: "test/hw_ci/board_map.yaml"
+      runner-label: ${{ vars.HW_REQUEST_RUNNER }}
+      preflight-runner-label: ${{ vars.HW_PREFLIGHT_RUNNER }}
+      matlab-bin: ${{ vars.MATLAB_BIN }}
+      prism-upload: ${{ vars.PRISM_UPLOAD_ENABLED == 'true' }}
+      prism-project: transceiver-toolbox
+      prism-upload-cmd: >-
+        python3 .github/scripts/prism_upload_run.py "$PRISM_JUNIT"
+        --url "$PRISM_URL" --project "$PRISM_PROJECT" --run-name "$PRISM_RUN_NAME"
+        --auto-create-project
+        --tag "board=$PRISM_BOARD" --tag "carrier=$PRISM_CARRIER"
+        --tag "place=$PRISM_PLACE" --tag "sha=$GITHUB_SHA"
+    secrets:
+      PRISM_EMAIL: ${{ secrets.PRISM_EMAIL }}
+      PRISM_PASSWORD: ${{ secrets.PRISM_PASSWORD }}
