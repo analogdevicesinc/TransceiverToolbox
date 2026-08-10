@@ -20,6 +20,7 @@ classdef DemoTests < TestAppGUI
             addpath(genpath(fullfile(here,'trx_examples/targeting/tuneAGC-ad9361/captures')));
             addpath(genpath(fullfile(here,'trx_examples/targeting/frequency-hopping')));
             addpath(genpath(fullfile(here,'trx_examples/targeting/loopback-delay-estimation')));
+            addpath(genpath(fullfile(here,'trx_examples/targeting/adsb-airplane-tracking')));
             addpath(genpath(fullfile(here,'hdl')));
         end
     end
@@ -64,6 +65,18 @@ classdef DemoTests < TestAppGUI
             here = fullfile(root, 'trx_examples' , 'targeting', 'tuneAGC-ad9361');
             copyfile("helperNoiseEstimate.m",here);
             cd(here);
+            hdlworkflow;
+            if ~isempty(out)
+                disp(out.message);
+            end
+            % Check for BOOT.BIN
+            if exist('hdl_prj/vivado_ip_prj/boot/BOOT.BIN', 'file') ~= 2
+                error('BOOT.BIN not found');
+            end
+        end
+        function buildHDLADSB(testCase)
+            testCase.setupVivado(adi.Version.Vivado);
+            cd(fullfile(testCase.root,'trx_examples/targeting/adsb-airplane-tracking'));
             hdlworkflow;
             if ~isempty(out)
                 disp(out.message);

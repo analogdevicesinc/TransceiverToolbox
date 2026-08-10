@@ -32,6 +32,14 @@ boards:
   - {carrier: zc706,  daughter-board: ad9364, matlab_board: zynq-zc706-adv7511-ad9364-fmcomms4}
   - {carrier: zed,    daughter-board: ad9364, matlab_board: zynq-zed-adv7511-ad9364-fmcomms4}
 
+  # --- ADRV9361-Z7035 (RF SOM; carrier tag names the ADI carrier card) ---
+  # `carrier: fmc` is the CCFMC-LVDS carrier used by the targeting examples
+  # under trx_examples/targeting/, including adsb-airplane-tracking.
+  - {carrier: fmc, daughter-board: adrv9361, matlab_board: zynq-adrv9361-z7035-fmc}
+  - {carrier: box, daughter-board: adrv9361, matlab_board: zynq-adrv9361-z7035-box}
+  - {carrier: bob, daughter-board: adrv9361, matlab_board: zynq-adrv9361-z7035-bob}
+  - {carrier: bob, daughter-board: adrv9361, hdl-config: cmos, matlab_board: zynq-adrv9361-z7035-bob-cmos}
+
   # --- FMComms5 (dual AD9361) ---
   - {carrier: zcu102, daughter-board: fmcomms5, matlab_board: zynqmp-zcu102-rev10-ad9361-fmcomms5}
   - {carrier: zc706,  daughter-board: fmcomms5, matlab_board: zynq-zc706-adv7511-ad9361-fmcomms5}

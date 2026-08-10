@@ -38,6 +38,7 @@ hdlsetuptoolpath('ToolName','Xilinx Vivado', ...
 
 Start from one of the worked examples under `trx_examples/targeting/`:
 
+- `adsb-airplane-tracking` — ADS-B airplane tracking on the ADRV9361-Z7035
 - `frequency-hopping` — frequency hopping on the ADRV9361-Z7035
 - `loopback-delay-estimation` — loopback delay estimation
 - `tuneAGC-ad9361` — AGC tuning for the AD9361
