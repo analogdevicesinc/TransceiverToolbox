@@ -2,7 +2,7 @@
 set -xe
 
 if [ -z "${HDLBRANCH}" ]; then
-HDLBRANCH='hdl_2022_r2'
+HDLBRANCH='hdl_2026_r1'
 fi
 
 # Script is designed to run from specific location
@@ -122,9 +122,11 @@ if [ -d "$TARGET" ]; then
 fi
 # Increase rx_clk period to fix timing failures for Pluto designs in R2021b
 sed -i 's/16.27/30/' hdl/projects/pluto/system_constr.xdc
-# update .mk to .prj in zc706_plddr3_dacfifo_bd.tcl
+# update .mk to .prj in zc706_plddr3_dacfifo_bd.tcl & zc706_plddr3_data_offload_bd.tcl
 sed -i 's/.mk/.prj/' hdl/projects/common/zc706/zc706_plddr3_dacfifo_bd.tcl
 sed -i '10i   file copy -force $ad_hdl_dir/projects/common/zc706/zc706_plddr3_mig.mk $ad_hdl_dir/projects/common/zc706/zc706_plddr3_mig.prj' hdl/projects/common/zc706/zc706_plddr3_dacfifo_bd.tcl
+sed -i 's/.mk/.prj/' hdl/projects/common/zc706/zc706_plddr3_data_offload_bd.tcl
+sed -i '12i   file copy -force $ad_hdl_dir/projects/common/zc706/zc706_plddr3_mig.mk $ad_hdl_dir/projects/common/zc706/zc706_plddr3_mig.prj' hdl/projects/common/zc706/zc706_plddr3_data_offload_bd.tcl
 # Update ADRV9001 design to include util_sync as dependent IP
 sed -i '23i   # Custom Sync IP' hdl/projects/adrv9001/zcu102/Makefile
 sed -i '24i   LIB_DEPS += util_sync/util_delay' hdl/projects/adrv9001/zcu102/Makefile
