@@ -3,7 +3,7 @@ lock(label: 'adgt_test_harness_boards', quantity: 1){
     @Library('sdgtt-lib@adgt-test-harness') _ // Not necessary when we turn on global libraries :)
     def hdlBranch = "NA"
     def linuxBranch = "NA"
-    def bootPartitionBranch = "2022_r2"
+    def bootPartitionBranch = "2026_r1"
     def firmwareVersion = 'v0.34'
     def bootfile_source = 'artifactory' // options: sftp, artifactory, http, local
     def harness = getGauntlet(hdlBranch, linuxBranch, bootPartitionBranch, firmwareVersion, bootfile_source)
@@ -17,7 +17,7 @@ lock(label: 'adgt_test_harness_boards', quantity: 1){
     // harness.set_env('telemetry_repo', 'http://gateway.englab:3000/mirrors/telemetry.git')
     // harness.set_env('telemetry_branch', 'master')
     harness.set_env('matlab_repo', 'https://github.com/analogdevicesinc/TransceiverToolbox.git') // Not necessary when using checkout scm
-    harness.set_env('matlab_release','R2023b')
+    harness.set_env('matlab_release','R2025b')
     harness.set_env('matlab_license','network')
     harness.set_matlab_timeout('8m')
   
