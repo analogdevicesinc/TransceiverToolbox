@@ -62,22 +62,29 @@ switch board
         end
     case {"socfpga_arria10_socdk_adrv9009", ...
             "zynqmp-zcu102-rev10-adrv9009", ...
-            "zynq-zc706-adv7511-adrv9009", ...
-            "zynqmp-adrv9009-zu11eg-revb-adrv2crr-fmc-revb"}
+            "zynq-zc706-adv7511-adrv9009"}
         at = 'ADRV9009';
+    case {"zynqmp-adrv9009-zu11eg-revb-adrv2crr-fmc-revb"}
+        at = 'ADRV9009ZU11EG';
     case {"zynqmp-zcu102-rev10-adrv9009-fmcomms8"}
         at = 'FMComms8';
     otherwise
         error('%s unsupported for HW test harness', board);
 end
 ats = {'AD9361Tests','AD9363Tests','AD9364Tests','FMComms5Tests',...
-        'AD9371Tests','ADRV9002Tests','ADRV9009Tests','FMComms8Tests'};
+        'AD9371Tests','ADRV9002Tests','ADRV9009Tests','ADRV9009ZU11EGTests',...
+        'FMComms8Tests'};
 
 if nargin == 0
     suite = testsuite(ats);
 else
     suite = testsuite(ats);
     suite = selectIf(suite,HasProcedureName(ContainsSubstring(at,'IgnoringCase',true)));
+    if strcmp(at,'ADRV9009')
+        % ADRV9009ZU11EGTests method names also contain "ADRV9009"; keep the
+        % ZU11EG-only tests out of the plain ADRV9009 board runs.
+        suite = selectIf(suite,~HasProcedureName(ContainsSubstring('ZU11EG','IgnoringCase',true)));
+    end
 end
 
 if useNTags

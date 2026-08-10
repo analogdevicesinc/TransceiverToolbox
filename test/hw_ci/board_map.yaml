@@ -50,6 +50,10 @@ boards:
   - {carrier: zcu102, daughter-board: adrv9009, matlab_board: zynqmp-zcu102-rev10-adrv9009}
   - {carrier: zc706,  daughter-board: adrv9009, matlab_board: zynq-zc706-adv7511-adrv9009}
 
+  # --- ADRV9009-ZU11EG SOM (dual ADRV9009 on the ADRV2CRR-FMC carrier) ---
+  - {carrier: adrv2crr_fmc, daughter-board: adrv9009-zu11eg, matlab_board: zynqmp-adrv9009-zu11eg-revb-adrv2crr-fmc-revb}
+  - {daughter-board: adrv9009-zu11eg, matlab_board: zynqmp-adrv9009-zu11eg-revb-adrv2crr-fmc-revb}
+
   # --- FMComms8 (dual ADRV9009) ---
   - {carrier: zcu102, daughter-board: fmcomms8, matlab_board: zynqmp-zcu102-rev10-adrv9009-fmcomms8}
 
