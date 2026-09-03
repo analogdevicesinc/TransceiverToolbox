@@ -8,9 +8,9 @@
 
     <title>Receiving and Sending Data &#8212; Analog Devices, Inc. Transceiver Toolbox v22.2.1</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8e8a900e" />
-    <link rel="stylesheet" type="text/css" href="_static/app.min.css?v=cae2157c" />
+    <link rel="stylesheet" type="text/css" href="_static/app.min.css?v=fb8972a4" />
     <link rel="stylesheet" type="text/css" href="_static/css/style.css?v=373103a6" />
-    <script async="async" src="_static/app.umd.js?v=26d0298f"></script>
+    <script async="async" src="_static/app.umd.js?v=8c78863f"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.2.0/dist/mermaid-layout-elk.esm.min.mjs"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.2.0/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
@@ -540,6 +540,7 @@ Content on this topic
 <li class="toctree-l2"><a class="reference internal" href="_generated/hdlrefdesigns/adrv9002.html">ADRV9002 Reference Design Integration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="_generated/hdlrefdesigns/adrv9009.html">ADRV9009 Reference Design Integration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="_generated/hdlrefdesigns/fmcomms8.html">FMCOMMS8 Reference Design Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/hdlrefdesigns/adrv9009zu11eg.html">ADRV9009ZU11EG Reference Design Integration</a></li>
 </ul>
 </li>
 </ul>
@@ -578,7 +579,7 @@ Content on this topic
 <!-- vale Google.Quotes = YES -->
 <p>Below is a basic example of setting up an AD9361 receiver using an Ethernet/IP backend where the address of the target system is 192.168.2.1:</p>
 <div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="n">rx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">adi</span><span class="p">.</span><span class="n">AD9361</span><span class="p">.</span><span class="n">Rx</span><span class="p">;</span>
-<span class="linenos">2</span><span class="n">rx</span><span class="p">.</span><span class="n">uri</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;ip:192.168.2.1&#39;</span><span class="p">;</span>
+<span class="linenos">2</span><span class="n">rx</span><span class="p">.</span><span class="n">uri</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">'ip:192.168.2.1'</span><span class="p">;</span>
 <span class="linenos">3</span><span class="n">data</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">rx</span><span class="p">();</span>
 </pre></div>
 </div>
@@ -597,7 +598,7 @@ Content on this topic
 </div>
 <p>To provide a complete example we can do more advanced configuration like so to demonstrate property changes:</p>
 <div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="n">rx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">adi</span><span class="p">.</span><span class="n">AD9361</span><span class="p">.</span><span class="n">Rx</span><span class="p">;</span>
-<span class="linenos"> 2</span><span class="n">rx</span><span class="p">.</span><span class="n">uri</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;ip:192.168.2.1&#39;</span><span class="p">;</span>
+<span class="linenos"> 2</span><span class="n">rx</span><span class="p">.</span><span class="n">uri</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">'ip:192.168.2.1'</span><span class="p">;</span>
 <span class="linenos"> 3</span><span class="n">rx</span><span class="p">.</span><span class="n">SamplesPerFrame</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1024</span><span class="p">;</span>
 <span class="linenos"> 4</span><span class="n">rx</span><span class="p">.</span><span class="n">CenterFrequency</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">1e9</span><span class="p">;</span>
 <span class="linenos"> 5</span><span class="n">dataLO1</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">rx</span><span class="p">();</span>
@@ -657,14 +658,14 @@ Content on this topic
 </div>
 <p>One a vector is passed to the object with <strong>EnableCyclicBuffers</strong> set to <strong>true</strong>, the object will not accept future buffers unless first release or cleared.</p>
 <p>By default the system objects will utilize <strong>DMA</strong> as the source of data for the DACs, which will use data past from the operator. This can be set manually through the <strong>DataSource</strong> properties as follows:</p>
-<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">rx</span><span class="p">.</span><span class="n">DataSource</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;DMA&#39;</span><span class="p">;</span>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">rx</span><span class="p">.</span><span class="n">DataSource</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">'DMA'</span><span class="p">;</span>
 </pre></div>
 </div>
 </section>
 <section id="dds">
 <h2>DDS<a class="headerlink" href="#dds" title="Link to this heading"></a></h2>
 <p>Instead of providing data for transmission, it is possible to utilize DDSs inside the FPGA to send tones to individual DACs. For specific boards there are two DDS per DAC, which can be used to create complex (one-sided) tones. These DDSs can be used by first setting the <strong>DataSource</strong> property:</p>
-<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">rx</span><span class="p">.</span><span class="n">DataSource</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;DDS&#39;</span><span class="p">;</span>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">rx</span><span class="p">.</span><span class="n">DataSource</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">'DDS'</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>Then the scale, frequency, and phase of each DDS can be controlled through three attributes as follows:</p>

@@ -4,9 +4,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta content="This page outlines the HDL reference design integration for the ADRV9002 reference design for the Analog Devices ADRV9002 component. The IP-Core Generation follow is available on the based on the following base HDL reference design for the following board and design variants:" name="description" />
+<meta content="This page outlines the HDL reference design integration for the ADRV9009ZU11EG reference design for the Analog Devices ADRV9009 component. The IP-Core Generation follow is available on the based on the following base HDL reference design for the following board and design variants:" name="description" />
 
-    <title>ADRV9002 Reference Design Integration &#8212; Analog Devices, Inc. Transceiver Toolbox v22.2.1</title>
+    <title>ADRV9009ZU11EG Reference Design Integration &#8212; Analog Devices, Inc. Transceiver Toolbox v22.2.1</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8e8a900e" />
     <link rel="stylesheet" type="text/css" href="../../_static/app.min.css?v=fb8972a4" />
     <link rel="stylesheet" type="text/css" href="../../_static/css/style.css?v=373103a6" />
@@ -14,8 +14,8 @@
     <link rel="icon" href="../../_static/favicon.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="ADRV9009 Reference Design Integration" href="adrv9009.html" />
-    <link rel="prev" title="ADRV9371 Reference Design Integration" href="adrv9371.html" />
+    <link rel="next" title="HDL Workflow" href="../../dev_hdl_workflow.html" />
+    <link rel="prev" title="FMCOMMS8 Reference Design Integration" href="fmcomms8.html" />
    
   
   
@@ -94,7 +94,7 @@
         </div>
         <nav>
           <ul>
-<li><a class="reference internal" href="#">ADRV9002 Reference Design Integration</a><ul>
+<li><a class="reference internal" href="#">ADRV9009ZU11EG Reference Design Integration</a><ul>
 <li><a class="reference internal" href="#reference-design">Reference Design</a></li>
 <li><a class="reference internal" href="#hdl-workflow-advisor-port-mappings">HDL Workflow Advisor Port Mappings</a></li>
 </ul>
@@ -170,10 +170,10 @@ Content on this topic
 <li class="toctree-l2"><a class="reference internal" href="fmcomms2.html">FMCOMMS2 Reference Design Integration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fmcomms5.html">FMCOMMS5 Reference Design Integration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="adrv9371.html">ADRV9371 Reference Design Integration</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">ADRV9002 Reference Design Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adrv9002.html">ADRV9002 Reference Design Integration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="adrv9009.html">ADRV9009 Reference Design Integration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fmcomms8.html">FMCOMMS8 Reference Design Integration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="adrv9009zu11eg.html">ADRV9009ZU11EG Reference Design Integration</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">ADRV9009ZU11EG Reference Design Integration</a></li>
 </ul>
 </li>
 </ul>
@@ -199,15 +199,15 @@ Content on this topic
 </div>
           <div class="body" role="main">
             
-  <section id="adrv9002-reference-design-integration">
-<h1>ADRV9002 Reference Design Integration<a class="headerlink" href="#adrv9002-reference-design-integration" title="Link to this heading"></a></h1>
-<p>This page outlines the HDL reference design integration for the <em>ADRV9002</em> reference design for the Analog Devices
-ADRV9002 component. The IP-Core Generation follow is available on the based on the following base HDL reference design for the following board and design variants:</p>
+  <section id="adrv9009zu11eg-reference-design-integration">
+<h1>ADRV9009ZU11EG Reference Design Integration<a class="headerlink" href="#adrv9009zu11eg-reference-design-integration" title="Link to this heading"></a></h1>
+<p>This page outlines the HDL reference design integration for the <em>ADRV9009ZU11EG</em> reference design for the Analog Devices
+ADRV9009 component. The IP-Core Generation follow is available on the based on the following base HDL reference design for the following board and design variants:</p>
 <ul class="simple">
-<li><p><a class="icon link reference external" href="https://analogdevicesinc.github.io/hdl/projects/adrv9001/index.html" target="_blank">Base reference design documentation</a></p></li>
+<li><p><a class="icon link reference external" href="https://analogdevicesinc.github.io/hdl/projects/adrv9009zu11eg/index.html" target="_blank">Base reference design documentation</a></p></li>
 <li><p>Supported FPGA carriers:</p>
 <ul>
-<li><p>ZCU102</p></li>
+<li><p>ADRV2CRR_FMC</p></li>
 </ul>
 </li>
 <li><p>Supported design variants:</p>
@@ -215,14 +215,13 @@ ADRV9002 component. The IP-Core Generation follow is available on the based on t
 <li><p>RX</p></li>
 <li><p>TX</p></li>
 <li><p>RX &amp; TX</p></li>
-<li><p>TX &amp; RX</p></li>
 </ul>
 </li>
 </ul>
 <section id="reference-design">
 <h2>Reference Design<a class="headerlink" href="#reference-design" title="Link to this heading"></a></h2>
 <figure class="align-default" id="id1">
-<img alt="../../_images/rd_adrv9001_custom.svg" src="../../_images/rd_adrv9001_custom.svg" />
+<img alt="../../_images/rd_jesd_custom.svg" src="../../_images/rd_jesd_custom.svg" />
 <figcaption>
 <p><span class="caption-text">HDL Reference Design with Custom IP from HDL-Coder. Click on sub-blocks for more documentation.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
 </figcaption>
@@ -244,123 +243,219 @@ ADRV9002 component. The IP-Core Generation follow is available on the based on t
 </thead>
 <tbody>
 <tr class="row-even"><td><p>VALID-OUT</p></td>
-<td><p>IP Data Valid OUT</p></td>
-<td><p>sync_output/data_valid_in_rx_0</p></td>
+<td><p></p></td>
+<td><p>util_som_rx_cpack/fifo_wr_en</p></td>
 <td><p>1</p></td>
 <td><p>RX</p></td>
 </tr>
 <tr class="row-odd"><td><p>VALID-OUT</p></td>
-<td><p>IP Valid Rx Data IN</p></td>
-<td><p>sync_input/data_valid_out_rx_0</p></td>
+<td><p></p></td>
+<td><p>rx_adrv9009_som_tpl_core/adc_valid_0</p></td>
 <td><p>1</p></td>
 <td><p>RX</p></td>
 </tr>
 <tr class="row-even"><td><p>DATA-OUT</p></td>
-<td><p>IP Data 0 OUT</p></td>
-<td><p>sync_output/data_in_rx_0</p></td>
+<td><p></p></td>
+<td><p>util_som_rx_cpack/fifo_wr_data_0</p></td>
 <td><p>16</p></td>
 <td><p>RX</p></td>
 </tr>
 <tr class="row-odd"><td><p>DATA-OUT</p></td>
-<td><p>IP Data 1 OUT</p></td>
-<td><p>sync_output/data_in_rx_1</p></td>
+<td><p></p></td>
+<td><p>util_som_rx_cpack/fifo_wr_data_1</p></td>
 <td><p>16</p></td>
 <td><p>RX</p></td>
 </tr>
 <tr class="row-even"><td><p>DATA-OUT</p></td>
-<td><p>IP Data 2 OUT</p></td>
-<td><p>sync_output/data_in_rx_2</p></td>
+<td><p></p></td>
+<td><p>util_som_rx_cpack/fifo_wr_data_2</p></td>
 <td><p>16</p></td>
 <td><p>RX</p></td>
 </tr>
 <tr class="row-odd"><td><p>DATA-OUT</p></td>
-<td><p>IP Data 3 OUT</p></td>
-<td><p>sync_output/data_in_rx_3</p></td>
+<td><p></p></td>
+<td><p>util_som_rx_cpack/fifo_wr_data_3</p></td>
 <td><p>16</p></td>
 <td><p>RX</p></td>
 </tr>
 <tr class="row-even"><td><p>DATA-OUT</p></td>
-<td><p>ADRV9002 ADC Data I0</p></td>
-<td><p>sync_input/data_out_rx_0</p></td>
+<td><p></p></td>
+<td><p>util_som_rx_cpack/fifo_wr_data_4</p></td>
 <td><p>16</p></td>
 <td><p>RX</p></td>
 </tr>
 <tr class="row-odd"><td><p>DATA-OUT</p></td>
-<td><p>ADRV9002 ADC Data Q0</p></td>
-<td><p>sync_input/data_out_rx_1</p></td>
+<td><p></p></td>
+<td><p>util_som_rx_cpack/fifo_wr_data_5</p></td>
 <td><p>16</p></td>
 <td><p>RX</p></td>
 </tr>
 <tr class="row-even"><td><p>DATA-OUT</p></td>
-<td><p>ADRV9002 ADC Data I1</p></td>
-<td><p>sync_input/data_out_rx_2</p></td>
+<td><p></p></td>
+<td><p>util_som_rx_cpack/fifo_wr_data_6</p></td>
 <td><p>16</p></td>
 <td><p>RX</p></td>
 </tr>
 <tr class="row-odd"><td><p>DATA-OUT</p></td>
-<td><p>ADRV9002 ADC Data Q1</p></td>
-<td><p>sync_input/data_out_rx_3</p></td>
+<td><p></p></td>
+<td><p>util_som_rx_cpack/fifo_wr_data_7</p></td>
+<td><p>16</p></td>
+<td><p>RX</p></td>
+</tr>
+<tr class="row-even"><td><p>DATA-OUT</p></td>
+<td><p></p></td>
+<td><p>rx_adrv9009_som_tpl_core/adc_data_0</p></td>
+<td><p>16</p></td>
+<td><p>RX</p></td>
+</tr>
+<tr class="row-odd"><td><p>DATA-OUT</p></td>
+<td><p></p></td>
+<td><p>rx_adrv9009_som_tpl_core/adc_data_1</p></td>
+<td><p>16</p></td>
+<td><p>RX</p></td>
+</tr>
+<tr class="row-even"><td><p>DATA-OUT</p></td>
+<td><p></p></td>
+<td><p>rx_adrv9009_som_tpl_core/adc_data_2</p></td>
+<td><p>16</p></td>
+<td><p>RX</p></td>
+</tr>
+<tr class="row-odd"><td><p>DATA-OUT</p></td>
+<td><p></p></td>
+<td><p>rx_adrv9009_som_tpl_core/adc_data_3</p></td>
+<td><p>16</p></td>
+<td><p>RX</p></td>
+</tr>
+<tr class="row-even"><td><p>DATA-OUT</p></td>
+<td><p></p></td>
+<td><p>rx_adrv9009_som_tpl_core/adc_data_4</p></td>
+<td><p>16</p></td>
+<td><p>RX</p></td>
+</tr>
+<tr class="row-odd"><td><p>DATA-OUT</p></td>
+<td><p></p></td>
+<td><p>rx_adrv9009_som_tpl_core/adc_data_5</p></td>
+<td><p>16</p></td>
+<td><p>RX</p></td>
+</tr>
+<tr class="row-even"><td><p>DATA-OUT</p></td>
+<td><p></p></td>
+<td><p>rx_adrv9009_som_tpl_core/adc_data_6</p></td>
+<td><p>16</p></td>
+<td><p>RX</p></td>
+</tr>
+<tr class="row-odd"><td><p>DATA-OUT</p></td>
+<td><p></p></td>
+<td><p>rx_adrv9009_som_tpl_core/adc_data_7</p></td>
 <td><p>16</p></td>
 <td><p>RX</p></td>
 </tr>
 <tr class="row-even"><td><p>VALID-OUT</p></td>
-<td><p>IP Valid Tx Data IN</p></td>
-<td><p>sync_input/data_valid_out_tx_0</p></td>
+<td><p></p></td>
+<td><p>util_som_tx_upack/fifo_rd_valid</p></td>
 <td><p>1</p></td>
 <td><p>TX</p></td>
 </tr>
 <tr class="row-odd"><td><p>VALID-OUT</p></td>
-<td><p>IP Load Tx Data OUT</p></td>
-<td><p>sync_output/data_valid_in_tx_0</p></td>
+<td><p></p></td>
+<td><p>util_som_tx_upack/fifo_rd_en</p></td>
 <td><p>1</p></td>
 <td><p>TX</p></td>
 </tr>
 <tr class="row-even"><td><p>DATA-OUT</p></td>
-<td><p>ADRV9002 DAC Data I0</p></td>
-<td><p>sync_output/data_in_tx_0</p></td>
-<td><p>16</p></td>
+<td><p></p></td>
+<td><p>tx_adrv9009_som_tpl_core/dac_data_0</p></td>
+<td><p>32</p></td>
 <td><p>TX</p></td>
 </tr>
 <tr class="row-odd"><td><p>DATA-OUT</p></td>
-<td><p>ADRV9002 DAC Data Q0</p></td>
-<td><p>sync_output/data_in_tx_1</p></td>
-<td><p>16</p></td>
+<td><p></p></td>
+<td><p>tx_adrv9009_som_tpl_core/dac_data_1</p></td>
+<td><p>32</p></td>
 <td><p>TX</p></td>
 </tr>
 <tr class="row-even"><td><p>DATA-OUT</p></td>
-<td><p>ADRV9002 DAC Data I1</p></td>
-<td><p>sync_output/data_in_tx_2</p></td>
-<td><p>16</p></td>
+<td><p></p></td>
+<td><p>tx_adrv9009_som_tpl_core/dac_data_2</p></td>
+<td><p>32</p></td>
 <td><p>TX</p></td>
 </tr>
 <tr class="row-odd"><td><p>DATA-OUT</p></td>
-<td><p>ADRV9002 DAC Data Q1</p></td>
-<td><p>sync_output/data_in_tx_3</p></td>
-<td><p>16</p></td>
+<td><p></p></td>
+<td><p>tx_adrv9009_som_tpl_core/dac_data_3</p></td>
+<td><p>32</p></td>
 <td><p>TX</p></td>
 </tr>
 <tr class="row-even"><td><p>DATA-OUT</p></td>
-<td><p>IP Data 0 IN</p></td>
-<td><p>sync_input/data_out_tx_0</p></td>
-<td><p>16</p></td>
+<td><p></p></td>
+<td><p>tx_adrv9009_som_tpl_core/dac_data_4</p></td>
+<td><p>32</p></td>
 <td><p>TX</p></td>
 </tr>
 <tr class="row-odd"><td><p>DATA-OUT</p></td>
-<td><p>IP Data 1 IN</p></td>
-<td><p>sync_input/data_out_tx_1</p></td>
-<td><p>16</p></td>
+<td><p></p></td>
+<td><p>tx_adrv9009_som_tpl_core/dac_data_5</p></td>
+<td><p>32</p></td>
 <td><p>TX</p></td>
 </tr>
 <tr class="row-even"><td><p>DATA-OUT</p></td>
-<td><p>IP Data 2 IN</p></td>
-<td><p>sync_input/data_out_tx_2</p></td>
-<td><p>16</p></td>
+<td><p></p></td>
+<td><p>tx_adrv9009_som_tpl_core/dac_data_6</p></td>
+<td><p>32</p></td>
 <td><p>TX</p></td>
 </tr>
 <tr class="row-odd"><td><p>DATA-OUT</p></td>
-<td><p>IP Data 3 IN</p></td>
-<td><p>sync_input/data_out_tx_3</p></td>
-<td><p>16</p></td>
+<td><p></p></td>
+<td><p>tx_adrv9009_som_tpl_core/dac_data_7</p></td>
+<td><p>32</p></td>
+<td><p>TX</p></td>
+</tr>
+<tr class="row-even"><td><p>DATA-OUT</p></td>
+<td><p></p></td>
+<td><p>util_som_tx_upack/fifo_rd_data_0</p></td>
+<td><p>32</p></td>
+<td><p>TX</p></td>
+</tr>
+<tr class="row-odd"><td><p>DATA-OUT</p></td>
+<td><p></p></td>
+<td><p>util_som_tx_upack/fifo_rd_data_1</p></td>
+<td><p>32</p></td>
+<td><p>TX</p></td>
+</tr>
+<tr class="row-even"><td><p>DATA-OUT</p></td>
+<td><p></p></td>
+<td><p>util_som_tx_upack/fifo_rd_data_2</p></td>
+<td><p>32</p></td>
+<td><p>TX</p></td>
+</tr>
+<tr class="row-odd"><td><p>DATA-OUT</p></td>
+<td><p></p></td>
+<td><p>util_som_tx_upack/fifo_rd_data_3</p></td>
+<td><p>32</p></td>
+<td><p>TX</p></td>
+</tr>
+<tr class="row-even"><td><p>DATA-OUT</p></td>
+<td><p></p></td>
+<td><p>util_som_tx_upack/fifo_rd_data_4</p></td>
+<td><p>32</p></td>
+<td><p>TX</p></td>
+</tr>
+<tr class="row-odd"><td><p>DATA-OUT</p></td>
+<td><p></p></td>
+<td><p>util_som_tx_upack/fifo_rd_data_5</p></td>
+<td><p>32</p></td>
+<td><p>TX</p></td>
+</tr>
+<tr class="row-even"><td><p>DATA-OUT</p></td>
+<td><p></p></td>
+<td><p>util_som_tx_upack/fifo_rd_data_6</p></td>
+<td><p>32</p></td>
+<td><p>TX</p></td>
+</tr>
+<tr class="row-odd"><td><p>DATA-OUT</p></td>
+<td><p></p></td>
+<td><p>util_som_tx_upack/fifo_rd_data_7</p></td>
+<td><p>32</p></td>
 <td><p>TX</p></td>
 </tr>
 </tbody>
@@ -373,8 +468,8 @@ ADRV9002 component. The IP-Core Generation follow is available on the based on t
           </div>
               <div class="related">
                 &nbsp;
-    <a href="adrv9371.html" title="Previous document (Alt+Shift+LeftArrow)" class="prev">ADRV9371 Reference Design Integration</a>
-    <a href="adrv9009.html" title="Next document (Alt+Shift+RightArrow)" class="next">ADRV9009 Reference Design Integration</a>
+    <a href="fmcomms8.html" title="Previous document (Alt+Shift+LeftArrow)" class="prev">FMCOMMS8 Reference Design Integration</a>
+    <a href="../../dev_hdl_workflow.html" title="Next document (Alt+Shift+RightArrow)" class="next">HDL Workflow</a>
               </div>
           
         </div>

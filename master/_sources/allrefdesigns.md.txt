@@ -19,6 +19,7 @@ Available hardware streaming interfaces in HSX Toolbox:
    _generated/hdlrefdesigns/adrv9002
    _generated/hdlrefdesigns/adrv9009
    _generated/hdlrefdesigns/fmcomms8
+   _generated/hdlrefdesigns/adrv9009zu11eg
 
 ```
 

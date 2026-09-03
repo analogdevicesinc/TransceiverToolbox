@@ -8,9 +8,9 @@
 
     <title>adi.FMComms4.Tx &#8212; Analog Devices, Inc. Transceiver Toolbox v22.2.1</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8e8a900e" />
-    <link rel="stylesheet" type="text/css" href="../../_static/app.min.css?v=cae2157c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/app.min.css?v=fb8972a4" />
     <link rel="stylesheet" type="text/css" href="../../_static/css/style.css?v=373103a6" />
-    <script async="async" src="../../_static/app.umd.js?v=26d0298f"></script>
+    <script async="async" src="../../_static/app.umd.js?v=8c78863f"></script>
     <link rel="icon" href="../../_static/favicon.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -169,6 +169,7 @@ Content on this topic
 <li class="toctree-l2"><a class="reference internal" href="../hdlrefdesigns/adrv9002.html">ADRV9002 Reference Design Integration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../hdlrefdesigns/adrv9009.html">ADRV9009 Reference Design Integration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../hdlrefdesigns/fmcomms8.html">FMCOMMS8 Reference Design Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hdlrefdesigns/adrv9009zu11eg.html">ADRV9009ZU11EG Reference Design Integration</a></li>
 </ul>
 </li>
 </ul>
@@ -329,11 +330,11 @@ For more information on changing property values, see <a href="https://www.mathw
 <div class="sysobj_desc_title">Example Usage</div>
 <div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% Configure device</span>
 <span class="n">tx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">adi</span><span class="p">.</span><span class="n">FMComms4</span><span class="p">.</span><span class="n">Tx</span><span class="p">;</span>
-<span class="n">tx</span><span class="p">.</span><span class="n">uri</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;ip:analog.local&#39;</span><span class="p">;</span>
+<span class="n">tx</span><span class="p">.</span><span class="n">uri</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">'ip:analog.local'</span><span class="p">;</span>
 
 <span class="n">tx</span><span class="p">.</span><span class="n">CenterFrequency</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">1e9</span><span class="p">;</span>
 
-<span class="n">tx</span><span class="p">.</span><span class="n">DataSource</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;DMA&#39;</span><span class="p">;</span>
+<span class="n">tx</span><span class="p">.</span><span class="n">DataSource</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">'DMA'</span><span class="p">;</span>
 <span class="n">tx</span><span class="p">.</span><span class="n">EnableCyclicBuffers</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
 <span class="n">tx</span><span class="p">.</span><span class="n">EnabledChannels</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
 <span class="c">%% Generate tone</span>
