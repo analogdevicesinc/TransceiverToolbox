@@ -2,13 +2,13 @@
 
 Toolbox created by ADI to be used with MATLAB and Simulink with ADI transceivers.
 
-License : [![License](https://img.shields.io/badge/license-ADI_BSD-blue.svg)](https://github.com/analogdevicesinc/TransceiverToolbox/blob/master/LICENSE)
+License : [![License](https://img.shields.io/badge/license-ADI_BSD-blue.svg)](https://github.com/analogdevicesinc/TransceiverToolbox/blob/main/LICENSE)
 Latest Release : [![GitHub release](https://img.shields.io/github/release/analogdevicesinc/TransceiverToolbox.svg)](https://github.com/analogdevicesinc/TransceiverToolbox/releases/latest)
 Downloads :  [![Github All Releases](https://img.shields.io/github/downloads/analogdevicesinc/TransceiverToolbox/total.svg)](https://github.com/analogdevicesinc/TransceiverToolbox/releases/latest)
 
 As with many open source packages, we use [GitHub](https://github.com/analogdevicesinc/TransceiverToolbox) to do develop and maintain the source, and [Jenkins](https://jenkins.com/) for continuous integration.
   - If you want to just use TransceiverToolbox, we suggest using the [latest release](https://github.com/analogdevicesinc/TransceiverToolbox/releases/latest).
-  - If you think you have found a bug in the release, or need a feature which isn't in the release, try the latest **untested** builds from the master branch.
+  - If you think you have found a bug in the release, or need a feature which isn't in the release, try the latest **untested** builds from the main branch.
 
 | HDL Branch        | MATLAB Release |  Installer Package  |
 |:-----------------:|:--------------:|:-------------------:|

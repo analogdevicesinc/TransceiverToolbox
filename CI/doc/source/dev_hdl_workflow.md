@@ -19,7 +19,7 @@ make -C CI/scripts build
 ```
 After the above command completes the HDL source will be in place with necessary changes.
 
-The changes primarily required of the HDL source are interceptions of the build functions (procs) to skip synthesis when building a project. This is done by inserting environmental variable checks into the [adi_project_xilinx.tcl](https://github.com/analogdevicesinc/TransceiverToolbox/blob/master/CI/scripts/adi_project_xilinx.tcl) script. At build time these environmental variables are set and will prevent synthesis. This way an HDL project can be built, then handed off to HDL-Coder for IP insertion and eventual synthesis.
+The changes primarily required of the HDL source are interceptions of the build functions (procs) to skip synthesis when building a project. This is done by inserting environmental variable checks into the [adi_project_xilinx.tcl](https://github.com/analogdevicesinc/TransceiverToolbox/blob/main/CI/scripts/adi_project_xilinx.tcl) script. At build time these environmental variables are set and will prevent synthesis. This way an HDL project can be built, then handed off to HDL-Coder for IP insertion and eventual synthesis.
 
 HDL-Coder is limited to only interact with Vivado or Quartus. Therefore, it cannot leverage the makefiles as traditionally used to build HDL projects in the HDL repository. HDL-Coder and the authored scripts in the toolbox use the [TCL flow](https://wiki.analog.com/resources/fpga/docs/build#xilinx_auto_tcl_build) normally recommended for just Windows users. This is used on all platforms (Windows and Linux) to support HDL code-generation and integration with ADI toolboxes.
 
@@ -53,7 +53,7 @@ At a high-level there are six main steps, two of which are optional. From the fa
 HDL Workflow Advisor IP verilog generation.
 ```
 
-Within the largest central block of the flowchart labeled **vivado_create_prj.tcl** are all the core steps related the HWA Step 4.1, where the reference HDL project folder is built and necessary cores and nets removed to make room for IP from Simulink generated in HWA Step 3. This stage is highlighted in the figure below. The purple boxes are optional stages that are used in certain customized examples when additional work is required to prepare a reference design. The [Frequency Hopping example](https://github.com/analogdevicesinc/TransceiverToolbox/tree/master/trx_examples/targeting/frequency-hopping) leverages these stages. Once the project is prepared the IP is inserted and bitstream generated, which occurs through HWA Step 4.3.
+Within the largest central block of the flowchart labeled **vivado_create_prj.tcl** are all the core steps related the HWA Step 4.1, where the reference HDL project folder is built and necessary cores and nets removed to make room for IP from Simulink generated in HWA Step 3. This stage is highlighted in the figure below. The purple boxes are optional stages that are used in certain customized examples when additional work is required to prepare a reference design. The [Frequency Hopping example](https://github.com/analogdevicesinc/TransceiverToolbox/tree/main/trx_examples/targeting/frequency-hopping) leverages these stages. Once the project is prepared the IP is inserted and bitstream generated, which occurs through HWA Step 4.3.
 
 
 ```{figure} /_static/assets/HWA_project_gen.png
@@ -83,7 +83,7 @@ Once the IP is inserted into the project by HDL-Coder it is connected to the FIF
 RX path with inserted IP from HDL-Coder.
 ```
 
-The connecting of the IPs and insertion are entirely managed by HDL-Coder and through the [add_io_ports](https://github.com/analogdevicesinc/TransceiverToolbox/blob/master/hdl/vendor/AnalogDevices/+AnalogDevices/add_io_ports.m) function and supporting [JSON port definition file](https://github.com/analogdevicesinc/TransceiverToolbox/blob/master/hdl/vendor/AnalogDevices/+AnalogDevices/ports.json).
+The connecting of the IPs and insertion are entirely managed by HDL-Coder and through the [add_io_ports](https://github.com/analogdevicesinc/TransceiverToolbox/blob/main/hdl/vendor/AnalogDevices/+AnalogDevices/add_io_ports.m) function and supporting [JSON port definition file](https://github.com/analogdevicesinc/TransceiverToolbox/blob/main/hdl/vendor/AnalogDevices/+AnalogDevices/ports.json).
 
 ### Generated TCL Scripts
 
@@ -92,4 +92,4 @@ The following scripts outlined in the figure above have certain purposes:
 
 - **vivado_create_prj.tcl**: This is the first TCL scripted called in Stage 4 of HWA and is responsible for setting up a standard reference design and trimming nets and IPs to make room for IP from Simulink
 - **vivado_custom_block_design.tcl**: This is a carbon copy of the **system_project_rxtx.tcl** script and is called by **vivado_create_prj.tcl**. This script will call [adi_make.tcl](https://wiki.analog.com/resources/fpga/docs/build#xilinx_auto_tcl_build), the correct system_project.tcl file, and finally matlab_processor.tcl. It will optionally call the pre/post processor TCL scripts.
-- **vivado_insert_ip.tcl**: This script is fully generated by MATLAB based on the [add_io](https://github.com/analogdevicesinc/TransceiverToolbox/blob/master/hdl/vendor/AnalogDevices/+AnalogDevices/add_io.m) definitions in MATLAB to insert the custom IP into the prepared reference design.
+- **vivado_insert_ip.tcl**: This script is fully generated by MATLAB based on the [add_io](https://github.com/analogdevicesinc/TransceiverToolbox/blob/main/hdl/vendor/AnalogDevices/+AnalogDevices/add_io.m) definitions in MATLAB to insert the custom IP into the prepared reference design.
