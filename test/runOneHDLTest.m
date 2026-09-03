@@ -1,5 +1,9 @@
-function results = runOneHDLTest(pattern, synthesizeDesign)
-%RUNONEHDLTEST Run one BSPTests configuration with Vivado 2025.1.
+function results = runOneHDLTest(pattern, synthesizeDesign, customVivadoPath)
+%RUNONEHDLTEST Run one BSPTests configuration.
+%   RUNONEHDLTEST(PATTERN, SYNTHESIZEDESIGN, CUSTOMVIVADOPATH) uses the
+%   specified Vivado executable. When CUSTOMVIVADOPATH is omitted or empty,
+%   the CUSTOM_VIVADO_PATH environment variable is used. If neither is set,
+%   Vivado 2025.1 is used by default.
 
 if nargin < 1
     pattern = '*fmcomms2.zed.plugin_rd_rx';
@@ -7,11 +11,20 @@ end
 if nargin < 2
     synthesizeDesign = false;
 end
+if nargin < 3 || isempty(customVivadoPath) || ...
+        (isstring(customVivadoPath) && isscalar(customVivadoPath) && strlength(customVivadoPath) == 0)
+    customVivadoPath = getenv('CUSTOM_VIVADO_PATH');
+end
+if isempty(customVivadoPath)
+    customVivadoPath = '/tools/Xilinx/2025.1/Vivado/bin/vivado';
+end
+assert(ischar(customVivadoPath) || (isstring(customVivadoPath) && isscalar(customVivadoPath)), ...
+    'CUSTOMVIVADOPATH must be a character vector or string scalar.');
 
 import matlab.unittest.TestSuite
 import matlab.unittest.parameters.Parameter
 
-setenv('CUSTOM_VIVADO_PATH','/tools/Xilinx/2025.1/Vivado/bin/vivado');
+setenv('CUSTOM_VIVADO_PATH', char(customVivadoPath));
 try
     Advisor.Manager.refresh_customizations;
 catch
