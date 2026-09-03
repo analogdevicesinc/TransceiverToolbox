@@ -1,0 +1,217 @@
+
+#CarrierBox > rect {
+    fill: var(--md-default-fg-color--light);
+}
+#AXIAD9361Box > rect {
+    stroke: white;
+}
+
+#AXIAD9361Box:hover > rect {
+    fill: rgb(0, 174, 255);
+}
+#TxDMAEngineBox > rect {
+    stroke: white;
+}
+
+#TxDMAEngineBox:hover > rect {
+    fill: rgb(0, 174, 255);
+}
+#TxUPACKBox > rect {
+    stroke: white;
+}
+
+#TxUPACKBox:hover > rect {
+    fill: rgb(0, 174, 255);
+}
+#TxFIFOBox > rect {
+    stroke: white;
+}
+
+#TxFIFOBox:hover > rect {
+    fill: rgb(0, 174, 255);
+}
+#RxDMAEngineBox > rect {
+    stroke: white;
+}
+
+#RxDMAEngineBox:hover > rect {
+    fill: rgb(0, 174, 255);
+}
+#CPACKBox > rect {
+    stroke: white;
+}
+
+#CPACKBox:hover > rect {
+    fill: rgb(0, 174, 255);
+}
+#RxFIFOBox > rect {
+    stroke: white;
+}
+
+#RxFIFOBox:hover > rect {
+    fill: rgb(0, 174, 255);
+}
+
+#FPGACarrierText {
+    fill: var(--rd-title-color);
+}
+
+#CarrierBox > rect {
+    fill: none;
+    stroke: black
+}
+
+#CustomIPOutline > rect {
+    stroke: var(--rd-title-color);
+}
+
+#CustomIPIntegrationText {
+    fill: var(--rd-title-color);
+}
+
+#CarrierBox > rect {
+    fill: var(--md-default-fg-color--light);
+}
+#TxDMAEngineBox > rect {
+    stroke: white;
+}
+
+#TxDMAEngineBox:hover > rect {
+    fill: rgb(0, 174, 255);
+}
+#TxUPACKBox > rect {
+    stroke: white;
+}
+
+#TxUPACKBox:hover > rect {
+    fill: rgb(0, 174, 255);
+}
+#RxDMAEngineBox > rect {
+    stroke: white;
+}
+
+#RxDMAEngineBox:hover > rect {
+    fill: rgb(0, 174, 255);
+}
+#CPACKBox > rect {
+    stroke: white;
+}
+
+#CPACKBox:hover > rect {
+    fill: rgb(0, 174, 255);
+}
+#AXIADRV9002Box > rect {
+    stroke: white;
+}
+
+#AXIADRV9002Box:hover > rect {
+    fill: rgb(0, 174, 255);
+}
+
+#FPGACarrierText {
+    fill: var(--rd-title-color);
+}
+
+#CarrierBox > rect {
+    fill: none;
+    stroke: black
+}
+
+#CustomIPOutline > rect {
+    stroke: var(--rd-title-color);
+}
+
+#CustomIPIntegrationText {
+    fill: var(--rd-title-color);
+}
+
+#CarrierBox > rect {
+    fill: var(--md-default-fg-color--light);
+}
+#TxDMAEngineBox > rect {
+    stroke: white;
+}
+
+#TxDMAEngineBox:hover > rect {
+    fill: rgb(0, 174, 255);
+}
+#TxUPACKBox > rect {
+    stroke: white;
+}
+
+#TxUPACKBox:hover > rect {
+    fill: rgb(0, 174, 255);
+}
+#RxDMAEngineBox > rect {
+    stroke: white;
+}
+
+#RxDMAEngineBox:hover > rect {
+    fill: rgb(0, 174, 255);
+}
+#CPACKBox > rect {
+    stroke: white;
+}
+
+#CPACKBox:hover > rect {
+    fill: rgb(0, 174, 255);
+}
+#RxJESDTPL > rect {
+    stroke: white;
+}
+
+#RxJESDTPL:hover > rect {
+    fill: rgb(0, 174, 255);
+}
+#RxJESDLink > rect {
+    stroke: white;
+}
+
+#RxJESDLink:hover > rect {
+    fill: rgb(0, 174, 255);
+}
+#RxJESDPHY > rect {
+    stroke: white;
+}
+
+#RxJESDPHY:hover > rect {
+    fill: rgb(0, 174, 255);
+}
+#TxJESDTPL > rect {
+    stroke: white;
+}
+
+#TxJESDTPL:hover > rect {
+    fill: rgb(0, 174, 255);
+}
+#TxJESDLink > rect {
+    stroke: white;
+}
+
+#TxJESDLink:hover > rect {
+    fill: rgb(0, 174, 255);
+}
+#TxJESDPHY > rect {
+    stroke: white;
+}
+
+#TxJESDPHY:hover > rect {
+    fill: rgb(0, 174, 255);
+}
+
+#FPGACarrierText {
+    fill: var(--rd-title-color);
+}
+
+#CarrierBox > rect {
+    fill: none;
+    stroke: black
+}
+
+#CustomIPOutline > rect {
+    stroke: var(--rd-title-color);
+}
+
+#CustomIPIntegrationText {
+    fill: var(--rd-title-color);
+}

@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="The class can be instantiated in the following way with and without property name value pairs." name="description" />
+
+    <title>adi.FMComms8.Tx &#8212; Analog Devices, Inc. Transceiver Toolbox v22.2.1</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8e8a900e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/app.min.css?v=fb8972a4" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/style.css?v=373103a6" />
+    <script async="async" src="../../_static/app.umd.js?v=8c78863f"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="adi.FMComms8.Rx" href="adi.FMComms8.Rx.html" />
+    <link rel="prev" title="adi.ADRV9009ZU11EG.Rx" href="adi.ADRV9009ZU11EG.Rx.html" />
+   
+  
+  
+  
+  <meta name="repository" content="Analog Devices, Inc. Transceiver Toolbox">
+  <meta name="version" content="">
+  
+    <meta name="page_source_suffix" content=".md">
+  
+  
+  
+
+
+<style>
+  body {
+    
+  }
+
+  body.dark {
+    
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body:not(.light) {
+      
+    }
+  }
+</style>
+  </head>
+  
+    <body>
+  
+  <input type="checkbox" id="input-show-toc">
+  <input type="checkbox" id="input-show-localtoc">
+  <input type="checkbox" id="input-show-repotoc">
+
+  
+  <div class="search-area">
+    <form action="" method="get">
+      <input type="text" name="q" aria-labelledby="search-documentation" value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" role="search" placeholder="Search"/>
+      <button class="icon"></button>
+    </form>
+  </div>
+  
+
+  <header>
+    <div id="left">
+      <label id="show-sidebar" class="icon" for="input-show-toc" title="Show/hide index"></label>
+    </div>
+    <div id="right">
+      <span>
+        <a id="logo-org" href="https://developer.analog.com/" aria-label="Analog Devices Inc. landing page"></a>
+        <div class="vertical-divider"></div>
+        
+        <label id="show-repotoc" for="input-show-repotoc" title="Show/hide docs">Documentation</label>
+        
+        <a id="logo" href="../../index.html">
+          <div>Analog Devices, Inc. Transceiver Toolbox</div>
+        </a>
+      </span>
+      <span class="reverse">
+        <label id="show-localtoc" class="icon" for="input-show-localtoc" title="Show/hide contents"></label>
+      </span>
+    </div>
+  </header>
+
+
+  <div class="repotoc-tree overlay">
+    <root/>
+
+  </div>
+    <div class="localtoc">
+      <div class="tocwrapper">
+        <div class="header localtoc-header">
+          <a id="scroll-up" href="#top-anchor" title="Back to top"></a>
+        </div>
+        <nav>
+          <ul>
+<li><a class="reference internal" href="#">adi.FMComms8.Tx</a></li>
+</ul>
+
+        </nav>
+      </div>
+    </div>
+
+  
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+    <a id="logo" href="../../index.html">
+      <img class="only-light" src="../../_static/logos/logo_black_cropped.png"/>
+      <img class="only-dark" src="../../_static/logos/logo_white_cropped.png"/>
+    </a><input id="input-switch-toc" type="checkbox">
+<label id="show-repotoc" for="input-switch-toc">
+All content
+</label>
+<label id="show-toc" for="input-switch-toc">
+Content on this topic
+</label>
+<div class="repotoc-tree">
+  <root/>
+
+</div>
+<div class="toc-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../streaming.html">Receiving and Sending Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../targeting.html">HDL Targeting with HDL-Coder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a></li>
+<li class="toctree-l1 current"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-1" id="toctree-collapse-1" checked=""/><div class="collapse"><a class="reference internal" href="../../objects.html">Hardware Interface APIs</a><label for="toctree-collapse-1"><div class="icon"></div></label></div><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="adi.AD9361.Tx.html">adi.AD9361.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adi.AD9361.Rx.html">adi.AD9361.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adi.AD9363.Tx.html">adi.AD9363.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adi.AD9363.Rx.html">adi.AD9363.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adi.AD9364.Tx.html">adi.AD9364.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adi.AD9364.Rx.html">adi.AD9364.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adi.AD9371.Tx.html">adi.AD9371.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adi.AD9371.Rx.html">adi.AD9371.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adi.ADRV9371.Tx.html">adi.ADRV9371.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adi.ADRV9371.Rx.html">adi.ADRV9371.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adi.ADRV9009.Tx.html">adi.ADRV9009.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adi.ADRV9009.Rx.html">adi.ADRV9009.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adi.ADRV9361Z7035.Tx.html">adi.ADRV9361Z7035.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adi.ADRV9361Z7035.Rx.html">adi.ADRV9361Z7035.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adi.ADRV9364Z7020.Tx.html">adi.ADRV9364Z7020.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adi.ADRV9364Z7020.Rx.html">adi.ADRV9364Z7020.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adi.FMComms2.Tx.html">adi.FMComms2.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adi.FMComms2.Rx.html">adi.FMComms2.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adi.FMComms3.Tx.html">adi.FMComms3.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adi.FMComms3.Rx.html">adi.FMComms3.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adi.FMComms4.Tx.html">adi.FMComms4.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adi.FMComms4.Rx.html">adi.FMComms4.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adi.FMComms5.Tx.html">adi.FMComms5.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adi.FMComms5.Rx.html">adi.FMComms5.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adi.Pluto.Tx.html">adi.Pluto.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adi.Pluto.Rx.html">adi.Pluto.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adi.ADRV9002.Tx.html">adi.ADRV9002.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adi.ADRV9002.Rx.html">adi.ADRV9002.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adi.ADRV9009ZU11EG.Tx.html">adi.ADRV9009ZU11EG.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adi.ADRV9009ZU11EG.Rx.html">adi.ADRV9009ZU11EG.Rx</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">adi.FMComms8.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adi.FMComms8.Rx.html">adi.FMComms8.Rx</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-2" id="toctree-collapse-2"/><div class="collapse"><a class="reference internal" href="../../allrefdesigns.html">HDL Reference Designs</a><label for="toctree-collapse-2"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="../hdlrefdesigns/adrv9361z7035.html">ADRV9361Z7035 Reference Design Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hdlrefdesigns/adrv9364z7020.html">ADRV9364Z7020 Reference Design Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hdlrefdesigns/pluto.html">PLUTO Reference Design Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hdlrefdesigns/fmcomms2.html">FMCOMMS2 Reference Design Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hdlrefdesigns/fmcomms5.html">FMCOMMS5 Reference Design Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hdlrefdesigns/adrv9371.html">ADRV9371 Reference Design Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hdlrefdesigns/adrv9002.html">ADRV9002 Reference Design Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hdlrefdesigns/adrv9009.html">ADRV9009 Reference Design Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hdlrefdesigns/fmcomms8.html">FMCOMMS8 Reference Design Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hdlrefdesigns/adrv9009zu11eg.html">ADRV9009ZU11EG Reference Design Integration</a></li>
+</ul>
+</li>
+</ul>
+
+<p class="caption" role="heading">
+  <span class="caption-text">Development</span>
+</p>
+
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../dev_hdl_workflow.html">HDL Workflow</a></li>
+</ul>
+
+
+</div>
+        </div>
+      </div>
+
+  <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper" id="top-anchor">
+          <div class="body-header">
+  <nav class="breadcrumb"><ol><li><a href="../../objects.html">Hardware Interface APIs</a></li></ol></nav>
+</div>
+          <div class="body" role="main">
+            
+  <section id="adi-fmcomms8-tx">
+<h1>adi.FMComms8.Tx<a class="headerlink" href="#adi-fmcomms8-tx" title="Link to this heading"></a></h1>
+<!-- <div class="sysobj_h1">adi.FMComms8.Tx</div> -->
+<!-- <div class="sysobj_top_desc">
+Receive data from Analog Devices AD9361 transceiver
+</div> -->
+<!-- <div class="sysobj_desc_title">Description</div> -->
+<div class="sysobj_desc_txt">
+<span>
+    The adi.FMComms8.Tx System object is a signal sink that can<br>    transmit complex data from the FMComms8.<br> <br>    tx = adi.FMComms8.Tx;<br>    tx = adi.FMComms8.Tx('uri','ip:192.168.2.1');<br> <br>    <a href="https://www.analog.com/en/design-center/evaluation-hardware-and-software/evaluation-boards-kits/EVAL-AD-FMCOMMS8.html">Product Page</a><br> <br>
+</span>
+</div>
+<div class="sysobj_desc_title">Creation</div>
+<p>The class can be instantiated in the following way with and without property name value pairs.</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">dev</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">adi</span><span class="p">.</span><span class="n">FMComms8</span><span class="p">.</span><span class="n">Tx</span>
+<span class="n">dev</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">adi</span><span class="p">.</span><span class="n">FMComms8</span><span class="p">.</span><span class="n">Tx</span><span class="p">(</span><span class="n">Name</span><span class="p">,</span><span class="w"> </span><span class="n">Value</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sysobj_desc_title">Properties</div>
+<div class="sysobj_desc_txt">
+<span>
+Unless otherwise indicated, properties are non-tunable, which means you cannot change their values after calling the object. Objects lock when you call them, and the release function unlocks them.
+<br><br>
+If a property is tunable, you can change its value at any time.
+<br><br>
+For more information on changing property values, see <a href="https://www.mathworks.com/help/matlab/matlab_prog/system-design-in-matlab-using-system-objects.html">System Design in MATLAB Using System Objects.</a>
+</span>
+</div>
+<br>
+<div><div class="collapsible docutils">
+<input class="collapsible_input" id="06224e4f0c9ecd90d79f852b05cc2e249a6f9be1" name="06224e4f0c9ecd90d79f852b05cc2e249a6f9be1" type="checkbox"></input><label for="06224e4f0c9ecd90d79f852b05cc2e249a6f9be1"><p>AttenuationChannel0ChipB</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Attenuation specified as a scalar from -41.95 to 0 dB with a resolution of 0.05 dB.</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="527d217ac93d67ebef3cea00ead6fcc95997e379" name="527d217ac93d67ebef3cea00ead6fcc95997e379" type="checkbox"></input><label for="527d217ac93d67ebef3cea00ead6fcc95997e379"><p>AttenuationChannel1ChipB</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Attenuation specified as a scalar from -41.95 to 0 dB with a resolution of 0.05 dB.</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="a4a2032dc0590f21c08cb9500c762eab7b9eb306" name="a4a2032dc0590f21c08cb9500c762eab7b9eb306" type="checkbox"></input><label for="a4a2032dc0590f21c08cb9500c762eab7b9eb306"><p>EnableQuadratureTrackingChannel0ChipB</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the transmitted signal.</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="3678bdd1db6ff7689e5f116cc30ef4da512dca9c" name="3678bdd1db6ff7689e5f116cc30ef4da512dca9c" type="checkbox"></input><label for="3678bdd1db6ff7689e5f116cc30ef4da512dca9c"><p>EnableQuadratureTrackingChannel1ChipB</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the transmitted signal.</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="cc34f9d0f97ce49f8c338e032b179be8746adb35" name="cc34f9d0f97ce49f8c338e032b179be8746adb35" type="checkbox"></input><label for="cc34f9d0f97ce49f8c338e032b179be8746adb35"><p>EnableLOLeakageTrackingChannel0ChipB</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Option to enable quadrature tracking, specified as true or false. When this property is true, LO leakage compensation is applied to the transmitted signal.</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="98be3587b6ef45da6fd71a1d56c05971936c00ad" name="98be3587b6ef45da6fd71a1d56c05971936c00ad" type="checkbox"></input><label for="98be3587b6ef45da6fd71a1d56c05971936c00ad"><p>EnableLOLeakageTrackingChannel1ChipB</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Option to enable quadrature tracking, specified as true or false. When this property is true, LO leakage compensation is applied to the transmitted signal.</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="64039809bb333e14c623fb57cfa1c8c48987c1fd" name="64039809bb333e14c623fb57cfa1c8c48987c1fd" type="checkbox"></input><label for="64039809bb333e14c623fb57cfa1c8c48987c1fd"><p>EnableQuadratureCalibrationChipB</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Option to enable quadrature calibration on initialization, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="314fd5806b34b9a19dd069b25d02afdf4fe9f504" name="314fd5806b34b9a19dd069b25d02afdf4fe9f504" type="checkbox"></input><label for="314fd5806b34b9a19dd069b25d02afdf4fe9f504"><p>EnableLOLeakageCorrectionChipB</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Option to enable phase tracking, specified as true or false. When this property is true, at initialization LO leakage correction will be applied</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="ad7c9454ebea1fb1f0c15f46a52af6be60aa4570" name="ad7c9454ebea1fb1f0c15f46a52af6be60aa4570" type="checkbox"></input><label for="ad7c9454ebea1fb1f0c15f46a52af6be60aa4570"><p>EnableLOLeakageCorrectionExternalChipB</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Option to enable phase tracking, specified as true or false. When this property is true, at initialization LO leakage correction will be applied within an external loopback path. Note this requires external cabling.</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="aff3dc23cd0842bfee7bfdc35afaaa1aedf312ba" name="aff3dc23cd0842bfee7bfdc35afaaa1aedf312ba" type="checkbox"></input><label for="aff3dc23cd0842bfee7bfdc35afaaa1aedf312ba"><p>PowerdownChannel0ChipB</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Logical which will power down TX channel 0 when set</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="1704eb9ca7a1b0a65557a3f171033325351d07be" name="1704eb9ca7a1b0a65557a3f171033325351d07be" type="checkbox"></input><label for="1704eb9ca7a1b0a65557a3f171033325351d07be"><p>PowerdownChannel1ChipB</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Logical which will power down TX channel 1 when set</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="aedd22481e55bae5e9255b9861fdde7671933d8c" name="aedd22481e55bae5e9255b9861fdde7671933d8c" type="checkbox"></input><label for="aedd22481e55bae5e9255b9861fdde7671933d8c"><p>CenterFrequencyChipB</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>RF center frequency, specified in Hz as a scalar. The default is 2.4e9. This property is tunable.</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="dd9d354a1817530620d2b9b3ab8db78337428cf3" name="dd9d354a1817530620d2b9b3ab8db78337428cf3" type="checkbox"></input><label for="dd9d354a1817530620d2b9b3ab8db78337428cf3"><p>EnableFrequencyHoppingModeCalibrationChipB</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Option to enable frequency hopping mode VCO calibration, specified as true or false. When this property is true, at initialization VCO calibration lookup table is populated</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="81cc5fd6e5b24e3d67c7ec13e350266a07c7a873" name="81cc5fd6e5b24e3d67c7ec13e350266a07c7a873" type="checkbox"></input><label for="81cc5fd6e5b24e3d67c7ec13e350266a07c7a873"><p>SamplesPerFrame</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Number of samples per frame, specified as an even positive integer from 2 to 16,777,216. Using values less than 3660 can yield poor performance.</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="ebc55a8d2c705adb54ef3a9353ca73c987b0e70f" name="ebc55a8d2c705adb54ef3a9353ca73c987b0e70f" type="checkbox"></input><label for="ebc55a8d2c705adb54ef3a9353ca73c987b0e70f"><p>EnableCustomProfile</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Enable use of custom Profile file to set SamplingRate, RFBandwidth, and FIR in datapaths</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="349c0b1aa182f21fcc90f001db19ab0906b321c8" name="349c0b1aa182f21fcc90f001db19ab0906b321c8" type="checkbox"></input><label for="349c0b1aa182f21fcc90f001db19ab0906b321c8"><p>EnableFrequencyHoppingModeCalibration</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Option to enable frequency hopping mode VCO calibration, specified as true or false. When this property is true, at initialization VCO calibration lookup table is populated</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="c1d49133805d1943f082212866cbd11b009a3a25" name="c1d49133805d1943f082212866cbd11b009a3a25" type="checkbox"></input><label for="c1d49133805d1943f082212866cbd11b009a3a25"><p>CustomProfileFileName</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Path to custom Profile file created from profile wizard</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="8e1c44179482cfecb7ee8154a8a729229b670554" name="8e1c44179482cfecb7ee8154a8a729229b670554" type="checkbox"></input><label for="8e1c44179482cfecb7ee8154a8a729229b670554"><p>CenterFrequency</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>RF center frequency, specified in Hz as a scalar. The default is 2.4e9. This property is tunable.</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="dea8da78c9f8adde26b1c64f3878ad6e3d411a52" name="dea8da78c9f8adde26b1c64f3878ad6e3d411a52" type="checkbox"></input><label for="dea8da78c9f8adde26b1c64f3878ad6e3d411a52"><p>EnabledChannels</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Indexs of channels to be enabled. Input should be a [1xN] vector with the indexes of channels to be enabled. Order is irrelevant</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="bc241a48b00ddd0ad4a972eed32e36352de806f3" name="bc241a48b00ddd0ad4a972eed32e36352de806f3" type="checkbox"></input><label for="bc241a48b00ddd0ad4a972eed32e36352de806f3"><p>uri</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Hostname or IP address of remote libIIO device</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="f2f405899e34fc48d17721946c8b96128fda1137" name="f2f405899e34fc48d17721946c8b96128fda1137" type="checkbox"></input><label for="f2f405899e34fc48d17721946c8b96128fda1137"><p>enIO</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>If true, connects to libIIO device during simulation</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="78bf2c57f4e84a43a4e3b837bc41ce3d63f8c8ed" name="78bf2c57f4e84a43a4e3b837bc41ce3d63f8c8ed" type="checkbox"></input><label for="78bf2c57f4e84a43a4e3b837bc41ce3d63f8c8ed"><p>devName</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Name of the libIIO device</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="5597edaea51d17cc30963aee925e396c17f15247" name="5597edaea51d17cc30963aee925e396c17f15247" type="checkbox"></input><label for="5597edaea51d17cc30963aee925e396c17f15247"><p>AttenuationChannel0</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Attenuation specified as a scalar from -41.95 to 0 dB with a resolution of 0.05 dB.</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="7c2cd34a0835b3e1496d3ed29c6cd0579728d275" name="7c2cd34a0835b3e1496d3ed29c6cd0579728d275" type="checkbox"></input><label for="7c2cd34a0835b3e1496d3ed29c6cd0579728d275"><p>AttenuationChannel1</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Attenuation specified as a scalar from -41.95 to 0 dB with a resolution of 0.05 dB.</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="1656eac61f817f2f75d1231dea08dee9df48d980" name="1656eac61f817f2f75d1231dea08dee9df48d980" type="checkbox"></input><label for="1656eac61f817f2f75d1231dea08dee9df48d980"><p>EnableQuadratureTrackingChannel0</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the transmitted signal.</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="d901271a73911d12813f194d13b1b6443cccf8ca" name="d901271a73911d12813f194d13b1b6443cccf8ca" type="checkbox"></input><label for="d901271a73911d12813f194d13b1b6443cccf8ca"><p>EnableQuadratureTrackingChannel1</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Option to enable quadrature tracking, specified as true or false. When this property is true, IQ imbalance compensation is applied to the transmitted signal.</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="6eb1a0bb6e2693c7911238fb34e6eb3e313afcf6" name="6eb1a0bb6e2693c7911238fb34e6eb3e313afcf6" type="checkbox"></input><label for="6eb1a0bb6e2693c7911238fb34e6eb3e313afcf6"><p>EnableLOLeakageTrackingChannel0</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Option to enable quadrature tracking, specified as true or false. When this property is true, LO leakage compensation is applied to the transmitted signal.</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="f2b8ff4512f44fa83885e9cc68b13398c97db19d" name="f2b8ff4512f44fa83885e9cc68b13398c97db19d" type="checkbox"></input><label for="f2b8ff4512f44fa83885e9cc68b13398c97db19d"><p>EnableLOLeakageTrackingChannel1</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Option to enable quadrature tracking, specified as true or false. When this property is true, LO leakage compensation is applied to the transmitted signal.</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="c2302ceffdcee3555c0d1195e07351f0227f19f2" name="c2302ceffdcee3555c0d1195e07351f0227f19f2" type="checkbox"></input><label for="c2302ceffdcee3555c0d1195e07351f0227f19f2"><p>EnableQuadratureCalibration</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Option to enable quadrature calibration on initialization, specified as true or false. When this property is true, IQ imbalance compensation is applied to the input signal.</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="f9c40cf9557c427b6d773cdab812cb0f2a8bfd6c" name="f9c40cf9557c427b6d773cdab812cb0f2a8bfd6c" type="checkbox"></input><label for="f9c40cf9557c427b6d773cdab812cb0f2a8bfd6c"><p>EnableLOLeakageCorrection</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Option to enable phase tracking, specified as true or false. When this property is true, at initialization LO leakage correction will be applied</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="47d301489bb6da9202593e3ad9e17229b28cc2ca" name="47d301489bb6da9202593e3ad9e17229b28cc2ca" type="checkbox"></input><label for="47d301489bb6da9202593e3ad9e17229b28cc2ca"><p>EnableLOLeakageCorrectionExternal</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Option to enable phase tracking, specified as true or false. When this property is true, at initialization LO leakage correction will be applied within an external loopback path. Note this requires external cabling.</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="9c94ae8d1202dc68fa30200d3a54bb2ab24b2cb3" name="9c94ae8d1202dc68fa30200d3a54bb2ab24b2cb3" type="checkbox"></input><label for="9c94ae8d1202dc68fa30200d3a54bb2ab24b2cb3"><p>PowerdownChannel0</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Logical which will power down TX channel 0 when set</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="91b18d67f5a51dbaa55b8c6927b6070d1565decf" name="91b18d67f5a51dbaa55b8c6927b6070d1565decf" type="checkbox"></input><label for="91b18d67f5a51dbaa55b8c6927b6070d1565decf"><p>PowerdownChannel1</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Logical which will power down TX channel 1 when set</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="67e6da39a3e0ffb341d76178d0a012068615525b" name="67e6da39a3e0ffb341d76178d0a012068615525b" type="checkbox"></input><label for="67e6da39a3e0ffb341d76178d0a012068615525b"><p>DataSource</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Data source, specified as one of the following: ‘DMA’ — Specify the host as the source of the data. ‘DDS’ — Specify the DDS on the radio hardware as the source of the data. In this case, each channel has two additive tones.</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="c4bbe11c554c5af3993fffe9742d40de2478de7f" name="c4bbe11c554c5af3993fffe9742d40de2478de7f" type="checkbox"></input><label for="c4bbe11c554c5af3993fffe9742d40de2478de7f"><p>DDSFrequencies</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Frequencies values in Hz of the DDS tone generators. For complex data devices the input is a [2xN] matrix where N is the available channels on the board. For complex data devices this is at most max(EnabledChannels)*2. For non-complex data devices this is at most max(EnabledChannels). If N &lt; this upper limit, other DDSs are not set.</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="c499060b43da3efa2003572fa140ba5dbc78cdfe" name="c499060b43da3efa2003572fa140ba5dbc78cdfe" type="checkbox"></input><label for="c499060b43da3efa2003572fa140ba5dbc78cdfe"><p>DDSScales</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Scale of DDS tones in range [0,1]. For complex data devices the input is a [2xN] matrix where N is the available channels on the board. For complex data devices this is at most max(EnabledChannels)*2. For non-complex data devices this is at most max(EnabledChannels). If N &lt; this upper limit, other DDSs are not set.</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="2c7a98c07b195ae650a89c1a3d290eb71b6d8ce0" name="2c7a98c07b195ae650a89c1a3d290eb71b6d8ce0" type="checkbox"></input><label for="2c7a98c07b195ae650a89c1a3d290eb71b6d8ce0"><p>DDSPhases</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Phases of DDS tones in range [0,360000]. For complex data devices the input is a [2xN] matrix where N is the available channels on the board. For complex data devices this is at most max(EnabledChannels)*2. For non-complex data devices this is at most max(EnabledChannels). If N &lt; this upper limit, other DDSs are not set.</p>
+</div>
+</div>
+</div><div><div class="collapsible docutils">
+<input class="collapsible_input" id="7295cdd349f2796ffeed9344aee3686591a97bda" name="7295cdd349f2796ffeed9344aee3686591a97bda" type="checkbox"></input><label for="7295cdd349f2796ffeed9344aee3686591a97bda"><p>EnableCyclicBuffers</p>
+<div class="icon"></div></label><div class="collapsible_content docutils">
+<p>Enable Cyclic Buffers, configures transmit buffers to be cyclic, which makes them continuously repeat</p>
+</div>
+</div>
+</div><br>
+<div class="sysobj_desc_title">Example Usage</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% Configure device</span>
+<span class="n">tx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">adi</span><span class="p">.</span><span class="n">FMComms8</span><span class="p">.</span><span class="n">Tx</span><span class="p">;</span>
+<span class="n">tx</span><span class="p">.</span><span class="n">uri</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">'ip:analog.local'</span><span class="p">;</span>
+
+<span class="n">tx</span><span class="p">.</span><span class="n">CenterFrequency</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">1e9</span><span class="p">;</span>
+
+<span class="n">tx</span><span class="p">.</span><span class="n">DataSource</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">'DMA'</span><span class="p">;</span>
+<span class="n">tx</span><span class="p">.</span><span class="n">EnableCyclicBuffers</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="n">tx</span><span class="p">.</span><span class="n">EnabledChannels</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="c">%% Generate tone</span>
+<span class="n">amplitude</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">2</span><span class="o">^</span><span class="mi">15</span><span class="p">;</span><span class="w"> </span><span class="n">frequency</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">0.12e6</span><span class="p">;</span>
+<span class="n">swv1</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">dsp</span><span class="p">.</span><span class="n">SineWave</span><span class="p">(</span><span class="n">amplitude</span><span class="p">,</span><span class="w"> </span><span class="n">frequency</span><span class="p">);</span>
+<span class="n">swv1</span><span class="p">.</span><span class="n">ComplexOutput</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="n">swv1</span><span class="p">.</span><span class="n">SamplesPerFrame</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">2</span><span class="o">^</span><span class="mi">14</span><span class="p">;</span>
+<span class="n">swv1</span><span class="p">.</span><span class="n">SampleRate</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tx</span><span class="p">.</span><span class="n">SamplingRate</span><span class="p">;</span>
+<span class="n">y</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">swv1</span><span class="p">();</span>
+<span class="c">% Send</span>
+<span class="n">tx</span><span class="p">(</span><span class="n">y</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+
+
+          </div>
+              <div class="related">
+                &nbsp;
+    <a href="adi.ADRV9009ZU11EG.Rx.html" title="Previous document (Alt+Shift+LeftArrow)" class="prev">adi.ADRV9009ZU11EG.Rx</a>
+    <a href="adi.FMComms8.Rx.html" title="Next document (Alt+Shift+RightArrow)" class="next">adi.FMComms8.Rx</a>
+              </div>
+          
+        </div>
+      </div>
+  </div>
+
+  <label id="cancel-area-show-toc" for="input-show-toc"></label>
+  <label id="cancel-area-show-localtoc" for="input-show-localtoc"></label>
+    <footer>
+      &#169;2019-2022, Analog Devices, Inc
+      
+      |
+      Made with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+      &amp; <a href="https://github.com/analogdevicesinc/doctools">Doctools</a>
+      
+    </footer>
+  </body>
+</html>

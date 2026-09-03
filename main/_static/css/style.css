@@ -1,0 +1,7 @@
+/* Remove the theme background behind the large index-page logo so that the
+   transparent PNG does not get a colored box drawn behind it. The light/dark
+   index logos are selected by the cosmic theme's .only-light / .only-dark
+   classes (see index.md). */
+#indexlogo img {
+    background: none;
+}

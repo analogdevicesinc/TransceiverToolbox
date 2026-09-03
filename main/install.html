@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="The toolbox has different dependencies based on the features required. These are broken down into the base dependencies for data stream and control, and HDL code generation." name="description" />
+
+    <title>Installation &#8212; Analog Devices, Inc. Transceiver Toolbox v22.2.1</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8e8a900e" />
+    <link rel="stylesheet" type="text/css" href="_static/app.min.css?v=fb8972a4" />
+    <link rel="stylesheet" type="text/css" href="_static/css/style.css?v=373103a6" />
+    <script async="async" src="_static/app.umd.js?v=8c78863f"></script>
+    <link rel="icon" href="_static/favicon.png"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Receiving and Sending Data" href="streaming.html" />
+    <link rel="prev" title="Sections" href="index.html" />
+   
+  
+  
+  
+  <meta name="repository" content="Analog Devices, Inc. Transceiver Toolbox">
+  <meta name="version" content="">
+  
+    <meta name="page_source_suffix" content=".md">
+  
+  
+  
+
+
+<style>
+  body {
+    
+  }
+
+  body.dark {
+    
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body:not(.light) {
+      
+    }
+  }
+</style>
+  </head>
+  
+    <body>
+  
+  <input type="checkbox" id="input-show-toc">
+  <input type="checkbox" id="input-show-localtoc">
+  <input type="checkbox" id="input-show-repotoc">
+
+  
+  <div class="search-area">
+    <form action="" method="get">
+      <input type="text" name="q" aria-labelledby="search-documentation" value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" role="search" placeholder="Search"/>
+      <button class="icon"></button>
+    </form>
+  </div>
+  
+
+  <header>
+    <div id="left">
+      <label id="show-sidebar" class="icon" for="input-show-toc" title="Show/hide index"></label>
+    </div>
+    <div id="right">
+      <span>
+        <a id="logo-org" href="https://developer.analog.com/" aria-label="Analog Devices Inc. landing page"></a>
+        <div class="vertical-divider"></div>
+        
+        <label id="show-repotoc" for="input-show-repotoc" title="Show/hide docs">Documentation</label>
+        
+        <a id="logo" href="index.html">
+          <div>Analog Devices, Inc. Transceiver Toolbox</div>
+        </a>
+      </span>
+      <span class="reverse">
+        <label id="show-localtoc" class="icon" for="input-show-localtoc" title="Show/hide contents"></label>
+      </span>
+    </div>
+  </header>
+
+
+  <div class="repotoc-tree overlay">
+    <root/>
+
+  </div>
+    <div class="localtoc">
+      <div class="tocwrapper">
+        <div class="header localtoc-header">
+          <a id="scroll-up" href="#top-anchor" title="Back to top"></a>
+        </div>
+        <nav>
+          <ul>
+<li><a class="reference internal" href="#">Installation</a><ul>
+<li><a class="reference internal" href="#dependencies">Dependencies</a><ul>
+<li><a class="reference internal" href="#hdl-generation-support">HDL Generation Support</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#connecting-to-hardware">Connecting To Hardware</a></li>
+<li><a class="reference internal" href="#transceiver-toolbox-install">Transceiver Toolbox Install</a><ul>
+<li><a class="reference internal" href="#add-on-explorer-walkthrough">Add-On Explorer Walkthrough</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </nav>
+      </div>
+    </div>
+
+  
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+    <a id="logo" href="index.html">
+      <img class="only-light" src="_static/logos/logo_black_cropped.png"/>
+      <img class="only-dark" src="_static/logos/logo_white_cropped.png"/>
+    </a><input id="input-switch-toc" type="checkbox">
+<label id="show-repotoc" for="input-switch-toc">
+All content
+</label>
+<label id="show-toc" for="input-switch-toc">
+Content on this topic
+</label>
+<div class="repotoc-tree">
+  <root/>
+
+</div>
+<div class="toc-tree">
+  <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="streaming.html">Receiving and Sending Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="targeting.html">HDL Targeting with HDL-Coder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-1" id="toctree-collapse-1"/><div class="collapse"><a class="reference internal" href="objects.html">Hardware Interface APIs</a><label for="toctree-collapse-1"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.AD9361.Tx.html">adi.AD9361.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.AD9361.Rx.html">adi.AD9361.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.AD9363.Tx.html">adi.AD9363.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.AD9363.Rx.html">adi.AD9363.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.AD9364.Tx.html">adi.AD9364.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.AD9364.Rx.html">adi.AD9364.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.AD9371.Tx.html">adi.AD9371.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.AD9371.Rx.html">adi.AD9371.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.ADRV9371.Tx.html">adi.ADRV9371.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.ADRV9371.Rx.html">adi.ADRV9371.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.ADRV9009.Tx.html">adi.ADRV9009.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.ADRV9009.Rx.html">adi.ADRV9009.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.ADRV9361Z7035.Tx.html">adi.ADRV9361Z7035.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.ADRV9361Z7035.Rx.html">adi.ADRV9361Z7035.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.ADRV9364Z7020.Tx.html">adi.ADRV9364Z7020.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.ADRV9364Z7020.Rx.html">adi.ADRV9364Z7020.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.FMComms2.Tx.html">adi.FMComms2.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.FMComms2.Rx.html">adi.FMComms2.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.FMComms3.Tx.html">adi.FMComms3.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.FMComms3.Rx.html">adi.FMComms3.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.FMComms4.Tx.html">adi.FMComms4.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.FMComms4.Rx.html">adi.FMComms4.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.FMComms5.Tx.html">adi.FMComms5.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.FMComms5.Rx.html">adi.FMComms5.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.Pluto.Tx.html">adi.Pluto.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.Pluto.Rx.html">adi.Pluto.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.ADRV9002.Tx.html">adi.ADRV9002.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.ADRV9002.Rx.html">adi.ADRV9002.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.ADRV9009ZU11EG.Tx.html">adi.ADRV9009ZU11EG.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.ADRV9009ZU11EG.Rx.html">adi.ADRV9009ZU11EG.Rx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.FMComms8.Tx.html">adi.FMComms8.Tx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/sysobjects/adi.FMComms8.Rx.html">adi.FMComms8.Rx</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-2" id="toctree-collapse-2"/><div class="collapse"><a class="reference internal" href="allrefdesigns.html">HDL Reference Designs</a><label for="toctree-collapse-2"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="_generated/hdlrefdesigns/adrv9361z7035.html">ADRV9361Z7035 Reference Design Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/hdlrefdesigns/adrv9364z7020.html">ADRV9364Z7020 Reference Design Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/hdlrefdesigns/pluto.html">PLUTO Reference Design Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/hdlrefdesigns/fmcomms2.html">FMCOMMS2 Reference Design Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/hdlrefdesigns/fmcomms5.html">FMCOMMS5 Reference Design Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/hdlrefdesigns/adrv9371.html">ADRV9371 Reference Design Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/hdlrefdesigns/adrv9002.html">ADRV9002 Reference Design Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/hdlrefdesigns/adrv9009.html">ADRV9009 Reference Design Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/hdlrefdesigns/fmcomms8.html">FMCOMMS8 Reference Design Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_generated/hdlrefdesigns/adrv9009zu11eg.html">ADRV9009ZU11EG Reference Design Integration</a></li>
+</ul>
+</li>
+</ul>
+
+<p class="caption" role="heading">
+  <span class="caption-text">Development</span>
+</p>
+
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="dev_hdl_workflow.html">HDL Workflow</a></li>
+</ul>
+
+
+</div>
+        </div>
+      </div>
+
+  <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper" id="top-anchor">
+          <div class="body-header">
+  <nav class="breadcrumb empty"><ol></ol></nav>
+</div>
+          <div class="body" role="main">
+            
+  <section id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h1>
+<section id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Link to this heading"></a></h2>
+<p>The toolbox has different dependencies based on the features required. These are broken down into the base dependencies for data stream and control, and HDL code generation.</p>
+<p>The base dependencies for the toolbox requires libIIO and the libIIO MATLAB bindings. There are three options for this install with different required MathWorks Toolboxes:</p>
+<ul class="simple">
+<li><p><a class="icon link reference external" href="https://www.mathworks.com/help/supportpkg/xilinxzynqbasedradio/index.html" target="_blank">Communications Toolbox Support Package for Xilinx Zynq-Based Radio</a></p>
+<ul>
+<li><p>Communications Toolbox</p></li>
+<li><p>Signal Processing Toolbox™</p></li>
+<li><p>DSP System Toolbox™</p></li>
+</ul>
+</li>
+<li><p><a class="icon link reference external" href="https://www.mathworks.com/help/supportpkg/plutoradio/index.html" target="_blank">Communications Toolbox Support Package for Analog Devices ADALM-Pluto Radio</a></p>
+<ul>
+<li><p>Communications Toolbox</p></li>
+<li><p>Signal Processing Toolbox™</p></li>
+<li><p>DSP System Toolbox™</p></li>
+</ul>
+</li>
+<li><p><a class="icon link reference external" href="https://github.com/mathworks/buildroot/releases/download/mathworks_zynq_R21.2.0/libiio.mlpkginstall" target="_blank">libIIO MATLAB Binding Standalone Installer (R2021b+)</a></p>
+<ul>
+<li><p>Signal Processing Toolbox™</p></li>
+</ul>
+</li>
+</ul>
+<section id="hdl-generation-support">
+<h3>HDL Generation Support<a class="headerlink" href="#hdl-generation-support" title="Link to this heading"></a></h3>
+<p>To leverage HDL-Coder and the reference designs with the toolbox requires the following components:</p>
+<ul class="simple">
+<li><p>Xilinx Vivado 2025.1</p></li>
+<li><p>Xilinx Vitis 2025.1</p></li>
+<li><p>Simulink</p></li>
+<li><p><a class="icon link reference external" href="https://www.mathworks.com/products/hdl-coder.html" target="_blank">HDL-Coder™</a></p></li>
+<li><p><a class="icon link reference external" href="https://www.mathworks.com/matlabcentral/fileexchange/40447-hdl-coder-support-package-for-xilinx-zynq-platform" target="_blank">HDL Coder™ Support Package for Xilinx Zynq Platform</a></p></li>
+</ul>
+</section>
+</section>
+<section id="connecting-to-hardware">
+<h2>Connecting To Hardware<a class="headerlink" href="#connecting-to-hardware" title="Link to this heading"></a></h2>
+<p>Transceiver Toolbox is designed and tested to work with ADI kernel drivers based in the IIO framework. The most common target platforms will utilize ADI’s Kuiper Linux distribution or other buildroot based systems authored by ADI. These images have the necessary IIO drivers and libIIO support built-in. Since drivers can evolve over time, it is recommended to always the supported Kuiper released defined on the <a class="icon link reference external" href="https://github.com/analogdevicesinc/TransceiverToolbox/releases" target="_blank">Transceiver Toolbox Release Page</a>.</p>
+<p>To download and flash Kuiper images, refer to the <a class="icon link reference external" href="https://wiki.analog.com/resources/tools-software/linux-software/kuiper-linux" target="_blank">Kuiper Linux Documentation</a>.</p>
+<p>It is possible to use Transceiver Toolbox with custom Linux images as long as the necessary IIO drivers and libIIO support is included.</p>
+</section>
+<section id="transceiver-toolbox-install">
+<h2>Transceiver Toolbox Install<a class="headerlink" href="#transceiver-toolbox-install" title="Link to this heading"></a></h2>
+<p>The Transceiver Toolbox itself can be installed either from:</p>
+<ul class="simple">
+<li><p><a class="icon link reference external" href="https://www.mathworks.com/products/matlab/add-on-explorer.html" target="_blank">MATLAB’s Add-On Explorer</a></p></li>
+<li><p><a class="icon link reference external" href="https://github.com/analogdevicesinc/TransceiverToolbox/releases" target="_blank">GitHub Releases page</a>.</p></li>
+</ul>
+<div class="warning admonition">
+<p class="admonition-title">MATLAB Versions</p>
+<p>Before installing Transceiver Toolbox check the <a class="icon link reference external" href="https://github.com/analogdevicesinc/TransceiverToolbox/releases" target="_blank">Release Page</a> to check for the lasted supported of MATLAB. The latest version is the one which is available in <a class="icon link reference external" href="https://www.mathworks.com/products/matlab/add-on-explorer.html" target="_blank">Add-on Explorer</a>, since Add-On Explorer does not currently support hosting multiple versions. If you have an older release of MATLAB, download the MLTBX installer from matching release on the <a class="icon link reference external" href="https://github.com/analogdevicesinc/TransceiverToolbox/releases" target="_blank">Release Page</a>.</p>
+</div>
+<section id="add-on-explorer-walkthrough">
+<h3>Add-On Explorer Walkthrough<a class="headerlink" href="#add-on-explorer-walkthrough" title="Link to this heading"></a></h3>
+<p>To install the toolbox from within MATLAB using the Add-On Explorer, first launch the Explorer from MATLAB’s Home tab:</p>
+<figure class="align-default">
+<img alt="_images/add_ex.png" src="_images/add_ex.png" />
+</figure>
+<p>Search for the toolbox:</p>
+<figure class="align-default">
+<img alt="_images/trx_search_wbox.png" src="_images/trx_search_wbox.png" />
+</figure>
+<p>Select Transceiver Toolbox from results:</p>
+<figure class="align-default">
+<img alt="_images/trx_search_find_wbox.png" src="_images/trx_search_find_wbox.png" />
+</figure>
+<p>Select add:</p>
+<figure class="align-default">
+<img alt="_images/addons_page_wbox.png" src="_images/addons_page_wbox.png" />
+</figure>
+</section>
+</section>
+</section>
+
+
+          </div>
+              <div class="related">
+                &nbsp;
+    <a href="index.html" title="Previous document (Alt+Shift+LeftArrow)" class="prev">Sections</a>
+    <a href="streaming.html" title="Next document (Alt+Shift+RightArrow)" class="next">Receiving and Sending Data</a>
+              </div>
+          
+        </div>
+      </div>
+  </div>
+
+  <label id="cancel-area-show-toc" for="input-show-toc"></label>
+  <label id="cancel-area-show-localtoc" for="input-show-localtoc"></label>
+    <footer>
+      &#169;2019-2022, Analog Devices, Inc
+      
+      |
+      Made with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+      &amp; <a href="https://github.com/analogdevicesinc/doctools">Doctools</a>
+      
+    </footer>
+  </body>
+</html>
