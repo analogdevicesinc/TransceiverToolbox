@@ -82,10 +82,8 @@ cd ..
 
 # Tests
 cd test
-# Update line 35 of DemoTests.m to use new version
-sed -i "35s/.*/            testCase.setupVivado('${VIVADO}');/" DemoTests.m
-sed -i "47s/.*/            testCase.setupVivado('${VIVADO}');/" DemoTests.m
-sed -i "59s/.*/            testCase.setupVivado('${VIVADO}');/" DemoTests.m
+# Keep explicit demo tool-version calls aligned even when their line numbers move.
+sed -i "s/setupVivado('[^']*')/setupVivado('${VIVADO}')/g" DemoTests.m
 
 cd ..
 
@@ -125,8 +123,8 @@ sed -i 's/16.27/30/' hdl/projects/pluto/system_constr.xdc
 # update .mk to .prj in zc706_plddr3_dacfifo_bd.tcl & zc706_plddr3_data_offload_bd.tcl
 sed -i 's/.mk/.prj/' hdl/projects/common/zc706/zc706_plddr3_dacfifo_bd.tcl
 sed -i '10i   file copy -force $ad_hdl_dir/projects/common/zc706/zc706_plddr3_mig.mk $ad_hdl_dir/projects/common/zc706/zc706_plddr3_mig.prj' hdl/projects/common/zc706/zc706_plddr3_dacfifo_bd.tcl
-sed -i 's/.mk/.prj/' hdl/projects/common/zc706/zc706_plddr3_data_offload_bd.tcl
-sed -i '12i   file copy -force $ad_hdl_dir/projects/common/zc706/zc706_plddr3_mig.mk $ad_hdl_dir/projects/common/zc706/zc706_plddr3_mig.prj' hdl/projects/common/zc706/zc706_plddr3_data_offload_bd.tcl
+sed -i 's#zc706_plddr3_mig\.mk#zc706_plddr3_mig.prj#g' hdl/projects/common/zc706/zc706_plddr3_data_offload_bd.tcl
+sed -i '/^  upvar ad_hdl_dir ad_hdl_dir$/a\  file copy -force $ad_hdl_dir/projects/common/zc706/zc706_plddr3_mig.mk $ad_hdl_dir/projects/common/zc706/zc706_plddr3_mig.prj' hdl/projects/common/zc706/zc706_plddr3_data_offload_bd.tcl
 # Update ADRV9001 design to include util_sync as dependent IP
 sed -i '23i   # Custom Sync IP' hdl/projects/adrv9001/zcu102/Makefile
 sed -i '24i   LIB_DEPS += util_sync/util_delay' hdl/projects/adrv9001/zcu102/Makefile

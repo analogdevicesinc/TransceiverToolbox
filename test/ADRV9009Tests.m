@@ -22,13 +22,13 @@ classdef ADRV9009Tests < HardwareTests
 
         attribute_single_value_str = {
             % object, property, valtype, id, isOutput, attribute, options
-            {'orx','EnableFrequencyHoppingModeCalibration','DeviceAttributeRAW','adrv9009','adrv9009','calibrate_frm_en', logical([1 0])};
+            {'orx','EnableFrequencyHoppingModeCalibration','DeviceAttributeRAW','adrv9009','adrv9009','calibrate_fhm_en', logical([1 0])};
             {'orx', 'EnableQuadratureTracking', 'Bool', 'voltage2', false, 'quadrature_tracking_en', logical([0 1])};
             {'orx', 'LOSourceSelect', 'RAW', 'voltage2', false, 'rf_port_select', ["OBS_TX_LO","OBS_AUX_LO"]};
             {'rx', 'GainControlMode', 'RAW', 'voltage1', false, 'gain_control_mode', ["manual","slow_attack"]}; % write using channel 0, read using channel 1
             {'rx','EnableQuadratureCalibration','DeviceAttributeRAW','adrv9009','adrv9009','calibrate_rx_qec_en', logical([0 1])};
             {'rx','EnablePhaseCorrection','DeviceAttributeRAW','adrv9009','adrv9009','calibrate_rx_phase_correction_en', logical([0 1])};
-            {'rx','EnableFrequencyHoppingModeCalibration','DeviceAttributeRAW','adrv9009','adrv9009','calibrate_frm_en', logical([0 1])};
+            {'rx','EnableFrequencyHoppingModeCalibration','DeviceAttributeRAW','adrv9009','adrv9009','calibrate_fhm_en', logical([0 1])};
             {'rx', 'EnableQuadratureTrackingChannel0', 'Bool', 'voltage0', false, 'quadrature_tracking_en', logical([0 1])};
             {'rx', 'EnableQuadratureTrackingChannel1', 'Bool', 'voltage1', false, 'quadrature_tracking_en', logical([0 1])};
             {'rx', 'EnableHarmonicDistortionTrackingChannel0', 'Bool', 'voltage0', false, 'hd2_tracking_en', logical([0 1])};
@@ -36,7 +36,7 @@ classdef ADRV9009Tests < HardwareTests
             {'tx','EnableQuadratureCalibration','DeviceAttributeRAW','adrv9009','adrv9009','calibrate_tx_qec_en', logical([0 1])};
             {'tx','EnableLOLeakageCorrection','DeviceAttributeRAW','adrv9009','adrv9009','calibrate_tx_lol_en', logical([0 1])};
             {'tx','EnableLOLeakageCorrectionExternal','DeviceAttributeRAW','adrv9009','adrv9009','calibrate_tx_lol_ext_en', logical([0 1])};
-            {'tx','EnableFrequencyHoppingModeCalibration','DeviceAttributeRAW','adrv9009','adrv9009','calibrate_frm_en', logical([0 1])};
+            {'tx','EnableFrequencyHoppingModeCalibration','DeviceAttributeRAW','adrv9009','adrv9009','calibrate_fhm_en', logical([0 1])};
             {'tx', 'EnableQuadratureTrackingChannel0', 'Bool', 'voltage0', true, 'quadrature_tracking_en', logical([0 1])};
             {'tx', 'EnableQuadratureTrackingChannel1', 'Bool', 'voltage1', true, 'quadrature_tracking_en', logical([0 1])};
             {'tx', 'EnableLOLeakageTrackingChannel0', 'Bool', 'voltage0', true, 'lo_leakage_tracking_en', logical([0 1])};
@@ -437,4 +437,3 @@ classdef ADRV9009Tests < HardwareTests
     end
     
 end
-

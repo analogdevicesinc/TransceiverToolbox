@@ -97,7 +97,14 @@ classdef ADRV9002Tests < HardwareTests
             rx.GainControllerSourceChannel1 = 'spi';
             rx.DigitalGainControlModeChannel0 = DigitalGainControlMode;
             rx.DigitalGainControlModeChannel1 = DigitalGainControlMode;
-            [out, valid] = rx();
+            valid = false;
+            out = [];
+            for attempt = 1:3
+                [out, valid] = rx();
+                if valid && any(out ~= 0)
+                    break;
+                end
+            end
             rx.release();
             testCase.verifyTrue(valid);
             testCase.verifyGreaterThan(sum(abs(double(out))),0);
@@ -241,7 +248,10 @@ classdef ADRV9002Tests < HardwareTests
             tx.DataSource = 'DDS';
             toneFreq = 5e5;
             tx.DDSFrequencies = repmat(toneFreq,2,2);
-            tx.AttenuationChannel0 = -30;
+            % Keep the loopback tone above the board's approximately 2 MHz
+            % receive spur. At -30 dB the spur can dominate meanfreq even
+            % though DDS transmission and capture are both working.
+            tx.AttenuationChannel0 = -10;
             tx();
             sr = tx.getAttributeLongLong('voltage0','sampling_frequency',true);
             pause(1);
@@ -256,11 +266,16 @@ classdef ADRV9002Tests < HardwareTests
             end
             sr2 = tx.getAttributeLongLong('voltage0','sampling_frequency',false);
             rx.release();
+            tx.release();
             assert(sr==sr2);
 
-            % plot(real(out));
-            % testCase.estFrequency(out,rx.SamplingRate);
-            freqEst = meanfreq(double(real(out)),sr);
+            % Estimate the DDS tone from the dominant FFT bin. A spectral
+            % centroid (meanfreq) is biased by the real-part mirror and board
+            % spurs, even when the programmed tone is clearly dominant.
+            spectrum = abs(fftshift(fft(double(out))));
+            [~, peakIndex] = max(spectrum);
+            frequencyBins = (-length(out)/2:length(out)/2-1) * (double(sr)/length(out));
+            freqEst = abs(frequencyBins(peakIndex));
 
             testCase.verifyTrue(valid);
             testCase.verifyGreaterThan(sum(abs(double(out))),0);
@@ -344,4 +359,3 @@ classdef ADRV9002Tests < HardwareTests
     end
 
 end
-

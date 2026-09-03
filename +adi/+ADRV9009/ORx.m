@@ -165,9 +165,13 @@ classdef ORx < adi.ADRV9009.Base & adi.common.Rx
             obj.setAttributeBool('voltage1', 'powerdown', true, false);
             obj.setAttributeBool('voltage2', 'powerdown', true, false);
             obj.setAttributeBool('voltage3', 'powerdown', true, false);
-            % Only bring ORx back up
-            obj.setAttributeBool('voltage2', 'powerdown', false, false);
-            if obj.getAttributeLongLong('voltage0','sampling_frequency',true) < 250e6
+            % Only bring enabled ORx channels back up. Some HDL designs expose
+            % one buffered observation channel even at lower sample rates, so
+            % the sample rate alone cannot be used to infer ORx2 availability.
+            if ismember(1, obj.EnabledChannels)
+                obj.setAttributeBool('voltage2', 'powerdown', false, false);
+            end
+            if ismember(2, obj.EnabledChannels)
                 obj.setAttributeBool('voltage3', 'powerdown', false, false);
             end
             % Set all remaining attributes
@@ -179,12 +183,15 @@ classdef ORx < adi.ADRV9009.Base & adi.common.Rx
             obj.setDeviceAttributeRAW('calibrate_fhm_en',num2str(obj.EnableFrequencyHoppingModeCalibration));
             
             % Bring stuff back up as desired
-            obj.setAttributeBool('voltage2','powerdown',obj.PowerdownChannel0,false);
-            obj.setAttributeBool('voltage3','powerdown',obj.PowerdownChannel1,false);
+            if ismember(1, obj.EnabledChannels)
+                obj.setAttributeBool('voltage2','powerdown',obj.PowerdownChannel0,false);
+            end
+            if ismember(2, obj.EnabledChannels)
+                obj.setAttributeBool('voltage3','powerdown',obj.PowerdownChannel1,false);
+            end
                         
         end
         
     end
     
 end
-
