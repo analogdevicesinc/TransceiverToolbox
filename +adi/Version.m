@@ -4,8 +4,8 @@ classdef Version
     properties(Constant)
         HDL = 'hdl_2026_r1';
         Vivado = '2025.1';
-        MATLAB = 'R2023b';
-        Release = '23.2.2';
+        MATLAB = 'R2025b';
+        Release = '25.2.1';
         AppName = 'Analog Devices, Inc. Transceiver Toolbox';
         ToolboxName = 'TransceiverToolbox';
         ToolboxNameShort = 'trx';
@@ -22,4 +22,3 @@ classdef Version
         end
     end
 end
-

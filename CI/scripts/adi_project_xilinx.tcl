@@ -424,18 +424,50 @@ proc adi_xcvr_project {parameters_for_make} {
     append file_local_param "_common.v"
   }
 
-  eval exec $make_command
+  # The transceiver wizard is a standalone nested Vivado build. Do not let it
+  # inherit the outer HDL Coder markers, which suppress project creation.
+  set _saved_env [dict create]
+  foreach _v {MATLAB ADI_MATLAB SKIP_SYNTHESIS ADI_SKIP_SYNTHESIS} {
+    if {[info exists ::env($_v)]} {
+      dict set _saved_env $_v $::env($_v)
+      unset ::env($_v)
+    }
+  }
+  set _rc [catch {eval exec $make_command} _res _opts]
+  dict for {_v _val} $_saved_env {
+    set ::env($_v) $_val
+  }
+  if {$_rc} {
+    cd $current_dir
+    return -options $_opts $_res
+  }
   cd $current_dir
 
+  set _candidates {}
   if {$adi_dir_env ne ""} {
       if {$gt_xcvr_file eq ""} {
-        append adi_project_dir_path "/${::env(ADI_PROJECT_DIR)}${project_name}_${carrier_name}.gen/sources_1/ip/${xcvr_type}_cfng.txt"
+        lappend _candidates "${::env(ADI_PROJECT_DIR)}${project_name}_${carrier_name}.gen"
       } else {
-        append adi_project_dir_path "/$gt_xcvr_file\_$::env(ADI_PROJECT_DIR)${project_name}_${carrier_name}.gen/sources_1/ip/${xcvr_type}_cfng.txt"
+        lappend _candidates "$gt_xcvr_file\_$::env(ADI_PROJECT_DIR)${project_name}_${carrier_name}.gen"
       }
-  } else {
-      append adi_project_dir_path "/$gt_xcvr_file/${project_name}_${carrier_name}.gen/sources_1/ip/${xcvr_type}_cfng.txt"
+  } elseif {$gt_xcvr_file ne ""} {
+      lappend _candidates "$gt_xcvr_file/${project_name}_${carrier_name}.gen"
   }
+  lappend _candidates "${project_name}_${carrier_name}.gen"
+
+  set _base $adi_project_dir_path
+  set adi_project_dir_path ""
+  foreach _candidate $_candidates {
+    set _try "$_base/$_candidate/sources_1/ip/${xcvr_type}_cfng.txt"
+    if {[file exists $_try]} {
+      set adi_project_dir_path $_try
+      break
+    }
+  }
+  if {$adi_project_dir_path eq ""} {
+    set adi_project_dir_path "$_base/[lindex $_candidates 0]/sources_1/ip/${xcvr_type}_cfng.txt"
+  }
+  puts "adi_xcvr_project: using cfng file $adi_project_dir_path"
 
   set config_dir_path [file dirname $adi_project_dir_path]
   set file_local_param_path ""

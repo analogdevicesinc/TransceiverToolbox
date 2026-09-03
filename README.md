@@ -12,15 +12,15 @@ As with many open source packages, we use [GitHub](https://github.com/analogdevi
 
 | HDL Branch        | MATLAB Release |  Installer Package  |
 |:-----------------:|:--------------:|:-------------------:|
-| 2022_R2           | R2023b         | <a href="https://github.com/analogdevicesinc/TransceiverToolbox/releases/tag/latest"><img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png" data-canonical-src="https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png" height="40" /></a>|
+| 2026_R1           | R2025b         | <a href="https://github.com/analogdevicesinc/TransceiverToolbox/releases/tag/latest"><img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png" data-canonical-src="https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png" height="40" /></a>|
 
 If you use it, and like it - please let us know. If you use it, and hate it - please let us know that too.
 
 ## Supported Tools and Releases
 
 We provide support across two releases of MATLAB. This does not mean older releases will not work but they are not maintained. Currently supported tools are:
-- Bug fixes only: MATLAB R2022b with Vivado 2021.2
-- Bug fixes and new features: MATLAB R2023b with Vivado 2022.2
+- Bug fixes only: MATLAB R2023b with Vivado 2022.2
+- Bug fixes and new features: MATLAB R2025b with Vivado 2025.1
 
 ## Support and Documentation
 
@@ -42,10 +42,9 @@ The MATLAB hardware tests (`runHWTests`) connect to a board over a libIIO URI
 and honor the `IIO_URI` environment variable. They assume the board is already
 powered, booted, and reachable.
 
-[adi-labgrid-plugins](https://github.com/analogdevicesinc/adi-labgrid-plugins)
-can provision that board automatically — power it, boot the FPGA/SoC, and hand
-MATLAB the booted board's URI — both locally and in GitHub Actions, via the
-`adi-lg-matlab` launcher.
+[labgrid-plugins](https://github.com/tfcollins/labgrid-plugins)
+can provision that board automatically—power it, boot the FPGA/SoC, verify
+iiod, and hand MATLAB the resulting URI locally or in GitHub Actions.
 
 The mapping from a labgrid place (tagged with `carrier` / `daughter-board`) to
 the MATLAB board reference name that `runHWTests` expects lives in
@@ -54,18 +53,23 @@ the MATLAB board reference name that `runHWTests` expects lives in
 Run locally against a coordinator place:
 
 ```bash
-pip install "adi-labgrid-plugins @ git+https://github.com/tfcollins/labgrid-plugins.git@v2"
+pip install "labgrid-plugins[kuiper] @ git+https://github.com/tfcollins/labgrid-plugins.git@v3.5"
 
-adi-lg-matlab run \
-    --coord $LG_COORDINATOR --place mini2 \
-    --board-map test/hw_ci/board_map.yaml \
-    --repo-dir . --matlab /opt/MATLAB/R2025b/bin/matlab \
-    --junit junit-mini2.xml --acquire
+MATLAB_BIN=/mnt/onetb/MATLAB/R2025b/bin/matlab
+adi-lg request --part adrv9009 --carrier zc706 --wait 300 \
+  --run "$MATLAB_BIN -batch \"addpath(genpath('hdl')); addpath(genpath('test')); runHWTests('zynq-zc706-adv7511-adrv9009')\""
 ```
 
-This boots the board, sets `IIO_URI`, runs `runHWTests`, copies the JUnit
-results, and releases the place. The GitHub Actions equivalent is
+This reserves and boots the board, exports `IIO_URI` while `runHWTests` runs,
+and then releases the place. The GitHub Actions equivalent is
 [`.github/workflows/hw-matlab.yml`](.github/workflows/hw-matlab.yml). See the
 [MATLAB Hardware CI guide](https://adi-labgrid-plugins.readthedocs.io/en/latest/user-guide/matlab-hw-ci.html)
 for details.
 
+Older Zynq-7000 U-Boot builds, including the AD9371/ZC706 image, may ignore a
+nonstandard `tftpdstport` and always request boot files on UDP 69. The labgrid
+runner must either redirect UDP 69 to its managed TFTP port or use the
+exporter's published port-69 TFTP service. Exporter hostnames (for example
+`bq`) must also resolve on the runner because the serial console is exposed by
+RFC2217. A missing port redirect appears as `TFTP server died; starting again`
+in U-Boot; an unresolved exporter appears as an RFC2217 `getaddrinfo` error.

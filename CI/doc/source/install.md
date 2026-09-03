@@ -23,8 +23,8 @@ The base dependencies for the toolbox requires libIIO and the libIIO MATLAB bind
 
 To leverage HDL-Coder and the reference designs with the toolbox requires the following components:
 
-- Xilinx Vivado 2022.2
-- Xilinx Vitis 2022.2
+- Xilinx Vivado 2025.1
+- Xilinx Vitis 2025.1
 - Simulink
 - [HDL-Coder™](https://www.mathworks.com/products/hdl-coder.html)
 - [HDL Coder™ Support Package for Xilinx Zynq Platform](https://www.mathworks.com/matlabcentral/fileexchange/40447-hdl-coder-support-package-for-xilinx-zynq-platform)

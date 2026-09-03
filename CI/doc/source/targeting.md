@@ -16,7 +16,7 @@ Simplified block diagram of a SoC (FPGA fabric + ARM) device. Simulink-generated
 
 Targeting requires the HDL generation dependencies described in [Installation](install.md):
 
-- Xilinx Vivado and Vitis, version matched to your toolbox release (for example, Vivado/Vitis 2022.2 for the R2023b-based release)
+- Xilinx Vivado and Vitis, version matched to your toolbox release (for example, Vivado/Vitis 2025.1 for the R2025b-based release)
 - Simulink, [HDL Coder™](https://www.mathworks.com/products/hdl-coder.html), and the [HDL Coder™ Support Package for Xilinx Zynq Platform](https://www.mathworks.com/matlabcentral/fileexchange/40447-hdl-coder-support-package-for-xilinx-zynq-platform)
 
 Targeting is only available for specific transceiver and FPGA carrier combinations. See the support table on the [home page](index.md) — the **Targeting** column lists the boards and minimum releases that support this flow.
@@ -31,7 +31,7 @@ Register Vivado with HDL Coder so it can drive the build. Adjust the path for yo
 
 ```matlab
 hdlsetuptoolpath('ToolName','Xilinx Vivado', ...
-    'ToolPath','/opt/Xilinx/Vivado/2022.2/bin/vivado');
+    'ToolPath','/opt/Xilinx/Vivado/2025.1/bin/vivado');
 ```
 
 ### 2. Open a model
