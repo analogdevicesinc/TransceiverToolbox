@@ -43,6 +43,19 @@ switch lower(project)
             otherwise
                 error('Unknown reference design');
         end
+    case 'adrv9009zu11eg'
+        switch(upper(design))
+            case {'RX','RX & TX'}
+                hRD.addClockInterface( ...
+                    'ClockConnection',   'core_clk_b', ...
+                    'ResetConnection',   'sys_rstgen/peripheral_aresetn');
+            case 'TX'
+                hRD.addClockInterface( ...
+                    'ClockConnection',   'core_clk_a', ...
+                    'ResetConnection',   'sys_rstgen/peripheral_aresetn');
+            otherwise
+                error('Unknown reference design');
+        end
     case 'fmcomms8'
         switch(upper(design))
             case 'RX'

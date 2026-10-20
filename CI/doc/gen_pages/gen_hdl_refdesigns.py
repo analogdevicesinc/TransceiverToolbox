@@ -50,7 +50,11 @@ def update_hdl_refdesigns():
         else:
             objs[obj]["rd_image"] = "jesd"
 
-        objs[obj]["hdl_rd_doc"] = f"https://analogdevicesinc.github.io/hdl/projects/{objs[obj]['name']}/index.html"
+        hdl_doc_project = {
+            "adrv9002": "adrv9001",
+            "adrv9371": "adrv9371x",
+        }.get(objs[obj]["name"], objs[obj]["name"])
+        objs[obj]["hdl_rd_doc"] = f"https://analogdevicesinc.github.io/hdl/projects/{hdl_doc_project}/index.html"
 
 
         output = template.render(obj=objs[obj])

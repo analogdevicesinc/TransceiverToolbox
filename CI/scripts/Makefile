@@ -1,18 +1,18 @@
 # Usage:
 #	make <target> MLRELEASE=<MATLAB release version ex: R2018b> HDLBRANCH=<HDL git branch ex: hdl_2018_r1>
 # Example
-#	make build MLRELEASE=R2018b HDLBRANCH=hdl_2018_r1
+#	make build MLRELEASE=R2025b HDLBRANCH=hdl_2026_r1
 
 SHELL := /bin/bash
 
 MLFLAGS := -nodisplay -nodesktop -nosplash
 
 ifeq ($(MLRELEASE),)
-MLRELEASE := R2023b
+MLRELEASE := R2025b
 endif
 
 ifeq ($(HDLBRANCH),)
-HDLBRANCH := hdl_2022_r2
+HDLBRANCH := hdl_2026_r1
 endif
 
 ifeq ($(OS),Windows_NT)

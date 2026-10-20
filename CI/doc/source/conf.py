@@ -10,7 +10,6 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-import contextlib
 import os
 import re
 import shutil
@@ -64,7 +63,7 @@ def _toolbox_release() -> str:
             return f"v{match.group(1)}"
     except OSError:
         pass
-    return "v23.2.2"
+    return "v25.2.1"
 
 
 # The full version, including alpha/beta/rc tags
@@ -83,12 +82,16 @@ extensions = [
     "sphinx.ext.coverage",
     "sphinx.ext.githubpages",
     "myst_parser",
-    "sphinx_favicon",
     "sphinxcontrib.mermaid",
     "sphinx_copybutton",
-    "sphinx_design",
+    "adi_doctools",
 ]
 
+needs_extensions = {"adi_doctools": "0.4.21"}
+
+# Collapsible property blocks (adi_doctools "collapsible" directive) are
+# collapsed by default.
+hide_collapsible_content = True
 myst_enable_extensions = [
     "colon_fence",
 ]
@@ -106,9 +109,10 @@ exclude_patterns: List[str] = []
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = "furo"
+html_theme = "cosmic"
 
 html_title = f"{project} {release}"
+html_favicon = os.path.join("_static", "favicon.png")
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -122,40 +126,9 @@ html_css_files = [
 html_theme_options = {
     "light_logo": os.path.join("logos", "logo_black_cropped.png"),
     "dark_logo": os.path.join("logos", "logo_white_cropped.png"),
-    "dark_css_variables": {
-        "color-sidebar-item-background--current": "white",
-        "color-sidebar-link-text": "white",
-        "color-sidebar-link-text--top-level": "white",
-    },
-    "light_css_variables": {
-        "color-sidebar-item-background--current": "black",
-        "color-sidebar-link-text": "black",
-        "color-sidebar-link-text--top-level": "black",
-    },
 }
 
-if os.getenv("DEV_BUILD"):
-    branch = os.getenv("GIT_BRANCH")
-    if branch is None:
-        with contextlib.suppress(Exception):
-            # Try to get branch from git
-            import subprocess
-
-            branch = (
-                subprocess.run(
-                    args=["git", "rev-parse", "--abbrev-ref", "HEAD"],
-                    capture_output=True,
-                )
-                .stdout.decode("utf-8")
-                .strip()
-            )
-    if branch is None:
-        branch = "_UNKNOWN_"  # type: ignore
-    html_theme_options["announcement"] = (
-        "<em>WARNING: This is a development \
-        build of branch: <b>"
-        + branch
-        + "</b>. Please use the latest stable release.</em>"
-    )
-    html_theme_options["dark_css_variables"]["color-announcement-text"] = "red"
-    html_theme_options["light_css_variables"]["color-announcement-text"] = "red"
+# MathWorks blocks automated link checkers with HTTP 403 even though these
+# documentation pages are valid in a browser. Keep the user-facing links but
+# exclude them from Sphinx linkcheck so real stale links remain visible.
+linkcheck_ignore = [r"https://www\.mathworks\.com/.*"]

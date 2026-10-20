@@ -9,7 +9,7 @@ switch lower(project)
         Number_of_inputs = '4';
 		Number_of_valids = '1';
 		Data_width = '32'; % 32-16 bit hybrid
-    case 'fmcomms8'
+    case {'fmcomms8','adrv9009zu11eg'}
         Number_of_inputs = '8';
 		Number_of_valids = '1';
 		Data_width = '32'; % 32-16 bit hybrid

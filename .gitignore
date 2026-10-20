@@ -4,3 +4,14 @@
 AD9361_Filter_Wizard/*TestFiltWiz*.m
 AD9361_Filter_Wizard/.previous_ip_addr
 _generated/*
+
+# Generated HDL checkout and intermediate port map.
+hdl/vendor/AnalogDevices/vivado/
+CI/ports.json
+
+# MATLAB HDL build byproducts.
+test/tp*/
+test/logs/
+test/tc.mat
+test/*.log
+test/sweep_*.txt
