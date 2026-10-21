@@ -11,8 +11,10 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import os
+import re
 import shutil
 import sys
+from datetime import datetime
 from typing import List
 
 sys.path.insert(0, os.path.abspath("../.."))
@@ -42,11 +44,30 @@ for filename in os.listdir(os.path.join("..", "..", "..", "logos")):
 # -- Project information -----------------------------------------------------
 
 project = "Analog Devices, Inc. Transceiver Toolbox"
-copyright = "2019-2022, Analog Devices, Inc"
+copyright = f"2019-{datetime.now().year}, Analog Devices, Inc"
 author = "Analog Devices, Inc."
 
+
+def _toolbox_release() -> str:
+    """Return the toolbox release, read from the source of truth +adi/Version.m.
+
+    Falls back to a literal so the docs always build even if the file moves.
+    """
+    version_file = os.path.join(
+        os.path.dirname(__file__), "..", "..", "..", "+adi", "Version.m"
+    )
+    try:
+        with open(version_file, encoding="utf-8") as fh:
+            match = re.search(r"Release\s*=\s*'([^']+)'", fh.read())
+        if match:
+            return f"v{match.group(1)}"
+    except OSError:
+        pass
+    return "v25.2.1"
+
+
 # The full version, including alpha/beta/rc tags
-release = "v22.2.1"
+release = _toolbox_release()
 
 
 # -- General configuration ---------------------------------------------------
@@ -58,13 +79,11 @@ master_doc = "index"
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    # "sphinx.ext.autodoc",
     "sphinx.ext.coverage",
     "sphinx.ext.githubpages",
     "myst_parser",
     "sphinxcontrib.mermaid",
-    # "sphinx_copybutton",
-    # "sphinx_togglebutton", # Using this?
+    "sphinx_copybutton",
     "adi_doctools",
 ]
 
@@ -84,9 +103,6 @@ templates_path = ["_templates"]
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns: List[str] = []
-
-# Configuration of sphinx.ext.coverage
-#coverage_show_missing_items = True
 
 # -- Options for HTML output -------------------------------------------------
 

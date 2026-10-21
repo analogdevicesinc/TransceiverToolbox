@@ -9,15 +9,16 @@ classdef Rx < adi.AD9361.Rx
     %   <a href="http://www.analog.com/media/en/technical-documentation/data-sheets/AD9364.pdf">AD9364 Datasheet</a>
     %
     %   See also adi.FMComms4.Rx
-       
+
     methods
+
         %% Constructor
         function obj = Rx(varargin)
             % Returns the matlabshared.libiio.base object
             coder.allowpcode('plain');
             obj = obj@adi.AD9361.Rx(varargin{:});
         end
-    end
-    
-end
 
+    end
+
+end
