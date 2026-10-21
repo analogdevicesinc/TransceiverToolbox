@@ -53,7 +53,7 @@ RF Bandwidth of front-end analog filter in Hz, specified as a scalar from 200 kH
 
 
 :::{collapsible} GainControlModeChannel0ChipB
-specified as one of the following: 'slow_attack' — For signals with slowly changing power levels 'fast_attack' — For signals with rapidly changing power levels 'manual' — For setting the gain manually with the Gain property 'hybrid' — For configuring hybrid AGC mode
+specified as one of the following: 'slow_attack' - For signals with slowly changing power levels 'fast_attack' - For signals with rapidly changing power levels 'manual' - For setting the gain manually with the Gain property 'hybrid' - For configuring hybrid AGC mode
 :::
 
 
@@ -65,7 +65,7 @@ Channel 0 gain, specified as a scalar from -4 dB to 71 dB. The acceptable minimu
 
 
 :::{collapsible} GainControlModeChannel1ChipB
-specified as one of the following: 'slow_attack' — For signals with slowly changing power levels 'fast_attack' — For signals with rapidly changing power levels 'manual' — For setting the gain manually with the Gain property 'hybrid' — For configuring hybrid AGC mode
+specified as one of the following: 'slow_attack' - For signals with slowly changing power levels 'fast_attack' - For signals with rapidly changing power levels 'manual' - For setting the gain manually with the Gain property 'hybrid' - For configuring hybrid AGC mode
 :::
 
 
@@ -181,7 +181,7 @@ RF Bandwidth of front-end analog filter in Hz, specified as a scalar from 200 kH
 
 
 :::{collapsible} GainControlModeChannel0
-specified as one of the following: 'slow_attack' — For signals with slowly changing power levels 'fast_attack' — For signals with rapidly changing power levels 'manual' — For setting the gain manually with the Gain property 'hybrid' — For configuring hybrid AGC mode
+specified as one of the following: 'slow_attack' - For signals with slowly changing power levels 'fast_attack' - For signals with rapidly changing power levels 'manual' - For setting the gain manually with the Gain property 'hybrid' - For configuring hybrid AGC mode
 :::
 
 
@@ -193,7 +193,7 @@ Channel 0 gain, specified as a scalar from -3 dB to 71 dB. The acceptable minimu
 
 
 :::{collapsible} GainControlModeChannel1
-specified as one of the following: 'slow_attack' — For signals with slowly changing power levels 'fast_attack' — For signals with rapidly changing power levels 'manual' — For setting the gain manually with the Gain property 'hybrid' — For configuring hybrid AGC mode
+specified as one of the following: 'slow_attack' - For signals with slowly changing power levels 'fast_attack' - For signals with rapidly changing power levels 'manual' - For setting the gain manually with the Gain property 'hybrid' - For configuring hybrid AGC mode
 :::
 
 

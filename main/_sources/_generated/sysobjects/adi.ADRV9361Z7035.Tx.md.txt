@@ -10,7 +10,7 @@ Receive data from Analog Devices AD9361 transceiver
 
 <div class="sysobj_desc_txt">
 <span>
-    The adi.ADRV9361Z7035.Tx System object is a signal source that can <br>    send complex data to the FMComms2.<br> <br>    tx = adi.ADRV9361Z7035.Tx;<br>    tx = adi.ADRV9361Z7035.Tx('uri','ip:192.168.2.1');<br> <br>    <a href="https://www.analog.com/en/design-center/evaluation-hardware-and-software/evaluation-boards-kits/adrv9361-z7035.html">Product Page</a><br> <br>
+    The adi.ADRV9361Z7035.Tx System object is a signal source that can<br>    send complex data to the FMComms2.<br> <br>    tx = adi.ADRV9361Z7035.Tx;<br>    tx = adi.ADRV9361Z7035.Tx('uri','ip:192.168.2.1');<br> <br>    <a href="https://www.analog.com/en/design-center/evaluation-hardware-and-software/evaluation-boards-kits/adrv9361-z7035.html">Product Page</a><br> <br>
 </span>
 
 </div>

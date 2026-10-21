@@ -10,7 +10,7 @@ Receive data from Analog Devices AD9361 transceiver
 
 <div class="sysobj_desc_txt">
 <span>
-    The adi.ADRV9371.Rx System object is a signal source that can receive<br>    complex data from the ADRV9371.<br> <br>    rx = adi.AD9371.Rx;<br>    rx = adi.AD9371.Rx('uri','ip:192.168.2.1');<br> <br>    <a href="https://www.analog.com/en/design-center/evaluation-hardware-and-software/evaluation-boards-kits/EVAL-ADRV9371.html">Product Page</a>    <br> <br>
+    The adi.ADRV9371.Rx System object is a signal source that can receive<br>    complex data from the ADRV9371.<br> <br>    rx = adi.AD9371.Rx;<br>    rx = adi.AD9371.Rx('uri','ip:192.168.2.1');<br> <br>    <a href="https://www.analog.com/en/design-center/evaluation-hardware-and-software/evaluation-boards-kits/EVAL-ADRV9371.html">Product Page</a><br> <br>
 </span>
 
 </div>
@@ -41,7 +41,7 @@ For more information on changing property values, see <a href="https://www.mathw
 
 
 :::{collapsible} GainControlMode
-specified as one of the following: 'slow_attack' — For signals with slowly changing power levels 'fast_attack' — For signals with rapidly changing power levels 'manual' — For setting the gain manually with the Gain property 'hybrid' — For configuring hybrid AGC mode
+specified as one of the following: 'slow_attack' - For signals with slowly changing power levels 'fast_attack' - For signals with rapidly changing power levels 'manual' - For setting the gain manually with the Gain property 'hybrid' - For configuring hybrid AGC mode
 :::
 
 

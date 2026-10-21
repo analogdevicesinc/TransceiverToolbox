@@ -41,7 +41,7 @@ For more information on changing property values, see <a href="https://www.mathw
 
 
 :::{collapsible} GainControlMode
-specified as one of the following: 'slow_attack' — For signals with slowly changing power levels 'manual' — For setting the gain manually with the Gain property
+specified as one of the following: 'slow_attack' - For signals with slowly changing power levels 'manual' - For setting the gain manually with the Gain property
 :::
 
 
