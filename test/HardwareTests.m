@@ -41,6 +41,13 @@ classdef HardwareTests < matlab.unittest.TestCase
                 
             catch ME
                 disp(ME.message);
+                if ~isempty(getenv('LG_PLACE'))
+                    % labgrid provisioned and booted this board, so it must
+                    % be reachable; skipping here would hide real failures.
+                    assertFail(testCase,sprintf( ...
+                        'Device on labgrid place %s not reachable: %s', ...
+                        getenv('LG_PLACE'),ME.message));
+                end
                 assumeFail(testCase,'Filtering test: No device found');
             end
         end
