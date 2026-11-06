@@ -1,2 +1,2 @@
 % HDL Coder BSP: Analog Devices Inc
-% Version 23.2.2 (R2023b) 25-October-2024
+% Version 25.2.1 (R2025b) 04-November-2026

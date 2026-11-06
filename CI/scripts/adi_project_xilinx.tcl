@@ -391,6 +391,24 @@ proc adi_xcvr_project {parameters_for_make} {
     }
   }
 
+  # gtwiz_parser.pl (run inside the nested wizard build) uses `git diff` and
+  # `git checkout` on library/xilinx/util_adxcvr to derive the transceiver
+  # cfng file. The toolbox ships the HDL tree without .git, so without a repo
+  # the parser silently writes no *_cfng.txt and the JESD designs fail later.
+  # A bare index (no commit) is enough for the parser.
+  # Only a repo rooted at $ad_hdl_dir counts: the HDL Coder project copy may
+  # live inside an unrelated checkout where util_adxcvr is untracked.
+  if {[catch {exec git -C $ad_hdl_dir rev-parse --show-toplevel} _git_top] || \
+      [file normalize $_git_top] ne [file normalize $ad_hdl_dir]} {
+    if {[catch {
+      exec git -C $ad_hdl_dir init -q
+      exec git -C $ad_hdl_dir add library/xilinx/util_adxcvr
+    } _git_err]} {
+      return -code error "adi_xcvr_project: git is required to generate transceiver settings ($_git_err)"
+    }
+    puts "adi_xcvr_project: initialised git index in $ad_hdl_dir for gtwiz_parser.pl"
+  }
+
   set make_command "make"
   set adi_project_dir_path [file join $ad_hdl_dir/projects $project_name $carrier_name]
   cd $adi_project_dir_path
@@ -418,6 +436,10 @@ proc adi_xcvr_project {parameters_for_make} {
     }
 
     append make_command " " [join $formatted_params " "]
+    # project-xilinx.mk orders the per-config directory name differently
+    # depending on MAKELEVEL (outer make vs. a Vivado launched by MATLAB),
+    # so remember both orders and accept either below.
+    set gt_xcvr_file_alt [join [lreverse $gt_xcvr_file] "_"]
     set gt_xcvr_file [join  $gt_xcvr_file "_"]
     set config_parser_dir_name "${xcvr_type}_${ad_project_make_params(PLL_TYPE)}_${ad_project_make_params(LANE_RATE)}_${ad_project_make_params(REF_CLK)}"
     set file_local_param [string tolower $config_parser_dir_name]
@@ -452,6 +474,7 @@ proc adi_xcvr_project {parameters_for_make} {
       }
   } elseif {$gt_xcvr_file ne ""} {
       lappend _candidates "$gt_xcvr_file/${project_name}_${carrier_name}.gen"
+      lappend _candidates "$gt_xcvr_file_alt/${project_name}_${carrier_name}.gen"
   }
   lappend _candidates "${project_name}_${carrier_name}.gen"
 

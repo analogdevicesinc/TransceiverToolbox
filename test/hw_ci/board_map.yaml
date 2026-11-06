@@ -38,12 +38,17 @@ boards:
 
   # --- AD9371 / ADRV9371 ---
   - {carrier: zcu102, daughter-board: adrv9371, matlab_board: zynqmp-zcu102-rev10-adrv9371}
-  - {carrier: zc706,  daughter-board: adrv9371, matlab_board: zynq-zc706-adv7511-adrv9371}
+  # Disabled 2026-11: the lab's ZC706+ADRV9371 place (bq) does not boot (its
+  # U-Boot env TFTPs from a retired subnet) and its runner label (hw-bq) has no
+  # MATLAB runner. Re-enable once the rig boots and is routed to hw-nemo.
+  # - {carrier: zc706,  daughter-board: adrv9371, matlab_board: zynq-zc706-adv7511-adrv9371}
 
   # --- ADRV9002 (CMOS default; hdl-config selects LVDS vs CMOS) ---
-  - {carrier: zcu102, daughter-board: adrv9002, matlab_board: zynqmp-zcu102-rev10-adrv9002-vcmos}
-  - {carrier: zcu102, daughter-board: adrv9002, hdl-config: lvds, matlab_board: zynqmp-zcu102-rev10-adrv9002-vlvds}
-  - {carrier: zcu102, daughter-board: adrv9002, hdl-config: cmos, matlab_board: zynqmp-zcu102-rev10-adrv9002-vcmos}
+  # Disabled 2026-11: the lab's ZCU102+ADRV9002 place (mini2) has no SD mux
+  # (moved to tron) and routes to hw-bq, which has no MATLAB runner.
+  # - {carrier: zcu102, daughter-board: adrv9002, matlab_board: zynqmp-zcu102-rev10-adrv9002-vcmos}
+  # - {carrier: zcu102, daughter-board: adrv9002, hdl-config: lvds, matlab_board: zynqmp-zcu102-rev10-adrv9002-vlvds}
+  # - {carrier: zcu102, daughter-board: adrv9002, hdl-config: cmos, matlab_board: zynqmp-zcu102-rev10-adrv9002-vcmos}
   - {carrier: zed,    daughter-board: adrv9002, matlab_board: zynq-zed-adv7511-adrv9002-vcmos}
 
   # --- ADRV9009 ---
@@ -51,6 +56,12 @@ boards:
   - {carrier: zc706,  daughter-board: adrv9009, matlab_board: zynq-zc706-adv7511-adrv9009}
 
   # --- ADRV9009-ZU11EG SOM (dual ADRV9009 on ADRV2CRR-FMC) ---
+  # The lab place (tron) is tagged daughter-board=adrv9009zu11eg /
+  # carrier=adrv2crr-fmc; the hyphen/underscore spellings are kept for other labs.
+  # Disabled 2026-11: tron is not reported as a live place by the coordinator
+  # and its BootZynqMPJTAG boot fails the lab's daily boot-smoke.
+  # - {carrier: adrv2crr-fmc, daughter-board: adrv9009zu11eg, matlab_board: zynqmp-adrv9009-zu11eg-revb-adrv2crr-fmc-revb}
+  # - {daughter-board: adrv9009zu11eg, matlab_board: zynqmp-adrv9009-zu11eg-revb-adrv2crr-fmc-revb}
   - {carrier: adrv2crr_fmc, daughter-board: adrv9009-zu11eg, matlab_board: zynqmp-adrv9009-zu11eg-revb-adrv2crr-fmc-revb}
   - {daughter-board: adrv9009-zu11eg, matlab_board: zynqmp-adrv9009-zu11eg-revb-adrv2crr-fmc-revb}
 

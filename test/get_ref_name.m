@@ -136,8 +136,6 @@ function ref_name = get_ref_name(rd_name)
                     ref_name = 'zynq-adrv9361-z7035-bob-vlvds';
                 case 'ccfmc_lvds'
                     ref_name = 'zynq-adrv9361-z7035-fmc';
-                case 'ccpackrf_lvds'
-                    ref_name = 'zynq-adrv9361-z7035-packrf';
                 otherwise
                     error('Unknown board');
             end
@@ -148,8 +146,6 @@ function ref_name = get_ref_name(rd_name)
                     ref_name = 'zynq-adrv9364-z7020-bob-vcmos';
                 case 'ccbob_lvds'
                     ref_name = 'zynq-adrv9364-z7020-bob-vlvds';
-                case 'ccpackrf_lvds'
-                    ref_name = 'zynq-adrv9364-z7020-packrf';
                 otherwise
                     error('Unknown board');
             end

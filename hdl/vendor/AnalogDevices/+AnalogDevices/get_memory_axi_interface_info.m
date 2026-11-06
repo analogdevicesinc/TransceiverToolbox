@@ -43,7 +43,7 @@ switch project
                 MasterIndex = 'M07';
                 BaseAddress = '0x43C00000';
                 MasterAddressSpace = 'sys_ps7/Data';
-            case {'ccbox_lvds','ccpackrf_lvds'}
+            case 'ccbox_lvds'
                 MasterIndex = 'M06';
                 BaseAddress = '0x43C00000';
                 MasterAddressSpace = 'sys_ps7/Data';

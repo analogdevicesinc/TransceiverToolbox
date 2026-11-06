@@ -17,6 +17,7 @@ Targeting requires the HDL generation dependencies described in [Installation](i
 
 - Xilinx Vivado and Vitis, version matched to your toolbox release (for example, Vivado/Vitis 2025.1 for the R2025b-based release)
 - Simulink, [HDL Coder™](https://www.mathworks.com/products/hdl-coder.html), and the [HDL Coder™ Support Package for Xilinx Zynq Platform](https://www.mathworks.com/matlabcentral/fileexchange/40447-hdl-coder-support-package-for-xilinx-zynq-platform)
+- For JESD204-based designs (ADRV9009, ADRV9371, FMComms8, ADRV9009-ZU11EG): `git` and `perl` on the system `PATH`. On Windows, Git for Windows provides both.
 
 Targeting is only available for specific transceiver and FPGA carrier combinations. See the support table on the [home page](index.md)—the **Targeting** column lists the boards and minimum releases that support this flow.
 

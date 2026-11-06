@@ -53,6 +53,25 @@ classdef ADRV9009Tests < HardwareTests
         end
     end
     
+    methods
+        function tf = isZC706(~)
+            % ZC706 (Zynq-7000 GTX) cannot run the 245.76 MSPS profiles.
+            % LG_CARRIER is exported by labgrid (adi-lg request).
+            tf = strcmpi(getenv('LG_CARRIER'),'zc706');
+        end
+
+        function [profile, fs] = defaultProfile(testCase)
+            % Highest-rate profile supported by the carrier under test
+            if testCase.isZC706()
+                profile = 'Tx_BW100_IR122p88_Rx_BW100_OR122p88_ORx_BW100_OR122p88_DC122p88.txt';
+                fs = 122.88e6;
+            else
+                profile = 'Tx_BW200_IR245p76_Rx_BW200_OR245p76_ORx_BW200_OR245p76_DC245p76.txt';
+                fs = 245.76e6;
+            end
+        end
+    end
+
     methods (Static)
         function estFrequency(data,fs)
             nSamp = length(data);
@@ -201,6 +220,8 @@ classdef ADRV9009Tests < HardwareTests
         
         function testADRV9009RxCustomProfile1(testCase)
             % Test Rx custom profiles
+            testCase.assumeFalse(testCase.isZC706(), ...
+                '245.76 MSPS profile exceeds ZC706 JESD204 lane-rate support');
             rx = adi.ADRV9009.Rx('uri',testCase.uri);
             rx.EnabledChannels = 1;
             rx.EnableCustomProfile = true;
@@ -222,6 +243,8 @@ classdef ADRV9009Tests < HardwareTests
         
         function testADRV9009RxCustomProfile2(testCase)
             % Test Rx custom profiles
+            testCase.assumeFalse(testCase.isZC706(), ...
+                '245.76 MSPS profile exceeds ZC706 JESD204 lane-rate support');
             rx = adi.ADRV9009.Rx('uri',testCase.uri);
             rx.EnabledChannels = 1;
             rx.EnableCustomProfile = true;
@@ -240,24 +263,26 @@ classdef ADRV9009Tests < HardwareTests
             testCase.verifyEqual(txSampleRate,int64(245.76e6*2),...
                 'Invalid sample rate after profile write');
         end
-%         
-%         function testADRV9009RxCustomProfileZC706(testCase)
-%             % Test Rx custom profiles
-%             rx = adi.ADRV9009.Rx('uri',testCase.uri);
-%             rx.EnabledChannels = 1;
-%             rx.EnableCustomProfile = true;
-%             rx.CustomProfileFileName = ...
-%                 'Tx_BW100_IR122p88_Rx_BW100_OR122p88_ORx_BW100_OR122p88_DC122p88.txt';
-%             [out, valid] = rx();
-%             rxSampleRate = rx.getAttributeLongLong('voltage0',...
-%                 'sampling_frequency',false);
-%             rx.release();
-%             testCase.verifyTrue(valid);
-%             testCase.verifyGreaterThan(sum(abs(double(out))),0);
-%             testCase.verifyEqual(rxSampleRate,int64(122880000),...
-%                 'Invalid sample rate after profile write');
-%         end
-        
+
+        function testADRV9009RxCustomProfileZC706(testCase)
+            % Test Rx custom profile supported by ZC706 (122.88 MSPS)
+            testCase.assumeTrue(testCase.isZC706(), ...
+                '122.88 MSPS profile test only runs on ZC706');
+            rx = adi.ADRV9009.Rx('uri',testCase.uri);
+            rx.EnabledChannels = 1;
+            rx.EnableCustomProfile = true;
+            rx.CustomProfileFileName = ...
+                'Tx_BW100_IR122p88_Rx_BW100_OR122p88_ORx_BW100_OR122p88_DC122p88.txt';
+            [out, valid] = rx();
+            rxSampleRate = rx.getAttributeLongLong('voltage0',...
+                'sampling_frequency',false);
+            rx.release();
+            testCase.verifyTrue(valid);
+            testCase.verifyGreaterThan(sum(abs(double(out))),0);
+            testCase.verifyEqual(rxSampleRate,int64(122880000),...
+                'Invalid sample rate after profile write');
+        end
+
         function testADRV9009RxWithTxDDS(testCase)
             % Test DDS output
             tx = adi.ADRV9009.Tx('uri',testCase.uri);
@@ -266,8 +291,7 @@ classdef ADRV9009Tests < HardwareTests
             tx.DDSFrequencies = repmat(toneFreq,2,4);
             tx.AttenuationChannel0 = -10;
             tx.EnableCustomProfile = true;
-            tx.CustomProfileFileName = ...
-                'Tx_BW200_IR245p76_Rx_BW200_OR245p76_ORx_BW200_OR245p76_DC245p76.txt';
+            tx.CustomProfileFileName = testCase.defaultProfile();
             tx();
             pause(1);
             rx = adi.ADRV9009.Rx('uri',testCase.uri);
@@ -301,7 +325,9 @@ classdef ADRV9009Tests < HardwareTests
             tx = adi.ADRV9009.Tx('uri',testCase.uri);
             tx.DataSource = 'DDS';
             toneFreq1 = 30e6;
-            toneFreq2 = 85e6;
+            % Keep the second tone inside the profile's Rx bandwidth
+            [~, fsProfile] = testCase.defaultProfile();
+            toneFreq2 = min(85e6, 0.35*fsProfile);
             
             tx.DDSFrequencies = [toneFreq1,toneFreq1,toneFreq2,toneFreq2;...
                 0,0,0,0];
@@ -312,8 +338,7 @@ classdef ADRV9009Tests < HardwareTests
             
             tx.AttenuationChannel0 = -10;
             tx.EnableCustomProfile = true;
-            tx.CustomProfileFileName = ...
-                'Tx_BW200_IR245p76_Rx_BW200_OR245p76_ORx_BW200_OR245p76_DC245p76.txt';
+            tx.CustomProfileFileName = testCase.defaultProfile();
             tx();
             pause(1);
             rx = adi.ADRV9009.Rx('uri',testCase.uri);
@@ -349,7 +374,8 @@ classdef ADRV9009Tests < HardwareTests
             swv1 = dsp.SineWave(amplitude, frequency);
             swv1.ComplexOutput = true;
             swv1.SamplesPerFrame = 2^20;
-            swv1.SampleRate = 245.76e6;
+            [~, fsProfile] = testCase.defaultProfile();
+            swv1.SampleRate = fsProfile;
             y = swv1();
             
             tx = adi.ADRV9009.Tx('uri',testCase.uri);
@@ -357,8 +383,7 @@ classdef ADRV9009Tests < HardwareTests
             tx.EnableCyclicBuffers = true;
             tx.AttenuationChannel0 = -10;
             tx.EnableCustomProfile = true;
-            tx.CustomProfileFileName = ...
-                'Tx_BW200_IR245p76_Rx_BW200_OR245p76_ORx_BW200_OR245p76_DC245p76.txt';
+            tx.CustomProfileFileName = testCase.defaultProfile();
             tx(y);
             rx = adi.ADRV9009.Rx('uri',testCase.uri);
             rx.EnabledChannels = 1;

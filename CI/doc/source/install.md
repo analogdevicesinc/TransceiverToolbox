@@ -26,6 +26,7 @@ To leverage HDL-Coder and the reference designs with the toolbox requires the fo
 - Simulink
 - [HDL-Coder™](https://www.mathworks.com/products/hdl-coder.html)
 - [HDL Coder™ Support Package for Xilinx Zynq Platform](https://www.mathworks.com/matlabcentral/fileexchange/40447-hdl-coder-support-package-for-xilinx-zynq-platform)
+- `git` and `perl` on the system `PATH` (JESD204-based designs only: ADRV9009, ADRV9371, FMComms8 and ADRV9009-ZU11EG). The ADI HDL transceiver configuration step runs a Perl parser that requires a git work tree. On Windows, [Git for Windows](https://gitforwindows.org/) provides both.
 
 ## Connecting To Hardware
 
