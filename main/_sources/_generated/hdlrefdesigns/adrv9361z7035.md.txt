@@ -11,7 +11,6 @@ AD9361 component. The IP-Core Generation follow is available on the based on the
     - CCBOB_LVDS
     - CCBOX_LVDS
     - CCFMC_LVDS
-    - CCPACKRF_LVDS
 - Supported design variants:
     - RX
     - TX
