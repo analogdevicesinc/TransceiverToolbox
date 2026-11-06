@@ -6,8 +6,7 @@
       "ccbob_cmos",
       "ccbob_lvds",
       "ccbox_lvds",
-      "ccfmc_lvds",
-      "ccpackrf_lvds"
+      "ccfmc_lvds"
     ],
     "supported_rd": [
       "rx",

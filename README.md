@@ -19,7 +19,7 @@ If you use it, and like it - please let us know. If you use it, and hate it - pl
 ## Supported Tools and Releases
 
 We provide support across two releases of MATLAB. This does not mean older releases will not work but they are not maintained. Currently supported tools are:
-- Bug fixes only: MATLAB R2023b with Vivado 2022.2
+- Bug fixes only: MATLAB R2023b with Vivado 2022.2 ([hdl_2022_r2](https://github.com/analogdevicesinc/TransceiverToolbox/tree/hdl_2022_r2) branch)
 - Bug fixes and new features: MATLAB R2025b with Vivado 2025.1
 
 ## Support and Documentation
