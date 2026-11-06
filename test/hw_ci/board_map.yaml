@@ -56,10 +56,12 @@ boards:
   - {carrier: zc706,  daughter-board: adrv9009, matlab_board: zynq-zc706-adv7511-adrv9009}
 
   # --- ADRV9009-ZU11EG SOM (dual ADRV9009 on ADRV2CRR-FMC) ---
-  # The live lab place (tron) is tagged daughter-board=adrv9009zu11eg /
+  # The lab place (tron) is tagged daughter-board=adrv9009zu11eg /
   # carrier=adrv2crr-fmc; the hyphen/underscore spellings are kept for other labs.
-  - {carrier: adrv2crr-fmc, daughter-board: adrv9009zu11eg, matlab_board: zynqmp-adrv9009-zu11eg-revb-adrv2crr-fmc-revb}
-  - {daughter-board: adrv9009zu11eg, matlab_board: zynqmp-adrv9009-zu11eg-revb-adrv2crr-fmc-revb}
+  # Disabled 2026-11: tron is not reported as a live place by the coordinator
+  # and its BootZynqMPJTAG boot fails the lab's daily boot-smoke.
+  # - {carrier: adrv2crr-fmc, daughter-board: adrv9009zu11eg, matlab_board: zynqmp-adrv9009-zu11eg-revb-adrv2crr-fmc-revb}
+  # - {daughter-board: adrv9009zu11eg, matlab_board: zynqmp-adrv9009-zu11eg-revb-adrv2crr-fmc-revb}
   - {carrier: adrv2crr_fmc, daughter-board: adrv9009-zu11eg, matlab_board: zynqmp-adrv9009-zu11eg-revb-adrv2crr-fmc-revb}
   - {daughter-board: adrv9009-zu11eg, matlab_board: zynqmp-adrv9009-zu11eg-revb-adrv2crr-fmc-revb}
 
