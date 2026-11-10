@@ -1,5 +1,5 @@
-classdef FMComms5Tests < HardwareTests
-    
+classdef (SharedTestFixtures={labgrid.fixtures.BoardFixture("fmcomms5")}) ...
+        FMComms5Tests < HardwareTests
     properties
         uri = 'ip:analog';
         author = 'ADI';

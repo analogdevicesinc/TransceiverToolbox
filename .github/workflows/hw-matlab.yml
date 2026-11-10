@@ -1,29 +1,44 @@
 name: Hardware Tests (labgrid)
 
+# MATLAB hardware CI via labgrid-plugins' reusable matlab-hw-request.yml:
+#   preflight (hw-coordinator runner) intersects test/hw_ci/board_map.yaml with the live
+#   coordinator boards; one leg per board then runs
+#     adi-lg request --part <part> --carrier <carrier> --run "matlab -batch ...runHWTests('<matlab_board>')"
+#   i.e. labgrid reserves + boots + verifies the board and exports IIO_URI to MATLAB, and
+#   releases it when MATLAB exits. Pass/fail is read from <matlab_board>_HWTestResults.xml
+#   (MATLAB's exit code is not trusted: R2025b can crash in exit()).
+#
+# The test classes carry labgrid.fixtures.BoardFixture (test/labgrid-matlab submodule), so the
+# same classes also work interactively: with LG_COORDINATOR set and no IIO_URI, the fixture
+# requests the board itself.
+#
+# Repo variables: LG_COORDINATOR (gRPC host:20408), HW_REQUEST_RUNNER (fallback leg label,
+# e.g. hw-lab), HW_PREFLIGHT_RUNNER (hw-coordinator), MATLAB_BIN (matlab binary on the leg
+# runner). Legs prefer the board's own `runner` tag (hw-<place>) when a runner with that label
+# is registered on this repo.
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 8 * * *"
+  pull_request:
+    types: [labeled]
+
 permissions:
   contents: read
   checks: write
   pull-requests: write
 
-on:
-  workflow_dispatch:
-  push:
-    branches: [main]
-  pull_request:
-    types: [labeled, opened, synchronize, reopened]
-  schedule:
-    - cron: "0 8 * * *"
-
 jobs:
   hw-matlab:
+    # PRs opt in with the `hw-test` label; always on dispatch/cron.
     if: >-
       github.event_name != 'pull_request' ||
       contains(github.event.pull_request.labels.*.name, 'hw-test')
-    uses: tfcollins/labgrid-plugins/.github/workflows/matlab-hw-request.yml@v3.5
+    uses: tfcollins/labgrid-plugins/.github/workflows/matlab-hw-request.yml@v6
     with:
-      coordinator: ${{ vars.ADI_LG_COORDINATOR }}
+      coordinator: ${{ vars.LG_COORDINATOR }}
       board-map: "test/hw_ci/board_map.yaml"
-      runner-label: ${{ vars.HW_REQUEST_RUNNER || 'hw-lab' }}
-      preflight-runner-label: ${{ vars.HW_PREFLIGHT_RUNNER || 'hw-coordinator' }}
+      runner-label: ${{ vars.HW_REQUEST_RUNNER }}
+      preflight-runner-label: ${{ vars.HW_PREFLIGHT_RUNNER }}
       matlab-bin: ${{ vars.MATLAB_BIN }}
-      wait: 1800

@@ -1,5 +1,5 @@
-classdef AD9371Tests < HardwareTests
-    
+classdef (SharedTestFixtures={labgrid.fixtures.BoardFixture("adrv9371")}) ...
+        AD9371Tests < HardwareTests
     properties
         uri = 'ip:analog';
         SamplingRateRX = 122.88e6;

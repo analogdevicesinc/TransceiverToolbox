@@ -1,5 +1,5 @@
-classdef FMComms8Tests < HardwareTests
-    
+classdef (SharedTestFixtures={labgrid.fixtures.BoardFixture("fmcomms8")}) ...
+        FMComms8Tests < HardwareTests
     properties
         uri = 'ip:analog-2.local';
         SamplingRateRX = 245.76e6;
