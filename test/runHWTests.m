@@ -1,17 +1,28 @@
-function runHWTests(board)
+function exitcode = runHWTests(board)
+% runHWTests  Run the hardware test classes for a board against a labgrid-booted device.
+%
+%   runHWTests(board)             board = device-tree style name, e.g. "zynq-zc706-adv7511-adrv9009"
+%   exitcode = runHWTests(board)  0 all passed, 2 any failed, 3 any incomplete (no device)
+%
+% The board is booted by the labgrid coordinator, not by MATLAB:
+%   CI:          matlab-hw-request.yml runs `adi-lg request --part <p> --run "matlab ... runHWTests('<board>')"`
+%                and IIO_URI / LG_PLACE / LG_CARRIER are exported to MATLAB.
+%   Interactive: setenv LG_COORDINATOR 10.0.0.41:20408; runHWTests('<board>') — each test class's
+%                labgrid.fixtures.BoardFixture (test/labgrid-matlab submodule) requests the board itself.
+%
+% Results: <board>_HWTestResults.xml (JUnit), <board>_labgrid-summary.json, failures.txt.
+% Never calls exit(): MATLAB R2025b can crash in exit() after writing the JUnit file, so CI
+% reads pass/fail from the XML. Run `git submodule update --init --recursive` after cloning.
 
-import matlab.unittest.TestRunner;
-import matlab.unittest.TestSuite;
-import matlab.unittest.plugins.TestReportPlugin;
-import matlab.unittest.plugins.XMLPlugin
-import matlab.unittest.plugins.DiagnosticsValidationPlugin
-import matlab.unittest.parameters.Parameter
-import matlab.unittest.plugins.ToUniqueFile;
-import matlab.unittest.plugins.TAPPlugin;
 import matlab.unittest.constraints.ContainsSubstring;
-import matlab.unittest.selectors.HasName;
 import matlab.unittest.selectors.HasProcedureName;
 import matlab.unittest.selectors.HasTag
+import matlab.unittest.plugins.TestReportPlugin;
+
+here = fileparts(mfilename('fullpath'));
+if exist('labgrid.runTests', 'file') ~= 2
+    addpath(fullfile(here, 'labgrid-matlab', 'toolbox'));
+end
 
 useNTags = false; % Not tags
 
@@ -91,37 +102,27 @@ if useNTags
 end
 
 
-try
-    
-    runner = matlab.unittest.TestRunner.withTextOutput('OutputDetail',1);
-    runner.addPlugin(DiagnosticsValidationPlugin);
-    runner.addPlugin(LabgridHardwarePlugin());
-    xmlFile = board+"_HWTestResults.xml";
-    plugin = XMLPlugin.producingJUnitFormat(xmlFile);
-    runner.addPlugin(plugin);
-    results = runner.run(suite);
-    
-    t = table(results);
-    disp(t);
-    disp(repmat('#',1,80));
-    fid = fopen('failures.txt','a+');
-    exitcode = 0;
-    for test = results
-        if test.Failed
-            disp(test.Name);
-            fprintf(fid,string(test.Name)+'\n');
-            exitcode = 2;
-        elseif test.Incomplete
-            exitcode = 3;
-        end
+results = labgrid.runTests(suite, ...
+    Plugins={LabgridHardwarePlugin()}, ...
+    JUnit=board+"_HWTestResults.xml", ...
+    Summary=board+"_labgrid-summary.json", ...
+    Verbosity=1);
+
+t = table(results);
+disp(t);
+disp(repmat('#',1,80));
+fid = fopen('failures.txt','a+');
+exitcode = 0;
+for test = results
+    if test.Failed
+        disp(test.Name);
+        fprintf(fid,string(test.Name)+'\n');
+        exitcode = 2;
+    elseif test.Incomplete && exitcode == 0
+        exitcode = 3;
     end
-    fclose(fid);
-catch e
-    disp(getReport(e,'extended'));
-    bdclose('all');
-    exit(1);
 end
-save(['BSPTest_',datestr(now,'dd_mm_yyyy-HH_MM_SS'),'.mat'],'t');
+fclose(fid);
+save("BSPTest_" + string(datetime("now", Format="dd_MM_yyyy-HH_mm_ss")) + ".mat", 't');
 bdclose('all');
-exit(exitcode);
 end

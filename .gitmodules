@@ -2,3 +2,6 @@
 	path = +adi/+common
 	url = https://github.com/analogdevicesinc/ToolboxCommon.git
 	branch = master
+[submodule "test/labgrid-matlab"]
+	path = test/labgrid-matlab
+	url = https://github.com/tfcollins/labgrid-matlab.git

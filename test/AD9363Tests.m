@@ -1,5 +1,5 @@
-classdef AD9363Tests < HardwareTests 
-       
+classdef (SharedTestFixtures={labgrid.fixtures.BoardFixture("pluto")}) ...
+        AD9363Tests < HardwareTests
     properties
         uri = 'ip:analog';
         author = 'ADI';
