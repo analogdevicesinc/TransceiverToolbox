@@ -2,7 +2,7 @@ classdef (Abstract, Hidden = true) Base < ...
         adi.common.RxTx & ...
         adi.common.Attribute & ...
         adi.common.DebugAttribute & ...
-        matlabshared.libiio.base
+        adi.common.IIOBase
     %adi.ADRV9009.Base Class
     %   This class contains shared parameters and methods between TX and RX
     %   classes
@@ -63,7 +63,7 @@ classdef (Abstract, Hidden = true) Base < ...
         %% Constructor
         function obj = Base(varargin)
             coder.allowpcode('plain');
-            obj = obj@matlabshared.libiio.base(varargin{:});
+            obj = obj@adi.common.IIOBase(varargin{:});
         end
         % Check SamplesPerFrame
         function set.SamplesPerFrame(obj, value)

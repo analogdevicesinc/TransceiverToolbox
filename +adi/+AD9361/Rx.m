@@ -255,7 +255,7 @@ classdef Rx < adi.AD9361.Base & adi.AD9361.TuneAGC & ...
             if obj.ConnectedToDevice && ~obj.EnableCustomFilter
                 id = 'voltage0';
                 p = 'sampling_frequency';
-                if libisloaded('libad9361')
+                if hasLibad9361(obj)
                     calllib('libad9361','ad9361_set_bb_rate',obj.iioDevPHY,int32(value));
                 else
                     obj.setAttributeLongLong(id,p,value,true,4);
@@ -307,7 +307,7 @@ classdef Rx < adi.AD9361.Base & adi.AD9361.TuneAGC & ...
             
             % Sample rates and RF bandwidth
             if  ~obj.EnableCustomFilter
-                if libisloaded('libad9361')
+                if hasLibad9361(obj)
                     calllib('libad9361','ad9361_set_bb_rate',obj.iioDevPHY,int32(obj.SamplingRate));
                 else
                     obj.setAttributeLongLong('voltage0','sampling_frequency',obj.SamplingRate,true,4);

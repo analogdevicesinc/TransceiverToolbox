@@ -2,7 +2,7 @@ classdef (Abstract, Hidden = true) Base < ...
         adi.common.RxTx & ...
         adi.common.Attribute & ...
         adi.common.DebugAttribute & ...
-        matlabshared.libiio.base
+        adi.common.IIOBase
 
     %adi.AD9361.Base Class
     %   This class contains shared parameters and methods between TX and RX
@@ -59,7 +59,7 @@ classdef (Abstract, Hidden = true) Base < ...
         %% Constructor
         function obj = Base(varargin)
             coder.allowpcode('plain');
-            obj = obj@matlabshared.libiio.base(varargin{:});
+            obj = obj@adi.common.IIOBase(varargin{:});
         end
         % Destructor
         function delete(obj)
@@ -100,25 +100,21 @@ classdef (Abstract, Hidden = true) Base < ...
         end
         
         function setupLibad9361(obj)
-            libName = 'libad9361';
-            ad9361wrapperh = 'ad9361-wrapper.h';
-            ad9361h = 'ad9361.h';
-            fp = fileparts(which(ad9361h));
-            loadlibraryArgs = {ad9361wrapperh,'includepath',fp,'addheader',ad9361h};
-            if ~libisloaded(libName)
-                msgID = 'MATLAB:loadlibrary:StructTypeExists';
-                warnStruct = warning('off',msgID);
-                [~, ~] = loadlibrary(libName, loadlibraryArgs{:});
-                warning(warnStruct);
-            end
-            obj.iioDevPHY = calllib('libiio', 'iio_context_find_device',obj.iioCtx,'ad9361-phy');
+            % libad9361 is not loaded: its functions take pointers of
+            % libiio v0, which the libiio v1 bindings do not have (see
+            % hasLibad9361). Only the device handle is looked up.
+            obj.iioDevPHY = getDev(obj,'ad9361-phy');
         end
         
         function teardownLibad9361(~)
-            libName = 'libad9361';
-            if libisloaded(libName)
-                unloadlibrary(libName);
-            end
+            % Nothing to unload, see setupLibad9361
+        end
+        
+        function tf = hasLibad9361(~)
+            % False with the libiio v1 bindings: the sampling rate is
+            % written through the sampling_frequency attribute, without
+            % the FIR filter that ad9361_set_bb_rate of libad9361 loads.
+            tf = false;
         end
         
         function writeFilterFile(obj)

@@ -1,0 +1,111 @@
+name: libiio v1 bindings
+
+# Hardware-free tests of the device classes on the libiio v1 MATLAB bindings
+# (github.com/tfcollins/libiio-conv, package "iio"): adi.AD9361.Rx/Tx and
+# adi.Pluto.Rx/Tx against libiio's emulation backend, see
+# test/IIOv1EmuTests.m. Hosted runner only: no board, no self-hosted runner.
+
+on:
+  push:
+    branches: [feat/libiio-v1-bindings]
+  workflow_dispatch:
+
+concurrency:
+  group: libiio-v1-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  # The bindings, pinned. Its deps/build-libiio.sh pins libiio v1 in turn.
+  LIBIIO_CONV_SHA: 393e2fd07668c1e591d3e93daf0ff6c61f1d1810
+
+jobs:
+  emu:
+    name: AD9361 family on emu (R2025b)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      # Only +adi/+common is needed; the other submodules are left out.
+      - name: Check out the toolbox
+        uses: actions/checkout@v4
+
+      - name: Check out +adi/+common
+        run: git submodule update --init -- '+adi/+common'
+
+      - name: Check out the libiio v1 bindings
+        uses: actions/checkout@v4
+        with:
+          repository: tfcollins/libiio-conv
+          ref: ${{ env.LIBIIO_CONV_SHA }}
+          path: libiio-conv
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            ninja-build libxml2-dev libzstd-dev bison flex
+
+      - name: Cache pinned libiio v1
+        uses: actions/cache@v4
+        with:
+          path: libiio-conv/deps/install
+          key: libiio-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('libiio-conv/deps/build-libiio.sh') }}
+
+      - name: Build pinned libiio v1
+        run: libiio-conv/deps/build-libiio.sh
+
+      # MATLAB alone: the device classes need matlab.System and nothing else.
+      - name: Set up MATLAB
+        id: setup-matlab
+        uses: matlab-actions/setup-matlab@v2
+        with:
+          release: R2025b
+          cache: true
+
+      - name: Locate MATLAB
+        run: |
+          root="${{ steps.setup-matlab.outputs.matlabroot }}"
+          [ -n "$root" ] || root=$(dirname "$(dirname "$(readlink -f "$(command -v matlab)")")")
+          test -f "$root/extern/include/mex.h"
+          echo "MATLAB_ROOT=$root" >> "$GITHUB_ENV"
+
+      # A MEX file as it is handed out: without the test commands of libiio-conv
+      # (IIO_CONV_BUILD_TESTS=OFF). MATLAB is not started by the build.
+      - name: Build the MEX file
+        run: |
+          cmake -S libiio-conv -B libiio-conv/build-mex -G Ninja \
+            -DIIO_CONV_BUILD_MATLAB=ON -DIIO_CONV_BUILD_TESTS=OFF \
+            -DMatlab_ROOT_DIR="$MATLAB_ROOT"
+          cmake --build libiio-conv/build-mex
+          test -f libiio-conv/matlab/iio_mex.mexa64
+
+      - name: Prepare the result folder
+        run: mkdir -p test-results
+
+      - name: MATLAB tests on the emu backend
+        uses: matlab-actions/run-command@v2
+        env:
+          IIO_MEX_TRACE: ${{ github.workspace }}/test-results/iio-mex-trace.log
+        with:
+          command: addpath('test'); runEmuTests(fullfile(pwd, 'libiio-conv', 'matlab'), fullfile(pwd, 'test-results', 'emu.xml'));
+          startup-options: -logfile test-results/matlab.log
+
+      # A green test step says only that no test failed. This also fails the job
+      # when tests did not run (fewer than the minimum: 51 at the time of writing)
+      # or were filtered.
+      - name: Check the test results (count, skipped, duration)
+        if: always()
+        run: python3 libiio-conv/matlab/tools/check_junit.py test-results/emu.xml --min-tests 50 --max-seconds 60 --max-skipped 0
+
+      - name: Collect crash dumps
+        if: always()
+        run: mkdir -p test-results && cp ~/matlab_crash_dump.* test-results/ 2>/dev/null || true
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: libiio-v1-emu-R2025b
+          path: test-results/
