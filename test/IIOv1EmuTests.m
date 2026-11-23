@@ -124,8 +124,10 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
                 testCase.verifySize(d, [1024 1], msg);
                 testCase.verifyFalse(isreal(d), msg);
                 testCase.verifyEqual(d, testCase.ramp(f * 1024 + (0:1023)), msg);
+                if f == 0 || f == 4     % the start of the file, as literal values
+                    testCase.verifyEqual(d(1:2), complex([-2048; -2047], [2047; 2046]), msg);
+                end
             end
-            testCase.verifyEqual(d(1:2), complex([-2048; -2047], [2047; 2046]));
             rx.release();
             testCase.verifyEqual(iio.internal.handle_count(), 0);
         end
