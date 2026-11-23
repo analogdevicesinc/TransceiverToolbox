@@ -296,10 +296,77 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             rx.release();
         end
 
+        function rxEarlierFailureIsNotBlamed(testCase)
+            % A failed write whose status the caller ignores (as
+            % adi.common.DDS does) must not appear in the error of a
+            % later, unrelated failure
+            rx = adi.AD9361.Rx('uri', testCase.emuUri('pluto.xml'));
+            rx.SamplesPerFrame = 1024;
+            rx();
+            phy = rx.getIIODevice('ad9361-phy');
+            lo = rx.iio_device_find_channel(phy, 'altvoltage0', true);
+            testCase.assertNotEmpty(lo);
+            % the Pluto (AD9363) refuses 5 GHz
+            status = rx.iio_channel_attr_write_longlong(lo, 'frequency', 5e9);
+            testCase.verifyEqual(status, -22);
+            err = caught(@() rx.getChan(phy, 'voltage9', false));
+            testCase.assertNotEmpty(err, 'voltage9 was found.');
+            testCase.verifyEqual(err.identifier, 'adi:iio:status');
+            testCase.verifyEqual(err.message, 'Failed to find channel: voltage9 (status -19)');
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            rx.release();
+        end
+
+        function rxRefusedValueIsNamed(testCase)
+            % The error of a refused write names the attribute and
+            % carries the message of the bindings
+            rx = adi.AD9361.Rx('uri', testCase.emuUri('pluto.xml'));
+            rx.SamplesPerFrame = 1024;
+            rx();
+            err = caught(@() setProperty(rx, 'CenterFrequency', 5e9));
+            testCase.assertNotEmpty(err, '5 GHz was accepted.');
+            testCase.verifyEqual(err.identifier, 'adi:iio:status');
+            testCase.verifySubstring(err.message, 'status -22; last libiio error, write of frequency: ');
+            rx.release();
+        end
+
+        function deviceEnumeration(testCase)
+            % The helpers of adi.common.DeviceAttribute: counts, and
+            % devices and attribute names by position (counted from 0),
+            % in the order of libiio
+            want = {'pluto.xml', 4, 'ad9361-phy'; 'fmcomms2-3.xml', 8, 'ad7291'};
+            for k = 1:size(want, 1)
+                msg = want{k, 1};
+                rx = adi.AD9361.Rx('uri', testCase.emuUri(want{k, 1}));
+                rx.SamplesPerFrame = 1024;
+                rx();
+                phy = rx.getIIODevice('ad9361-phy');
+                ctx = phy.context;
+                n = rx.iio_context_get_devices_count(ctx);
+                testCase.verifyEqual(n, want{k, 2}, msg);
+                first = rx.iio_context_get_device(ctx, 0);
+                testCase.verifyClass(first, 'iio.Device', msg);
+                testCase.verifyEqual(rx.iio_device_get_name(first), want{k, 3}, msg);
+                last = rx.iio_context_get_device(ctx, n - 1);
+                testCase.verifyClass(last, 'iio.Device', msg);
+                testCase.verifyEqual(rx.iio_device_get_name(phy), 'ad9361-phy', msg);
+                testCase.verifyEqual(rx.iio_device_get_attrs_count(phy), 18, msg);
+                testCase.verifyEqual(rx.iio_device_get_attr(phy, 0), 'calib_mode', msg);
+                testCase.verifyClass(rx.iio_device_get_attr(phy, 17), 'char', msg);
+                % a position past the end is an error that releases
+                err = caught(@() rx.iio_context_get_device(ctx, n));
+                testCase.assertNotEmpty(err, [msg ': a device past the end was returned.']);
+                testCase.verifySubstring(err.message, sprintf('Failed to find device with index: %d', n), msg);
+                testCase.verifyEqual(iio.internal.handle_count(), 0, msg);
+                rx.release();
+            end
+        end
+
         function noSuchContext(testCase)
-            % An XML file that does not exist: the error of the bindings
+            % An XML file that does not exist: the error of the bindings.
+            % The emu backend of the pinned libiio answers -EINVAL.
             rx = adi.AD9361.Rx('uri', ['emu:' fullfile(testCase.Folder, 'none.xml')]);
-            testCase.verifyError(@() rx(), ?MException);
+            testCase.verifyError(@() rx(), 'iio:EINVAL');
             testCase.verifyEqual(iio.internal.handle_count(), 0);
         end
 
@@ -358,8 +425,16 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
         end
 
         function txWrongNumberOfColumns(testCase, board)
+            % One channel is enabled: two columns are refused by the
+            % check in adi.common.Tx, which names the size it wants
             tx = feval(board{2}, 'uri', testCase.emuUri(board{3}));
-            testCase.verifyError(@() tx(complex(zeros(256, 2), ones(256, 2))), ?MException);
+            err = caught(@() tx(complex(zeros(256, 2), ones(256, 2))));
+            testCase.assertNotEmpty(err, 'Two columns were accepted.');
+            testCase.verifySubstring(err.message, 'Data size must [Nx1]');
+            tx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            % and one column is accepted by the same object
+            testCase.verifyEqual(tx(testCase.txFrame(0)), true);
             tx.release();
             testCase.verifyEqual(iio.internal.handle_count(), 0);
         end
@@ -465,6 +540,16 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
 
     end
 
+end
+
+function err = caught(f)
+% The MException that f() raises, [] when it raises none
+err = [];
+try
+    f();
+catch e
+    err = e;
+end
 end
 
 function setProperty(obj, name, value)
