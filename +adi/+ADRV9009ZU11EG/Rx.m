@@ -259,7 +259,7 @@ classdef Rx < adi.ADRV9009ZU11EG.Base & adi.ADRV9009.Rx
             obj.setAttributeBool('voltage1','quadrature_tracking_en',obj.EnableQuadratureTrackingChannel1ChipB,false,obj.iioDevChipB);
             
             obj.setAttributeBool('voltage0','hd2_tracking_en',obj.EnableHarmonicDistortionTrackingChannel0,false);
-            obj.setAttributeBool('voltage1','hd2_tracking_en',obj.EnableHarmonicDistortionTrackingChannel0,false);
+            obj.setAttributeBool('voltage1','hd2_tracking_en',obj.EnableHarmonicDistortionTrackingChannel1,false);
             obj.setAttributeBool('voltage0','hd2_tracking_en',obj.EnableHarmonicDistortionTrackingChannel0ChipB,false,obj.iioDevChipB);
             obj.setAttributeBool('voltage1','hd2_tracking_en',obj.EnableHarmonicDistortionTrackingChannel1ChipB,false,obj.iioDevChipB);
             
@@ -272,8 +272,8 @@ classdef Rx < adi.ADRV9009ZU11EG.Base & adi.ADRV9009.Rx
                 obj.setAttributeDouble('voltage1','hardwaregain',obj.GainChannel1,false);
             end
             if strcmp(obj.GainControlModeChipB,'manual')
-                obj.setAttributeDouble('voltage0','hardwaregain',obj.GainChannel0ChipB,false,obj.iioDevChipB);
-                obj.setAttributeDouble('voltage1','hardwaregain',obj.GainChannel1ChipB,false,obj.iioDevChipB);
+                obj.setAttributeDouble('voltage0','hardwaregain',obj.GainChannel0ChipB,false,0,obj.iioDevChipB);
+                obj.setAttributeDouble('voltage1','hardwaregain',obj.GainChannel1ChipB,false,0,obj.iioDevChipB);
             end
             
             % Do one shot cals

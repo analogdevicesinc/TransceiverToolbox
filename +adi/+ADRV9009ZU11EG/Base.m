@@ -28,7 +28,7 @@ classdef (Abstract, Hidden = true) Base < adi.ADRV9009.Base
             obj.CenterFrequencyChipB = value;
             if obj.ConnectedToDevice
                 id = 'altvoltage0';
-                obj.setAttributeLongLong(id,'frequency',value,true);
+                obj.setAttributeLongLong(id,'frequency',value,true,10,obj.iioDevChipB);
             end
         end
     end
