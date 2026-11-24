@@ -614,7 +614,7 @@ classdef Rx < adi.ADRV9002.Base & adi.common.Rx
             
             obj.setAttributeRAW('voltage0','port_en_mode',obj.ENSMPortModeChannel0,false);
             if channelsAval == 2
-                obj.setAttributeRAW('voltage1','port_en_mode',obj.ENSMPortModeChannel0,false);
+                obj.setAttributeRAW('voltage1','port_en_mode',obj.ENSMPortModeChannel1,false);
             end
             
             if strcmpi(obj.GainControllerSourceChannel0,'spi')
