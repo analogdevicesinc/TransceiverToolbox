@@ -1704,8 +1704,10 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             % I/Q pair (getNumInputsImpl), while setup and step of
             % adi.common.Tx take one matrix with a column per pair. With
             % more than one pair enabled no call passes: one matrix is
-            % too few inputs, one input per pair too many. Nothing is
-            % opened by such a call.
+            % too few inputs, one input per pair too many. MATLAB raises
+            % both errors, not the classes. Whether it does so before or
+            % after setup is not relied on: the object is released before
+            % the handles are counted.
             tx = feval([dualBoard{1} '.Tx'], 'uri', testCase.emuUri(dualBoard{2}));
             testCase.verifyEqual(getNumInputs(tx), 1);
             tx.EnabledChannels = [1 2];
@@ -1715,14 +1717,30 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             tx.EnabledChannels = [1 2];
             b = [testCase.txFrame(0), testCase.txFrame(2000)];
             err = caught(@() tx(b));
-            testCase.verifyNotEmpty(err, 'One matrix of two columns was accepted.');
-            testCase.verifyEqual(iio.internal.handle_count(), 0);
-            err = caught(@() tx(b(:, 1), b(:, 2)));
-            testCase.verifyNotEmpty(err, 'One input per I/Q pair was accepted.');
-            testCase.verifyEqual(iio.internal.handle_count(), 0);
-            testCase.verifyFalse(isfile(fullfile(testCase.Folder, 'axi-adrv9009-tx-hpc_buf0.bin')));
+            testCase.assertNotEmpty(err, 'One matrix of two columns was accepted.');
+            testCase.verifyFalse(strncmp(err.identifier, 'adi:', 4), err.message);
+            testCase.verifyFalse(contains(err.message, 'Data size must'), err.message);
             tx.release();
             testCase.verifyEqual(iio.internal.handle_count(), 0);
+            err = caught(@() tx(b(:, 1), b(:, 2)));
+            testCase.assertNotEmpty(err, 'One input per I/Q pair was accepted.');
+            testCase.verifyFalse(strncmp(err.identifier, 'adi:', 4), err.message);
+            testCase.verifyFalse(contains(err.message, 'Data size must'), err.message);
+            tx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            % neither call sent a word
+            name = fullfile(testCase.Folder, 'axi-adrv9009-tx-hpc_buf0.bin');
+            if isfile(name)
+                testCase.verifyEmpty(testCase.sentWords('axi-adrv9009-tx-hpc'));
+            end
+            % the number of inputs is the cause: with one pair enabled
+            % the same object on the same context sends its frame
+            tx.EnabledChannels = 1;
+            testCase.verifyEqual(getNumInputs(tx), 1);
+            testCase.verifyEqual(tx(b(:, 2)), true);
+            tx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            testCase.verifyEqual(testCase.sentWords('axi-adrv9009-tx-hpc'), testCase.interleaved(b(:, 2)));
         end
 
         function dualADRV9009TxDDS(testCase, dualBoard)
