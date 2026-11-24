@@ -198,14 +198,6 @@ classdef Tx < adi.ADRV9009ZU11EG.Base & adi.ADRV9009.Tx
     %% API Functions
     methods (Hidden, Access = protected)
         
-        function numIn = getNumInputsImpl(obj)
-            if strcmp(obj.DataSource,'DDS')
-                numIn = 0;
-            else
-                numIn = obj.channelCount/2;
-            end
-        end
-        
         function setupInit(obj)
             % Write all attributes to device once connected through set
             % methods
