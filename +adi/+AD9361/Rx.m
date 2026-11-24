@@ -304,10 +304,10 @@ classdef Rx < adi.AD9361.Base & adi.AD9361.TuneAGC & ...
             % Sample rates and RF bandwidth
             if  ~obj.EnableCustomFilter
                 % The rate with its FIR filter (ad9361_set_bb_rate of
-                % libad9361-iio), then the bandwidth. With libad9361
-                % loaded the classes did not write the bandwidth here.
+                % libad9361-iio). The bandwidth is not written here, as
+                % before: RFBandwidth reaches the device only when it
+                % is set after setup.
                 setBBRate(obj, obj.SamplingRate);
-                obj.setAttributeLongLong('voltage0','rf_bandwidth',obj.RFBandwidth ,strcmp(obj.Type,'Tx'));
             else
                 writeFilterFile(obj);
             end

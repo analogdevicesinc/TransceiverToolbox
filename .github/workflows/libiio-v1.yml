@@ -9,7 +9,8 @@ name: libiio v1 bindings
 
 on:
   push:
-    branches: [feat/libiio-v1-bindings]
+    branches: [master, feat/libiio-v1-bindings]
+  pull_request:
   workflow_dispatch:
 
 concurrency:

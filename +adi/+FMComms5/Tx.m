@@ -300,13 +300,12 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
             obj.setAttributeLongLong(id,'frequency',obj.CenterFrequencyChipB,true,8,obj.iioDevPHYChipB);
             if  ~obj.EnableCustomFilter
                 % The rate with its FIR filter on both AD9361
-                % (ad9361_set_bb_rate of libad9361-iio), then the
-                % bandwidths. With libad9361 loaded the classes did not
-                % write the bandwidths here.
+                % (ad9361_set_bb_rate of libad9361-iio). The bandwidths
+                % are not written here, as before: RFBandwidth and
+                % RFBandwidthChipB reach the device only when they are
+                % set after setup.
                 setBBRate(obj, obj.SamplingRate);
                 setBBRateChipB(obj, obj.SamplingRate);
-                obj.setAttributeLongLong('voltage0','rf_bandwidth',obj.RFBandwidth,strcmp(obj.Type,'Tx'));
-                obj.setAttributeLongLong('voltage0','rf_bandwidth',obj.RFBandwidthChipB,strcmp(obj.Type,'Tx'),[],obj.iioDevPHYChipB);
             else
                 writeFilterFile(obj);
                 writeFilterFileFMComms5ChipB(obj);

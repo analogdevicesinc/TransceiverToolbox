@@ -170,6 +170,15 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             testCase.writeRamp(rxDevice, 0);
         end
 
+        function uri = fmcomms5FilterOffUri(testCase, rxDevice)
+            % As emuUri for fmcomms5.xml, with the FIR filter disabled on
+            % both AD9361: the file has every enable attribute of the
+            % filter at 1, where a test could not see that it was enabled.
+            uri = testCase.emuContext('fmcomms5.xml', ...
+                'filter_fir_en" value="1"', 'filter_fir_en" value="0"');
+            testCase.writeRamp(rxDevice, 0);
+        end
+
         function uri = emuContext(testCase, xmlName, old, new)
             % Copy the XML file into the temporary folder and return the
             % URI. With old not empty every occurrence of that text is
@@ -317,7 +326,8 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             testCase.verifyClass(f, 'int64');
             testCase.verifyEqual(f, int64(2410000000));
             testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'sampling_frequency', true), int64(4000000));
-            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'rf_bandwidth', false), int64(2000000));
+            % setup does not write the bandwidth: the 18 MHz of the XML file
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'rf_bandwidth', false), int64(18000000));
             testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'gain_control_mode', false), 'manual');
             testCase.verifyEqual(rx.getAttributeDouble('voltage0', 'hardwaregain', false), 33);
             testCase.verifyEqual(rx.getAttributeBool('voltage0', 'quadrature_tracking_en', false), false);
@@ -601,7 +611,8 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             dds = tx.getIIODevice(testCase.TxDevice);
             testCase.verifyEqual(tx.getAttributeLongLong('altvoltage1', 'frequency', true), int64(2420000000));
             testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'sampling_frequency', true), int64(4000000));
-            testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'rf_bandwidth', true), int64(2000000));
+            % setup does not write the bandwidth: the 18 MHz of the XML file
+            testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'rf_bandwidth', true), int64(18000000));
             testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true), -12.5);
             testCase.verifyEqual(tx.getAttributeRAW('voltage0', 'rf_port_select', true), 'B');
             % the host is the data source: the DDS is off
@@ -611,6 +622,10 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true), -20.25);
             tx.CenterFrequency = 2.43e9;
             testCase.verifyEqual(tx.getAttributeLongLong('altvoltage1', 'frequency', true), int64(2430000000));
+            tx.RFBandwidth = 5e6;
+            testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'rf_bandwidth', true), int64(5000000));
+            % the bandwidth of the receiver is another attribute
+            testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'rf_bandwidth', false), int64(18000000));
             tx.release();
         end
 
@@ -896,7 +911,8 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             rx.RFBandwidth = 2e6;
             [~, v] = rx();
             testCase.verifyEqual(v, true);
-            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'rf_bandwidth', false), int64(2000000));
+            % not written by setup: the value of the XML file
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'rf_bandwidth', false), int64(18000000));
             for k = 1:numel(rates)
                 msg = sprintf('rate %d', rates(k));
                 if k > 1
@@ -928,7 +944,8 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             tx.RFBandwidth = 2e6;
             a = testCase.txFrame(0);
             testCase.verifyEqual(tx(a), true);
-            testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'rf_bandwidth', true), int64(2000000));
+            % not written by setup: the value of the XML file
+            testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'rf_bandwidth', true), int64(18000000));
             for k = 1:numel(rates)
                 msg = sprintf('rate %d', rates(k));
                 if k > 1
@@ -1474,8 +1491,7 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             rx.DigitalGainControlModeChannel0 = 'spi';
             rx.AttenuationChannel0 = 7;
             rx.AttenuationChannel1 = 9;
-            rx.ENSMPortModeChannel0 = 'pin';
-            rx.ENSMPortModeChannel1 = 'pin';
+            rx.ENSMPortModeChannel0 = 'pin';     % ENSMPortModeChannel1 stays 'spi'
             rx.AGCTrackingChannel0 = false;
             rx.RSSITrackingChannel1 = false;
             [d, v] = rx();
@@ -1493,7 +1509,15 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             testCase.verifyEqual(rx.getAttributeRAW('voltage1', 'digital_gain_control_mode', false), 'automatic');
             testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'interface_gain', false), '0dB');
             testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'port_en_mode', false), 'pin');
+            % As found in the class, not as meant: setup writes
+            % ENSMPortModeChannel0 to voltage1 too, so this is 'pin' and not
+            % the 'spi' of ENSMPortModeChannel1 (and of the XML file). When
+            % the class is corrected this line is 'spi'.
             testCase.verifyEqual(rx.getAttributeRAW('voltage1', 'port_en_mode', false), 'pin');
+            % set after setup the property reaches its own channel
+            rx.ENSMPortModeChannel1 = 'spi';
+            testCase.verifyEqual(rx.getAttributeRAW('voltage1', 'port_en_mode', false), 'spi');
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'port_en_mode', false), 'pin');
             % the gain is written for the source spi only
             testCase.verifyEqual(rx.getAttributeDouble('voltage0', 'hardwaregain', false), 7);
             testCase.verifyEqual(rx.getAttributeDouble('voltage1', 'hardwaregain', false), 34);
@@ -1709,7 +1733,7 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             % loopback off, in the mode fdd, and "ERROR" as value of the
             % device attribute multichip_sync, which is written last by
             % the multichip sync (the steps 0 to 5).
-            rx = adi.FMComms5.Rx('uri', testCase.emuUri('fmcomms5.xml', false, 'cf-ad9361-A'));
+            rx = adi.FMComms5.Rx('uri', testCase.fmcomms5FilterOffUri('cf-ad9361-A'));
             rx.SamplesPerFrame = 1024;
             rx.EnabledChannels = [1 2 3 4];
             rx.CenterFrequency = 2.41e9;
@@ -1746,8 +1770,9 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             testCase.verifyEqual(rx.getDeviceAttributeRAW('filter_fir_config', 8192, phyB), fir);
             testCase.verifyEqual(rx.getAttributeBool('out', 'voltage_filter_fir_en', false), true);
             testCase.verifyEqual(rx.getAttributeBool('out', 'voltage_filter_fir_en', false, phyB), true);
-            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'rf_bandwidth', false), int64(2000000));
-            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'rf_bandwidth', false, phyB), int64(4000000));
+            % setup does not write the bandwidths: the 18 MHz of the XML file
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'rf_bandwidth', false), int64(18000000));
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'rf_bandwidth', false, phyB), int64(18000000));
             testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'gain_control_mode', false), 'manual');
             testCase.verifyEqual(rx.getAttributeDouble('voltage0', 'hardwaregain', false), 33);
             testCase.verifyEqual(rx.getAttributeRAW('voltage1', 'gain_control_mode', false), 'fast_attack');
@@ -1779,7 +1804,10 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             testCase.verifyEqual(rx.getAttributeDouble('voltage1', 'hardwaregain', false, phyB), 40);
             rx.RFBandwidthChipB = 6e6;
             testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'rf_bandwidth', false, phyB), int64(6000000));
-            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'rf_bandwidth', false), int64(2000000));
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'rf_bandwidth', false), int64(18000000));
+            rx.RFBandwidth = 7e6;
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'rf_bandwidth', false), int64(7000000));
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'rf_bandwidth', false, phyB), int64(6000000));
             rx.RFPortSelectChipB = 'A_N';
             testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'rf_port_select', false, phyB), 'A_N');
             testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'rf_port_select', false), 'B_BALANCED');
@@ -1792,7 +1820,7 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
         function fmcomms5TxAttributes(testCase)
             % fmcomms5.xml has both AD9361 at 3 GHz, 4 MS/s and 18 MHz,
             % with the attenuation -20 and the port A, and the DDS on
-            tx = adi.FMComms5.Tx('uri', testCase.emuUri('fmcomms5.xml'));
+            tx = adi.FMComms5.Tx('uri', testCase.fmcomms5FilterOffUri(testCase.RxDevice));
             tx.EnabledChannels = [1 2 3 4];
             tx.CenterFrequency = 2.42e9;
             tx.CenterFrequencyChipB = 2.44e9;
@@ -1815,8 +1843,18 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'sampling_frequency', true, phyB), int64(5000000));
             testCase.verifyEqual(tx.getDeviceAttributeRAW('filter_fir_config', 8192), fir);
             testCase.verifyEqual(tx.getDeviceAttributeRAW('filter_fir_config', 8192, phyB), fir);
-            testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'rf_bandwidth', true), int64(2000000));
-            testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'rf_bandwidth', true, phyB), int64(4000000));
+            testCase.verifyEqual(tx.getAttributeBool('out', 'voltage_filter_fir_en', false), true);
+            testCase.verifyEqual(tx.getAttributeBool('out', 'voltage_filter_fir_en', false, phyB), true);
+            % setup does not write the bandwidths: the 18 MHz of the XML file
+            testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'rf_bandwidth', true), int64(18000000));
+            testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'rf_bandwidth', true, phyB), int64(18000000));
+            % set after setup they are written, each to its AD9361
+            tx.RFBandwidthChipB = 6e6;
+            testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'rf_bandwidth', true, phyB), int64(6000000));
+            testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'rf_bandwidth', true), int64(18000000));
+            tx.RFBandwidth = 7e6;
+            testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'rf_bandwidth', true), int64(7000000));
+            testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'rf_bandwidth', true, phyB), int64(6000000));
             testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true), -12.5);
             testCase.verifyEqual(tx.getAttributeDouble('voltage1', 'hardwaregain', true), -3);
             testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true, phyB), -30.25);
@@ -1850,7 +1888,7 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             % on both; the rates and bandwidths are not written
             file = fullfile(fileparts(mfilename('fullpath')), 'customAD9361filter.ftr');
             want = fileread(file);
-            rx = adi.FMComms5.Rx('uri', testCase.emuUri('fmcomms5.xml', false, 'cf-ad9361-A'));
+            rx = adi.FMComms5.Rx('uri', testCase.fmcomms5FilterOffUri('cf-ad9361-A'));
             rx.SamplesPerFrame = 1024;
             rx.EnableCustomFilter = true;
             rx.CustomFilterFileName = file;
@@ -1861,6 +1899,8 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             testCase.verifyEqual(rx.getDeviceAttributeRAW('filter_fir_config', 8192), want);
             testCase.verifyEqual(rx.getDeviceAttributeRAW('filter_fir_config', 8192, phyB), want);
             testCase.verifyEqual(rx.getAttributeBool('voltage0', 'filter_fir_en', false), true);
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'filter_fir_en', true), true);
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'filter_fir_en', false, phyB), true);
             testCase.verifyEqual(rx.getAttributeBool('voltage0', 'filter_fir_en', true, phyB), true);
             testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'sampling_frequency', true), int64(4000000));
             testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'sampling_frequency', true, phyB), int64(4000000));
