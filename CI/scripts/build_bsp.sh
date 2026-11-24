@@ -73,10 +73,10 @@ for f in $FILES; do
    sed -i "s/hRD\.SupportedToolVersion = .*/hRD\.SupportedToolVersion = {\'${VIVADO}\'};/" "$f"
 done
 # Update all occurances of Vivado sourcing
-FILES=$(grep -lrn . -e 'source /opt/Xilinx/Vivado/20')
+FILES=$(grep -lrnE . -e 'source /opt/Xilinx/(Vivado/)?20')
 for f in $FILES; do
    echo "Updating: $f"
-   sed -i "s/source \/opt\/Xilinx\/Vivado\/20.*/source \/opt\/Xilinx\/Vivado\/${VIVADO}\/settings64.sh/" "$f"
+   sed -i -E "s|source /opt/Xilinx/(Vivado/)?20.*|source /opt/Xilinx/${VIVADO}/Vivado/settings64.sh|" "$f"
 done
 cd ..
 
