@@ -1,0 +1,25 @@
+CALL ad9361_set_bb_rate 520833
+chn_read_longlong voltage0 out sampling_frequency = 0 30720000
+dev_read_bool in_out_voltage_filter_fir_en = -2
+chn_read_bool out in voltage_filter_fir_en = 0 0
+dev_write_raw filter_fir_config 1142 = 0
+dev_read tx_path_rates = 0 BBPLL:983040002 DAC:122880000 T2:122880000 T1:61440000 TF:30720000 TXSAMP:30720000
+chn_write_longlong voltage0 out sampling_frequency 3000000 = 0
+dev_write_bool in_out_voltage_filter_fir_en 1 = -2
+chn_write_bool out in voltage_filter_fir_en 1 = 0
+chn_write_longlong voltage0 out sampling_frequency 520833 = 0
+RET 0
+CALL ad9361_set_bb_rate 1000000
+chn_read_longlong voltage0 out sampling_frequency = 0 520833
+dev_read_bool in_out_voltage_filter_fir_en = -2
+chn_read_bool out in voltage_filter_fir_en = 0 1
+chn_write_longlong voltage0 out sampling_frequency 3000000 = 0
+dev_write_bool in_out_voltage_filter_fir_en 0 = -2
+chn_write_bool out in voltage_filter_fir_en 0 = 0
+dev_write_raw filter_fir_config 1142 = 0
+dev_read tx_path_rates = 0 BBPLL:983040002 DAC:122880000 T2:122880000 T1:61440000 TF:30720000 TXSAMP:30720000
+chn_write_longlong voltage0 out sampling_frequency 3000000 = 0
+dev_write_bool in_out_voltage_filter_fir_en 1 = -2
+chn_write_bool out in voltage_filter_fir_en 1 = 0
+chn_write_longlong voltage0 out sampling_frequency 1000000 = 0
+RET 0

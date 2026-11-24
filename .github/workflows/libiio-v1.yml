@@ -56,6 +56,14 @@ jobs:
       - name: Build pinned libiio v1
         run: libiio-conv/deps/build-libiio.sh
 
+      # The sampling rate tests compare with files that are the output of the
+      # C source of libad9361-iio (ad9361_set_bb_rate) on the emu context files.
+      # This makes them again and fails when the committed ones differ.
+      - name: Check the expected files of the sampling rate tests
+        run: |
+          test/emu/ad9361_bb_rate/generate.sh libiio-conv/deps/install "$RUNNER_TEMP/bb_rate_expected"
+          diff -r test/emu/ad9361_bb_rate/expected "$RUNNER_TEMP/bb_rate_expected"
+
       # MATLAB alone: the device classes need matlab.System and nothing else.
       - name: Set up MATLAB
         id: setup-matlab
@@ -94,11 +102,12 @@ jobs:
 
       # A green test step says only that no test failed. This also fails the job
       # when tests did not run or were filtered. --min-tests is the number of
-      # test points of IIOv1EmuTests (63: 17 methods for 3 boards, and 12);
+      # test points of IIOv1EmuTests (84: 21 methods for 3 boards, one for 6
+      # cases, and 15);
       # raise it with every test that is added.
       - name: Check the test results (count, skipped, duration)
         if: always()
-        run: python3 libiio-conv/matlab/tools/check_junit.py test-results/emu.xml --min-tests 63 --max-seconds 60 --max-skipped 0
+        run: python3 libiio-conv/matlab/tools/check_junit.py test-results/emu.xml --min-tests 84 --max-seconds 60 --max-skipped 0
 
       - name: Collect crash dumps
         if: always()

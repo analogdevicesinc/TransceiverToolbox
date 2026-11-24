@@ -1,0 +1,20 @@
+CALL ad9361_set_bb_rate 45000000
+chn_read_longlong voltage0 out sampling_frequency = 0 30720000
+dev_read_bool in_out_voltage_filter_fir_en = -2
+chn_read_bool out in voltage_filter_fir_en = 0 0
+dev_write_raw filter_fir_config 666 = 0
+chn_write_longlong voltage0 out sampling_frequency 45000000 = 0
+dev_write_bool in_out_voltage_filter_fir_en 1 = -2
+chn_write_bool out in voltage_filter_fir_en 1 = 0
+RET 0
+CALL ad9361_set_bb_rate 61440000
+chn_read_longlong voltage0 out sampling_frequency = 0 45000000
+dev_read_bool in_out_voltage_filter_fir_en = -2
+chn_read_bool out in voltage_filter_fir_en = 0 1
+dev_write_bool in_out_voltage_filter_fir_en 0 = -2
+chn_write_bool out in voltage_filter_fir_en 0 = 0
+dev_write_raw filter_fir_config 486 = 0
+chn_write_longlong voltage0 out sampling_frequency 61440000 = 0
+dev_write_bool in_out_voltage_filter_fir_en 1 = -2
+chn_write_bool out in voltage_filter_fir_en 1 = 0
+RET 0

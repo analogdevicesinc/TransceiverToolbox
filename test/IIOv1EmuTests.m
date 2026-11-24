@@ -21,6 +21,16 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
     %   The values that the tests expect of a device that was not written
     %   to are the values of these XML files.
     %
+    %   Sampling rate (ad9361_set_bb_rate of libad9361-iio in M-code, see
+    %   adi.AD9361.Base): the expected filter texts and the expected order
+    %   of the reads and writes are the files of
+    %   test/emu/ad9361_bb_rate/expected. They are the output of the C
+    %   source of libad9361-iio on the same context files, see generate.sh
+    %   there. The emulation keeps what is written to filter_fir_config
+    %   and to the enable attribute of the filter. It does not apply the
+    %   filter: the range of sampling_frequency stays the one of the XML
+    %   file, and a rate outside of it is refused with or without filter.
+    %
     %   Receive data file: 4096 I/Q pairs of int16, pair k (counted from 0)
     %   is I = k - 2048, Q = 2047 - k. The file is read again from its
     %   start when it ends. A frame must not be longer than the file.
@@ -37,6 +47,17 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             'Pluto', {{'adi.Pluto.Rx', 'adi.Pluto.Tx', 'pluto.xml'}}, ...
             'AD9361onPluto', {{'adi.AD9361.Rx', 'adi.AD9361.Tx', 'pluto.xml'}}, ...
             'AD9361onFMComms2', {{'adi.AD9361.Rx', 'adi.AD9361.Tx', 'fmcomms2-3.xml'}});
+        % board and rates: the first rate is set before setup, the others
+        % after it. <board>_<rate>[_<rate>].log is the expected log in
+        % test/emu/ad9361_bb_rate/expected. plutowide is pluto.xml with
+        % the range of sampling_frequency from 520833.
+        bbRateCase = struct( ...
+            'pluto_4000000_30000000', {{'pluto', [4000000 30000000]}}, ...
+            'pluto_45000000_61440000', {{'pluto', [45000000 61440000]}}, ...
+            'pluto_2083333_3000000', {{'pluto', [2083333 3000000]}}, ...
+            'pluto_1000000', {{'pluto', 1000000}}, ...
+            'fmcomms2_1500000_25000000', {{'fmcomms2', [1500000 25000000]}}, ...
+            'plutowide_520833_1000000', {{'plutowide', [520833 1000000]}});
     end
 
     properties
@@ -70,13 +91,25 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
     end
 
     methods
-        function uri = emuUri(testCase, xmlName)
+        function uri = emuUri(testCase, xmlName, wideRates)
             % Copy the XML file into the temporary folder, write the
-            % receive data file beside it, return the URI
+            % receive data file beside it, return the URI. With wideRates
+            % the copy has the range of sampling_frequency that the
+            % driver reports while a filter that decimates by 4 is
+            % enabled: from 520833 instead of 2083333.
             src = fullfile(fileparts(mfilename('fullpath')), 'emu', xmlName);
             testCase.assertTrue(isfile(src), ['Missing ' src]);
             dst = fullfile(testCase.Folder, xmlName);
             copyfile(src, dst);
+            if nargin >= 3 && wideRates
+                text = fileread(src);
+                narrow = '[2083333 1 61440000]';
+                testCase.assertTrue(contains(text, narrow), [xmlName ' has no range ' narrow]);
+                fid = fopen(dst, 'w');
+                testCase.assertGreaterThanOrEqual(fid, 0, ['Cannot write ' dst]);
+                fwrite(fid, strrep(text, narrow, '[520833 1 61440000]'), 'char*1');
+                fclose(fid);
+            end
             k = 0:testCase.RampPairs - 1;
             words = zeros(1, 2 * testCase.RampPairs, 'int16');
             words(1:2:end) = k - 2048;
@@ -102,6 +135,13 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
     end
 
     methods (Static)
+        function text = bbRateExpected(name)
+            % Content of a file of test/emu/ad9361_bb_rate/expected
+            name = fullfile(fileparts(mfilename('fullpath')), 'emu', 'ad9361_bb_rate', 'expected', name);
+            assert(isfile(name), 'IIOv1EmuTests:noExpectedFile', 'Missing %s', name);
+            text = fileread(name);
+        end
+
         function d = ramp(k)
             % Complex double column: the pairs k (counted from 0, taken
             % modulo the length of the file) of the receive data file
@@ -671,6 +711,223 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             testCase.verifyEqual(err.message, 'Attribute read failed for : no_such_attribute (status -1)');
             testCase.verifyEqual(iio.internal.handle_count(), 0);
             rx.release();
+        end
+
+        function bbRateFIRText(testCase)
+            % The text for filter_fir_config, at both ends of each range
+            % of rates: equal to what the C source writes. The decimation
+            % and the number of taps are read from the expected text.
+            rates = [520833 2083333 4000000 20000000 20000001 40000000 40000001 53333333 53333334 61440000];
+            sizes = zeros(numel(rates), 2);
+            for k = 1:numel(rates)
+                msg = sprintf('rate %d', rates(k));
+                want = testCase.bbRateExpected(sprintf('fir_%d.txt', rates(k)));
+                [text, factor, taps] = adi.AD9361.Base.bbRateFIRConfig(rates(k));
+                testCase.verifyClass(text, 'char', msg);
+                testCase.verifyEqual(text, want, msg);
+                lines = regexp(want, '\n', 'split');
+                testCase.verifyEqual(lines{1}, sprintf('RX 3 GAIN -6 DEC %d', factor), msg);
+                testCase.verifyEqual(lines{2}, sprintf('TX 3 GAIN 0 INT %d', factor), msg);
+                testCase.verifyEqual(taps, nnz(contains(lines, ',')), msg);
+                sizes(k, :) = [factor taps];
+            end
+            % the four filters, as the ranges of ad9361_set_bb_rate name them
+            testCase.verifyEqual(sizes, ...
+                [4 128; 4 128; 4 128; 4 128; 2 128; 2 128; 2 96; 2 96; 2 64; 2 64]);
+        end
+
+        function bbRateSequence(testCase, bbRateCase)
+            % The reads and writes of each sampling rate, in order and
+            % with their results, are those of ad9361_set_bb_rate of
+            % libad9361-iio on the same context. A rate is an error
+            % exactly when the C function returns an error.
+            rates = bbRateCase{2};
+            want = testCase.bbRateExpected([bbRateCase{1} sprintf('_%d', rates) '.log']);
+            ret = str2double(regexp(want, '(?<=^RET )-?\d+', 'match', 'lineanchors'));
+            testCase.assertNumElements(ret, numel(rates));
+            if strcmp(bbRateCase{1}, 'fmcomms2')
+                uri = testCase.emuUri('fmcomms2-3.xml');
+            else
+                uri = testCase.emuUri('pluto.xml', strcmp(bbRateCase{1}, 'plutowide'));
+            end
+            rx = IIOv1BBRateRecorder('uri', uri);
+            rx.SamplesPerFrame = 1024;
+            rx.SamplingRate = rates(1);
+            for k = 1:numel(rates)
+                msg = sprintf('rate %d', rates(k));
+                if k == 1
+                    err = caught(@() rx());
+                else
+                    err = caught(@() setProperty(rx, 'SamplingRate', rates(k)));
+                end
+                if ret(k) == 0
+                    if ~isempty(err)
+                        msg = [msg ': ' err.message]; %#ok<AGROW>
+                    end
+                    testCase.assertEmpty(err, msg);
+                    testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'sampling_frequency', true), int64(rates(k)), msg);
+                    testCase.verifyEqual(rx.getAttributeBool('out', 'voltage_filter_fir_en', false), true, msg);
+                    testCase.verifyEqual(rx.SamplingRate, rates(k), msg);
+                else
+                    testCase.assertNotEmpty(err, [msg ' was accepted.']);
+                    testCase.verifyEqual(err.identifier, 'adi:iio:status', msg);
+                    testCase.verifySubstring(err.message, sprintf( ...
+                        'ad9361_set_bb_rate failed for a sampling rate of %d (status %d; ', rates(k), ret(k)), msg);
+                    testCase.verifyEqual(iio.internal.handle_count(), 0, msg);
+                end
+            end
+            testCase.verifyEqual(sprintf('%s\n', rx.Log{:}), want);
+            rx.release();
+        end
+
+        function rxSamplingRateLoadsFIR(testCase, board)
+            % The rate at setup and each later rate load the filter of
+            % their range and enable it
+            if any(strcmp(superclasses(board{1}), 'adi.AD9363.Rx'))
+                rates = [4000000 20000000 2083333];     % the AD9363 classes accept up to 20e6
+            else
+                rates = [4000000 20000001 40000001 53333334 61440000 2083333];
+            end
+            rx = feval(board{1}, 'uri', testCase.emuUri(board{3}));
+            rx.SamplesPerFrame = 1024;
+            rx.SamplingRate = rates(1);
+            rx.RFBandwidth = 2e6;
+            [~, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'rf_bandwidth', false), int64(2000000));
+            for k = 1:numel(rates)
+                msg = sprintf('rate %d', rates(k));
+                if k > 1
+                    rx.SamplingRate = rates(k);
+                end
+                testCase.verifyEqual(rx.getDeviceAttributeRAW('filter_fir_config', 8192), ...
+                    testCase.bbRateExpected(sprintf('fir_%d.txt', rates(k))), msg);
+                testCase.verifyEqual(rx.getAttributeBool('out', 'voltage_filter_fir_en', false), true, msg);
+                testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'sampling_frequency', true), int64(rates(k)), msg);
+                testCase.verifyEqual(rx.SamplingRate, rates(k), msg);
+            end
+            % the data path is not disturbed: this is the second frame
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifyEqual(d, testCase.ramp(1024 + (0:1023)));
+            rx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+        end
+
+        function txSamplingRateLoadsFIR(testCase, board)
+            % As rxSamplingRateLoadsFIR, for the transmitter
+            if any(strcmp(superclasses(board{2}), 'adi.AD9363.Tx'))
+                rates = [4000000 20000000 2083333];
+            else
+                rates = [4000000 20000001 40000001 53333334 61440000 2083333];
+            end
+            tx = feval(board{2}, 'uri', testCase.emuUri(board{3}));
+            tx.SamplingRate = rates(1);
+            tx.RFBandwidth = 2e6;
+            a = testCase.txFrame(0);
+            testCase.verifyEqual(tx(a), true);
+            testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'rf_bandwidth', true), int64(2000000));
+            for k = 1:numel(rates)
+                msg = sprintf('rate %d', rates(k));
+                if k > 1
+                    tx.SamplingRate = rates(k);
+                end
+                testCase.verifyEqual(tx.getDeviceAttributeRAW('filter_fir_config', 8192), ...
+                    testCase.bbRateExpected(sprintf('fir_%d.txt', rates(k))), msg);
+                testCase.verifyEqual(tx.getAttributeBool('out', 'voltage_filter_fir_en', false), true, msg);
+                testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'sampling_frequency', true), int64(rates(k)), msg);
+                testCase.verifyEqual(tx.SamplingRate, rates(k), msg);
+            end
+            tx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            testCase.verifyEqual(testCase.sentWords(), reshape([real(a) imag(a)].', [], 1));
+        end
+
+        function bbRateAfterSkipInit(testCase)
+            % SkipInit: setup loads no filter (the Pluto file has none and
+            % the filter off); a rate set after setup loads and enables it
+            rx = adi.AD9361.Rx('uri', testCase.emuUri('pluto.xml'));
+            rx.SamplesPerFrame = 1024;
+            rx.SkipInit = true;
+            rx.SamplingRate = 4e6;
+            rx();
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('filter_fir_config', 8192), 'FIR Rx: 0,0 Tx: 0,0');
+            testCase.verifyEqual(rx.getAttributeBool('out', 'voltage_filter_fir_en', false), false);
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'sampling_frequency', true), int64(30720000));
+            rx.SamplingRate = 20000001;
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('filter_fir_config', 8192), ...
+                testCase.bbRateExpected('fir_20000001.txt'));
+            testCase.verifyEqual(rx.getAttributeBool('out', 'voltage_filter_fir_en', false), true);
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'sampling_frequency', true), int64(20000001));
+            rx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+        end
+
+        function rxCustomFilter(testCase, board)
+            % EnableCustomFilter: the text of the file goes to
+            % filter_fir_config and the filter is enabled on the receive
+            % and the transmit channel; SamplingRate and RFBandwidth are
+            % not written (on hardware the driver takes them from the
+            % file; the emulation keeps the values of the XML file). The
+            % order of the writes is not visible here.
+            file = fullfile(fileparts(mfilename('fullpath')), 'customAD9361filter.ftr');
+            want = fileread(file);
+            testCase.assertSubstring(want, 'RX 3 GAIN -12 DEC 4');
+            rx = feval(board{1}, 'uri', testCase.emuUri(board{3}));
+            rx.SamplesPerFrame = 1024;
+            rx.EnableCustomFilter = true;
+            rx.CustomFilterFileName = file;
+            rx.SamplingRate = 4e6;
+            rx.RFBandwidth = 2e6;
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifyEqual(d, testCase.ramp(0:1023));
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('filter_fir_config', 8192), want);
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'filter_fir_en', false), true);
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'filter_fir_en', true), true);
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'sampling_frequency', true), int64(30720000));
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'rf_bandwidth', false), int64(18000000));
+            % with the custom filter a new rate is kept in the property only
+            rx.SamplingRate = 5e6;
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'sampling_frequency', true), int64(30720000));
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('filter_fir_config', 8192), want);
+            rx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+        end
+
+        function txCustomFilter(testCase, board)
+            % As rxCustomFilter, for the transmitter and another file
+            file = fullfile(fileparts(mfilename('fullpath')), 'LTE15_MHz.ftr');
+            want = fileread(file);
+            testCase.assertSubstring(want, 'TX 3 GAIN 0 INT 2');
+            tx = feval(board{2}, 'uri', testCase.emuUri(board{3}));
+            tx.EnableCustomFilter = true;
+            tx.CustomFilterFileName = file;
+            tx.SamplingRate = 4e6;
+            tx.RFBandwidth = 2e6;
+            a = testCase.txFrame(0);
+            testCase.verifyEqual(tx(a), true);
+            testCase.verifyEqual(tx.getDeviceAttributeRAW('filter_fir_config', 8192), want);
+            testCase.verifyEqual(tx.getAttributeBool('voltage0', 'filter_fir_en', false), true);
+            testCase.verifyEqual(tx.getAttributeBool('voltage0', 'filter_fir_en', true), true);
+            testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'sampling_frequency', true), int64(30720000));
+            testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'rf_bandwidth', true), int64(18000000));
+            tx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            testCase.verifyEqual(testCase.sentWords(), reshape([real(a) imag(a)].', [], 1));
+        end
+
+        function customFilterFileThatIsMissing(testCase)
+            % The error of fileread, and the context is released
+            rx = adi.AD9361.Rx('uri', testCase.emuUri('pluto.xml'));
+            rx.SamplesPerFrame = 1024;
+            rx.EnableCustomFilter = true;
+            rx.CustomFilterFileName = fullfile(testCase.Folder, 'none.ftr');
+            err = caught(@() rx());
+            testCase.assertNotEmpty(err, 'A missing file was read.');
+            testCase.verifySubstring(err.identifier, 'MATLAB:fileread:');
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            testCase.verifyWarningFree(@() rx.release());
         end
 
         function jesd204CheckStatus(testCase)
