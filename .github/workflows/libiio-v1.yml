@@ -2,8 +2,8 @@ name: libiio v1 bindings
 
 # Hardware-free tests of the device classes on the libiio v1 MATLAB bindings
 # (github.com/tfcollins/libiio-conv, package "iio"): adi.AD9361.Rx/Tx and
-# adi.Pluto.Rx/Tx against libiio's emulation backend, see
-# test/IIOv1EmuTests.m. Hosted runner only: no board, no self-hosted runner.
+# adi.Pluto.Rx/Tx, and adi.common.JESD204, against libiio's emulation
+# backend, see test/IIOv1EmuTests.m. Hosted runner only: no board, no self-hosted runner.
 
 on:
   push:
@@ -94,11 +94,11 @@ jobs:
 
       # A green test step says only that no test failed. This also fails the job
       # when tests did not run or were filtered. --min-tests is the number of
-      # test points of IIOv1EmuTests (54: 15 methods for 3 boards, and 9);
+      # test points of IIOv1EmuTests (63: 17 methods for 3 boards, and 12);
       # raise it with every test that is added.
       - name: Check the test results (count, skipped, duration)
         if: always()
-        run: python3 libiio-conv/matlab/tools/check_junit.py test-results/emu.xml --min-tests 54 --max-seconds 60 --max-skipped 0
+        run: python3 libiio-conv/matlab/tools/check_junit.py test-results/emu.xml --min-tests 63 --max-seconds 60 --max-skipped 0
 
       - name: Collect crash dumps
         if: always()

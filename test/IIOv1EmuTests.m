@@ -13,6 +13,13 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
     %   Boards (test/emu, copied from pyadi-iio test/emu/devices):
     %     pluto.xml        ADALM-Pluto, one receive and one transmit channel
     %     fmcomms2-3.xml   FMComms2/3, two receive and two transmit channels
+    %     ad9081.xml       AD9081-FMCA-EBZ, for adi.common.JESD204 (through
+    %                      test/IIOv1JESD204Device.m). Not as in pyadi-iio:
+    %                      the debug attribute "status" of axi-ad9081-rx-hpc
+    %                      was "ERROR" there and holds two link lines here.
+    %
+    %   The values that the tests expect of a device that was not written
+    %   to are the values of these XML files.
     %
     %   Receive data file: 4096 I/Q pairs of int16, pair k (counted from 0)
     %   is I = k - 2048, Q = 2047 - k. The file is read again from its
@@ -538,6 +545,155 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             tx.release();
             testCase.verifyEqual(iio.internal.handle_count(), 0);
             testCase.verifyEqual(testCase.sentWords(), reshape([real(a) imag(a)].', [], 1));
+        end
+
+        function rxSkipInit(testCase, board)
+            % SkipInit: setup writes no attribute, the device keeps the
+            % values of the XML file. A property that changes after setup
+            % is written.
+            if strcmp(board{3}, 'pluto.xml')
+                lo = int64(2400000000);
+            else
+                lo = int64(2300000000);
+            end
+            rx = feval(board{1}, 'uri', testCase.emuUri(board{3}));
+            rx.SamplesPerFrame = 1024;
+            rx.SkipInit = true;
+            rx.CenterFrequency = 2.41e9;
+            rx.SamplingRate = 4e6;
+            rx.RFBandwidth = 2e6;
+            rx.GainControlModeChannel0 = 'manual';
+            rx.EnableQuadratureTracking = false;
+            rx.RFPortSelect = 'B_BALANCED';
+            rx.LoopbackMode = 1;
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifyEqual(d, testCase.ramp(0:1023));
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true), lo);
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'sampling_frequency', false), int64(30720000));
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'rf_bandwidth', false), int64(18000000));
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'gain_control_mode', false), 'slow_attack');
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'quadrature_tracking_en', false), true);
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'rf_port_select', false), 'A_BALANCED');
+            testCase.verifyEqual(rx.getDebugAttributeLongLong('loopback'), int64(0));
+            rx.CenterFrequency = 2.46e9;
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2460000000));
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'rf_bandwidth', false), int64(18000000));
+            rx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+        end
+
+        function txSkipInit(testCase, board)
+            % SkipInit: setup writes no attribute, and the frame is sent
+            if strcmp(board{3}, 'pluto.xml')
+                lo = int64(2450000000);
+            else
+                lo = int64(2300000000);
+            end
+            tx = feval(board{2}, 'uri', testCase.emuUri(board{3}));
+            tx.SkipInit = true;
+            tx.CenterFrequency = 2.42e9;
+            tx.SamplingRate = 4e6;
+            tx.RFBandwidth = 2e6;
+            tx.AttenuationChannel0 = -12.5;
+            tx.RFPortSelect = 'B';
+            a = testCase.txFrame(0);
+            testCase.verifyEqual(tx(a), true);
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage1', 'frequency', true), lo);
+            testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'sampling_frequency', true), int64(30720000));
+            testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'rf_bandwidth', true), int64(18000000));
+            testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true), -10);
+            testCase.verifyEqual(tx.getAttributeRAW('voltage0', 'rf_port_select', true), 'A');
+            tx.AttenuationChannel0 = -20.25;
+            testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true), -20.25);
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage1', 'frequency', true), lo);
+            tx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            testCase.verifyEqual(testCase.sentWords(), reshape([real(a) imag(a)].', [], 1));
+        end
+
+        function deviceAttributeLongLong(testCase)
+            % setDeviceAttributeLongLong of adi.common.Attribute. The Pluto
+            % has xo_correction = 40000159, in the range [39992159 1 40008159].
+            rx = adi.AD9361.Rx('uri', testCase.emuUri('pluto.xml'));
+            rx.SamplesPerFrame = 1024;
+            rx();
+            phy = rx.getIIODevice('ad9361-phy');
+            v = rx.getDeviceAttributeLongLong('xo_correction');
+            testCase.verifyClass(v, 'int64');
+            testCase.verifyEqual(v, int64(40000159));
+            % written and read back
+            rx.setDeviceAttributeLongLong('xo_correction', 40000200);
+            testCase.verifyEqual(rx.getDeviceAttributeLongLong('xo_correction'), int64(40000200));
+            % written, not read back
+            rx.setDeviceAttributeLongLong('xo_correction', 40000100, phy, false);
+            testCase.verifyEqual(rx.getDeviceAttributeLongLong('xo_correction', phy), int64(40000100));
+            % Without the read back nothing is read: calib_mode_available
+            % refuses the write and is not a number, and neither is an error
+            rx.setDeviceAttributeLongLong('calib_mode_available', 1, phy, false);
+            testCase.verifyGreaterThan(iio.internal.handle_count(), 0);
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('calib_mode_available', 128), ...
+                'auto manual manual_tx_quad tx_quad rf_dc_offs rssi_gain_step');
+            % With the read back the same call is an error of the read
+            err = caught(@() rx.setDeviceAttributeLongLong('calib_mode_available', 1, phy, true));
+            testCase.assertNotEmpty(err, 'calib_mode_available was read as a number.');
+            testCase.verifyEqual(err.identifier, 'adi:iio:status');
+            testCase.verifySubstring(err.message, 'Error reading attribute: calib_mode_available (status -22; ');
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            rx.release();
+            % A value out of range is refused; the read back finds the
+            % value of the XML file and names both
+            rx();
+            err = caught(@() rx.setDeviceAttributeLongLong('xo_correction', 1));
+            testCase.assertNotEmpty(err, 'xo_correction = 1 was accepted.');
+            testCase.verifyEqual(err.identifier, 'adi:iio:status');
+            testCase.verifySubstring(err.message, 'Attribute xo_correction return value 40000159, expected 1 (status -1; ');
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            rx.release();
+        end
+
+        function debugAttributeRAW(testCase)
+            % getDebugAttributeRAW of adi.common.DebugAttribute: the text
+            % of a debug attribute, an error for one that does not exist
+            rx = adi.AD9361.Rx('uri', testCase.emuUri('pluto.xml'));
+            rx.SamplesPerFrame = 1024;
+            rx();
+            v = rx.getDebugAttributeRAW('adi,frequency-division-duplex-mode-enable');
+            testCase.verifyClass(v, 'char');
+            testCase.verifyEqual(v, '1');
+            phy = rx.getIIODevice('ad9361-phy');
+            testCase.verifyEqual(rx.getDebugAttributeRAW('loopback', phy), '0');
+            rx.setDebugAttributeRAW('loopback', '2');
+            testCase.verifyEqual(rx.getDebugAttributeRAW('loopback'), '2');
+            err = caught(@() rx.getDebugAttributeRAW('no_such_attribute'));
+            testCase.assertNotEmpty(err, 'no_such_attribute was read.');
+            testCase.verifyEqual(err.identifier, 'adi:iio:status');
+            testCase.verifyEqual(err.message, 'Attribute read failed for : no_such_attribute (status -1)');
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            rx.release();
+        end
+
+        function jesd204CheckStatus(testCase)
+            % CheckStatus of adi.common.JESD204: the link lines of the
+            % debug attribute "status" (the line of the JTX is the receive
+            % link, the line of the JRX the transmit link) and the
+            % jesd204_fsm_* device attributes, as in ad9081.xml
+            dev = IIOv1JESD204Device();
+            dev.uri = testCase.emuUri('ad9081.xml');
+            dev();
+            s = dev.CheckStatus();
+            testCase.verifyClass(s, 'struct');
+            testCase.verifyEqual(sort(fieldnames(s)), ...
+                {'ctrl'; 'error'; 'paused'; 'rx'; 'state'; 'tx'});
+            testCase.verifyEqual(s.rx, 'JESD RX (JTX) Link0 204C PLL locked, PHASE established, MODE valid');
+            testCase.verifyEqual(s.tx, 'JESD TX (JRX) Link0 0xF lanes in DATA');
+            testCase.verifyEqual(s.ctrl, '1');
+            testCase.verifyEqual(s.error, '0');
+            testCase.verifyEqual(s.paused, '0');
+            testCase.verifyEqual(s.state, 'opt_post_running_stage');
+            testCase.verifyEqual(dev.getDebugAttributeRAW('chip_version'), 'AD9081 Rev. 3 Grade 10');
+            dev.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
         end
 
     end
