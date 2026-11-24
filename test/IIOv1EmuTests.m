@@ -114,10 +114,7 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             'FMComms8Rx', {{'adi.FMComms8.Rx', 'fmcomms8.xml', 'axi-adrv9009-rx-hpc', 4}}, ...
             'ADRV9371Rx', {{'adi.ADRV9371.Rx', 'ad9371.xml', 'axi-ad9371-rx-hpc', 2}});
         % class of the transmitter, XML file, device that streams, number
-        % of I/Q pairs of that device that one frame can hold. That is 1
-        % for adi.ADRV9009ZU11EG.Tx and adi.FMComms8.Tx, whose device has
-        % four: they take no frame for more than one pair, see
-        % dualADRV9009TxSeveralChannels.
+        % of I/Q pairs of that device
         transmitter = struct( ...
             'ADRV9009TxOnADRV9008_2', {{'adi.ADRV9009.Tx', 'adrv9008-2.xml', 'axi-adrv9009-tx-hpc', 2}}, ...
             'ADRV9009Tx', {{'adi.ADRV9009.Tx', 'adrv9009.xml', 'axi-adrv9009-tx-hpc', 2}}, ...
@@ -125,8 +122,8 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             'ADRV9002Tx', {{'adi.ADRV9002.Tx', 'adrv9002.xml', 'axi-adrv9002-tx-lpc', 2}}, ...
             'ADRV9002TxSplitDMA', {{'adi.ADRV9002.Tx', 'adrv9002_splitdma.xml', 'axi-adrv9002-tx-lpc', 1}}, ...
             'FMComms5Tx', {{'adi.FMComms5.Tx', 'fmcomms5.xml', 'cf-ad9361-dds-core-lpc', 4}}, ...
-            'ADRV9009ZU11EGTx', {{'adi.ADRV9009ZU11EG.Tx', 'adrv9009zu11eg.xml', 'axi-adrv9009-tx-hpc', 1}}, ...
-            'FMComms8Tx', {{'adi.FMComms8.Tx', 'fmcomms8.xml', 'axi-adrv9009-tx-hpc', 1}}, ...
+            'ADRV9009ZU11EGTx', {{'adi.ADRV9009ZU11EG.Tx', 'adrv9009zu11eg.xml', 'axi-adrv9009-tx-hpc', 4}}, ...
+            'FMComms8Tx', {{'adi.FMComms8.Tx', 'fmcomms8.xml', 'axi-adrv9009-tx-hpc', 4}}, ...
             'ADRV9371Tx', {{'adi.ADRV9371.Tx', 'ad9371.xml', 'axi-ad9371-tx-hpc', 2}});
         adrv9009RxFile = struct('adrv9008_1', 'adrv9008-1.xml', 'adrv9009', 'adrv9009.xml');
         adrv9009TxFile = struct('adrv9008_2', 'adrv9008-2.xml', 'adrv9009', 'adrv9009.xml');
@@ -1691,61 +1688,54 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
         end
 
         function dualADRV9009TxSeveralChannels(testCase, dualBoard)
-            % Current behaviour, a bug of the classes that is left as
-            % found: adi.ADRV9009ZU11EG.Tx asks for one input per enabled
-            % I/Q pair (getNumInputsImpl), while setup and step of
-            % adi.common.Tx take one matrix with a column per pair. With
-            % more than one pair enabled no call passes: one matrix is
-            % too few inputs, one input per pair too many. MATLAB raises
-            % both errors, not the classes. Whether it does so before or
-            % after setup is not relied on: the object is released before
-            % the handles are counted.
+            % With DataSource 'DMA' adi.ADRV9009ZU11EG.Tx takes one input,
+            % as every other transmitter of the toolbox: a matrix with one
+            % column per enabled I/Q pair, for two pairs and for the four
+            % of the two ADRV9009. A matrix of another width is refused by
+            % adi.common.Tx.
+            % (getNumInputsImpl used to ask for one input per enabled pair,
+            % which setup and step do not take: only one pair could be sent.)
             tx = feval([dualBoard{1} '.Tx'], 'uri', testCase.emuUri(dualBoard{2}));
             testCase.verifyEqual(getNumInputs(tx), 1);
-            tx.EnabledChannels = [1 2];
-            testCase.verifyEqual(getNumInputs(tx), 2);
             tx.EnabledChannels = [1 2 3 4];
-            testCase.verifyEqual(getNumInputs(tx), 4);
-            tx.EnabledChannels = [1 2];
-            b = [testCase.txFrame(0), testCase.txFrame(2000)];
-            err = caught(@() tx(b));
-            testCase.assertNotEmpty(err, 'One matrix of two columns was accepted.');
-            testCase.verifyFalse(strncmp(err.identifier, 'adi:', 4), err.message);
-            testCase.verifyFalse(contains(err.message, 'Data size must'), err.message);
-            tx.release();
-            testCase.verifyEqual(iio.internal.handle_count(), 0);
-            err = caught(@() tx(b(:, 1), b(:, 2)));
-            testCase.assertNotEmpty(err, 'One input per I/Q pair was accepted.');
-            testCase.verifyFalse(strncmp(err.identifier, 'adi:', 4), err.message);
-            testCase.verifyFalse(contains(err.message, 'Data size must'), err.message);
-            tx.release();
-            testCase.verifyEqual(iio.internal.handle_count(), 0);
-            % neither call sent a word
-            name = fullfile(testCase.Folder, 'axi-adrv9009-tx-hpc_buf0.bin');
-            if isfile(name)
-                testCase.verifyEmpty(testCase.sentWords('axi-adrv9009-tx-hpc'));
-            end
-            % the number of inputs is the cause: with one pair enabled
-            % the same object on the same context sends its frame
-            tx.EnabledChannels = 1;
             testCase.verifyEqual(getNumInputs(tx), 1);
-            testCase.verifyEqual(tx(b(:, 2)), true);
+            tx.EnabledChannels = [1 2];
+            testCase.verifyEqual(getNumInputs(tx), 1);
+            b = [testCase.txFrame(0), testCase.txFrame(2000)];
+            testCase.verifyEqual(tx(b), true);
+            testCase.verifyEqual(tx.SamplesPerFrame, 256);
             tx.release();
             testCase.verifyEqual(iio.internal.handle_count(), 0);
-            testCase.verifyEqual(testCase.sentWords('axi-adrv9009-tx-hpc'), testCase.interleaved(b(:, 2)));
+            got = testCase.sentWords('axi-adrv9009-tx-hpc');
+            testCase.verifySize(got, [1024 1]);
+            testCase.verifyEqual(got, testCase.interleaved(b));
+            testCase.verifyEqual(got(1:4), int16([100; -100; 2100; -100]));
+            % the four pairs
+            tx.EnabledChannels = [1 2 3 4];
+            c = [testCase.txFrame(1000), testCase.txFrame(2000), testCase.txFrame(3000), testCase.txFrame(4000)];
+            testCase.verifyEqual(tx(c), true);
+            tx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            got = testCase.sentWords('axi-adrv9009-tx-hpc');
+            testCase.verifySize(got, [2048 1]);
+            testCase.verifyEqual(got, testCase.interleaved(c));
+            testCase.verifyEqual(got(1:8), int16([1100; -100; 2100; -100; 3100; -100; 4100; -100]));
+            % two columns for four pairs
+            err = caught(@() tx(b));
+            testCase.assertNotEmpty(err, 'Two columns were accepted for four I/Q pairs.');
+            testCase.verifySubstring(err.message, 'Data size must [Nx4]');
+            tx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
         end
 
         function dualADRV9009SkipInit(testCase, dualBoard)
             % SkipInit: setup writes no attribute to either ADRV9009,
             % both keep the values of the XML file (LO at 2.4 GHz, the
-            % tracking off, the attenuation -10). A property of the first
-            % ADRV9009 that changes after setup is written.
-            % Current behaviour, a bug of the classes that is left as
-            % found: the second ADRV9009 is looked up in setupInit only,
-            % which SkipInit skips, so after such a setup a property of
-            % the second ADRV9009 that changes has no device to write to.
-            % That is the error of a channel that is not found, and it
-            % releases the hardware.
+            % tracking off, the attenuation -10). Setup still looks up
+            % both, so a property of either ADRV9009 that changes after
+            % setup is written to its own device and to that one alone.
+            % (The second ADRV9009 used to be looked up in setupInit only,
+            % which SkipInit skips: such a change raised an error.)
             rx = feval([dualBoard{1} '.Rx'], 'uri', testCase.emuUri(dualBoard{2}, false, 'axi-adrv9009-rx-hpc'));
             rx.SamplesPerFrame = 512;
             rx.SkipInit = true;
@@ -1758,7 +1748,7 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             [d, v] = rx();
             testCase.verifyEqual(v, true);
             testCase.verifyEqual(d, testCase.ramp(0:511));
-            testCase.verifyEmpty(rx.iioDevChipB);
+            testCase.verifyNotEmpty(rx.iioDevChipB);
             phyB = rx.getIIODevice(dualBoard{4});
             testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2400000000));
             testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true, phyB), int64(2400000000));
@@ -1766,6 +1756,7 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             testCase.verifyEqual(rx.getAttributeBool('voltage0', 'quadrature_tracking_en', false, phyB), false);
             testCase.verifyEqual(rx.getAttributeBool('voltage1', 'powerdown', false), false);
             testCase.verifyEqual(rx.getAttributeBool('voltage1', 'powerdown', false, phyB), false);
+            % the first ADRV9009 alone
             rx.CenterFrequency = 2.7e9;
             testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2700000000));
             testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true, phyB), int64(2400000000));
@@ -1773,12 +1764,21 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             rx.PowerdownChannel1 = true;
             testCase.verifyEqual(rx.getAttributeBool('voltage1', 'powerdown', false), true);
             testCase.verifyEqual(rx.getAttributeBool('voltage1', 'powerdown', false, phyB), false);
-            err = caught(@() setProperty(rx, 'PowerdownChannel0ChipB', true));
-            testCase.assertNotEmpty(err, 'PowerdownChannel0ChipB was written without a device.');
-            testCase.verifyEqual(err.identifier, 'adi:iio:status');
-            testCase.verifyEqual(err.message, 'Channel: voltage0 not found (status -19)');
-            testCase.verifyEqual(iio.internal.handle_count(), 0);
-            testCase.verifyError(@() rx(), 'adi:iio:notConnected');
+            % the second ADRV9009 alone
+            rx.CenterFrequencyChipB = 2.8e9;
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true, phyB), int64(2800000000));
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2700000000));
+            rx.PowerdownChannel0ChipB = true;
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'powerdown', false, phyB), true);
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'powerdown', false), false);
+            rx.EnableQuadratureTrackingChannel1ChipB = false;
+            rx.EnableQuadratureTrackingChannel1ChipB = true;
+            testCase.verifyEqual(rx.getAttributeBool('voltage1', 'quadrature_tracking_en', false, phyB), true);
+            testCase.verifyEqual(rx.getAttributeBool('voltage1', 'quadrature_tracking_en', false), false);
+            % the data path is not disturbed: this is the second frame
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifyEqual(d, testCase.ramp(512 + (0:511)));
             rx.release();
             testCase.verifyEqual(iio.internal.handle_count(), 0);
             % the transmitter
@@ -1790,7 +1790,7 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             tx.AttenuationChannel0ChipB = -25;
             a = testCase.txFrame(0);
             testCase.verifyEqual(tx(a), true);
-            testCase.verifyEmpty(tx.iioDevChipB);
+            testCase.verifyNotEmpty(tx.iioDevChipB);
             phyB = tx.getIIODevice(dualBoard{4});
             testCase.verifyEqual(tx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2400000000));
             testCase.verifyEqual(tx.getAttributeLongLong('altvoltage0', 'frequency', true, phyB), int64(2400000000));
@@ -1801,14 +1801,14 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             tx.AttenuationChannel0 = -20;
             testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true), -20);
             testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true, phyB), -10);
-            err = caught(@() setProperty(tx, 'AttenuationChannel1ChipB', -7));
-            testCase.assertNotEmpty(err, 'AttenuationChannel1ChipB was written without a device.');
-            testCase.verifyEqual(err.identifier, 'adi:iio:status');
-            testCase.verifyEqual(err.message, 'Channel: voltage1 not found (status -19)');
-            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            tx.AttenuationChannel1ChipB = -7;
+            testCase.verifyEqual(tx.getAttributeDouble('voltage1', 'hardwaregain', true, phyB), -7);
+            testCase.verifyEqual(tx.getAttributeDouble('voltage1', 'hardwaregain', true), -10);
+            tx.CenterFrequencyChipB = 2.8e9;
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage0', 'frequency', true, phyB), int64(2800000000));
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2400000000));
             tx.release();
             testCase.verifyEqual(iio.internal.handle_count(), 0);
-            % the frame was sent before the error released the hardware
             testCase.verifyEqual(testCase.sentWords('axi-adrv9009-tx-hpc'), testCase.interleaved(a));
         end
 
@@ -2062,15 +2062,17 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             testCase.verifyEqual(rx.getAttributeRAW('voltage1', 'digital_gain_control_mode', false), 'automatic');
             testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'interface_gain', false), '0dB');
             testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'port_en_mode', false), 'pin');
-            % As found in the class, not as meant: setup writes
-            % ENSMPortModeChannel0 to voltage1 too, so this is 'pin' and not
-            % the 'spi' of ENSMPortModeChannel1 (and of the XML file). When
-            % the class is corrected this line is 'spi'.
-            testCase.verifyEqual(rx.getAttributeRAW('voltage1', 'port_en_mode', false), 'pin');
-            % set after setup the property reaches its own channel
-            rx.ENSMPortModeChannel1 = 'spi';
+            % each channel has the mode of its own property: this is the
+            % 'spi' of ENSMPortModeChannel1, see below for the other way
+            % round. (Setup used to write ENSMPortModeChannel0 to voltage1 too.)
             testCase.verifyEqual(rx.getAttributeRAW('voltage1', 'port_en_mode', false), 'spi');
+            % set after setup the property reaches its own channel
+            rx.ENSMPortModeChannel1 = 'pin';
+            testCase.verifyEqual(rx.getAttributeRAW('voltage1', 'port_en_mode', false), 'pin');
             testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'port_en_mode', false), 'pin');
+            rx.ENSMPortModeChannel0 = 'spi';
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'port_en_mode', false), 'spi');
+            testCase.verifyEqual(rx.getAttributeRAW('voltage1', 'port_en_mode', false), 'pin');
             % the gain is written for the source spi only
             testCase.verifyEqual(rx.getAttributeDouble('voltage0', 'hardwaregain', false), 7);
             testCase.verifyEqual(rx.getAttributeDouble('voltage1', 'hardwaregain', false), 34);
@@ -2100,6 +2102,18 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             testCase.verifyEqual(rx.getAttributeBool('voltage1', 'agc_tracking_en', false), false);
             rx.HDTrackingChannel0 = false;
             testCase.verifyEqual(rx.getAttributeBool('voltage0', 'hd_tracking_en', false), false);
+            rx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            % The other way round, on the file again (both 'spi'): setup
+            % writes 'pin' to the second channel alone
+            rx = adi.ADRV9002.Rx('uri', testCase.emuUri('adrv9002.xml', false, 'axi-adrv9002-rx-lpc'));
+            rx.SamplesPerFrame = 1024;
+            rx.EnabledChannels = [1 2];
+            rx.ENSMPortModeChannel1 = 'pin';     % ENSMPortModeChannel0 stays 'spi'
+            [~, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'port_en_mode', false), 'spi');
+            testCase.verifyEqual(rx.getAttributeRAW('voltage1', 'port_en_mode', false), 'pin');
             rx.release();
             testCase.verifyEqual(iio.internal.handle_count(), 0);
         end
@@ -2461,6 +2475,157 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             testCase.verifyEqual(rx.getDeviceAttributeRAW('multichip_sync', 16, phyB), '5');
             rx.release();
             testCase.verifyEqual(iio.internal.handle_count(), 0);
+        end
+
+        function fmcomms5SamplingRateAfterSetup(testCase)
+            % SamplingRate is one property for the two AD9361: a change
+            % after setup loads the rate and its FIR filter on both, as
+            % setup does. (It used to reach the first AD9361 only.)
+            rx = adi.FMComms5.Rx('uri', testCase.fmcomms5FilterOffUri('cf-ad9361-A'));
+            rx.SamplesPerFrame = 1024;
+            rx.SamplingRate = 5e6;
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifyEqual(d, testCase.ramp(0:1023));
+            phyB = rx.getIIODevice('ad9361-phy-B');
+            fir = testCase.bbRateExpected('fir_4000000.txt');
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'sampling_frequency', true), int64(5000000));
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'sampling_frequency', true, phyB), int64(5000000));
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('filter_fir_config', 8192), fir);
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('filter_fir_config', 8192, phyB), fir);
+            % above 20 MS/s the filter is another one
+            fir = testCase.bbRateExpected('fir_20000001.txt');
+            rx.SamplingRate = 20000001;
+            testCase.verifyEqual(rx.SamplingRate, 20000001);
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'sampling_frequency', true), int64(20000001));
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'sampling_frequency', true, phyB), int64(20000001));
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('filter_fir_config', 8192), fir);
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('filter_fir_config', 8192, phyB), fir);
+            testCase.verifyEqual(rx.getAttributeBool('out', 'voltage_filter_fir_en', false), true);
+            testCase.verifyEqual(rx.getAttributeBool('out', 'voltage_filter_fir_en', false, phyB), true);
+            % the data path is not disturbed: this is the second frame
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifyEqual(d, testCase.ramp(1024 + (0:1023)));
+            rx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            % the transmitter
+            tx = adi.FMComms5.Tx('uri', testCase.fmcomms5FilterOffUri(testCase.RxDevice));
+            tx.SamplingRate = 5e6;
+            a = testCase.txFrame(0);
+            testCase.verifyEqual(tx(a), true);
+            phyB = tx.getIIODevice('ad9361-phy-B');
+            testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'sampling_frequency', true), int64(5000000));
+            testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'sampling_frequency', true, phyB), int64(5000000));
+            tx.SamplingRate = 20000001;
+            testCase.verifyEqual(tx.SamplingRate, 20000001);
+            testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'sampling_frequency', true), int64(20000001));
+            testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'sampling_frequency', true, phyB), int64(20000001));
+            testCase.verifyEqual(tx.getDeviceAttributeRAW('filter_fir_config', 8192), fir);
+            testCase.verifyEqual(tx.getDeviceAttributeRAW('filter_fir_config', 8192, phyB), fir);
+            testCase.verifyEqual(tx.getAttributeBool('out', 'voltage_filter_fir_en', false), true);
+            testCase.verifyEqual(tx.getAttributeBool('out', 'voltage_filter_fir_en', false, phyB), true);
+            tx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            testCase.verifyEqual(testCase.sentWords('cf-ad9361-dds-core-lpc'), testCase.interleaved(a));
+        end
+
+        function fmcomms5SkipInit(testCase)
+            % SkipInit: setup writes no attribute to either AD9361, both
+            % keep the values of the XML file (the LOs of the first at
+            % 3 GHz and of the second at 3500000002 Hz, slow_attack, the
+            % attenuation -20, the DDS tones of 999954 and 3999511 Hz).
+            % Setup still looks up the devices of the second AD9361, so a
+            % property of either that changes after setup is written to
+            % its own device and to that one alone.
+            % (ad9361-phy-B and cf-ad9361-dds-core-B used to be looked up
+            % in setupInit only, which SkipInit skips: such a change of
+            % the second AD9361 raised an error.)
+            rx = adi.FMComms5.Rx('uri', testCase.emuUri('fmcomms5.xml', false, 'cf-ad9361-A'));
+            rx.SamplesPerFrame = 1024;
+            rx.SkipInit = true;
+            rx.CenterFrequency = 2.41e9;
+            rx.CenterFrequencyChipB = 2.43e9;
+            rx.GainControlModeChannel0 = 'manual';
+            rx.GainControlModeChannel0ChipB = 'manual';
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifyEqual(d, testCase.ramp(0:1023));
+            testCase.verifyNotEmpty(rx.iioDevPHYChipB);
+            phyB = rx.getIIODevice('ad9361-phy-B');
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(3000000000));
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true, phyB), int64(3500000002));
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'gain_control_mode', false), 'slow_attack');
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'gain_control_mode', false, phyB), 'slow_attack');
+            % no multichip sync either
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('multichip_sync', 16, phyB), 'ERROR');
+            % the second AD9361 alone
+            rx.CenterFrequencyChipB = 2.44e9;
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true, phyB), int64(2440000000));
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(3000000000));
+            rx.GainControlModeChannel0ChipB = 'hybrid';
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'gain_control_mode', false, phyB), 'hybrid');
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'gain_control_mode', false), 'slow_attack');
+            rx.RFPortSelectChipB = 'C_BALANCED';
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'rf_port_select', false, phyB), 'C_BALANCED');
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'rf_port_select', false), 'A_BALANCED');
+            % the first alone
+            rx.CenterFrequency = 2.45e9;
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2450000000));
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true, phyB), int64(2440000000));
+            % the data path is not disturbed: this is the second frame
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifyEqual(d, testCase.ramp(1024 + (0:1023)));
+            rx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            % the transmitter
+            tx = adi.FMComms5.Tx('uri', testCase.emuUri('fmcomms5.xml'));
+            tx.SkipInit = true;
+            tx.CenterFrequency = 2.42e9;
+            tx.CenterFrequencyChipB = 2.44e9;
+            tx.AttenuationChannel0 = -12.5;
+            tx.AttenuationChannel0ChipB = -30.25;
+            a = testCase.txFrame(0);
+            testCase.verifyEqual(tx(a), true);
+            testCase.verifyNotEmpty(tx.iioDevPHYChipB);
+            testCase.verifyNotEmpty(tx.iioDevChipB);
+            phyB = tx.getIIODevice('ad9361-phy-B');
+            ddsB = tx.getIIODevice('cf-ad9361-dds-core-B');
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage1', 'frequency', true), int64(3000000000));
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage1', 'frequency', true, phyB), int64(3500000002));
+            testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true), -20);
+            testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true, phyB), -20);
+            testCase.verifyEqual(tx.getAttributeDouble('altvoltage0', 'frequency', true, ddsB), 999954);
+            testCase.verifyEqual(tx.getAttributeDouble('altvoltage1', 'frequency', true, ddsB), 3999511);
+            % the second AD9361 alone
+            tx.AttenuationChannel0ChipB = -40;
+            testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true, phyB), -40);
+            testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true), -20);
+            tx.CenterFrequencyChipB = 2.45e9;
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage1', 'frequency', true, phyB), int64(2450000000));
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage1', 'frequency', true), int64(3000000000));
+            tx.RFPortSelectChipB = 'B';
+            testCase.verifyEqual(tx.getAttributeRAW('voltage0', 'rf_port_select', true, phyB), 'B');
+            testCase.verifyEqual(tx.getAttributeRAW('voltage0', 'rf_port_select', true), 'A');
+            % the DDS tones of the second AD9361: column c of the
+            % property is altvoltage(2c-2) and altvoltage(2c-1) of
+            % cf-ad9361-dds-core-B
+            tx.DDSFrequenciesChipB = [100000 300000; 200000 400000];
+            for n = 0:3
+                id = sprintf('altvoltage%d', n);
+                testCase.verifyEqual(tx.getAttributeDouble(id, 'frequency', true, ddsB), (n + 1) * 100000, id);
+            end
+            % those of the first are not written
+            dds = tx.getIIODevice('cf-ad9361-dds-core-lpc');
+            testCase.verifyEqual(tx.getAttributeDouble('altvoltage0', 'frequency', true, dds), 999954);
+            % and the first alone
+            tx.AttenuationChannel0 = -3;
+            testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true), -3);
+            testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true, phyB), -40);
+            tx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            testCase.verifyEqual(testCase.sentWords('cf-ad9361-dds-core-lpc'), testCase.interleaved(a));
         end
 
         function fmcomms5MultichipSync(testCase, mcsCase)
