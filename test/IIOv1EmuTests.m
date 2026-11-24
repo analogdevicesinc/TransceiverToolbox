@@ -1,7 +1,8 @@
 classdef IIOv1EmuTests < matlab.unittest.TestCase
     % IIOv1EmuTests Device classes on the libiio v1 bindings, without hardware
     %   Runs adi.AD9361.Rx/Tx, adi.Pluto.Rx/Tx, adi.FMComms5.Rx/Tx,
-    %   adi.ADRV9009.Rx/ORx/Tx, adi.AD9371.Rx/ORx/Tx and adi.ADRV9002.Rx/Tx
+    %   adi.ADRV9009.Rx/ORx/Tx, adi.ADRV9009ZU11EG.Rx/Tx, adi.FMComms8.Rx/Tx,
+    %   adi.AD9371.Rx/ORx/Tx, adi.ADRV9371.Rx/Tx and adi.ADRV9002.Rx/Tx
     %   against the emulation
     %   backend of libiio v1 ("emu:"), which builds a context from an XML
     %   file. Attribute writes stay in that context; receive data comes
@@ -19,7 +20,9 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
     %                      test/IIOv1JESD204Device.m). Not as in pyadi-iio:
     %                      the debug attribute "status" of axi-ad9081-rx-hpc
     %                      was "ERROR" there and holds two link lines here.
-    %     ad9371.xml       ADRV9371, for adi.AD9371.Rx/ORx/Tx
+    %     ad9371.xml       ADRV9371, for adi.AD9371.Rx/ORx/Tx and for
+    %                      adi.ADRV9371.Rx/Tx, which are the AD9371 classes
+    %                      under the name of the board: same devices
     %     adrv9002.xml     ADRV9002 with one DMA per direction, for
     %                      adi.ADRV9002.Rx/Tx
     %     adrv9002_splitdma.xml  ADRV9002 with one DMA per channel (devices
@@ -36,6 +39,16 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
     %                      For adi.ADRV9009.Rx/ORx/Tx; the ORx class needs the
     %                      receivers and the observation receiver in one
     %                      adrv9009-phy.
+    %     adrv9009zu11eg.xml  Not from pyadi-iio, which has no context
+    %                      file of an ADRV9009-ZU11EG: adrv9009.xml with a
+    %                      second transceiver adrv9009-phy-b, four I/Q pairs
+    %                      on axi-adrv9009-rx-hpc and on axi-adrv9009-tx-hpc,
+    %                      and the DDS tones of the pairs 3 and 4, see
+    %                      emu/make_adrv9009_dual_xml.py. For
+    %                      adi.ADRV9009ZU11EG.Rx/Tx.
+    %     fmcomms8.xml     Not from pyadi-iio either: the same with the
+    %                      transceivers adrv9009-phy-c and adrv9009-phy-d,
+    %                      the names adi.FMComms8.Rx/Tx look for.
     %     fmcomms5.xml     FMComms5 (two AD9361), for adi.FMComms5.Rx/Tx
     %
     %   The values that the tests expect of a device that was not written
@@ -96,18 +109,36 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             'AD9371ORx', {{'adi.AD9371.ORx', 'ad9371.xml', 'axi-ad9371-rx-obs-hpc', 1}}, ...
             'ADRV9002Rx', {{'adi.ADRV9002.Rx', 'adrv9002.xml', 'axi-adrv9002-rx-lpc', 2}}, ...
             'ADRV9002RxSplitDMA', {{'adi.ADRV9002.Rx', 'adrv9002_splitdma.xml', 'axi-adrv9002-rx-lpc', 1}}, ...
-            'FMComms5Rx', {{'adi.FMComms5.Rx', 'fmcomms5.xml', 'cf-ad9361-A', 4}});
+            'FMComms5Rx', {{'adi.FMComms5.Rx', 'fmcomms5.xml', 'cf-ad9361-A', 4}}, ...
+            'ADRV9009ZU11EGRx', {{'adi.ADRV9009ZU11EG.Rx', 'adrv9009zu11eg.xml', 'axi-adrv9009-rx-hpc', 4}}, ...
+            'FMComms8Rx', {{'adi.FMComms8.Rx', 'fmcomms8.xml', 'axi-adrv9009-rx-hpc', 4}}, ...
+            'ADRV9371Rx', {{'adi.ADRV9371.Rx', 'ad9371.xml', 'axi-ad9371-rx-hpc', 2}});
         % class of the transmitter, XML file, device that streams, number
-        % of I/Q pairs of that device
+        % of I/Q pairs of that device that one frame can hold. That is 1
+        % for adi.ADRV9009ZU11EG.Tx and adi.FMComms8.Tx, whose device has
+        % four: they take no frame for more than one pair, see
+        % dualADRV9009TxSeveralChannels.
         transmitter = struct( ...
             'ADRV9009TxOnADRV9008_2', {{'adi.ADRV9009.Tx', 'adrv9008-2.xml', 'axi-adrv9009-tx-hpc', 2}}, ...
             'ADRV9009Tx', {{'adi.ADRV9009.Tx', 'adrv9009.xml', 'axi-adrv9009-tx-hpc', 2}}, ...
             'AD9371Tx', {{'adi.AD9371.Tx', 'ad9371.xml', 'axi-ad9371-tx-hpc', 2}}, ...
             'ADRV9002Tx', {{'adi.ADRV9002.Tx', 'adrv9002.xml', 'axi-adrv9002-tx-lpc', 2}}, ...
             'ADRV9002TxSplitDMA', {{'adi.ADRV9002.Tx', 'adrv9002_splitdma.xml', 'axi-adrv9002-tx-lpc', 1}}, ...
-            'FMComms5Tx', {{'adi.FMComms5.Tx', 'fmcomms5.xml', 'cf-ad9361-dds-core-lpc', 4}});
+            'FMComms5Tx', {{'adi.FMComms5.Tx', 'fmcomms5.xml', 'cf-ad9361-dds-core-lpc', 4}}, ...
+            'ADRV9009ZU11EGTx', {{'adi.ADRV9009ZU11EG.Tx', 'adrv9009zu11eg.xml', 'axi-adrv9009-tx-hpc', 1}}, ...
+            'FMComms8Tx', {{'adi.FMComms8.Tx', 'fmcomms8.xml', 'axi-adrv9009-tx-hpc', 1}}, ...
+            'ADRV9371Tx', {{'adi.ADRV9371.Tx', 'ad9371.xml', 'axi-ad9371-tx-hpc', 2}});
         adrv9009RxFile = struct('adrv9008_1', 'adrv9008-1.xml', 'adrv9009', 'adrv9009.xml');
         adrv9009TxFile = struct('adrv9008_2', 'adrv9008-2.xml', 'adrv9009', 'adrv9009.xml');
+        % package of the classes for two ADRV9009, XML file, name of the
+        % first and of the second transceiver device, and whether setup
+        % writes calibrate_fhm_en (the classes write it only under the
+        % name adi.ADRV9009ZU11EG)
+        dualBoard = struct( ...
+            'ADRV9009ZU11EG', {{'adi.ADRV9009ZU11EG', 'adrv9009zu11eg.xml', 'adrv9009-phy', 'adrv9009-phy-b', true}}, ...
+            'FMComms8', {{'adi.FMComms8', 'fmcomms8.xml', 'adrv9009-phy-c', 'adrv9009-phy-d', false}});
+        % package of the classes that run on ad9371.xml
+        ad9371Package = struct('AD9371', 'adi.AD9371', 'ADRV9371', 'adi.ADRV9371');
         % board, flags, sampling rate of ad9361-phy-B before the call (0:
         % as in the file). <board>_f<flags>_r<rate>.log is the expected log
         % in test/emu/ad9361_mcs/expected. fmcomms5debug is fmcomms5.xml
@@ -1327,14 +1358,448 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             testCase.verifyEqual(iio.internal.handle_count(), 0);
         end
 
+        %% Two ADRV9009: ADRV9009-ZU11EG and FMComms8
+
+        function dualADRV9009RxAttributes(testCase, dualBoard)
+            % What setup writes to the two ADRV9009 is read back from
+            % each. Both have in the files the gain 30 in the mode manual,
+            % the tracking, the calibration switches and the power down
+            % off and the LO at 2.4 GHz. The second ADRV9009 stays in
+            % slow_attack here and has its gains set after setup: for
+            % manual at setup see dualADRV9009RxGainOfChipBAtSetup.
+            rx = feval([dualBoard{1} '.Rx'], 'uri', testCase.emuUri(dualBoard{2}, false, 'axi-adrv9009-rx-hpc'));
+            testCase.verifyClass(rx, [dualBoard{1} '.Rx']);
+            rx.SamplesPerFrame = 512;
+            rx.EnabledChannels = [1 2 3 4];
+            rx.CenterFrequency = 2.5e9;
+            rx.CenterFrequencyChipB = 2.6e9;
+            rx.GainControlMode = 'manual';
+            rx.GainChannel0 = 20.5;
+            rx.GainChannel1 = 7;
+            rx.EnableQuadratureTrackingChannel1 = false;
+            rx.EnableQuadratureTrackingChannel0ChipB = false;
+            rx.EnableHarmonicDistortionTrackingChannel0 = true;
+            rx.EnableHarmonicDistortionTrackingChannel1 = true;
+            rx.EnableHarmonicDistortionTrackingChannel1ChipB = true;
+            rx.EnablePhaseCorrection = true;
+            rx.EnableFrequencyHoppingModeCalibration = true;
+            rx.PowerdownChannel1 = true;
+            rx.PowerdownChannel0ChipB = true;
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifyClass(d, 'double');
+            testCase.verifySize(d, [512 4]);
+            testCase.verifyFalse(isreal(d));
+            for c = 1:4
+                testCase.verifyEqual(d(:, c), testCase.ramp(4 * (0:511) + c - 1), sprintf('column %d', c));
+            end
+            testCase.verifyEqual(rx.phyDevName, dualBoard{3});
+            testCase.verifyEqual(rx.phyDevNameChipB, dualBoard{4});
+            phyB = rx.getIIODevice(dualBoard{4});
+            % the first ADRV9009
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2500000000));
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'gain_control_mode', false), 'manual');
+            testCase.verifyEqual(rx.getAttributeDouble('voltage0', 'hardwaregain', false), 20.5);
+            testCase.verifyEqual(rx.getAttributeDouble('voltage1', 'hardwaregain', false), 7);
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'quadrature_tracking_en', false), true);
+            testCase.verifyEqual(rx.getAttributeBool('voltage1', 'quadrature_tracking_en', false), false);
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'hd2_tracking_en', false), true);
+            testCase.verifyEqual(rx.getAttributeBool('voltage1', 'hd2_tracking_en', false), true);
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('calibrate_rx_qec_en', 16), '1');
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('calibrate_rx_phase_correction_en', 16), '1');
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('calibrate', 16), '1');
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'powerdown', false), false);
+            testCase.verifyEqual(rx.getAttributeBool('voltage1', 'powerdown', false), true);
+            % the second ADRV9009
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true, phyB), int64(2600000000));
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'gain_control_mode', false, phyB), 'slow_attack');
+            % in slow_attack setup writes no gain: the 30 of the XML file
+            testCase.verifyEqual(rx.getAttributeDouble('voltage0', 'hardwaregain', false, phyB), 30);
+            testCase.verifyEqual(rx.getAttributeDouble('voltage1', 'hardwaregain', false, phyB), 30);
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'quadrature_tracking_en', false, phyB), false);
+            testCase.verifyEqual(rx.getAttributeBool('voltage1', 'quadrature_tracking_en', false, phyB), true);
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'hd2_tracking_en', false, phyB), false);
+            testCase.verifyEqual(rx.getAttributeBool('voltage1', 'hd2_tracking_en', false, phyB), true);
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('calibrate_rx_qec_en', 16, phyB), '1');
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('calibrate_rx_phase_correction_en', 16, phyB), '0');
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('calibrate', 16, phyB), '1');
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'powerdown', false, phyB), true);
+            testCase.verifyEqual(rx.getAttributeBool('voltage1', 'powerdown', false, phyB), false);
+            % calibrate_fhm_en is written under the name
+            % adi.ADRV9009ZU11EG.Rx only, to each ADRV9009 from its own
+            % property; adi.FMComms8.Rx leaves the 0 of the XML file
+            if dualBoard{5}
+                testCase.verifyEqual(rx.getDeviceAttributeRAW('calibrate_fhm_en', 16), '1');
+            else
+                testCase.verifyEqual(rx.getDeviceAttributeRAW('calibrate_fhm_en', 16), '0');
+            end
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('calibrate_fhm_en', 16, phyB), '0');
+            % tunable after setup: the second ADRV9009 alone
+            rx.GainControlModeChipB = 'manual';
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'gain_control_mode', false, phyB), 'manual');
+            rx.GainChannel0ChipB = 12.25;
+            testCase.verifyEqual(rx.getAttributeDouble('voltage0', 'hardwaregain', false, phyB), 12.25);
+            testCase.verifyEqual(rx.getAttributeDouble('voltage0', 'hardwaregain', false), 20.5);
+            rx.GainChannel1ChipB = 3;
+            testCase.verifyEqual(rx.getAttributeDouble('voltage1', 'hardwaregain', false, phyB), 3);
+            testCase.verifyEqual(rx.getAttributeDouble('voltage1', 'hardwaregain', false), 7);
+            rx.EnableQuadratureTrackingChannel1ChipB = false;
+            testCase.verifyEqual(rx.getAttributeBool('voltage1', 'quadrature_tracking_en', false, phyB), false);
+            rx.EnableQuadratureTrackingChannel0ChipB = true;
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'quadrature_tracking_en', false, phyB), true);
+            rx.EnableHarmonicDistortionTrackingChannel0ChipB = true;
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'hd2_tracking_en', false, phyB), true);
+            rx.EnableHarmonicDistortionTrackingChannel1ChipB = false;
+            testCase.verifyEqual(rx.getAttributeBool('voltage1', 'hd2_tracking_en', false, phyB), false);
+            testCase.verifyEqual(rx.getAttributeBool('voltage1', 'hd2_tracking_en', false), true);
+            rx.PowerdownChannel1ChipB = true;
+            testCase.verifyEqual(rx.getAttributeBool('voltage1', 'powerdown', false, phyB), true);
+            rx.PowerdownChannel0ChipB = false;
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'powerdown', false, phyB), false);
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'powerdown', false), false);
+            testCase.verifyEqual(rx.getAttributeBool('voltage1', 'powerdown', false), true);
+            % and the first alone
+            rx.CenterFrequency = 3e9;
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(3000000000));
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true, phyB), int64(2600000000));
+            rx.GainChannel0 = 11.5;
+            testCase.verifyEqual(rx.getAttributeDouble('voltage0', 'hardwaregain', false), 11.5);
+            testCase.verifyEqual(rx.getAttributeDouble('voltage0', 'hardwaregain', false, phyB), 12.25);
+            rx.GainControlMode = 'slow_attack';
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'gain_control_mode', false), 'slow_attack');
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'gain_control_mode', false, phyB), 'manual');
+            rx.GainControlModeChipB = 'slow_attack';
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'gain_control_mode', false, phyB), 'slow_attack');
+            % in slow_attack the gain is kept in the property only
+            rx.GainChannel0ChipB = 5;
+            testCase.verifyEqual(rx.getAttributeDouble('voltage0', 'hardwaregain', false, phyB), 12.25);
+            % the data path is not disturbed: this is the second frame
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            for c = 1:4
+                testCase.verifyEqual(d(:, c), testCase.ramp(4 * (512 + (0:511)) + c - 1), sprintf('column %d', c));
+            end
+            rx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+        end
+
+        function dualADRV9009RxGainOfChipBAtSetup(testCase, dualBoard)
+            % Current behaviour, a bug of the classes that is left as
+            % found: with the second ADRV9009 in manual, setup writes
+            % GainChannel0ChipB and GainChannel1ChipB to the first one.
+            % setupInit of adi.ADRV9009ZU11EG.Rx passes the device where
+            % setAttributeDouble takes the tolerance, so the write goes
+            % to phyDevName. It comes after the gains of the first, which
+            % it replaces; the second keeps the 30 of the XML file.
+            rx = feval([dualBoard{1} '.Rx'], 'uri', testCase.emuUri(dualBoard{2}, false, 'axi-adrv9009-rx-hpc'));
+            rx.SamplesPerFrame = 512;
+            rx.GainControlMode = 'manual';
+            rx.GainChannel0 = 20.5;
+            rx.GainChannel1 = 7;
+            rx.GainControlModeChipB = 'manual';
+            rx.GainChannel0ChipB = 12.25;
+            rx.GainChannel1ChipB = 3;
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifyEqual(d, testCase.ramp(0:511));
+            phyB = rx.getIIODevice(dualBoard{4});
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'gain_control_mode', false), 'manual');
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'gain_control_mode', false, phyB), 'manual');
+            testCase.verifyEqual(rx.getAttributeDouble('voltage0', 'hardwaregain', false), 12.25);
+            testCase.verifyEqual(rx.getAttributeDouble('voltage1', 'hardwaregain', false), 3);
+            testCase.verifyEqual(rx.getAttributeDouble('voltage0', 'hardwaregain', false, phyB), 30);
+            testCase.verifyEqual(rx.getAttributeDouble('voltage1', 'hardwaregain', false, phyB), 30);
+            % the properties still hold what was asked for
+            testCase.verifyEqual([rx.GainChannel0 rx.GainChannel1], [20.5 7]);
+            % set after setup the gain goes to the second ADRV9009
+            rx.GainChannel0ChipB = 5;
+            testCase.verifyEqual(rx.getAttributeDouble('voltage0', 'hardwaregain', false, phyB), 5);
+            testCase.verifyEqual(rx.getAttributeDouble('voltage0', 'hardwaregain', false), 12.25);
+            rx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+        end
+
+        function dualADRV9009RxHD2TrackingAtSetup(testCase, dualBoard)
+            % Current behaviour, a bug of the classes that is left as
+            % found: setup writes hd2_tracking_en of channel 1 of the
+            % first ADRV9009 from EnableHarmonicDistortionTrackingChannel0.
+            % The second ADRV9009 gets each channel from its own property.
+            rx = feval([dualBoard{1} '.Rx'], 'uri', testCase.emuUri(dualBoard{2}, false, 'axi-adrv9009-rx-hpc'));
+            rx.SamplesPerFrame = 512;
+            rx.EnableHarmonicDistortionTrackingChannel0 = true;
+            rx.EnableHarmonicDistortionTrackingChannel1 = false;
+            rx.EnableHarmonicDistortionTrackingChannel0ChipB = true;
+            rx.EnableHarmonicDistortionTrackingChannel1ChipB = false;
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifyEqual(d, testCase.ramp(0:511));
+            phyB = rx.getIIODevice(dualBoard{4});
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'hd2_tracking_en', false), true);
+            testCase.verifyEqual(rx.getAttributeBool('voltage1', 'hd2_tracking_en', false), true);
+            testCase.verifyEqual(rx.EnableHarmonicDistortionTrackingChannel1, false);
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'hd2_tracking_en', false, phyB), true);
+            testCase.verifyEqual(rx.getAttributeBool('voltage1', 'hd2_tracking_en', false, phyB), false);
+            % set after setup the property reaches its channel
+            rx.EnableHarmonicDistortionTrackingChannel1 = false;
+            testCase.verifyEqual(rx.getAttributeBool('voltage1', 'hd2_tracking_en', false), false);
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'hd2_tracking_en', false), true);
+            rx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+        end
+
+        function dualADRV9009CenterFrequencyChipBAfterSetup(testCase, dualBoard)
+            % Current behaviour, a bug of the classes that is left as
+            % found: setup writes CenterFrequencyChipB to the second
+            % ADRV9009, and a change after setup goes to the first one
+            % (the set method of adi.ADRV9009ZU11EG.Base names no device).
+            % The second keeps its LO, and CenterFrequency no longer
+            % holds the LO of the first.
+            rx = feval([dualBoard{1} '.Rx'], 'uri', testCase.emuUri(dualBoard{2}, false, 'axi-adrv9009-rx-hpc'));
+            rx.SamplesPerFrame = 512;
+            rx.CenterFrequency = 2.5e9;
+            rx.CenterFrequencyChipB = 2.6e9;
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifyEqual(d, testCase.ramp(0:511));
+            phyB = rx.getIIODevice(dualBoard{4});
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2500000000));
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true, phyB), int64(2600000000));
+            rx.CenterFrequencyChipB = 2.7e9;
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2700000000));
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true, phyB), int64(2600000000));
+            testCase.verifyEqual(rx.CenterFrequency, 2.5e9);
+            testCase.verifyEqual(rx.CenterFrequencyChipB, 2.7e9);
+            rx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            % the transmitter has the set method of the same base class
+            tx = feval([dualBoard{1} '.Tx'], 'uri', testCase.emuUri(dualBoard{2}));
+            tx.CenterFrequency = 2.5e9;
+            tx.CenterFrequencyChipB = 2.6e9;
+            testCase.verifyEqual(tx(testCase.txFrame(0)), true);
+            phyB = tx.getIIODevice(dualBoard{4});
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2500000000));
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage0', 'frequency', true, phyB), int64(2600000000));
+            tx.CenterFrequencyChipB = 2.7e9;
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2700000000));
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage0', 'frequency', true, phyB), int64(2600000000));
+            tx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+        end
+
+        function dualADRV9009RxDeleteReleases(testCase, dualBoard)
+            % adi.ADRV9009ZU11EG.Rx has an empty delete method of its
+            % own; the one of adi.common.RxTx still releases
+            rx = feval([dualBoard{1} '.Rx'], 'uri', testCase.emuUri(dualBoard{2}, false, 'axi-adrv9009-rx-hpc'));
+            rx.SamplesPerFrame = 512;
+            rx();
+            testCase.verifyGreaterThan(iio.internal.handle_count(), 0);
+            delete(rx);
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+        end
+
+        function dualADRV9009TxAttributes(testCase, dualBoard)
+            % Both ADRV9009 have in the files the attenuation -10, the
+            % tracking, the calibration switches and the power down off
+            % and the LO at 2.4 GHz; the DDS is on. One I/Q pair is sent:
+            % for more see dualADRV9009TxSeveralChannels.
+            tx = feval([dualBoard{1} '.Tx'], 'uri', testCase.emuUri(dualBoard{2}));
+            testCase.verifyClass(tx, [dualBoard{1} '.Tx']);
+            tx.CenterFrequency = 2.6e9;
+            tx.CenterFrequencyChipB = 2.7e9;
+            tx.AttenuationChannel0 = -12;
+            tx.AttenuationChannel1 = -20;
+            tx.AttenuationChannel0ChipB = -25;
+            tx.AttenuationChannel1ChipB = -3;
+            tx.EnableLOLeakageTrackingChannel1 = false;
+            tx.EnableQuadratureTrackingChannel1 = false;
+            tx.EnableLOLeakageTrackingChannel0ChipB = false;
+            tx.EnableQuadratureTrackingChannel0ChipB = false;
+            tx.EnableLOLeakageCorrectionExternal = true;
+            tx.EnableFrequencyHoppingModeCalibrationChipB = true;
+            tx.PowerdownChannel1 = true;
+            tx.PowerdownChannel0ChipB = true;
+            a = testCase.txFrame(0);
+            testCase.verifyEqual(tx(a), true);
+            testCase.verifyEqual(tx.phyDevName, dualBoard{3});
+            testCase.verifyEqual(tx.phyDevNameChipB, dualBoard{4});
+            phyB = tx.getIIODevice(dualBoard{4});
+            dds = tx.getIIODevice('axi-adrv9009-tx-hpc');
+            % the first ADRV9009
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2600000000));
+            testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true), -12);
+            testCase.verifyEqual(tx.getAttributeDouble('voltage1', 'hardwaregain', true), -20);
+            testCase.verifyEqual(tx.getAttributeBool('voltage0', 'quadrature_tracking_en', true), true);
+            testCase.verifyEqual(tx.getAttributeBool('voltage1', 'quadrature_tracking_en', true), false);
+            testCase.verifyEqual(tx.getAttributeBool('voltage0', 'lo_leakage_tracking_en', true), true);
+            testCase.verifyEqual(tx.getAttributeBool('voltage1', 'lo_leakage_tracking_en', true), false);
+            testCase.verifyEqual(tx.getDeviceAttributeRAW('calibrate_tx_qec_en', 16), '1');
+            testCase.verifyEqual(tx.getDeviceAttributeRAW('calibrate_tx_lol_en', 16), '1');
+            testCase.verifyEqual(tx.getDeviceAttributeRAW('calibrate_tx_lol_ext_en', 16), '1');
+            testCase.verifyEqual(tx.getDeviceAttributeRAW('calibrate', 16), '1');
+            testCase.verifyEqual(tx.getAttributeBool('voltage0', 'powerdown', true), false);
+            testCase.verifyEqual(tx.getAttributeBool('voltage1', 'powerdown', true), true);
+            % the second ADRV9009
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage0', 'frequency', true, phyB), int64(2700000000));
+            testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true, phyB), -25);
+            testCase.verifyEqual(tx.getAttributeDouble('voltage1', 'hardwaregain', true, phyB), -3);
+            testCase.verifyEqual(tx.getAttributeBool('voltage0', 'quadrature_tracking_en', true, phyB), false);
+            testCase.verifyEqual(tx.getAttributeBool('voltage1', 'quadrature_tracking_en', true, phyB), true);
+            testCase.verifyEqual(tx.getAttributeBool('voltage0', 'lo_leakage_tracking_en', true, phyB), false);
+            testCase.verifyEqual(tx.getAttributeBool('voltage1', 'lo_leakage_tracking_en', true, phyB), true);
+            testCase.verifyEqual(tx.getDeviceAttributeRAW('calibrate_tx_qec_en', 16, phyB), '1');
+            testCase.verifyEqual(tx.getDeviceAttributeRAW('calibrate_tx_lol_en', 16, phyB), '1');
+            testCase.verifyEqual(tx.getDeviceAttributeRAW('calibrate_tx_lol_ext_en', 16, phyB), '0');
+            testCase.verifyEqual(tx.getDeviceAttributeRAW('calibrate', 16, phyB), '1');
+            testCase.verifyEqual(tx.getAttributeBool('voltage0', 'powerdown', true, phyB), true);
+            testCase.verifyEqual(tx.getAttributeBool('voltage1', 'powerdown', true, phyB), false);
+            % calibrate_fhm_en is written under the name
+            % adi.ADRV9009ZU11EG.Tx only, to each ADRV9009 from its own
+            % property; adi.FMComms8.Tx leaves the 0 of the XML file
+            testCase.verifyEqual(tx.getDeviceAttributeRAW('calibrate_fhm_en', 16), '0');
+            if dualBoard{5}
+                testCase.verifyEqual(tx.getDeviceAttributeRAW('calibrate_fhm_en', 16, phyB), '1');
+            else
+                testCase.verifyEqual(tx.getDeviceAttributeRAW('calibrate_fhm_en', 16, phyB), '0');
+            end
+            % the host is the data source: the DDS is off
+            testCase.verifyEqual(tx.getAttributeBool('altvoltage0', 'raw', true, dds), false);
+            % tunable after setup: the second ADRV9009 alone
+            tx.AttenuationChannel0ChipB = -7;
+            testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true, phyB), -7);
+            testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true), -12);
+            tx.AttenuationChannel1ChipB = -8;
+            testCase.verifyEqual(tx.getAttributeDouble('voltage1', 'hardwaregain', true, phyB), -8);
+            testCase.verifyEqual(tx.getAttributeDouble('voltage1', 'hardwaregain', true), -20);
+            tx.PowerdownChannel1ChipB = true;
+            testCase.verifyEqual(tx.getAttributeBool('voltage1', 'powerdown', true, phyB), true);
+            tx.PowerdownChannel0ChipB = false;
+            testCase.verifyEqual(tx.getAttributeBool('voltage0', 'powerdown', true, phyB), false);
+            testCase.verifyEqual(tx.getAttributeBool('voltage0', 'powerdown', true), false);
+            testCase.verifyEqual(tx.getAttributeBool('voltage1', 'powerdown', true), true);
+            tx.EnableQuadratureTrackingChannel1ChipB = false;
+            testCase.verifyEqual(tx.getAttributeBool('voltage1', 'quadrature_tracking_en', true, phyB), false);
+            tx.EnableQuadratureTrackingChannel0ChipB = true;
+            testCase.verifyEqual(tx.getAttributeBool('voltage0', 'quadrature_tracking_en', true, phyB), true);
+            testCase.verifyEqual(tx.getAttributeBool('voltage1', 'quadrature_tracking_en', true), false);
+            tx.EnableLOLeakageTrackingChannel1ChipB = false;
+            testCase.verifyEqual(tx.getAttributeBool('voltage1', 'lo_leakage_tracking_en', true, phyB), false);
+            tx.EnableLOLeakageTrackingChannel0ChipB = true;
+            testCase.verifyEqual(tx.getAttributeBool('voltage0', 'lo_leakage_tracking_en', true, phyB), true);
+            testCase.verifyEqual(tx.getAttributeBool('voltage0', 'lo_leakage_tracking_en', true), true);
+            % and the first alone
+            tx.AttenuationChannel0 = -5;
+            testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true), -5);
+            testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true, phyB), -7);
+            tx.CenterFrequency = 2.8e9;
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2800000000));
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage0', 'frequency', true, phyB), int64(2700000000));
+            tx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            testCase.verifyEqual(testCase.sentWords('axi-adrv9009-tx-hpc'), testCase.interleaved(a));
+        end
+
+        function dualADRV9009TxSeveralChannels(testCase, dualBoard)
+            % Current behaviour, a bug of the classes that is left as
+            % found: adi.ADRV9009ZU11EG.Tx asks for one input per enabled
+            % I/Q pair (getNumInputsImpl), while setup and step of
+            % adi.common.Tx take one matrix with a column per pair. With
+            % more than one pair enabled no call passes: one matrix is
+            % too few inputs, one input per pair too many. Nothing is
+            % opened by such a call.
+            tx = feval([dualBoard{1} '.Tx'], 'uri', testCase.emuUri(dualBoard{2}));
+            testCase.verifyEqual(getNumInputs(tx), 1);
+            tx.EnabledChannels = [1 2];
+            testCase.verifyEqual(getNumInputs(tx), 2);
+            tx.EnabledChannels = [1 2 3 4];
+            testCase.verifyEqual(getNumInputs(tx), 4);
+            tx.EnabledChannels = [1 2];
+            b = [testCase.txFrame(0), testCase.txFrame(2000)];
+            err = caught(@() tx(b));
+            testCase.verifyNotEmpty(err, 'One matrix of two columns was accepted.');
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            err = caught(@() tx(b(:, 1), b(:, 2)));
+            testCase.verifyNotEmpty(err, 'One input per I/Q pair was accepted.');
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            testCase.verifyFalse(isfile(fullfile(testCase.Folder, 'axi-adrv9009-tx-hpc_buf0.bin')));
+            tx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+        end
+
+        function dualADRV9009TxDDS(testCase, dualBoard)
+            % DataSource 'DDS' takes no input, so all four I/Q pairs can
+            % be used: column c of the DDS properties is the two tones
+            % altvoltage(2c-2) and altvoltage(2c-1) of the transmit device,
+            % for the eight channels I and Q of the four pairs
+            tx = feval([dualBoard{1} '.Tx'], 'uri', testCase.emuUri(dualBoard{2}));
+            tx.DataSource = 'DDS';
+            testCase.verifyEqual(getNumInputs(tx), 0);
+            k = reshape(0:15, 2, 8);    % the number of the tone
+            tx.DDSFrequencies = (k + 1) * 1e6;
+            tx.DDSScales = (k + 1) / 16;
+            tx.DDSPhases = (k + 1) * 1000;
+            testCase.verifyEqual(tx(), true);
+            dds = tx.getIIODevice('axi-adrv9009-tx-hpc');
+            testCase.verifyEqual(tx.getAttributeBool('altvoltage0', 'raw', true, dds), true);
+            for n = 0:15
+                id = sprintf('altvoltage%d', n);
+                testCase.verifyEqual(tx.getAttributeDouble(id, 'frequency', true, dds), (n + 1) * 1e6, id);
+                testCase.verifyEqual(tx.getAttributeDouble(id, 'scale', true, dds), (n + 1) / 16, id);
+                testCase.verifyEqual(tx.getAttributeDouble(id, 'phase', true, dds), (n + 1) * 1000, id);
+            end
+            % the attributes of the two ADRV9009 are written as with DMA
+            phyB = tx.getIIODevice(dualBoard{4});
+            testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true), -30);
+            testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true, phyB), -30);
+            tx.DDSFrequencies = (16 - k) * 1e6;
+            testCase.verifyEqual(tx.getAttributeDouble('altvoltage0', 'frequency', true, dds), 16e6);
+            testCase.verifyEqual(tx.getAttributeDouble('altvoltage15', 'frequency', true, dds), 1e6);
+            testCase.verifyEqual(tx(), true);
+            tx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            % nothing was transmitted from the host
+            testCase.verifyFalse(isfile(fullfile(testCase.Folder, 'axi-adrv9009-tx-hpc_buf0.bin')));
+        end
+
+        function dualADRV9009Profile(testCase, dualBoard)
+            % EnableCustomProfile: the text of the file goes to
+            % profile_config of both ADRV9009, which is "TB" in the XML
+            % file. The emulation keeps it and loads nothing.
+            file = fullfile(fileparts(mfilename('fullpath')), ...
+                'Tx_BW200_IR245p76_Rx_BW200_OR245p76_ORx_BW200_OR245p76_ADRV9009.txt');
+            want = fileread(file);
+            testCase.assertSubstring(want, '<profile Talise version=1');
+            rx = feval([dualBoard{1} '.Rx'], 'uri', testCase.emuUri(dualBoard{2}, false, 'axi-adrv9009-rx-hpc'));
+            rx.SamplesPerFrame = 512;
+            rx.EnableCustomProfile = true;
+            rx.CustomProfileFileName = file;
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifyEqual(d, testCase.ramp(0:511));
+            phyB = rx.getIIODevice(dualBoard{4});
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('profile_config', 8192), want);
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('profile_config', 8192, phyB), want);
+            rx.release();
+            % and for the transmitter, on a context that has "TB" again
+            tx = feval([dualBoard{1} '.Tx'], 'uri', testCase.emuUri(dualBoard{2}));
+            tx.EnableCustomProfile = true;
+            tx.CustomProfileFileName = file;
+            testCase.verifyEqual(tx(testCase.txFrame(0)), true);
+            phyB = tx.getIIODevice(dualBoard{4});
+            testCase.verifyEqual(tx.getDeviceAttributeRAW('profile_config', 8192), want);
+            testCase.verifyEqual(tx.getDeviceAttributeRAW('profile_config', 8192, phyB), want);
+            tx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+        end
+
         %% AD9371
 
-        function ad9371RxAttributes(testCase)
+        function ad9371RxAttributes(testCase, ad9371Package)
             % ad9371.xml has the LO at 2.5 GHz, the gain 30, the tracking
             % on and the loopback off. The classes write the LO as
             % RX_LO_frequency, the name of older drivers: libiio finds
             % the attribute "frequency" of the channel named RX_LO.
-            rx = adi.AD9371.Rx('uri', testCase.emuUri('ad9371.xml', false, 'axi-ad9371-rx-hpc'));
+            rx = feval([ad9371Package '.Rx'], 'uri', testCase.emuUri('ad9371.xml', false, 'axi-ad9371-rx-hpc'));
+            testCase.verifyClass(rx, [ad9371Package '.Rx']);
             rx.SamplesPerFrame = 1024;
             rx.EnabledChannels = [1 2];
             rx.CenterFrequency = 2.4e9;
@@ -1376,10 +1841,11 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             testCase.verifyEqual(iio.internal.handle_count(), 0);
         end
 
-        function ad9371TxAttributes(testCase)
+        function ad9371TxAttributes(testCase, ad9371Package)
             % ad9371.xml has the LO at 2.5 GHz, the attenuation -10 and
             % the DDS on
-            tx = adi.AD9371.Tx('uri', testCase.emuUri('ad9371.xml'));
+            tx = feval([ad9371Package '.Tx'], 'uri', testCase.emuUri('ad9371.xml'));
+            testCase.verifyClass(tx, [ad9371Package '.Tx']);
             tx.EnabledChannels = [1 2];
             tx.CenterFrequency = 2.45e9;
             tx.AttenuationChannel0 = -12.25;
@@ -1446,7 +1912,7 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             testCase.verifyEqual(iio.internal.handle_count(), 0);
         end
 
-        function ad9371Profile(testCase)
+        function ad9371Profile(testCase, ad9371Package)
             % EnableCustomProfile: the text of the file goes to
             % profile_config, which is "TB" in the XML file, before the
             % other attributes are written. The emulation keeps it and
@@ -1454,7 +1920,7 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             file = fullfile(fileparts(mfilename('fullpath')), 'profile_TxBW100_ORxBW100_RxBW100.txt');
             want = fileread(file);
             testCase.assertSubstring(want, '<profile AD9371 version=0');
-            rx = adi.AD9371.Rx('uri', testCase.emuUri('ad9371.xml', false, 'axi-ad9371-rx-hpc'));
+            rx = feval([ad9371Package '.Rx'], 'uri', testCase.emuUri('ad9371.xml', false, 'axi-ad9371-rx-hpc'));
             rx.SamplesPerFrame = 1024;
             rx.EnableCustomProfile = true;
             rx.CustomProfileFileName = file;
