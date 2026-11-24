@@ -875,10 +875,10 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             testCase.assertSubstring(want, 'RX 3 GAIN -12 DEC 4');
             rx = feval(board{1}, 'uri', testCase.emuUri(board{3}));
             rx.SamplesPerFrame = 1024;
-            rx.EnableCustomFilter = true;
-            rx.CustomFilterFileName = file;
             rx.SamplingRate = 4e6;
             rx.RFBandwidth = 2e6;
+            rx.EnableCustomFilter = true;
+            rx.CustomFilterFileName = file;
             [d, v] = rx();
             testCase.verifyEqual(v, true);
             testCase.verifyEqual(d, testCase.ramp(0:1023));
@@ -887,7 +887,8 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             testCase.verifyEqual(rx.getAttributeBool('voltage0', 'filter_fir_en', true), true);
             testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'sampling_frequency', true), int64(30720000));
             testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'rf_bandwidth', false), int64(18000000));
-            % with the custom filter a new rate is kept in the property only
+            % with the custom filter a new rate is kept in the property
+            % only (MATLAB warns that the property is not relevant)
             rx.SamplingRate = 5e6;
             testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'sampling_frequency', true), int64(30720000));
             testCase.verifyEqual(rx.getDeviceAttributeRAW('filter_fir_config', 8192), want);
@@ -901,10 +902,10 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             want = fileread(file);
             testCase.assertSubstring(want, 'TX 3 GAIN 0 INT 2');
             tx = feval(board{2}, 'uri', testCase.emuUri(board{3}));
-            tx.EnableCustomFilter = true;
-            tx.CustomFilterFileName = file;
             tx.SamplingRate = 4e6;
             tx.RFBandwidth = 2e6;
+            tx.EnableCustomFilter = true;
+            tx.CustomFilterFileName = file;
             a = testCase.txFrame(0);
             testCase.verifyEqual(tx(a), true);
             testCase.verifyEqual(tx.getDeviceAttributeRAW('filter_fir_config', 8192), want);
