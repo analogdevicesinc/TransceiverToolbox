@@ -1484,13 +1484,10 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
         end
 
         function dualADRV9009RxGainOfChipBAtSetup(testCase, dualBoard)
-            % Current behaviour, a bug of the classes that is left as
-            % found: with the second ADRV9009 in manual, setup writes
-            % GainChannel0ChipB and GainChannel1ChipB to the first one.
-            % setupInit of adi.ADRV9009ZU11EG.Rx passes the device where
-            % setAttributeDouble takes the tolerance, so the write goes
-            % to phyDevName. It comes after the gains of the first, which
-            % it replaces; the second keeps the 30 of the XML file.
+            % With both ADRV9009 in manual, setup writes each one its
+            % own gains. (setupInit of adi.ADRV9009ZU11EG.Rx used to pass
+            % the device where setAttributeDouble takes the tolerance, so
+            % the gains of the second replaced those of the first.)
             rx = feval([dualBoard{1} '.Rx'], 'uri', testCase.emuUri(dualBoard{2}, false, 'axi-adrv9009-rx-hpc'));
             rx.SamplesPerFrame = 512;
             rx.GainControlMode = 'manual';
@@ -1505,25 +1502,22 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             phyB = rx.getIIODevice(dualBoard{4});
             testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'gain_control_mode', false), 'manual');
             testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'gain_control_mode', false, phyB), 'manual');
-            testCase.verifyEqual(rx.getAttributeDouble('voltage0', 'hardwaregain', false), 12.25);
-            testCase.verifyEqual(rx.getAttributeDouble('voltage1', 'hardwaregain', false), 3);
-            testCase.verifyEqual(rx.getAttributeDouble('voltage0', 'hardwaregain', false, phyB), 30);
-            testCase.verifyEqual(rx.getAttributeDouble('voltage1', 'hardwaregain', false, phyB), 30);
-            % the properties still hold what was asked for
-            testCase.verifyEqual([rx.GainChannel0 rx.GainChannel1], [20.5 7]);
+            testCase.verifyEqual(rx.getAttributeDouble('voltage0', 'hardwaregain', false), 20.5);
+            testCase.verifyEqual(rx.getAttributeDouble('voltage1', 'hardwaregain', false), 7);
+            testCase.verifyEqual(rx.getAttributeDouble('voltage0', 'hardwaregain', false, phyB), 12.25);
+            testCase.verifyEqual(rx.getAttributeDouble('voltage1', 'hardwaregain', false, phyB), 3);
             % set after setup the gain goes to the second ADRV9009
             rx.GainChannel0ChipB = 5;
             testCase.verifyEqual(rx.getAttributeDouble('voltage0', 'hardwaregain', false, phyB), 5);
-            testCase.verifyEqual(rx.getAttributeDouble('voltage0', 'hardwaregain', false), 12.25);
+            testCase.verifyEqual(rx.getAttributeDouble('voltage0', 'hardwaregain', false), 20.5);
             rx.release();
             testCase.verifyEqual(iio.internal.handle_count(), 0);
         end
 
         function dualADRV9009RxHD2TrackingAtSetup(testCase, dualBoard)
-            % Current behaviour, a bug of the classes that is left as
-            % found: setup writes hd2_tracking_en of channel 1 of the
-            % first ADRV9009 from EnableHarmonicDistortionTrackingChannel0.
-            % The second ADRV9009 gets each channel from its own property.
+            % Setup writes hd2_tracking_en of each channel of each
+            % ADRV9009 from its own property. (Channel 1 of the first
+            % used to be written from the property of channel 0.)
             rx = feval([dualBoard{1} '.Rx'], 'uri', testCase.emuUri(dualBoard{2}, false, 'axi-adrv9009-rx-hpc'));
             rx.SamplesPerFrame = 512;
             rx.EnableHarmonicDistortionTrackingChannel0 = true;
@@ -1535,25 +1529,23 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             testCase.verifyEqual(d, testCase.ramp(0:511));
             phyB = rx.getIIODevice(dualBoard{4});
             testCase.verifyEqual(rx.getAttributeBool('voltage0', 'hd2_tracking_en', false), true);
-            testCase.verifyEqual(rx.getAttributeBool('voltage1', 'hd2_tracking_en', false), true);
-            testCase.verifyEqual(rx.EnableHarmonicDistortionTrackingChannel1, false);
+            testCase.verifyEqual(rx.getAttributeBool('voltage1', 'hd2_tracking_en', false), false);
             testCase.verifyEqual(rx.getAttributeBool('voltage0', 'hd2_tracking_en', false, phyB), true);
             testCase.verifyEqual(rx.getAttributeBool('voltage1', 'hd2_tracking_en', false, phyB), false);
             % set after setup the property reaches its channel
-            rx.EnableHarmonicDistortionTrackingChannel1 = false;
-            testCase.verifyEqual(rx.getAttributeBool('voltage1', 'hd2_tracking_en', false), false);
-            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'hd2_tracking_en', false), true);
+            rx.EnableHarmonicDistortionTrackingChannel1 = true;
+            rx.EnableHarmonicDistortionTrackingChannel0 = false;
+            testCase.verifyEqual(rx.getAttributeBool('voltage1', 'hd2_tracking_en', false), true);
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'hd2_tracking_en', false), false);
             rx.release();
             testCase.verifyEqual(iio.internal.handle_count(), 0);
         end
 
         function dualADRV9009CenterFrequencyChipBAfterSetup(testCase, dualBoard)
-            % Current behaviour, a bug of the classes that is left as
-            % found: setup writes CenterFrequencyChipB to the second
-            % ADRV9009, and a change after setup goes to the first one
-            % (the set method of adi.ADRV9009ZU11EG.Base names no device).
-            % The second keeps its LO, and CenterFrequency no longer
-            % holds the LO of the first.
+            % CenterFrequencyChipB reaches the second ADRV9009 at setup
+            % and on a change after setup; the first keeps its LO. (The
+            % set method of adi.ADRV9009ZU11EG.Base used to name no
+            % device, so a change after setup retuned the first.)
             rx = feval([dualBoard{1} '.Rx'], 'uri', testCase.emuUri(dualBoard{2}, false, 'axi-adrv9009-rx-hpc'));
             rx.SamplesPerFrame = 512;
             rx.CenterFrequency = 2.5e9;
@@ -1565,8 +1557,8 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2500000000));
             testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true, phyB), int64(2600000000));
             rx.CenterFrequencyChipB = 2.7e9;
-            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2700000000));
-            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true, phyB), int64(2600000000));
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2500000000));
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true, phyB), int64(2700000000));
             testCase.verifyEqual(rx.CenterFrequency, 2.5e9);
             testCase.verifyEqual(rx.CenterFrequencyChipB, 2.7e9);
             rx.release();
@@ -1580,8 +1572,8 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             testCase.verifyEqual(tx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2500000000));
             testCase.verifyEqual(tx.getAttributeLongLong('altvoltage0', 'frequency', true, phyB), int64(2600000000));
             tx.CenterFrequencyChipB = 2.7e9;
-            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2700000000));
-            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage0', 'frequency', true, phyB), int64(2600000000));
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2500000000));
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage0', 'frequency', true, phyB), int64(2700000000));
             tx.release();
             testCase.verifyEqual(iio.internal.handle_count(), 0);
         end
