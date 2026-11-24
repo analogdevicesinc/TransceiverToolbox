@@ -52,6 +52,13 @@ classdef (Abstract, Hidden = true) Base < adi.AD9361.Base
             obj.iioDevPHYChipB = getDev(obj,'ad9361-phy-B');
         end
         
+        function setBBRate(obj, rate)
+            % SamplingRate is one property for the two AD9361: at setup
+            % and on a change after setup the rate goes to both
+            setBBRate@adi.AD9361.Base(obj, rate);
+            setBBRateChipB(obj, rate);
+        end
+        
         function setBBRateChipB(obj, rate)
             % setBBRate of adi.AD9361.Base for the second AD9361:
             % ad9361_set_bb_rate of libad9361-iio. A step that fails is

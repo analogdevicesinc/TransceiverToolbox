@@ -284,7 +284,6 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
                 % RFBandwidthChipB reach the device only when they are
                 % set after setup.
                 setBBRate(obj, obj.SamplingRate);
-                setBBRateChipB(obj, obj.SamplingRate);
             else
                 writeFilterFile(obj);
                 writeFilterFileFMComms5ChipB(obj);
