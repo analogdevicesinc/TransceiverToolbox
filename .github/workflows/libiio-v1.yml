@@ -1,9 +1,11 @@
 name: libiio v1 bindings
 
 # Hardware-free tests of the device classes on the libiio v1 MATLAB bindings
-# (github.com/tfcollins/libiio-conv, package "iio"): adi.AD9361.Rx/Tx and
-# adi.Pluto.Rx/Tx, and adi.common.JESD204, against libiio's emulation
-# backend, see test/IIOv1EmuTests.m. Hosted runner only: no board, no self-hosted runner.
+# (github.com/tfcollins/libiio-conv, package "iio"): adi.AD9361.Rx/Tx,
+# adi.Pluto.Rx/Tx, adi.FMComms5.Rx/Tx, adi.ADRV9009.Rx/ORx/Tx,
+# adi.AD9371.Rx/ORx/Tx and adi.ADRV9002.Rx/Tx, and adi.common.JESD204, against
+# libiio's emulation backend, see test/IIOv1EmuTests.m. Hosted runner only: no
+# board, no self-hosted runner.
 
 on:
   push:
@@ -23,7 +25,7 @@ env:
 
 jobs:
   emu:
-    name: AD9361 family on emu (R2025b)
+    name: Device classes on emu (R2025b)
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
@@ -64,6 +66,20 @@ jobs:
           test/emu/ad9361_bb_rate/generate.sh libiio-conv/deps/install "$RUNNER_TEMP/bb_rate_expected"
           diff -r test/emu/ad9361_bb_rate/expected "$RUNNER_TEMP/bb_rate_expected"
 
+      # The same for the multichip sync of the FMComms5
+      # (ad9361_fmcomms5_multichip_sync).
+      - name: Check the expected files of the multichip sync tests
+        run: |
+          test/emu/ad9361_mcs/generate.sh libiio-conv/deps/install "$RUNNER_TEMP/mcs_expected"
+          diff -r test/emu/ad9361_mcs/expected "$RUNNER_TEMP/mcs_expected"
+
+      # adrv9009.xml is put together from the two ADRV9008 context files. This
+      # makes it again and fails when the committed one differs.
+      - name: Check the ADRV9009 context file
+        run: |
+          python3 test/emu/make_adrv9009_xml.py test/emu/adrv9008-1.xml test/emu/adrv9008-2.xml "$RUNNER_TEMP/adrv9009.xml"
+          cmp test/emu/adrv9009.xml "$RUNNER_TEMP/adrv9009.xml"
+
       # MATLAB alone: the device classes need matlab.System and nothing else.
       - name: Set up MATLAB
         id: setup-matlab
@@ -102,12 +118,13 @@ jobs:
 
       # A green test step says only that no test failed. This also fails the job
       # when tests did not run or were filtered. --min-tests is the number of
-      # test points of IIOv1EmuTests (84: 21 methods for 3 boards, one for 6
-      # cases, and 15);
+      # test points of IIOv1EmuTests (121: 21 methods for 3 boards, two for 6
+      # cases each, one for 8 receivers, one for 6 transmitters, two for 2
+      # files each, and 28);
       # raise it with every test that is added.
       - name: Check the test results (count, skipped, duration)
         if: always()
-        run: python3 libiio-conv/matlab/tools/check_junit.py test-results/emu.xml --min-tests 84 --max-seconds 60 --max-skipped 0
+        run: python3 libiio-conv/matlab/tools/check_junit.py test-results/emu.xml --min-tests 121 --max-seconds 60 --max-skipped 0
 
       - name: Collect crash dumps
         if: always()

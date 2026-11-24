@@ -233,7 +233,7 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
             % Write all attributes to device once connected through set
             % methods
             setupLibad9361(obj);
-            obj.iioDevPHYChipB = calllib('libiio', 'iio_context_find_device',obj.iioCtx,'ad9361-phy-B');
+            setupChipB(obj);
             % Do writes directly to hardware without using set methods.
             % This is required sine Simulink support doesn't support
             % modification to nontunable variables at SetupImpl
@@ -279,22 +279,22 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
             
             % Sample rates and RF bandwidth
             if  ~obj.EnableCustomFilter
-                if libisloaded('libad9361')
-                    calllib('libad9361','ad9361_set_bb_rate',obj.iioDevPHY,int32(obj.SamplingRate));
-                    calllib('libad9361','ad9361_set_bb_rate',obj.iioDevPHYChipB,int32(obj.SamplingRate));
-                else
-                    obj.setAttributeLongLong('voltage0','sampling_frequency',obj.SamplingRate,true,4);
-                    obj.setAttributeLongLong('voltage0','rf_bandwidth',obj.RFBandwidth,strcmp(obj.Type,'Tx'));
-                    obj.setAttributeLongLong('voltage0','sampling_frequency',obj.SamplingRate,true,4,obj.iioDevPHYChipB); 
-                    obj.setAttributeLongLong('voltage0','rf_bandwidth',obj.RFBandwidthChipB,strcmp(obj.Type,'Tx'),0,obj.iioDevPHYChipB); 
-                end
+                % The rate with its FIR filter on both AD9361
+                % (ad9361_set_bb_rate of libad9361-iio), then the
+                % bandwidths. With libad9361 loaded the classes did not
+                % write the bandwidths here.
+                setBBRate(obj, obj.SamplingRate);
+                setBBRateChipB(obj, obj.SamplingRate);
+                obj.setAttributeLongLong('voltage0','rf_bandwidth',obj.RFBandwidth,strcmp(obj.Type,'Tx'));
+                obj.setAttributeLongLong('voltage0','rf_bandwidth',obj.RFBandwidthChipB,strcmp(obj.Type,'Tx'),0,obj.iioDevPHYChipB); 
             else
                 writeFilterFile(obj);
                 writeFilterFileFMComms5ChipB(obj);
             end
             obj.setAttributeRAW('voltage0','rf_port_select',obj.RFPortSelect,false);
             obj.setAttributeRAW('voltage0','rf_port_select',obj.RFPortSelectChipB,false,obj.iioDevPHYChipB); 
-            calllib('libad9361','ad9361_fmcomms5_multichip_sync',obj.iioCtx,uint32(3));
+            % FIXUP_INTERFACE_TIMING and CHECK_SAMPLE_RATES
+            multichipSync(obj, 3);
             
             if (obj.CustomAGC)
                 % Initialize hardware to reflect debug attribute changes

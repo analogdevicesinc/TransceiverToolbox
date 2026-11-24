@@ -301,8 +301,23 @@ classdef (Abstract, Hidden = true) Base < ...
             % Wrap update in read writes since once profiles are loaded
             % some attributes get lost
 %             state = savePartState(obj);
-            stream_data_str = fileread(obj.CustomStreamFileName);
-            obj.setDeviceAttributeRAW('stream_config',stream_data_str);
+            % The stream file is a binary image. Its bytes are written
+            % as they are: as text it would end at its first zero byte,
+            % which is the third byte of such a file.
+            fid = fopen(obj.CustomStreamFileName,'r');
+            if fid < 0
+                error('adi:ADRV9002:noStreamFile', ...
+                    'Cannot open the stream file %s', obj.CustomStreamFileName);
+            end
+            stream_data = fread(fid,[1 Inf],'*uint8');
+            fclose(fid);
+            phydev = getDev(obj, obj.phyDevName);
+            bytes = iio_device_attr_write_raw(obj,phydev,'stream_config',stream_data);
+            if bytes ~= numel(stream_data)
+                cstatus(obj,min(bytes,-1),sprintf( ...
+                    'Attribute write failed for : stream_config (%d bytes of %d written)', ...
+                    max(bytes,0),numel(stream_data)));
+            end
             profle_data_str = fileread(obj.CustomProfileFileName);
             obj.setDeviceAttributeRAW('profile_config',profle_data_str);
 %             returnPartState(obj,state)

@@ -1,0 +1,26 @@
+CALL ad9361_fmcomms5_multichip_sync 3
+chn_read_longlong ad9361-phy voltage0 out sampling_frequency = 0 4000000
+chn_read_longlong ad9361-phy-B voltage0 out sampling_frequency = 0 4000000
+reg_read ad9361-phy 0x6 = 0 0x24
+reg_read ad9361-phy 0x7 = 0 0x51
+reg_write ad9361-phy-B 0x6 0x24 = 0
+reg_write ad9361-phy-B 0x7 0x51 = 0
+dev_read ad9361-phy ensm_mode = 0 fdd
+dev_write ad9361-phy ensm_mode alert = 0
+dev_read ad9361-phy-B ensm_mode = 0 fdd
+dev_write ad9361-phy-B ensm_mode alert = 0
+dev_write_longlong ad9361-phy-B multichip_sync 0 = 0
+dev_write_longlong ad9361-phy multichip_sync 0 = 0
+dev_write_longlong ad9361-phy-B multichip_sync 1 = 0
+dev_write_longlong ad9361-phy multichip_sync 1 = 0
+dev_write_longlong ad9361-phy-B multichip_sync 2 = 0
+dev_write_longlong ad9361-phy multichip_sync 2 = 0
+dev_write_longlong ad9361-phy-B multichip_sync 3 = 0
+dev_write_longlong ad9361-phy multichip_sync 3 = 0
+dev_write_longlong ad9361-phy-B multichip_sync 4 = 0
+dev_write_longlong ad9361-phy multichip_sync 4 = 0
+dev_write_longlong ad9361-phy-B multichip_sync 5 = 0
+dev_write_longlong ad9361-phy multichip_sync 5 = 0
+dev_write ad9361-phy ensm_mode fdd = 0
+dev_write ad9361-phy-B ensm_mode fdd = 0
+RET 0

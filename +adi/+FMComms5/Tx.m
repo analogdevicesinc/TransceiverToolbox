@@ -102,9 +102,9 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
         end
         % Check RFPortSelect
         function set.RFPortSelectChipB(obj, value)
-            obj.RFPortSelect = value;
+            obj.RFPortSelectChipB = value;
             if obj.ConnectedToDevice
-                obj.setAttributeRAW('voltage0','rf_port_select',value,false,obj.iioDevPHYChipB); %#ok<MCSUP>
+                obj.setAttributeRAW('voltage0','rf_port_select',value,true,obj.iioDevPHYChipB); %#ok<MCSUP>
             end
         end
         % Check Attenuation
@@ -290,7 +290,7 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
             % Write all attributes to device once connected through set
             % methods
             setupLibad9361(obj);
-            obj.iioDevPHYChipB = calllib('libiio', 'iio_context_find_device',obj.iioCtx,'ad9361-phy-B');
+            setupChipB(obj);
             
             % Do writes directly to hardware without using set methods.
             % This is required sine Simulink support doesn't support
@@ -299,15 +299,14 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
             obj.setAttributeLongLong(id,'frequency',obj.CenterFrequency,true,8);
             obj.setAttributeLongLong(id,'frequency',obj.CenterFrequencyChipB,true,8,obj.iioDevPHYChipB);
             if  ~obj.EnableCustomFilter
-                if libisloaded('libad9361')
-                    calllib('libad9361','ad9361_set_bb_rate',obj.iioDevPHY,int32(obj.SamplingRate));
-                    calllib('libad9361','ad9361_set_bb_rate',obj.iioDevPHYChipB,int32(obj.SamplingRate));
-                else
-                    obj.setAttributeLongLong('voltage0','sampling_frequency',obj.SamplingRate,true,4);
-                    obj.setAttributeLongLong('voltage0','rf_bandwidth',obj.RFBandwidth,strcmp(obj.Type,'Tx'));
-                    obj.setAttributeLongLong('voltage0','sampling_frequency',obj.SamplingRate,true,4,obj.iioDevPHYChipB);
-                    obj.setAttributeLongLong('voltage0','rf_bandwidth',obj.RFBandwidthChipB,strcmp(obj.Type,'Tx'),[],obj.iioDevPHYChipB);
-                end
+                % The rate with its FIR filter on both AD9361
+                % (ad9361_set_bb_rate of libad9361-iio), then the
+                % bandwidths. With libad9361 loaded the classes did not
+                % write the bandwidths here.
+                setBBRate(obj, obj.SamplingRate);
+                setBBRateChipB(obj, obj.SamplingRate);
+                obj.setAttributeLongLong('voltage0','rf_bandwidth',obj.RFBandwidth,strcmp(obj.Type,'Tx'));
+                obj.setAttributeLongLong('voltage0','rf_bandwidth',obj.RFBandwidthChipB,strcmp(obj.Type,'Tx'),[],obj.iioDevPHYChipB);
             else
                 writeFilterFile(obj);
                 writeFilterFileFMComms5ChipB(obj);
@@ -320,10 +319,10 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
                 obj.setAttributeDouble('voltage1','hardwaregain',obj.AttenuationChannel1,true);
             end
             if (any(obj.EnabledChannels == 3))
-                obj.setAttributeDouble('voltage0','hardwaregain',obj.AttenuationChannel0ChipB,true,obj.iioDevPHYChipB);
+                obj.setAttributeDouble('voltage0','hardwaregain',obj.AttenuationChannel0ChipB,true,0,obj.iioDevPHYChipB);
             end
             if (any(obj.EnabledChannels == 4))
-                obj.setAttributeDouble('voltage1','hardwaregain',obj.AttenuationChannel1ChipB,true,obj.iioDevPHYChipB);
+                obj.setAttributeDouble('voltage1','hardwaregain',obj.AttenuationChannel1ChipB,true,0,obj.iioDevPHYChipB);
             end
             obj.ToggleDDS(strcmp(obj.DataSource,'DDS'));
             if strcmp(obj.DataSource,'DDS')

@@ -367,11 +367,11 @@ classdef Tx < adi.ADRV9002.Base & adi.common.Tx
             if status ~= 0
                 error("Cannot find channel voltage1")
             end
-            [status, rValue] = iio_channel_attr_read(obj,chanPtr,'ensm_mode',1024);
+            status = iio_channel_attr_read(obj,chanPtr,'ensm_mode',1024);
             if status == -19
                 channelsAval = 1;
             elseif status < 0
-                cstatus(obj,rValue,'Attribute read failed for : ensm_mode');
+                cstatus(obj,status,'Attribute read failed for : ensm_mode');
             else
                 channelsAval = 2;
             end

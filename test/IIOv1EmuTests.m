@@ -1,6 +1,8 @@
 classdef IIOv1EmuTests < matlab.unittest.TestCase
-    % IIOv1EmuTests AD9361 family on the libiio v1 bindings, without hardware
-    %   Runs adi.AD9361.Rx/Tx and adi.Pluto.Rx/Tx against the emulation
+    % IIOv1EmuTests Device classes on the libiio v1 bindings, without hardware
+    %   Runs adi.AD9361.Rx/Tx, adi.Pluto.Rx/Tx, adi.FMComms5.Rx/Tx,
+    %   adi.ADRV9009.Rx/ORx/Tx, adi.AD9371.Rx/ORx/Tx and adi.ADRV9002.Rx/Tx
+    %   against the emulation
     %   backend of libiio v1 ("emu:"), which builds a context from an XML
     %   file. Attribute writes stay in that context; receive data comes
     %   from the file <device name>_buf0.bin beside the XML file, and
@@ -17,6 +19,24 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
     %                      test/IIOv1JESD204Device.m). Not as in pyadi-iio:
     %                      the debug attribute "status" of axi-ad9081-rx-hpc
     %                      was "ERROR" there and holds two link lines here.
+    %     ad9371.xml       ADRV9371, for adi.AD9371.Rx/ORx/Tx
+    %     adrv9002.xml     ADRV9002 with one DMA per direction, for
+    %                      adi.ADRV9002.Rx/Tx
+    %     adrv9002_splitdma.xml  ADRV9002 with one DMA per channel (devices
+    %                      axi-adrv9002-rx2-lpc and axi-adrv9002-tx2-lpc) and
+    %                      the older names of the LO attributes. The file of
+    %                      that name in pyadi-iio starts with 1011 lines that
+    %                      are not XML; this is the XML text that follows them.
+    %     adrv9008-1.xml   ADRV9008-1 (receiver), for adi.ADRV9009.Rx
+    %     adrv9008-2.xml   ADRV9008-2 (transmitter and observation receiver),
+    %                      for adi.ADRV9009.Tx
+    %     adrv9009.xml     Not from pyadi-iio, which has no context file of an
+    %                      ADRV9009: adrv9008-2.xml with the two receivers of
+    %                      adrv9008-1.xml added, see emu/make_adrv9009_xml.py.
+    %                      For adi.ADRV9009.Rx/ORx/Tx; the ORx class needs the
+    %                      receivers and the observation receiver in one
+    %                      adrv9009-phy.
+    %     fmcomms5.xml     FMComms5 (two AD9361), for adi.FMComms5.Rx/Tx
     %
     %   The values that the tests expect of a device that was not written
     %   to are the values of these XML files.
@@ -30,6 +50,14 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
     %   and to the enable attribute of the filter. It does not apply the
     %   filter: the range of sampling_frequency stays the one of the XML
     %   file, and a rate outside of it is refused with or without filter.
+    %
+    %   Multichip sync of the FMComms5 (ad9361_fmcomms5_multichip_sync of
+    %   libad9361-iio in M-code, see adi.FMComms5.Base): the expected order
+    %   of the attribute and register accesses are the files of
+    %   test/emu/ad9361_mcs/expected, the output of the C source of
+    %   libad9361-iio on fmcomms5.xml, see generate.sh there. The emulation
+    %   keeps what is written to multichip_sync and ensm_mode and has no
+    %   register until one is written; it synchronises nothing.
     %
     %   Receive data file: 4096 I/Q pairs of int16, pair k (counted from 0)
     %   is I = k - 2048, Q = 2047 - k. The file is read again from its
@@ -58,6 +86,39 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             'pluto_1000000', {{'pluto', 1000000}}, ...
             'fmcomms2_1500000_25000000', {{'fmcomms2', [1500000 25000000]}}, ...
             'plutowide_520833_1000000', {{'plutowide', [520833 1000000]}});
+        % class of the receiver, XML file, device that streams, number of
+        % I/Q pairs of that device
+        receiver = struct( ...
+            'ADRV9009RxOnADRV9008_1', {{'adi.ADRV9009.Rx', 'adrv9008-1.xml', 'axi-adrv9009-rx-hpc', 2}}, ...
+            'ADRV9009Rx', {{'adi.ADRV9009.Rx', 'adrv9009.xml', 'axi-adrv9009-rx-hpc', 2}}, ...
+            'ADRV9009ORx', {{'adi.ADRV9009.ORx', 'adrv9009.xml', 'axi-adrv9009-rx-obs-hpc', 1}}, ...
+            'AD9371Rx', {{'adi.AD9371.Rx', 'ad9371.xml', 'axi-ad9371-rx-hpc', 2}}, ...
+            'AD9371ORx', {{'adi.AD9371.ORx', 'ad9371.xml', 'axi-ad9371-rx-obs-hpc', 1}}, ...
+            'ADRV9002Rx', {{'adi.ADRV9002.Rx', 'adrv9002.xml', 'axi-adrv9002-rx-lpc', 2}}, ...
+            'ADRV9002RxSplitDMA', {{'adi.ADRV9002.Rx', 'adrv9002_splitdma.xml', 'axi-adrv9002-rx-lpc', 1}}, ...
+            'FMComms5Rx', {{'adi.FMComms5.Rx', 'fmcomms5.xml', 'cf-ad9361-A', 4}});
+        % class of the transmitter, XML file, device that streams, number
+        % of I/Q pairs of that device
+        transmitter = struct( ...
+            'ADRV9009TxOnADRV9008_2', {{'adi.ADRV9009.Tx', 'adrv9008-2.xml', 'axi-adrv9009-tx-hpc', 2}}, ...
+            'ADRV9009Tx', {{'adi.ADRV9009.Tx', 'adrv9009.xml', 'axi-adrv9009-tx-hpc', 2}}, ...
+            'AD9371Tx', {{'adi.AD9371.Tx', 'ad9371.xml', 'axi-ad9371-tx-hpc', 2}}, ...
+            'ADRV9002Tx', {{'adi.ADRV9002.Tx', 'adrv9002.xml', 'axi-adrv9002-tx-lpc', 2}}, ...
+            'ADRV9002TxSplitDMA', {{'adi.ADRV9002.Tx', 'adrv9002_splitdma.xml', 'axi-adrv9002-tx-lpc', 1}}, ...
+            'FMComms5Tx', {{'adi.FMComms5.Tx', 'fmcomms5.xml', 'cf-ad9361-dds-core-lpc', 4}});
+        adrv9009RxFile = struct('adrv9008_1', 'adrv9008-1.xml', 'adrv9009', 'adrv9009.xml');
+        adrv9009TxFile = struct('adrv9008_2', 'adrv9008-2.xml', 'adrv9009', 'adrv9009.xml');
+        % board, flags, sampling rate of ad9361-phy-B before the call (0:
+        % as in the file). <board>_f<flags>_r<rate>.log is the expected log
+        % in test/emu/ad9361_mcs/expected. fmcomms5debug is fmcomms5.xml
+        % without the device attribute multichip_sync.
+        mcsCase = struct( ...
+            'fmcomms5_f3_r0', {{'fmcomms5', 3, 0}}, ...
+            'fmcomms5_f3_r3000000', {{'fmcomms5', 3, 3000000}}, ...
+            'fmcomms5_f2_r3000000', {{'fmcomms5', 2, 3000000}}, ...
+            'fmcomms5_f1_r3000000', {{'fmcomms5', 1, 3000000}}, ...
+            'fmcomms5_f0_r0', {{'fmcomms5', 0, 0}}, ...
+            'fmcomms5debug_f3_r0', {{'fmcomms5debug', 3, 0}});
     end
 
     properties
@@ -91,41 +152,66 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
     end
 
     methods
-        function uri = emuUri(testCase, xmlName, wideRates)
+        function uri = emuUri(testCase, xmlName, wideRates, rxDevice)
             % Copy the XML file into the temporary folder, write the
-            % receive data file beside it, return the URI. With wideRates
-            % the copy has the range of sampling_frequency that the
-            % driver reports while a filter that decimates by 4 is
-            % enabled: from 520833 instead of 2083333.
+            % receive data file of rxDevice (RxDevice when not given)
+            % beside it, return the URI. With wideRates the copy has the
+            % range of sampling_frequency that the driver reports while a
+            % filter that decimates by 4 is enabled: from 520833 instead
+            % of 2083333.
+            if nargin >= 3 && wideRates
+                uri = testCase.emuContext(xmlName, '[2083333 1 61440000]', '[520833 1 61440000]');
+            else
+                uri = testCase.emuContext(xmlName, '', '');
+            end
+            if nargin < 4
+                rxDevice = testCase.RxDevice;
+            end
+            testCase.writeRamp(rxDevice, 0);
+        end
+
+        function uri = emuContext(testCase, xmlName, old, new)
+            % Copy the XML file into the temporary folder and return the
+            % URI. With old not empty every occurrence of that text is
+            % new in the copy, and the file must have one.
             src = fullfile(fileparts(mfilename('fullpath')), 'emu', xmlName);
             testCase.assertTrue(isfile(src), ['Missing ' src]);
             dst = fullfile(testCase.Folder, xmlName);
-            copyfile(src, dst);
-            if nargin >= 3 && wideRates
+            if isempty(old)
+                copyfile(src, dst);
+            else
                 text = fileread(src);
-                narrow = '[2083333 1 61440000]';
-                testCase.assertTrue(contains(text, narrow), [xmlName ' has no range ' narrow]);
+                testCase.assertTrue(contains(text, old), [xmlName ' has no ' old]);
                 fid = fopen(dst, 'w');
                 testCase.assertGreaterThanOrEqual(fid, 0, ['Cannot write ' dst]);
-                fwrite(fid, strrep(text, narrow, '[520833 1 61440000]'), 'char*1');
+                fwrite(fid, strrep(text, old, new), 'char*1');
                 fclose(fid);
             end
-            k = 0:testCase.RampPairs - 1;
+            uri = ['emu:' dst];
+        end
+
+        function writeRamp(testCase, device, first)
+            % Receive data file of a device in the temporary folder: the
+            % 4096 pairs first, first + 1, ... of the ramp (see ramp)
+            k = mod(first + (0:testCase.RampPairs - 1), testCase.RampPairs);
             words = zeros(1, 2 * testCase.RampPairs, 'int16');
             words(1:2:end) = k - 2048;
             words(2:2:end) = 2047 - k;
-            name = fullfile(testCase.Folder, [testCase.RxDevice '_buf0.bin']);
+            name = fullfile(testCase.Folder, [device '_buf0.bin']);
             fid = fopen(name, 'w');
             testCase.assertGreaterThanOrEqual(fid, 0, ['Cannot write ' name]);
             n = fwrite(fid, words, 'int16', 0, 'ieee-le');
             fclose(fid);
             testCase.assertEqual(n, numel(words));
-            uri = ['emu:' dst];
         end
 
-        function v = sentWords(testCase)
-            % int16 column: what the transmit device received last
-            name = fullfile(testCase.Folder, [testCase.TxDevice '_buf0.bin']);
+        function v = sentWords(testCase, device)
+            % int16 column: what the transmit device (TxDevice when not
+            % given) received last
+            if nargin < 2
+                device = testCase.TxDevice;
+            end
+            name = fullfile(testCase.Folder, [device '_buf0.bin']);
             fid = fopen(name, 'r');
             testCase.assertGreaterThanOrEqual(fid, 0, ['Cannot read ' name]);
             v = fread(fid, Inf, 'int16=>int16', 0, 'ieee-le');
@@ -140,6 +226,22 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             name = fullfile(fileparts(mfilename('fullpath')), 'emu', 'ad9361_bb_rate', 'expected', name);
             assert(isfile(name), 'IIOv1EmuTests:noExpectedFile', 'Missing %s', name);
             text = fileread(name);
+        end
+
+        function text = mcsExpected(name)
+            % Content of a file of test/emu/ad9361_mcs/expected
+            name = fullfile(fileparts(mfilename('fullpath')), 'emu', 'ad9361_mcs', 'expected', name);
+            assert(isfile(name), 'IIOv1EmuTests:noExpectedFile', 'Missing %s', name);
+            text = fileread(name);
+        end
+
+        function w = interleaved(a)
+            % int16 column: the words a device receives for the complex
+            % frame a, I then Q of each column, sample after sample
+            w = zeros(2 * size(a, 2), size(a, 1), 'int16');
+            w(1:2:end, :) = real(a).';
+            w(2:2:end, :) = imag(a).';
+            w = w(:);
         end
 
         function d = ramp(k)
@@ -951,6 +1053,891 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             testCase.verifyEqual(s.state, 'opt_post_running_stage');
             testCase.verifyEqual(dev.getDebugAttributeRAW('chip_version'), 'AD9081 Rev. 3 Grade 10');
             dev.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+        end
+
+        %% Other transceivers: frames in and out
+
+        function familyRxFrames(testCase, receiver)
+            % Class, size, complexity, valid flag and values of the
+            % frames of one channel, then of all channels of the device
+            rx = feval(receiver{1}, 'uri', testCase.emuUri(receiver{2}, false, receiver{3}));
+            rx.SamplesPerFrame = 1024;
+            for f = 0:4     % frame 4 starts again at the beginning of the file
+                [d, v] = rx();
+                msg = sprintf('frame %d', f);
+                testCase.verifyClass(v, 'logical', msg);
+                testCase.verifyEqual(v, true, msg);
+                testCase.verifyClass(d, 'double', msg);
+                testCase.verifySize(d, [1024 1], msg);
+                testCase.verifyFalse(isreal(d), msg);
+                testCase.verifyEqual(d, testCase.ramp(f * 1024 + (0:1023)), msg);
+            end
+            testCase.verifyEqual(d(1:2), complex([-2048; -2047], [2047; 2046]));
+            rx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            % sample s holds the pairs n*s, n*s + 1, ... for the n channels
+            n = receiver{4};
+            if n > 1
+                rx.EnabledChannels = 1:n;
+                rx.SamplesPerFrame = 512;
+                [d, v] = rx();
+                testCase.verifyEqual(v, true);
+                testCase.verifyClass(d, 'double');
+                testCase.verifySize(d, [512 n]);
+                testCase.verifyFalse(isreal(d));
+                for c = 1:n
+                    testCase.verifyEqual(d(:, c), testCase.ramp(n * (0:511) + c - 1), sprintf('column %d', c));
+                end
+                rx.release();
+                testCase.verifyEqual(iio.internal.handle_count(), 0);
+            end
+        end
+
+        function familyTxFrames(testCase, transmitter)
+            % The device receives I and Q of each sample in turn, for one
+            % channel and for all channels of the device
+            tx = feval(transmitter{1}, 'uri', testCase.emuUri(transmitter{2}));
+            a = testCase.txFrame(0);
+            v = tx(a);
+            testCase.verifyClass(v, 'logical');
+            testCase.verifyEqual(v, true);
+            testCase.verifyEqual(tx.SamplesPerFrame, 256);
+            tx.release();   % sends what is queued
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            got = testCase.sentWords(transmitter{3});
+            testCase.verifySize(got, [512 1]);
+            testCase.verifyEqual(got, testCase.interleaved(a));
+            testCase.verifyEqual(got(1:4), int16([100; -100; 101; -101]));
+            n = transmitter{4};
+            if n > 1
+                tx.EnabledChannels = 1:n;
+                b = complex(zeros(256, n, 'int16'));
+                for c = 1:n
+                    b(:, c) = testCase.txFrame(1000 * c);
+                end
+                testCase.verifyEqual(tx(b), true);
+                tx.release();
+                testCase.verifyEqual(iio.internal.handle_count(), 0);
+                got = testCase.sentWords(transmitter{3});
+                testCase.verifySize(got, [512 * n 1]);
+                testCase.verifyEqual(got, testCase.interleaved(b));
+                testCase.verifyEqual(got(1:4), int16([1100; -100; 2100; -100]));
+            end
+        end
+
+        %% ADRV9009
+
+        function adrv9009RxAttributes(testCase, adrv9009RxFile)
+            % What setup writes is read back from the same context. The
+            % files have the gain 30, the tracking, the calibration
+            % switches and the power down off and the LO at 2.4 GHz.
+            rx = adi.ADRV9009.Rx('uri', testCase.emuUri(adrv9009RxFile, false, 'axi-adrv9009-rx-hpc'));
+            rx.SamplesPerFrame = 1024;
+            rx.EnabledChannels = [1 2];
+            rx.CenterFrequency = 2.5e9;
+            rx.GainControlMode = 'manual';
+            rx.GainChannel0 = 20.5;
+            rx.GainChannel1 = 7;
+            rx.EnableQuadratureTrackingChannel1 = false;
+            rx.EnableHarmonicDistortionTrackingChannel0 = true;
+            rx.EnablePhaseCorrection = true;
+            rx.EnableFrequencyHoppingModeCalibration = true;
+            rx.PowerdownChannel1 = true;
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifySize(d, [1024 2]);
+            testCase.verifyEqual(d(:, 1), testCase.ramp(2 * (0:1023)));
+            testCase.verifyEqual(d(:, 2), testCase.ramp(2 * (0:1023) + 1));
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2500000000));
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'gain_control_mode', false), 'manual');
+            testCase.verifyEqual(rx.getAttributeDouble('voltage0', 'hardwaregain', false), 20.5);
+            testCase.verifyEqual(rx.getAttributeDouble('voltage1', 'hardwaregain', false), 7);
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'quadrature_tracking_en', false), true);
+            testCase.verifyEqual(rx.getAttributeBool('voltage1', 'quadrature_tracking_en', false), false);
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'hd2_tracking_en', false), true);
+            testCase.verifyEqual(rx.getAttributeBool('voltage1', 'hd2_tracking_en', false), false);
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('calibrate_rx_qec_en', 16), '1');
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('calibrate_rx_phase_correction_en', 16), '1');
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('calibrate_fhm_en', 16), '1');
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('calibrate', 16), '1');
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'powerdown', false), false);
+            testCase.verifyEqual(rx.getAttributeBool('voltage1', 'powerdown', false), true);
+            % tunable after setup
+            rx.CenterFrequency = 3e9;
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(3000000000));
+            rx.GainChannel0 = 11.5;
+            testCase.verifyEqual(rx.getAttributeDouble('voltage0', 'hardwaregain', false), 11.5);
+            rx.EnableQuadratureTrackingChannel0 = false;
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'quadrature_tracking_en', false), false);
+            rx.EnableHarmonicDistortionTrackingChannel1 = true;
+            testCase.verifyEqual(rx.getAttributeBool('voltage1', 'hd2_tracking_en', false), true);
+            rx.PowerdownChannel0 = true;
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'powerdown', false), true);
+            rx.GainControlMode = 'slow_attack';
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'gain_control_mode', false), 'slow_attack');
+            % in slow_attack the gain is kept in the property only
+            rx.GainChannel0 = 3;
+            testCase.verifyEqual(rx.getAttributeDouble('voltage0', 'hardwaregain', false), 11.5);
+            % the data path is not disturbed: this is the second frame
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifyEqual(d(:, 1), testCase.ramp(2 * (1024 + (0:1023))));
+            testCase.verifyEqual(d(:, 2), testCase.ramp(2 * (1024 + (0:1023)) + 1));
+            rx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+        end
+
+        function adrv9009TxAttributes(testCase, adrv9009TxFile)
+            % The files have the attenuation -10, the tracking, the
+            % calibration switches and the power down off, the LO at
+            % 2.4 GHz and the DDS on
+            tx = adi.ADRV9009.Tx('uri', testCase.emuUri(adrv9009TxFile));
+            tx.EnabledChannels = [1 2];
+            tx.CenterFrequency = 2.6e9;
+            tx.AttenuationChannel0 = -12;
+            tx.AttenuationChannel1 = -20;
+            tx.EnableLOLeakageTrackingChannel1 = false;
+            tx.EnableQuadratureTrackingChannel1 = false;
+            tx.EnableLOLeakageCorrectionExternal = true;
+            tx.PowerdownChannel1 = true;
+            a = [testCase.txFrame(0), testCase.txFrame(2000)];
+            testCase.verifyEqual(tx(a), true);
+            dds = tx.getIIODevice('axi-adrv9009-tx-hpc');
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2600000000));
+            testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true), -12);
+            testCase.verifyEqual(tx.getAttributeDouble('voltage1', 'hardwaregain', true), -20);
+            testCase.verifyEqual(tx.getAttributeBool('voltage0', 'quadrature_tracking_en', true), true);
+            testCase.verifyEqual(tx.getAttributeBool('voltage1', 'quadrature_tracking_en', true), false);
+            testCase.verifyEqual(tx.getAttributeBool('voltage0', 'lo_leakage_tracking_en', true), true);
+            testCase.verifyEqual(tx.getAttributeBool('voltage1', 'lo_leakage_tracking_en', true), false);
+            testCase.verifyEqual(tx.getDeviceAttributeRAW('calibrate_tx_qec_en', 16), '1');
+            testCase.verifyEqual(tx.getDeviceAttributeRAW('calibrate_tx_lol_en', 16), '1');
+            testCase.verifyEqual(tx.getDeviceAttributeRAW('calibrate_tx_lol_ext_en', 16), '1');
+            testCase.verifyEqual(tx.getDeviceAttributeRAW('calibrate_fhm_en', 16), '0');
+            testCase.verifyEqual(tx.getDeviceAttributeRAW('calibrate', 16), '1');
+            testCase.verifyEqual(tx.getAttributeBool('voltage0', 'powerdown', true), false);
+            testCase.verifyEqual(tx.getAttributeBool('voltage1', 'powerdown', true), true);
+            % the host is the data source: the DDS is off
+            testCase.verifyEqual(tx.getAttributeBool('altvoltage0', 'raw', true, dds), false);
+            % tunable after setup
+            tx.AttenuationChannel0 = -5;
+            testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true), -5);
+            tx.CenterFrequency = 2.7e9;
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2700000000));
+            tx.PowerdownChannel0 = true;
+            testCase.verifyEqual(tx.getAttributeBool('voltage0', 'powerdown', true), true);
+            tx.EnableQuadratureTrackingChannel0 = false;
+            testCase.verifyEqual(tx.getAttributeBool('voltage0', 'quadrature_tracking_en', true), false);
+            tx.EnableLOLeakageTrackingChannel0 = false;
+            testCase.verifyEqual(tx.getAttributeBool('voltage0', 'lo_leakage_tracking_en', true), false);
+            tx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            testCase.verifyEqual(testCase.sentWords('axi-adrv9009-tx-hpc'), testCase.interleaved(a));
+        end
+
+        function adrv9009ORxAttributes(testCase)
+            % The observation receiver powers the two receivers down and
+            % itself up. adrv9009.xml has the receivers up, the
+            % observation receivers down with tracking off, the port
+            % OBS_TX_LO, the LO at 2.4 GHz and the AUX LO at 2.4175 GHz;
+            % the rate of the transmitter is 122.88 MHz, below the 250 MHz
+            % from which the second observation receiver stays down.
+            rx = adi.ADRV9009.ORx('uri', testCase.emuUri('adrv9009.xml', false, 'axi-adrv9009-rx-obs-hpc'));
+            rx.SamplesPerFrame = 1024;
+            rx.CenterFrequency = 2.5e9;
+            rx.LOSourceSelect = 'OBS_AUX_LO';
+            rx.AUXFrequency = 2.6e9;
+            rx.Gain = 12.5;
+            rx.EnableFrequencyHoppingModeCalibration = true;
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifyEqual(d, testCase.ramp(0:1023));
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'powerdown', false), true);
+            testCase.verifyEqual(rx.getAttributeBool('voltage1', 'powerdown', false), true);
+            testCase.verifyEqual(rx.getAttributeBool('voltage2', 'powerdown', false), false);
+            testCase.verifyEqual(rx.getAttributeBool('voltage3', 'powerdown', false), false);
+            testCase.verifyEqual(rx.getAttributeBool('voltage2', 'quadrature_tracking_en', false), true);
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage1', 'frequency', true), int64(2600000000));
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2500000000));
+            testCase.verifyEqual(rx.getAttributeRAW('voltage2', 'rf_port_select', false), 'OBS_AUX_LO');
+            testCase.verifyEqual(rx.getAttributeDouble('voltage2', 'hardwaregain', false), 12.5);
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('calibrate_fhm_en', 16), '1');
+            % tunable after setup
+            rx.Gain = 3;
+            testCase.verifyEqual(rx.getAttributeDouble('voltage2', 'hardwaregain', false), 3);
+            rx.AUXFrequency = 2.65e9;
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage1', 'frequency', true), int64(2650000000));
+            rx.CenterFrequency = 2.8e9;
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2800000000));
+            rx.LOSourceSelect = 'OBS_TX_LO';
+            testCase.verifyEqual(rx.getAttributeRAW('voltage2', 'rf_port_select', false), 'OBS_TX_LO');
+            rx.PowerdownChannel0 = true;
+            testCase.verifyEqual(rx.getAttributeBool('voltage2', 'powerdown', false), true);
+            rx.PowerdownChannel1 = true;
+            testCase.verifyEqual(rx.getAttributeBool('voltage3', 'powerdown', false), true);
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifyEqual(d, testCase.ramp(1024 + (0:1023)));
+            rx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+        end
+
+        function adrv9009Profile(testCase)
+            % EnableCustomProfile: the text of the file goes to
+            % profile_config, which is "TB" in the XML file. The
+            % emulation keeps it and loads nothing.
+            file = fullfile(fileparts(mfilename('fullpath')), ...
+                'Tx_BW200_IR245p76_Rx_BW200_OR245p76_ORx_BW200_OR245p76_ADRV9009.txt');
+            want = fileread(file);
+            testCase.assertSubstring(want, '<profile Talise version=1');
+            rx = adi.ADRV9009.Rx('uri', testCase.emuUri('adrv9009.xml', false, 'axi-adrv9009-rx-hpc'));
+            rx.SamplesPerFrame = 1024;
+            rx.EnableCustomProfile = true;
+            rx.CustomProfileFileName = file;
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifyEqual(d, testCase.ramp(0:1023));
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('profile_config', 8192), want);
+            rx.release();
+            % and for the transmitter
+            tx = adi.ADRV9009.Tx('uri', testCase.emuUri('adrv9008-2.xml'));
+            tx.EnableCustomProfile = true;
+            tx.CustomProfileFileName = file;
+            testCase.verifyEqual(tx(testCase.txFrame(0)), true);
+            testCase.verifyEqual(tx.getDeviceAttributeRAW('profile_config', 8192), want);
+            tx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+        end
+
+        %% AD9371
+
+        function ad9371RxAttributes(testCase)
+            % ad9371.xml has the LO at 2.5 GHz, the gain 30, the tracking
+            % on and the loopback off. The classes write the LO as
+            % RX_LO_frequency, the name of older drivers: libiio finds
+            % the attribute "frequency" of the channel named RX_LO.
+            rx = adi.AD9371.Rx('uri', testCase.emuUri('ad9371.xml', false, 'axi-ad9371-rx-hpc'));
+            rx.SamplesPerFrame = 1024;
+            rx.EnabledChannels = [1 2];
+            rx.CenterFrequency = 2.4e9;
+            rx.GainControlMode = 'manual';
+            rx.GainChannel0 = 12.25;
+            rx.GainChannel1 = 3;
+            rx.EnableQuadratureTrackingChannel0 = false;
+            rx.LoopbackMode = 1;
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifySize(d, [1024 2]);
+            testCase.verifyEqual(d(:, 1), testCase.ramp(2 * (0:1023)));
+            testCase.verifyEqual(d(:, 2), testCase.ramp(2 * (0:1023) + 1));
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2400000000));
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'RX_LO_frequency', true), int64(2400000000));
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'gain_control_mode', false), 'manual');
+            testCase.verifyEqual(rx.getAttributeDouble('voltage0', 'hardwaregain', false), 12.25);
+            testCase.verifyEqual(rx.getAttributeDouble('voltage1', 'hardwaregain', false), 3);
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'quadrature_tracking_en', false), false);
+            testCase.verifyEqual(rx.getAttributeBool('voltage1', 'quadrature_tracking_en', false), true);
+            testCase.verifyEqual(rx.getDebugAttributeLongLong('loopback_tx_rx'), int64(1));
+            % the LO of the transmitter is not touched
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage1', 'frequency', true), int64(2500000000));
+            % tunable after setup
+            rx.CenterFrequency = 2.45e9;
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2450000000));
+            rx.GainChannel1 = 8.75;
+            testCase.verifyEqual(rx.getAttributeDouble('voltage1', 'hardwaregain', false), 8.75);
+            rx.GainControlMode = 'hybrid';
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'gain_control_mode', false), 'hybrid');
+            % outside of manual the gain is kept in the property only
+            rx.GainChannel0 = 5;
+            testCase.verifyEqual(rx.getAttributeDouble('voltage0', 'hardwaregain', false), 12.25);
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifyEqual(d(:, 1), testCase.ramp(2 * (1024 + (0:1023))));
+            testCase.verifyEqual(d(:, 2), testCase.ramp(2 * (1024 + (0:1023)) + 1));
+            rx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+        end
+
+        function ad9371TxAttributes(testCase)
+            % ad9371.xml has the LO at 2.5 GHz, the attenuation -10 and
+            % the DDS on
+            tx = adi.AD9371.Tx('uri', testCase.emuUri('ad9371.xml'));
+            tx.EnabledChannels = [1 2];
+            tx.CenterFrequency = 2.45e9;
+            tx.AttenuationChannel0 = -12.25;
+            tx.AttenuationChannel1 = -40;
+            a = [testCase.txFrame(0), testCase.txFrame(2000)];
+            testCase.verifyEqual(tx(a), true);
+            dds = tx.getIIODevice('axi-ad9371-tx-hpc');
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage1', 'frequency', true), int64(2450000000));
+            testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true), -12.25);
+            testCase.verifyEqual(tx.getAttributeDouble('voltage1', 'hardwaregain', true), -40);
+            testCase.verifyEqual(tx.getAttributeBool('altvoltage0', 'raw', true, dds), false);
+            % the LO of the receiver is not touched
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2500000000));
+            % tunable after setup
+            tx.AttenuationChannel1 = -3.5;
+            testCase.verifyEqual(tx.getAttributeDouble('voltage1', 'hardwaregain', true), -3.5);
+            tx.CenterFrequency = 2.46e9;
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage1', 'frequency', true), int64(2460000000));
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2500000000));
+            tx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            testCase.verifyEqual(testCase.sentWords('axi-ad9371-tx-hpc'), testCase.interleaved(a));
+        end
+
+        function ad9371ORxAttributes(testCase)
+            % ad9371.xml has the observation receiver (voltage2) on the
+            % port INTERNALCALS with tracking off, its LO at 2.6 GHz and
+            % the loopback off
+            rx = adi.AD9371.ORx('uri', testCase.emuUri('ad9371.xml', false, 'axi-ad9371-rx-obs-hpc'));
+            rx.SamplesPerFrame = 1024;
+            rx.CenterFrequency = 2.55e9;
+            rx.GainControlMode = 'manual';
+            rx.RFPortSelect = 'ORX1_TX_LO';
+            rx.Gain = 9.5;
+            rx.LoopbackMode = 1;
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifyEqual(d, testCase.ramp(0:1023));
+            testCase.verifyEqual(rx.getAttributeRAW('voltage2', 'rf_port_select', false), 'ORX1_TX_LO');
+            testCase.verifyEqual(rx.getAttributeRAW('voltage2', 'gain_control_mode', false), 'manual');
+            testCase.verifyEqual(rx.getAttributeBool('voltage2', 'quadrature_tracking_en', false), true);
+            testCase.verifyEqual(rx.getAttributeDouble('voltage2', 'hardwaregain', false), 9.5);
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage2', 'frequency', true), int64(2550000000));
+            testCase.verifyEqual(rx.getDebugAttributeLongLong('loopback_tx_obs'), int64(1));
+            % the LO of the receiver is not touched
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2500000000));
+            % tunable after setup
+            rx.RFPortSelect = 'SN_B';
+            testCase.verifyEqual(rx.getAttributeRAW('voltage2', 'rf_port_select', false), 'SN_B');
+            rx.Gain = 30;
+            testCase.verifyEqual(rx.getAttributeDouble('voltage2', 'hardwaregain', false), 30);
+            % the LO and the gain control mode are written with the port
+            % off, and the port is selected again
+            rx.CenterFrequency = 2.65e9;
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage2', 'frequency', true), int64(2650000000));
+            testCase.verifyEqual(rx.getAttributeRAW('voltage2', 'rf_port_select', false), 'SN_B');
+            rx.GainControlMode = 'automatic';
+            testCase.verifyEqual(rx.getAttributeRAW('voltage2', 'gain_control_mode', false), 'automatic');
+            testCase.verifyEqual(rx.getAttributeRAW('voltage2', 'rf_port_select', false), 'SN_B');
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifyEqual(d, testCase.ramp(1024 + (0:1023)));
+            rx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+        end
+
+        function ad9371Profile(testCase)
+            % EnableCustomProfile: the text of the file goes to
+            % profile_config, which is "TB" in the XML file, before the
+            % other attributes are written. The emulation keeps it and
+            % loads nothing.
+            file = fullfile(fileparts(mfilename('fullpath')), 'profile_TxBW100_ORxBW100_RxBW100.txt');
+            want = fileread(file);
+            testCase.assertSubstring(want, '<profile AD9371 version=0');
+            rx = adi.AD9371.Rx('uri', testCase.emuUri('ad9371.xml', false, 'axi-ad9371-rx-hpc'));
+            rx.SamplesPerFrame = 1024;
+            rx.EnableCustomProfile = true;
+            rx.CustomProfileFileName = file;
+            rx.CenterFrequency = 2.4e9;
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifyEqual(d, testCase.ramp(0:1023));
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('profile_config', 8192), want);
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2400000000));
+            % what the class reads before the profile and writes again after it
+            testCase.verifyEqual(rx.getAttributeDouble('voltage0', 'hardwaregain', true), -10);
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage1', 'frequency', true), int64(2500000000));
+            rx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+        end
+
+        %% ADRV9002
+
+        function adrv9002RxAttributes(testCase)
+            % adrv9002.xml has both receivers in rf_enabled with the gain
+            % 34 by spi, the port enable by spi, the LOs at 2.4 GHz
+            % (attribute "frequency"), the trackings agc, bbdc rejection,
+            % quadrature fic, rfdc and rssi on, hd and quadrature w poly
+            % off, and the rate 1920000
+            rx = adi.ADRV9002.Rx('uri', testCase.emuUri('adrv9002.xml', false, 'axi-adrv9002-rx-lpc'));
+            rx.SamplesPerFrame = 1024;
+            testCase.verifyTrue(isnan(rx.SamplingRate));    % not connected
+            rx.EnabledChannels = [1 2];
+            rx.CenterFrequencyChannel0 = 2.41e9;
+            rx.CenterFrequencyChannel1 = 2.42e9;
+            rx.ENSMModeChannel1 = 'primed';
+            rx.GainControllerSourceChannel0 = 'spi';
+            rx.GainControllerSourceChannel1 = 'automatic';
+            rx.DigitalGainControlModeChannel0 = 'spi';
+            rx.AttenuationChannel0 = 7;
+            rx.AttenuationChannel1 = 9;
+            rx.ENSMPortModeChannel0 = 'pin';
+            rx.ENSMPortModeChannel1 = 'pin';
+            rx.AGCTrackingChannel0 = false;
+            rx.RSSITrackingChannel1 = false;
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifySize(d, [1024 2]);
+            testCase.verifyEqual(d(:, 1), testCase.ramp(2 * (0:1023)));
+            testCase.verifyEqual(d(:, 2), testCase.ramp(2 * (0:1023) + 1));
+            testCase.verifyEqual(rx.SamplingRate, int64(1920000));
+            testCase.verifyEqual(rx.RSSIChannel0, 81.875);
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'ensm_mode', false), 'rf_enabled');
+            testCase.verifyEqual(rx.getAttributeRAW('voltage1', 'ensm_mode', false), 'primed');
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'gain_control_mode', false), 'spi');
+            testCase.verifyEqual(rx.getAttributeRAW('voltage1', 'gain_control_mode', false), 'automatic');
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'digital_gain_control_mode', false), 'spi');
+            testCase.verifyEqual(rx.getAttributeRAW('voltage1', 'digital_gain_control_mode', false), 'automatic');
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'interface_gain', false), '0dB');
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'port_en_mode', false), 'pin');
+            testCase.verifyEqual(rx.getAttributeRAW('voltage1', 'port_en_mode', false), 'pin');
+            % the gain is written for the source spi only
+            testCase.verifyEqual(rx.getAttributeDouble('voltage0', 'hardwaregain', false), 7);
+            testCase.verifyEqual(rx.getAttributeDouble('voltage1', 'hardwaregain', false), 34);
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2410000000));
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage1', 'frequency', true), int64(2420000000));
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'agc_tracking_en', false), false);
+            testCase.verifyEqual(rx.getAttributeBool('voltage1', 'agc_tracking_en', false), true);
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'hd_tracking_en', false), true);
+            testCase.verifyEqual(rx.getAttributeBool('voltage1', 'hd_tracking_en', false), true);
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'quadrature_w_poly_tracking_en', false), true);
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'rssi_tracking_en', false), true);
+            testCase.verifyEqual(rx.getAttributeBool('voltage1', 'rssi_tracking_en', false), false);
+            % the LOs of the transmitters are not touched
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage2', 'frequency', true), int64(2450000000));
+            % tunable after setup
+            rx.CenterFrequencyChannel0 = 2.5e9;
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2500000000));
+            rx.CenterFrequencyChannel1 = 2.6e9;
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage1', 'frequency', true), int64(2600000000));
+            rx.NCOCorrectionFrequencyChannel0 = 1000;
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'nco_frequency', false), int64(1000));
+            rx.AttenuationChannel0 = 12;
+            testCase.verifyEqual(rx.getAttributeDouble('voltage0', 'hardwaregain', false), 12);
+            rx.ENSMModeChannel0 = 'calibrated';
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'ensm_mode', false), 'calibrated');
+            rx.AGCTrackingChannel1 = false;
+            testCase.verifyEqual(rx.getAttributeBool('voltage1', 'agc_tracking_en', false), false);
+            rx.HDTrackingChannel0 = false;
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'hd_tracking_en', false), false);
+            rx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+        end
+
+        function adrv9002TxAttributes(testCase)
+            % adrv9002.xml has both transmitters in rf_enabled with the
+            % attenuation -10 by spi, the port enable by spi, the LOs at
+            % 2.45 GHz, all trackings off and the DDS on
+            tx = adi.ADRV9002.Tx('uri', testCase.emuUri('adrv9002.xml'));
+            tx.EnabledChannels = [1 2];
+            tx.CenterFrequencyChannel0 = 2.41e9;
+            tx.CenterFrequencyChannel1 = 2.42e9;
+            tx.ENSMModeChannel1 = 'primed';
+            tx.AttenuationChannel0 = -12.5;
+            tx.AttenuationChannel1 = -20;
+            tx.AttenuationControlModeChannel1 = 'bypass';
+            tx.PortEnableControlChannel0 = 'pin';
+            tx.ClosedLoopTrackingChannel1 = false;
+            tx.LoopbackDelayTrackingChannel0 = true;
+            a = [testCase.txFrame(0), testCase.txFrame(2000)];
+            testCase.verifyEqual(tx(a), true);
+            dds = tx.getIIODevice('axi-adrv9002-tx-lpc');
+            testCase.verifyEqual(tx.SamplingRate, int64(1920000));
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage2', 'frequency', true), int64(2410000000));
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage3', 'frequency', true), int64(2420000000));
+            testCase.verifyEqual(tx.getAttributeRAW('voltage0', 'ensm_mode', true), 'rf_enabled');
+            testCase.verifyEqual(tx.getAttributeRAW('voltage1', 'ensm_mode', true), 'primed');
+            testCase.verifyEqual(tx.getAttributeRAW('voltage0', 'port_en_mode', true), 'pin');
+            testCase.verifyEqual(tx.getAttributeRAW('voltage1', 'port_en_mode', true), 'spi');
+            testCase.verifyEqual(tx.getAttributeRAW('voltage0', 'atten_control_mode', true), 'spi');
+            testCase.verifyEqual(tx.getAttributeRAW('voltage1', 'atten_control_mode', true), 'bypass');
+            testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true), -12.5);
+            testCase.verifyEqual(tx.getAttributeDouble('voltage1', 'hardwaregain', true), -20);
+            testCase.verifyEqual(tx.getAttributeBool('voltage0', 'close_loop_gain_tracking_en', true), true);
+            testCase.verifyEqual(tx.getAttributeBool('voltage1', 'close_loop_gain_tracking_en', true), false);
+            testCase.verifyEqual(tx.getAttributeBool('voltage0', 'lo_leakage_tracking_en', true), true);
+            testCase.verifyEqual(tx.getAttributeBool('voltage0', 'loopback_delay_tracking_en', true), true);
+            testCase.verifyEqual(tx.getAttributeBool('voltage1', 'loopback_delay_tracking_en', true), false);
+            testCase.verifyEqual(tx.getAttributeBool('voltage0', 'pa_correction_tracking_en', true), false);
+            testCase.verifyEqual(tx.getAttributeBool('voltage1', 'quadrature_tracking_en', true), true);
+            testCase.verifyEqual(tx.getAttributeBool('altvoltage0', 'raw', true, dds), false);
+            % the LOs of the receivers are not touched
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2400000000));
+            % tunable after setup
+            tx.CenterFrequencyChannel1 = 2.5e9;
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage3', 'frequency', true), int64(2500000000));
+            tx.NCOCorrectionFrequencyChannel1 = 2000;
+            testCase.verifyEqual(tx.getAttributeLongLong('voltage1', 'nco_frequency', true), int64(2000));
+            tx.AttenuationChannel0 = -3;
+            testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true), -3);
+            tx.ENSMModeChannel0 = 'calibrated';
+            testCase.verifyEqual(tx.getAttributeRAW('voltage0', 'ensm_mode', true), 'calibrated');
+            tx.AttenuationControlModeChannel0 = 'pin';
+            testCase.verifyEqual(tx.getAttributeRAW('voltage0', 'atten_control_mode', true), 'pin');
+            tx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            testCase.verifyEqual(testCase.sentWords('axi-adrv9002-tx-lpc'), testCase.interleaved(a));
+        end
+
+        function adrv9002Profile(testCase)
+            % EnableCustomProfile: the stream file is written to
+            % stream_config as the bytes it holds (32768, the third one
+            % zero), then the text of the profile file to profile_config.
+            % Before that the scales of the DDS tones (0.125 in the XML
+            % file) are set to 0. The emulation keeps the profile text; of
+            % a value with a zero byte it keeps what precedes that byte,
+            % so the bytes of the stream are compared where they are
+            % handed to the bindings (IIOv1ADRV9002Recorder).
+            folder = fullfile(fileparts(mfilename('fullpath')), 'adrv9002_profiles');
+            profile = fullfile(folder, 'lte_5_cmos_api_68_0_6.json');
+            stream = fullfile(folder, 'lte_5_cmos_api_68_0_6.stream');
+            wantProfile = fileread(profile);
+            fid = fopen(stream, 'r');
+            testCase.assertGreaterThanOrEqual(fid, 0, ['Cannot read ' stream]);
+            wantStream = fread(fid, [1 Inf], '*uint8');
+            fclose(fid);
+            testCase.assertNumElements(wantStream, 32768);
+            testCase.assertEqual(find(wantStream == 0, 1), 3);
+            rx = IIOv1ADRV9002Recorder('uri', testCase.emuUri('adrv9002.xml', false, 'axi-adrv9002-rx-lpc'));
+            rx.SamplesPerFrame = 1024;
+            rx.EnableCustomProfile = true;
+            rx.CustomProfileFileName = profile;
+            rx.CustomStreamFileName = stream;
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifyEqual(d, testCase.ramp(0:1023));
+            testCase.assertSize(rx.Writes, [2 4]);
+            testCase.verifyEqual(rx.Writes(:, 1:2), {'raw', 'stream_config'; 'string', 'profile_config'});
+            testCase.verifyClass(rx.Writes{1, 3}, 'uint8');
+            testCase.verifyEqual(rx.Writes{1, 3}, wantStream);
+            testCase.verifyEqual(rx.Writes{1, 4}, 32768);
+            testCase.verifyEqual(rx.Writes{2, 3}, wantProfile);
+            testCase.verifyEqual(rx.Writes{2, 4}, numel(wantProfile) + 1);
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('profile_config', 65536), wantProfile);
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('stream_config', 65536), char(wantStream(1:2)));
+            dds = rx.getIIODevice('axi-adrv9002-tx-lpc');
+            for c = 0:7
+                id = sprintf('altvoltage%d', c);
+                testCase.verifyEqual(rx.getAttributeDouble(id, 'scale', true, dds), 0, id);
+            end
+            % the attributes are written after the profile
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'hd_tracking_en', false), true);
+            rx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            % A profile without a stream file is refused before anything
+            % is written, and the context is released
+            rx = IIOv1ADRV9002Recorder('uri', testCase.emuUri('adrv9002.xml', false, 'axi-adrv9002-rx-lpc'));
+            rx.SamplesPerFrame = 1024;
+            rx.EnableCustomProfile = true;
+            rx.CustomProfileFileName = profile;
+            err = caught(@() rx());
+            testCase.assertNotEmpty(err, 'A profile without a stream file was accepted.');
+            testCase.verifySubstring(err.message, 'A custom stream file must be defined for custom profiles');
+            testCase.verifyEmpty(rx.Writes);
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            % A stream file that does not exist
+            rx = IIOv1ADRV9002Recorder('uri', testCase.emuUri('adrv9002.xml', false, 'axi-adrv9002-rx-lpc'));
+            rx.SamplesPerFrame = 1024;
+            rx.EnableCustomProfile = true;
+            rx.CustomProfileFileName = profile;
+            rx.CustomStreamFileName = fullfile(testCase.Folder, 'none.stream');
+            testCase.verifyError(@() rx(), 'adi:ADRV9002:noStreamFile');
+            testCase.verifyEmpty(rx.Writes);
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+        end
+
+        function adrv9002SplitDMA(testCase)
+            % One DMA per channel: EnabledChannels = 2 streams from the
+            % second device, and two channels at once are refused. The
+            % file has the older names of the LO attributes
+            % (RX2_LO_frequency on a channel without a name).
+            uri = testCase.emuUri('adrv9002_splitdma.xml', false, 'axi-adrv9002-rx-lpc');
+            testCase.writeRamp('axi-adrv9002-rx2-lpc', 1000);
+            rx = adi.ADRV9002.Rx('uri', uri);
+            rx.SamplesPerFrame = 1024;
+            rx.EnabledChannels = 2;
+            rx.CenterFrequencyChannel0 = 2.41e9;
+            rx.CenterFrequencyChannel1 = 2.42e9;
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifySize(d, [1024 1]);
+            testCase.verifyEqual(d, testCase.ramp(1000 + (0:1023)));
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'RX1_LO_frequency', true), int64(2410000000));
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage1', 'RX2_LO_frequency', true), int64(2420000000));
+            testCase.verifyEqual(rx.SamplingRate, int64(15360000));
+            rx.CenterFrequencyChannel1 = 2.5e9;
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage1', 'RX2_LO_frequency', true), int64(2500000000));
+            rx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            % the first channel streams from the first device
+            rx = adi.ADRV9002.Rx('uri', uri);
+            rx.SamplesPerFrame = 1024;
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifyEqual(d, testCase.ramp(0:1023));
+            rx.release();
+            % two channels
+            rx = adi.ADRV9002.Rx('uri', uri);
+            rx.SamplesPerFrame = 1024;
+            rx.EnabledChannels = [1 2];
+            err = caught(@() rx());
+            testCase.assertNotEmpty(err, 'Two channels were accepted.');
+            testCase.verifySubstring(err.message, 'Driver is in split DMA mode');
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            % the transmitter
+            tx = adi.ADRV9002.Tx('uri', uri);
+            tx.EnabledChannels = 2;
+            tx.CenterFrequencyChannel1 = 2.43e9;
+            a = testCase.txFrame(0);
+            testCase.verifyEqual(tx(a), true);
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage3', 'TX2_LO_frequency', true), int64(2430000000));
+            tx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            testCase.verifyEqual(testCase.sentWords('axi-adrv9002-tx2-lpc'), testCase.interleaved(a));
+            testCase.verifyFalse(isfile(fullfile(testCase.Folder, 'axi-adrv9002-tx-lpc_buf0.bin')));
+        end
+
+        %% FMComms5
+
+        function fmcomms5RxAttributes(testCase)
+            % What setup writes to the two AD9361 is read back from each.
+            % fmcomms5.xml has both at 3 GHz, 4 MS/s and 18 MHz, in
+            % slow_attack with all trackings on, the port A_BALANCED, the
+            % loopback off, in the mode fdd, and "ERROR" as value of the
+            % device attribute multichip_sync, which is written last by
+            % the multichip sync (the steps 0 to 5).
+            rx = adi.FMComms5.Rx('uri', testCase.emuUri('fmcomms5.xml', false, 'cf-ad9361-A'));
+            rx.SamplesPerFrame = 1024;
+            rx.EnabledChannels = [1 2 3 4];
+            rx.CenterFrequency = 2.41e9;
+            rx.CenterFrequencyChipB = 2.43e9;
+            rx.SamplingRate = 5e6;
+            rx.RFBandwidth = 2e6;
+            rx.RFBandwidthChipB = 4e6;
+            rx.GainControlModeChannel0 = 'manual';
+            rx.GainChannel0 = 33;
+            rx.GainControlModeChannel1 = 'fast_attack';
+            rx.GainControlModeChannel0ChipB = 'hybrid';
+            rx.GainControlModeChannel1ChipB = 'manual';
+            rx.GainChannel1ChipB = 21;
+            rx.EnableQuadratureTracking = false;
+            rx.EnableRFDCTrackingChipB = false;
+            rx.RFPortSelect = 'B_BALANCED';
+            rx.RFPortSelectChipB = 'C_BALANCED';
+            rx.LoopbackMode = 1;
+            rx.LoopbackModeChipB = 2;
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifySize(d, [1024 4]);
+            for c = 1:4
+                testCase.verifyEqual(d(:, c), testCase.ramp(4 * (0:1023) + c - 1), sprintf('column %d', c));
+            end
+            phyB = rx.getIIODevice('ad9361-phy-B');
+            % the filter of rates up to 20 MS/s
+            fir = testCase.bbRateExpected('fir_4000000.txt');
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2410000000));
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true, phyB), int64(2430000000));
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'sampling_frequency', true), int64(5000000));
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'sampling_frequency', true, phyB), int64(5000000));
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('filter_fir_config', 8192), fir);
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('filter_fir_config', 8192, phyB), fir);
+            testCase.verifyEqual(rx.getAttributeBool('out', 'voltage_filter_fir_en', false), true);
+            testCase.verifyEqual(rx.getAttributeBool('out', 'voltage_filter_fir_en', false, phyB), true);
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'rf_bandwidth', false), int64(2000000));
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'rf_bandwidth', false, phyB), int64(4000000));
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'gain_control_mode', false), 'manual');
+            testCase.verifyEqual(rx.getAttributeDouble('voltage0', 'hardwaregain', false), 33);
+            testCase.verifyEqual(rx.getAttributeRAW('voltage1', 'gain_control_mode', false), 'fast_attack');
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'gain_control_mode', false, phyB), 'hybrid');
+            testCase.verifyEqual(rx.getAttributeRAW('voltage1', 'gain_control_mode', false, phyB), 'manual');
+            testCase.verifyEqual(rx.getAttributeDouble('voltage1', 'hardwaregain', false, phyB), 21);
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'quadrature_tracking_en', false), false);
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'quadrature_tracking_en', false, phyB), true);
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'rf_dc_offset_tracking_en', false), true);
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'rf_dc_offset_tracking_en', false, phyB), false);
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'rf_port_select', false), 'B_BALANCED');
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'rf_port_select', false, phyB), 'C_BALANCED');
+            testCase.verifyEqual(rx.getDebugAttributeRAW('loopback'), '1');
+            testCase.verifyEqual(rx.getDebugAttributeRAW('loopback', phyB), '2');
+            % the multichip sync ran: the last step, and the mode restored
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('multichip_sync', 16), '5');
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('multichip_sync', 16, phyB), '5');
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('ensm_mode', 16), 'fdd');
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('ensm_mode', 16, phyB), 'fdd');
+            % The emulation has no register 0x6 and 0x7 on ad9361-phy, so
+            % there was nothing to copy: ad9361-phy-B has none either
+            testCase.verifyEqual(rx.iio_device_reg_read(phyB, 6), -2);
+            testCase.verifyEqual(rx.iio_device_reg_read(phyB, 7), -2);
+            % tunable after setup: the second AD9361 alone
+            rx.CenterFrequencyChipB = 2.44e9;
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true, phyB), int64(2440000000));
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2410000000));
+            rx.GainChannel1ChipB = 40;
+            testCase.verifyEqual(rx.getAttributeDouble('voltage1', 'hardwaregain', false, phyB), 40);
+            rx.RFBandwidthChipB = 6e6;
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'rf_bandwidth', false, phyB), int64(6000000));
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'rf_bandwidth', false), int64(2000000));
+            rx.RFPortSelectChipB = 'A_N';
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'rf_port_select', false, phyB), 'A_N');
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'rf_port_select', false), 'B_BALANCED');
+            rx.GainControlModeChannel0ChipB = 'slow_attack';
+            testCase.verifyEqual(rx.getAttributeRAW('voltage0', 'gain_control_mode', false, phyB), 'slow_attack');
+            rx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+        end
+
+        function fmcomms5TxAttributes(testCase)
+            % fmcomms5.xml has both AD9361 at 3 GHz, 4 MS/s and 18 MHz,
+            % with the attenuation -20 and the port A, and the DDS on
+            tx = adi.FMComms5.Tx('uri', testCase.emuUri('fmcomms5.xml'));
+            tx.EnabledChannels = [1 2 3 4];
+            tx.CenterFrequency = 2.42e9;
+            tx.CenterFrequencyChipB = 2.44e9;
+            tx.SamplingRate = 5e6;
+            tx.RFBandwidth = 2e6;
+            tx.RFBandwidthChipB = 4e6;
+            tx.AttenuationChannel0 = -12.5;
+            tx.AttenuationChannel1 = -3;
+            tx.AttenuationChannel0ChipB = -30.25;
+            tx.AttenuationChannel1ChipB = -7;
+            tx.RFPortSelectChipB = 'B';
+            a = [testCase.txFrame(0), testCase.txFrame(1000), testCase.txFrame(2000), testCase.txFrame(3000)];
+            testCase.verifyEqual(tx(a), true);
+            phyB = tx.getIIODevice('ad9361-phy-B');
+            dds = tx.getIIODevice('cf-ad9361-dds-core-lpc');
+            fir = testCase.bbRateExpected('fir_4000000.txt');
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage1', 'frequency', true), int64(2420000000));
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage1', 'frequency', true, phyB), int64(2440000000));
+            testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'sampling_frequency', true), int64(5000000));
+            testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'sampling_frequency', true, phyB), int64(5000000));
+            testCase.verifyEqual(tx.getDeviceAttributeRAW('filter_fir_config', 8192), fir);
+            testCase.verifyEqual(tx.getDeviceAttributeRAW('filter_fir_config', 8192, phyB), fir);
+            testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'rf_bandwidth', true), int64(2000000));
+            testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'rf_bandwidth', true, phyB), int64(4000000));
+            testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true), -12.5);
+            testCase.verifyEqual(tx.getAttributeDouble('voltage1', 'hardwaregain', true), -3);
+            testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true, phyB), -30.25);
+            testCase.verifyEqual(tx.getAttributeDouble('voltage1', 'hardwaregain', true, phyB), -7);
+            testCase.verifyEqual(tx.getAttributeRAW('voltage0', 'rf_port_select', true), 'A');
+            testCase.verifyEqual(tx.getAttributeRAW('voltage0', 'rf_port_select', true, phyB), 'B');
+            testCase.verifyEqual(tx.RFPortSelect, 'A');
+            testCase.verifyEqual(tx.RFPortSelectChipB, 'B');
+            testCase.verifyEqual(tx.getAttributeBool('altvoltage0', 'raw', true, dds), false);
+            % the transmitter makes no multichip sync
+            testCase.verifyEqual(tx.getDeviceAttributeRAW('multichip_sync', 16), 'ERROR');
+            % tunable after setup: the second AD9361 alone
+            tx.AttenuationChannel0ChipB = -40;
+            testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true, phyB), -40);
+            testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true), -12.5);
+            tx.CenterFrequencyChipB = 2.45e9;
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage1', 'frequency', true, phyB), int64(2450000000));
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage1', 'frequency', true), int64(2420000000));
+            tx.RFPortSelectChipB = 'A';
+            testCase.verifyEqual(tx.getAttributeRAW('voltage0', 'rf_port_select', true, phyB), 'A');
+            % the port of the receiver of that AD9361 is not written
+            testCase.verifyEqual(tx.getAttributeRAW('voltage0', 'rf_port_select', false, phyB), 'A_BALANCED');
+            tx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            testCase.verifyEqual(testCase.sentWords('cf-ad9361-dds-core-lpc'), testCase.interleaved(a));
+        end
+
+        function fmcomms5CustomFilter(testCase)
+            % EnableCustomFilter: the text of the file goes to
+            % filter_fir_config of both AD9361 and the filter is enabled
+            % on both; the rates and bandwidths are not written
+            file = fullfile(fileparts(mfilename('fullpath')), 'customAD9361filter.ftr');
+            want = fileread(file);
+            rx = adi.FMComms5.Rx('uri', testCase.emuUri('fmcomms5.xml', false, 'cf-ad9361-A'));
+            rx.SamplesPerFrame = 1024;
+            rx.EnableCustomFilter = true;
+            rx.CustomFilterFileName = file;
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifyEqual(d, testCase.ramp(0:1023));
+            phyB = rx.getIIODevice('ad9361-phy-B');
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('filter_fir_config', 8192), want);
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('filter_fir_config', 8192, phyB), want);
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'filter_fir_en', false), true);
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'filter_fir_en', true, phyB), true);
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'sampling_frequency', true), int64(4000000));
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'sampling_frequency', true, phyB), int64(4000000));
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'rf_bandwidth', false, phyB), int64(18000000));
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('multichip_sync', 16, phyB), '5');
+            rx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+        end
+
+        function fmcomms5MultichipSync(testCase, mcsCase)
+            % The attribute and register accesses of the multichip sync,
+            % in order and with their results, are those of
+            % ad9361_fmcomms5_multichip_sync of libad9361-iio on the same
+            % context: the registers 0x6 and 0x7 of ad9361-phy hold 0x24
+            % and 0x51, and ad9361-phy-B has the given sampling rate.
+            % SkipInit keeps the values of the XML file up to the call.
+            context = mcsCase{1};
+            flags = mcsCase{2};
+            slaveRate = mcsCase{3};
+            want = testCase.mcsExpected(sprintf('%s_f%d_r%d.log', context, flags, slaveRate));
+            ret = str2double(regexp(want, '(?<=^RET )-?\d+', 'match', 'lineanchors'));
+            testCase.assertNumElements(ret, 1);
+            isDebug = strcmp(context, 'fmcomms5debug');
+            if isDebug
+                uri = testCase.emuContext('fmcomms5.xml', '<attribute name="multichip_sync" value="ERROR" />', '');
+            else
+                uri = testCase.emuContext('fmcomms5.xml', '', '');
+            end
+            testCase.writeRamp('cf-ad9361-A', 0);
+            rx = IIOv1MCSRecorder('uri', uri);
+            rx.SamplesPerFrame = 1024;
+            rx.SkipInit = true;
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifyEqual(d, testCase.ramp(0:1023));
+            testCase.verifyEmpty(rx.Log);   % SkipInit: no sync at setup
+            phyA = rx.getIIODevice('ad9361-phy');
+            phyB = rx.getIIODevice('ad9361-phy-B');
+            testCase.assertEqual(rx.iio_device_reg_write(phyA, 6, hex2dec('24')), 0);
+            testCase.assertEqual(rx.iio_device_reg_write(phyA, 7, hex2dec('51')), 0);
+            if slaveRate ~= 0
+                rx.setAttributeLongLong('voltage0', 'sampling_frequency', slaveRate, true, 0, phyB);
+            end
+            status = rx.runMultichipSync(flags);
+            testCase.verifyEqual(status, ret);
+            testCase.verifyEqual(sprintf('%s\n', rx.Log{:}), want);
+            % the state that the calls leave
+            if bitand(flags, 2) ~= 0 || slaveRate == 0
+                rate = int64(4000000);      % the rate of ad9361-phy
+            else
+                rate = int64(slaveRate);
+            end
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'sampling_frequency', true, phyB), rate);
+            [status6, reg6] = rx.iio_device_reg_read(phyB, 6);
+            [status7, reg7] = rx.iio_device_reg_read(phyB, 7);
+            if bitand(flags, 1) ~= 0
+                testCase.verifyEqual([status6 status7], [0 0]);
+                testCase.verifyEqual([reg6 reg7], uint32([36 81]));
+            else
+                testCase.verifyEqual([status6 status7], [-2 -2]);
+            end
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('ensm_mode', 16), 'fdd');
+            testCase.verifyEqual(rx.getDeviceAttributeRAW('ensm_mode', 16, phyB), 'fdd');
+            if isDebug
+                testCase.verifyEqual(rx.getDebugAttributeRAW('multichip_sync'), '5');
+                testCase.verifyEqual(rx.getDebugAttributeRAW('multichip_sync', phyB), '5');
+            else
+                testCase.verifyEqual(rx.getDeviceAttributeRAW('multichip_sync', 16), '5');
+                testCase.verifyEqual(rx.getDeviceAttributeRAW('multichip_sync', 16, phyB), '5');
+                % the debug attribute of that name is not written
+                testCase.verifyEqual(rx.getDebugAttributeRAW('multichip_sync', phyB), '0');
+            end
+            % the data path is not disturbed: this is the second frame
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifyEqual(d, testCase.ramp(1024 + (0:1023)));
+            rx.release();
             testCase.verifyEqual(iio.internal.handle_count(), 0);
         end
 

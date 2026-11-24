@@ -1,0 +1,20 @@
+CALL ad9361_fmcomms5_multichip_sync 0
+dev_read ad9361-phy ensm_mode = 0 fdd
+dev_write ad9361-phy ensm_mode alert = 0
+dev_read ad9361-phy-B ensm_mode = 0 fdd
+dev_write ad9361-phy-B ensm_mode alert = 0
+dev_write_longlong ad9361-phy-B multichip_sync 0 = 0
+dev_write_longlong ad9361-phy multichip_sync 0 = 0
+dev_write_longlong ad9361-phy-B multichip_sync 1 = 0
+dev_write_longlong ad9361-phy multichip_sync 1 = 0
+dev_write_longlong ad9361-phy-B multichip_sync 2 = 0
+dev_write_longlong ad9361-phy multichip_sync 2 = 0
+dev_write_longlong ad9361-phy-B multichip_sync 3 = 0
+dev_write_longlong ad9361-phy multichip_sync 3 = 0
+dev_write_longlong ad9361-phy-B multichip_sync 4 = 0
+dev_write_longlong ad9361-phy multichip_sync 4 = 0
+dev_write_longlong ad9361-phy-B multichip_sync 5 = 0
+dev_write_longlong ad9361-phy multichip_sync 5 = 0
+dev_write ad9361-phy ensm_mode fdd = 0
+dev_write ad9361-phy-B ensm_mode fdd = 0
+RET 0
