@@ -205,8 +205,6 @@ classdef Tx < adi.ADRV9009ZU11EG.Base & adi.ADRV9009.Tx
             % This is required sine Simulink support doesn't support
             % modification to nontunable variables at SetupImpl
             
-            obj.iioDevChipB = getDev(obj, obj.phyDevNameChipB);
-
             if obj.EnableCustomProfile
                 writeProfileFile(obj);
                 writeProfileFile(obj,obj.iioDevChipB);

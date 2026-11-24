@@ -42,6 +42,17 @@ classdef (Abstract, Hidden = true) Base < adi.ADRV9009.Base
         
     end
     
+    methods (Hidden, Access = {?handle})
+        
+        function status = configureChanBuffers(obj)
+            % The second transceiver is looked up at every setup, with
+            % SkipInit too: the set methods of its properties write to it
+            obj.iioDevChipB = getDev(obj, obj.phyDevNameChipB);
+            status = configureChanBuffers@adi.ADRV9009.Base(obj);
+        end
+        
+    end
+    
     %% External Dependency Methods
     methods (Hidden, Static)
         
