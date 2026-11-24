@@ -1743,6 +1743,83 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             testCase.verifyEqual(testCase.sentWords('axi-adrv9009-tx-hpc'), testCase.interleaved(b(:, 2)));
         end
 
+        function dualADRV9009SkipInit(testCase, dualBoard)
+            % SkipInit: setup writes no attribute to either ADRV9009,
+            % both keep the values of the XML file (LO at 2.4 GHz, the
+            % tracking off, the attenuation -10). A property of the first
+            % ADRV9009 that changes after setup is written.
+            % Current behaviour, a bug of the classes that is left as
+            % found: the second ADRV9009 is looked up in setupInit only,
+            % which SkipInit skips, so after such a setup a property of
+            % the second ADRV9009 that changes has no device to write to.
+            % That is the error of a channel that is not found, and it
+            % releases the hardware.
+            rx = feval([dualBoard{1} '.Rx'], 'uri', testCase.emuUri(dualBoard{2}, false, 'axi-adrv9009-rx-hpc'));
+            rx.SamplesPerFrame = 512;
+            rx.SkipInit = true;
+            rx.CenterFrequency = 2.5e9;
+            rx.CenterFrequencyChipB = 2.6e9;
+            rx.EnableQuadratureTrackingChannel0 = true;
+            rx.EnableQuadratureTrackingChannel0ChipB = true;
+            rx.PowerdownChannel1 = true;
+            rx.PowerdownChannel1ChipB = true;
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifyEqual(d, testCase.ramp(0:511));
+            testCase.verifyEmpty(rx.iioDevChipB);
+            phyB = rx.getIIODevice(dualBoard{4});
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2400000000));
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true, phyB), int64(2400000000));
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'quadrature_tracking_en', false), false);
+            testCase.verifyEqual(rx.getAttributeBool('voltage0', 'quadrature_tracking_en', false, phyB), false);
+            testCase.verifyEqual(rx.getAttributeBool('voltage1', 'powerdown', false), false);
+            testCase.verifyEqual(rx.getAttributeBool('voltage1', 'powerdown', false, phyB), false);
+            rx.CenterFrequency = 2.7e9;
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2700000000));
+            testCase.verifyEqual(rx.getAttributeLongLong('altvoltage0', 'frequency', true, phyB), int64(2400000000));
+            rx.PowerdownChannel1 = false;
+            rx.PowerdownChannel1 = true;
+            testCase.verifyEqual(rx.getAttributeBool('voltage1', 'powerdown', false), true);
+            testCase.verifyEqual(rx.getAttributeBool('voltage1', 'powerdown', false, phyB), false);
+            err = caught(@() setProperty(rx, 'PowerdownChannel0ChipB', true));
+            testCase.assertNotEmpty(err, 'PowerdownChannel0ChipB was written without a device.');
+            testCase.verifyEqual(err.identifier, 'adi:iio:status');
+            testCase.verifyEqual(err.message, 'Channel: voltage0 not found (status -19)');
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            testCase.verifyError(@() rx(), 'adi:iio:notConnected');
+            rx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            % the transmitter
+            tx = feval([dualBoard{1} '.Tx'], 'uri', testCase.emuUri(dualBoard{2}));
+            tx.SkipInit = true;
+            tx.CenterFrequency = 2.5e9;
+            tx.CenterFrequencyChipB = 2.6e9;
+            tx.AttenuationChannel0 = -12;
+            tx.AttenuationChannel0ChipB = -25;
+            a = testCase.txFrame(0);
+            testCase.verifyEqual(tx(a), true);
+            testCase.verifyEmpty(tx.iioDevChipB);
+            phyB = tx.getIIODevice(dualBoard{4});
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage0', 'frequency', true), int64(2400000000));
+            testCase.verifyEqual(tx.getAttributeLongLong('altvoltage0', 'frequency', true, phyB), int64(2400000000));
+            testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true), -10);
+            testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true, phyB), -10);
+            testCase.verifyEqual(tx.getAttributeBool('voltage0', 'quadrature_tracking_en', true), false);
+            testCase.verifyEqual(tx.getAttributeBool('voltage0', 'quadrature_tracking_en', true, phyB), false);
+            tx.AttenuationChannel0 = -20;
+            testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true), -20);
+            testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true, phyB), -10);
+            err = caught(@() setProperty(tx, 'AttenuationChannel1ChipB', -7));
+            testCase.assertNotEmpty(err, 'AttenuationChannel1ChipB was written without a device.');
+            testCase.verifyEqual(err.identifier, 'adi:iio:status');
+            testCase.verifyEqual(err.message, 'Channel: voltage1 not found (status -19)');
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            tx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            % the frame was sent before the error released the hardware
+            testCase.verifyEqual(testCase.sentWords('axi-adrv9009-tx-hpc'), testCase.interleaved(a));
+        end
+
         function dualADRV9009TxDDS(testCase, dualBoard)
             % DataSource 'DDS' takes no input, so all four I/Q pairs can
             % be used: column c of the DDS properties is the two tones

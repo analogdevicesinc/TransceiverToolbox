@@ -135,14 +135,14 @@ jobs:
 
       # A green test step says only that no test failed. This also fails the job
       # when tests did not run or were filtered. --min-tests is the number of
-      # test points of IIOv1EmuTests (148: 21 methods for 3 boards, two for 6
+      # test points of IIOv1EmuTests (150: 21 methods for 3 boards, two for 6
       # cases each, one for 11 receivers, one for 9 transmitters, two for 2
-      # files each, 9 for the 2 boards with two ADRV9009, 3 for the 2
+      # files each, 10 for the 2 boards with two ADRV9009, 3 for the 2
       # packages of AD9371 classes, and 25);
       # raise it with every test that is added.
       - name: Check the test results (count, skipped, duration)
         if: always()
-        run: python3 libiio-conv/matlab/tools/check_junit.py test-results/emu.xml --min-tests 148 --max-seconds 60 --max-skipped 0
+        run: python3 libiio-conv/matlab/tools/check_junit.py test-results/emu.xml --min-tests 150 --max-seconds 60 --max-skipped 0
 
       - name: Collect crash dumps
         if: always()
