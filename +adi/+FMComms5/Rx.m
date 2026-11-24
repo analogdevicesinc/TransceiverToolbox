@@ -233,7 +233,6 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
             % Write all attributes to device once connected through set
             % methods
             setupLibad9361(obj);
-            setupChipB(obj);
             % Do writes directly to hardware without using set methods.
             % This is required sine Simulink support doesn't support
             % modification to nontunable variables at SetupImpl

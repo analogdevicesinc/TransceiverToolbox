@@ -284,13 +284,16 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
             end
         end
         
-        function setupInit(obj)
+        function setupChipB(obj)
+            % and the device of its DDS
+            setupChipB@adi.FMComms5.Base(obj);
             obj.iioDevChipB = getDev(obj, obj.devNameChipB);
-            
+        end
+        
+        function setupInit(obj)
             % Write all attributes to device once connected through set
             % methods
             setupLibad9361(obj);
-            setupChipB(obj);
             
             % Do writes directly to hardware without using set methods.
             % This is required sine Simulink support doesn't support

@@ -18,6 +18,17 @@ classdef (Abstract, Hidden = true) Base < adi.AD9361.Base
         iioDevPHYChipB
     end
     
+    methods (Hidden, Access = {?handle})
+        
+        function status = configureChanBuffers(obj)
+            % The second AD9361 is looked up at every setup, with
+            % SkipInit too: the set methods of its properties write to it
+            setupChipB(obj);
+            status = configureChanBuffers@adi.AD9361.Base(obj);
+        end
+        
+    end
+    
     %% API Functions
     methods (Hidden, Access = protected)
         
