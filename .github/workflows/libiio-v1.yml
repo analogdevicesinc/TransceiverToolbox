@@ -22,7 +22,7 @@ permissions:
 
 env:
   # The bindings, pinned. Its deps/build-libiio.sh pins libiio v1 in turn.
-  LIBIIO_CONV_SHA: 393e2fd07668c1e591d3e93daf0ff6c61f1d1810
+  LIBIIO_CONV_SHA: b60df436ee887eb81e2cd92c0a870bafb99e8622
 
 jobs:
   emu:
@@ -97,7 +97,11 @@ jobs:
           echo "MATLAB_ROOT=$root" >> "$GITHUB_ENV"
 
       # A MEX file as it is handed out: without the test commands of libiio-conv
-      # (IIO_CONV_BUILD_TESTS=OFF). MATLAB is not started by the build.
+      # (the test_* commands and the scripted backend). They are in only with
+      # IIO_CONV_MEX_TEST_HOOKS=ON, which is off by default and not given here;
+      # check_mex_hooks.sh fails when they are in all the same.
+      # IIO_CONV_BUILD_TESTS=OFF leaves out the tests of libiio-conv itself.
+      # MATLAB is not started by the build.
       - name: Build the MEX file
         run: |
           cmake -S libiio-conv -B libiio-conv/build-mex -G Ninja \
@@ -105,6 +109,7 @@ jobs:
             -DMatlab_ROOT_DIR="$MATLAB_ROOT"
           cmake --build libiio-conv/build-mex
           test -f libiio-conv/matlab/iio_mex.mexa64
+          libiio-conv/matlab/tools/check_mex_hooks.sh libiio-conv/matlab/iio_mex.mexa64 without
 
       - name: Prepare the result folder
         run: mkdir -p test-results
