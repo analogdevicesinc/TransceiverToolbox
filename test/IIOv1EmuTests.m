@@ -2431,8 +2431,10 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             testCase.verifyEqual(tx.RFPortSelect, 'A');
             testCase.verifyEqual(tx.RFPortSelectChipB, 'B');
             testCase.verifyEqual(tx.getAttributeBool('altvoltage0', 'raw', true, dds), false);
-            % the transmitter makes no multichip sync
-            testCase.verifyEqual(tx.getDeviceAttributeRAW('multichip_sync', 16), 'ERROR');
+            % the transmitter makes the multichip sync at setup, as the
+            % receiver does: the attribute holds its last step
+            testCase.verifyEqual(tx.getDeviceAttributeRAW('multichip_sync', 16), '5');
+            testCase.verifyEqual(tx.getDeviceAttributeRAW('multichip_sync', 16, phyB), '5');
             % tunable after setup: the second AD9361 alone
             tx.AttenuationChannel0ChipB = -40;
             testCase.verifyEqual(tx.getAttributeDouble('voltage0', 'hardwaregain', true, phyB), -40);
