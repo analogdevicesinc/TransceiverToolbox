@@ -307,7 +307,10 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
                 % are not written here, as before: RFBandwidth and
                 % RFBandwidthChipB reach the device only when they are
                 % set after setup.
+                obj.SyncAfterRate = false;
+                again = onCleanup(@() syncAfterRateAgain(obj));
                 setBBRate(obj, obj.SamplingRate);
+                clear again
             else
                 writeFilterFile(obj);
                 writeFilterFileFMComms5ChipB(obj);
@@ -332,6 +335,9 @@ classdef Tx < adi.FMComms5.Base & adi.AD9361.Tx
             end
             obj.setAttributeRAW('voltage0','rf_port_select',obj.RFPortSelect,true);
             obj.setAttributeRAW('voltage0','rf_port_select',obj.RFPortSelectChipB,true,obj.iioDevPHYChipB);
+            % FIXUP_INTERFACE_TIMING and CHECK_SAMPLE_RATES, as the
+            % receiver does
+            multichipSync(obj, 3);
         end
     end
 end

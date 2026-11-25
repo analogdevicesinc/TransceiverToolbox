@@ -18,6 +18,12 @@ classdef (Abstract, Hidden = true) Base < adi.AD9361.Base
         iioDevPHYChipB
     end
     
+    properties (Hidden, Access = protected)
+        % False while setupInit sets the rate: it runs the multichip
+        % sync itself, after the RF ports are selected
+        SyncAfterRate = true;
+    end
+    
     methods (Hidden, Access = {?handle})
         
         function status = configureChanBuffers(obj)
@@ -54,9 +60,20 @@ classdef (Abstract, Hidden = true) Base < adi.AD9361.Base
         
         function setBBRate(obj, rate)
             % SamplingRate is one property for the two AD9361: at setup
-            % and on a change after setup the rate goes to both
+            % and on a change after setup the rate goes to both. A
+            % change after setup is followed by the multichip sync that
+            % setup runs after it has set the rate
+            % (FIXUP_INTERFACE_TIMING and CHECK_SAMPLE_RATES).
             setBBRate@adi.AD9361.Base(obj, rate);
             setBBRateChipB(obj, rate);
+            if obj.SyncAfterRate
+                multichipSync(obj, 3);
+            end
+        end
+        
+        function syncAfterRateAgain(obj)
+            % Also when the rate is refused at setup
+            obj.SyncAfterRate = true;
         end
         
         function setBBRateChipB(obj, rate)
