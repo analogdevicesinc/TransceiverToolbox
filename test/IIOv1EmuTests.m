@@ -2540,6 +2540,56 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             testCase.verifyEqual(iio.internal.handle_count(), 0);
         end
 
+        function fmcomms5SamplingRateAfterSkipInit(testCase)
+            % SkipInit: setup writes no rate and runs no multichip sync,
+            % both AD9361 keep the 4 MS/s of the XML file. A SamplingRate
+            % change after such a setup is as one after any other setup:
+            % the rate goes to both AD9361 and one multichip sync
+            % follows, with FIXUP_INTERFACE_TIMING and CHECK_SAMPLE_RATES.
+            rx = IIOv1MCSRecorder('uri', testCase.fmcomms5FilterOffUri('cf-ad9361-A'));
+            rx.SamplesPerFrame = 1024;
+            rx.SkipInit = true;
+            rx.SamplingRate = 5e6;
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifyEqual(d, testCase.ramp(0:1023));
+            phyB = rx.getIIODevice('ad9361-phy-B');
+            testCase.verifyEmpty(rx.Log);
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'sampling_frequency', true), int64(4000000));
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'sampling_frequency', true, phyB), int64(4000000));
+            rx.SamplingRate = 20000001;
+            testCase.assertNotEmpty(rx.Log);
+            testCase.verifyEqual(nnz(startsWith(rx.Log, 'CALL ')), 1);
+            testCase.verifyEqual(rx.Log{1}, 'CALL ad9361_fmcomms5_multichip_sync 3');
+            testCase.verifyEqual(rx.Log{end}, 'RET 0');
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'sampling_frequency', true), int64(20000001));
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'sampling_frequency', true, phyB), int64(20000001));
+            testCase.verifyEqual(rx.SamplingRate, 20000001);
+            % the data path is not disturbed: this is the second frame
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifyEqual(d, testCase.ramp(1024 + (0:1023)));
+            rx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            % the transmitter
+            tx = IIOv1MCSTxCounter('uri', testCase.fmcomms5FilterOffUri(testCase.RxDevice));
+            tx.SkipInit = true;
+            tx.SamplingRate = 5e6;
+            testCase.verifyEqual(tx(testCase.txFrame(0)), true);
+            phyB = tx.getIIODevice('ad9361-phy-B');
+            testCase.verifyEmpty(tx.Flags);
+            testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'sampling_frequency', true), int64(4000000));
+            testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'sampling_frequency', true, phyB), int64(4000000));
+            tx.SamplingRate = 20000001;
+            testCase.verifyEqual(tx.Flags, 3);
+            testCase.verifyEqual(tx.Status, 0);
+            testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'sampling_frequency', true), int64(20000001));
+            testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'sampling_frequency', true, phyB), int64(20000001));
+            testCase.verifyEqual(tx(testCase.txFrame(1)), true);
+            tx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+        end
+
         function fmcomms5SamplingRateAfterSetup(testCase)
             % SamplingRate is one property for the two AD9361: a change
             % after setup loads the rate and its FIR filter on both, as

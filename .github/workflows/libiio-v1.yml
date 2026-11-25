@@ -142,7 +142,7 @@ jobs:
       # raise it with every test that is added.
       - name: Check the test results (count, skipped, duration)
         if: always()
-        run: python3 libiio-conv/matlab/tools/check_junit.py test-results/emu.xml --min-tests 154 --max-seconds 60 --max-skipped 0
+        run: python3 libiio-conv/matlab/tools/check_junit.py test-results/emu.xml --min-tests 155 --max-seconds 60 --max-skipped 0
 
       - name: Collect crash dumps
         if: always()
