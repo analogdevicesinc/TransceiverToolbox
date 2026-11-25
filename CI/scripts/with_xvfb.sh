@@ -1,16 +1,19 @@
 #!/bin/bash
-# Run a command with a virtual X display.
+# Run a command headless.
 # MATLAB HDL workflows start Qt GUI components that abort with
 # "no Qt platform plugin could be initialized" when no display exists.
-# If DISPLAY is already set, the command runs as-is; without Xvfb, Qt falls
-# back to the offscreen platform.
+# By default Qt is pointed at its offscreen platform, which needs no X server
+# and keeps DISPLAY unset for child tools such as Vivado.
+# Set USE_XVFB=1 to run under a virtual X display instead.
+# If DISPLAY is already set, the command runs as-is.
 # Usage: with_xvfb.sh <command> [args...]
 
 if [ -n "$DISPLAY" ]; then
     exec "$@"
 fi
-if ! command -v Xvfb >/dev/null 2>&1; then
-    echo "Xvfb not found; using Qt offscreen platform"
+
+if [ "${USE_XVFB:-0}" != "1" ] || ! command -v Xvfb >/dev/null 2>&1; then
+    echo "Running headless with QT_QPA_PLATFORM=offscreen"
     export QT_QPA_PLATFORM=offscreen
     exec "$@"
 fi
