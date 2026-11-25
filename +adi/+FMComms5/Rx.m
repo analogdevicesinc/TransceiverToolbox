@@ -99,6 +99,12 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
         isOutputChipB = false;
     end
     
+    properties (Hidden, Access = protected)
+        % False while setupInit sets the rate: it runs the multichip
+        % sync itself, after the RF ports are selected
+        SyncAfterRate = true;
+    end
+    
     properties(Nontunable, Hidden, Constant)
         TypeChipB = 'Rx';
     end
@@ -229,6 +235,21 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
     
     %% API Functions
     methods (Hidden, Access = protected)
+        function setBBRate(obj, rate)
+            % A rate change after setup is followed by the multichip
+            % sync that setup runs after it has set the rate
+            % (FIXUP_INTERFACE_TIMING and CHECK_SAMPLE_RATES)
+            setBBRate@adi.FMComms5.Base(obj, rate);
+            if obj.SyncAfterRate
+                multichipSync(obj, 3);
+            end
+        end
+        
+        function syncAfterRateAgain(obj)
+            % Also when the rate is refused at setup
+            obj.SyncAfterRate = true;
+        end
+        
         function setupInit(obj)
             % Write all attributes to device once connected through set
             % methods
@@ -283,7 +304,10 @@ classdef Rx < adi.FMComms5.Base & adi.AD9361.Rx ...
                 % are not written here, as before: RFBandwidth and
                 % RFBandwidthChipB reach the device only when they are
                 % set after setup.
+                obj.SyncAfterRate = false;
+                again = onCleanup(@() syncAfterRateAgain(obj));
                 setBBRate(obj, obj.SamplingRate);
+                clear again
             else
                 writeFilterFile(obj);
                 writeFilterFileFMComms5ChipB(obj);
