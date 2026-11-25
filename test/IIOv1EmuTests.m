@@ -2509,6 +2509,35 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             testCase.verifyEqual(iio.internal.handle_count(), 0);
         end
 
+        function fmcomms5TxSyncs(testCase)
+            % The transmitter runs the multichip sync as the receiver
+            % does: once at setup, after the rate is set, and once more
+            % after each SamplingRate change, with FIXUP_INTERFACE_TIMING
+            % and CHECK_SAMPLE_RATES. (It used to run none.)
+            tx = IIOv1MCSTxCounter('uri', testCase.fmcomms5FilterOffUri(testCase.RxDevice));
+            tx.SamplingRate = 5e6;
+            testCase.verifyEqual(tx(testCase.txFrame(0)), true);
+            testCase.verifyEqual(tx.Flags, 3);
+            testCase.verifyEqual(tx.Status, 0);
+            tx.SamplingRate = 20000001;
+            testCase.verifyEqual(tx.Flags, [3 3]);
+            testCase.verifyEqual(tx.Status, [0 0]);
+            phyB = tx.getIIODevice('ad9361-phy-B');
+            testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'sampling_frequency', true), int64(20000001));
+            testCase.verifyEqual(tx.getAttributeLongLong('voltage0', 'sampling_frequency', true, phyB), int64(20000001));
+            testCase.verifyEqual(tx.SamplingRate, 20000001);
+            testCase.verifyEqual(tx(testCase.txFrame(1)), true);
+            tx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+            % SkipInit: nothing is written at setup, so no sync either
+            tx = IIOv1MCSTxCounter('uri', testCase.fmcomms5FilterOffUri(testCase.RxDevice));
+            tx.SkipInit = true;
+            testCase.verifyEqual(tx(testCase.txFrame(0)), true);
+            testCase.verifyEmpty(tx.Flags);
+            tx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+        end
+
         function fmcomms5SamplingRateAfterSetup(testCase)
             % SamplingRate is one property for the two AD9361: a change
             % after setup loads the rate and its FIR filter on both, as
