@@ -2477,6 +2477,38 @@ classdef IIOv1EmuTests < matlab.unittest.TestCase
             testCase.verifyEqual(iio.internal.handle_count(), 0);
         end
 
+        function fmcomms5SamplingRateAfterSetupSyncsAgain(testCase)
+            % A SamplingRate change after setup on the receiver repeats
+            % the multichip sync that setup runs after it has set the
+            % rate, once and with the same flags. (The rate used to be
+            % changed on both AD9361 with no sync after it.)
+            rx = IIOv1MCSRecorder('uri', testCase.fmcomms5FilterOffUri('cf-ad9361-A'));
+            rx.SamplesPerFrame = 1024;
+            rx.SamplingRate = 5e6;
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifyEqual(d, testCase.ramp(0:1023));
+            % setup: one sync
+            testCase.verifyEqual(nnz(startsWith(rx.Log, 'CALL ')), 1);
+            rx.Log = {};
+            rx.SamplingRate = 20000001;
+            testCase.assertNotEmpty(rx.Log);
+            testCase.verifyEqual(nnz(startsWith(rx.Log, 'CALL ')), 1);
+            testCase.verifyEqual(rx.Log{1}, 'CALL ad9361_fmcomms5_multichip_sync 3');
+            testCase.verifyEqual(rx.Log{end}, 'RET 0');
+            % the sync comes after the rate: both AD9361 have it
+            phyB = rx.getIIODevice('ad9361-phy-B');
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'sampling_frequency', true), int64(20000001));
+            testCase.verifyEqual(rx.getAttributeLongLong('voltage0', 'sampling_frequency', true, phyB), int64(20000001));
+            testCase.verifyEqual(rx.SamplingRate, 20000001);
+            % the data path is not disturbed: this is the second frame
+            [d, v] = rx();
+            testCase.verifyEqual(v, true);
+            testCase.verifyEqual(d, testCase.ramp(1024 + (0:1023)));
+            rx.release();
+            testCase.verifyEqual(iio.internal.handle_count(), 0);
+        end
+
         function fmcomms5SamplingRateAfterSetup(testCase)
             % SamplingRate is one property for the two AD9361: a change
             % after setup loads the rate and its FIR filter on both, as
