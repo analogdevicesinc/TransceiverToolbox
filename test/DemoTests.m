@@ -118,13 +118,8 @@ classdef DemoTests < TestAppGUI
                         vivado = '2025.1';
                 end
             end
-            if ispc
-                hdlsetuptoolpath('ToolName', 'Xilinx Vivado', ...
-                    'ToolPath', ['C:\Xilinx\Vivado\',vivado,'\bin\vivado.bat']);
-            elseif isunix
-                hdlsetuptoolpath('ToolName', 'Xilinx Vivado', ...
-                    'ToolPath', ['/opt/Xilinx/Vivado/',vivado,'/bin/vivado']);
-            end
+            hdlsetuptoolpath('ToolName', 'Xilinx Vivado', ...
+                'ToolPath', findVivadoPath(vivado));
             
         end 
     end

@@ -16,14 +16,14 @@ echo "Testing demo: $DEMO"
 MLPATH=/opt/MATLAB
 
 cd ../.. 
-source /opt/Xilinx/Vivado/2025.1/settings64.sh
+source CI/scripts/source_vivado.sh 2025.1
 # Randomize DISPLAY number to avoid conflicts
 export DISPLAY_ID=:$(shuf -i 10-1000 -n 1)
 Xvfb $DISPLAY_ID &
 XVFB_PID=$!
 export DISPLAY=$DISPLAY_ID
 export SWT_GTK3=0
-source /opt/Xilinx/Vivado/2025.1/settings64.sh
+source CI/scripts/source_vivado.sh 2025.1
 $MLPATH/$MLRELEASE/bin/matlab $MLFLAGS -r "addpath(genpath('test'));addpath(genpath('deps'));runDemoTests('$DEMO');"
 EC=$?
 sleep 5
