@@ -24,7 +24,7 @@ jobs:
         run: |
             git clone -b 'v0.3' --single-branch --depth 1 https://github.com/analogdevicesinc/libad9361-iio.git
             cd libad9361-iio
-            cmake .
+            cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 .
             make
             ls
             mkdir package_linux
