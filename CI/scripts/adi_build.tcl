@@ -13,10 +13,18 @@ set fpga_board_lc [string tolower $fpga_board]
 
 puts "FPGA Board: $fpga_board_lc"
 
-# Verify support files exist
-if {![file exists $cdir/projects/common/boot/$fpga_board_lc/u-boot.elf]} {
-    puts "ERROR: Missing u-boot.elf for $fpga_board_lc"
-    return
+# Verify support files exist before spending time on synthesis.
+# ZynqMP carriers are identified by shipping ARM trusted firmware (bl31.elf).
+set boot_dir $cdir/projects/common/boot/$fpga_board_lc
+set is_zynqmp [file exists $boot_dir/bl31.elf]
+set boot_files {u-boot.elf fsbl.elf zynq.bif}
+if {$is_zynqmp} {
+    lappend boot_files pmufw.elf
+}
+foreach f $boot_files {
+    if {![file exists $boot_dir/$f]} {
+        error "Missing boot file $f for $fpga_board_lc in $boot_dir"
+    }
 }
 
 # Build the project
@@ -43,13 +51,12 @@ puts "Generating BOOT.BIN"
 puts "Please wait, this may take a few minutes."
 file mkdir $cdir/boot
 file copy -force $cdir/vivado_prj.runs/impl_1/system_top.bit $cdir/boot/system_top.bit
-file copy -force $cdir/projects/common/boot/$fpga_board_lc/u-boot.elf $cdir/boot/u-boot.elf
-file copy -force $cdir/projects/common/boot/$fpga_board_lc/zynq.bif $cdir/boot/zynq.bif
-file copy -force $cdir/projects/common/boot/$fpga_board_lc/fsbl.elf $cdir/boot/fsbl.elf
+foreach f $boot_files {
+    file copy -force $boot_dir/$f $cdir/boot/$f
+}
 
-if {$fpga_board_lc == "zcu102"} {
-    file copy -force $cdir/projects/common/boot/$fpga_board_lc/bl31.elf $cdir/boot/bl31.elf
-    file copy -force $cdir/projects/common/boot/$fpga_board_lc/pmufw.elf $cdir/boot/pmufw.elf
+if {$is_zynqmp} {
+    file copy -force $boot_dir/bl31.elf $cdir/boot/bl31.elf
     cd $cdir/boot
     exec bootgen -arch zynqmp -image zynq.bif -o BOOT.BIN -w
 } else {
